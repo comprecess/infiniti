@@ -7,7 +7,7 @@ import styles from './AuthOutlet.module.scss'
 export const AuthOutlet: FC = () => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.wrapperRight}>
+      <div className={styles.wrapperLeft}>
         <div className={styles.rightItems}>
           <Logo />
           <div className={styles.greetings}>
@@ -26,7 +26,7 @@ export const AuthOutlet: FC = () => {
           <span className={styles.copyright}>© 2023 INFINITI</span>
         </div>
       </div>
-      <div className={styles.wrapperLeft}>
+      <div className={styles.wrapperRight}>
         <Outlet />
       </div>
     </div>

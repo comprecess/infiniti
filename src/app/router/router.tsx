@@ -18,7 +18,7 @@ export const router = createBrowserRouter([
     children: [
       { path: Routes.login, element: <LoginPage /> },
       { path: Routes.register, element: <RegisterPage /> },
-      { path: Routes.passwordReset, element: <PasswordResetPage /> },
+      { path: Routes.forgotPassword, element: <PasswordResetPage /> },
       {
         path: '*',
         index: true,

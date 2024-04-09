@@ -3,7 +3,7 @@ export const Routes = {
   auth: 'auth',
   login: 'login',
   register: 'register',
-  passwordReset: 'passwordReset',
+  forgotPassword: 'forgotPassword',
   notFound: '404',
 }
 
@@ -12,6 +12,6 @@ export const to = {
   auth: () => Routes.auth,
   login: () => Routes.login,
   register: () => Routes.register,
-  passwordReset: () => Routes.passwordReset,
+  forgotPassword: () => Routes.forgotPassword,
   notFound: () => Routes.notFound,
 }

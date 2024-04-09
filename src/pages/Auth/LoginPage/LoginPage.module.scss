@@ -1,0 +1,40 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  max-width: 445px;
+  max-height: 529;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.title {
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 56px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $brand-1000;
+  font-family: $fontSpaceGrotesk;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stackUserIconPerson {
+  color: $brand-500;
+}
+
+.stackUserText {
+  color: $brand-500;
+}
+
+.stackLoginIconPerson {
+  color: $gray-200;
+}
+
+.stackLoginText {
+  color: $gray-200;
+}

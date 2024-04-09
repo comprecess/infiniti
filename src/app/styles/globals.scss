@@ -4,3 +4,14 @@
   box-sizing: border-box;
   font-family: $fontMain;
 }
+
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+input {
+  border: none;
+  outline: none;
+}
