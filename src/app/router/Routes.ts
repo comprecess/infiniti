@@ -1,9 +1,9 @@
 export const Routes = {
   root: '/',
   auth: 'auth',
-  login: 'login',
+  login: 'signin',
   register: 'register',
-  forgotPassword: 'forgotPassword',
+  forgotPassword: 'resetpassword',
   notFound: '404',
 }
 

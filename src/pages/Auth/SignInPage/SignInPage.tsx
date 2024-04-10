@@ -2,22 +2,22 @@ import { Divider } from '@mui/material'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { LoginForm } from '../../../features/Auth/LoginForm/LoginForm'
+import { SignInForm } from '../../../features/Auth/SignInForm/SignInForm'
 import { IconText } from '../../../shared/ui/IconText/IconText'
-import styles from './LoginPage.module.scss'
+import styles from './SignInPage.module.scss'
 
-export const LoginPage: FC = () => {
+export const SignInPage: FC = () => {
   const navigate = useNavigate()
 
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.title}>Sign in</h2>
-      <LoginForm />
+      <SignInForm />
       <div className={styles.stack}>
         <IconText
           styleIcon={styles.stackUserIconPerson}
           styleText={styles.stackUserText}
-          icon='/icons/userPlus.svg'
+          icon='/icons/userPlusBlue.svg'
           text='Startup? Register'
           onClick={() => navigate('/auth/register')}
         />
@@ -25,7 +25,7 @@ export const LoginPage: FC = () => {
         <IconText
           styleIcon={styles.stackLoginIconPerson}
           styleText={styles.stackLoginText}
-          icon='/icons/logIn.svg'
+          icon='/icons/logInGray.svg'
           text='Login as a resident'
         />
       </div>
