@@ -4,31 +4,31 @@ import { useNavigate } from 'react-router-dom'
 
 import { SignInForm } from '../../../features/Auth/SignInForm/SignInForm'
 import { IconText } from '../../../shared/ui/IconText/IconText'
+import { AuthForm } from '../AuthForm/AuthForm'
 import styles from './SignInPage.module.scss'
 
 export const SignInPage: FC = () => {
   const navigate = useNavigate()
 
   return (
-    <div className={styles.wrapper}>
-      <h2 className={styles.title}>Sign in</h2>
+    <AuthForm title='Sign in'>
       <SignInForm />
-      <div className={styles.stack}>
+      <div className={styles.items}>
         <IconText
-          styleIcon={styles.stackUserIconPerson}
-          styleText={styles.stackUserText}
+          styleIcon={styles.userIconPerson}
+          styleText={styles.userText}
           icon='/icons/userPlusBlue.svg'
           text='Startup? Register'
           onClick={() => navigate('/auth/register')}
         />
         <Divider />
         <IconText
-          styleIcon={styles.stackLoginIconPerson}
-          styleText={styles.stackLoginText}
+          styleIcon={styles.loginIconPerson}
+          styleText={styles.loginText}
           icon='/icons/logInGray.svg'
           text='Login as a resident'
         />
       </div>
-    </div>
+    </AuthForm>
   )
 }

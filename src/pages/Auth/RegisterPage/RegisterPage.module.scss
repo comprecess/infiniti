@@ -7,20 +7,10 @@
   gap: 40px;
 }
 
-.title {
-  font-size: 48px;
-  font-weight: 700;
-  line-height: 56px;
-  letter-spacing: -0.03em;
-  text-align: left;
-  color: $brand-1000;
-  font-family: $fontSpaceGrotesk;
-}
-
-.stackGoBackText {
+.goBackText {
   color: $gray-200;
 }
 
-.stackAlreadyRegisteredText {
+.alreadyRegisteredText {
   color: $brand-500;
 }

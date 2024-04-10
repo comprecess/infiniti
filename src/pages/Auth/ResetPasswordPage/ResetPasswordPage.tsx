@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { ResetPasswordForm } from '../../../features/Auth/ResetPasswordForm/ResetPasswordForm'
 import { IconText } from '../../../shared/ui/IconText/IconText'
+import { AuthForm } from '../AuthForm/AuthForm'
 import styles from './ResetPasswordPage.module.scss'
 
 export const ResetPasswordPage: FC = () => {
@@ -11,13 +12,14 @@ export const ResetPasswordPage: FC = () => {
   return (
     <div className={styles.wrapper}>
       <IconText
-        styleText={styles.stackGoBackText}
+        styleText={styles.goBackText}
         icon='/icons/chevronLeftGray.svg'
         text='Cancel'
         onClick={() => navigate('/auth/signin')}
       />
-      <h2 className={styles.title}>Reset password</h2>
-      <ResetPasswordForm />
+      <AuthForm title='Reset password'>
+        <ResetPasswordForm />
+      </AuthForm>
     </div>
   )
 }

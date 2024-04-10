@@ -1,3 +1,17 @@
 /* 	
 	Брейк поинты (динамическое изменение DOM под разрешения экрана)
 */
+
+@mixin mobileBreakpoint($type, $size) {
+  @if $type == 'min' {
+    @media (min-width: $size) {
+      @content;
+    }
+  } @else if $type == 'max' {
+    @media (max-width: $size) {
+      @content;
+    }
+  } @else {
+    @error "Unsupported breakpoint type: #{$type}. Use 'min' or 'max'.";
+  }
+}

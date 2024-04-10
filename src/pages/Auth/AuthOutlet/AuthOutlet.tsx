@@ -7,9 +7,13 @@ import styles from './AuthOutlet.module.scss'
 export const AuthOutlet: FC = () => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.wrapperLeft}>
-        <div className={styles.rightItems}>
-          <Logo />
+      <Logo
+        logo='/icons/logoBlueWhite.svg'
+        styleImage={styles.logoImage}
+        style={styles.logo}
+      />
+      <div className={styles.items}>
+        <div className={styles.wrapperLeft}>
           <div className={styles.greetings}>
             <h1 className={styles.title}>Namasté digital@goo.ru</h1>
             <span className={styles.description}>
@@ -23,11 +27,13 @@ export const AuthOutlet: FC = () => {
               full of digital care.
             </span>
           </div>
-          <span className={styles.copyright}>© 2023 INFINITI</span>
+        </div>
+        <div className={styles.wrapperRight}>
+          <Outlet />
         </div>
       </div>
-      <div className={styles.wrapperRight}>
-        <Outlet />
+      <div className={styles.footer}>
+        <span className={styles.copyright}>© 2023 INFINITI</span>
       </div>
     </div>
   )

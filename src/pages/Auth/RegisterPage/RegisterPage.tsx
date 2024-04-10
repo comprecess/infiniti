@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { RegisterForm } from '../../../features/Auth/RegisterForm/RegisterForm'
 import { IconText } from '../../../shared/ui/IconText/IconText'
+import { AuthForm } from '../AuthForm/AuthForm'
 import styles from './RegisterPage.module.scss'
 
 export const RegisterPage: FC = () => {
@@ -11,19 +12,20 @@ export const RegisterPage: FC = () => {
   return (
     <div className={styles.wrapper}>
       <IconText
-        styleText={styles.stackGoBackText}
+        styleText={styles.goBackText}
         icon='/icons/chevronLeftGray.svg'
         text='Go back to Sign in'
         onClick={() => navigate('/auth/signin')}
       />
-      <h2 className={styles.title}>Register</h2>
-      <RegisterForm />
-      <IconText
-        styleText={styles.stackAlreadyRegisteredText}
-        icon='/icons/logInBlue.svg'
-        text='Already registered? Sign in'
-        onClick={() => navigate('/auth/signin')}
-      />
+      <AuthForm title='Register'>
+        <RegisterForm />
+        <IconText
+          styleText={styles.alreadyRegisteredText}
+          icon='/icons/logInBlue.svg'
+          text='Already registered? Sign in'
+          onClick={() => navigate('/auth/signin')}
+        />
+      </AuthForm>
     </div>
   )
 }
