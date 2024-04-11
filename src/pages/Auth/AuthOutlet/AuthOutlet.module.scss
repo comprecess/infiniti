@@ -107,7 +107,6 @@
   line-height: 72px;
   letter-spacing: -0.03em;
   font-family: $fontSpaceGrotesk;
-  text-decoration: none;
 
   @include mobileBreakpoint('max', $bpXL - 1) {
     font-size: 54px;

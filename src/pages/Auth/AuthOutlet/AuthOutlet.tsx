@@ -20,7 +20,9 @@ export const AuthOutlet: FC = () => {
       <div className={styles.items}>
         <div className={styles.wrapperLeft}>
           <div className={styles.greetings}>
-            <h1 className={styles.title}>Namasté digital@goo.ru</h1>
+            <h1 className={styles.title} contentEditable={false}>
+              Namasté digital@goo.ru
+            </h1>
             <span className={styles.description}>
               We&apos;re decentralized IT teams. We help to realize the
               talents of our residents, create IT products for the global
