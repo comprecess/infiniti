@@ -5,7 +5,18 @@
   background-color: $white;
 }
 
-.logo {
+.logoDesktop {
+  @include mobileBreakpoint('max', $bpXL - 1) {
+    display: none;
+  }
+
+  @include mobileBreakpoint('min', $bpXL) {
+    position: absolute;
+    padding: 40px 0 0 40px;
+  }
+}
+
+.logoMobile {
   @include mobileBreakpoint('max', $bpXL - 1) {
     margin-top: 40px;
     margin-left: 10px;
@@ -13,8 +24,7 @@
   }
 
   @include mobileBreakpoint('min', $bpXL) {
-    position: absolute;
-    padding: 40px 0 0 40px;
+    display: none;
   }
 }
 
@@ -97,6 +107,7 @@
   line-height: 72px;
   letter-spacing: -0.03em;
   font-family: $fontSpaceGrotesk;
+  text-decoration: none;
 
   @include mobileBreakpoint('max', $bpXL - 1) {
     font-size: 54px;

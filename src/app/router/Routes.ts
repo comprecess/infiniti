@@ -1,17 +1,19 @@
 export const Routes = {
   root: '/',
   auth: 'auth',
-  login: 'signin',
+  signIn: 'signin',
+  loginResident: 'loginresident',
   register: 'register',
-  forgotPassword: 'resetpassword',
+  resetPassword: 'resetpassword',
   notFound: '404',
 }
 
 export const to = {
   root: () => Routes.root,
   auth: () => Routes.auth,
-  login: () => Routes.login,
+  signIn: () => Routes.signIn,
+  loginResident: () => Routes.loginResident,
   register: () => Routes.register,
-  forgotPassword: () => Routes.forgotPassword,
+  resetPassword: () => Routes.resetPassword,
   notFound: () => Routes.notFound,
 }

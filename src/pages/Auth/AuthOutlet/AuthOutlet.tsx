@@ -10,7 +10,12 @@ export const AuthOutlet: FC = () => {
       <Logo
         logo='/icons/logoBlueWhite.svg'
         styleImage={styles.logoImage}
-        style={styles.logo}
+        style={styles.logoDesktop}
+      />
+      <Logo
+        logo='/icons/logoBlue.svg'
+        styleImage={styles.logoImage}
+        style={styles.logoMobile}
       />
       <div className={styles.items}>
         <div className={styles.wrapperLeft}>

@@ -12,7 +12,7 @@ export const SignInPage: FC = () => {
 
   return (
     <AuthForm title='Sign in'>
-      <SignInForm />
+      <SignInForm resident={false} />
       <div className={styles.items}>
         <IconText
           styleIcon={styles.userIconPerson}
@@ -27,6 +27,7 @@ export const SignInPage: FC = () => {
           styleText={styles.loginText}
           icon='/icons/logInGray.svg'
           text='Login as a resident'
+          onClick={() => navigate('/auth/loginresident')}
         />
       </div>
     </AuthForm>

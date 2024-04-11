@@ -12,13 +12,21 @@ interface FormFields {
   password: string
 }
 
-export const SignInForm: FC = () => {
+interface SignInFormProps {
+  resident?: boolean
+}
+
+export const SignInForm: FC<SignInFormProps> = ({ resident }) => {
   const { register, handleSubmit } = useForm<FormFields>()
 
   const navigate = useNavigate()
 
   const onSubmit: SubmitHandler<FormFields> = data => {
-    console.log('Success Login:', data)
+    if (resident) {
+      console.log('Success Resident Login:', data)
+    } else {
+      console.log('Success SignIn:', data)
+    }
   }
 
   return (
@@ -53,7 +61,10 @@ export const SignInForm: FC = () => {
             </div>
           </div>
         </div>
-        <SubmitButton title='Sign In' type='submit' />
+        <SubmitButton
+          title={resident ? 'Login' : 'Sign In'}
+          type='submit'
+        />
       </form>
     </div>
   )

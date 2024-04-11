@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 import { AuthOutlet } from '../../pages/Auth/AuthOutlet/AuthOutlet'
+import { LoginResidentPage } from '../../pages/Auth/LoginResidentPage/LoginResidentPage'
 import { RegisterPage } from '../../pages/Auth/RegisterPage/RegisterPage'
 import { ResetPasswordPage } from '../../pages/Auth/ResetPasswordPage/ResetPasswordPage'
 import { SignInPage } from '../../pages/Auth/SignInPage/SignInPage'
@@ -16,13 +17,14 @@ export const router = createBrowserRouter([
     path: Routes.auth,
     element: <AuthOutlet />,
     children: [
-      { path: Routes.login, element: <SignInPage /> },
+      { path: Routes.signIn, element: <SignInPage /> },
+      { path: Routes.loginResident, element: <LoginResidentPage /> },
       { path: Routes.register, element: <RegisterPage /> },
-      { path: Routes.forgotPassword, element: <ResetPasswordPage /> },
+      { path: Routes.resetPassword, element: <ResetPasswordPage /> },
       {
         path: '*',
         index: true,
-        element: <Navigate replace to={to.login()} />,
+        element: <Navigate replace to={to.signIn()} />,
       },
     ],
   },
