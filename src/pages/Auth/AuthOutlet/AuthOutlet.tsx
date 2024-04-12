@@ -7,16 +7,9 @@ import styles from './AuthOutlet.module.scss'
 export const AuthOutlet: FC = () => {
   return (
     <div className={styles.wrapper}>
-      <Logo
-        logo='/icons/logoBlueWhite.svg'
-        styleImage={styles.logoImage}
-        style={styles.logoDesktop}
-      />
-      <Logo
-        logo='/icons/logoBlue.svg'
-        styleImage={styles.logoImage}
-        style={styles.logoMobile}
-      />
+      <div className={styles.logo}>
+        <Logo logo='/icons/logo.svg' style={styles.logoMobile} />
+      </div>
       <div className={styles.items}>
         <div className={styles.wrapperLeft}>
           <div className={styles.greetings}>
