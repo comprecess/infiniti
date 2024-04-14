@@ -23,8 +23,10 @@ export const SignInForm: FC<SignInFormProps> = ({ resident }) => {
 
   const onSubmit: SubmitHandler<FormFields> = data => {
     if (resident) {
+      navigate('/')
       console.log('Success Resident Login:', data)
     } else {
+      navigate('/')
       console.log('Success SignIn:', data)
     }
   }

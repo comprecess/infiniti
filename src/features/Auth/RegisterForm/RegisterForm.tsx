@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 import { Input } from '../../../shared/ui/Input/Input'
 import { SubmitButton } from '../../../shared/ui/SubmitButton/SubmitButton'
@@ -15,7 +16,10 @@ interface FormFields {
 export const RegisterForm: FC = () => {
   const { register, handleSubmit, watch } = useForm<FormFields>()
 
+  const navigate = useNavigate()
+
   const onSubmit: SubmitHandler<FormFields> = data => {
+    navigate('/')
     console.log('Success Register:', data)
   }
 

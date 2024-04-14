@@ -87,7 +87,7 @@
 .greetings {
   display: flex;
   width: 100%;
-  max-width: 561px;
+  max-width: 600px;
   flex-direction: column;
   gap: 24px;
 
@@ -100,9 +100,9 @@
 
 .title {
   width: 100%;
-  font-size: 72px;
+  font-size: 54px;
+  line-height: 54px;
   font-weight: 700;
-  line-height: 72px;
   letter-spacing: -0.03em;
   font-family: $fontSpaceGrotesk;
 
@@ -119,13 +119,13 @@
 
 .description {
   width: 100%;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
   line-height: 24px;
   letter-spacing: -0.03em;
 
   @include mobileBreakpoint('max', $bpXL - 1) {
-    font-size: 14px;
+    font-size: 15px;
   }
 
   @include mobileBreakpoint('min', $bpXL) {

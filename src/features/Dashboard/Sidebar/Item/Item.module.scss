@@ -1,0 +1,56 @@
+.wrapperNotActive,
+.wrapperActive {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  width: 100%;
+  height: 44px;
+  text-align: start;
+  align-items: center;
+  border-radius: 8px;
+  padding: 10px 12px 10px 12px;
+  transition: 0.1s;
+  cursor: pointer;
+}
+
+.wrapperNotActive {
+  color: $gray-300;
+
+  &:hover {
+    background-color: $brand-800;
+  }
+
+  &:hover .title {
+    color: $gray-200;
+  }
+
+  &:hover .icon * {
+    fill: $gray-200;
+  }
+}
+
+.wrapperActive {
+  background-color: $brand-1000;
+
+  .title {
+    color: $white;
+  }
+
+  .icon * {
+    fill: $white;
+  }
+}
+
+.title {
+  color: $gray-300;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  transition: 0.1s;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  transition: 0.1s;
+}
