@@ -1,6 +1,7 @@
 import { FC } from 'react'
 import { Outlet } from 'react-router-dom'
 
+import { LogoTextIcon } from '../../../shared/icons/LogoTextIcon'
 import { Logo } from '../../../shared/ui/Logo/Logo'
 import styles from './AuthOutlet.module.scss'
 
@@ -8,7 +9,7 @@ export const AuthOutlet: FC = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.logo}>
-        <Logo logo='/icons/logo.svg' style={styles.logoMobile} />
+        <Logo logo={<LogoTextIcon />} style={styles.logoMobile} />
       </div>
       <div className={styles.items}>
         <div className={styles.wrapperLeft}>

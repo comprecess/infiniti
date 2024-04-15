@@ -1,18 +1,31 @@
-.wrapper {
+.wrapperActive,
+.wrapperDisable,
+.miniSidebar {
   position: fixed;
   left: 0;
   top: 0;
   display: flex;
   flex-direction: column;
   gap: 40px;
-  width: 100%;
-  max-width: 293px;
-  min-height: 100vh;
-  padding: 20px;
+  width: 293px;
+  height: 100vh;
+  padding: 20px 20px 20px 20px;
   align-items: start;
   transition: 0.3s;
-  z-index: 10;
+  z-index: 1000;
   background-color: $brand-900;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.wrapperDisable {
+  left: -293px;
+}
+
+.miniSidebar {
+  width: 75px;
+  align-items: center;
+  padding: 20px 10px 10px 10px;
 }
 
 .items {
@@ -20,4 +33,17 @@
   flex-direction: column;
   gap: 12px;
   width: 100%;
+}
+
+.miniLogoColor * {
+  width: 40px;
+  height: 40px;
+  fill: $brand-500;
+}
+
+.iconItemCenter {
+  flex-direction: initial;
+  gap: 0px;
+  text-align: center;
+  justify-content: center;
 }

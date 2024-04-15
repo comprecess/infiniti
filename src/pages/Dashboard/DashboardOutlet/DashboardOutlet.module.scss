@@ -5,6 +5,27 @@
   background-color: $brand-1000;
 }
 
-.main {
+.mainCut,
+.mainMini,
+.mainFull {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 20px 40px 20px 40px;
   margin-left: 293px;
+  transition: 0.3s;
+}
+
+.mainMini {
+  margin-left: 70px;
+}
+
+.mainFull {
+  margin-left: 0;
+}
+
+.mainCut {
+  @include mobileBreakpoint('max', $bpXL - 1) {
+    margin-left: 0;
+  }
 }
