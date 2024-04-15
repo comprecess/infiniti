@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from 'react'
+import { FC } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { dashboardsList } from '../../../app/data/dashboardsList'
@@ -25,8 +25,6 @@ export const Sidebar: FC<SidebarProps> = ({
 
   const navigate = useNavigate()
 
-  const sidebarRef = useRef<HTMLDivElement>(null)
-
   const handleNavigate = (path: string) => {
     navigate(path)
     if (isMobile) onClose()
@@ -36,24 +34,7 @@ export const Sidebar: FC<SidebarProps> = ({
     return location.pathname === '/' + pagePath
   }
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        sidebarRef.current &&
-        !sidebarRef.current.contains(event.target as Node)
-      ) {
-        onClose()
-      }
-    }
-
-    if (isOpen) {
-      window.addEventListener('click', handleClickOutside)
-    }
-
-    return () => {
-      window.removeEventListener('click', handleClickOutside)
-    }
-  }, [isOpen, onClose])
+  console.log(isMini)
 
   return (
     <aside

@@ -23,6 +23,7 @@ export const DashboardOutlet: FC = () => {
       const isMobileView = window.innerWidth <= 1080
 
       setIsMobile(isMobileView)
+      setIsMiniSidebar(false)
       setIsSidebarOpen(!isMobileView)
     }
 
