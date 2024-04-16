@@ -29,7 +29,7 @@ export const Item: FC<ItemProps> = ({
       onClick={() => onItemClick(path)}
     >
       <div className={styles.icon}>{icon}</div>
-      {title || <span className={styles.title}>{title}</span>}
+      <span className={styles.title}>{title}</span>
     </div>
   )
 }

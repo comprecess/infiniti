@@ -15,7 +15,7 @@
   padding: 20px 40px 20px 40px;
   margin-left: 293px;
   transition: 0.3s ease;
-  z-index: 0;
+  z-index: 1;
 }
 
 .mainMini {
@@ -28,6 +28,7 @@
 
 .mainCut {
   @include mobileBreakpoint('max', $bpXL - 1) {
+    overflow: hidden;
     margin-left: 0;
   }
 }
