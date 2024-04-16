@@ -7,7 +7,8 @@
 
 .mainCut,
 .mainMini,
-.mainFull {
+.mainFull,
+.mainMobile {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -26,9 +27,13 @@
   margin-left: 0;
 }
 
+.mainMobile {
+  overflow: hidden;
+  margin-left: 0;
+}
+
 .mainCut {
   @include mobileBreakpoint('max', $bpXL - 1) {
-    overflow: hidden;
     margin-left: 0;
   }
 }
