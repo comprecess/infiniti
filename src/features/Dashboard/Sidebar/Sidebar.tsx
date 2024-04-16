@@ -34,42 +34,45 @@ export const Sidebar: FC<SidebarProps> = ({
     return location.pathname === '/' + pagePath
   }
 
-  console.log(isMini)
-
   return (
-    <aside
-      className={
-        isOpen
-          ? isMini
-            ? styles.miniSidebar
-            : styles.wrapperActive
-          : styles.wrapperDisable
-      }
-    >
-      <Logo
-        logo={
-          isMini ? (
-            <LogoIcon fill={styles.miniLogoColor} />
-          ) : (
-            <LogoTextIcon />
-          )
+    <>
+      {isMobile && isOpen && (
+        <div className={styles.sidebarOverlay} onClick={onClose} />
+      )}
+      <aside
+        className={
+          isOpen
+            ? isMini
+              ? styles.miniSidebar
+              : styles.wrapperActive
+            : styles.wrapperDisable
         }
-      />
-      <div className={styles.items}>
-        {dashboardsList.map(item => {
-          return (
-            <Item
-              key={item.id}
-              title={isMini ? '' : item.name}
-              icon={item.icon}
-              path={item.path}
-              style={isMini ? styles.iconItemCenter : ''}
-              isActive={isActivePage(item.path)}
-              onItemClick={handleNavigate}
-            />
-          )
-        })}
-      </div>
-    </aside>
+      >
+        <Logo
+          logo={
+            isMini ? (
+              <LogoIcon fill={styles.miniLogoColor} />
+            ) : (
+              <LogoTextIcon />
+            )
+          }
+        />
+        <div className={styles.items}>
+          {dashboardsList.map(item => {
+            return (
+              <Item
+                key={item.id}
+                title={isMini ? '' : item.name}
+                icon={item.icon}
+                path={item.path}
+                style={isMini ? styles.iconItemCenter : ''}
+                isActive={isActivePage(item.path)}
+                onItemClick={handleNavigate}
+              />
+            )
+          })}
+        </div>
+      </aside>
+    </>
   )
 }
