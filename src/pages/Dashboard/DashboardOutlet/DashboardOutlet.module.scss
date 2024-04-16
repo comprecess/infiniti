@@ -27,11 +27,6 @@
   margin-left: 0;
 }
 
-.mainMobile {
-  overflow: hidden;
-  margin-left: 0;
-}
-
 .mainCut {
   @include mobileBreakpoint('max', $bpXL - 1) {
     margin-left: 0;
