@@ -56,9 +56,7 @@ export const DashboardOutlet: FC = () => {
             toggleMiniSidebar={toggleMiniSidebar}
             toggleSidebar={toggleSidebar}
           />
-          <div className={styles.outlet}>
-            <Outlet />
-          </div>
+          <Outlet />
         </main>
       </div>
     </div>
