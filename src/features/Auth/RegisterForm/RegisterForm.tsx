@@ -2,8 +2,8 @@ import { FC } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
+import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { Input } from '../../../shared/ui/Input/Input'
-import { SubmitButton } from '../../../shared/ui/SubmitButton/SubmitButton'
 import styles from './RegisterForm.module.scss'
 
 interface FormFields {
@@ -66,7 +66,7 @@ export const RegisterForm: FC = () => {
             }}
           />
         </div>
-        <SubmitButton title='Register' type='submit' />
+        <ButtonBlue title='Register' type='submit' />
       </form>
     </div>
   )

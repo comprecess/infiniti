@@ -1,1 +1,12 @@
+.wrapper {
+}
 
+.sectionOne {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+
+  @include mobileBreakpoint('max', $bpXL - 1) {
+    flex-direction: column;
+  }
+}

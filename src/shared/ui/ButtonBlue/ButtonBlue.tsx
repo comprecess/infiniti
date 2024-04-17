@@ -1,13 +1,13 @@
 import { FC } from 'react'
 
-import styles from './SubmitButton.module.scss'
+import styles from './ButtonBlue.module.scss'
 
-interface SubmitButtonProps {
+interface ButtonBlueProps {
   title: string
   type?: 'button' | 'submit' | 'reset'
 }
 
-export const SubmitButton: FC<SubmitButtonProps> = ({ title, type }) => {
+export const ButtonBlue: FC<ButtonBlueProps> = ({ title, type }) => {
   return (
     <button className={styles.wrapper} type={type}>
       {title}

@@ -1,8 +1,8 @@
 import { FC } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
+import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { Input } from '../../../shared/ui/Input/Input'
-import { SubmitButton } from '../../../shared/ui/SubmitButton/SubmitButton'
 import styles from './ResetPasswordForm.module.scss'
 
 interface FormFields {
@@ -28,7 +28,7 @@ export const ResetPasswordForm: FC = () => {
           register={register}
           validationRules={{ required: true }}
         />
-        <SubmitButton title='Reset password' type='submit' />
+        <ButtonBlue title='Reset password' type='submit' />
       </form>
     </div>
   )

@@ -21,7 +21,7 @@ export const SignInPage: FC = () => {
           text='Startup? Register'
           onClick={() => navigate('/auth/register')}
         />
-        <Divider />
+        <Divider className={styles.divider} />
         <IconText
           styleIcon={styles.loginIconPerson}
           styleText={styles.loginText}

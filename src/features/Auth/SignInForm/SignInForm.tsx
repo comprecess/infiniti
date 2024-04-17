@@ -2,9 +2,9 @@ import { FC } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
+import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { IconText } from '../../../shared/ui/IconText/IconText'
 import { Input } from '../../../shared/ui/Input/Input'
-import { SubmitButton } from '../../../shared/ui/SubmitButton/SubmitButton'
 import styles from './SignInForm.module.scss'
 
 interface FormFields {
@@ -63,10 +63,7 @@ export const SignInForm: FC<SignInFormProps> = ({ resident }) => {
             </div>
           </div>
         </div>
-        <SubmitButton
-          title={resident ? 'Login' : 'Sign In'}
-          type='submit'
-        />
+        <ButtonBlue title={resident ? 'Login' : 'Sign In'} type='submit' />
       </form>
     </div>
   )

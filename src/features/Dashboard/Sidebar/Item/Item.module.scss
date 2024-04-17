@@ -16,16 +16,16 @@
 .wrapperNotActive {
   color: $gray-300;
 
-  &:hover {
+  @include hover() {
     background-color: $brand-800;
-  }
 
-  &:hover .title {
-    color: $gray-200;
-  }
+    .title {
+      color: $gray-200;
+    }
 
-  &:hover .icon * {
-    fill: $gray-200;
+    .icon * {
+      fill: $gray-200;
+    }
   }
 }
 
