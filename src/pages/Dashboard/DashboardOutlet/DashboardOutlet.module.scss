@@ -7,6 +7,8 @@
 .items {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
   color: $white;
 }
 
@@ -14,11 +16,11 @@
 .mainMini,
 .mainFull {
   display: flex;
+  width: 100%;
+  height: 100%;
   flex-direction: column;
-  flex-grow: 1;
   gap: 40px;
   padding: 20px 40px 40px 40px;
-  margin-left: 293px;
   transition: 0.3s ease;
   z-index: 1;
 
@@ -28,15 +30,24 @@
 }
 
 .mainMini {
+  width: calc(100% - 70px);
   margin-left: 70px;
 }
 
 .mainFull {
+  width: 100%;
   margin-left: 0;
 }
 
 .mainCut {
+  width: calc(100% - 293px);
+  margin-left: 293px;
+
   @include mobileBreakpoint('max', $bpXL - 1) {
     margin-left: 0;
   }
+}
+
+.outlet {
+  width: 100%;
 }

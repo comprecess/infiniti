@@ -1,6 +1,8 @@
 import { FC } from 'react'
 
+import { RecentOrders } from '../../../features/Dashboard/RecentOrders/RecentOrders'
 import { ProfileCard } from '../../../widgets/ProfileCard/ProfileCard'
+import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './DashboardPage.module.scss'
 
 export const DashboardPage: FC = () => {
@@ -8,7 +10,9 @@ export const DashboardPage: FC = () => {
     <div className={styles.wrapper}>
       <div className={styles.sectionOne}>
         <ProfileCard />
-        <p>RecentOrders</p>
+        <RecentCard title='Recent Orders'>
+          <RecentOrders />
+        </RecentCard>
       </div>
     </div>
   )

@@ -3,3 +3,5 @@
 [Mobile Sidebar] - нужно сделать чтобы через sidebar нельзя было прокручивать страницу
 
 [DashboardPage] - Icon Lock и Icon Basket ни к чему не привязаны
+
+[DashboardPage] - Отцентровать main content на мобилках
