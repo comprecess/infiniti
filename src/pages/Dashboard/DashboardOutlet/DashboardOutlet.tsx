@@ -35,28 +35,30 @@ export const DashboardOutlet: FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      <Sidebar
-        isMini={isMiniSidebar}
-        isMobile={isMobile}
-        isOpen={isSidebarOpen}
-        onClose={toggleSidebar}
-      />
-      <main
-        className={
-          isSidebarOpen
-            ? isMiniSidebar
-              ? styles.mainMini
-              : styles.mainCut
-            : styles.mainFull
-        }
-      >
-        <Header
-          isMiniSidebar={isMiniSidebar}
-          toggleMiniSidebar={toggleMiniSidebar}
-          toggleSidebar={toggleSidebar}
+      <div className={styles.items}>
+        <Sidebar
+          isMini={isMiniSidebar}
+          isMobile={isMobile}
+          isOpen={isSidebarOpen}
+          onClose={toggleSidebar}
         />
-        <Outlet />
-      </main>
+        <main
+          className={
+            isSidebarOpen
+              ? isMiniSidebar
+                ? styles.mainMini
+                : styles.mainCut
+              : styles.mainFull
+          }
+        >
+          <Header
+            isMiniSidebar={isMiniSidebar}
+            toggleMiniSidebar={toggleMiniSidebar}
+            toggleSidebar={toggleSidebar}
+          />
+          <Outlet />
+        </main>
+      </div>
     </div>
   )
 }

@@ -47,6 +47,10 @@
   font-weight: 500;
   line-height: 24px;
   transition: 0.1s;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .icon {
