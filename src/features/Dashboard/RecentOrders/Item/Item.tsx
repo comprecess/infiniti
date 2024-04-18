@@ -23,7 +23,7 @@ export const Item: FC<ItemProps> = ({ date, order, amount, status }) => {
       <span className={`${styleItem.amountColumn} ${styles.amountItem}`}>
         {amount}
       </span>
-      <div className={`${styleItem.statusColumn} ${styles.statusItem}`}>
+      <div className={styleItem.statusColumn}>
         <Status
           title={status}
           colors={
