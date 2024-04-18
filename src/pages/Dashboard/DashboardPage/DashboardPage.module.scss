@@ -7,12 +7,13 @@
 
 .sectionOne {
   display: flex;
-  width: 100%;
   flex-direction: row;
+  width: 100%;
   gap: 40px;
+  align-items: start;
 
   @include mobileBreakpoint('max', $bpXL - 1) {
-    align-items: center;
     flex-direction: column;
+    align-items: center;
   }
 }

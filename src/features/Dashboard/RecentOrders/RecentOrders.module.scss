@@ -1,6 +1,41 @@
 .wrapper {
   display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 750px;
+  overflow-y: hidden;
+}
+
+.columns {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  padding: 8px 12px 8px 12px;
+  border-radius: 8px;
+  align-items: center;
+  background-color: $brand-800;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
-  padding: 16px 32px 32px 32px;
+}
+
+.orderColumn,
+.amountColumn {
+  width: 100%;
+  max-width: 393px;
+}
+
+.dataColumn,
+.statusColumn {
+  width: 100%;
+  max-width: 150px;
+}
+
+.divider {
+  height: 2px;
+  background-color: $gray-500;
 }

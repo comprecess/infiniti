@@ -13,7 +13,7 @@ export const RecentCard: FC<PropsWithChildren<RecentCardProps>> = ({
   return (
     <div className={styles.wrapper}>
       <h6 className={styles.title}>{title}</h6>
-      {children}
+      <div className={styles.content}>{children}</div>
     </div>
   )
 }
