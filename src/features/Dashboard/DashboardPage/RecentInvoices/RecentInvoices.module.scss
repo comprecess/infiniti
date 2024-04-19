@@ -23,24 +23,31 @@
   height: 100%;
 }
 
-.dateColumn,
+.hashtagColumn,
 .accountColumn,
 .amountColumn,
-.descriptionColumn {
+.invoiceDateColumn,
+.dueDateColumn,
+.statusColumn,
+.manageColumn {
   width: 100%;
 }
 
-.dateColumn,
-.accountColumn {
-  max-width: 250px;
-}
-
-.amountColumn {
+.hashtagColumn,
+.amountColumn,
+.invoiceDateColumn,
+.dueDateColumn,
+.statusColumn {
   max-width: 150px;
 }
 
-.descriptionColumn {
-  max-width: 833px;
+.accountColumn {
+  max-width: 483px;
+}
+
+.manageColumn {
+  max-width: 250px;
+  text-align: right;
 }
 
 .divider {

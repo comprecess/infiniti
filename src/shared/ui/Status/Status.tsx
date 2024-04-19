@@ -4,12 +4,40 @@ import styles from './Status.module.scss'
 
 interface StatusProps {
   title: string
-  colors: string
+  status: string
 }
 
-export const Status: FC<StatusProps> = ({ title, colors }) => {
+const statusColors = {
+  Unpaid: styles.statusUnpaid,
+  Pending: styles.statusPending,
+  Paid: styles.statusPaid,
+  Active: styles.statusActive,
+  Draft: styles.statusDraft,
+}
+
+export const Status: FC<StatusProps> = ({ title, status }) => {
+  let statusStyle = ''
+
+  switch (status) {
+    case 'Unpaid':
+      statusStyle = statusColors.Unpaid
+      break
+    case 'Pending':
+      statusStyle = statusColors.Pending
+      break
+    case 'Paid':
+      statusStyle = statusColors.Paid
+      break
+    case 'Active':
+      statusStyle = statusColors.Active
+      break
+    case 'Draft':
+      statusStyle = statusColors.Draft
+      break
+  }
+
   return (
-    <div className={`${styles.wrapper} ${colors}`}>
+    <div className={`${styles.wrapper} ${statusStyle}`}>
       <span className={styles.title}>{title}</span>
     </div>
   )

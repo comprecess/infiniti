@@ -1,5 +1,6 @@
 import { FC } from 'react'
 
+import { RecentInvoices } from '../../../features/Dashboard/DashboardPage/RecentInvoices/RecentInvoices'
 import { RecentOrders } from '../../../features/Dashboard/DashboardPage/RecentOrders/RecentOrders'
 import { RecentTransactions } from '../../../features/Dashboard/DashboardPage/RecentTransactions/RecentTransactions'
 import { ProfileCard } from '../../../widgets/ProfileCard/ProfileCard'
@@ -27,7 +28,9 @@ export const DashboardPage: FC = () => {
         <RecentCard
           title='Recent Invoices'
           style={styles.recentFullScreen}
-        />
+        >
+          <RecentInvoices />
+        </RecentCard>
       </div>
       <div className={styles.sectionFour}>
         <RecentCard

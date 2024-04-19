@@ -16,16 +16,21 @@
 }
 
 .sectionOne {
-  display: flex;
   flex-direction: row;
-  width: 100%;
   gap: 40px;
-  align-items: start;
 
   @include mobileBreakpoint('max', $bpL - 1) {
     flex-direction: column;
-    align-items: center;
   }
+}
+
+.sectionOne,
+.sectionTwo,
+.sectionThree,
+.sectionFour {
+  display: flex;
+  width: 100%;
+  justify-content: center;
 }
 
 .recentOrders {

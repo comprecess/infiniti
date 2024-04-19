@@ -42,6 +42,21 @@ export const DashboardOutlet: FC = () => {
           isOpen={isSidebarOpen}
           onClose={toggleSidebar}
         />
+        <div
+          className={
+            isSidebarOpen
+              ? isMiniSidebar
+                ? styles.headerMini
+                : styles.headerStandard
+              : styles.headerFull
+          }
+        >
+          <Header
+            isMiniSidebar={isMiniSidebar}
+            toggleMiniSidebar={toggleMiniSidebar}
+            toggleSidebar={toggleSidebar}
+          />
+        </div>
         <main
           className={
             isSidebarOpen
@@ -51,11 +66,6 @@ export const DashboardOutlet: FC = () => {
               : styles.mainFull
           }
         >
-          <Header
-            isMiniSidebar={isMiniSidebar}
-            toggleMiniSidebar={toggleMiniSidebar}
-            toggleSidebar={toggleSidebar}
-          />
           <Outlet />
         </main>
       </div>

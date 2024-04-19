@@ -11,3 +11,32 @@
   line-height: 21px;
   letter-spacing: -0.03em;
 }
+
+.statusUnpaid {
+  width: 62px;
+  background-color: $amber-transparent;
+  color: $amber-500;
+}
+
+.statusPending {
+  width: 69px;
+  background-color: $cherry-transparent;
+  color: $cherry-500;
+}
+
+.statusActive,
+.statusPaid {
+  width: 57px;
+  background-color: $mint-transparent;
+  color: $mint-500;
+}
+
+.statusPaid {
+  width: 44px;
+}
+
+.statusDraft {
+  width: 49px;
+  background-color: $gray-600;
+  color: $gray-100;
+}

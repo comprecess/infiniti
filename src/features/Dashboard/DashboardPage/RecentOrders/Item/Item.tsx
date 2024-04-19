@@ -24,14 +24,7 @@ export const Item: FC<ItemProps> = ({ date, order, amount, status }) => {
         {amount}
       </span>
       <div className={styleItem.statusColumn}>
-        <Status
-          title={status}
-          colors={
-            status === 'Pending'
-              ? styles.statusPending
-              : styles.statusActive
-          }
-        />
+        <Status title={status} status={status} />
       </div>
     </div>
   )
