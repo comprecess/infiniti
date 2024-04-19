@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { ProfileInfo } from '../../../../app/data/profile'
+import { ProfileInfo } from '../../../../../app/data/profile'
 import styles from './Avatar.module.scss'
 
 export const Avatar: FC = () => {

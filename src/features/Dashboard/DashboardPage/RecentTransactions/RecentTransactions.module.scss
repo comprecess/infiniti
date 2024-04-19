@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-width: 750px;
+  min-width: 1000px;
   overflow-y: hidden;
 }
 
@@ -23,20 +23,24 @@
   height: 100%;
 }
 
-.orderColumn,
-.amountColumn {
-  display: flex;
+.dateColumn,
+.accountColumn,
+.amountColumn,
+.descriptionColumn {
   width: 100%;
-  height: 24px;
-  max-width: 393px;
 }
 
-.dataColumn,
-.statusColumn {
-  display: flex;
-  width: 100%;
-  height: 24px;
+.dateColumn,
+.accountColumn {
+  max-width: 250px;
+}
+
+.amountColumn {
   max-width: 150px;
+}
+
+.descriptionColumn {
+  max-width: 833px;
 }
 
 .divider {

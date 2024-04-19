@@ -1,7 +1,7 @@
 import { Divider } from '@mui/material'
 import React, { FC } from 'react'
 
-import { RecentOrdersData } from '../../../app/data/recentOrders'
+import { RecentOrdersData } from '../../../../app/data/recentOrders'
 import { Title } from '../RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentOrders.module.scss'
@@ -10,7 +10,7 @@ export const RecentOrders: FC = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
-        <Title title='Date' style={styles.dataColumn} />
+        <Title title='Date' style={styles.dateColumn} />
         <Title title='Order #' style={styles.orderColumn} />
         <Title title='Amount' style={styles.amountColumn} />
         <Title title='Status' style={styles.statusColumn} />

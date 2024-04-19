@@ -47,7 +47,7 @@ export const DashboardOutlet: FC = () => {
             isSidebarOpen
               ? isMiniSidebar
                 ? styles.mainMini
-                : styles.mainCut
+                : styles.mainStandard
               : styles.mainFull
           }
         >
