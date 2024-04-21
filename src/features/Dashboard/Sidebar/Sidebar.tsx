@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { Routes } from '../../../app/router/Routes'
+import { Routes } from '../../../app/router/routes'
 import { LogoIcon } from '../../../shared/icons/LogoIcon'
 import { LogoTextIcon } from '../../../shared/icons/LogoTextIcon'
 import { Logo } from '../../../shared/ui/Logo/Logo'
@@ -20,6 +20,7 @@ interface SidebarProps {
   isMini: boolean
   isMobile: boolean
   isOpen: boolean
+  isAdmin: boolean
   onClose: () => void
 }
 
@@ -28,9 +29,13 @@ export const Sidebar: FC<SidebarProps> = ({
   isMini,
   isOpen,
   isMobile,
+  isAdmin,
   onClose,
 }) => {
   const location = useLocation()
+  const sidebarPages = isAdmin
+    ? '/' + Routes.adminPages + '/'
+    : Routes.root
 
   const navigate = useNavigate()
 
@@ -40,7 +45,7 @@ export const Sidebar: FC<SidebarProps> = ({
   }
 
   const isActivePage = (pagePath: string) => {
-    return location.pathname === '/' + Routes.admin + '/' + pagePath
+    return location.pathname === sidebarPages + pagePath
   }
 
   return (

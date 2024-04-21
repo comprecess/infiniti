@@ -6,9 +6,9 @@ import { RecentOrders } from '../../../features/Admin/DashboardPage/RecentOrders
 import { RecentTransactions } from '../../../features/Admin/DashboardPage/RecentTransactions/RecentTransactions'
 import { ProfileCard } from '../../../widgets/ProfileCard/ProfileCard'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
-import styles from './DashboardPage.module.scss'
+import styles from './AdminDashboardPage.module.scss'
 
-export const DashboardPage: FC = () => {
+export const AdminDashboardPage: FC = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.sectionOne}>

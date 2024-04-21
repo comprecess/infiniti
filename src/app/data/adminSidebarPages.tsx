@@ -9,7 +9,7 @@ import { ProfileIcon } from '../../shared/icons/dashboardsList/ProfileIcon'
 import { ProjectsIcon } from '../../shared/icons/dashboardsList/ProjectsIcon'
 import { TicketsIcon } from '../../shared/icons/dashboardsList/TicketsIcon'
 import { TransactionsIcon } from '../../shared/icons/dashboardsList/TransactionsIcon'
-import { Routes } from '../router/Routes'
+import { Routes } from '../router/routes'
 
 export const adminSidebarPages = [
   {

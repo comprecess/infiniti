@@ -1,7 +1,9 @@
 import { FC, useEffect, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 
 import { adminSidebarPages } from '../../../app/data/adminSidebarPages'
+import { userSidebarPages } from '../../../app/data/userSidebarPages'
+import { Routes } from '../../../app/router/routes'
 import { Header } from '../../../features/Dashboard/Header/Header'
 import { Sidebar } from '../../../features/Dashboard/Sidebar/Sidebar'
 import styles from './DashboardOutlet.module.scss'
@@ -10,6 +12,10 @@ export const DashboardOutlet: FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
   const [isMiniSidebar, setIsMiniSidebar] = useState(false)
+
+  const location = useLocation()
+  const isAdmin = location.pathname.includes(Routes.adminPages)
+  const sidebarPages = isAdmin ? adminSidebarPages : userSidebarPages
 
   const toggleSidebar = () => {
     setIsSidebarOpen(prevState => !prevState)
@@ -38,10 +44,11 @@ export const DashboardOutlet: FC = () => {
     <div className={styles.wrapper}>
       <div className={styles.items}>
         <Sidebar
-          pages={adminSidebarPages}
+          pages={sidebarPages}
           isMini={isMiniSidebar}
           isMobile={isMobile}
           isOpen={isSidebarOpen}
+          isAdmin={isAdmin}
           onClose={toggleSidebar}
         />
         <div
