@@ -1,31 +1,31 @@
 import { Divider } from '@mui/material'
 import React, { FC } from 'react'
 
-import { RecentTransactionsData } from '../../../../app/data/recentTransactions'
-import { Title } from '../../RecentCard/Title/Title'
+import { RecentOrdersData } from '../../../../app/data/recentOrders'
+import { Title } from '../../../Dashboard/RecentCard/Title/Title'
 import { Item } from './Item/Item'
-import styles from './RecentTransactions.module.scss'
+import styles from './RecentOrders.module.scss'
 
-export const RecentTransactions: FC = () => {
+export const RecentOrders: FC = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
         <Title title='Date' style={styles.dateColumn} />
-        <Title title='Account' style={styles.accountColumn} />
+        <Title title='Order #' style={styles.orderColumn} />
         <Title title='Amount' style={styles.amountColumn} />
-        <Title title='Description' style={styles.descriptionColumn} />
+        <Title title='Status' style={styles.statusColumn} />
       </div>
       <div className={styles.items}>
-        {RecentTransactionsData.map((order, index) => {
+        {RecentOrdersData.map((order, index) => {
           return (
             <React.Fragment key={order.id}>
               <Item
                 date={order.date}
-                account={order.account}
+                order={order.order}
                 amount={order.amount}
-                description={order.description}
+                status={order.status}
               />
-              {index !== RecentTransactionsData.length - 1 && (
+              {index !== RecentOrdersData.length - 1 && (
                 <Divider className={styles.divider} />
               )}
             </React.Fragment>

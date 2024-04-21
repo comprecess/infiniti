@@ -1,5 +1,6 @@
 export const Routes = {
   root: '/',
+  admin: 'admin',
   dashboard: 'dashboard',
   catalog: 'catalog',
   myOrders: 'myorders',
@@ -21,6 +22,7 @@ export const Routes = {
 
 export const to = {
   root: () => Routes.root,
+  admin: () => Routes.admin,
   dashboard: () => Routes.dashboard,
   catalog: () => Routes.catalog,
   myOrders: () => Routes.myOrders,

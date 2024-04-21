@@ -1,14 +1,22 @@
 import { FC } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { dashboardsList } from '../../../app/data/dashboardsList'
+import { Routes } from '../../../app/router/Routes'
 import { LogoIcon } from '../../../shared/icons/LogoIcon'
 import { LogoTextIcon } from '../../../shared/icons/LogoTextIcon'
 import { Logo } from '../../../shared/ui/Logo/Logo'
 import { Item } from './Item/Item'
 import styles from './Sidebar.module.scss'
 
+interface SidebarPage {
+  id: number
+  name: string
+  icon: JSX.Element
+  path: string
+}
+
 interface SidebarProps {
+  pages: SidebarPage[]
   isMini: boolean
   isMobile: boolean
   isOpen: boolean
@@ -16,6 +24,7 @@ interface SidebarProps {
 }
 
 export const Sidebar: FC<SidebarProps> = ({
+  pages,
   isMini,
   isOpen,
   isMobile,
@@ -31,7 +40,7 @@ export const Sidebar: FC<SidebarProps> = ({
   }
 
   const isActivePage = (pagePath: string) => {
-    return location.pathname === '/' + pagePath
+    return location.pathname === '/' + Routes.admin + '/' + pagePath
   }
 
   return (
@@ -58,7 +67,7 @@ export const Sidebar: FC<SidebarProps> = ({
           }
         />
         <div className={styles.items}>
-          {dashboardsList.map(item => {
+          {pages.map(item => {
             return (
               <Item
                 key={item.id}

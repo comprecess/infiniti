@@ -1,3 +1,11 @@
-[DashboardOutlet.tsx (18)] - Добавить код для разрешения экрана, чтобы не было магического числа
+[DashboardOutlet.tsx (18)] :
+		- Добавить код для разрешения экрана, чтобы не было магического числа
 
-[DashboardPage] - Icon Lock и Icon Basket ни к чему не привязаны
+[Sidebar Dashboard] : 
+		- Нужно сделать иконки стрелочек у некоторых Item 
+
+[Admin Dashboard Page] :  
+		- Кнопки Lock и Basket в Header ни к чему не привязаны
+		- Кнопка в Profile "Add fund" ни к чему не привязана
+		- Кнопки в RecentInvoices и RecentOffers в колонке Manage View, Print, Download и Delete ни к чему не привязаны
+		- В колонке # в RecentInvoices привязать все ссылки

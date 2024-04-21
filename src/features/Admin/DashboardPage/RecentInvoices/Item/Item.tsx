@@ -1,6 +1,7 @@
 import { FC } from 'react'
 
 import { Status } from '../../../../../shared/ui/Status/Status'
+import { ManageButtons } from '../../../../Dashboard/RecentCard/ManageButtons/ManageButtons'
 import styleItem from '../RecentInvoices.module.scss'
 import styles from './Item.module.scss'
 
@@ -23,9 +24,12 @@ export const Item: FC<ItemProps> = ({
 }) => {
   return (
     <div className={styles.wrapper}>
-      <span className={`${styleItem.hashtagColumn} ${styles.hashtagItem}`}>
+      <a
+        href=''
+        className={`${styleItem.hashtagColumn} ${styles.hashtagItem}`}
+      >
         {hashtag}
-      </span>
+      </a>
       <span className={`${styleItem.accountColumn} ${styles.accountItem}`}>
         {account}
       </span>
@@ -43,7 +47,13 @@ export const Item: FC<ItemProps> = ({
       <div className={`${styleItem.statusColumn} ${styles.statusItem}`}>
         <Status title={status} status={status} />
       </div>
-      <div className={`${styleItem.manageColumn} ${styles.manageItem}`} />
+      <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
+        <ManageButtons
+          firstButtonTitle='View'
+          secondButtonTitle='Print'
+          thirdButtonTitle='Download'
+        />
+      </div>
     </div>
   )
 }

@@ -5,12 +5,10 @@
   padding: 10px 12px 10px 12px;
 }
 
-.hashtagItem,
-.accountItem,
+.subjectItem,
 .amountItem,
-.invoiceDateItem,
-.dueDateItem,
-.statusItem,
+.dateCreatedItem,
+.expiryDateItem,
 .manageItem {
   font-size: 16px;
   font-weight: 400;
@@ -19,8 +17,7 @@
   text-align: left;
 }
 
-.hashtagItem,
-.invoiceDateItem,
-.dueDateItem {
+.dateCreatedItem,
+.expiryDateItem {
   color: $gray-300;
 }

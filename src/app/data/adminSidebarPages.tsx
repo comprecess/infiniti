@@ -11,7 +11,7 @@ import { TicketsIcon } from '../../shared/icons/dashboardsList/TicketsIcon'
 import { TransactionsIcon } from '../../shared/icons/dashboardsList/TransactionsIcon'
 import { Routes } from '../router/Routes'
 
-export const dashboardsList = [
+export const adminSidebarPages = [
   {
     id: 0,
     name: 'Dashboard',

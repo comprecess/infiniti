@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
+import { adminSidebarPages } from '../../../app/data/adminSidebarPages'
 import { Header } from '../../../features/Dashboard/Header/Header'
 import { Sidebar } from '../../../features/Dashboard/Sidebar/Sidebar'
 import styles from './DashboardOutlet.module.scss'
@@ -37,6 +38,7 @@ export const DashboardOutlet: FC = () => {
     <div className={styles.wrapper}>
       <div className={styles.items}>
         <Sidebar
+          pages={adminSidebarPages}
           isMini={isMiniSidebar}
           isMobile={isMobile}
           isOpen={isSidebarOpen}

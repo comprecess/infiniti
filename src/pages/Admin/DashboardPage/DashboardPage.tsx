@@ -1,8 +1,9 @@
 import { FC } from 'react'
 
-import { RecentInvoices } from '../../../features/Dashboard/DashboardPage/RecentInvoices/RecentInvoices'
-import { RecentOrders } from '../../../features/Dashboard/DashboardPage/RecentOrders/RecentOrders'
-import { RecentTransactions } from '../../../features/Dashboard/DashboardPage/RecentTransactions/RecentTransactions'
+import { RecentInvoices } from '../../../features/Admin/DashboardPage/RecentInvoices/RecentInvoices'
+import { RecentOffers } from '../../../features/Admin/DashboardPage/RecentOffers/RecentOffers'
+import { RecentOrders } from '../../../features/Admin/DashboardPage/RecentOrders/RecentOrders'
+import { RecentTransactions } from '../../../features/Admin/DashboardPage/RecentTransactions/RecentTransactions'
 import { ProfileCard } from '../../../widgets/ProfileCard/ProfileCard'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './DashboardPage.module.scss'
@@ -33,10 +34,9 @@ export const DashboardPage: FC = () => {
         </RecentCard>
       </div>
       <div className={styles.sectionFour}>
-        <RecentCard
-          title='Recent Invoices'
-          style={styles.recentFullScreen}
-        />
+        <RecentCard title='Recent Offers' style={styles.recentFullScreen}>
+          <RecentOffers />
+        </RecentCard>
       </div>
     </div>
   )
