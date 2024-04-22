@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { ManageButtons } from '../../../../Dashboard/RecentCard/ManageButtons/ManageButtons'
+import { ManageButtons } from '../../../../Main/RecentCard/ManageButtons/ManageButtons'
 import styleItem from '../RecentOffers.module.scss'
 import styles from './Item.module.scss'
 
