@@ -35,7 +35,7 @@ export const Sidebar: FC<SidebarProps> = ({
   const location = useLocation()
   const sidebarPages = isAdmin
     ? '/' + Routes.adminPages + '/'
-    : Routes.userPages
+    : '/' + Routes.clientPages + '/'
 
   const navigate = useNavigate()
 
@@ -64,11 +64,7 @@ export const Sidebar: FC<SidebarProps> = ({
       >
         <Logo
           logo={
-            isMini ? (
-              <LogoIcon fill={styles.miniLogoColor} />
-            ) : (
-              <LogoTextIcon />
-            )
+            isMini ? <LogoIcon fill={styles.miniLogoColor} /> : <LogoTextIcon />
           }
         />
         <div className={styles.items}>

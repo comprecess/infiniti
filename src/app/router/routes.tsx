@@ -1,34 +1,47 @@
-import { AdminCatalogPage } from '../../pages/Admin/CatalogPage/CatalogPage'
+import { AdminAccountingPage } from '../../pages/Admin/AccountingPage/AccountingPage'
+import { AdminAppearancePage } from '../../pages/Admin/AppearancePage/AppearancePage'
+import { AdminBusinessPlanPage } from '../../pages/Admin/BusinessPlanPage/BusinessPlanPage'
+import { AdminCalendarPage } from '../../pages/Admin/CalendarPage/CalendarPage'
+import { AdminCustomersPage } from '../../pages/Admin/CustomersPage/CustomersPage'
 import { AdminDashboardPage } from '../../pages/Admin/DashboardPage/DashboardPage'
 import { AdminDocumentsPage } from '../../pages/Admin/DocumentsPage/DocumentsPage'
-import { AdminInvoicesPage } from '../../pages/Admin/InvoicesPage/InvoicesPage'
+import { AdminHRMPage } from '../../pages/Admin/HRMPage/HRMPage'
 import { AdminKnowledgeBasePage } from '../../pages/Admin/KnowledgeBasePage/KnowledgeBasePage'
-import { AdminMyOrdersPage } from '../../pages/Admin/MyOrdersPage/MyOrdersPage'
-import { AdminOffersPage } from '../../pages/Admin/OffersPage/OffersPage'
-import { AdminProfilePage } from '../../pages/Admin/ProfilePage/ProfilePage'
+import { AdminLeadsPage } from '../../pages/Admin/LeadsPage/LeadsPage'
+import { AdminOrdersPage } from '../../pages/Admin/OrdersPage/OrdersPage'
+import { AdminPluginsPage } from '../../pages/Admin/PluginsPage/PluginsPage'
+import { AdminProductsServicesPage } from '../../pages/Admin/ProductsServicesPage/ProductsServicesPage'
 import { AdminProjectsPage } from '../../pages/Admin/ProjectsPage/ProjectsPage'
-import { AdminTicketsPage } from '../../pages/Admin/TicketsPage/TicketsPage'
-import { AdminTransactionsPage } from '../../pages/Admin/TransactionsPage/TransactionsPage'
+import { AdminPurchasePage } from '../../pages/Admin/PurchasePage/PurchasePage'
+import { AdminReportsPage } from '../../pages/Admin/ReportsPage/ReportsPage'
+import { AdminSalesPage } from '../../pages/Admin/SalesPage/SalesPage'
+import { AdminSettingsPage } from '../../pages/Admin/SettingsPage/SettingsPage'
+import { AdminSMSPage } from '../../pages/Admin/SMSPage/SMSPage'
+import { AdminSuppliersPage } from '../../pages/Admin/SuppliersPage/SuppliersPage'
+import { AdminSupportPage } from '../../pages/Admin/SupportPage/SupportPage'
+import { AdminTasksPage } from '../../pages/Admin/TasksPage/TasksPage'
+import { AdminUtilitiesPage } from '../../pages/Admin/UtilitiesPage/UtilitiesPage'
 import { LoginResidentPage } from '../../pages/Auth/LoginResidentPage/LoginResidentPage'
 import { RegisterPage } from '../../pages/Auth/RegisterPage/RegisterPage'
 import { ResetPasswordPage } from '../../pages/Auth/ResetPasswordPage/ResetPasswordPage'
 import { SignInPage } from '../../pages/Auth/SignInPage/SignInPage'
+import { ClientCatalogPage } from '../../pages/Client/CatalogPage/CatalogPage'
+import { ClientDashboardPage } from '../../pages/Client/DashboardPage/DashboardPage'
+import { ClientDocumentsPage } from '../../pages/Client/DocumentsPage/DocumentsPage'
+import { ClientInvoicesPage } from '../../pages/Client/InvoicesPage/InvoicesPage'
+import { ClientKnowledgeBasePage } from '../../pages/Client/KnowledgeBasePage/KnowledgeBasePage'
+import { ClientMyOrdersPage } from '../../pages/Client/MyOrdersPage/MyOrdersPage'
+import { ClientOffersPage } from '../../pages/Client/OffersPage/OffersPage'
+import { ClientProfilePage } from '../../pages/Client/ProfilePage/ProfilePage'
+import { ClientProjectsPage } from '../../pages/Client/ProjectsPage/ProjectsPage'
+import { ClientTicketsPage } from '../../pages/Client/TicketsPage/TicketsPage'
+import { ClientTransactionsPage } from '../../pages/Client/TransactionsPage/TransactionsPage'
 import { NotFoundPage } from '../../pages/NotFound/NotFoundPage'
-import { UserAccountingPage } from '../../pages/User/AccountingPage/AccountingPage'
-import { UserBusinessPlanPage } from '../../pages/User/BusinessPlanPage/BusinessPlanPage'
-import { UserCustomersPage } from '../../pages/User/CustomersPage/CustomersPage'
-import { UserDashboardPage } from '../../pages/User/DashboardPage/DashboardPage'
-import { UserLeadsPage } from '../../pages/User/LeadsPage/LeadsPage'
-import { UserProjectsPage } from '../../pages/User/ProjectsPage/ProjectsPage'
-import { UserPurchasePage } from '../../pages/User/PurchasePage/PurchasePage'
-import { UserSalesPage } from '../../pages/User/SalesPage/SalesPage'
-import { UserSMSPage } from '../../pages/User/SMSPage/SMSPage'
-import { UserSuppliersPage } from '../../pages/User/SuppliersPage/SuppliersPage'
-import { UserSupportPage } from '../../pages/User/SupportPage/SupportPage'
 
 export const Routes = {
-  userPages: '/',
+  root: '/',
   adminPages: 'admin',
+  clientPages: 'client',
   dashboard: 'dashboard',
   customers: 'customers',
   businessPlan: 'businessplan',
@@ -67,6 +80,7 @@ export const Routes = {
 }
 
 export const To = {
+  clientDashboard: () => Routes.clientPages + '/' + Routes.dashboard,
   dashboard: () => Routes.dashboard,
   signIn: () => Routes.signIn,
   notFound: () => Routes.notFound,
@@ -79,31 +93,43 @@ export const Pages = {
   registerPage: <RegisterPage />,
   resetPasswordPage: <ResetPasswordPage />,
 
+  /* Client Dashboard pages */
+  clientDashboardPage: <ClientDashboardPage />,
+  clientCatalogPage: <ClientCatalogPage />,
+  clientMyOrdersPage: <ClientMyOrdersPage />,
+  clientTransactionsPage: <ClientTransactionsPage />,
+  clientDocumentsPage: <ClientDocumentsPage />,
+  clientInvoicesPage: <ClientInvoicesPage />,
+  clientOffersPage: <ClientOffersPage />,
+  clientProjectsPage: <ClientProjectsPage />,
+  clientKnowledgeBasePage: <ClientKnowledgeBasePage />,
+  clientTicketsPage: <ClientTicketsPage />,
+  clientProfilePage: <ClientProfilePage />,
+
   /* Admin Dashboard pages */
   adminDashboardPage: <AdminDashboardPage />,
-  adminCatalogPage: <AdminCatalogPage />,
-  adminMyOrdersPage: <AdminMyOrdersPage />,
-  adminTransactionsPage: <AdminTransactionsPage />,
-  adminDocumentsPage: <AdminDocumentsPage />,
-  adminInvoicesPage: <AdminInvoicesPage />,
-  adminOffersPage: <AdminOffersPage />,
+  adminCustomersPage: <AdminCustomersPage />,
+  adminBusinessPlanPage: <AdminBusinessPlanPage />,
+  adminAccountingPage: <AdminAccountingPage />,
+  adminSalesPage: <AdminSalesPage />,
+  adminSuppliersPage: <AdminSuppliersPage />,
+  adminPurchasePage: <AdminPurchasePage />,
   adminProjectsPage: <AdminProjectsPage />,
+  adminLeadsPage: <AdminLeadsPage />,
+  adminSMSPage: <AdminSMSPage />,
+  adminSupportPage: <AdminSupportPage />,
   adminKnowledgeBasePage: <AdminKnowledgeBasePage />,
-  adminTicketsPage: <AdminTicketsPage />,
-  adminProfilePage: <AdminProfilePage />,
-
-  /* User Dashboard pages */
-  userDashboardPage: <UserDashboardPage />,
-  userCustomersPage: <UserCustomersPage />,
-  userBusinessPlanPage: <UserBusinessPlanPage />,
-  userAccountingPage: <UserAccountingPage />,
-  userSalesPage: <UserSalesPage />,
-  userSuppliersPage: <UserSuppliersPage />,
-  userPurchasePage: <UserPurchasePage />,
-  userProjectsPage: <UserProjectsPage />,
-  userLeadsPage: <UserLeadsPage />,
-  userSMSPage: <UserSMSPage />,
-  userSupportPage: <UserSupportPage />,
+  adminOrdersPage: <AdminOrdersPage />,
+  adminHRMPage: <AdminHRMPage />,
+  adminDocumentsPage: <AdminDocumentsPage />,
+  adminTasksPage: <AdminTasksPage />,
+  adminCalendarPage: <AdminCalendarPage />,
+  adminProductsServicesPage: <AdminProductsServicesPage />,
+  adminReportsPage: <AdminReportsPage />,
+  adminUtilitiesPage: <AdminUtilitiesPage />,
+  adminAppearancePage: <AdminAppearancePage />,
+  adminPluginsPage: <AdminPluginsPage />,
+  adminSettingsPage: <AdminSettingsPage />,
 
   /* Other  pages */
   notFoundPage: <NotFoundPage />,

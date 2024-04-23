@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 
 import { adminSidebarPages } from '../../../app/data/adminSidebarPages'
-import { userSidebarPages } from '../../../app/data/userSidebarPages'
+import { clientSidebarPages } from '../../../app/data/clientSidebarPages'
 import { Routes } from '../../../app/router/routes'
 import { Header } from '../../../features/Main/Header/Header'
 import { Sidebar } from '../../../features/Main/Sidebar/Sidebar'
@@ -15,7 +15,7 @@ export const DashboardOutlet: FC = () => {
 
   const location = useLocation()
   const isAdmin = location.pathname.includes(Routes.adminPages)
-  const sidebarPages = isAdmin ? adminSidebarPages : userSidebarPages
+  const sidebarPages = isAdmin ? adminSidebarPages : clientSidebarPages
 
   const toggleSidebar = () => {
     setIsSidebarOpen(prevState => !prevState)

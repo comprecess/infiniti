@@ -1,14 +1,25 @@
+import { AccountingIcon } from '../../shared/icons/dashboardsList/AccountingIcon'
+import { AppearanceIcon } from '../../shared/icons/dashboardsList/AppearanceIcon'
+import { CalendarIcon } from '../../shared/icons/dashboardsList/CalendarIcon'
 import { CatalogIcon } from '../../shared/icons/dashboardsList/CatalogIcon'
 import { DashboardIcon } from '../../shared/icons/dashboardsList/DashboardIcon'
 import { DocumentsIcon } from '../../shared/icons/dashboardsList/DocumentsIcon'
-import { InvoicesIcon } from '../../shared/icons/dashboardsList/InvoicesIcon'
+import { HRMIcon } from '../../shared/icons/dashboardsList/HRMIcon'
 import { KnowledgeBaseIcon } from '../../shared/icons/dashboardsList/KnowledgeBaseIcon'
+import { LeadsIcon } from '../../shared/icons/dashboardsList/LeadsIcon'
 import { MyOrdersIcon } from '../../shared/icons/dashboardsList/MyOrdersIcon'
-import { OffersIcon } from '../../shared/icons/dashboardsList/OffersIcon'
+import { PluginsIcon } from '../../shared/icons/dashboardsList/PluginsIcon'
+import { ProductsServicesIcon } from '../../shared/icons/dashboardsList/ProductsServicesIcon'
 import { ProfileIcon } from '../../shared/icons/dashboardsList/ProfileIcon'
 import { ProjectsIcon } from '../../shared/icons/dashboardsList/ProjectsIcon'
+import { PurchaseIcon } from '../../shared/icons/dashboardsList/PurchaseIcon'
+import { ReportsIcon } from '../../shared/icons/dashboardsList/ReportsIcon'
+import { SalesIcon } from '../../shared/icons/dashboardsList/SalesIcon'
+import { SettingsIcon } from '../../shared/icons/dashboardsList/SettingsIcon'
+import { SupportIcon } from '../../shared/icons/dashboardsList/SupportIcon'
+import { TasksIcon } from '../../shared/icons/dashboardsList/TasksIcon'
 import { TicketsIcon } from '../../shared/icons/dashboardsList/TicketsIcon'
-import { TransactionsIcon } from '../../shared/icons/dashboardsList/TransactionsIcon'
+import { UtilitiesIcon } from '../../shared/icons/dashboardsList/UtilitiesIcon'
 import { Routes } from '../router/routes'
 
 export const adminSidebarPages = [
@@ -20,39 +31,39 @@ export const adminSidebarPages = [
   },
   {
     id: 1,
-    name: 'Catalog',
-    icon: <CatalogIcon />,
-    path: Routes.catalog,
+    name: 'Customers',
+    icon: <ProfileIcon />,
+    path: Routes.customers,
   },
   {
     id: 2,
-    name: 'My orders',
-    icon: <MyOrdersIcon />,
-    path: Routes.myOrders,
+    name: 'Business Plan',
+    icon: <DashboardIcon />,
+    path: Routes.businessPlan,
   },
   {
     id: 3,
-    name: 'Transactions',
-    icon: <TransactionsIcon />,
-    path: Routes.transactions,
+    name: 'Accounting',
+    icon: <AccountingIcon />,
+    path: Routes.accounting,
   },
   {
     id: 4,
-    name: 'Documents',
-    icon: <DocumentsIcon />,
-    path: Routes.documents,
+    name: 'Sales',
+    icon: <SalesIcon />,
+    path: Routes.sales,
   },
   {
     id: 5,
-    name: 'Invoices',
-    icon: <InvoicesIcon />,
-    path: Routes.invoices,
+    name: 'Suppliers',
+    icon: <CatalogIcon />,
+    path: Routes.suppliers,
   },
   {
     id: 6,
-    name: 'Offers',
-    icon: <OffersIcon />,
-    path: Routes.offers,
+    name: 'Purchase',
+    icon: <PurchaseIcon />,
+    path: Routes.purchase,
   },
   {
     id: 7,
@@ -62,20 +73,92 @@ export const adminSidebarPages = [
   },
   {
     id: 8,
-    name: 'Knowledge base',
+    name: 'Leads',
+    icon: <LeadsIcon />,
+    path: Routes.leads,
+  },
+  {
+    id: 9,
+    name: 'SMS',
+    icon: <TicketsIcon />,
+    path: Routes.sms,
+  },
+  {
+    id: 10,
+    name: 'Support',
+    icon: <SupportIcon />,
+    path: Routes.support,
+  },
+  {
+    id: 11,
+    name: 'Knowledge Base',
     icon: <KnowledgeBaseIcon />,
     path: Routes.knowledgeBase,
   },
   {
-    id: 9,
-    name: 'Tickets',
-    icon: <TicketsIcon />,
-    path: 'tickets',
+    id: 12,
+    name: 'Orders',
+    icon: <MyOrdersIcon />,
+    path: Routes.myOrders,
   },
   {
-    id: 10,
-    name: 'Profile',
-    icon: <ProfileIcon />,
-    path: 'profile',
+    id: 13,
+    name: 'HRM',
+    icon: <HRMIcon />,
+    path: Routes.hrm,
+  },
+  {
+    id: 14,
+    name: 'Documents',
+    icon: <DocumentsIcon />,
+    path: Routes.documents,
+  },
+  {
+    id: 15,
+    name: 'Tasks',
+    icon: <TasksIcon />,
+    path: Routes.tasks,
+  },
+  {
+    id: 16,
+    name: 'Calendar',
+    icon: <CalendarIcon />,
+    path: Routes.calendar,
+  },
+  {
+    id: 17,
+    name: 'Products & Services',
+    icon: <ProductsServicesIcon />,
+    path: Routes.productsServices,
+  },
+  {
+    id: 18,
+    name: 'Reports',
+    icon: <ReportsIcon />,
+    path: Routes.reports,
+  },
+  {
+    id: 19,
+    name: 'Utilities',
+    icon: <UtilitiesIcon />,
+    path: Routes.utilities,
+  },
+  {
+    id: 20,
+    name: 'Appearance',
+    icon: <AppearanceIcon />,
+    path: Routes.appearance,
+  },
+  {
+    id: 21,
+    name: 'Plugins',
+    icon: <PluginsIcon />,
+    path: Routes.plugins,
+  },
+  {
+    id: 22,
+    name: 'Settings',
+    icon: <SettingsIcon />,
+    path: Routes.settings,
   },
 ]

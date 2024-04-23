@@ -1,0 +1,46 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 40px;
+
+  ::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: $brand-1000;
+    border-radius: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: $brand-800;
+    border-radius: 8px;
+  }
+}
+
+.sectionOne {
+  flex-direction: row;
+  gap: 40px;
+
+  @include mobileBreakpoint('max', $bpL - 1) {
+    flex-direction: column;
+  }
+}
+
+.sectionOne,
+.sectionTwo,
+.sectionThree,
+.sectionFour {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.recentOrders {
+  max-width: 1150px;
+}
+
+.recentFullScreen {
+  max-width: 1547px;
+}

@@ -1,8 +1,8 @@
 import { FC } from 'react'
 
-import { Avatar } from '../../features/Admin/DashboardPage/ProfileCard/Avatar/Avatar'
-import { CurrentBalance } from '../../features/Admin/DashboardPage/ProfileCard/CurrentBalance/CurrentBalance'
-import { PersonInfo } from '../../features/Admin/DashboardPage/ProfileCard/PersonInfo/PersonInfo'
+import { Avatar } from '../../features/Client/DashboardPage/ProfileCard/Avatar/Avatar'
+import { CurrentBalance } from '../../features/Client/DashboardPage/ProfileCard/CurrentBalance/CurrentBalance'
+import { PersonInfo } from '../../features/Client/DashboardPage/ProfileCard/PersonInfo/PersonInfo'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
 import styles from './ProfileCard.module.scss'
 
