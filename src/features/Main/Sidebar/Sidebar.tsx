@@ -89,9 +89,6 @@ export const Sidebar: FC<SidebarProps> = ({
               : styles.wrapperActive
             : styles.wrapperDisable
         }
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
       >
         <Logo
           logo={
