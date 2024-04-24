@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 import { AuthOutlet } from '../../pages/Auth/AuthOutlet/AuthOutlet'
-import { DashboardOutlet } from '../../pages/Main/DashboardOutlet/DashboardOutlet'
+import { MainOutlet } from '../../pages/Main/MainOutlet/MainOutlet'
 import { Pages, Routes, To } from './routes'
 
 export const router = createBrowserRouter([
@@ -11,7 +11,7 @@ export const router = createBrowserRouter([
   },
   {
     path: Routes.adminPages,
-    element: <DashboardOutlet />,
+    element: <MainOutlet />,
     children: [
       { path: Routes.dashboard, element: Pages.adminDashboardPage },
       { path: Routes.customers, element: Pages.adminCustomersPage },
@@ -24,7 +24,10 @@ export const router = createBrowserRouter([
       { path: Routes.leads, element: Pages.adminLeadsPage },
       { path: Routes.sms, element: Pages.adminSMSPage },
       { path: Routes.support, element: Pages.adminSupportPage },
-      { path: Routes.knowledgeBase, element: Pages.adminKnowledgeBasePage },
+      {
+        path: Routes.knowledgeBase,
+        element: Pages.adminKnowledgeBasePage,
+      },
       { path: Routes.myOrders, element: Pages.adminOrdersPage },
       { path: Routes.hrm, element: Pages.adminHRMPage },
       { path: Routes.documents, element: Pages.adminDocumentsPage },
@@ -48,7 +51,7 @@ export const router = createBrowserRouter([
   },
   {
     path: Routes.clientPages,
-    element: <DashboardOutlet />,
+    element: <MainOutlet />,
     children: [
       { path: Routes.dashboard, element: Pages.clientDashboardPage },
       { path: Routes.catalog, element: Pages.clientCatalogPage },

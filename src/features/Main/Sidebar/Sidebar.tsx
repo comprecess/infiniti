@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { Routes } from '../../../app/router/routes'
@@ -48,10 +48,38 @@ export const Sidebar: FC<SidebarProps> = ({
     return location.pathname === sidebarPages + pagePath
   }
 
+  const [touchStartX, setTouchStartX] = useState<number | null>(null)
+  const [touchEndX, setTouchEndX] = useState<number | null>(null)
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX)
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEndX(e.touches[0].clientX)
+  }
+
+  const handleTouchEnd = () => {
+    if (touchStartX !== null && touchEndX !== null) {
+      const deltaX = touchEndX - touchStartX
+      if (deltaX < -50) {
+        onClose()
+      }
+    }
+    setTouchStartX(null)
+    setTouchEndX(null)
+  }
+
   return (
     <>
       {isMobile && isOpen && (
-        <div className={styles.sidebarOverlay} onClick={onClose} />
+        <div
+          className={styles.sidebarOverlay}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          onClick={onClose}
+        />
       )}
       <aside
         className={
@@ -61,10 +89,17 @@ export const Sidebar: FC<SidebarProps> = ({
               : styles.wrapperActive
             : styles.wrapperDisable
         }
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         <Logo
           logo={
-            isMini ? <LogoIcon fill={styles.miniLogoColor} /> : <LogoTextIcon />
+            isMini ? (
+              <LogoIcon fill={styles.miniLogoColor} />
+            ) : (
+              <LogoTextIcon />
+            )
           }
         />
         <div className={styles.items}>

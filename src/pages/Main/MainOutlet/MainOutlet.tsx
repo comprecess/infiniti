@@ -6,9 +6,9 @@ import { clientSidebarPages } from '../../../app/data/clientSidebarPages'
 import { Routes } from '../../../app/router/routes'
 import { Header } from '../../../features/Main/Header/Header'
 import { Sidebar } from '../../../features/Main/Sidebar/Sidebar'
-import styles from './DashboardOutlet.module.scss'
+import styles from './MainOutlet.module.scss'
 
-export const DashboardOutlet: FC = () => {
+export const MainOutlet: FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
   const [isMiniSidebar, setIsMiniSidebar] = useState(false)
@@ -39,6 +39,14 @@ export const DashboardOutlet: FC = () => {
 
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  useEffect(() => {
+    if (isSidebarOpen && isMobile) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+  }, [isSidebarOpen])
 
   return (
     <div className={styles.wrapper}>
