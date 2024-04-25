@@ -3,7 +3,7 @@ import { FC, PropsWithChildren } from 'react'
 import styles from './RecentCard.module.scss'
 
 interface RecentCardProps {
-  title: string
+  title?: string
   style?: string
 }
 
@@ -14,7 +14,7 @@ export const RecentCard: FC<PropsWithChildren<RecentCardProps>> = ({
 }) => {
   return (
     <div className={`${styles.wrapper} ${style}`}>
-      <h6 className={styles.title}>{title}</h6>
+      {title ? <h6 className={styles.title}>{title}</h6> : null}
       <div className={styles.content}>{children}</div>
     </div>
   )

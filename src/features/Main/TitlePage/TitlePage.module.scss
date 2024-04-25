@@ -1,0 +1,26 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  width: 100%;
+  height: 56px;
+  max-width: $maxContentSize;
+}
+
+.title,
+.secondTitle {
+  font-family: $fontSpaceGrotesk;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 56px;
+  letter-spacing: -0.03em;
+  text-align: left;
+}
+
+.title {
+  color: $white;
+}
+
+.secondTitle {
+  color: $gray-400;
+}

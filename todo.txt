@@ -5,7 +5,7 @@
 		- Нужно сделать иконки стрелочек у некоторых Item 
 
 [Main Page] :  
-		- Кнопки Lock и Basket в Header ни к чему не привязаны
+		- Кнопка Lock в Header ни к чему не привязаны
 
 [Client Dashboard Page] :  
 		- Кнопка в Profile "Add fund" ни к чему не привязана

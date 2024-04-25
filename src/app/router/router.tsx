@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 
+import { MainOutlet } from '../../features/Main/MainOutlet/MainOutlet'
 import { AuthOutlet } from '../../pages/Auth/AuthOutlet/AuthOutlet'
-import { MainOutlet } from '../../pages/Main/MainOutlet/MainOutlet'
 import { Pages, Routes, To } from './routes'
 
 export const router = createBrowserRouter([
@@ -67,6 +67,7 @@ export const router = createBrowserRouter([
       },
       { path: Routes.tickets, element: Pages.clientTicketsPage },
       { path: Routes.profile, element: Pages.clientProfilePage },
+      { path: Routes.basket, element: Pages.basketPage },
       {
         path: '*',
         index: true,

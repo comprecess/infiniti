@@ -4,8 +4,8 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { adminSidebarPages } from '../../../app/data/adminSidebarPages'
 import { clientSidebarPages } from '../../../app/data/clientSidebarPages'
 import { Routes } from '../../../app/router/routes'
-import { Header } from '../../../features/Main/Header/Header'
-import { Sidebar } from '../../../features/Main/Sidebar/Sidebar'
+import { Header } from '../Header/Header'
+import { Sidebar } from '../Sidebar/Sidebar'
 import styles from './MainOutlet.module.scss'
 
 export const MainOutlet: FC = () => {

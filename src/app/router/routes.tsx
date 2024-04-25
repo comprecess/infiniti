@@ -36,7 +36,8 @@ import { ClientProfilePage } from '../../pages/Client/ProfilePage/ProfilePage'
 import { ClientProjectsPage } from '../../pages/Client/ProjectsPage/ProjectsPage'
 import { ClientTicketsPage } from '../../pages/Client/TicketsPage/TicketsPage'
 import { ClientTransactionsPage } from '../../pages/Client/TransactionsPage/TransactionsPage'
-import { NotFoundPage } from '../../pages/NotFound/NotFoundPage'
+import { BasketPage } from '../../pages/General/BasketPage/BasketPage'
+import { NotFoundPage } from '../../pages/General/NotFoundPage/NotFoundPage'
 
 export const Routes = {
   root: '/',
@@ -71,6 +72,7 @@ export const Routes = {
   knowledgeBase: 'knowledgebase',
   tickets: 'tickets',
   profile: 'profile',
+  basket: 'basket',
   auth: 'auth',
   signIn: 'signin',
   loginResident: 'loginresident',
@@ -131,6 +133,7 @@ export const Pages = {
   adminPluginsPage: <AdminPluginsPage />,
   adminSettingsPage: <AdminSettingsPage />,
 
-  /* Other  pages */
+  /* General  pages */
+  basketPage: <BasketPage />,
   notFoundPage: <NotFoundPage />,
 }

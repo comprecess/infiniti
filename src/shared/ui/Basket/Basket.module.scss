@@ -1,0 +1,15 @@
+.wrapperActive,
+.wrapperDisable {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  transition: 0.3s;
+  user-select: none;
+  cursor: pointer;
+}
+
+.wrapperDisable {
+  &:hover * {
+    fill: $gray-200;
+  }
+}
