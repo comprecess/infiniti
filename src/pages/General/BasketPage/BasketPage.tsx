@@ -2,12 +2,30 @@ import { FC } from 'react'
 
 import { ProfileInfo } from '../../../app/data/profile'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
+import { sumAmountsAndFormat } from '../../../shared/utils/Basket/AmountInCart'
 import { Basket } from '../../../widgets/BasketCart/Basket/Basket'
 import { Cart } from '../../../widgets/BasketCart/Cart/Cart'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './BasketPage.module.scss'
 
 export const BasketPage: FC = () => {
+  const subtotalCost = sumAmountsAndFormat(
+    ProfileInfo.carts.map(item =>
+      parseInt(item.amount.replace(/\D/g, ''), 10),
+    ),
+  )
+
+  const taxesAmount = sumAmountsAndFormat(
+    ProfileInfo.carts.map(item =>
+      parseInt(item.taxesAmount.replace(/\D/g, ''), 10),
+    ),
+  )
+
+  const totalAmount = sumAmountsAndFormat([
+    parseInt(subtotalCost.replace(/\D/g, ''), 10),
+    parseInt(taxesAmount.replace(/\D/g, ''), 10),
+  ])
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>
@@ -20,7 +38,11 @@ export const BasketPage: FC = () => {
         <RecentCard style={styles.cart}>
           <Cart />
         </RecentCard>
-        <Basket />
+        <Basket
+          subtotalCost={subtotalCost}
+          taxesAmount={taxesAmount}
+          totalPrice={totalAmount}
+        />
       </div>
     </div>
   )

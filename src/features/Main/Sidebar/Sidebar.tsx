@@ -99,7 +99,15 @@ export const Sidebar: FC<SidebarProps> = ({
             )
           }
         />
-        <div className={styles.items}>
+        <div
+          className={
+            isOpen
+              ? isMini
+                ? styles.itemsMini
+                : styles.items
+              : styles.items
+          }
+        >
           {pages.map(item => {
             return (
               <Item

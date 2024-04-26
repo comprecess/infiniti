@@ -1,12 +1,51 @@
 .wrapper {
   display: flex;
+  flex-direction: column;
+  gap: 16px;
   width: 100%;
   height: 289px;
   padding: 24px;
   border-radius: 8px;
   background-color: $brand-900;
+  color: $white;
 
   @include mobileBreakpoint('min', $bpL) {
     max-width: 357px;
   }
+}
+
+.title {
+  font-family: $fontSpaceGrotesk;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: -0.03em;
+  text-align: left;
+}
+
+.items {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.totalOrder {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.totalPrice {
+  font-family: $fontSpaceGrotesk;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  letter-spacing: -0.03em;
+  text-align: left;
+}
+
+.divider {
+  height: 2px;
+  background-color: $gray-500;
 }
