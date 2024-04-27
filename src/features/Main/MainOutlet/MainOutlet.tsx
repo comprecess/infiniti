@@ -17,6 +17,7 @@ export const MainOutlet: FC = () => {
   const [isReady, setIsReady] = useState(false)
 
   const location = useLocation()
+
   const isAdmin = location.pathname.includes(Routes.adminPages)
   const sidebarPages = isAdmin ? adminSidebarPages : clientSidebarPages
 

@@ -2,6 +2,7 @@ const cacheName = 'version-v1'
 const cacheAssets = [
   '/index.html',
   '/icons/',
+  '/src/app/styles/globals.scss',
   '/src/shared/styles/variables/',
   '/src/shared/styles/mixins/',
   '/src/shared/icons/',
