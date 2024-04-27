@@ -11,13 +11,13 @@ import styles from './DashboardPage.module.scss'
 export const ClientDashboardPage: FC = () => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.sectionOne}>
+      <div className={styles.sectionFirst}>
         <ProfileCard />
         <RecentCard title='Recent Orders' style={styles.recentOrders}>
           <RecentOrders />
         </RecentCard>
       </div>
-      <div className={styles.sectionTwo}>
+      <div className={styles.sectionSecond}>
         <RecentCard
           title='Recent Transactions'
           style={styles.recentFullScreen}
@@ -25,7 +25,7 @@ export const ClientDashboardPage: FC = () => {
           <RecentTransactions />
         </RecentCard>
       </div>
-      <div className={styles.sectionThree}>
+      <div className={styles.sectionThird}>
         <RecentCard
           title='Recent Invoices'
           style={styles.recentFullScreen}
@@ -33,7 +33,7 @@ export const ClientDashboardPage: FC = () => {
           <RecentInvoices />
         </RecentCard>
       </div>
-      <div className={styles.sectionFour}>
+      <div className={styles.sectionFourth}>
         <RecentCard title='Recent Offers' style={styles.recentFullScreen}>
           <RecentOffers />
         </RecentCard>

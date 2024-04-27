@@ -8,22 +8,22 @@
   @include scrollbar;
 }
 
-.sectionOne {
+.sectionFirst,
+.sectionSecond,
+.sectionThird,
+.sectionFourth {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.sectionFirst {
   flex-direction: row;
   gap: 40px;
 
   @include mobileBreakpoint('max', $bpL - 1) {
     flex-direction: column;
   }
-}
-
-.sectionOne,
-.sectionTwo,
-.sectionThree,
-.sectionFour {
-  display: flex;
-  width: 100%;
-  justify-content: center;
 }
 
 .recentOrders {
