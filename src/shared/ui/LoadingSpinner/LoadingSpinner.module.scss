@@ -1,0 +1,11 @@
+.wrapper {
+  display: flex;
+  height: 100%;
+}
+
+.spinner {
+  border: 8px solid $brand-700;
+  border-top: 8px solid $brand-900;
+  border-radius: 50%;
+  animation: spinner 1s linear infinite;
+}

@@ -1,7 +1,14 @@
-.wrapper {
+.wrapper,
+.wrapperLoading {
   width: 100%;
   min-height: 100vh;
   background-color: $brand-1000;
+}
+
+.wrapperLoading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .items {
@@ -60,4 +67,9 @@
     width: 100%;
     margin-left: 0;
   }
+}
+
+.loadingSpinner {
+  width: 64px;
+  height: 64px;
 }

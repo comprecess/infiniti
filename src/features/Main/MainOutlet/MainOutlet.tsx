@@ -4,6 +4,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { adminSidebarPages } from '../../../app/data/adminSidebarPages'
 import { clientSidebarPages } from '../../../app/data/clientSidebarPages'
 import { Routes } from '../../../app/router/routes'
+import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { Header } from '../Header/Header'
 import { Sidebar } from '../Sidebar/Sidebar'
 import styles from './MainOutlet.module.scss'
@@ -12,6 +13,8 @@ export const MainOutlet: FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
   const [isMiniSidebar, setIsMiniSidebar] = useState(false)
+
+  const [isReady, setIsReady] = useState(false)
 
   const location = useLocation()
   const isAdmin = location.pathname.includes(Routes.adminPages)
@@ -32,6 +35,8 @@ export const MainOutlet: FC = () => {
       setIsMobile(isMobileView)
       setIsMiniSidebar(false)
       setIsSidebarOpen(!isMobileView)
+
+      setIsReady(true)
     }
 
     handleResize()
@@ -46,46 +51,50 @@ export const MainOutlet: FC = () => {
     } else {
       document.body.style.overflow = 'auto'
     }
-  }, [isSidebarOpen])
+  }, [isSidebarOpen, isMobile])
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.items}>
-        <Sidebar
-          pages={sidebarPages}
-          isMini={isMiniSidebar}
-          isMobile={isMobile}
-          isOpen={isSidebarOpen}
-          isAdmin={isAdmin}
-          onClose={toggleSidebar}
-        />
-        <div
-          className={
-            isSidebarOpen
-              ? isMiniSidebar
-                ? styles.headerMini
-                : styles.headerStandard
-              : styles.headerFull
-          }
-        >
-          <Header
-            isMiniSidebar={isMiniSidebar}
-            toggleMiniSidebar={toggleMiniSidebar}
-            toggleSidebar={toggleSidebar}
+    <div className={!isReady ? styles.wrapperLoading : styles.wrapper}>
+      {!isReady ? (
+        <LoadingSpinner spinnerStyle={styles.loadingSpinner} />
+      ) : (
+        <div className={styles.items}>
+          <Sidebar
+            pages={sidebarPages}
+            isMini={isMiniSidebar}
+            isMobile={isMobile}
+            isOpen={isSidebarOpen}
+            isAdmin={isAdmin}
+            onClose={toggleSidebar}
           />
+          <div
+            className={
+              isSidebarOpen
+                ? isMiniSidebar
+                  ? styles.headerMini
+                  : styles.headerStandard
+                : styles.headerFull
+            }
+          >
+            <Header
+              isMiniSidebar={isMiniSidebar}
+              toggleMiniSidebar={toggleMiniSidebar}
+              toggleSidebar={toggleSidebar}
+            />
+          </div>
+          <main
+            className={
+              isSidebarOpen
+                ? isMiniSidebar
+                  ? styles.mainMini
+                  : styles.mainStandard
+                : styles.mainFull
+            }
+          >
+            <Outlet />
+          </main>
         </div>
-        <main
-          className={
-            isSidebarOpen
-              ? isMiniSidebar
-                ? styles.mainMini
-                : styles.mainStandard
-              : styles.mainFull
-          }
-        >
-          <Outlet />
-        </main>
-      </div>
+      )}
     </div>
   )
 }
