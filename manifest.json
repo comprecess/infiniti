@@ -3,17 +3,17 @@
   "short_name": "Infiniti",
   "icons": [
     {
-      "src": "/logoPWA(128x128).png",
+      "src": "/logoPWA/logoPWA(128x128).png",
       "sizes": "128x128",
       "type": "image/png"
     },
     {
-      "src": "/logoPWA(256x256).png",
+      "src": "/logoPWA/logoPWA(256x256).png",
       "sizes": "256x256",
       "type": "image/png"
     },
     {
-      "src": "/logoPWA(512x512).png",
+      "src": "/logoPWA/logoPWA(512x512).png",
       "sizes": "512x512",
       "type": "image/png"
     }
