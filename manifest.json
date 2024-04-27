@@ -3,9 +3,9 @@
   "short_name": "Infiniti",
   "icons": [
     {
-      "src": "/favicon.ico",
-      "sizes": "128x128",
-      "type": "image/x-icon"
+      "src": "/logoPWA.png",
+      "sizes": "144x144",
+      "type": "image/png"
     }
   ],
   "start_url": "/",
