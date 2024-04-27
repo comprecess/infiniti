@@ -3,11 +3,3 @@
 
 [Sidebar Dashboard] : 
 		- Нужно сделать иконки стрелочек у некоторых Item 
-
-[Main Page] :  
-		- Кнопка Lock в Header ни к чему не привязаны
-
-[Client Dashboard Page] :  
-		- Кнопка в Profile "Add fund" ни к чему не привязана
-		- Кнопки в RecentInvoices и RecentOffers в колонке Manage View, Print, Download и Delete ни к чему не привязаны
-		- В колонке # в RecentInvoices привязать все ссылки

@@ -7,7 +7,14 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:react/recommended',
   ],
-  ignorePatterns: ['dist', '*.cjs', '*.d.ts', '*.mjs', 'vite.config.ts'],
+  ignorePatterns: [
+    'dist',
+    '*.cjs',
+    '*.d.ts',
+    '*.mjs',
+    'vite.config.ts',
+    'service-worker.js',
+  ],
   parser: '@typescript-eslint/parser',
   plugins: [
     'react-refresh',
