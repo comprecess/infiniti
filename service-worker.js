@@ -1,6 +1,5 @@
-const cacheName = 'my-cache-v1'
+const cacheName = 'version-v1'
 const cacheAssets = [
-  '/',
   '/index.html',
   // Можно добавить пути к ресурсам, которые нужно кэшировать
 ]
