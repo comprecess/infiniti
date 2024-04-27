@@ -1,7 +1,10 @@
 const cacheName = 'version-v1'
 const cacheAssets = [
   '/index.html',
-  // Можно добавить пути к ресурсам, которые нужно кэшировать
+  '/icons/',
+  '/src/shared/styles/variables/',
+  '/src/shared/styles/mixins/',
+  '/src/shared/icons/',
 ]
 
 self.addEventListener('install', event => {
