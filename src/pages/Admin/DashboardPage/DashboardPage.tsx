@@ -17,53 +17,76 @@ export const AdminDashboardPage: FC = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.sectionFirst}>
-        <RecentCard title='Cash Flow' style={styles.recentFullScreen}>
+        <RecentCard
+          rightIcons
+          updateIcon
+          title='Cash Flow'
+          style={styles.recentFullScreen}
+        >
           <CashFlow />
         </RecentCard>
       </div>
       <div className={styles.sectionSecond}>
-        <RecentCard title='Recent Clients' style={styles.recentHalf}>
+        <RecentCard rightIcons title='Recent Clients' style={styles.recentHalf}>
           <RecentClients />
         </RecentCard>
-        <RecentCard title='Recent Projects' style={styles.recentHalf}>
+        <RecentCard
+          rightIcons
+          title='Recent Projects'
+          style={styles.recentHalf}
+        >
           <RecentProjects />
         </RecentCard>
       </div>
       <div className={styles.sectionThird}>
-        <RecentCard title='Recent Invoices' style={styles.recentHalf}>
+        <RecentCard
+          rightIcons
+          title='Recent Invoices'
+          style={styles.recentHalf}
+        >
           <RecentInvoices />
         </RecentCard>
-        <RecentCard title='Calendar' style={styles.recentHalf}>
+        <RecentCard rightIcons title='Calendar' style={styles.recentHalf}>
           <Calendar />
         </RecentCard>
       </div>
       <div className={styles.sectionFourth}>
-        <RecentCard title='Latest Income' style={styles.recentHalf}>
+        <RecentCard rightIcons title='Latest Income' style={styles.recentHalf}>
           <LatestIncome />
         </RecentCard>
-        <RecentCard title='Latest Expense' style={styles.recentHalf}>
+        <RecentCard rightIcons title='Latest Expense' style={styles.recentHalf}>
           <LatestExpense />
         </RecentCard>
       </div>
       <div className={styles.sectionFifth}>
         <RecentCard
+          rightIcons
           title='Net Worth & Account Balances'
           style={styles.recentHalf}
         >
           <NetWorthAccountBalances />
         </RecentCard>
-        <RecentCard title='Expenses by Category' style={styles.recentHalf}>
+        <RecentCard
+          rightIcons
+          title='Expenses by Category'
+          style={styles.recentHalf}
+        >
           <ExpensesCategory />
         </RecentCard>
       </div>
       <div className={styles.sectionSixth}>
         <RecentCard
+          rightIcons
           title='Income vs Expense: Monthly'
           style={styles.recentHalf}
         >
           <IncomeExpenseMonthly />
         </RecentCard>
-        <RecentCard title='Expenses by Category' style={styles.recentHalf}>
+        <RecentCard
+          rightIcons
+          title='Expenses by Category'
+          style={styles.recentHalf}
+        >
           <ExpensesCategory />
         </RecentCard>
       </div>
