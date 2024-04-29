@@ -18,7 +18,9 @@ export const Item: FC<ItemProps> = ({ avatar, name, email, created }) => {
       </div>
       <div className={`${styleItem.nameEmailColumn} ${styles.items}`}>
         <span className={styles.nameItem}>{name}</span>
-        <span className={styles.emailItem}>{email}</span>
+        <span className={styles.emailItem} contentEditable={false}>
+          {email}
+        </span>
       </div>
       <span className={`${styleItem.createdColumn} ${styles.createdItem}`}>
         {created}
