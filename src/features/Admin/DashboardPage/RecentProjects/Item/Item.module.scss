@@ -1,0 +1,30 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 10px 12px 10px 12px;
+}
+
+.nameItem,
+.budgetItem,
+.createdItem {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.nameItem {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.nameItem,
+.budgetItem {
+  color: $white;
+}
+
+.createdItem {
+  color: $gray-300;
+}

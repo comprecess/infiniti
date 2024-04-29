@@ -35,8 +35,28 @@
   width: 44px;
 }
 
-.statusDraft {
-  width: 49px;
+.statusDraft,
+.statusPaused {
   background-color: $gray-600;
   color: $gray-100;
+}
+
+.statusDraft {
+  width: 49px;
+}
+
+.statusPaused {
+  width: 64px;
+}
+
+.statusStarted {
+  width: 64px;
+  background-color: $brand-transparent;
+  color: $brand-300;
+}
+
+.statusCompleted {
+  width: 87px;
+  background-color: $mint-transparent;
+  color: $mint-500;
 }
