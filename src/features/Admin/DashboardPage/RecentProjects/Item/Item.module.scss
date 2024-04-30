@@ -9,9 +9,17 @@
 .budgetItem,
 .createdItem {
   font-size: 16px;
-  font-weight: 400;
   line-height: 24px;
   letter-spacing: -0.03em;
+}
+
+.nameItem,
+.createdItem {
+  font-weight: 500;
+}
+
+.budgetItem {
+  font-weight: 400;
 }
 
 .nameItem {

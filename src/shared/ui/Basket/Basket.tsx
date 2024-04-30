@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { ProfileInfo } from '../../../app/data/profile'
+import { ProfileInfo } from '../../../app/data/general/profile'
 import { BasketIcon } from '../../icons/BasketIcon'
 import styles from './Basket.module.scss'
 import { Notification } from './Notification/Notification'
@@ -11,11 +11,7 @@ interface BasketProps {
   onIconClick: () => void
 }
 
-export const Basket: FC<BasketProps> = ({
-  isActive,
-  style,
-  onIconClick,
-}) => {
+export const Basket: FC<BasketProps> = ({ isActive, style, onIconClick }) => {
   return (
     <div
       className={

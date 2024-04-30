@@ -1,7 +1,7 @@
 import { Divider } from '@mui/material'
 import React, { FC } from 'react'
 
-import { RecentTransactionsData } from '../../../../app/data/recentTransactions'
+import { RecentTransactionsData } from '../../../../app/data/client/recentTransactions'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentTransactions.module.scss'

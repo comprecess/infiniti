@@ -1,7 +1,7 @@
 import { Divider } from '@mui/material'
 import { FC } from 'react'
 
-import { ProfileInfo } from '../../../../../app/data/profile'
+import { ProfileInfo } from '../../../../../app/data/general/profile'
 import { Item } from './Item/Item'
 import styles from './PersonInfo.module.scss'
 

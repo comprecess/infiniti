@@ -1,7 +1,7 @@
 import { Divider } from '@mui/material'
 import React, { FC } from 'react'
 
-import { ProfileInfo } from '../../../app/data/profile'
+import { ProfileInfo } from '../../../app/data/general/profile'
 import { Item } from '../../../features/General/BasketPage/Item/Item'
 import { Title } from '../../../features/Main/RecentCard/Title/Title'
 import { CrossIcon } from '../../../shared/icons/CrossIcon'

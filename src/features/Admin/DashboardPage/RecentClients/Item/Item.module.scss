@@ -11,18 +11,24 @@
 }
 
 .nameItem,
-.createdItem {
+.createdItem,
+.emailItem {
   font-size: 16px;
-  font-weight: 400;
   line-height: 24px;
   letter-spacing: -0.03em;
 }
 
+.nameItem {
+  font-weight: 500;
+}
+
 .emailItem {
   font-size: 14px;
+}
+
+.emailItem,
+.createdItem {
   font-weight: 400;
-  line-height: 21px;
-  letter-spacing: -0.03em;
 }
 
 .nameItem {

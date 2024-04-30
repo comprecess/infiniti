@@ -16,6 +16,7 @@ const statusColors = {
   Started: styles.statusStarted,
   Paused: styles.statusPaused,
   Completed: styles.statusCompleted,
+  PartiallyPaid: styles.statusPartiallyPaid,
 }
 
 export const Status: FC<StatusProps> = ({ title, status }) => {
@@ -45,6 +46,9 @@ export const Status: FC<StatusProps> = ({ title, status }) => {
       break
     case 'Completed':
       statusStyle = statusColors.Completed
+      break
+    case 'Partially paid':
+      statusStyle = statusColors.PartiallyPaid
       break
   }
 
