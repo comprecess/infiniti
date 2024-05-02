@@ -15,11 +15,14 @@
   letter-spacing: -0.03em;
 }
 
-.hashtagItem,
-.accountItem,
-.amountItem {
+.hashtagItem {
   font-weight: 500;
   color: $white;
+}
+
+.amountItem,
+.accountItem {
+  font-weight: 400;
 }
 
 .createdItem,

@@ -82,7 +82,7 @@ export const Routes = {
 }
 
 export const To = {
-  clientDashboard: () => Routes.clientPages + '/' + Routes.dashboard,
+  authSignIn: () => Routes.auth + '/' + Routes.signIn,
   dashboard: () => Routes.dashboard,
   signIn: () => Routes.signIn,
   notFound: () => Routes.notFound,

@@ -6,6 +6,12 @@
   overflow-y: hidden;
 }
 
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .columns {
   display: flex;
   width: 100%;

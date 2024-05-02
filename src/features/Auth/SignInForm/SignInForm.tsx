@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
+import { Routes } from '../../../app/router/routes'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { IconText } from '../../../shared/ui/IconText/IconText'
 import { Input } from '../../../shared/ui/Input/Input'
@@ -23,10 +24,10 @@ export const SignInForm: FC<SignInFormProps> = ({ resident }) => {
 
   const onSubmit: SubmitHandler<FormFields> = data => {
     if (resident) {
-      navigate('/')
+      navigate('/' + Routes.adminPages)
       console.log('Success Resident Login:', data)
     } else {
-      navigate('/')
+      navigate('/' + Routes.clientPages)
       console.log('Success SignIn:', data)
     }
   }

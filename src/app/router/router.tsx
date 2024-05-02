@@ -7,7 +7,7 @@ import { Pages, Routes, To } from './routes'
 export const router = createBrowserRouter([
   {
     path: Routes.root,
-    element: <Navigate replace to={To.clientDashboard()} />,
+    element: <Navigate replace to={To.authSignIn()} />,
   },
   {
     path: Routes.adminPages,
