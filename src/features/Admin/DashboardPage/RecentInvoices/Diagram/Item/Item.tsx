@@ -13,7 +13,8 @@ export const Item: FC<ItemProps> = ({ label, percentage, colorPercentage }) => {
     <div className={styles.wrapper}>
       <span className={styles.label}>{label}</span>
       <span className={`${styles.percentage} ${colorPercentage}`}>
-        {percentage}%
+        {percentage}
+        %
       </span>
     </div>
   )
