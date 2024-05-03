@@ -3,7 +3,7 @@ import React, { FC } from 'react'
 
 import { RecentInvoicesData } from '../../../../app/data/admin/recentInvoices'
 import { Title } from '../../../Main/RecentCard/Title/Title'
-import { Diagram } from './Diagram/Diagram'
+import { Chart } from './Chart/Chart'
 import { Item } from './Item/Item'
 import styles from './RecentInvoices.module.scss'
 
@@ -42,7 +42,7 @@ export const RecentInvoices: FC = () => {
             })}
           </div>
         </div>
-        <Diagram data={data} />
+        <Chart data={data} />
       </div>
     </div>
   )

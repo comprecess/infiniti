@@ -1,13 +1,13 @@
 import { FC } from 'react'
 
-import styles from './Diagram.module.scss'
+import styles from './Chart.module.scss'
 import { Item } from './Item/Item'
 
-interface DiagramProps {
+interface ChartProps {
   data: string[]
 }
 
-export const Diagram: FC<DiagramProps> = ({ data }) => {
+export const Chart: FC<ChartProps> = ({ data }) => {
   const totalCount = data.length
   const counts: { [key: string]: number } = {}
 
