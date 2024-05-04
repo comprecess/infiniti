@@ -12,6 +12,7 @@ interface SidebarPage {
   id: number
   name: string
   icon: JSX.Element
+  chevron: boolean
   path: string
 }
 
@@ -92,30 +93,24 @@ export const Sidebar: FC<SidebarProps> = ({
       >
         <Logo
           logo={
-            isMini ? (
-              <LogoIcon fill={styles.miniLogoColor} />
-            ) : (
-              <LogoTextIcon />
-            )
+            isMini ? <LogoIcon fill={styles.miniLogoColor} /> : <LogoTextIcon />
           }
         />
         <div
           className={
-            isOpen
-              ? isMini
-                ? styles.itemsMini
-                : styles.items
-              : styles.items
+            isOpen ? (isMini ? styles.itemsMini : styles.items) : styles.items
           }
         >
           {pages.map(item => {
             return (
               <Item
                 key={item.id}
-                title={isMini ? '' : item.name}
+                title={item.name}
                 icon={item.icon}
+                chevron={isMini ? false : item.chevron}
                 path={item.path}
                 style={isMini ? styles.iconItemCenter : ''}
+                isMini={isMini}
                 isActive={isActivePage(item.path)}
                 onItemClick={handleNavigate}
               />

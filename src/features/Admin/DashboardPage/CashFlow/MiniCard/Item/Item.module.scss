@@ -1,0 +1,36 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 154.5px;
+  height: 92px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+}
+
+.amount {
+  font-family: $fontSpaceGrotesk;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $white;
+}
+
+.nameItem {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $gray-300;
+}

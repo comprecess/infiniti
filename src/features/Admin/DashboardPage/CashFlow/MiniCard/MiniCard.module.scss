@@ -1,0 +1,23 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 325px;
+  height: 132px;
+}
+
+.title {
+  font-family: $fontSpaceGrotesk;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+  text-align: left;
+}
+
+.items {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}

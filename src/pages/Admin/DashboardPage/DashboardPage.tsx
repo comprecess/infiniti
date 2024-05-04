@@ -78,16 +78,9 @@ export const AdminDashboardPage: FC = () => {
         <RecentCard
           rightIcons
           title='Income vs Expense: Monthly'
-          style={styles.recentHalf}
+          style={styles.recentFullScreen}
         >
           <IncomeExpenseMonthly />
-        </RecentCard>
-        <RecentCard
-          rightIcons
-          title='Expenses by Category'
-          style={styles.recentHalf}
-        >
-          <ExpensesCategory />
         </RecentCard>
       </div>
     </div>
