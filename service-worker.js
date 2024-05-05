@@ -1,4 +1,4 @@
-const cacheName = 'version-v1'
+const cacheName = 'version-v0000'
 const cacheAssets = [
   '/index.html',
   '/icons/',

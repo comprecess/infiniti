@@ -41,6 +41,7 @@ export const MainOutlet: FC = () => {
     }
 
     handleResize()
+
     window.addEventListener('resize', handleResize)
 
     return () => window.removeEventListener('resize', handleResize)
