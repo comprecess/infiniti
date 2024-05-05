@@ -52,7 +52,7 @@ export const MainOutlet: FC = () => {
     } else {
       document.body.style.overflow = 'auto'
     }
-  }, [isSidebarOpen, isMobile])
+  }, [isSidebarOpen])
 
   return (
     <div className={!isReady ? styles.wrapperLoading : styles.wrapper}>
