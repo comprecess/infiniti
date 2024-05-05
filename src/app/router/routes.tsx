@@ -25,6 +25,7 @@ import { LoginResidentPage } from '../../pages/Auth/LoginResidentPage/LoginResid
 import { RegisterPage } from '../../pages/Auth/RegisterPage/RegisterPage'
 import { ResetPasswordPage } from '../../pages/Auth/ResetPasswordPage/ResetPasswordPage'
 import { SignInPage } from '../../pages/Auth/SignInPage/SignInPage'
+import { BasketPage } from '../../pages/Client/BasketPage/BasketPage'
 import { ClientCatalogPage } from '../../pages/Client/CatalogPage/CatalogPage'
 import { ClientDashboardPage } from '../../pages/Client/DashboardPage/DashboardPage'
 import { ClientDocumentsPage } from '../../pages/Client/DocumentsPage/DocumentsPage'
@@ -36,7 +37,6 @@ import { ClientProfilePage } from '../../pages/Client/ProfilePage/ProfilePage'
 import { ClientProjectsPage } from '../../pages/Client/ProjectsPage/ProjectsPage'
 import { ClientTicketsPage } from '../../pages/Client/TicketsPage/TicketsPage'
 import { ClientTransactionsPage } from '../../pages/Client/TransactionsPage/TransactionsPage'
-import { BasketPage } from '../../pages/General/BasketPage/BasketPage'
 import { NotFoundPage } from '../../pages/General/NotFoundPage/NotFoundPage'
 
 export const Routes = {

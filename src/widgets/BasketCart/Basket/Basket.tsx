@@ -1,7 +1,7 @@
 import { Divider } from '@mui/material'
 import { FC } from 'react'
 
-import { Item } from '../../../features/General/BasketPage/BasketCart/Item/Item'
+import { Item } from '../../../features/Client/BasketPage/BasketCart/Item/Item'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import styles from './Basket.module.scss'
 

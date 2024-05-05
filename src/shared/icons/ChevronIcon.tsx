@@ -2,11 +2,12 @@ import { FC } from 'react'
 
 interface ChevronIconProps {
   stroke?: string
+  onClick?: () => void
 }
 
-export const ChevronIcon: FC<ChevronIconProps> = ({ stroke }) => {
+export const ChevronIcon: FC<ChevronIconProps> = ({ stroke, onClick }) => {
   return (
-    <div className={stroke}>
+    <div className={stroke} onClick={onClick}>
       <svg
         width='20'
         height='20'

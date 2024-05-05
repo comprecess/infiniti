@@ -18,18 +18,12 @@ export const ClientDashboardPage: FC = () => {
         </RecentCard>
       </div>
       <div className={styles.sectionSecond}>
-        <RecentCard
-          title='Recent Transactions'
-          style={styles.recentFullScreen}
-        >
+        <RecentCard title='Recent Transactions' style={styles.recentFullScreen}>
           <RecentTransactions />
         </RecentCard>
       </div>
       <div className={styles.sectionThird}>
-        <RecentCard
-          title='Recent Invoices'
-          style={styles.recentFullScreen}
-        >
+        <RecentCard title='Recent Invoices' style={styles.recentFullScreen}>
           <RecentInvoices />
         </RecentCard>
       </div>

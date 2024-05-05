@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from 'react'
+import { FC, PropsWithChildren, useState } from 'react'
 
 import { ArrowsExpandIcon } from '../../shared/icons/ArrowsExpandIcon'
 import { ChevronIcon } from '../../shared/icons/ChevronIcon'
@@ -20,6 +20,12 @@ export const RecentCard: FC<PropsWithChildren<RecentCardProps>> = ({
   updateIcon = false,
   children,
 }) => {
+  const [openContent, setOpenContent] = useState<boolean>(false)
+
+  const handleChevronClick = () => {
+    setOpenContent(!openContent)
+  }
+
   return (
     <div className={`${styles.wrapper} ${style}`}>
       {title ? (
@@ -34,6 +40,7 @@ export const RecentCard: FC<PropsWithChildren<RecentCardProps>> = ({
               ) : (
                 <ChevronIcon
                   stroke={`${styles.strokeHoverIcon} ${styles.icon}`}
+                  onClick={handleChevronClick}
                 />
               )}
               <ArrowsExpandIcon
@@ -46,7 +53,9 @@ export const RecentCard: FC<PropsWithChildren<RecentCardProps>> = ({
           <h6 className={styles.title}>{title}</h6>
         )
       ) : null}
-      <div className={styles.content}>{children}</div>
+      <div className={!openContent ? styles.content : styles.childNone}>
+        {children}
+      </div>
     </div>
   )
 }

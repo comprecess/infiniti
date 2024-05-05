@@ -1,9 +1,13 @@
 import { Divider } from '@mui/material'
 import { FC } from 'react'
 
-import { IncomeExpenseData } from '../../../../app/data/admin/cashFlow'
+import {
+  IncomeExpenseData,
+  TotalInfoData,
+} from '../../../../app/data/admin/cashFlow'
 import { BigCard } from './BigCard/BigCard'
 import styles from './CashFlow.module.scss'
+import { NetWorth } from './Chart/NetWorth/NetWorth'
 import { MiniCard } from './MiniCard/MiniCard'
 
 export const CashFlow: FC = () => {
@@ -11,11 +15,26 @@ export const CashFlow: FC = () => {
     <div className={styles.wrapper}>
       <div className={styles.leftItem}>
         <div className={styles.cardsInfo}>
-          <BigCard title='Customers' />
-          <BigCard title='Companies' />
-          <BigCard title='Leads' />
+          <BigCard
+            title='Customers'
+            icon='/icons/user.svg'
+            amount={TotalInfoData.customers}
+          />
+          <BigCard
+            title='Companies'
+            icon='/icons/elements.svg'
+            amount={TotalInfoData.companies}
+          />
+          <BigCard
+            title='Leads'
+            icon='/icons/userPlusPurple.svg'
+            amount={TotalInfoData.leads}
+          />
         </div>
-        <div className={styles.chart}>Chart</div>
+        <div className={styles.chart}>
+          <NetWorth amount={TotalInfoData.netWorth} />
+          <div>Chart</div>
+        </div>
       </div>
       <div className={styles.rightItem}>
         <MiniCard

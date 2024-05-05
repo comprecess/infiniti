@@ -1,21 +1,12 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
   width: 100%;
-  max-width: 359.33px;
-  height: 156px;
-  padding: 24px;
-  border-radius: 8px;
-  background-color: $brand-800;
+  max-width: 186.33px;
 }
 
-.icon {
-  width: 24px;
-  height: 24px;
-}
-
-.amount {
+.title {
   font-family: $fontSpaceGrotesk;
   font-size: 38px;
   font-weight: 700;
@@ -25,7 +16,7 @@
   color: $white;
 }
 
-.title {
+.name {
   font-size: 16px;
   font-weight: 500;
   line-height: 24px;
@@ -34,12 +25,16 @@
   color: $gray-300;
 }
 
-.titleItems {
+.legends {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.chevron {
-  transform: rotate(-90deg);
+.expensesColor {
+  background-color: $cherry-600;
+}
+
+.incomeColor {
+  background-color: $brand-400;
 }
