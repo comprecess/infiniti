@@ -52,18 +52,24 @@
   cursor: pointer;
 }
 
-.fillHoverIcon {
-  user-select: none;
+.rotate {
+  transform: rotate(180deg);
+}
 
+.fillHoverIcon {
   &:hover * {
     fill: $gray-200;
   }
 }
 
 .strokeHoverIcon {
-  user-select: none;
-
   &:hover * {
     stroke: $gray-200;
   }
+}
+
+.fillHoverIcon,
+.strokeHoverIcon {
+  user-select: none;
+  transition: 0.3s ease;
 }

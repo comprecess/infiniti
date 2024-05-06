@@ -16,7 +16,7 @@ import styles from './DashboardPage.module.scss'
 export const AdminDashboardPage: FC = () => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.sectionFirst}>
+      <section className={styles.sectionFirst}>
         <RecentCard
           rightIcons
           updateIcon
@@ -25,8 +25,8 @@ export const AdminDashboardPage: FC = () => {
         >
           <CashFlow />
         </RecentCard>
-      </div>
-      <div className={styles.sectionSecond}>
+      </section>
+      <section className={styles.sectionSecond}>
         <RecentCard rightIcons title='Recent Clients' style={styles.recentHalf}>
           <RecentClients />
         </RecentCard>
@@ -37,8 +37,8 @@ export const AdminDashboardPage: FC = () => {
         >
           <RecentProjects />
         </RecentCard>
-      </div>
-      <div className={styles.sectionThird}>
+      </section>
+      <section className={styles.sectionThird}>
         <RecentCard
           rightIcons
           title='Recent Invoices'
@@ -49,16 +49,16 @@ export const AdminDashboardPage: FC = () => {
         <RecentCard rightIcons title='Calendar' style={styles.recentHalf}>
           <Calendar />
         </RecentCard>
-      </div>
-      <div className={styles.sectionFourth}>
+      </section>
+      <section className={styles.sectionFourth}>
         <RecentCard rightIcons title='Latest Income' style={styles.recentHalf}>
           <LatestIncome />
         </RecentCard>
         <RecentCard rightIcons title='Latest Expense' style={styles.recentHalf}>
           <LatestExpense />
         </RecentCard>
-      </div>
-      <div className={styles.sectionFifth}>
+      </section>
+      <section className={styles.sectionFifth}>
         <RecentCard
           rightIcons
           title='Net Worth & Account Balances'
@@ -73,8 +73,8 @@ export const AdminDashboardPage: FC = () => {
         >
           <ExpensesCategory />
         </RecentCard>
-      </div>
-      <div className={styles.sectionSixth}>
+      </section>
+      <section className={styles.sectionSixth}>
         <RecentCard
           rightIcons
           title='Income vs Expense: Monthly'
@@ -82,7 +82,7 @@ export const AdminDashboardPage: FC = () => {
         >
           <IncomeExpenseMonthly />
         </RecentCard>
-      </div>
+      </section>
     </div>
   )
 }

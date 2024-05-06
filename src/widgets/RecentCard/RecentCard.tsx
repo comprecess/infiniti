@@ -39,7 +39,11 @@ export const RecentCard: FC<PropsWithChildren<RecentCardProps>> = ({
                 />
               ) : (
                 <ChevronIcon
-                  stroke={`${styles.strokeHoverIcon} ${styles.icon}`}
+                  stroke={
+                    openContent
+                      ? `${styles.strokeHoverIcon} ${styles.icon}`
+                      : `${styles.strokeHoverIcon} ${styles.icon} ${styles.rotate}`
+                  }
                   onClick={handleChevronClick}
                 />
               )}

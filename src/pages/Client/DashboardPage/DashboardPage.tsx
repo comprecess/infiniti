@@ -11,27 +11,27 @@ import styles from './DashboardPage.module.scss'
 export const ClientDashboardPage: FC = () => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.sectionFirst}>
+      <section className={styles.sectionFirst}>
         <ProfileCard />
         <RecentCard title='Recent Orders' style={styles.recentOrders}>
           <RecentOrders />
         </RecentCard>
-      </div>
-      <div className={styles.sectionSecond}>
+      </section>
+      <section className={styles.sectionSecond}>
         <RecentCard title='Recent Transactions' style={styles.recentFullScreen}>
           <RecentTransactions />
         </RecentCard>
-      </div>
-      <div className={styles.sectionThird}>
+      </section>
+      <section className={styles.sectionThird}>
         <RecentCard title='Recent Invoices' style={styles.recentFullScreen}>
           <RecentInvoices />
         </RecentCard>
-      </div>
-      <div className={styles.sectionFourth}>
+      </section>
+      <section className={styles.sectionFourth}>
         <RecentCard title='Recent Offers' style={styles.recentFullScreen}>
           <RecentOffers />
         </RecentCard>
-      </div>
+      </section>
     </div>
   )
 }

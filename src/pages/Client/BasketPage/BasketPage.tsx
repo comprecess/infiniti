@@ -32,7 +32,7 @@ export const BasketPage: FC = () => {
           secondTitle={String(ProfileInfo.carts.length)}
         />
       </div>
-      <div className={styles.sectionFirst}>
+      <section className={styles.sectionFirst}>
         <RecentCard style={styles.cart}>
           <Cart />
         </RecentCard>
@@ -41,7 +41,7 @@ export const BasketPage: FC = () => {
           taxesAmount={taxesAmount}
           totalPrice={totalAmount}
         />
-      </div>
+      </section>
     </div>
   )
 }
