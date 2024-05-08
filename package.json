@@ -1,6 +1,8 @@
 {
   "scripts": {
     "dev": "cd frontend && yarn dev",
-    "build": "cd frontend && build"
+    "build": "cd frontend && yarn build",
+    "lint": "cd frontend && yarn lint",
+    "preview": "cd frontend && yarn preview"
   }
 }
