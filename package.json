@@ -1,5 +1,6 @@
 {
   "scripts": {
-    "dev": "cd frontend && yarn dev"
+    "dev": "cd frontend && yarn dev",
+    "build": "cd frontend && yarn build"
   }
 }
