@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "cd frontend && yarn dev",
-    "build": "cd frontend && yarn build",
+    "dev": "cd frontend && yarn install && yarn dev",
+    "build": "cd frontend && yarn install && yarn build",
     "lint": "cd frontend && yarn lint",
     "preview": "cd frontend && yarn preview"
   }
