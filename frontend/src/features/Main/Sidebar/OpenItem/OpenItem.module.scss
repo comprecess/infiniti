@@ -1,9 +1,14 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .wrapperNotActive,
 .wrapperActive {
   display: flex;
-  flex-direction: initial;
+  flex-direction: column;
   width: 100%;
-  height: 44px;
   text-align: center;
   justify-content: center;
   align-items: center;
@@ -34,6 +39,7 @@
 .leftItems {
   display: flex;
   width: 100%;
+  height: 100%;
   flex-direction: row;
   gap: 12px;
 }
@@ -77,4 +83,15 @@
   width: 24px;
   height: 24px;
   transition: 0.1s ease;
+}
+
+.chevronIcon,
+.isOpenedPathsList {
+  width: 24px;
+  height: 24px;
+  transition: 0.3s ease;
+}
+
+.isOpenedPathsList {
+  transform: rotate(180deg);
 }
