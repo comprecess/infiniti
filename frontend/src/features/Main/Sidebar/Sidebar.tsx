@@ -6,13 +6,14 @@ import { LogoIcon } from '../../../shared/icons/LogoIcon'
 import { LogoTextIcon } from '../../../shared/icons/LogoTextIcon'
 import { Logo } from '../../../shared/ui/Logo/Logo'
 import { Item } from './Item/Item'
+import { OpenItem, openPathsProps } from './OpenItem/OpenItem'
 import styles from './Sidebar.module.scss'
 
 interface SidebarPage {
   id: number
   name: string
   icon: JSX.Element
-  chevron: boolean
+  openPaths?: openPathsProps[]
   path: string
 }
 
@@ -93,27 +94,48 @@ export const Sidebar: FC<SidebarProps> = ({
       >
         <Logo
           logo={
-            isMini ? <LogoIcon fill={styles.miniLogoColor} /> : <LogoTextIcon />
+            isMini ? (
+              <LogoIcon fill={styles.miniLogoColor} />
+            ) : (
+              <LogoTextIcon />
+            )
           }
         />
         <div
           className={
-            isOpen ? (isMini ? styles.itemsMini : styles.items) : styles.items
+            isOpen
+              ? isMini
+                ? styles.itemsMini
+                : styles.items
+              : styles.items
           }
         >
           {pages.map(item => {
             return (
-              <Item
-                key={item.id}
-                title={item.name}
-                icon={item.icon}
-                chevron={isMini ? false : item.chevron}
-                path={item.path}
-                style={isMini ? styles.iconItemCenter : ''}
-                isMini={isMini}
-                isActive={isActivePage(item.path)}
-                onItemClick={handleNavigate}
-              />
+              <>
+                {item.openPaths ? (
+                  <OpenItem
+                    key={item.id}
+                    title={item.name}
+                    icon={item.icon}
+                    openPath={item.openPaths}
+                    path={item.path}
+                    isMini={isMini}
+                    isActive={isActivePage(item.path)}
+                    onItemClick={handleNavigate}
+                  />
+                ) : (
+                  <Item
+                    key={item.id}
+                    title={item.name}
+                    icon={item.icon}
+                    path={item.path}
+                    isMini={isMini}
+                    isActive={isActivePage(item.path)}
+                    onItemClick={handleNavigate}
+                  />
+                )}
+              </>
             )
           })}
         </div>

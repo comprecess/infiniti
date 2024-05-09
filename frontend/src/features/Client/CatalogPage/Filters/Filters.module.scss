@@ -1,1 +1,40 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 8px;
+  background-color: $brand-900;
 
+  @include mobileBreakpoint('min', $bpL) {
+    max-width: 357px;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 32px 16px 32px;
+}
+
+.filters {
+  padding: 16px 32px 32px 32px;
+}
+
+.title {
+  font-family: $fontSpaceGrotesk;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+  color: $white;
+}
+
+.buttonReset {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+  color: $gray-300;
+  user-select: none;
+  cursor: pointer;
+}

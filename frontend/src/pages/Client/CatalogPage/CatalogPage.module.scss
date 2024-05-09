@@ -37,6 +37,10 @@
   gap: 40px;
   width: 100%;
   max-width: $maxContentSize;
+
+  @include mobileBreakpoint('max', $bpL - 1) {
+    flex-direction: column;
+  }
 }
 
 .categories {
