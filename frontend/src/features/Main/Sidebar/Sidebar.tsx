@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { Routes } from '../../../app/router/routes'
@@ -112,10 +112,9 @@ export const Sidebar: FC<SidebarProps> = ({
         >
           {pages.map(item => {
             return (
-              <>
+              <React.Fragment key={item.id}>
                 {item.openPaths ? (
                   <OpenItem
-                    key={item.id}
                     title={item.name}
                     icon={item.icon}
                     openPath={item.openPaths}
@@ -126,7 +125,6 @@ export const Sidebar: FC<SidebarProps> = ({
                   />
                 ) : (
                   <Item
-                    key={item.id}
                     title={item.name}
                     icon={item.icon}
                     path={item.path}
@@ -135,7 +133,7 @@ export const Sidebar: FC<SidebarProps> = ({
                     onItemClick={handleNavigate}
                   />
                 )}
-              </>
+              </React.Fragment>
             )
           })}
         </div>

@@ -1,0 +1,44 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+  align-items: center;
+  user-select: none;
+}
+
+.checkBoxActive,
+.checkBoxDisable {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+.checkBoxActive {
+  background-color: $brand-500;
+}
+
+.checkBoxDisable {
+  background-color: $gray-500;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  cursor: pointer;
+}
+
+.check {
+  width: 16px;
+  height: 16px;
+}
