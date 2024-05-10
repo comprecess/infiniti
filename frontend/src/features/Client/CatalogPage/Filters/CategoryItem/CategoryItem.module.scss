@@ -1,0 +1,62 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  cursor: pointer;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.title,
+.categoriesLength {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+
+.title {
+  color: $white;
+}
+
+.categoriesLength {
+  color: $gray-300;
+}
+
+.chevronOpen,
+.chevronClose {
+  width: 24px;
+  height: 24px;
+  transition: 0.3s ease;
+}
+
+.chevronClose {
+  transform: rotate(180deg);
+
+  * {
+    fill: $white;
+  }
+}
+
+.children {
+  width: 100%;
+  max-height: 204px;
+  overflow-y: auto;
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 10px;
+
+  @include filtersScrollbar;
+}
