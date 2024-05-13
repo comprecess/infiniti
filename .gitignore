@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#backend
+/.idea
+docker/*
+mysql_dump/*
+docker-compose.yml
