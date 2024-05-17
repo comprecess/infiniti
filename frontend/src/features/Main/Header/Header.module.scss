@@ -19,7 +19,7 @@
 }
 
 .itemsLeft {
-  transition: 0.3s;
+  transition: all 0.3s;
 
   @include mobileBreakpoint('max', $bpXL - 1) {
     display: none;

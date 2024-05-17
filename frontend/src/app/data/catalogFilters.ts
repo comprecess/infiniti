@@ -364,7 +364,7 @@ export const CatalogFilters = [
     ],
   },
 
-  // Availability
+  // Availabilities
   {
     id: 0,
     list: [
@@ -375,7 +375,7 @@ export const CatalogFilters = [
     ],
   },
 
-  // Timezone
+  // Timezones
   {
     id: 0,
     list: [
@@ -525,13 +525,74 @@ export const CatalogFilters = [
     ],
   },
 
-  // Language
+  // Languages
   {
     id: 0,
-    list: [{ id: 0, name: 'Add Language' }],
+    list: [
+      {
+        id: 0,
+        name: 'English',
+        levels: [
+          { id: 0, name: 'Fluent/Native' },
+          { id: 1, name: 'C1/C2 — Advanced' },
+          { id: 2, name: 'B1/B2 — Intermediate' },
+          { id: 3, name: 'A1/A2 — Beginner' },
+        ],
+      },
+      {
+        id: 1,
+        name: 'German',
+        levels: [
+          { id: 0, name: 'Fluent/Native' },
+          { id: 1, name: 'C1/C2 — Advanced' },
+          { id: 2, name: 'B1/B2 — Intermediate' },
+          { id: 3, name: 'A1/A2 — Beginner' },
+        ],
+      },
+      {
+        id: 2,
+        name: 'Spanish',
+        levels: [
+          { id: 0, name: 'Fluent/Native' },
+          { id: 1, name: 'C1/C2 — Advanced' },
+          { id: 2, name: 'B1/B2 — Intermediate' },
+          { id: 3, name: 'A1/A2 — Beginner' },
+        ],
+      },
+      {
+        id: 3,
+        name: 'Russian',
+        levels: [
+          { id: 0, name: 'Fluent/Native' },
+          { id: 1, name: 'C1/C2 — Advanced' },
+          { id: 2, name: 'B1/B2 — Intermediate' },
+          { id: 3, name: 'A1/A2 — Beginner' },
+        ],
+      },
+      {
+        id: 4,
+        name: 'Arabic',
+        levels: [
+          { id: 0, name: 'Fluent/Native' },
+          { id: 1, name: 'C1/C2 — Advanced' },
+          { id: 2, name: 'B1/B2 — Intermediate' },
+          { id: 3, name: 'A1/A2 — Beginner' },
+        ],
+      },
+      {
+        id: 5,
+        name: 'Chinese — Mandarin ',
+        levels: [
+          { id: 0, name: 'Fluent/Native' },
+          { id: 1, name: 'C1/C2 — Advanced' },
+          { id: 2, name: 'B1/B2 — Intermediate' },
+          { id: 3, name: 'A1/A2 — Beginner' },
+        ],
+      },
+    ],
   },
 
-  // Gender
+  // Genders
   {
     id: 0,
     list: [
