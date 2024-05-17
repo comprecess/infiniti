@@ -39,6 +39,12 @@
   cursor: pointer;
 }
 
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .divider {
   height: 2px;
   background-color: $gray-500;

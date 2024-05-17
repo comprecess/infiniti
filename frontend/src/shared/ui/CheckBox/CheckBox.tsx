@@ -4,13 +4,14 @@ import styles from './CheckBox.module.scss'
 
 interface CheckBoxProps {
   title: string
+  image?: string
 }
 
-export const CheckBox: FC<CheckBoxProps> = ({ title }) => {
-  const [isActive, setIsActive] = useState<boolean>(false)
+export const CheckBox: FC<CheckBoxProps> = ({ title, image }) => {
+  const [activeCheckBox, setActiveCheckBox] = useState<boolean>(false)
 
   const handleClick = () => {
-    setIsActive(!isActive)
+    setActiveCheckBox(!activeCheckBox)
   }
 
   return (
@@ -18,13 +19,13 @@ export const CheckBox: FC<CheckBoxProps> = ({ title }) => {
       <div
         id='checkbox'
         className={
-          isActive ? styles.checkBoxActive : styles.checkBoxDisable
+          activeCheckBox ? styles.checkBoxActive : styles.checkBoxDisable
         }
         onClick={handleClick}
       >
-        {!isActive || (
+        {!activeCheckBox || (
           <img
-            src='/icons/check.svg'
+            src={image ? image : '/icons/check.svg'}
             alt='Check'
             className={styles.check}
           />

@@ -1,0 +1,50 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  width: 100%;
+  gap: 32px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.name,
+.number {
+  font-family: $fontSpaceGrotesk;
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 48px;
+  letter-spacing: -0.03em;
+  text-align: left;
+}
+
+.name {
+  color: $white;
+}
+
+.number {
+  color: $gray-400;
+}
+
+.sortList {
+  display: flex;
+  width: 100%;
+  max-width: 252px;
+  height: 48px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: $brand-900;
+}
