@@ -32,12 +32,14 @@ export const SignInForm: FC<SignInFormProps> = ({ resident }) => {
       console.log(loginResidentResponse) */
 
       navigate('/' + Routes.adminPages)
+      console.log(data)
     } else {
       /* const loginUserResponse = await loginUser(data.email, data.password)
 
       console.log(loginUserResponse) */
 
       navigate('/' + Routes.clientPages)
+      console.log(data)
     }
   }
 
