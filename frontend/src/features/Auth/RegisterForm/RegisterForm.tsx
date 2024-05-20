@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { Routes } from '../../../app/router/routes'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { Input } from '../../../shared/ui/Input/Input'
+import { registerUser } from '../../../shared/utils/Auth/Register'
 import styles from './RegisterForm.module.scss'
 
 interface FormFields {
@@ -19,9 +20,12 @@ export const RegisterForm: FC = () => {
 
   const navigate = useNavigate()
 
-  const onSubmit: SubmitHandler<FormFields> = data => {
+  const onSubmit: SubmitHandler<FormFields> = async data => {
+    const registerResponse = await registerUser(data.email, data.password)
+
+    console.log(registerResponse)
+
     navigate('/' + Routes.clientPages)
-    console.log('Success Register:', data)
   }
 
   return (
@@ -62,7 +66,8 @@ export const RegisterForm: FC = () => {
             validationRules={{
               required: true,
               validate: value =>
-                value === watch('password') || 'The passwords do not match',
+                value === watch('password') ||
+                'The passwords do not match',
             }}
           />
         </div>

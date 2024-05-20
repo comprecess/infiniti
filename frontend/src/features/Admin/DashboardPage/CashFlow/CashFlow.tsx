@@ -1,10 +1,10 @@
-import { Divider } from '@mui/material'
 import { FC } from 'react'
 
 import {
   IncomeExpenseData,
   TotalInfoData,
 } from '../../../../app/data/admin/cashFlow'
+import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { BigCard } from './BigCard/BigCard'
 import styles from './CashFlow.module.scss'
 import { NetWorth } from './Chart/NetWorth/NetWorth'
@@ -42,13 +42,13 @@ export const CashFlow: FC = () => {
           income={IncomeExpenseData.today.income}
           expense={IncomeExpenseData.today.expense}
         />
-        <Divider className={styles.divider} />
+        <CustomDivider />
         <MiniCard
           title='Last Month'
           income={IncomeExpenseData.lastMonth.income}
           expense={IncomeExpenseData.lastMonth.expense}
         />
-        <Divider className={styles.divider} />
+        <CustomDivider />
         <MiniCard
           title='Total'
           income={IncomeExpenseData.total.income}

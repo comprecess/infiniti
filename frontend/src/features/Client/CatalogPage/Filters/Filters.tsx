@@ -1,9 +1,9 @@
-import { Divider } from '@mui/material'
 import { FC, useState } from 'react'
 
 import { CatalogFilters } from '../../../../app/data/catalogFilters'
-import { CheckBox } from '../../../../shared/ui/CheckBox/CheckBox'
-import { CheckBoxList } from '../../../../shared/ui/CheckBoxList/CheckBoxList'
+import { CustomCheckBox } from '../../../../shared/ui/CustomCheckBox/CustomCheckBox'
+import { CustomCheckBoxIndeterminate } from '../../../../shared/ui/CustomCheckBoxIndeterminate/CustomCheckBoxIndeterminate'
+import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { FromTo } from '../../../../shared/ui/FromTo/FromTo'
 import { CategoryItem } from './CategoryItem/CategoryItem'
 import { Item } from './CategoryItem/Item/Item'
@@ -42,7 +42,7 @@ export const Filters: FC = () => {
           />
         </CategoryItem>
 
-        <Divider className={styles.divider} />
+        <CustomDivider />
 
         {/* Category: "Key skills" */}
         <CategoryItem
@@ -57,7 +57,7 @@ export const Filters: FC = () => {
           />
         </CategoryItem>
 
-        <Divider className={styles.divider} />
+        <CustomDivider />
 
         {/* Category: "Rate" */}
         <CategoryItem title='Rate' secondName='€ – EUR'>
@@ -72,11 +72,11 @@ export const Filters: FC = () => {
               placeholderFirst='from 1'
               placeholderSecond='to 1 500'
             />
-            <CheckBox title='Taxes included' />
+            <CustomCheckBox title='Taxes included' />
           </div>
         </CategoryItem>
 
-        <Divider className={styles.divider} />
+        <CustomDivider />
 
         {/* Category: "Availability" */}
         <CategoryItem
@@ -86,7 +86,7 @@ export const Filters: FC = () => {
           <Item categories={CatalogFilters[2].list} />
         </CategoryItem>
 
-        <Divider className={styles.divider} />
+        <CustomDivider />
 
         {/* Category: "Timezone" */}
         <CategoryItem
@@ -101,7 +101,7 @@ export const Filters: FC = () => {
           />
         </CategoryItem>
 
-        <Divider className={styles.divider} />
+        <CustomDivider />
 
         {/* Category: "Experience" */}
         <CategoryItem title='Experience'>
@@ -112,7 +112,7 @@ export const Filters: FC = () => {
           />
         </CategoryItem>
 
-        <Divider className={styles.divider} />
+        <CustomDivider />
 
         {/* Category: "Language" */}
         <CategoryItem
@@ -121,13 +121,13 @@ export const Filters: FC = () => {
           secondName={CatalogFilters[4].list.length.toString()}
           handleSearchChange={value => handleSearchChange(3, value)}
         >
-          <CheckBoxList
+          <CustomCheckBoxIndeterminate
             languages={CatalogFilters[4].list}
             searchItem={searchItems[3]}
           />
         </CategoryItem>
 
-        <Divider className={styles.divider} />
+        <CustomDivider />
 
         {/* Category: "Gender" */}
         <CategoryItem
@@ -137,14 +137,14 @@ export const Filters: FC = () => {
           <Item categories={CatalogFilters[5].list} />
         </CategoryItem>
 
-        <Divider className={styles.divider} />
+        <CustomDivider />
 
         {/* Category: "Age" */}
         <CategoryItem title='Age'>
           <FromTo placeholderFirst='from 0' placeholderSecond='to 65' />
         </CategoryItem>
 
-        <Divider className={styles.divider} />
+        <CustomDivider />
       </div>
     </div>
   )

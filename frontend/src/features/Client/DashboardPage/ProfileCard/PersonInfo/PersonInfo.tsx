@@ -1,7 +1,7 @@
-import { Divider } from '@mui/material'
 import { FC } from 'react'
 
 import { ProfileInfo } from '../../../../../app/data/general/profile'
+import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Item } from './Item/Item'
 import styles from './PersonInfo.module.scss'
 
@@ -11,7 +11,7 @@ export const PersonInfo: FC = () => {
       <Item title='Person Number' info={ProfileInfo.personalNumber} />
       <Item title='E-mail' info={ProfileInfo.email} />
       <div className={styles.dividerWrapper}>
-        <Divider className={styles.divider} />
+        <CustomDivider />
       </div>
       <Item title='Business Number' info={ProfileInfo.businessNumber} />
       <Item title='Company' info={ProfileInfo.company} />

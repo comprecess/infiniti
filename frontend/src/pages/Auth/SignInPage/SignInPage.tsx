@@ -1,8 +1,8 @@
-import { Divider } from '@mui/material'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { SignInForm } from '../../../features/Auth/SignInForm/SignInForm'
+import { CustomDivider } from '../../../shared/ui/CustomDivider/CustomDivider'
 import { IconText } from '../../../shared/ui/IconText/IconText'
 import { AuthForm } from '../AuthForm/AuthForm'
 import styles from './SignInPage.module.scss'
@@ -21,7 +21,7 @@ export const SignInPage: FC = () => {
           text='Startup? Register'
           onClick={() => navigate('/auth/register')}
         />
-        <Divider className={styles.divider} />
+        <CustomDivider color='#c5c6d4' />
         <IconText
           styleIcon={styles.loginIconPerson}
           styleText={styles.loginText}

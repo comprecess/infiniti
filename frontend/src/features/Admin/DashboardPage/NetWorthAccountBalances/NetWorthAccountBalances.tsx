@@ -1,7 +1,7 @@
-import { Divider } from '@mui/material'
 import React, { FC } from 'react'
 
 import { NetWorthAccountBalancesData } from '../../../../app/data/admin/netWorthAccountBalances'
+import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Header } from './Header/Header'
 import { Item } from './Item/Item'
@@ -26,8 +26,11 @@ export const NetWorthAccountBalances: FC = () => {
               return (
                 <React.Fragment key={order.id}>
                   <Item account={order.account} balance={order.balance} />
-                  {index !== NetWorthAccountBalancesData.data.length - 1 && (
-                    <Divider className={styles.divider} />
+                  {index !==
+                    NetWorthAccountBalancesData.data.length - 1 && (
+                    // Causes an error related to indentation
+                    // eslint-disable-next-line react/jsx-indent
+                    <CustomDivider />
                   )}
                 </React.Fragment>
               )

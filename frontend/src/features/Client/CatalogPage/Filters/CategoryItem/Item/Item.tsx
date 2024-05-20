@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { CheckBox } from '../../../../../../shared/ui/CheckBox/CheckBox'
+import { CustomCheckBox } from '../../../../../../shared/ui/CustomCheckBox/CustomCheckBox'
 import styles from './Item.module.scss'
 
 interface CategoriesList {
@@ -25,7 +25,7 @@ export const Item: FC<SearchItemProps> = ({ categories, searchItem }) => {
   return (
     <div className={styles.wrapper}>
       {filteredCategories.map(category => {
-        return <CheckBox key={category.id} title={category.name} />
+        return <CustomCheckBox key={category.id} title={category.name} />
       })}
     </div>
   )

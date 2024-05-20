@@ -1,12 +1,6 @@
-const cacheName = 'version-v0000'
-const cacheAssets = [
-  '/index.html',
-  '/icons/',
-  '/src/app/styles/globals.scss',
-  '/src/shared/styles/variables/',
-  '/src/shared/styles/mixins/',
-  '/src/shared/icons/',
-]
+const cacheName = 'version-v0002'
+
+const cacheAssets = ['/index.html']
 
 self.addEventListener('install', event => {
   event.waitUntil(

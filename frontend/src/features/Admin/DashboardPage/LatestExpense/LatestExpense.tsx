@@ -1,7 +1,7 @@
-import { Divider } from '@mui/material'
 import React, { FC } from 'react'
 
 import { LatestExpenseData } from '../../../../app/data/admin/latestExpense'
+import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './LatestExpense.module.scss'
@@ -23,9 +23,7 @@ export const LatestExpense: FC = () => {
                 amount={order.amount}
                 description={order.description}
               />
-              {index !== LatestExpenseData.length - 1 && (
-                <Divider className={styles.divider} />
-              )}
+              {index !== LatestExpenseData.length - 1 && <CustomDivider />}
             </React.Fragment>
           )
         })}
