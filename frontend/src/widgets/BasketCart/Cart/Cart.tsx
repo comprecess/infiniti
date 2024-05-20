@@ -1,10 +1,10 @@
-import { Divider } from '@mui/material'
 import React, { FC } from 'react'
 
 import { ProfileInfo } from '../../../app/data/general/profile'
 import { Item } from '../../../features/Client/BasketPage/Item/Item'
 import { Title } from '../../../features/Main/RecentCard/Title/Title'
 import { CrossIcon } from '../../../shared/icons/CrossIcon'
+import { CustomDivider } from '../../../shared/ui/CustomDivider/CustomDivider'
 import styles from './Cart.module.scss'
 
 export const Cart: FC = () => {
@@ -36,9 +36,7 @@ export const Cart: FC = () => {
                 amount={order.amount}
                 onDelete={() => handleDelete()}
               />
-              {index !== ProfileInfo.carts.length - 1 && (
-                <Divider className={styles.divider} />
-              )}
+              {index !== ProfileInfo.carts.length - 1 && <CustomDivider />}
             </React.Fragment>
           )
         })}

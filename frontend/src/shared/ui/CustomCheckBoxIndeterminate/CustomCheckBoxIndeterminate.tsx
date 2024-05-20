@@ -1,9 +1,9 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 
-import { CheckBox } from '../CheckBox/CheckBox'
-import styles from './CheckBoxList.module.scss'
+import styles from './CustomCheckBoxIndeterminate.module.scss'
+import { Indeterminate } from './Indeterminate/Indeterminate'
 
-interface LevelsList {
+export interface LevelsList {
   id: number
   name: string
 }
@@ -19,7 +19,7 @@ interface CheckBoxListProps {
   searchItem?: string
 }
 
-export const CheckBoxList: FC<CheckBoxListProps> = ({
+export const CustomCheckBoxIndeterminate: FC<CheckBoxListProps> = ({
   languages,
   searchItem,
 }) => {
@@ -35,14 +35,11 @@ export const CheckBoxList: FC<CheckBoxListProps> = ({
     <div className={styles.wrapper}>
       {filteredLanguages.map(language => {
         return (
-          <React.Fragment key={language.id}>
-            <CheckBox title={language.name} image='/icons/minus.svg' />
-            <div className={styles.list}>
-              {language.levels?.map(level => {
-                return <CheckBox key={level.id} title={level.name} />
-              })}
-            </div>
-          </React.Fragment>
+          <Indeterminate
+            key={language.id}
+            languageTitle={language.name}
+            languageLevels={language.levels}
+          />
         )
       })}
     </div>

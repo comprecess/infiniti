@@ -1,7 +1,7 @@
-import { Divider } from '@mui/material'
 import React, { FC } from 'react'
 
 import { RecentOffersData } from '../../../../app/data/client/recentOffers'
+import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentOffers.module.scss'
@@ -26,9 +26,7 @@ export const RecentOffers: FC = () => {
                 dateCreated={order.dateCreate}
                 expiryDate={order.expiryDate}
               />
-              {index !== RecentOffersData.length - 1 && (
-                <Divider className={styles.divider} />
-              )}
+              {index !== RecentOffersData.length - 1 && <CustomDivider />}
             </React.Fragment>
           )
         })}
