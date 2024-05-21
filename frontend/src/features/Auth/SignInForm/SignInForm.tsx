@@ -6,8 +6,8 @@ import { Routes } from '../../../app/router/routes'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { IconText } from '../../../shared/ui/IconText/IconText'
 import { Input } from '../../../shared/ui/Input/Input'
-import { loginResident } from '../../../shared/utils/Auth/LoginAsResident'
-import { loginUser } from '../../../shared/utils/Auth/LoginAsUser'
+import { loginResident } from '../../../shared/utils/api/Auth/LoginAsResident'
+import { loginUser } from '../../../shared/utils/api/Auth/LoginAsUser'
 import styles from './SignInForm.module.scss'
 
 interface FormFields {

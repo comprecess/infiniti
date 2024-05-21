@@ -1,15 +1,16 @@
-interface LoginResidentResponse {
+interface LoginUserResponse {
   token: string
   status: boolean
 }
 
-export const loginResident = async (
+export const loginUser = async (
   login: string,
   password: string,
 ): Promise<boolean> => {
   try {
     const response = await fetch(
-      'http://94.250.251.126/api/v1/resident/login',
+      import.meta.env.VITE_MAIN_DOMAIN +
+        import.meta.env.VITE_AUTH_API_USER_LOGIN,
       {
         method: 'POST',
         headers: {
@@ -25,7 +26,7 @@ export const loginResident = async (
       throw new Error('Failed to login')
     }
 
-    const data: LoginResidentResponse = await response.json()
+    const data: LoginUserResponse = await response.json()
 
     return data.status
   } catch (error) {

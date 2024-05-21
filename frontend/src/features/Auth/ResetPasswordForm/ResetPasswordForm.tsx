@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { Input } from '../../../shared/ui/Input/Input'
-import { resetPassword } from '../../../shared/utils/Auth/ResetPassword'
+import { resetPassword } from '../../../shared/utils/api/Auth/ResetPassword'
 import styles from './ResetPasswordForm.module.scss'
 
 interface FormFields {

@@ -1,11 +1,12 @@
-interface LoginResponse {
+interface ResetPasswordResponse {
   token: string
 }
 
 export const resetPassword = async (login: string): Promise<string> => {
   try {
     const response = await fetch(
-      'http://94.250.251.126/api/v1/client/resetpassword',
+      import.meta.env.VITE_MAIN_DOMAIN +
+        import.meta.env.VITE_AUTH_API_RESET_PASSWORD,
       {
         method: 'POST',
         headers: {
@@ -21,7 +22,7 @@ export const resetPassword = async (login: string): Promise<string> => {
       throw new Error('Failed to login')
     }
 
-    const data: LoginResponse = await response.json()
+    const data: ResetPasswordResponse = await response.json()
 
     return data.token
   } catch (error) {
