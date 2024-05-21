@@ -6,6 +6,8 @@ import { Routes } from '../../../app/router/routes'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { IconText } from '../../../shared/ui/IconText/IconText'
 import { Input } from '../../../shared/ui/Input/Input'
+import { loginResident } from '../../../shared/utils/Auth/LoginAsResident'
+import { loginUser } from '../../../shared/utils/Auth/LoginAsUser'
 import styles from './SignInForm.module.scss'
 
 interface FormFields {
@@ -23,23 +25,16 @@ export const SignInForm: FC<SignInFormProps> = ({ resident }) => {
   const navigate = useNavigate()
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
-    if (resident) {
-      /* const loginResidentResponse = await loginResident(
-        data.email,
-        data.password,
-      )
+    try {
+      const loginResponse = await (resident
+        ? loginResident(data.email, data.password)
+        : loginUser(data.email, data.password))
 
-      console.log(loginResidentResponse) */
-
-      navigate('/' + Routes.adminPages)
-      console.log(data)
-    } else {
-      /* const loginUserResponse = await loginUser(data.email, data.password)
-
-      console.log(loginUserResponse) */
-
-      navigate('/' + Routes.clientPages)
-      console.log(data)
+      if (loginResponse) {
+        navigate('/' + (resident ? Routes.adminPages : Routes.clientPages))
+      }
+    } catch (error: any) {
+      console.error(error)
     }
   }
 

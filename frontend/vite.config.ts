@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://console.infiniti.stream',
+        target: 'http://94.250.251.126',
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api/, ''),
       },

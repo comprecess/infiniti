@@ -21,11 +21,16 @@ export const RegisterForm: FC = () => {
   const navigate = useNavigate()
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
-    const registerResponse = await registerUser(data.email, data.password)
+    const registerResponse = await registerUser(
+      data.userName,
+      data.email,
+      data.password,
+      data.confirmPassword,
+    )
 
-    console.log(registerResponse)
-
-    navigate('/' + Routes.clientPages)
+    if (registerResponse) {
+      navigate('/' + Routes.clientPages)
+    }
   }
 
   return (
@@ -34,8 +39,8 @@ export const RegisterForm: FC = () => {
         <div className={styles.inputs}>
           <Input
             title='Full Name'
-            id='username'
-            name='username'
+            id='userName'
+            name='userName'
             type='text'
             register={register}
             validationRules={{ required: true }}

@@ -5,7 +5,7 @@ interface LoginResponse {
 export const resetPassword = async (login: string): Promise<string> => {
   try {
     const response = await fetch(
-      'https://console.infiniti.stream/api/v1/client/resetpassword',
+      'http://94.250.251.126/api/v1/client/resetpassword',
       {
         method: 'POST',
         headers: {
