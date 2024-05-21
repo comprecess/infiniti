@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { Routes } from '../../../app/router/routes'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { Input } from '../../../shared/ui/Input/Input'
-import { registerUser } from '../../../shared/utils/Auth/Register'
+import { registerUser } from '../../../shared/utils/api/Auth/Register'
 import styles from './RegisterForm.module.scss'
 
 interface FormFields {

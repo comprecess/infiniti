@@ -1,22 +1,25 @@
-interface LoginResponse {
+interface RegisterUserResponse {
   token: string
   status: boolean
 }
 
-export const loginUser = async (
-  login: string,
+export const registerUser = async (
+  fullname: string,
+  email: string,
   password: string,
+  password2: string,
 ): Promise<boolean> => {
   try {
     const response = await fetch(
-      'http://94.250.251.126/api/v1/client/login',
+      import.meta.env.VITE_MAIN_DOMAIN +
+        import.meta.env.VITE_AUTH_API_USER_REGISTER,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        body: JSON.stringify({ login, password }),
+        body: JSON.stringify({ fullname, email, password, password2 }),
       },
     )
 
@@ -25,7 +28,7 @@ export const loginUser = async (
       throw new Error('Failed to login')
     }
 
-    const data: LoginResponse = await response.json()
+    const data: RegisterUserResponse = await response.json()
 
     return data.status
   } catch (error) {
