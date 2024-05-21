@@ -1,14 +1,15 @@
 interface LoginResponse {
   token: string
+  status: boolean
 }
 
 export const loginUser = async (
   login: string,
   password: string,
-): Promise<string> => {
+): Promise<boolean> => {
   try {
     const response = await fetch(
-      'https://console.infiniti.stream/api/v1/client/login',
+      'http://94.250.251.126/api/v1/client/login',
       {
         method: 'POST',
         headers: {
@@ -26,7 +27,7 @@ export const loginUser = async (
 
     const data: LoginResponse = await response.json()
 
-    return data.token
+    return data.status
   } catch (error) {
     console.error('Login error:', error)
     throw error

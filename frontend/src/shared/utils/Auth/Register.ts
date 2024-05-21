@@ -1,21 +1,24 @@
-interface LoginResponse {
+interface RegisterResponse {
   token: string
+  status: boolean
 }
 
 export const registerUser = async (
-  login: string,
+  fullname: string,
+  email: string,
   password: string,
-): Promise<string> => {
+  password2: string,
+): Promise<boolean> => {
   try {
     const response = await fetch(
-      'https://console.infiniti.stream/api/v1/client/register',
+      'http://94.250.251.126/api/v1/client/register',
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        body: JSON.stringify({ login, password }),
+        body: JSON.stringify({ fullname, email, password, password2 }),
       },
     )
 
@@ -24,9 +27,9 @@ export const registerUser = async (
       throw new Error('Failed to login')
     }
 
-    const data: LoginResponse = await response.json()
+    const data: RegisterResponse = await response.json()
 
-    return data.token
+    return data.status
   } catch (error) {
     console.error('Login error:', error)
     throw error
