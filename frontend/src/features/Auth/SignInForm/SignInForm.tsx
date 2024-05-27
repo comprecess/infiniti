@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Routes } from '../../../app/router/routes'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
+import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { IconText } from '../../../shared/ui/IconText/IconText'
 import { Input } from '../../../shared/ui/Input/Input'
 import { loginResident } from '../../../shared/utils/api/Auth/LoginAsResident'
@@ -23,18 +24,32 @@ export const SignInForm: FC<SignInFormProps> = ({ resident }) => {
   const { register, handleSubmit } = useForm<FormFields>()
 
   const navigate = useNavigate()
+  const showToast = useCustomToast()
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
-    try {
-      const loginResponse = await (resident
-        ? loginResident(data.email, data.password)
-        : loginUser(data.email, data.password))
+    const loginResponse = await (resident
+      ? loginResident(data.email, data.password)
+      : loginUser(data.email, data.password))
 
-      if (loginResponse) {
-        navigate('/' + (resident ? Routes.adminPages : Routes.clientPages))
-      }
-    } catch (error: any) {
-      console.error(error)
+    if (loginResponse) {
+      showToast({
+        title: 'Successful Login',
+        description: 'You have successfully logged into your account',
+        status: 'success',
+      })
+
+      navigate(
+        '/' +
+          (resident ? Routes.adminPages : Routes.clientPages) +
+          '/' +
+          Routes.dashboard,
+      )
+    } else {
+      showToast({
+        title: 'Login Failed',
+        description: 'Check that your password and login are correct',
+        status: 'error',
+      })
     }
   }
 

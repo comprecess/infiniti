@@ -4,7 +4,6 @@ import { Outlet, useLocation } from 'react-router-dom'
 import { adminSidebarPages } from '../../../app/data/adminSidebarPages'
 import { clientSidebarPages } from '../../../app/data/clientSidebarPages'
 import { Routes } from '../../../app/router/routes'
-import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { Header } from '../Header/Header'
 import { Sidebar } from '../Sidebar/Sidebar'
 import styles from './MainOutlet.module.scss'
@@ -31,7 +30,7 @@ export const MainOutlet: FC = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      const isMobileView = window.innerWidth <= 1080
+      const isMobileView = window.innerWidth <= 1700
 
       setIsMobile(isMobileView)
       setIsMiniSidebar(false)
@@ -58,7 +57,7 @@ export const MainOutlet: FC = () => {
   return (
     <div className={!isReady ? styles.wrapperLoading : styles.wrapper}>
       {!isReady ? (
-        <LoadingSpinner spinnerStyle={styles.loadingSpinner} />
+        <div />
       ) : (
         <div className={styles.items}>
           <Sidebar

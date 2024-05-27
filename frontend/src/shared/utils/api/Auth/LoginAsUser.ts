@@ -1,3 +1,5 @@
+import { saveCookies } from '../../Saving/Cookies/SaveCookies'
+
 interface LoginUserResponse {
   token: string
   status: boolean
@@ -22,15 +24,15 @@ export const loginUser = async (
     )
 
     if (!response.ok) {
-      console.error('Response error:', response)
-      throw new Error('Failed to login')
+      return false
     }
 
     const data: LoginUserResponse = await response.json()
 
+    saveCookies('authToken', data.token, 30)
+
     return data.status
   } catch (error) {
-    console.error('Login error:', error)
-    throw error
+    return false
   }
 }

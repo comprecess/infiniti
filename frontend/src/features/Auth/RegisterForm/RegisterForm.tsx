@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Routes } from '../../../app/router/routes'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
+import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { Input } from '../../../shared/ui/Input/Input'
 import { registerUser } from '../../../shared/utils/api/Auth/Register'
 import styles from './RegisterForm.module.scss'
@@ -19,6 +20,7 @@ export const RegisterForm: FC = () => {
   const { register, handleSubmit, watch } = useForm<FormFields>()
 
   const navigate = useNavigate()
+  const showToast = useCustomToast()
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
     const registerResponse = await registerUser(
@@ -29,7 +31,19 @@ export const RegisterForm: FC = () => {
     )
 
     if (registerResponse) {
-      navigate('/' + Routes.clientPages)
+      showToast({
+        title: 'Successful Register',
+        description: 'You have successfully logged into your account',
+        status: 'success',
+      })
+
+      navigate('/' + Routes.clientPages + '/' + Routes.dashboard)
+    } else {
+      showToast({
+        title: 'Register Failed',
+        description: 'Check that your password and login are correct',
+        status: 'error',
+      })
     }
   }
 
