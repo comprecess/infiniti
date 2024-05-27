@@ -10,12 +10,16 @@ import { getProfileInfo } from './shared/utils/api/Profile/GetProfileInfo.ts'
 
 const goToRouter = router
 
-await getProfileInfo()
+async function main() {
+  await getProfileInfo()
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <ChakraProvider>
-      <RouterProvider router={goToRouter} />
-    </ChakraProvider>
-  </React.StrictMode>,
-)
+  ReactDOM.createRoot(document.getElementById('root')!).render(
+    <React.StrictMode>
+      <ChakraProvider>
+        <RouterProvider router={goToRouter} />
+      </ChakraProvider>
+    </React.StrictMode>,
+  )
+}
+
+main()
