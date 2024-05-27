@@ -11,7 +11,7 @@ export const useCustomToast = (): ((options: ToastProps) => void) => {
 
   return ({ title, description, status }: ToastProps) => {
     const toastOptions: UseToastOptions = {
-      position: 'top',
+      position: 'top-right',
       title,
       description,
       status,
