@@ -6,8 +6,11 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'
 
 import { router } from './app/router/router.tsx'
+import { getProfileInfo } from './shared/utils/api/Profile/GetProfileInfo.ts'
 
 const goToRouter = router
+
+await getProfileInfo()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

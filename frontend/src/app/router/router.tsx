@@ -2,16 +2,27 @@ import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 import { MainOutlet } from '../../features/Main/MainOutlet/MainOutlet'
 import { AuthOutlet } from '../../pages/Auth/AuthOutlet/AuthOutlet'
+import { RootPage } from '../../pages/General/RootPage/RootPage'
+import { ExaminationAuth } from '../../shared/utils/api/Auth/ExaminationAuth'
+import { ExaminationUser } from '../../shared/utils/api/Auth/ExaminationUser'
 import { Pages, Routes, To } from './routes'
 
 export const router = createBrowserRouter([
   {
     path: Routes.root,
-    element: <Navigate replace to={To.authSignIn()} />,
+    element: (
+      <ExaminationAuth>
+        <RootPage />
+      </ExaminationAuth>
+    ),
   },
   {
     path: Routes.adminPages,
-    element: <MainOutlet />,
+    element: (
+      <ExaminationUser>
+        <MainOutlet />
+      </ExaminationUser>
+    ),
     children: [
       { path: Routes.dashboard, element: Pages.adminDashboardPage },
       { path: Routes.customers, element: Pages.adminCustomersPage },
@@ -51,7 +62,11 @@ export const router = createBrowserRouter([
   },
   {
     path: Routes.clientPages,
-    element: <MainOutlet />,
+    element: (
+      <ExaminationUser>
+        <MainOutlet />
+      </ExaminationUser>
+    ),
     children: [
       { path: Routes.dashboard, element: Pages.clientDashboardPage },
       { path: Routes.catalog, element: Pages.clientCatalogPage },
@@ -77,7 +92,11 @@ export const router = createBrowserRouter([
   },
   {
     path: Routes.auth,
-    element: <AuthOutlet />,
+    element: (
+      <ExaminationAuth>
+        <AuthOutlet />
+      </ExaminationAuth>
+    ),
     children: [
       { path: Routes.signIn, element: Pages.signInPage },
       { path: Routes.loginResident, element: Pages.loginResidentPage },

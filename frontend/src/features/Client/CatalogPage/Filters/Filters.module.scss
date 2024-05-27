@@ -1,9 +1,6 @@
 .wrapper {
-  display: flex;
-  flex-direction: column;
+  display: block;
   width: 100%;
-  border-radius: 8px;
-  background-color: $brand-900;
 
   @include mobileBreakpoint('min', $bpL) {
     max-width: 357px;
@@ -12,12 +9,21 @@
 
 .header {
   display: flex;
+  height: 56px;
   justify-content: space-between;
   padding: 16px 32px 16px 32px;
+  background-color: $brand-900;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
 .filters {
+  display: flex;
+  flex-direction: column;
   padding: 16px 32px 32px 32px;
+  background-color: $brand-900;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
 .title {

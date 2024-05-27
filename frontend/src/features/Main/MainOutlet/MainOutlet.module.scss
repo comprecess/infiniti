@@ -37,7 +37,7 @@
 .headerFull {
   padding: 20px 40px 20px 40px;
 
-  @include mobileBreakpoint('max', $bpXL - 1) {
+  @include mobileBreakpoint('max', $bpXL) {
     padding: 20px;
   }
 }
@@ -47,7 +47,7 @@
 .mainFull {
   padding: 20px 40px 40px 40px;
 
-  @include mobileBreakpoint('max', $bpXL - 1) {
+  @include mobileBreakpoint('max', $bpXL) {
     padding: 20px;
   }
 }
@@ -63,13 +63,8 @@
   width: calc(100% - 293px);
   margin-left: 293px;
 
-  @include mobileBreakpoint('max', $bpXL - 1) {
+  @include mobileBreakpoint('max', $custom-bpXXL) {
     width: 100%;
     margin-left: 0;
   }
-}
-
-.loadingSpinner {
-  width: 64px;
-  height: 64px;
 }
