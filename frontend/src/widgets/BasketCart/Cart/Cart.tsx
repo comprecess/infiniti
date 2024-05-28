@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 
-import { ProfileInfo } from '../../../app/data/general/profile'
+import { ProfileData } from '../../../app/data/general/profile'
 import { Item } from '../../../features/Client/BasketPage/Item/Item'
 import { Title } from '../../../features/Main/RecentCard/Title/Title'
 import { CrossIcon } from '../../../shared/icons/CrossIcon'
@@ -23,7 +23,7 @@ export const Cart: FC = () => {
         </div>
       </div>
       <div className={styles.items}>
-        {ProfileInfo.carts.map((order, index) => {
+        {ProfileData.carts.map((order, index) => {
           return (
             <React.Fragment key={order.id}>
               <Item
@@ -36,7 +36,7 @@ export const Cart: FC = () => {
                 amount={order.amount}
                 onDelete={() => handleDelete()}
               />
-              {index !== ProfileInfo.carts.length - 1 && <CustomDivider />}
+              {index !== ProfileData.carts.length - 1 && <CustomDivider />}
             </React.Fragment>
           )
         })}

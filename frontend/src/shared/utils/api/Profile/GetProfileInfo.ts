@@ -20,8 +20,7 @@ export const getProfileInfo = async () => {
       )
 
       if (!response.ok) {
-        console.error('Response error:', response)
-        throw new Error('Failed to get info')
+        return false
       }
 
       const data = await response.json()
@@ -30,10 +29,9 @@ export const getProfileInfo = async () => {
 
       return data.data
     } catch (error) {
-      console.error('Get info error:', error)
-      throw error
+      return false
     }
   } else {
-    return null
+    return false
   }
 }

@@ -1,13 +1,21 @@
 import { FC } from 'react'
 
-import { ProfileInfo } from '../../../../../app/data/general/profile'
 import styles from './Avatar.module.scss'
 
-export const Avatar: FC = () => {
+interface AvatarProps {
+  avatar: string
+  name: string
+}
+
+export const Avatar: FC<AvatarProps> = ({ avatar, name }) => {
   return (
     <div className={styles.wrapper}>
-      <img className={styles.avatar} src={ProfileInfo.avatar} alt='Avatar' />
-      <span className={styles.title}>{ProfileInfo.name}</span>
+      <img
+        className={styles.avatar}
+        src={avatar ? avatar : '/profileWithoutAvatar.svg'}
+        alt='Profile Avatar'
+      />
+      <span className={styles.title}>{name}</span>
     </div>
   )
 }
