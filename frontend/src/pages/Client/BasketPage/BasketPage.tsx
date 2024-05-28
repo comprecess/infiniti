@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { ProfileInfo } from '../../../app/data/general/profile'
+import { ProfileData } from '../../../app/data/general/profile'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { sumAmountsAndFormat } from '../../../shared/utils/Basket/AmountInCart'
 import { Basket } from '../../../widgets/BasketCart/Basket/Basket'
@@ -10,11 +10,13 @@ import styles from './BasketPage.module.scss'
 
 export const BasketPage: FC = () => {
   const subtotalCost = sumAmountsAndFormat(
-    ProfileInfo.carts.map(item => parseInt(item.amount.replace(/\D/g, ''), 10)),
+    ProfileData.carts.map(item =>
+      parseInt(item.amount.replace(/\D/g, ''), 10),
+    ),
   )
 
   const taxesAmount = sumAmountsAndFormat(
-    ProfileInfo.carts.map(item =>
+    ProfileData.carts.map(item =>
       parseInt(item.taxesAmount.replace(/\D/g, ''), 10),
     ),
   )
@@ -29,7 +31,7 @@ export const BasketPage: FC = () => {
       <div className={styles.title}>
         <TitlePage
           title='Cart'
-          secondTitle={String(ProfileInfo.carts.length)}
+          secondTitle={String(ProfileData.carts.length)}
         />
       </div>
       <section className={styles.sectionFirst}>

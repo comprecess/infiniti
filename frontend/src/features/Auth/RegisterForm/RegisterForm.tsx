@@ -33,7 +33,7 @@ export const RegisterForm: FC = () => {
     if (registerResponse) {
       showToast({
         title: 'Successful Register',
-        description: 'You have successfully logged into your account',
+        description: 'You have successfully registered your account',
         status: 'success',
       })
 
