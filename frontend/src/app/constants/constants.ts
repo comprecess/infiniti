@@ -1,3 +1,6 @@
+export const authTokenString = 'authToken'
+export const profileInfoString = 'profileInfo'
+
 export const roles = {
   client: 'Client',
   admin: 'Resident',

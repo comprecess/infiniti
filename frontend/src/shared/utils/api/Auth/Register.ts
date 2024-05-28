@@ -1,3 +1,4 @@
+import { authTokenString } from '../../../../app/constants/constants'
 import { saveCookies } from '../../Saving/Cookies/SaveCookies'
 
 interface RegisterUserResponse {
@@ -31,7 +32,7 @@ export const registerUser = async (
 
     const data: RegisterUserResponse = await response.json()
 
-    saveCookies('authToken', data.token, 30)
+    saveCookies(authTokenString, data.token, 30)
 
     return data.status
   } catch (error) {

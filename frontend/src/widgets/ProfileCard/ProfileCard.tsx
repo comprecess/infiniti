@@ -1,6 +1,9 @@
 import { FC } from 'react'
 
-import { ProfileInfo } from '../../app/constants/constants'
+import {
+  ProfileInfo,
+  profileInfoString,
+} from '../../app/constants/constants'
 import { Avatar } from '../../features/Client/DashboardPage/ProfileCard/Avatar/Avatar'
 import { CurrentBalance } from '../../features/Client/DashboardPage/ProfileCard/CurrentBalance/CurrentBalance'
 import { PersonInfo } from '../../features/Client/DashboardPage/ProfileCard/PersonInfo/PersonInfo'
@@ -9,7 +12,7 @@ import { getSession } from '../../shared/utils/Saving/Session/GetSession'
 import styles from './ProfileCard.module.scss'
 
 export const ProfileCard: FC = () => {
-  const profileData = getSession('profileInfo') as ProfileInfo
+  const profileData = getSession(profileInfoString) as ProfileInfo
 
   return (
     <div className={styles.wrapper}>
