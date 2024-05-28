@@ -22,7 +22,7 @@ class UserResource extends JsonResource implements ListInterface
 
         $resource = [
             'id' => $this->id,
-            'user_type' => $this->getNameClass(),
+            'userType' => $this->getNameClass(),
         ];
 
         $this->setList($resource);
@@ -36,7 +36,7 @@ class UserResource extends JsonResource implements ListInterface
         if($this->getNameClass() == (new Client())->getNameClass()) {
             return ['account', 'company', 'business_number', 'phone', 'email', 'address', 'city', 'state', 'zip', 'country', 'balance', 'notes', 'tags', 'img', 'lastlogin'];
         } else {
-            return ['username', 'fullname', 'phonenumber', 'last_activity', 'img', 'roleid', 'role', 'language', 'job_title', 'pay_frequency', 'currency', 'amount', 'address_line_1', 'address_line_2', 'city', 'state', 'zip', 'country', 'summary'];
+            return ['username', 'fullname', 'phonenumber', 'last_activity' => 'lastActivity', 'img', 'roleid', 'role', 'language', 'job_title' => 'jobTitle', 'pay_frequency' => 'payFrequency', 'currency', 'amount', 'address_line_1' => 'addressLine1', 'address_line_2' => 'addressLine2', 'city', 'state', 'zip', 'country', 'summary'];
         }
 
     }
