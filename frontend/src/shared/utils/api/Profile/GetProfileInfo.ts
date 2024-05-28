@@ -1,8 +1,13 @@
+import {
+  authTokenString,
+  profileInfoString,
+} from '../../../../app/constants/constants'
 import { getCookies } from '../../Saving/Cookies/GetCookies'
+import { removeCookies } from '../../Saving/Cookies/RemoveCookies'
 import { saveSession } from '../../Saving/Session/SaveSession'
 
 export const getProfileInfo = async () => {
-  const authToken = getCookies('authToken')
+  const authToken = getCookies(authTokenString)
 
   if (authToken.status) {
     try {
@@ -20,12 +25,14 @@ export const getProfileInfo = async () => {
       )
 
       if (!response.ok) {
+        removeCookies(authTokenString)
+
         return false
       }
 
       const data = await response.json()
 
-      saveSession('profileInfo', data.data)
+      saveSession(profileInfoString, data.data)
 
       return data.data
     } catch (error) {
