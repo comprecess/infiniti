@@ -22,7 +22,7 @@ export const ProfileCard: FC = () => {
       <PersonInfo
         personalNumber={profileData.phone}
         email={profileData.email}
-        businessNumber={profileData.business_number}
+        businessNumber={profileData.businessNumber}
         company={profileData.company}
         city={profileData.city}
         zipCode={profileData.zip}
