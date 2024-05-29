@@ -49,6 +49,14 @@
   background-color: $brand-900;
 }
 
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  align-items: center;
+}
+
 .talentsList {
   display: grid;
   grid-template-columns: auto auto;
