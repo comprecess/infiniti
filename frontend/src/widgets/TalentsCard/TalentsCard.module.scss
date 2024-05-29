@@ -1,14 +1,14 @@
 .wrapper {
   display: flex;
   flex-direction: column;
+  gap: 16px;
   width: 100%;
   min-width: 300px;
-  height: 272px;
   padding: 24px;
   border-radius: 8px;
   background-color: $brand-900;
 
-  @include mobileBreakpoint('min', $custom-bpXL) {
+  @include mobileBreakpoint('min', $custom-bpXL + 1) {
     max-width: 567px;
   }
 }

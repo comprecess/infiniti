@@ -1,6 +1,7 @@
 export const TalentsListData = [
   {
     id: 0,
+    avatar: '/avatar.svg',
     name: 'Konstantin K.',
     level: 'Lead',
     specialization: 'Web development',
@@ -12,6 +13,7 @@ export const TalentsListData = [
   },
   {
     id: 1,
+    avatar: '/avatar.svg',
     name: 'Konstantin K.',
     level: 'Senior',
     specialization: 'Web development',
@@ -23,6 +25,7 @@ export const TalentsListData = [
   },
   {
     id: 2,
+    avatar: '/avatar.svg',
     name: 'Konstantin K.',
     level: 'Senior',
     specialization: 'Web development',
@@ -34,6 +37,7 @@ export const TalentsListData = [
   },
   {
     id: 3,
+    avatar: '/avatar.svg',
     name: 'Konstantin K.',
     level: 'Middle',
     specialization: 'Web development',
@@ -45,6 +49,7 @@ export const TalentsListData = [
   },
   {
     id: 4,
+    avatar: '/avatar.svg',
     name: 'Konstantin K.',
     level: 'Junior',
     specialization: 'Web development',
