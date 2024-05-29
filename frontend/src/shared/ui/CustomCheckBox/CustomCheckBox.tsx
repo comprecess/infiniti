@@ -18,6 +18,7 @@ export const CustomCheckBox: FC<CheckBoxProps> = ({
     <Checkbox
       iconSize='16px'
       iconColor='white'
+      colorScheme='brand'
       isChecked={isChecked}
       isIndeterminate={isIndeterminate}
       onChange={onChange}
