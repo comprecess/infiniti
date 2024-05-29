@@ -17,7 +17,7 @@ export const ExaminationAuth: FC<PropsWithChildren> = ({ children }) => {
       try {
         const user = await getProfileInfo()
         const isAuth = !!user
-        const userRole = user?.user_type
+        const userRole = user?.userType
 
         setIsUserRole(userRole)
         setIsAuthenticated(isAuth)

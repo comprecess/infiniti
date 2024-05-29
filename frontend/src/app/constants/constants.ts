@@ -11,17 +11,17 @@ export interface ProfileInfo {
   account: string
   address: string
   balance: string
-  business_number: string
+  businessNumber: string
   city: string
   company: string
   country: string
   email: string
   img: string
-  lastlogin: string
+  lastLogin: string
   notes: string
   phone: string
   state: string
   tags: string
-  user_type: string
+  userType: string
   zip: string
 }

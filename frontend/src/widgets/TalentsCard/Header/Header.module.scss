@@ -1,0 +1,65 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+}
+
+.texts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.name {
+  font-family: $fontSpaceGrotesk;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $white;
+}
+
+.description {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.containerEllipse {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ellipse {
+  width: 4px;
+  height: 4px;
+  background-color: $gray-200;
+  border-radius: 50%;
+}
+
+.specialization,
+.location {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $gray-200;
+}
+
+.level {
+  position: absolute;
+  top: -7px;
+  right: 0;
+  z-index: 999;
+}

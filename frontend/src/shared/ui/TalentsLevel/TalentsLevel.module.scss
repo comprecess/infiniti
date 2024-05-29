@@ -1,0 +1,45 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0px 8px 1px 8px;
+  border-radius: 100px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: -0.03em;
+  text-align: left;
+}
+
+.icon {
+  height: 16px;
+  width: 16px;
+}
+
+.statusLead {
+  width: 68px;
+  background-color: $cherry-transparent;
+  color: $cherry-500;
+}
+
+.statusSenior {
+  width: 77px;
+  background-color: $mint-transparent;
+  color: $mint-500;
+}
+
+.statusMiddle {
+  width: 80px;
+  background-color: $brand-transparent;
+  color: $brand-300;
+}
+
+.statusJunior {
+  width: 76px;
+  background-color: $amber-transparent;
+  color: $amber-500;
+}
