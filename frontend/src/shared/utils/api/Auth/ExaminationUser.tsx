@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { roles } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
@@ -11,6 +11,8 @@ export const ExaminationUser: FC<PropsWithChildren> = ({ children }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const navigate = useNavigate()
+
+  const location = useLocation()
 
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -37,12 +39,20 @@ export const ExaminationUser: FC<PropsWithChildren> = ({ children }) => {
       navigate('/' + Routes.auth + '/' + Routes.signIn)
     } else if (!isLoading && isAuthenticated) {
       if (isUserRole === roles.client) {
-        navigate('/' + Routes.clientPages + '/' + Routes.dashboard)
+        if (location.pathname.includes('/' + Routes.clientPages)) {
+          navigate(location.pathname)
+        } else {
+          navigate('/' + Routes.clientPages + '/' + Routes.dashboard)
+        }
       } else if (isUserRole === roles.admin) {
-        navigate('/' + Routes.adminPages + '/' + Routes.dashboard)
+        if (location.pathname.includes('/' + Routes.adminPages)) {
+          navigate(location.pathname)
+        } else {
+          navigate('/' + Routes.adminPages + '/' + Routes.dashboard)
+        }
       }
     }
   }, [isLoading, isAuthenticated, isUserRole])
 
-  return isAuthenticated ? <>{children}</> : null
+  return isAuthenticated && !isLoading ? <>{children}</> : null
 }

@@ -71,10 +71,10 @@ export const clientSidebarPages = [
     name: 'Tickets',
     icon: <TicketsIcon />,
     openPaths: [
-      { id: 0, title: 'Open New Ticket' },
-      { id: 1, title: 'Tickets' },
+      { id: 0, title: 'Open New Ticket', path: Routes.openNewTicket },
+      { id: 1, title: 'Tickets', path: Routes.tickets },
     ],
-    path: 'tickets',
+    path: Routes.tickets,
   },
   {
     id: 10,

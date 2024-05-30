@@ -44,5 +44,5 @@ export const ExaminationAuth: FC<PropsWithChildren> = ({ children }) => {
     }
   }, [isLoading, isAuthenticated, isUserRole])
 
-  return !isAuthenticated ? <>{children}</> : null
+  return !isAuthenticated && !isLoading ? <>{children}</> : null
 }

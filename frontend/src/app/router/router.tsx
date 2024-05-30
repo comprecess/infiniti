@@ -25,9 +25,85 @@ export const router = createBrowserRouter([
     ),
     children: [
       { path: Routes.dashboard, element: Pages.adminDashboardPage },
-      { path: Routes.customers, element: Pages.adminCustomersPage },
-      { path: Routes.businessPlan, element: Pages.adminBusinessPlanPage },
-      { path: Routes.accounting, element: Pages.adminAccountingPage },
+      {
+        path: Routes.customers,
+        children: [
+          {
+            path: Routes.addCustomer,
+            element: Pages.adminAddCustomerPage,
+          },
+          {
+            path: Routes.listCustomer,
+            element: Pages.adminListCustomerPage,
+          },
+          {
+            path: Routes.companies,
+            element: Pages.adminCompaniesPage,
+          },
+          {
+            path: Routes.groups,
+            element: Pages.adminGroupsPage,
+          },
+          {
+            path: Routes.files,
+            element: Pages.adminFilesPage,
+          },
+        ],
+      },
+      {
+        path: Routes.businessPlan,
+        children: [
+          {
+            path: Routes.makeBusinessPlan,
+            element: Pages.adminMakeBusinessPlanPage,
+          },
+          {
+            path: Routes.businessPlan,
+            element: Pages.adminBusinessPlanPage,
+          },
+        ],
+      },
+      {
+        path: Routes.accounting,
+        children: [
+          {
+            path: Routes.accounts,
+            element: Pages.adminAccountsPage,
+          },
+          {
+            path: Routes.assets,
+            element: Pages.adminAssetsPage,
+          },
+          {
+            path: Routes.bills,
+            element: Pages.adminBillsPage,
+          },
+          {
+            path: Routes.newAccount,
+            element: Pages.adminNewAccountPage,
+          },
+          {
+            path: Routes.newDeposit,
+            element: Pages.adminNewDepositPage,
+          },
+          {
+            path: Routes.newExpense,
+            element: Pages.adminNewExpensePage,
+          },
+          {
+            path: Routes.transfer,
+            element: Pages.adminTransferPage,
+          },
+          {
+            path: Routes.unclearedTransactions,
+            element: Pages.adminUnclearedTransactionsPage,
+          },
+          {
+            path: Routes.viewTransactions,
+            element: Pages.adminViewTransactionsPage,
+          },
+        ],
+      },
       { path: Routes.sales, element: Pages.adminSalesPage },
       { path: Routes.suppliers, element: Pages.adminSuppliersPage },
       { path: Routes.purchase, element: Pages.adminPurchasePage },
@@ -80,7 +156,16 @@ export const router = createBrowserRouter([
         path: Routes.knowledgeBase,
         element: Pages.clientKnowledgeBasePage,
       },
-      { path: Routes.tickets, element: Pages.clientTicketsPage },
+      {
+        path: Routes.tickets,
+        children: [
+          {
+            path: Routes.openNewTicket,
+            element: Pages.clientOpenNewTicketPage,
+          },
+          { path: Routes.tickets, element: Pages.clientTicketsPage },
+        ],
+      },
       { path: Routes.profile, element: Pages.clientProfilePage },
       { path: Routes.basket, element: Pages.basketPage },
       {
