@@ -1,8 +1,21 @@
-import { AdminAccountingPage } from '../../pages/Admin/AccountingPage/AccountingPage'
+import { AdminAccountsPage } from '../../pages/Admin/AccountingPage/AccountsPage/AccountsPage'
+import { AdminAssetsPage } from '../../pages/Admin/AccountingPage/AssetsPage/AssetsPage'
+import { AdminBillsPage } from '../../pages/Admin/AccountingPage/BillsPage/BillsPage'
+import { AdminNewAccountPage } from '../../pages/Admin/AccountingPage/NewAccountPage/NewAccountPage'
+import { AdminNewDepositPage } from '../../pages/Admin/AccountingPage/NewDepositPage/NewDepositPage'
+import { AdminNewExpensePage } from '../../pages/Admin/AccountingPage/NewExpensePage/NewExpensePage'
+import { AdminTransferPage } from '../../pages/Admin/AccountingPage/TransferPage/TransferPage'
+import { AdminUnclearedTransactionsPage } from '../../pages/Admin/AccountingPage/UnclearedTransactionsPage/UnclearedTransactionsPage'
+import { AdminViewTransactionsPage } from '../../pages/Admin/AccountingPage/ViewTransactionsPage/ViewTransactionsPage'
 import { AdminAppearancePage } from '../../pages/Admin/AppearancePage/AppearancePage'
-import { AdminBusinessPlanPage } from '../../pages/Admin/BusinessPlanPage/BusinessPlanPage'
+import { AdminBusinessPlanPage } from '../../pages/Admin/BusinessPlanPage/BusinessPlanPage/BusinessPlanPage'
+import { AdminMakeBusinessPlanPage } from '../../pages/Admin/BusinessPlanPage/MakeBusinessPlanPage/MakeBusinessPlanPage'
 import { AdminCalendarPage } from '../../pages/Admin/CalendarPage/CalendarPage'
-import { AdminCustomersPage } from '../../pages/Admin/CustomersPage/CustomersPage'
+import { AdminAddCustomerPage } from '../../pages/Admin/CustomersPage/AddCustomerPage/AddCustomerPage'
+import { AdminCompaniesPage } from '../../pages/Admin/CustomersPage/CompaniesPage/CompaniesPage'
+import { AdminFilesPage } from '../../pages/Admin/CustomersPage/FilesPage/FilesPage'
+import { AdminGroupsPage } from '../../pages/Admin/CustomersPage/GroupsPage/GroupsPage'
+import { AdminListCustomerPage } from '../../pages/Admin/CustomersPage/ListCustomerPage/ListCustomerPage'
 import { AdminDashboardPage } from '../../pages/Admin/DashboardPage/DashboardPage'
 import { AdminDocumentsPage } from '../../pages/Admin/DocumentsPage/DocumentsPage'
 import { AdminHRMPage } from '../../pages/Admin/HRMPage/HRMPage'
@@ -35,7 +48,8 @@ import { ClientMyOrdersPage } from '../../pages/Client/MyOrdersPage/MyOrdersPage
 import { ClientOffersPage } from '../../pages/Client/OffersPage/OffersPage'
 import { ClientProfilePage } from '../../pages/Client/ProfilePage/ProfilePage'
 import { ClientProjectsPage } from '../../pages/Client/ProjectsPage/ProjectsPage'
-import { ClientTicketsPage } from '../../pages/Client/TicketsPage/TicketsPage'
+import { ClientOpenNewTicketPage } from '../../pages/Client/TicketsPage/OpenNewTicketPage/OpenNewTicketPage'
+import { ClientTicketsPage } from '../../pages/Client/TicketsPage/TicketsPage/TicketsPage'
 import { ClientTransactionsPage } from '../../pages/Client/TransactionsPage/TransactionsPage'
 import { NotFoundPage } from '../../pages/General/NotFoundPage/NotFoundPage'
 
@@ -54,6 +68,7 @@ export const Routes = {
   hrm: 'hrm',
   tasks: 'tasks',
   calendar: 'calendar',
+  addCustomer: 'addcustomer',
   reports: 'reports',
   utilities: 'utilities',
   appearance: 'appearance',
@@ -69,11 +84,26 @@ export const Routes = {
   invoices: 'invoices',
   offers: 'offers',
   projects: 'projects',
+  companies: 'companies',
   knowledgeBase: 'knowledgebase',
   tickets: 'tickets',
+  groups: 'groups',
+  newDeposit: 'newdeposit',
+  newExpense: 'newexpense',
+  transfer: 'transfer',
+  bills: 'bills',
+  viewTransactions: 'viewtransactions',
+  unclearedTransactions: 'unclearedtransactions',
+  accounts: 'accounts',
+  newAccount: 'newaccount',
+  assets: 'assets',
+  openNewTicket: 'opennewticket',
   profile: 'profile',
   basket: 'basket',
   auth: 'auth',
+  makeBusinessPlan: 'makebusinessplan',
+  files: 'files',
+  listCustomer: 'listcustomer',
   signIn: 'signin',
   loginResident: 'loginresident',
   register: 'register',
@@ -82,9 +112,6 @@ export const Routes = {
 }
 
 export const To = {
-  clientDashboard: () => Routes.clientPages + '/' + Routes.dashboard,
-  adminDashboard: () => Routes.adminPages + '/' + Routes.dashboard,
-  authSignIn: () => Routes.auth + '/' + Routes.signIn,
   dashboard: () => Routes.dashboard,
   signIn: () => Routes.signIn,
   notFound: () => Routes.notFound,
@@ -108,13 +135,27 @@ export const Pages = {
   clientProjectsPage: <ClientProjectsPage />,
   clientKnowledgeBasePage: <ClientKnowledgeBasePage />,
   clientTicketsPage: <ClientTicketsPage />,
+  clientOpenNewTicketPage: <ClientOpenNewTicketPage />,
   clientProfilePage: <ClientProfilePage />,
 
   /* Admin Dashboard pages */
   adminDashboardPage: <AdminDashboardPage />,
-  adminCustomersPage: <AdminCustomersPage />,
+  adminAddCustomerPage: <AdminAddCustomerPage />,
+  adminListCustomerPage: <AdminListCustomerPage />,
+  adminCompaniesPage: <AdminCompaniesPage />,
+  adminGroupsPage: <AdminGroupsPage />,
+  adminFilesPage: <AdminFilesPage />,
+  adminMakeBusinessPlanPage: <AdminMakeBusinessPlanPage />,
   adminBusinessPlanPage: <AdminBusinessPlanPage />,
-  adminAccountingPage: <AdminAccountingPage />,
+  adminAccountsPage: <AdminAccountsPage />,
+  adminAssetsPage: <AdminAssetsPage />,
+  adminBillsPage: <AdminBillsPage />,
+  adminNewAccountPage: <AdminNewAccountPage />,
+  adminNewDepositPage: <AdminNewDepositPage />,
+  adminNewExpensePage: <AdminNewExpensePage />,
+  adminTransferPage: <AdminTransferPage />,
+  adminUnclearedTransactionsPage: <AdminUnclearedTransactionsPage />,
+  adminViewTransactionsPage: <AdminViewTransactionsPage />,
   adminSalesPage: <AdminSalesPage />,
   adminSuppliersPage: <AdminSuppliersPage />,
   adminPurchasePage: <AdminPurchasePage />,

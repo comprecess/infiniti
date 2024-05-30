@@ -1,8 +1,31 @@
-[DashboardOutlet.tsx (18)] :
-		- Добавить код для разрешения экрана, чтобы не было магического числа
+General:
+		• Убрать все статические части и соединить все с беком (жду Игоря)
+		• Доделать мелкие UI элементы из дизайна Figma
 
-[PWA] :
-		- Через Sidebar можно прокручивать страницу, нужно исправить
+DashboardOutlet.tsx :
+		• Добавить код для разрешения экрана, чтобы не было магического числа
+
 
 CheckBox:
-		- Icon меньше нужного размера
+		• Нужно увеличить иконку Check
+
+
+Admin Sidebar:
+		• Доделать вложенные страницы (Sales, Suppliers, Purchase, Leads, SMS, Support, Knowledge Base, Orders, HRM, Products & Services, Reports, Utilities, Appearance, Settings)
+
+
+Admin Dashboard Page:
+		• Сделать все графики в админ части
+
+
+Talent Page:
+		• Сделать страницу пользователя с его описанием из дизайна Figma
+		• Сделать модальное окно с добавлением заказа 
+
+
+Client Invoices Page:
+		• Самостоятельно сделать дизайн страницы по готовым макетам из Figma
+
+
+Client Offers Page:
+		• Самостоятельно сделать дизайн страницы по готовым макетам из Figma

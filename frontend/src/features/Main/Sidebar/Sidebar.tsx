@@ -47,7 +47,7 @@ export const Sidebar: FC<SidebarProps> = ({
   }
 
   const isActivePage = (pagePath: string) => {
-    return location.pathname === sidebarPages + pagePath
+    return location.pathname.includes(sidebarPages + pagePath)
   }
 
   const [touchStartX, setTouchStartX] = useState<number | null>(null)

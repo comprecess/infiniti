@@ -7,6 +7,7 @@ import styles from './OpenItem.module.scss'
 export interface openPathsProps {
   id: number
   title: string
+  path: string
 }
 
 interface OpenItemProps {
@@ -66,7 +67,7 @@ export const OpenItem: FC<OpenItemProps> = ({
               title={item.title}
               isActive={false}
               path={''}
-              onItemClick={() => onItemClick(path)}
+              onItemClick={() => onItemClick(path + '/' + item.path)}
             />
           )
         })}
