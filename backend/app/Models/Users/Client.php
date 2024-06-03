@@ -40,6 +40,8 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
             ->orWhere('phone', $username)
             ->first();
 
+        \Illuminate\Support\Facades\Log::alert('LOGININ ', ['login' => $username]);
+
         return $this->isLogined($account, $password);
     }
 
