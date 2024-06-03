@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 
 import { RecentInvoices } from '../../../features/Client/DashboardPage/RecentInvoices/RecentInvoices'
 import { RecentOffers } from '../../../features/Client/DashboardPage/RecentOffers/RecentOffers'
@@ -9,6 +9,10 @@ import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './DashboardPage.module.scss'
 
 export const ClientDashboardPage: FC = () => {
+  useEffect(() => {
+    document.title = 'Infiniti | Dashboard'
+  }, [])
+
   return (
     <div className={styles.wrapper}>
       <section className={styles.sectionFirst}>
@@ -18,12 +22,18 @@ export const ClientDashboardPage: FC = () => {
         </RecentCard>
       </section>
       <section className={styles.sectionSecond}>
-        <RecentCard title='Recent Transactions' style={styles.recentFullScreen}>
+        <RecentCard
+          title='Recent Transactions'
+          style={styles.recentFullScreen}
+        >
           <RecentTransactions />
         </RecentCard>
       </section>
       <section className={styles.sectionThird}>
-        <RecentCard title='Recent Invoices' style={styles.recentFullScreen}>
+        <RecentCard
+          title='Recent Invoices'
+          style={styles.recentFullScreen}
+        >
           <RecentInvoices />
         </RecentCard>
       </section>

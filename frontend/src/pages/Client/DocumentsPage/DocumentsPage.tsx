@@ -1,5 +1,9 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 
 export const ClientDocumentsPage: FC = () => {
+  useEffect(() => {
+    document.title = 'Infiniti | Documents'
+  }, [])
+
   return <div>Client Documents Page</div>
 }

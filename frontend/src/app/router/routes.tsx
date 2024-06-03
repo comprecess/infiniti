@@ -99,7 +99,7 @@ export const Routes = {
   assets: 'assets',
   openNewTicket: 'opennewticket',
   profile: 'profile',
-  basket: 'basket',
+  basket: 'cart',
   auth: 'auth',
   makeBusinessPlan: 'makebusinessplan',
   files: 'files',
@@ -108,7 +108,7 @@ export const Routes = {
   loginResident: 'loginresident',
   register: 'register',
   resetPassword: 'resetpassword',
-  notFound: 'notFound',
+  notFound: '404',
 }
 
 export const To = {

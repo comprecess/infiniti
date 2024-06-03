@@ -1,5 +1,9 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 
 export const ClientOpenNewTicketPage: FC = () => {
-  return <div>Client OpenNewTicket Page</div>
+  useEffect(() => {
+    document.title = 'Infiniti | Open New Ticket'
+  }, [])
+
+  return <div>Client Open New Ticket Page</div>
 }

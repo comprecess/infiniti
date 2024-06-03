@@ -4,6 +4,7 @@ import { TalentsListData } from '../../../../app/data/client/talentsList'
 import { ButtonBrand } from '../../../../shared/ui/ButtonBrand/ButtonBrand'
 import { TalentsCard } from '../../../../widgets/TalentsCard/TalentsCard'
 import { PagesList } from './PagesList/PagesList'
+import { SortList } from './SortList/SortList'
 import styles from './TalentsList.module.scss'
 
 export const TalentsList: FC = () => {
@@ -36,7 +37,7 @@ export const TalentsList: FC = () => {
           <h3 className={styles.name}>Talents</h3>
           <h3 className={styles.number}>{TalentsListData.length}</h3>
         </div>
-        <div className={styles.sortList}>Sort</div>
+        <SortList />
       </div>
       <div className={styles.list}>
         <div className={styles.talentsList}>
