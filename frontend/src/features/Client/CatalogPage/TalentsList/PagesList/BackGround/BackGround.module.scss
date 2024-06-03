@@ -4,7 +4,18 @@
   justify-content: center;
   width: 48px;
   height: 48px;
-  gap: 10px;
   border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.active {
+  background-color: $brand-500;
+}
+
+.disable {
   background-color: $brand-800;
+
+  @include hover() {
+    background-color: lighten($brand-800, 5%);
+  }
 }
