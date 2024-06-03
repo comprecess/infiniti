@@ -62,7 +62,7 @@ class AuthController extends Controller
 //            $client->setApiToken();
             $client->save();
 
-            #Mail::to($request->email)->send(new ResetPassword($client, $password));
+            Mail::to($request->email)->send(new ResetPassword($client, $password));
             \Illuminate\Support\Facades\Log::alert('new password ' . $password);
 
             return response()->json(['message' => __('auth.new_password')]);
