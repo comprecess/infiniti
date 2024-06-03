@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { CatalogCategories } from '../../../app/data/catalogCategories'
 import { CategoriesItem } from '../../../features/Client/CatalogPage/CategoriesItem/CategoriesItem'
@@ -13,6 +13,10 @@ export const ClientCatalogPage: FC = () => {
   const setCategories = (category: string) => {
     setActiveCategory(category)
   }
+
+  useEffect(() => {
+    document.title = 'Infiniti | Catalog'
+  }, [])
 
   return (
     <div className={styles.wrapper}>

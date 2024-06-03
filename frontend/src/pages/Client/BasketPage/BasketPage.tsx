@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 
 import { ProfileData } from '../../../app/data/general/profile'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
@@ -25,6 +25,10 @@ export const BasketPage: FC = () => {
     parseInt(subtotalCost.replace(/\D/g, ''), 10),
     parseInt(taxesAmount.replace(/\D/g, ''), 10),
   ])
+
+  useEffect(() => {
+    document.title = 'Infiniti | Cart'
+  }, [])
 
   return (
     <div className={styles.wrapper}>

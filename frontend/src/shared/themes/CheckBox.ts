@@ -10,7 +10,7 @@ const baseStyle = definePartsStyle({
     height: 5,
     borderRadius: 4,
     border: 'none',
-    backgroundColor: '#343543',
+    backgroundColor: 'gray.500',
   },
 })
 
