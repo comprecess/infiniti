@@ -29,7 +29,7 @@ export const SortList: FC = () => {
         fontSize='medium'
         fontWeight='small'
         lineHeight='24px'
-        transition='all 0.1s'
+        transition='all 0.2s'
         _hover={{ bg: 'brand.800' }}
         _expanded={{ bg: 'brand.800' }}
         borderRadius='8px'

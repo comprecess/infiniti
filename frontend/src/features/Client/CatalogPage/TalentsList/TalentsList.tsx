@@ -11,6 +11,9 @@ export const TalentsList: FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1)
   const productsPerPage = 6
 
+  const totalProducts = TalentsListData.length
+  const totalPages = Math.ceil(totalProducts / productsPerPage)
+
   const indexOfLastProduct = currentPage * productsPerPage
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage
   const currentProducts = TalentsListData.slice(
@@ -24,6 +27,10 @@ export const TalentsList: FC = () => {
 
   const prevPage = () => {
     setCurrentPage(currentPage - 1)
+  }
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber)
   }
 
   const scrollToTop = () => {
@@ -46,12 +53,15 @@ export const TalentsList: FC = () => {
           })}
         </div>
         <PagesList
+          currentPage={currentPage}
+          totalPages={totalPages}
           leftButtonDisabled={currentPage === 1}
           leftButtonOnClick={prevPage}
           rightButtonOnClick={nextPage}
           rightButtonDisabled={
             indexOfLastProduct >= TalentsListData.length
           }
+          onPageChange={handlePageChange}
         />
         <ButtonBrand title='Back to top' onClick={scrollToTop} />
       </div>

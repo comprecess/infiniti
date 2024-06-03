@@ -23,7 +23,6 @@ export const ArrowItem: FC<ArrowItemProps> = ({
       >
         <img
           src='/icons/chevronLeftLight.svg'
-          alt=''
           className={isLeftArrow ? '' : styles.right}
         />
       </button>

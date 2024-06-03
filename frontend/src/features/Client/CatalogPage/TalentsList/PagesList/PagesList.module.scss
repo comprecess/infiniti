@@ -3,3 +3,12 @@
   flex-direction: row;
   gap: 8px;
 }
+
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  user-select: none;
+}
