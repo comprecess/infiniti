@@ -33,7 +33,10 @@
   font-weight: 700;
   line-height: 234px;
   letter-spacing: -0.03em;
-  color: $brand-100;
+  //color: $brand-100;
+  background: -webkit-linear-gradient($brand-700, $brand-100);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 
   @include mobileBreakpoint('max', $bpXL) {
     font-size: 180px;
