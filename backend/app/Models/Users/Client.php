@@ -68,7 +68,7 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
     public function getDefault(): array
     {
         return [
-            'account' => ['', 'fullname'],
+            'account' => ['', 'fullName'],
             'email' => [''],
             'password' => [''],
             'phone' => [''],
