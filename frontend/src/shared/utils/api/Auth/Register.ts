@@ -3,15 +3,16 @@ import { saveCookies } from '../../Saving/Cookies/SaveCookies'
 
 interface RegisterUserResponse {
   token: string
+  message: string
   status: boolean
 }
 
 export const registerUser = async (
-  fullname: string,
+  fullName: string,
   email: string,
   password: string,
-  password2: string,
-): Promise<boolean> => {
+  confirmationPassword: string,
+): Promise<RegisterUserResponse> => {
   try {
     const response = await fetch(
       import.meta.env.VITE_MAIN_DOMAIN +
@@ -22,20 +23,21 @@ export const registerUser = async (
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        body: JSON.stringify({ fullname, email, password, password2 }),
+        body: JSON.stringify({
+          fullName,
+          email,
+          password,
+          confirmationPassword,
+        }),
       },
     )
-
-    if (!response.ok) {
-      return false
-    }
 
     const data: RegisterUserResponse = await response.json()
 
     saveCookies(authTokenString, data.token, 30)
 
-    return data.status
+    return data
   } catch (error) {
-    return false
+    return { token: '', message: 'Response error', status: false }
   }
 }

@@ -15,7 +15,7 @@ export const ClientCatalogPage: FC = () => {
   }
 
   useEffect(() => {
-    document.title = 'Infiniti | Catalog'
+    document.title = 'infiniti | Catalog'
   }, [])
 
   return (

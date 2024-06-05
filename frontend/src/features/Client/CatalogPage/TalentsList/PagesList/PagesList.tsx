@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useMemo, useState } from 'react'
 
 import { ArrowItem } from './ArrowItem/ArrowItem'
 import { NumberItem } from './NumberItem/NumberItem'
@@ -33,9 +33,7 @@ export const PagesList: FC<PagesListProps> = ({
         window.innerWidth <= 1200 && window.innerWidth > 600
       const isMobileView = window.innerWidth <= 600
 
-      if (isDesktopView) {
-        setMaxVisiblePages(4)
-      } else if (isTabletView) {
+      if (isDesktopView || isTabletView) {
         setMaxVisiblePages(4)
       } else if (isMobileView) {
         setMaxVisiblePages(2)
@@ -49,31 +47,36 @@ export const PagesList: FC<PagesListProps> = ({
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const handlePageClick = (pageNumber: number) => {
-    onPageChange(pageNumber)
-  }
+  const handlePageClick = useCallback(
+    (pageNumber: number) => {
+      onPageChange(pageNumber)
+    },
+    [onPageChange],
+  )
 
-  const renderPages = () => {
+  const renderPages = useMemo(() => {
     const pages = []
 
     let startPage = Math.max(
       1,
-      currentPage - Math.floor(maxVisiblePages / 2),
+      Math.min(
+        totalPages - maxVisiblePages + 1,
+        currentPage - Math.floor(maxVisiblePages / 2),
+      ),
     )
     let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1)
 
-    if (currentPage >= totalPages - Math.floor(maxVisiblePages / 2)) {
-      startPage = totalPages - maxVisiblePages + 1
-      endPage = totalPages
+    if (endPage === totalPages && totalPages > maxVisiblePages) {
+      startPage = endPage - maxVisiblePages + 1
+    }
+
+    if (startPage === 1 && totalPages > maxVisiblePages) {
+      endPage = maxVisiblePages
     }
 
     if (totalPages < 4) {
       startPage = 1
       endPage = totalPages
-    } else {
-      if (currentPage >= totalPages - Math.floor(maxVisiblePages / 2)) {
-        startPage = totalPages - maxVisiblePages + 1
-      }
     }
 
     for (let i = startPage; i <= endPage; i++) {
@@ -100,7 +103,7 @@ export const PagesList: FC<PagesListProps> = ({
     }
 
     return pages
-  }
+  }, [currentPage, totalPages, maxVisiblePages, handlePageClick])
 
   return (
     <div className={styles.wrapper}>
@@ -108,7 +111,7 @@ export const PagesList: FC<PagesListProps> = ({
         disabled={leftButtonDisabled}
         onClick={leftButtonOnClick}
       />
-      {renderPages()}
+      {renderPages}
       <ArrowItem
         isLeftArrow={false}
         disabled={rightButtonDisabled}

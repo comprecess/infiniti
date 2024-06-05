@@ -31,10 +31,10 @@ export const SignInForm: FC<SignInFormProps> = ({ resident }) => {
       ? loginResident(data.email, data.password)
       : loginUser(data.email, data.password))
 
-    if (loginResponse) {
+    if (loginResponse.status) {
       showToast({
         title: 'Successful Login',
-        description: 'You have successfully logged into your account',
+        description: loginResponse.message,
         status: 'success',
       })
 
@@ -47,7 +47,7 @@ export const SignInForm: FC<SignInFormProps> = ({ resident }) => {
     } else {
       showToast({
         title: 'Login Failed',
-        description: 'Check that your password and login are correct',
+        description: loginResponse.message,
         status: 'error',
       })
     }

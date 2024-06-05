@@ -27,7 +27,7 @@ export const BasketPage: FC = () => {
   ])
 
   useEffect(() => {
-    document.title = 'Infiniti | Cart'
+    document.title = 'infiniti | Cart'
   }, [])
 
   return (

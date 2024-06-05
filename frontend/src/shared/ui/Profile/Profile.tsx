@@ -1,14 +1,11 @@
 import { FC } from 'react'
 
-import {
-  ProfileInfo,
-  profileInfoString,
-} from '../../../app/constants/constants'
+import { profileInfoString } from '../../../app/constants/constants'
 import { getSession } from '../../utils/Saving/Session/GetSession'
 import styles from './Profile.module.scss'
 
 export const Profile: FC = () => {
-  const profileData = getSession(profileInfoString) as ProfileInfo
+  const profileData = getSession(profileInfoString)
 
   return (
     <div className={styles.wrapper}>

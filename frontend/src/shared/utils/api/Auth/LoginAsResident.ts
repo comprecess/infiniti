@@ -3,13 +3,14 @@ import { saveCookies } from '../../Saving/Cookies/SaveCookies'
 
 interface LoginResidentResponse {
   token: string
+  message: string
   status: boolean
 }
 
 export const loginResident = async (
   login: string,
   password: string,
-): Promise<boolean> => {
+): Promise<LoginResidentResponse> => {
   try {
     const response = await fetch(
       import.meta.env.VITE_MAIN_DOMAIN +
@@ -24,16 +25,12 @@ export const loginResident = async (
       },
     )
 
-    if (!response.ok) {
-      return false
-    }
-
     const data: LoginResidentResponse = await response.json()
 
     saveCookies(authTokenString, data.token, 30)
 
-    return data.status
+    return data
   } catch (error) {
-    return false
+    return { token: '', message: 'Response error', status: false }
   }
 }

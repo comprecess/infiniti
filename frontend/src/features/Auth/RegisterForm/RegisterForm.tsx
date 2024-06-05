@@ -30,10 +30,10 @@ export const RegisterForm: FC = () => {
       data.confirmPassword,
     )
 
-    if (registerResponse) {
+    if (registerResponse.status) {
       showToast({
         title: 'Successful Register',
-        description: 'You have successfully registered your account',
+        description: registerResponse.message,
         status: 'success',
       })
 
@@ -41,7 +41,7 @@ export const RegisterForm: FC = () => {
     } else {
       showToast({
         title: 'Register Failed',
-        description: 'Check that your password and login are correct',
+        description: registerResponse.message,
         status: 'error',
       })
     }

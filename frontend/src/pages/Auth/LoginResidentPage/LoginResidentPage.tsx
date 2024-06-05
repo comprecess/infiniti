@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { SignInForm } from '../../../features/Auth/SignInForm/SignInForm'
@@ -8,6 +8,10 @@ import styles from './LoginResidentPage.module.scss'
 
 export const LoginResidentPage: FC = () => {
   const navigate = useNavigate()
+
+  useEffect(() => {
+    document.title = 'infiniti | Login'
+  }, [])
 
   return (
     <div className={styles.wrapper}>

@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { ResetPasswordForm } from '../../../features/Auth/ResetPasswordForm/ResetPasswordForm'
@@ -8,6 +8,10 @@ import styles from './ResetPasswordPage.module.scss'
 
 export const ResetPasswordPage: FC = () => {
   const navigate = useNavigate()
+
+  useEffect(() => {
+    document.title = 'infiniti | Reset Password'
+  }, [])
 
   return (
     <div className={styles.wrapper}>

@@ -4,19 +4,19 @@ import { RecentInvoices } from '../../../features/Client/DashboardPage/RecentInv
 import { RecentOffers } from '../../../features/Client/DashboardPage/RecentOffers/RecentOffers'
 import { RecentOrders } from '../../../features/Client/DashboardPage/RecentOrders/RecentOrders'
 import { RecentTransactions } from '../../../features/Client/DashboardPage/RecentTransactions/RecentTransactions'
-import { ProfileCard } from '../../../widgets/ProfileCard/ProfileCard'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
+import { UserCard } from '../../../widgets/UserCard/UserCard'
 import styles from './DashboardPage.module.scss'
 
 export const ClientDashboardPage: FC = () => {
   useEffect(() => {
-    document.title = 'Infiniti | Dashboard'
+    document.title = 'infiniti | Dashboard'
   }, [])
 
   return (
     <div className={styles.wrapper}>
       <section className={styles.sectionFirst}>
-        <ProfileCard />
+        <UserCard />
         <RecentCard title='Recent Orders' style={styles.recentOrders}>
           <RecentOrders />
         </RecentCard>
