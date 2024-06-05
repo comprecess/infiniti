@@ -15,10 +15,10 @@ class Registration extends FormRequest
     public function rules(): array
     {
         return [
-            'fullname' => 'required',
+            'fullName' => 'required',
             'email' => 'required|email|unique:App\Models\Users\Client,email',
             'password' => 'min:6|required|required_with:password2|same:password2',
-            'password2' => 'min:6|required|required_with:password2|same:password2'
+            'confirmationPassword' => 'min:6|required|required_with:password2|same:password2'
         ];
     }
 }
