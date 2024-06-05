@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { RegisterForm } from '../../../features/Auth/RegisterForm/RegisterForm'
@@ -8,6 +8,10 @@ import styles from './RegisterPage.module.scss'
 
 export const RegisterPage: FC = () => {
   const navigate = useNavigate()
+
+  useEffect(() => {
+    document.title = 'infiniti | Register'
+  }, [])
 
   return (
     <div className={styles.wrapper}>

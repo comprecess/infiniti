@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, memo, useCallback, useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 
 import { adminSidebarPages } from '../../../app/data/adminSidebarPages'
@@ -7,6 +7,8 @@ import { Routes } from '../../../app/router/routes'
 import { Header } from '../Header/Header'
 import { Sidebar } from '../Sidebar/Sidebar'
 import styles from './MainOutlet.module.scss'
+
+const MemoizedHeader = memo(Header)
 
 export const MainOutlet: FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
@@ -20,13 +22,13 @@ export const MainOutlet: FC = () => {
   const isAdmin = location.pathname.includes(Routes.adminPages)
   const sidebarPages = isAdmin ? adminSidebarPages : clientSidebarPages
 
-  const toggleSidebar = () => {
+  const toggleSidebar = useCallback(() => {
     setIsSidebarOpen(prevState => !prevState)
-  }
+  }, [])
 
-  const toggleMiniSidebar = () => {
+  const toggleMiniSidebar = useCallback(() => {
     setIsMiniSidebar(prevState => !prevState)
-  }
+  }, [])
 
   useEffect(() => {
     const handleResize = () => {
@@ -77,7 +79,7 @@ export const MainOutlet: FC = () => {
                 : styles.headerFull
             }
           >
-            <Header
+            <MemoizedHeader
               isMiniSidebar={isMiniSidebar}
               toggleMiniSidebar={toggleMiniSidebar}
               toggleSidebar={toggleSidebar}

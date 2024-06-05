@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { SignInForm } from '../../../features/Auth/SignInForm/SignInForm'
@@ -9,6 +9,10 @@ import styles from './SignInPage.module.scss'
 
 export const SignInPage: FC = () => {
   const navigate = useNavigate()
+
+  useEffect(() => {
+    document.title = 'infiniti | Sign In'
+  }, [])
 
   return (
     <AuthForm title='Sign in'>

@@ -2,7 +2,7 @@ import { FC, useEffect } from 'react'
 
 export const ClientInvoicesPage: FC = () => {
   useEffect(() => {
-    document.title = 'Infiniti | Invoices'
+    document.title = 'infiniti | Invoices'
   }, [])
 
   return <div>Client Invoices Page</div>

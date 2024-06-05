@@ -1,8 +1,11 @@
 interface ResetPasswordResponse {
-  token: string
+  message: string
+  status: boolean
 }
 
-export const resetPassword = async (email: string): Promise<string> => {
+export const resetPassword = async (
+  email: string,
+): Promise<ResetPasswordResponse> => {
   try {
     const response = await fetch(
       import.meta.env.VITE_MAIN_DOMAIN +
@@ -17,16 +20,13 @@ export const resetPassword = async (email: string): Promise<string> => {
       },
     )
 
-    if (!response.ok) {
-      console.error('Response error:', response)
-      throw new Error('Failed to reset password')
-    }
-
     const data: ResetPasswordResponse = await response.json()
 
-    return data.token
+    return data
   } catch (error) {
-    console.error('Reset password error:', error)
-    throw error
+    return {
+      message: 'Response Error',
+      status: false,
+    }
   }
 }

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useCallback, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { Routes } from '../../../app/router/routes'
@@ -36,19 +36,25 @@ export const Sidebar: FC<SidebarProps> = ({
 }) => {
   const location = useLocation()
   const sidebarPages = isAdmin
-    ? '/' + Routes.adminPages + '/'
-    : '/' + Routes.clientPages + '/'
+    ? `/${Routes.adminPages}/`
+    : `/${Routes.clientPages}/`
 
   const navigate = useNavigate()
 
-  const handleNavigate = (path: string) => {
-    navigate(path)
-    if (isMobile) onClose()
-  }
+  const handleNavigate = useCallback(
+    (path: string) => {
+      navigate(path)
+      if (isMobile) onClose()
+    },
+    [navigate, isMobile, onClose],
+  )
 
-  const isActivePage = (pagePath: string) => {
-    return location.pathname.includes(sidebarPages + pagePath)
-  }
+  const isActivePage = useCallback(
+    (pagePath: string) => {
+      return location.pathname.includes(sidebarPages + pagePath)
+    },
+    [location.pathname, sidebarPages],
+  )
 
   const [touchStartX, setTouchStartX] = useState<number | null>(null)
   const [touchEndX, setTouchEndX] = useState<number | null>(null)

@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, memo, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { Routes } from '../../../app/router/routes'
@@ -11,6 +11,10 @@ import { Basket } from '../../../shared/ui/Basket/Basket'
 import { Icon } from '../../../shared/ui/Icon/Icon'
 import { Profile } from '../../../shared/ui/Profile/Profile'
 import styles from './Header.module.scss'
+
+const IconMemo = memo(Icon)
+const BasketMemo = memo(Basket)
+const ProfileMemo = memo(Profile)
 
 interface HeaderProps {
   isMiniSidebar: boolean
@@ -27,28 +31,34 @@ export const Header: FC<HeaderProps> = ({
 
   const location = useLocation()
 
-  const isBasket = location.pathname.includes(Routes.basket)
-  const isAdmin = location.pathname.includes(Routes.adminPages)
+  const isBasket = useMemo(
+    () => location.pathname.includes(Routes.basket),
+    [location.pathname],
+  )
+  const isAdmin = useMemo(
+    () => location.pathname.includes(Routes.adminPages),
+    [location.pathname],
+  )
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.itemsLeft}>
-        <Icon
+        <IconMemo
           fill={false}
           style={isMiniSidebar ? styles.reverseIcon : ''}
           icon={<ChevronsLeftIcon />}
           onIconClick={toggleMiniSidebar}
         />
-        <Icon icon={<LockIcon />} />
+        <IconMemo icon={<LockIcon />} />
       </div>
       <div className={styles.itemsRight}>
         {isAdmin ? (
           <>
-            <Icon icon={<NotificationIndicatorIcon />} />
-            <Icon icon={<NoteIcon />} />
+            <IconMemo icon={<NotificationIndicatorIcon />} />
+            <IconMemo icon={<NoteIcon />} />
           </>
         ) : (
-          <Basket
+          <BasketMemo
             isActive={isBasket}
             style={isBasket ? styles.basketPageActive : ''}
             onIconClick={() => {
@@ -56,8 +66,8 @@ export const Header: FC<HeaderProps> = ({
             }}
           />
         )}
-        <Profile />
-        <Icon
+        <ProfileMemo />
+        <IconMemo
           fill={false}
           icon={<MenuIcon />}
           onIconClick={toggleSidebar}
