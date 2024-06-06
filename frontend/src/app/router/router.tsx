@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 import { MainOutlet } from '../../features/Main/MainOutlet/MainOutlet'
 import { AuthOutlet } from '../../pages/Auth/AuthOutlet/AuthOutlet'
+import { TalentPage } from '../../pages/Client/TalentDetailsPage/TalentDetailsPage'
 import { RootPage } from '../../pages/General/RootPage/RootPage'
 import { ExaminationAuth } from '../../shared/utils/api/Auth/ExaminationAuth'
 import { ExaminationUser } from '../../shared/utils/api/Auth/ExaminationUser'
@@ -146,6 +147,10 @@ export const router = createBrowserRouter([
     children: [
       { path: Routes.dashboard, element: Pages.clientDashboardPage },
       { path: Routes.catalog, element: Pages.clientCatalogPage },
+      {
+        path: `${Routes.catalog + '/' + Routes.talent}/:id`,
+        element: <TalentPage />,
+      },
       { path: Routes.myOrders, element: Pages.clientMyOrdersPage },
       { path: Routes.transactions, element: Pages.clientTransactionsPage },
       { path: Routes.documents, element: Pages.clientDocumentsPage },

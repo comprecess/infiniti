@@ -7,6 +7,7 @@ import { Header } from './Header/Header'
 import styles from './TalentsCard.module.scss'
 
 interface TalentInfo {
+  id: number
   avatar: string
   name: string
   level: string
@@ -39,6 +40,7 @@ export const TalentsCard: FC<TalentsCardProps> = ({ talentInfo }) => {
       />
       <CustomDivider />
       <Footer
+        id={talentInfo.id}
         dailyRate={talentInfo.dailyRate}
         hourlyRate={talentInfo.hourlyRate}
       />
