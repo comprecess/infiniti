@@ -79,6 +79,7 @@ export const Routes = {
   purchase: 'purchase',
   leads: 'leads',
   myOrders: 'orders',
+  talent: 'talent',
   transactions: 'transactions',
   documents: 'documents',
   invoices: 'invoices',

@@ -1,0 +1,13 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+}
+
+.title {
+  font-family: $fontSpaceGrotesk;
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: -0.03em;
+  color: $white;
+}
