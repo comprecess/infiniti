@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Routes } from '../../../app/router/routes'
@@ -7,6 +7,7 @@ import { EducationCard } from '../../../features/Client/TalentDetailsPage/Educat
 import { ProjectsExperienceCard } from '../../../features/Client/TalentDetailsPage/ProjectsExperienceCard/ProjectsExperienceCard'
 import { TalentCard } from '../../../features/Client/TalentDetailsPage/TalentCard/TalentCard'
 import { ChevronDownIcon } from '../../../shared/icons/ChevronDownIcon'
+import { ButtonBrand } from '../../../shared/ui/ButtonBrand/ButtonBrand'
 import styles from './TalentDetailsPage.module.scss'
 
 export const TalentPage: FC = () => {
@@ -14,11 +15,21 @@ export const TalentPage: FC = () => {
 
   useEffect(() => {
     document.title = 'infiniti | Talent Details'
+
+    setTimeout(() => {
+      window.scrollTo(0, 0)
+    }, 0)
   }, [])
 
-  const handleNavigateBack = () => {
+  const handleNavigateBack = useCallback(() => {
     navigate('/' + Routes.clientPages + '/' + Routes.catalog)
-  }
+  }, [])
+
+  const scrollToTop = useCallback(() => {
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }, 0)
+  }, [])
 
   return (
     <div className={styles.wrapper}>
@@ -40,6 +51,7 @@ export const TalentPage: FC = () => {
           </div>
         </div>
       </section>
+      <ButtonBrand title='Back to top' onClick={scrollToTop} />
     </div>
   )
 }
