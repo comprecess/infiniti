@@ -1,0 +1,15 @@
+import { FC } from 'react'
+
+import styles from './Item.module.scss'
+
+interface ItemProps {
+  title: string
+}
+
+export const Item: FC<ItemProps> = ({ title }) => {
+  return (
+    <div className={styles.wrapper}>
+      <span className={styles.title}>{title}</span>
+    </div>
+  )
+}

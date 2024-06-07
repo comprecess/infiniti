@@ -37,7 +37,9 @@ export const TalentsList: FC = () => {
   }, [])
 
   const scrollToTop = useCallback(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }, 0)
   }, [])
 
   return (
