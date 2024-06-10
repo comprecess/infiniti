@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\CatalogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,3 +52,12 @@ Route::group(
     Route::get('/', [ClientController::class, 'index']);
 }
 );
+
+#catalog
+Route::group(['prefix' => 'catalog'], function(){
+    Route::get('filters', [CatalogController::class, 'filters']);
+    Route::get('properties', [CatalogController::class, 'properties']);
+    Route::get('property/{id}', [CatalogController::class, 'property']);
+    Route::post('list', [CatalogController::class, 'list']);
+    Route::get('item/{catalogUser}', [CatalogController::class, 'item']);
+});

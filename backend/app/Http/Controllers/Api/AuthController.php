@@ -22,7 +22,7 @@ class AuthController extends Controller
         $client = (new Client())->login($request->login, $request->password);
 
         if($client) {
-            return response()->json(['token' => $client->api_token]);
+            return response()->json(['token' => $client->api_token, 'message' => 'You are logged in']);
         } else {
             return response()->json(['message' => __('login.or_password')], 403);
         }
@@ -34,7 +34,7 @@ class AuthController extends Controller
         $client = (new Admin())->login($request->login, $request->password);
 
         if($client) {
-            return response()->json(['token' => $client->api_token]);
+            return response()->json(['token' => $client->api_token, 'message' => 'You are logged in']);
         } else {
             return response()->json(['message' => __('login.or_password')], 403);
         }
@@ -49,7 +49,7 @@ class AuthController extends Controller
         $client->setApiToken();
         $client->save();
 
-        return response()->json(['token' => $client->api_token]);
+        return response()->json(['token' => $client->api_token, 'message' => 'You have successfully registered']);
 
     }
 
