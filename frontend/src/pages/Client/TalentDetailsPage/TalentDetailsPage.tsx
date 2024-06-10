@@ -23,12 +23,6 @@ export const TalentPage: FC = () => {
     navigate('/' + Routes.clientPages + '/' + Routes.catalog)
   }, [])
 
-  const scrollToTop = useCallback(() => {
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    }, 0)
-  }, [])
-
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
