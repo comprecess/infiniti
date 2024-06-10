@@ -2,6 +2,9 @@ import { FC, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Routes } from '../../../app/router/routes'
+import { AboutTalentCard } from '../../../features/Client/TalentDetailsPage/AboutTalentCard/AboutTalentCard'
+import { EducationCard } from '../../../features/Client/TalentDetailsPage/EducationCard/EducationCard'
+import { ProjectsExperienceCard } from '../../../features/Client/TalentDetailsPage/ProjectsExperienceCard/ProjectsExperienceCard'
 import { SimilarTalents } from '../../../features/Client/TalentDetailsPage/SimilarTalents/SimilarTalents'
 import { TalentCard } from '../../../features/Client/TalentDetailsPage/TalentCard/TalentCard'
 import { ChevronDownIcon } from '../../../shared/icons/ChevronDownIcon'
@@ -40,6 +43,11 @@ export const TalentPage: FC = () => {
       <section className={styles.section}>
         <div className={styles.item} style={{ height: '100%' }}>
           <TalentCard />
+          <div className={styles.info}>
+            <AboutTalentCard />
+            <ProjectsExperienceCard />
+            <EducationCard />
+          </div>
         </div>
       </section>
       <section className={styles.section}>
