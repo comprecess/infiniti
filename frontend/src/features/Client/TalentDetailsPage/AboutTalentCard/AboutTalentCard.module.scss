@@ -7,10 +7,12 @@
   padding: 24px 40px 24px 40px;
   border-radius: 8px;
   background-color: $brand-900;
+  box-sizing: border-box;
 }
 
 .list {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  box-sizing: border-box;
 }
