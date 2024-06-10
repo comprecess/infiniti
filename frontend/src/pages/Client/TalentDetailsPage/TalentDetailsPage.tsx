@@ -8,7 +8,6 @@ import { ProjectsExperienceCard } from '../../../features/Client/TalentDetailsPa
 import { SimilarTalents } from '../../../features/Client/TalentDetailsPage/SimilarTalents/SimilarTalents'
 import { TalentCard } from '../../../features/Client/TalentDetailsPage/TalentCard/TalentCard'
 import { ChevronDownIcon } from '../../../shared/icons/ChevronDownIcon'
-import { ButtonBrand } from '../../../shared/ui/ButtonBrand/ButtonBrand'
 import styles from './TalentDetailsPage.module.scss'
 
 export const TalentPage: FC = () => {
@@ -55,11 +54,13 @@ export const TalentPage: FC = () => {
           <SimilarTalents />
         </div>
       </section>
-      <section className={styles.section}>
-        <div className={styles.item}>
-          <ButtonBrand title='Back to top' onClick={scrollToTop} />
-        </div>
-      </section>
+      {
+        //<section className={styles.section}>
+        //<div className={styles.item}>
+        //<ButtonBrand title='Back to top' onClick={scrollToTop} />
+        //</div>
+        //</section>
+      }
     </div>
   )
 }
