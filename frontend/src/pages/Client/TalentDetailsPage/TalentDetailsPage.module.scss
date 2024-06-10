@@ -11,16 +11,22 @@
   justify-content: center;
 }
 
-.item {
+.listItems {
   display: flex;
   flex-direction: row;
   gap: 24px;
   width: 100%;
+  height: 100%;
   max-width: $maxContentSize;
 
   @include mobileBreakpoint('max', $bpXL) {
     flex-direction: column;
   }
+}
+
+.item {
+  width: 100%;
+  max-width: $maxContentSize;
 }
 
 .buttonBack {

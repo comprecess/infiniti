@@ -41,7 +41,7 @@ export const TalentPage: FC = () => {
         </div>
       </section>
       <section className={styles.section}>
-        <div className={styles.item} style={{ height: '100%' }}>
+        <div className={styles.listItems}>
           <TalentCard />
           <div className={styles.info}>
             <AboutTalentCard />
