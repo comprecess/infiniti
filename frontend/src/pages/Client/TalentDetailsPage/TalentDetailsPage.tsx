@@ -17,9 +17,7 @@ export const TalentPage: FC = () => {
   useEffect(() => {
     document.title = 'infiniti | Talent Details'
 
-    setTimeout(() => {
-      window.scrollTo(0, 0)
-    }, 0)
+    window.scrollTo(0, 0)
   }, [])
 
   const handleNavigateBack = useCallback(() => {
@@ -43,7 +41,7 @@ export const TalentPage: FC = () => {
         </div>
       </section>
       <section className={styles.section}>
-        <div className={styles.item}>
+        <div className={styles.item} style={{ height: '100%' }}>
           <TalentCard />
           <div className={styles.info}>
             <AboutTalentCard />
