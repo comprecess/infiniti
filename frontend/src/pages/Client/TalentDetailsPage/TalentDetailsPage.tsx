@@ -5,6 +5,7 @@ import { Routes } from '../../../app/router/routes'
 import { AboutTalentCard } from '../../../features/Client/TalentDetailsPage/AboutTalentCard/AboutTalentCard'
 import { EducationCard } from '../../../features/Client/TalentDetailsPage/EducationCard/EducationCard'
 import { ProjectsExperienceCard } from '../../../features/Client/TalentDetailsPage/ProjectsExperienceCard/ProjectsExperienceCard'
+import { SimilarTalents } from '../../../features/Client/TalentDetailsPage/SimilarTalents/SimilarTalents'
 import { TalentCard } from '../../../features/Client/TalentDetailsPage/TalentCard/TalentCard'
 import { ChevronDownIcon } from '../../../shared/icons/ChevronDownIcon'
 import { ButtonBrand } from '../../../shared/ui/ButtonBrand/ButtonBrand'
@@ -51,7 +52,16 @@ export const TalentPage: FC = () => {
           </div>
         </div>
       </section>
-      <ButtonBrand title='Back to top' onClick={scrollToTop} />
+      <section className={styles.section}>
+        <div className={styles.item}>
+          <SimilarTalents />
+        </div>
+      </section>
+      <section className={styles.section}>
+        <div className={styles.item}>
+          <ButtonBrand title='Back to top' onClick={scrollToTop} />
+        </div>
+      </section>
     </div>
   )
 }

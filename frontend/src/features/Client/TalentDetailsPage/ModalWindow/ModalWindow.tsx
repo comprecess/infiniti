@@ -71,7 +71,11 @@ export const ModalWindow: FC<ModalWindowProps> = ({
           </span>
         </div>
         <div className={styles.inputs}>
-          <Input placeholder='up to 180' style={styles.input} />
+          <Input
+            placeholder='up to 180'
+            style={styles.input}
+            tabIndex={-1}
+          />
           <Menu isLazy>
             <MenuButton
               className={styles.menuButton}
