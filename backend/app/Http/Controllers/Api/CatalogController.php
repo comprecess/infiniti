@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\FilterContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Catalog\ListRequest;
 use App\Http\Resources\Catalog\PropertyResorce;
@@ -44,7 +45,7 @@ class CatalogController extends Controller
         return new PropertyResorce($prop);
     }
 
-    public function list(ListRequest $request)
+    public function list(ListRequest $request, FilterContract $filter)
     {
         $queryBuild = User::select(['catalog_user.*'])->distinct()->with(['user', 'blockExperience', 'values', 'props']);
 
@@ -56,6 +57,8 @@ class CatalogController extends Controller
                 })
                 ->whereIn('t1_1.id', $request->propertyValue);
         }
+
+//        dd($filter->);
 
         if($request->property) {
             $queryBuild->join('catalog_user_value as t2', 't2.id_catalog_user', '=', 'catalog_user.id')

@@ -31,9 +31,9 @@ class ListRequest extends FormRequest
 
         return [
             'property' => 'array',
-            'property.*' => 'required|integer',
-            'propertyValue' => 'array',
-            'propertyValue.*' => 'required|integer',
+//            'property.*' => 'required|integer',
+//            'propertyValue' => 'array',
+//            'propertyValue.*' => 'required|integer',
             'sort' => 'array',
             'sort.name' => 'in:' . (implode(',', $name)),
             'sort.type' => 'in:' . (implode(',', $type))
