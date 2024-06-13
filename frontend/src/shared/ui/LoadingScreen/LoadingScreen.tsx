@@ -8,9 +8,8 @@ export const LoadingScreen: FC = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
-        <div className={styles.logoWrapper}>
-          <LogoTextIcon style={styles.logoIcon} />
-        </div>
+        <LogoTextIcon style={styles.logoIcon} />
+        <span className={styles.description}>Career no limits</span>
       </div>
       <div className={styles.footer}>
         <LoadingSpinner />

@@ -49,3 +49,14 @@ export interface AdminInfo {
   userType: string
   zip: string
 }
+
+export interface UserPropertiesProps {
+  children: []
+  filter: number
+  id: number
+  name: string
+  nameId: string
+  parentId: number
+  type: string
+  value: { id: number; propId: number; value: string }[]
+}

@@ -1,5 +1,11 @@
 .wrapper {
   display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.items {
+  display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   gap: 16px;

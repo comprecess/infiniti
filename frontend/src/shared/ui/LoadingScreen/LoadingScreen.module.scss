@@ -12,6 +12,7 @@
 .header,
 .footer {
   display: flex;
+  flex-direction: column;
   width: 100%;
   height: 200px;
   align-items: center;
@@ -19,11 +20,12 @@
 }
 
 .header {
-  flex-direction: row;
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeInUp 1s ease-in-out forwards;
 }
 
 .footer {
-  flex-direction: column;
   gap: 25px;
 
   opacity: 0;
@@ -31,16 +33,10 @@
   animation: fadeInUp 1s ease-in-out forwards;
 }
 
-.logoWrapper {
-  opacity: 0;
-  transform: translateY(-20px);
-  animation: fadeInUp 1s ease-in-out forwards;
-}
-
 .logoIcon {
   * {
     width: 250px;
-    height: 150px;
+    height: 80px;
   }
 }
 
@@ -49,6 +45,15 @@
   font-size: 24px;
   font-weight: 600;
   line-height: 36px;
+  letter-spacing: -0.03em;
+  color: $white;
+}
+
+.description {
+  font-family: $fontSpaceGrotesk;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
   letter-spacing: -0.03em;
   color: $white;
 }
