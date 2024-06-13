@@ -1,17 +1,21 @@
+import { Spinner } from '@chakra-ui/react'
 import { FC } from 'react'
 
-import styles from './LoadingSpinner.module.scss'
-
 interface LoadingSpinnerProps {
-  spinnerStyle: string
+  color?: string
+  size?: string
 }
 
 export const LoadingSpinner: FC<LoadingSpinnerProps> = ({
-  spinnerStyle,
+  color = 'brand.500',
+  size = 'lg',
 }) => {
   return (
-    <div className={styles.wrapper}>
-      <div className={`${styles.spinner} ${spinnerStyle}`} />
-    </div>
+    <Spinner
+      color={color}
+      size={size}
+      speed='1s'
+      thickness='4px'
+    />
   )
 }

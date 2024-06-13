@@ -5,7 +5,8 @@ import styles from './Item.module.scss'
 
 interface CategoriesList {
   id: number
-  name: string
+  propId: number
+  value: string
 }
 
 interface SearchItemProps {
@@ -18,14 +19,14 @@ export const Item: FC<SearchItemProps> = ({ categories, searchItem }) => {
 
   if (searchItem) {
     filteredCategories = categories.filter(category =>
-      category.name.toLowerCase().includes(searchItem.toLowerCase()),
+      category.value.toLowerCase().includes(searchItem.toLowerCase()),
     )
   }
 
   return (
     <div className={styles.wrapper}>
       {filteredCategories.map(category => {
-        return <CustomCheckBox key={category.id} title={category.name} />
+        return <CustomCheckBox key={category.id} title={category.value} />
       })}
     </div>
   )

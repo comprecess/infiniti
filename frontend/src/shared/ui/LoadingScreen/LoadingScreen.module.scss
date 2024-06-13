@@ -1,0 +1,54 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  min-height: 100vh;
+  padding: 0px 24px 0px 24px;
+  justify-content: center;
+  background-color: $brand-1000;
+}
+
+.header,
+.footer {
+  display: flex;
+  width: 100%;
+  height: 200px;
+  align-items: center;
+  justify-content: center;
+}
+
+.header {
+  flex-direction: row;
+}
+
+.footer {
+  flex-direction: column;
+  gap: 25px;
+
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease-in-out forwards;
+}
+
+.logoWrapper {
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeInUp 1s ease-in-out forwards;
+}
+
+.logoIcon {
+  * {
+    width: 250px;
+    height: 150px;
+  }
+}
+
+.text {
+  font-family: $fontSpaceGrotesk;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 36px;
+  letter-spacing: -0.03em;
+  color: $white;
+}

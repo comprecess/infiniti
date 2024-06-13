@@ -1,15 +1,20 @@
 .wrapper {
   display: flex;
+  justify-content: center;
   width: 100%;
   height: 100%;
-  flex-direction: column;
-  gap: 16px;
-  max-height: 625px;
-  padding: 24px 32px 24px 32px;
-  border-radius: 8px;
-  background-color: $brand-900;
 
   @include mobileBreakpoint('min', $bpL - 1) {
     max-width: 357px;
   }
+}
+
+.items {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px 32px 24px 32px;
+  border-radius: 8px;
+  background-color: $brand-900;
 }
