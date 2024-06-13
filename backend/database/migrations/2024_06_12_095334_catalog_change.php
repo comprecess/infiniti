@@ -12,7 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('catalog_prop', function(Blueprint $table){
-            $table->enum('type',\App\Models\Catalog\Prop::TYPE)->nullable()->change();
+            $table->dropColumn('type');
+        });
+
+        Schema::table('catalog_prop', function(Blueprint $table){
+            $table->enum('type',\App\Models\Catalog\Prop::TYPE)->nullable();
             $table->smallInteger('filter')->nullable()->change();
             $table->smallInteger('sort')->nullable();
             $table->json('options')->nullable();
