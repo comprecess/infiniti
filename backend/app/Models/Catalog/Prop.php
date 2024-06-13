@@ -17,7 +17,9 @@ class Prop extends Model
       'checkbox',
       'integer',
       'double',
-      'string'
+      'string',
+      'checkboxOnlyForValue',
+      'checkboxIndeterminate'
     ];
 
     protected $fillable = [

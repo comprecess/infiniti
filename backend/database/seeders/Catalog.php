@@ -14,31 +14,41 @@ class Catalog extends Seeder
      */
     public function run(): void
     {
+        $this->setCatalog();
+    }
+
+    public function setCatalog()
+    {
+        DB::statement('DELETE FROM catalog_prop;');
+        DB::statement('ALTER TABLE catalog_prop AUTO_INCREMENT = 1;');
+        DB::statement('DELETE FROM catalog_prop_value;');
+        DB::statement('ALTER TABLE catalog_prop_value AUTO_INCREMENT = 1;');
+        $type = Prop::TYPE;
         $prop = [
-          ['name' => 'Industries', 'id_name' => 'industries', 'type' => 'checkbox', 'filter' => 1],
-          ['name' => 'Key skills', 'id_name' => 'key_skills', 'type' => 'checkbox', 'filter' => 1],
-          ['name' => 'Rate', 'id_name' => 'rate', 'filter' => 1, 'child' => [
-              ['name' => 'Hourly', 'id_name' => 'hourly', 'type' => 'integer', 'has_add' => 1],
-              ['name' => 'Daily (8h)', 'id_name' => 'daily', 'type' => 'integer', 'has_add' => 1],
+            ['name' => 'Industries', 'id_name' => 'industries', 'type' => 'checkbox', 'filter' => 1, 'sort' => 100],
+            ['name' => 'Key skills', 'id_name' => 'key_skills', 'type' => 'checkbox', 'filter' => 1, 'sort' => 200],
+            ['name' => 'Rate', 'id_name' => 'rate', 'filter' => 1, 'type' => $type[4], 'sort' => 300, 'child' => [
+                ['name' => 'Hourly', 'id_name' => 'hourly', 'type' => 'integer', 'has_add' => 1, 'options' => '{"placeholder": {"from": 1, "to": 250}}', 'sort' => 10],
+                ['name' => 'Daily (8h)', 'id_name' => 'daily', 'type' => 'integer', 'has_add' => 1, 'options' => '{"placeholder": {"from": 1, "to": 1500}}', 'sort' => 20],
             ]
-          ],
-          ['name' => 'Availability', 'id_name' => 'availability', 'type' => 'checkbox', 'filter' => 1],
-          ['name' => 'Timezone', 'id_name' => 'timezone', 'type' => 'checkbox', 'filter' => 1],
-          ['name' => 'Experience', 'id_name' => 'experience', 'filter' => 1, 'child' => [
-              ['name' => 'Years', 'id_name' => 'years', 'type' => 'integer', 'has_add' => 1],
-          ]],
-            ['name' => 'Language', 'id_name' => 'language', 'filter' => 1, 'type' => 'checkbox',  'child' => [
-              ['name' => 'English', 'id_name' => 'english', 'type' => 'checkbox'],
-              ['name' => 'German', 'id_name' => 'german', 'type' => 'checkbox'],
-              ['name' => 'Spanish', 'id_name' => 'spanish', 'type' => 'checkbox'],
-              ['name' => 'Russian', 'id_name' => 'russian', 'type' => 'checkbox'],
-              ['name' => 'Arabic', 'id_name' => 'arabic', 'type' => 'checkbox'],
-              ['name' => 'Chinese — Mandarin', 'id_name' => 'chinese_mandarin ', 'type' => 'checkbox'],
-          ]],
-            ['name' => 'Gender', 'id_name' => 'gender', 'type' => 'checkbox', 'filter' => 1],
-            ['name' => 'Age', 'id_name' => 'age', 'type' => 'integer',  'has_add' => '1', 'filter' => 1],
+            ],
+            ['name' => 'Availability', 'id_name' => 'availability', 'type' => 'checkbox', 'filter' => 1, 'sort' => 400],
+            ['name' => 'Timezone', 'id_name' => 'timezone', 'type' => 'checkbox', 'filter' => 1, 'sort' => 500],
+            ['name' => 'Experience', 'id_name' => 'experience', 'filter' => 1, 'sort' => 600, 'child' => [
+                ['name' => 'Years', 'id_name' => 'years', 'type' => 'integer', 'has_add' => 1, 'options' => '{"placeholder": {"from": 1, "to": 35}}'],
+            ]],
+            ['name' => 'Language', 'id_name' => 'language', 'filter' => 1, 'type' => 'checkbox', 'sort' => 700,  'child' => [
+                ['name' => 'English', 'id_name' => 'english', 'type' => $type[5]],
+                ['name' => 'German', 'id_name' => 'german', 'type' => $type[5]],
+                ['name' => 'Spanish', 'id_name' => 'spanish', 'type' => $type[5]],
+                ['name' => 'Russian', 'id_name' => 'russian', 'type' => $type[5]],
+                ['name' => 'Arabic', 'id_name' => 'arabic', 'type' => $type[5]],
+                ['name' => 'Chinese — Mandarin', 'id_name' => 'chinese_mandarin ', 'type' => $type[5]],
+            ]],
+            ['name' => 'Gender', 'id_name' => 'gender', 'type' => 'checkbox', 'sort' => 800, 'filter' => 1],
+            ['name' => 'Age', 'id_name' => 'age', 'type' => 'integer',  'has_add' => '1', 'sort' => 900, 'filter' => 1],
             /*---*/
-            ['name' => 'Level', 'id_name' => 'lvl', 'type' => 'string'],
+            ['name' => 'Level', 'id_name' => 'lvl', 'type' => $type[0]],
             ['name' => 'Specialization', 'id_name' => 'specialization1', 'type' => 'string'],
             ['name' => 'Specialization', 'id_name' => 'specialization2', 'type' => 'string'],
             ['name' => 'Degree', 'id_name' => 'degree', 'type' => 'string'],
@@ -79,8 +89,6 @@ class Catalog extends Seeder
                 }
             }
         }
-
-
     }
 
     private function setProp($data, $parentId = null)

@@ -113,7 +113,7 @@ class User extends Model
 
     public function getExpirence() :array
     {
-        $result = ['year' => 0, 'month' => 0];
+        $result = ['year' => 0, 'month' => 0, 'day' => 0];
         $exp = [];
         $blocks = $this->blockExperience;
 
@@ -148,8 +148,11 @@ class User extends Model
             $diff = $period['to']->diff($period['from']);
             $result['month'] += (int) $diff->format('%m');
             $result['year'] += (int) $diff->format('%y');
+            $result['day'] += (int) $diff->format('%d');
         }
 
+        $result['month'] += intval($result['day'] / 30);
+        $result['day'] = $result['day'] % 30;
         $result['year'] += intval($result['month'] / 12);
         $result['month'] = $result['month'] % 12;
 
