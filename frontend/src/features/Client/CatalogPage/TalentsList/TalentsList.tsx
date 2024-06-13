@@ -1,7 +1,8 @@
-import { FC, memo, useCallback, useState } from 'react'
+import { FC, memo, useCallback, useEffect, useState } from 'react'
 
 import { TalentsListData } from '../../../../app/data/client/talentsList'
 import { ButtonBrand } from '../../../../shared/ui/ButtonBrand/ButtonBrand'
+import { getUsersInfo } from '../../../../shared/utils/api/Catalog/User/GetUsersInfo'
 import { TalentsCard } from '../../../../widgets/TalentsCard/TalentsCard'
 import { PagesList } from './PagesList/PagesList'
 import { SortList } from './SortList/SortList'
@@ -40,6 +41,16 @@ export const TalentsList: FC = () => {
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }, 0)
+  }, [])
+
+  const getInfo = useCallback(async () => {
+    const info = await getUsersInfo()
+
+    console.log('TalentsList.tsx', info)
+  }, [])
+
+  useEffect(() => {
+    getInfo()
   }, [])
 
   return (

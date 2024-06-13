@@ -42,7 +42,7 @@ export const Indeterminate: FC<ParentChildrenProps> = ({
           return (
             <CustomCheckBox
               key={level.id}
-              title={level.name}
+              title={level.value}
               isChecked={checkedItems[index]}
               onChange={e => handleCheckboxChange(index, e.target.checked)}
             />

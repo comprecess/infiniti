@@ -12,6 +12,11 @@ const baseStyle = definePartsStyle({
     border: 'none',
     backgroundColor: 'gray.500',
   },
+  label: {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
 })
 
 export const checkboxTheme = defineMultiStyleConfig({ baseStyle })

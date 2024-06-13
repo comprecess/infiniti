@@ -5,13 +5,14 @@ import { Indeterminate } from './Indeterminate/Indeterminate'
 
 export interface LevelsList {
   id: number
-  name: string
+  propId: number
+  value: string
 }
 
 interface LanguagesList {
   id: number
   name: string
-  levels?: LevelsList[]
+  values: LevelsList[]
 }
 
 interface CheckBoxListProps {
@@ -38,7 +39,7 @@ export const CustomCheckBoxIndeterminate: FC<CheckBoxListProps> = ({
           <Indeterminate
             key={language.id}
             languageTitle={language.name}
-            languageLevels={language.levels}
+            languageLevels={language.values}
           />
         )
       })}

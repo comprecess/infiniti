@@ -9,6 +9,7 @@ import { router } from './app/router/router.tsx'
 import { checkboxTheme } from './shared/themes/CheckBox.ts'
 import { menuTheme } from './shared/themes/MenuList.ts'
 import { modalTheme } from './shared/themes/Modal.ts'
+import { LoadingScreen } from './shared/ui/LoadingScreen/LoadingScreen.tsx'
 import { getProfileInfo } from './shared/utils/api/Profile/GetProfileInfo.ts'
 
 const goToRouter = router
@@ -40,16 +41,30 @@ const theme = extendTheme({
   },
 })
 
-async function main() {
-  await getProfileInfo()
+async function main(extraLoadingTime = 0) {
+  const rootElement = document.getElementById('root')
 
-  ReactDOM.createRoot(document.getElementById('root')!).render(
+  if (!rootElement) return
+
+  ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
       <ChakraProvider theme={theme}>
-        <RouterProvider router={goToRouter} />
+        <LoadingScreen />
       </ChakraProvider>
     </React.StrictMode>,
   )
+
+  await getProfileInfo()
+
+  setTimeout(() => {
+    ReactDOM.createRoot(rootElement).render(
+      <React.StrictMode>
+        <ChakraProvider theme={theme}>
+          <RouterProvider router={goToRouter} />
+        </ChakraProvider>
+      </React.StrictMode>,
+    )
+  }, extraLoadingTime)
 }
 
-main()
+main(2000)
