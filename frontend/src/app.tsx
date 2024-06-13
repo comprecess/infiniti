@@ -8,13 +8,14 @@ import { getProfileInfo } from './shared/utils/api/Profile/GetProfileInfo'
 const isPWA = () => {
   return (
     window.matchMedia('(display-mode: standalone)').matches ||
-    (window.navigator as any).standalone ||
+    (navigator as any).standalone ||
     document.referrer.includes('android-app://')
   )
 }
 
 export const App = () => {
-  const [isLoading, setIsLoading] = useState(isPWA())
+  const [isLoading, setIsLoading] = useState(true)
+  const [showLoadingScreen, setShowLoadingScreen] = useState(true)
 
   useEffect(() => {
     const loadProfileInfo = async () => {
@@ -27,9 +28,13 @@ export const App = () => {
     } else {
       setIsLoading(false)
     }
+
+    setTimeout(() => {
+      setShowLoadingScreen(false)
+    }, 2000)
   }, [])
 
-  if (isLoading) {
+  if (isLoading && showLoadingScreen) {
     return <LoadingScreen />
   }
 
