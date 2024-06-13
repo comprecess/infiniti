@@ -3,16 +3,11 @@ import './app/styles/globals.scss'
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { RouterProvider } from 'react-router-dom'
 
-import { router } from './app/router/router.tsx'
+import { App } from './app.tsx'
 import { checkboxTheme } from './shared/themes/CheckBox.ts'
 import { menuTheme } from './shared/themes/MenuList.ts'
 import { modalTheme } from './shared/themes/Modal.ts'
-import { LoadingScreen } from './shared/ui/LoadingScreen/LoadingScreen.tsx'
-import { getProfileInfo } from './shared/utils/api/Profile/GetProfileInfo.ts'
-
-const goToRouter = router
 
 const theme = extendTheme({
   components: {
@@ -41,30 +36,20 @@ const theme = extendTheme({
   },
 })
 
-async function main(extraLoadingTime = 0) {
+async function main() {
   const rootElement = document.getElementById('root')
 
   if (!rootElement) return
 
-  ReactDOM.createRoot(rootElement).render(
+  const root = ReactDOM.createRoot(rootElement)
+
+  root.render(
     <React.StrictMode>
       <ChakraProvider theme={theme}>
-        <LoadingScreen />
+        <App />
       </ChakraProvider>
     </React.StrictMode>,
   )
-
-  await getProfileInfo()
-
-  setTimeout(() => {
-    ReactDOM.createRoot(rootElement).render(
-      <React.StrictMode>
-        <ChakraProvider theme={theme}>
-          <RouterProvider router={goToRouter} />
-        </ChakraProvider>
-      </React.StrictMode>,
-    )
-  }, extraLoadingTime)
 }
 
-main(2000)
+main()

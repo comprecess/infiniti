@@ -24,14 +24,14 @@ interface FilterData {
 export const Filters: FC = () => {
   const [searchItems, setSearchItems] = useState<string[]>([])
   const [filters, setFilters] = useState<
-    {
-      id: number
-      name: string
-      nameId: string
-      type: string
-      children: any[]
-      values: any[]
-    }[]
+  {
+    id: number
+    name: string
+    nameId: string
+    type: string
+    children: any[]
+    values: any[]
+  }[]
   >([])
 
   const handleSearchChange = (index: number, value: string) => {
