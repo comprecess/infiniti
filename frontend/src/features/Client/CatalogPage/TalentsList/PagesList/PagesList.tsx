@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo } from 'react'
+import { FC, useCallback, useEffect, useMemo, useState } from 'react'
 
 import { TalentsListMetaData } from '../../../../../app/constants/constants'
 import { ArrowItem } from './ArrowItem/ArrowItem'
@@ -11,7 +11,7 @@ interface PagesListProps {
 }
 
 export const PagesList: FC<PagesListProps> = ({ meta, nextPage }) => {
-  // const [maxVisiblePages, setMaxVisiblePages] = useState<number>(4)
+  const [maxVisiblePages, setMaxVisiblePages] = useState<number>(4)
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,9 +22,9 @@ export const PagesList: FC<PagesListProps> = ({ meta, nextPage }) => {
       const isMobileView = window.innerWidth <= 600
 
       if (isDesktopView || isTabletView) {
-        // setMaxVisiblePages(4)
+        setMaxVisiblePages(4)
       } else if (isMobileView) {
-        // setMaxVisiblePages(2)
+        setMaxVisiblePages(2)
       }
     }
 
@@ -50,7 +50,14 @@ export const PagesList: FC<PagesListProps> = ({ meta, nextPage }) => {
   const renderPages = useMemo(() => {
     const pages = []
 
-    for (let i = 1; i <= meta.last_page; i++) {
+    for (
+      let i = Math.min(
+        meta.current_page,
+        meta.last_page - (maxVisiblePages - 1),
+      );
+      i <= meta.last_page;
+      i++
+    ) {
       pages.push(
         <NumberItem
           key={i}
@@ -61,20 +68,20 @@ export const PagesList: FC<PagesListProps> = ({ meta, nextPage }) => {
       )
     }
 
-    if (meta.last_page > 4) {
-      const middleIndex = Math.floor(pages.length / 2)
-
-      pages.splice(
-        middleIndex,
-        0,
+    if (meta.last_page > maxVisiblePages) {
+      const firstPages = pages.slice(0, maxVisiblePages / 2)
+      const lastPages = pages.slice(-maxVisiblePages / 2)
+      const middlePages = (
         <div key='divider' className={styles.divider}>
           ...
-        </div>,
+        </div>
       )
+
+      return [...firstPages, middlePages, ...lastPages]
     }
 
     return pages
-  }, [meta])
+  }, [meta, maxVisiblePages, nextPage])
 
   return (
     <div className={styles.wrapper}>
