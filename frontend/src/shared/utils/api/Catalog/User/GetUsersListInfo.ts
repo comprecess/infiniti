@@ -1,8 +1,8 @@
-export const getUsersInfo = async () => {
+export const getUsersListInfo = async (page: string) => {
   try {
     const response = await fetch(
       import.meta.env.VITE_MAIN_DOMAIN +
-        import.meta.env.VITE_CATALOG_API_USERS_INFO,
+        `${import.meta.env.VITE_CATALOG_API_USERSLIST_INFO}${page}`,
       {
         method: 'POST',
         headers: {

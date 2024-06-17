@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 
+import { TalentData } from '../../../../app/constants/constants'
 import { InfoIcon } from '../../../../shared/icons/InfoIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { ButtonBrand } from '../../../../shared/ui/ButtonBrand/ButtonBrand'
@@ -11,7 +12,11 @@ import styles from './TalentCard.module.scss'
 
 type OrientationDivider = 'vertical' | 'horizontal'
 
-export const TalentCard: FC = () => {
+interface TalentCardProps {
+  talent: TalentData
+}
+
+export const TalentCard: FC<TalentCardProps> = ({ talent }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [modalWidth, setModalWidth] = useState<string>('800px')
   const [dividerOrientation, setDividerOrientation] =
@@ -45,10 +50,14 @@ export const TalentCard: FC = () => {
     <>
       <div className={styles.wrapper}>
         <div className={styles.avatarName}>
-          <img src='/avatar.svg' alt='Avatar' className={styles.avatar} />
-          <span className={styles.name}>Konstantin K.</span>
+          <img
+            src={talent.img ? talent.img : '/profileWithoutAvatar.svg'}
+            alt='Avatar'
+            className={styles.avatar}
+          />
+          <span className={styles.name}>{talent.name}</span>
           <div className={styles.level}>
-            <TalentsLevel title='Lead' />
+            <TalentsLevel title={talent.level} />
           </div>
         </div>
         <div className={styles.available}>
@@ -58,8 +67,8 @@ export const TalentCard: FC = () => {
           </span>
         </div>
         <div className={styles.rates}>
-          <Item title='520 €' description='Daily rate (8h)' />
-          <Item title='80 €' description='Hourly rate' />
+          <Item title={talent.priceDay} description='Daily rate (8h)' />
+          <Item title={talent.priceHour} description='Hourly rate' />
         </div>
         <ButtonBlue title='Add to order' onClick={handleOpenCloseModal} />
         <div className={styles.taxes}>

@@ -1,5 +1,6 @@
 export const authTokenString = 'authToken'
 export const profileInfoString = 'profileInfo'
+export const userTalentsPageString = 'userTalentsPage'
 
 export const roles = {
   client: 'Client',
@@ -50,13 +51,41 @@ export interface AdminInfo {
   zip: string
 }
 
-export interface UserPropertiesProps {
-  children: []
-  filter: number
+export interface TalentData {
+  id: number
+  img: string
+  industries: []
+  keySkills: []
+  level: string
+  name: string
+  priceDay: string
+  priceHour: string
+  specialization: string
+  timezone: string
+}
+
+export interface FiltersData {
   id: number
   name: string
   nameId: string
-  parentId: number
   type: string
-  value: { id: number; propId: number; value: string }[]
+  children: any[]
+  values: any[]
+}
+
+export interface TalentsListMetaData {
+  current_page: number
+  from: number
+  last_page: number
+  links: LinksProps[]
+  path: string
+  per_page: number
+  to: number
+  total: number
+}
+
+interface LinksProps {
+  active: boolean
+  label: string
+  url: string
 }

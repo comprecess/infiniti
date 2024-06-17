@@ -1,5 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 
+import { FiltersData } from '../../../../app/constants/constants'
 import { CustomCheckBox } from '../../../../shared/ui/CustomCheckBox/CustomCheckBox'
 import { CustomCheckBoxIndeterminate } from '../../../../shared/ui/CustomCheckBoxIndeterminate/CustomCheckBoxIndeterminate'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
@@ -10,29 +11,9 @@ import { CategoryItem } from './CategoryItem/CategoryItem'
 import { Item } from './CategoryItem/Item/Item'
 import styles from './Filters.module.scss'
 
-interface FilterData {
-  data: {
-    id: number
-    name: string
-    nameId: string
-    type: string
-    children: any[]
-    values: any[]
-  }[]
-}
-
 export const Filters: FC = () => {
   const [searchItems, setSearchItems] = useState<string[]>([])
-  const [filters, setFilters] = useState<
-  {
-    id: number
-    name: string
-    nameId: string
-    type: string
-    children: any[]
-    values: any[]
-  }[]
-  >([])
+  const [filters, setFilters] = useState<FiltersData[] | null>(null)
 
   const handleSearchChange = (index: number, value: string) => {
     setSearchItems(prevSearchItems => {
@@ -44,7 +25,7 @@ export const Filters: FC = () => {
   }
 
   const getFilters = useCallback(async () => {
-    const filtersAnswer: FilterData = await getPropertiesFiltering()
+    const filtersAnswer = await getPropertiesFiltering()
 
     setFilters(filtersAnswer.data)
   }, [])
@@ -53,17 +34,14 @@ export const Filters: FC = () => {
     getFilters()
   }, [])
 
-  console.log('Filters.tsx', filters)
-
   return (
     <div className={styles.wrapper}>
-      {filters.length > 0 ? (
+      {filters ? (
         <>
           <div className={styles.header}>
             <h6 className={styles.title}>Filters</h6>
             <span className={styles.buttonReset}>Reset filters</span>
           </div>
-
           <div className={styles.filters}>
             {filters.map((filter, index) => (
               <React.Fragment key={filter.id}>

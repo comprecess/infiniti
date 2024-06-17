@@ -5,13 +5,13 @@ import styles from './ArrowItem.module.scss'
 
 interface ArrowItemProps {
   isLeftArrow?: boolean
-  disabled: boolean
+  disabled?: boolean
   onClick: () => void
 }
 
 export const ArrowItem: FC<ArrowItemProps> = ({
   isLeftArrow = true,
-  disabled,
+  disabled = false,
   onClick,
 }) => {
   return (
