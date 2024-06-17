@@ -18,6 +18,20 @@ class TestUser extends Seeder
     /**
      * Run the database seeds.
      */
+    protected $inserRandom = [
+        'industries' => [1, 10],
+        'key_skills' => [1, 10],
+        'priceHour' => [10, 100],
+        'priceDay' => [100, 600],
+        'timezone' => [1, 1],
+        'language' => [1, 1],
+        'gender' => [1, 1],
+        'age' => [18, 30],
+        'lvl' => [1, 1],
+        'specialization1' => 'test'
+
+    ];
+
     public function run(): void
     {
         DB::statement('DELETE FROM catalog_user;');
@@ -35,28 +49,44 @@ class TestUser extends Seeder
             if(rand(1, 30) < 10) {
                 $now = now();
                 $now->addDay(rand(0, 100));
-                $userCatalog->start = $now;
+                $userCatalog->availabilityEnd = $now;
             }
             $userCatalog->save();
 
             $lvl = Prop::where('id_name', 'lvl')->first()->values;
-            $values = Value::whereNotIn('id', $lvl->pluck('id'))->get()->random(20);
-            foreach ($values as $v) {
-                $v->users()->attach($userCatalog);
+            $lvlRand = $lvl->random();
+            $lvlRand->users()->attach($userCatalog);
+//            $values = Value::whereNotIn('id', $lvl->pluck('id'))->get()->random(20);
+//            foreach ($values as $v) {
+//                $v->users()->attach($userCatalog);
+//            }
+//
+//            $isLevelProp = $userCatalog->values()
+//                ->join('catalog_prop', 'catalog_prop.id', '=', 'catalog_prop_value.id_prop')
+//                ->where('catalog_prop.id_name', 'lvl');
+//
+//            if($isLevelProp->count() == 0) {
+//
+//            }
+
+
+//            $prop = Prop::where('id_name', 'russian')->first();
+//            $prop->users()->sync($userCatalog);
+
+            foreach($this->inserRandom as $nameId => $value) {
+                $prop = Prop::where('id_name', $nameId)->first();
+                try {
+                    $childrens = $prop->children;
+                }catch (\Exception $e) {
+                    dd($nameId);
+                }
+
+                if($childrens->count()) {
+                    $this->setProp($prop, $childrens, $value, $userCatalog);
+                } else {
+                    $this->setValue($prop, $value, $userCatalog);
+                }
             }
-
-            $isLevelProp = $userCatalog->values()
-                ->join('catalog_prop', 'catalog_prop.id', '=', 'catalog_prop_value.id_prop')
-                ->where('catalog_prop.id_name', 'lvl');
-
-            if($isLevelProp->count() == 0 && rand(0 , 15) < 13) {
-                $lvlRand = $lvl->random();
-                $lvlRand->users()->attach($userCatalog);
-            }
-
-
-            $prop = Prop::where('id_name', 'russian')->first();
-            $prop->users()->sync($userCatalog);
 
             #block
             $ex = rand(1, 4);
@@ -80,5 +110,34 @@ class TestUser extends Seeder
 //        $value = Value::find(231);
 //        dd($value->users);
 
+    }
+
+    protected function setValue(Prop $prop, $deff, $userCatalog)
+    {
+        if(is_array($deff)) {
+            $rand = rand($deff[0], $deff[1]);
+        } else {
+            $rand = fake()->word();
+        }
+        if(strpos($prop->type, 'checkbox') !== false) {
+            $values = $prop->values->random($rand);
+            foreach($values as $value) {
+                $value->users()->attach($userCatalog);
+            }
+        } else if(in_array($prop->type, [Prop::TYPE[1], Prop::TYPE[3]])) {
+            $value = $prop->values()->create(['value' => $rand]);
+            $value->users()->attach($userCatalog);
+        }
+
+    }
+
+
+    protected function setProp(Prop $prop, $childrens, $deff, $userCatalog)
+    {
+        $child = $childrens->random(1)->first();
+        if(in_array($prop->type, [Prop::TYPE[0], Prop::TYPE[5]])) {
+            $child->users()->attach($userCatalog);
+        }
+        $this->setValue($child, $deff, $userCatalog);
     }
 }

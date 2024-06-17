@@ -39,6 +39,35 @@ class User extends Model
         return $this->hasMany(UserBlock::class, 'id_catalog_user');
     }
 
+    public function getPropsByNameId(array $nameId = null)
+    {
+        $values = $this->values->load(['prop']);
+        $props = $values->pluck('prop')->unique('id')->map(function($item) use ($values){
+            $item->values = collect($values->where('id_prop', $item->id)->all());
+            return $item;
+        });
+
+        if($nameId) {
+            $props = $props->whereIn('id_name', $nameId);
+        }
+
+        return $props;
+    }
+
+//    public function getPropsByNameId(array $nameId = null)
+//    {
+//        $propQuery = Prop::select('*');
+//        if($nameId) {
+//            $propQuery->whereIn('id_name', $nameId);
+//        }
+//        $props = $propQuery->get();
+//
+//        $props->map(function($item){
+//            $item->
+//        });
+//
+//    }
+
     public function getAvailable() :array
     {
         $now = now();

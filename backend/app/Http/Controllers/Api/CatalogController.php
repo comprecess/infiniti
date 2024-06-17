@@ -6,7 +6,7 @@ use App\Contracts\FilterContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Catalog\ListRequest;
 use App\Http\Resources\Catalog\PropertyResorce;
-use App\Http\Resources\Catalog\UserResorce;
+use App\Http\Resources\Catalog\UsersResorce;
 use App\Models\Catalog\Prop;
 use App\Models\Catalog\User;
 use App\Models\Catalog\UserValue;
@@ -47,7 +47,7 @@ class CatalogController extends Controller
 
     public function list(ListRequest $request, FilterContract $filter)
     {
-        $queryBuild = User::select(['catalog_user.*'])->distinct()->with(['user', 'blockExperience', 'values', 'props']);
+        $queryBuild = User::select(['catalog_user.*'])->distinct()->with(['user', 'blockExperience', 'values', 'props', 'values.prop']);
 
         if($request->propertyValue) {
             $queryBuild->join('catalog_user_value as t1', 't1.id_catalog_user', '=', 'catalog_user.id')
@@ -92,11 +92,11 @@ class CatalogController extends Controller
 
         $resultQuery = $queryBuild->paginate($request->getAmount());
 
-        return UserResorce::collection($resultQuery);
+        return UsersResorce::collection($resultQuery);
     }
 
     public function item(User $catalogUser)
     {
-        return new UserResorce($catalogUser);
+        return new UsersResorce($catalogUser);
     }
 }
