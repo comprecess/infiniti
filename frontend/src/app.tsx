@@ -5,14 +5,6 @@ import { router } from './app/router/router'
 import { LoadingScreen } from './shared/ui/LoadingScreen/LoadingScreen'
 import { getProfileInfo } from './shared/utils/api/Profile/GetProfileInfo'
 
-const isPWA = () => {
-  return (
-    window.matchMedia('(display-mode: standalone)').matches ||
-    (window.navigator.standalone !== undefined &&
-      window.navigator.standalone) ||
-    document.referrer.includes('android-app://')
-  )
-}
 export const App = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [showLoadingScreen, setShowLoadingScreen] = useState(true)
@@ -24,18 +16,14 @@ export const App = () => {
       setIsLoading(false)
     }
 
-    if (isPWA()) {
-      loadProfileInfo()
-    } else {
-      setIsLoading(false)
-    }
+    loadProfileInfo()
 
     setTimeout(() => {
       setShowLoadingScreen(false)
-    }, 2000)
+    }, 1500)
   }, [])
 
-  if (isLoading && showLoadingScreen) {
+  if (isLoading || showLoadingScreen) {
     return <LoadingScreen />
   }
 

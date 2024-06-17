@@ -4,8 +4,8 @@ import styles from './Body.module.scss'
 import { Item } from './Item/Item'
 
 interface BodyProps {
-  industries: string[]
-  keySkills: string[]
+  industries: []
+  keySkills: []
 }
 
 export const Body: FC<BodyProps> = ({ industries, keySkills }) => {

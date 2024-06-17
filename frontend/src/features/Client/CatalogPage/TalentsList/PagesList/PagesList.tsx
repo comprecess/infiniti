@@ -1,28 +1,16 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react'
 
+import { TalentsListMetaData } from '../../../../../app/constants/constants'
 import { ArrowItem } from './ArrowItem/ArrowItem'
 import { NumberItem } from './NumberItem/NumberItem'
 import styles from './PagesList.module.scss'
 
 interface PagesListProps {
-  currentPage: number
-  totalPages: number
-  leftButtonDisabled: boolean
-  leftButtonOnClick: () => void
-  rightButtonDisabled: boolean
-  rightButtonOnClick: () => void
-  onPageChange: (pageNumber: number) => void
+  meta: TalentsListMetaData
+  nextPage: (id: number) => void
 }
 
-export const PagesList: FC<PagesListProps> = ({
-  currentPage,
-  totalPages,
-  leftButtonDisabled,
-  leftButtonOnClick,
-  rightButtonDisabled,
-  rightButtonOnClick,
-  onPageChange,
-}) => {
+export const PagesList: FC<PagesListProps> = ({ meta, nextPage }) => {
   const [maxVisiblePages, setMaxVisiblePages] = useState<number>(4)
 
   useEffect(() => {
@@ -47,50 +35,33 @@ export const PagesList: FC<PagesListProps> = ({
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const handlePageClick = useCallback(
-    (pageNumber: number) => {
-      onPageChange(pageNumber)
-    },
-    [onPageChange],
-  )
+  const nextArrowPage = useCallback(() => {
+    if (meta.current_page < meta.last_page) {
+      nextPage(meta.current_page + 1)
+    }
+  }, [meta])
+
+  const lastArrowPage = useCallback(() => {
+    if (meta.current_page > 1) {
+      nextPage(meta.current_page - 1)
+    }
+  }, [meta])
 
   const renderPages = useMemo(() => {
     const pages = []
 
-    let startPage = Math.max(
-      1,
-      Math.min(
-        totalPages - maxVisiblePages + 1,
-        currentPage - Math.floor(maxVisiblePages / 2),
-      ),
-    )
-    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1)
-
-    if (endPage === totalPages && totalPages > maxVisiblePages) {
-      startPage = endPage - maxVisiblePages + 1
-    }
-
-    if (startPage === 1 && totalPages > maxVisiblePages) {
-      endPage = maxVisiblePages
-    }
-
-    if (totalPages < 4) {
-      startPage = 1
-      endPage = totalPages
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
+    for (let i = 1; i <= meta.last_page; i++) {
       pages.push(
         <NumberItem
           key={i}
           number={i}
-          isActive={i === currentPage}
-          onClick={() => handlePageClick(i)}
+          isActive={meta.links[i].active}
+          onClick={() => nextPage(i)}
         />,
       )
     }
 
-    if (totalPages > 4) {
+    if (meta.last_page > 4) {
       const middleIndex = Math.floor(pages.length / 2)
 
       pages.splice(
@@ -103,20 +74,13 @@ export const PagesList: FC<PagesListProps> = ({
     }
 
     return pages
-  }, [currentPage, totalPages, maxVisiblePages, handlePageClick])
+  }, [meta])
 
   return (
     <div className={styles.wrapper}>
-      <ArrowItem
-        disabled={leftButtonDisabled}
-        onClick={leftButtonOnClick}
-      />
+      <ArrowItem onClick={lastArrowPage} />
       {renderPages}
-      <ArrowItem
-        isLeftArrow={false}
-        disabled={rightButtonDisabled}
-        onClick={rightButtonOnClick}
-      />
+      <ArrowItem isLeftArrow={false} onClick={nextArrowPage} />
     </div>
   )
 }

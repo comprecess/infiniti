@@ -1,9 +1,6 @@
 import { FC } from 'react'
 
-import {
-  UserInfo,
-  UserPropertiesProps,
-} from '../../app/constants/constants'
+import { TalentData } from '../../app/constants/constants'
 import { CustomDivider } from '../../shared/ui/CustomDivider/CustomDivider'
 import { Body } from './Body/Body'
 import { Footer } from './Footer/Footer'
@@ -11,32 +8,27 @@ import { Header } from './Header/Header'
 import styles from './TalentsCard.module.scss'
 
 interface TalentsCardProps {
-  id: number
-  properties: UserPropertiesProps[]
-  user: UserInfo
+  talent: TalentData
 }
 
-export const TalentsCard: FC<TalentsCardProps> = ({ id, user }) => {
+export const TalentsCard: FC<TalentsCardProps> = ({ talent }) => {
   return (
     <div className={styles.wrapper}>
       <Header
-        avatar={user?.img ? user?.img : '/profileWithoutAvatar.svg'}
-        name={user?.account}
-        specialization={'specialization'}
-        location={'location'}
-        level={'level'}
+        avatar={talent?.img ? talent?.img : '/profileWithoutAvatar.svg'}
+        name={talent?.name}
+        specialization={talent.specialization}
+        location={talent.timezone}
+        level={talent.level}
       />
       <CustomDivider />
-      <Body
-        //keySkills={properties[1].value.slice(0, 3).map(item => item.value)}
-        keySkills={['key skills']}
-        //industries={properties[0].value
-        //  .slice(0, 3)
-        //  .map(item => item.value)}
-        industries={['industries']}
-      />
+      <Body industries={talent.industries} keySkills={talent.keySkills} />
       <CustomDivider />
-      <Footer id={id} dailyRate={'dailyRate'} hourlyRate={'hourlyRate'} />
+      <Footer
+        id={talent.id}
+        dailyRate={talent.priceDay}
+        hourlyRate={talent.priceHour}
+      />
     </div>
   )
 }
