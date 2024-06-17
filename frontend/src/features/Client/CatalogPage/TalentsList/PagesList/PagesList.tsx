@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { FC, useCallback, useEffect, useMemo } from 'react'
 
 import { TalentsListMetaData } from '../../../../../app/constants/constants'
 import { ArrowItem } from './ArrowItem/ArrowItem'
@@ -11,7 +11,7 @@ interface PagesListProps {
 }
 
 export const PagesList: FC<PagesListProps> = ({ meta, nextPage }) => {
-  const [maxVisiblePages, setMaxVisiblePages] = useState<number>(4)
+  // const [maxVisiblePages, setMaxVisiblePages] = useState<number>(4)
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,9 +22,9 @@ export const PagesList: FC<PagesListProps> = ({ meta, nextPage }) => {
       const isMobileView = window.innerWidth <= 600
 
       if (isDesktopView || isTabletView) {
-        setMaxVisiblePages(4)
+        // setMaxVisiblePages(4)
       } else if (isMobileView) {
-        setMaxVisiblePages(2)
+        // setMaxVisiblePages(2)
       }
     }
 
