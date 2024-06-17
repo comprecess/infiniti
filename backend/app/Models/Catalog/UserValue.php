@@ -13,14 +13,4 @@ class UserValue extends Model
     protected $table = 'catalog_user_value';
     public $timestamps = false;
 
-    public static function queryBuild(string|Builder $class) :Builder
-    {
-        if(is_string($class)) {
-            $name = $class;
-            $class = $class::select('*');
-        } else if($class instanceof Builder) {
-            $name = get_class($class->getModel());
-        }
-        dd($name);
-    }
 }

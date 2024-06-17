@@ -9,6 +9,6 @@ trait AmountTrait
     public function getAmount()
     {
         $amount = (int) $this->amount;
-        return $amount ? $amount : 20;
+        return $amount ? $amount : 6;
     }
 }
