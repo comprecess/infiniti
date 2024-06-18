@@ -30,6 +30,10 @@ class Prop extends Model
         'has_add'
     ];
 
+    protected $casts = [
+        'options' => 'json',
+    ];
+
     protected $dates = ['deleted_at'];
 
     public function values()
