@@ -64,62 +64,78 @@ export const Filters: FC = () => {
                   </>
                 )}
                 {filter.type === 'checkboxIndeterminate' && (
-                  <CategoryItem
-                    isSearched
-                    title={filter.name}
-                    secondName={filter.children.length.toString()}
-                    handleSearchChange={value =>
-                      handleSearchChange(index, value)
-                    }
-                  >
-                    <CustomCheckBoxIndeterminate
-                      languages={filter.children}
-                      searchItem={searchItems[index]}
-                    />
-                  </CategoryItem>
+                  <>
+                    <CategoryItem
+                      isSearched
+                      title={filter.name}
+                      secondName={filter.children.length.toString()}
+                      handleSearchChange={value =>
+                        handleSearchChange(index, value)
+                      }
+                    >
+                      <CustomCheckBoxIndeterminate
+                        languages={filter.children}
+                        searchItem={searchItems[index]}
+                      />
+                    </CategoryItem>
+                    <CustomDivider />
+                  </>
+                )}
+                {filter.type === 'checkboxOnlyForValue' && (
+                  <>
+                    <CategoryItem title={filter.name} secondName='€ – EUR'>
+                      <div className={styles.items}>
+                        {filter.children.map(item => {
+                          return (
+                            <FromTo
+                              key={item.id}
+                              title={item.name}
+                              placeholderFirst={`from ${item.options.placeholder.from}`}
+                              placeholderSecond={`to ${item.options.placeholder.to}`}
+                            />
+                          )
+                        })}
+                        <CustomCheckBox title={filter.values[0].value} />
+                      </div>
+                    </CategoryItem>
+                    <CustomDivider />
+                  </>
+                )}
+                {filter.type === null && (
+                  <>
+                    <CategoryItem title={filter.name}>
+                      <div className={styles.items}>
+                        {filter.children.map(item => {
+                          return (
+                            <FromTo
+                              key={item.id}
+                              title={item.name}
+                              placeholderFirst={`from ${item.options.placeholder.from}`}
+                              placeholderSecond={`to ${item.options.placeholder.to}`}
+                            />
+                          )
+                        })}
+                      </div>
+                    </CategoryItem>
+                    <CustomDivider />
+                  </>
+                )}
+                {filter.type === 'integer' && (
+                  <>
+                    <CategoryItem title={filter.name}>
+                      <div className={styles.items}>
+                        <FromTo
+                          key={filter.id}
+                          placeholderFirst={`from ${filter.options.placeholder.from}`}
+                          placeholderSecond={`to ${filter.options.placeholder.to}`}
+                        />
+                      </div>
+                    </CategoryItem>
+                    <CustomDivider />
+                  </>
                 )}
               </React.Fragment>
             ))}
-
-            {/* Category: "Rate" */}
-            <CategoryItem title='Rate' secondName='€ – EUR'>
-              <div className={styles.items}>
-                <FromTo
-                  title='Hourly'
-                  placeholderFirst='from 1'
-                  placeholderSecond='to 250'
-                />
-                <FromTo
-                  title='Daily (8h)'
-                  placeholderFirst='from 1'
-                  placeholderSecond='to 1 500'
-                />
-                <CustomCheckBox title='Taxes included' />
-              </div>
-            </CategoryItem>
-
-            <CustomDivider />
-
-            {/* Category: "Experience" */}
-            <CategoryItem title='Experience'>
-              <FromTo
-                title='Years'
-                placeholderFirst='from 1'
-                placeholderSecond='to 35'
-              />
-            </CategoryItem>
-
-            <CustomDivider />
-
-            {/* Category: "Age" */}
-            <CategoryItem title='Age'>
-              <FromTo
-                placeholderFirst='from 0'
-                placeholderSecond='to 65'
-              />
-            </CategoryItem>
-
-            <CustomDivider />
           </div>
         </>
       ) : (

@@ -69,8 +69,36 @@ export interface FiltersData {
   name: string
   nameId: string
   type: string
+  options: OptionsProps
+  children: ChildrenProps[]
+  values: ValuesProps[]
+}
+
+export interface ChildrenProps {
   children: any[]
-  values: any[]
+  filter: number
+  id: number
+  name: string
+  nameId: string
+  options: OptionsProps
+  parentId: number
+  type: string
+  values: ValuesProps[]
+}
+
+export interface OptionsProps {
+  placeholder: PlaceHolderProps
+}
+
+export interface PlaceHolderProps {
+  from: number
+  to: number
+}
+
+export interface ValuesProps {
+  id: number
+  propId: number
+  value: string
 }
 
 export interface TalentsListMetaData {

@@ -54,9 +54,10 @@
 
 .talentsList {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 1fr 1fr;
   gap: 16px;
   width: 100%;
+  align-items: start;
 
   @include mobileBreakpoint('max', $custom-bpXL) {
     grid-template-columns: 1fr;

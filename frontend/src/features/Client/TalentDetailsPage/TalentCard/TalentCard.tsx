@@ -84,6 +84,7 @@ export const TalentCard: FC<TalentCardProps> = ({ talent }) => {
       >
         <ModalWindow
           dividerOrientation={dividerOrientation}
+          talent={talent}
           onClose={handleOpenCloseModal}
         />
       </CustomModalWindow>
