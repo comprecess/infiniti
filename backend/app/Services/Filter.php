@@ -6,11 +6,16 @@ namespace App\Services;
 
 use App\Contracts\FilterContract;
 use App\Models\Catalog\Prop;
+use App\Models\Catalog\User;
+use App\Services\Filter\Years;
 
 class Filter implements FilterContract
 {
     protected $propertyAfterFilter = [];
-    protected $afterFilterName = ['years'];
+    protected $afterFilterName = [
+        'years' => Years::class,
+//        'availability'
+    ];
 
     public function propertis(array $data, $query)
     {
@@ -23,13 +28,14 @@ class Filter implements FilterContract
             }
 
             #afterFilter
-            if(in_array($prop->id_name, $this->afterFilterName)) {
-                $this->propertyAfterFilter[$prop->id_name] = $prop;
-                continue;
+            if(isset($this->propertyAfterFilter[$prop->id_name])) {
+                $class = $this->propertyAfterFilter[$prop->id_name];
+                $object = new $class();
+//                $object->before()
             }
 
             switch ($prop->type) {
-                case 'checkbox':
+                case Prop::TYPE[0]:
                     $query->where(function($q) use($value, $prop){
                         $q->whereIn('catalog_prop_value.id', $value)
                             ->where('catalog_prop_value.id_prop', $prop->id);
@@ -77,6 +83,11 @@ class Filter implements FilterContract
     }
 
     public function afterFilter()
+    {
+
+    }
+
+    public function similar(User $user)
     {
 
     }

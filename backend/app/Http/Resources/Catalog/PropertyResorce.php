@@ -29,6 +29,6 @@ class PropertyResorce extends JsonResource implements ListInterface
 
     public function getList(): array
     {
-        return ['id', 'id_parent' => 'parentId', 'id_name' => 'nameId', 'name', 'type', 'filter'];
+        return ['id', 'id_parent' => 'parentId', 'id_name' => 'nameId', 'name', 'type', 'filter', 'options'];
     }
 }

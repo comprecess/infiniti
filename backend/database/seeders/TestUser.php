@@ -53,9 +53,10 @@ class TestUser extends Seeder
             }
             $userCatalog->save();
 
-            $lvl = Prop::where('id_name', 'lvl')->first()->values;
-            $lvlRand = $lvl->random();
-            $lvlRand->users()->attach($userCatalog);
+//            $lvl = Prop::where('id_name', 'lvl')->first()->values;
+//            $lvlRand = $lvl->random();
+//            $lvlRand->users()->attach($userCatalog);
+
 //            $values = Value::whereNotIn('id', $lvl->pluck('id'))->get()->random(20);
 //            foreach ($values as $v) {
 //                $v->users()->attach($userCatalog);
