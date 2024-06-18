@@ -28,7 +28,7 @@ class TestUser extends Seeder
         'gender' => [1, 1],
         'age' => [18, 30],
         'lvl' => [1, 1],
-        'specialization1' => 'test'
+        'specialization' => 'test'
 
     ];
 
