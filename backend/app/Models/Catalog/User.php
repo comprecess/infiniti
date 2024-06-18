@@ -2,7 +2,9 @@
 
 namespace App\Models\Catalog;
 
+use App\Contracts\FilterContract;
 use App\Models\Users\Client;
+use App\Services\Filter;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,11 +14,19 @@ class User extends Model
 {
     use HasFactory;
 
+    const AVAILABLE_STATUS = [
+        'now',
+        'this week',
+        'next week',
+        'this month',
+        'Not available'
+    ];
+
     protected $table = 'catalog_user';
     public $timestamps = false;
 
     protected $casts = [
-        'start' => 'datetime',
+        'availabilityEnd' => 'datetime',
     ];
 
     public function user()
@@ -42,8 +52,9 @@ class User extends Model
     public function getPropsByNameId(array $nameId = null)
     {
         $values = $this->values->load(['prop']);
+
         $props = $values->pluck('prop')->unique('id')->map(function($item) use ($values){
-            $item->values = collect($values->where('id_prop', $item->id)->all());
+            $item->values = collect($values->where('id_prop', $item->id)->sortBy('id')->all());
             return $item;
         });
 
@@ -54,54 +65,32 @@ class User extends Model
         return $props;
     }
 
-//    public function getPropsByNameId(array $nameId = null)
-//    {
-//        $propQuery = Prop::select('*');
-//        if($nameId) {
-//            $propQuery->whereIn('id_name', $nameId);
-//        }
-//        $props = $propQuery->get();
-//
-//        $props->map(function($item){
-//            $item->
-//        });
-//
-//    }
-
-    public function getAvailable() :array
+    public static function getDateAvailable() :array
     {
         $now = now();
-        $message = null;
-        $return = ['status' => true, 'message' => 'in stock', 'date' => $this->start?->format('m/d/Y')];
+        $nextWeek = (clone $now)->next(Carbon::MONDAY);
+        $nextWeek2 = (clone $nextWeek)->next(Carbon::MONDAY);
+        $nextMounth = (clone $now)->setDay(1)->addMonth();
 
-        if(!$this->start || $now > $this->start) {
-            return $return;
+        return [$now, $nextWeek, $nextWeek2, $nextMounth];
+    }
+
+
+    public function getAvailableStatus() :int
+    {
+        $avalible = self::getDateAvailable();
+
+        if($this->availabilityEnd === null) {
+            return 0;
         }
 
-        $return['status'] = false;
-
-        $nextWeek = $now->next(Carbon::MONDAY);
-
-        if($this->start < $nextWeek) {
-            $return['message'] = 'this week';
-            return $return;
+        foreach($avalible as $key => $value) {
+            if($this->availabilityEnd < $value) {
+                return $key;
+            }
         }
 
-        if($this->start < $nextWeek->next(Carbon::MONDAY)) {
-            $return['message'] = 'next week';
-            return $return;
-        }
-
-        $diff = $this->start->diff($now);
-        $mounth = $diff->format('%m');
-
-        if($mounth) {
-            $return['message'] = 'more than a month';
-            return $return;
-        } else {
-            $return['message'] = 'less than a month';
-            return $return;
-        }
+        return 4;
     }
 
     public function getTreePropValuesCollection()
@@ -186,6 +175,11 @@ class User extends Model
         $result['month'] = $result['month'] % 12;
 
         return $result;
+    }
+
+    public function getSimilar()
+    {
+        return app(FilterContract::class)->similar($this);
     }
 
 }

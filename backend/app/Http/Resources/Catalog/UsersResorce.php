@@ -5,6 +5,7 @@ namespace App\Http\Resources\Catalog;
 use App\Http\Resources\Traits\NestedParametersTrait;
 use App\Http\Resources\Traits\PropValuesTrait;
 use App\Http\Resources\UserResource;
+use App\Models\Catalog\Prop;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -18,29 +19,53 @@ class UsersResorce extends JsonResource
      * @return array<string, mixed>
      */
 
-    protected $props = null;
+    public static $isCollection = false;
 
     public function toArray(Request $request): array
     {
+        $industries = $this->getPropValues('industries', null);
+        $keySkills = $this->getPropValues('key_skills', null);
 
         $resorce = [
             'id' => $this->id,
             'name' => $this->getNested('user.account'),
             'img' => $this->getNested('user.img'),
-            'specialization' => $this->getPropValues('specialization1'),
+            'specialization' => $this->getPropValues('specialization'),
             'timezone' => $this->getPropValues('timezone'),
             'level' => $this->getPropValues('lvl'),
-            'industries' => ValueResorce::collection($this->getPropValues('industries', null)->chunk(3)->first()),
-            'keySkills' => ValueResorce::collection($this->getPropValues('key_skills', null)->chunk(3)->first()),
+            'industries' => ValueResorce::collection(self::$isCollection ? $industries->chunk(3)->first() : $industries),
+            'keySkills' => ValueResorce::collection(self::$isCollection ? $keySkills->chunk(3)->first() : $keySkills),
             'priceDay' => $this->getPropValues('priceDay'),
             'priceHour' => $this->getPropValues('priceHour'),
-//            'available' => $this->getAvailable(),
-//            'user' => new UserResource($this->user),
-//            'properties' => PropertyUserResorce::collection($this->getTreePropValuesCollection()),
-//            'experience' => $this->getExpirence(),
-//            'blockExperience' => UserBlockResorce::collection($this->blockExperience)
         ];
 
+        if(!self::$isCollection) {
+            $resorce['available'] = $this->getAvailableStatus();
+            $resorce['userId'] = $this->getNested('user.id');
+            $resorce['language'] = $this->getLanguage();
+            $resorce['experience'] = $this->getExpirence();
+            $resorce['blockExperience'] = UserBlockResorce::collection($this->blockExperience);
+//            $resorce['similar'] = $this->getSimilar();
+        }
+
         return $resorce;
+    }
+
+    public function getLanguage()
+    {
+        $result = [];
+        $language = Prop::where('id_name', 'language')->first();
+
+        $propsLang = $this->getPropVauesUser()->where('id_parent', $language->id);
+        foreach($propsLang as $prop) {
+            $result[] = $prop->name . "—" . $prop->values->last()->value;
+        }
+        return implode("\r\n", $result);
+    }
+
+    public static function collection($resource)
+    {
+        self::$isCollection = true;
+        return parent::collection($resource);
     }
 }
