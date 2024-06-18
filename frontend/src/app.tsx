@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { RouterProvider } from 'react-router-dom'
 
 import { router } from './app/router/router'
 import { LoadingScreen } from './shared/ui/LoadingScreen/LoadingScreen'
 import { getProfileInfo } from './shared/utils/api/Profile/GetProfileInfo'
 
-export const App = () => {
+export const App: FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [showLoadingScreen, setShowLoadingScreen] = useState(true)
 

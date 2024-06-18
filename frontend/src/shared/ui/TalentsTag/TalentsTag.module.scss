@@ -1,6 +1,9 @@
 .wrapper {
   display: flex;
+  max-width: 150px;
   text-align: center;
+  justify-content: center;
+  align-items: center;
   border-radius: 100px;
   padding: 0px 8px 1.5px 8px;
   border: 1px solid $gray-500;
@@ -11,6 +14,9 @@
   font-weight: 500;
   line-height: 21px;
   letter-spacing: -0.03em;
-  text-align: left;
   color: $white;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

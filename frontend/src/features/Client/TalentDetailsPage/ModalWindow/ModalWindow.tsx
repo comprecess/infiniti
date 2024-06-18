@@ -7,6 +7,7 @@ import {
 } from '@chakra-ui/react'
 import { FC, useState } from 'react'
 
+import { TalentData } from '../../../../app/constants/constants'
 import { ChevronDownIcon } from '../../../../shared/icons/ChevronDownIcon'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { InfoIcon } from '../../../../shared/icons/InfoIcon'
@@ -20,11 +21,13 @@ import { TitleCard } from '../TitleCard/TitleCard'
 import styles from './ModalWindow.module.scss'
 
 interface ModalWindowProps {
+  talent: TalentData
   dividerOrientation: 'horizontal' | 'vertical'
   onClose: () => void
 }
 
 export const ModalWindow: FC<ModalWindowProps> = ({
+  talent,
   dividerOrientation,
   onClose,
 }) => {
@@ -41,10 +44,14 @@ export const ModalWindow: FC<ModalWindowProps> = ({
       </div>
       <div className={styles.leftItem}>
         <div className={styles.avatarName}>
-          <img src='/avatar.svg' alt='Avatar' className={styles.avatar} />
-          <span className={styles.name}>Konstantin K.</span>
+          <img
+            src={talent.img ? talent.img : '/profileWithoutAvatar.svg'}
+            alt='Avatar'
+            className={styles.avatar}
+          />
+          <span className={styles.name}>{talent.name}</span>
           <div className={styles.level}>
-            <TalentsLevel title='Lead' />
+            <TalentsLevel title={talent.level} />
           </div>
         </div>
         <div className={styles.available}>
@@ -54,8 +61,8 @@ export const ModalWindow: FC<ModalWindowProps> = ({
           </span>
         </div>
         <div className={styles.rates}>
-          <Item title='520 €' description='Daily rate (8h)' />
-          <Item title='80 €' description='Hourly rate' />
+          <Item title={talent.priceDay} description='Daily rate (8h)' />
+          <Item title={talent.priceHour} description='Hourly rate' />
         </div>
         <div className={styles.taxes}>
           <img src='/icons/info.svg' alt='Info' />
