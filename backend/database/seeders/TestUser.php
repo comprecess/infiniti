@@ -21,6 +21,7 @@ class TestUser extends Seeder
     protected $inserRandom = [
         'industries' => [1, 10],
         'key_skills' => [1, 10],
+        'all_skills' => [1, 10],
         'priceHour' => [10, 100],
         'priceDay' => [100, 600],
         'timezone' => [1, 1],

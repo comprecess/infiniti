@@ -38,7 +38,7 @@ class Catalog extends Seeder
             ['name' => 'Experience', 'id_name' => 'experience', 'filter' => 1, 'sort' => 600, 'child' => [
                 ['name' => 'Years', 'id_name' => 'years', 'type' => 'integer', 'has_add' => 1, 'options' => '{"placeholder": {"from": 1, "to": 35}}'],
             ]],
-            ['name' => 'Language', 'id_name' => 'language', 'filter' => 1, 'type' => 'checkbox', 'sort' => 700, 'required' => 1,  'child' => [
+            ['name' => 'Language', 'id_name' => 'language', 'filter' => 1, 'type' => $type[5], 'sort' => 700, 'required' => 1,  'child' => [
                 ['name' => 'English', 'id_name' => 'english', 'type' => $type[5]],
                 ['name' => 'German', 'id_name' => 'german', 'type' => $type[5]],
                 ['name' => 'Spanish', 'id_name' => 'spanish', 'type' => $type[5]],
