@@ -23,6 +23,7 @@ class PropertyResorce extends JsonResource implements ListInterface
         $resource['values'] = ValueResorce::collection($this->values);
 
         $resource['children'] = self::collection($this->children);
+        $resource['options'] = $this->options && !is_array($this->options) ? json_decode($this->options, true) : $this->options;
 
         return $resource;
     }
