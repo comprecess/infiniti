@@ -41,6 +41,7 @@ class UsersResorce extends JsonResource
 
         if(!self::$isCollection) {
             $resorce['available'] = $this->getAvailableStatus();
+            $resorce['allSkills'] = ValueResorce::collection($this->getPropValues('all_skills', null));
             $resorce['userId'] = $this->getNested('user.id');
             $resorce['language'] = $this->getLanguage();
             $resorce['experience'] = $this->getExpirence();
