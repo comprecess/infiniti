@@ -18,6 +18,7 @@ class UserBlockResorce extends JsonResource
         $resorce = [
             'id' => $this->id,
             'position' => $this->position,
+            'name' => $this->name,
             'periodFrom' => $this->from->format('M Y'),
             'periodTo' => $this->to?->format('M Y'),
             'responsibilities' => $this->responsibilities
