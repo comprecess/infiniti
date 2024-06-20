@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: space-between;
 
-  @include mobileBreakpoint('max', $bpXL - 1) {
+  @include mobileBreakpoint('max', $bpXL) {
     justify-content: end;
   }
 }
@@ -21,7 +21,7 @@
 .itemsLeft {
   transition: all 0.3s;
 
-  @include mobileBreakpoint('max', $bpXL - 1) {
+  @include mobileBreakpoint('max', $bpXL) {
     display: none;
   }
 }

@@ -8,6 +8,8 @@ const baseStyle = definePartsStyle({
   list: {
     bg: 'brand.800',
     border: 'none',
+    maxHeight: '250px',
+    overflowY: 'auto',
   },
   item: {
     color: 'white',

@@ -1,0 +1,47 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wrapperInput {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  height: 48px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: $brand-800;
+}
+
+.title {
+  font-family: $fontSpaceGrotesk;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.input {
+  width: 100%;
+
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $gray-400;
+  background-color: $brand-800;
+
+  &::placeholder {
+    color: $gray-400;
+  }
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 30px $brand-800 inset !important;
+    -webkit-text-fill-color: $gray-400 !important;
+  }
+}
