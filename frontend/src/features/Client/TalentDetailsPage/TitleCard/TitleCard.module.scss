@@ -1,13 +1,28 @@
 .wrapper {
   display: flex;
+  flex-direction: row;
+  gap: 16px;
   width: 100%;
+
+  @include mobileBreakpoint('max', $bpM) {
+    flex-direction: column;
+    gap: 0;
+  }
 }
 
-.title {
+.title,
+.secondTitle {
   font-family: $fontSpaceGrotesk;
   font-size: 27px;
   font-weight: 700;
   line-height: 40px;
   letter-spacing: -0.03em;
+}
+
+.title {
   color: $white;
+}
+
+.secondTitle {
+  color: $gray-400;
 }

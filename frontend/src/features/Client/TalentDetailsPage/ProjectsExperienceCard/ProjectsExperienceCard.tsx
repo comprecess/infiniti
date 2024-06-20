@@ -1,63 +1,58 @@
-import { FC } from 'react'
+import React, { FC } from 'react'
 
-import { TalentInfoData } from '../../../../app/data/client/talentInfo'
+import { TalentData } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
-import { ListInfoItem } from '../ListInfoItem/ListInfoItem'
-import { TextInfoItem } from '../TextInfoItem/TextInfoItem'
 import { TitleCard } from '../TitleCard/TitleCard'
+import { Item } from './Item/Item'
 import styles from './ProjectsExperienceCard.module.scss'
 
-export const ProjectsExperienceCard: FC = () => {
+interface ProjectsExperienceCardProps {
+  talentInfo: TalentData
+}
+
+export const ProjectsExperienceCard: FC<ProjectsExperienceCardProps> = ({
+  talentInfo,
+}) => {
+  const getYearText = (years: number, months: number) => {
+    let dataText = ''
+
+    if (years > 0) {
+      dataText += `${years} ${years === 1 ? 'year' : 'years'}`
+    }
+
+    if (months > 0) {
+      dataText += ` ${months} ${months === 1 ? 'month' : 'months'}`
+    }
+
+    return dataText
+  }
+
   return (
     <div className={styles.wrapper}>
-      <TitleCard title='Projects and experience' />
-      <h5 className={styles.miniTitle}>ACME LLC</h5>
-      <div className={styles.list}>
-        {TalentInfoData[1].item.map(item => {
-          if (typeof item.description === 'string') {
-            return (
-              <TextInfoItem
-                key={item.title}
-                title={item.title}
-                text={item.description}
-              />
-            )
-          } else if (Array.isArray(item.description)) {
-            return (
-              <ListInfoItem
-                key={item.title}
-                title={item.title}
-                list={item.description}
-              />
-            )
-          }
-        })}
-      </div>
-      <div className={styles.divider}>
-        <CustomDivider />
-      </div>
-      <h5 className={styles.miniTitle}>ACME LLC</h5>
-      <div className={styles.list}>
-        {TalentInfoData[1].item.map(item => {
-          if (typeof item.description === 'string') {
-            return (
-              <TextInfoItem
-                key={item.title}
-                title={item.title}
-                text={item.description}
-              />
-            )
-          } else if (Array.isArray(item.description)) {
-            return (
-              <ListInfoItem
-                key={item.title}
-                title={item.title}
-                list={item.description}
-              />
-            )
-          }
-        })}
-      </div>
+      <TitleCard
+        title='Projects and experience'
+        secondTitle={getYearText(
+          talentInfo.experience.year,
+          talentInfo.experience.month,
+        )}
+      />
+      {talentInfo.blockExperience.map((item, index) => {
+        return (
+          <React.Fragment key={item.id}>
+            <Item
+              name={item.name}
+              position={item.position}
+              period={`${item.periodFrom} — ${item.periodTo}`}
+              responsibilities={item.responsibilities}
+            />
+            {index !== talentInfo.blockExperience.length - 1 && (
+              <div className={styles.divider}>
+                <CustomDivider />
+              </div>
+            )}
+          </React.Fragment>
+        )
+      })}
     </div>
   )
 }

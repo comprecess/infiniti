@@ -1,0 +1,15 @@
+.miniTitle {
+  font-family: $fontSpaceGrotesk;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $white;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
