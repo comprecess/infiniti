@@ -23,6 +23,7 @@ const extractIdFromUrl = (url: string): number | null => {
 
 const useIdFromUrl = () => {
   const location = useLocation()
+
   const id = useMemo(
     () => extractIdFromUrl(location.pathname),
     [location.pathname],
@@ -50,6 +51,8 @@ export const TalentPage: FC = () => {
 
   const getInfo = useCallback(async () => {
     if (id !== null) {
+      setTalentInfo(null)
+
       const talentsData = await getUserInfo(id)
 
       if (talentsData) {
@@ -60,16 +63,17 @@ export const TalentPage: FC = () => {
     } else {
       navigate('/404')
     }
-  }, [])
+  }, [id, navigate])
 
   useEffect(() => {
     document.title = 'infiniti | Talent Details'
-    window.scrollTo(0, 0)
   }, [])
 
   useEffect(() => {
+    window.scrollTo(0, 0)
+
     getInfo()
-  }, [id])
+  }, [id, getInfo])
 
   return (
     <div className={styles.wrapper}>
@@ -90,15 +94,15 @@ export const TalentPage: FC = () => {
             <div className={styles.listItems}>
               <TalentCard talent={talentInfo} />
               <div className={styles.info}>
-                <AboutTalentCard />
-                <ProjectsExperienceCard />
-                <EducationCard />
+                <AboutTalentCard talentInfo={talentInfo} />
+                <ProjectsExperienceCard talentInfo={talentInfo} />
+                <EducationCard talentInfo={talentInfo} />
               </div>
             </div>
           </section>
           <section className={styles.section}>
             <div className={styles.item}>
-              <SimilarTalents />
+              <SimilarTalents similarTalents={talentInfo.similar} />
             </div>
           </section>
           <section className={styles.section}>

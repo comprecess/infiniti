@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { TalentData } from '../../app/constants/constants'
+import { TalentsProps } from '../../app/constants/constants'
 import { CustomDivider } from '../../shared/ui/CustomDivider/CustomDivider'
 import { Body } from './Body/Body'
 import { Footer } from './Footer/Footer'
@@ -8,7 +8,7 @@ import { Header } from './Header/Header'
 import styles from './TalentsCard.module.scss'
 
 interface TalentsCardProps {
-  talent: TalentData
+  talent: TalentsProps
 }
 
 export const TalentsCard: FC<TalentsCardProps> = ({ talent }) => {

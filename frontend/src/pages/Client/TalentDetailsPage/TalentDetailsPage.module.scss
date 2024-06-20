@@ -20,7 +20,7 @@
   height: 100%;
   max-width: $maxContentSize;
 
-  @include mobileBreakpoint('max', $bpXL) {
+  @include mobileBreakpoint('max', $bpXL - 1) {
     flex-direction: column;
   }
 }

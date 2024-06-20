@@ -54,6 +54,28 @@ export interface AdminInfo {
 export interface TalentData {
   id: number
   img: string
+  blockExperience: BlockExperienceProps[]
+  experience: ExperienceProps
+  educationDegree: string
+  educationGraduation: string
+  educationName: string
+  educationSpecialization: string
+  industries: []
+  keySkills: []
+  allSkills: []
+  language: string
+  level: string
+  name: string
+  similar: TalentsProps[]
+  priceDay: string
+  priceHour: string
+  specialization: string
+  timezone: string
+}
+
+export interface TalentsProps {
+  id: number
+  img: string
   industries: []
   keySkills: []
   level: string
@@ -62,6 +84,21 @@ export interface TalentData {
   priceHour: string
   specialization: string
   timezone: string
+}
+
+export interface BlockExperienceProps {
+  id: number
+  name: string
+  periodFrom: string
+  periodTo: string
+  position: string
+  responsibilities: string
+}
+
+export interface ExperienceProps {
+  day: number
+  month: number
+  year: number
 }
 
 export interface FiltersData {
