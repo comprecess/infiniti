@@ -27,6 +27,7 @@ class User extends Model
 
     protected $casts = [
         'availabilityEnd' => 'datetime',
+        'experience' => 'json',
     ];
 
     public function user()
@@ -129,7 +130,7 @@ class User extends Model
         }
     }
 
-    public function getExpirence() :array
+    public function setExpirence()
     {
         $result = ['year' => 0, 'month' => 0, 'day' => 0];
         $exp = [];
@@ -174,7 +175,8 @@ class User extends Model
         $result['year'] += intval($result['month'] / 12);
         $result['month'] = $result['month'] % 12;
 
-        return $result;
+        $this->experience = $result;
+        $this->save();
     }
 
     public function getSimilar()

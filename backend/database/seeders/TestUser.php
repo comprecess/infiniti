@@ -29,7 +29,11 @@ class TestUser extends Seeder
         'gender' => [1, 1],
         'age' => [18, 30],
         'lvl' => [1, 1],
-        'specialization' => 'test'
+        'specialization' => 'test',
+        'education_name' => 'test',
+        'education_specialization' => 'test',
+        'education_degree' => 'test',
+        'education_graduation' => [1990, 2010],
 
     ];
 
@@ -102,6 +106,7 @@ class TestUser extends Seeder
                 $block = new UserBlock();
                 $block->id_catalog_user = $userCatalog->id;
                 $block->position = fake()->word();
+                $block->name = fake()->word();
                 $block->to = $carb1;
                 $block->from = $carb2;
                 $block->responsibilities = fake()->text(rand(1,5) * 100);
