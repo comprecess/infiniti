@@ -5,6 +5,9 @@ const { definePartsStyle, defineMultiStyleConfig } =
   createMultiStyleConfigHelpers(checkboxAnatomy.keys)
 
 const baseStyle = definePartsStyle({
+  container: {
+    width: '100%',
+  },
   control: {
     width: 5,
     height: 5,
@@ -13,6 +16,8 @@ const baseStyle = definePartsStyle({
     backgroundColor: 'gray.500',
   },
   label: {
+    display: 'block',
+    width: '100%',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',

@@ -1,6 +1,7 @@
 .wrapper {
   display: block;
   width: 100%;
+  min-width: 200px;
 
   @include mobileBreakpoint('min', $bpL) {
     max-width: 357px;
@@ -49,4 +50,8 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.buttonSubmit {
+  margin-top: 20px;
 }

@@ -1,10 +1,36 @@
 .wrapper {
   display: flex;
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.inputs {
+  display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.buttonSubmit {
   width: 100%;
-  max-width: 1166px;
-  padding: 24px 40px 24px 40px;
-  border-radius: 8px;
-  background-color: $brand-900;
+  max-width: 200px;
+}
+
+.inputDescription {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.description {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 14px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $brand-400;
 }

@@ -1,6 +1,7 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
 
 import { FiltersData } from '../../../../app/constants/constants'
+import { ButtonBrand } from '../../../../shared/ui/ButtonBrand/ButtonBrand'
 import { CustomCheckBox } from '../../../../shared/ui/CustomCheckBox/CustomCheckBox'
 import { CustomCheckBoxIndeterminate } from '../../../../shared/ui/CustomCheckBoxIndeterminate/CustomCheckBoxIndeterminate'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
@@ -136,6 +137,9 @@ export const Filters: FC = () => {
                 )}
               </React.Fragment>
             ))}
+            <div className={styles.buttonSubmit}>
+              <ButtonBrand title={'Submit'} />
+            </div>
           </div>
         </>
       ) : (

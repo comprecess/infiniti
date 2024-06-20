@@ -21,3 +21,7 @@ Client Invoices Page:
 
 Admin Document Title:
 		• Сделать название URL для каждой станицы
+
+
+Catalog Page PWA:
+		• Белая линия внизу страницы
