@@ -17,6 +17,10 @@ class Filter implements FilterContract
 //        'availability'
     ];
 
+    protected $similarListProp = [
+        'lvl', 'key_skills', 'industries'
+    ];
+
     public function propertis(array $data, $query)
     {
         foreach($data as $id => $value) {
@@ -89,6 +93,26 @@ class Filter implements FilterContract
 
     public function similar(User $user)
     {
+        $result = [];
+        $values = $user->values()
+            ->with(['users'])
+            ->join('catalog_prop', 'catalog_prop.id', '=', 'catalog_prop_value.id_prop')
+            ->whereIn('catalog_prop.id_name', $this->similarListProp)
+            ->orderByRaw('FIELD(catalog_prop.id_name, "'.implode('","', $this->similarListProp).'")')
+            ->get();
+        foreach($values as $v) {
+            foreach($v->users as $u) {
+                if(isset($result[$u->id])) {
+                    $result[$u->id]++;
+                } else {
+                    $result[$u->id] = 1;
+                }
+            }
+        }
+        unset($result[$user->id]);
+        arsort($result);
+
+        return User::whereIn('id', collect($result)->keys()->chunk(3)->first())->get();
 
     }
 }

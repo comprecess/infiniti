@@ -44,9 +44,14 @@ class UsersResorce extends JsonResource
             $resorce['allSkills'] = ValueResorce::collection($this->getPropValues('all_skills', null));
             $resorce['userId'] = $this->getNested('user.id');
             $resorce['language'] = $this->getLanguage();
-            $resorce['experience'] = $this->getExpirence();
+//            $resorce['experience'] = $this->getExpirence();
+            $resorce['experience'] = $this->experience;
             $resorce['blockExperience'] = UserBlockResorce::collection($this->blockExperience);
-//            $resorce['similar'] = $this->getSimilar();
+            $resorce['educationName'] = $this->getPropValues('education_name');
+            $resorce['educationSpecialization'] = $this->getPropValues('education_specialization');
+            $resorce['educationDegree'] = $this->getPropValues('education_degree');
+            $resorce['educationGraduation'] = $this->getPropValues('education_graduation');
+            $resorce['similar'] = self::collection($this->getSimilar());
         }
 
         return $resorce;
