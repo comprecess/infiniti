@@ -49,25 +49,26 @@ class CatalogController extends Controller
     {
         $queryBuild = User::select(['catalog_user.*'])->distinct()->with(['user', 'blockExperience', 'values', 'props', 'values.prop']);
 
-        if($request->propertyValue) {
-            $queryBuild->join('catalog_user_value as t1', 't1.id_catalog_user', '=', 'catalog_user.id')
-                ->join('catalog_prop_value as t1_1', function($join){
-                    $join->on('t1_1.id', '=', 't1.cataloggable_id')
-                        ->where('t1.cataloggable_type', '=', Value::class);
-                })
-                ->whereIn('t1_1.id', $request->propertyValue);
+        if($request->filter) {
+            $queryBuild->join('catalog_user_value', 'catalog_user_value.id_catalog_user', '=', 'catalog_user.id')
+                ->join('catalog_prop_value', function($join){
+                    $join->on('catalog_prop_value.id', '=', 'catalog_user_value.cataloggable_id')
+                        ->where('catalog_user_value.cataloggable_type', '=', Value::class);
+                });
+
+            $filter->propertis($request->filter, $queryBuild);
         }
 
 //        dd($filter->);
 
-        if($request->property) {
-            $queryBuild->join('catalog_user_value as t2', 't2.id_catalog_user', '=', 'catalog_user.id')
-                ->join('catalog_prop_value as t2_2', function($join){
-                    $join->on('t2_2.id', '=', 't2.cataloggable_id')
-                        ->where('t2.cataloggable_type', '=', Value::class);
-                })
-                ->whereIn('t2_2.id', $request->propertyValue);
-        }
+//        if($request->property) {
+//            $queryBuild->join('catalog_user_value as t2', 't2.id_catalog_user', '=', 'catalog_user.id')
+//                ->join('catalog_prop_value as t2_2', function($join){
+//                    $join->on('t2_2.id', '=', 't2.cataloggable_id')
+//                        ->where('t2.cataloggable_type', '=', Value::class);
+//                })
+//                ->whereIn('t2_2.id', $request->propertyValue);
+//        }
 
         $sort = $request->getSort();
 

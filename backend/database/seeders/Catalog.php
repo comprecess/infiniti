@@ -29,14 +29,14 @@ class Catalog extends Seeder
             ['name' => 'Industries', 'id_name' => 'industries', 'type' => 'checkbox', 'filter' => 1, 'sort' => 100, 'required' => 1],
             ['name' => 'Key skills', 'id_name' => 'key_skills', 'type' => 'checkbox', 'filter' => 1, 'sort' => 200, 'required' => 1],
             ['name' => 'Rate', 'id_name' => 'rate', 'filter' => 1, 'type' => $type[4], 'sort' => 300, 'child' => [
-                ['name' => 'Hourly', 'id_name' => 'priceHour', 'type' => 'integer', 'has_add' => 1, 'options' => '{"placeholder": {"from": 1, "to": 250}}', 'sort' => 10, 'required' => 1],
-                ['name' => 'Daily (8h)', 'id_name' => 'priceDay', 'type' => 'integer', 'has_add' => 1, 'options' => '{"placeholder": {"from": 1, "to": 1500}}', 'sort' => 20, 'required' => 1],
+                ['name' => 'Hourly', 'id_name' => 'priceHour', 'type' => 'integer', 'filter' => 1, 'has_add' => 1, 'options' => '{"placeholder": {"from": 1, "to": 250}}', 'sort' => 10, 'required' => 1],
+                ['name' => 'Daily (8h)', 'id_name' => 'priceDay', 'type' => 'integer', 'filter' => 1, 'has_add' => 1, 'options' => '{"placeholder": {"from": 1, "to": 1500}}', 'sort' => 20, 'required' => 1],
             ]
             ],
             ['name' => 'Availability', 'id_name' => 'availability', 'type' => 'checkbox', 'filter' => 1, 'sort' => 400],
             ['name' => 'Timezone', 'id_name' => 'timezone', 'type' => 'checkbox', 'filter' => 1, 'sort' => 500, 'required' => 1],
             ['name' => 'Experience', 'id_name' => 'experience', 'filter' => 1, 'sort' => 600, 'child' => [
-                ['name' => 'Years', 'id_name' => 'years', 'type' => 'integer', 'has_add' => 1, 'options' => '{"placeholder": {"from": 1, "to": 35}}'],
+                ['name' => 'Years', 'id_name' => 'years', 'type' => 'integer', 'filter' => 1, 'has_add' => 1, 'options' => '{"placeholder": {"from": 1, "to": 35}}'],
             ]],
             ['name' => 'Language', 'id_name' => 'language', 'filter' => 1, 'type' => $type[5], 'sort' => 700, 'required' => 1,  'child' => [
                 ['name' => 'English', 'id_name' => 'english', 'type' => $type[5]],
