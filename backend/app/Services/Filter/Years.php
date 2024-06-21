@@ -4,12 +4,20 @@
 namespace App\Services\Filter;
 
 
-class Years implements FilterInterface
+use App\Services\FilterProp;
+
+class Years extends FilterProp implements FilterInterface
 {
 
-    public function before($query, $prop, $value)
+    public function before($value)
     {
-        // TODO: Implement before() method.
+        if(isset($value[0]) && $value[0] !== null) {
+            $this->query->where('experience->year', '>=', $value[0]);
+        }
+
+        if(isset($value[1]) && $value[1] !== null) {
+            $this->query->where('experience->year', '<=', $value[1]);
+        }
     }
 
     public function after($result)

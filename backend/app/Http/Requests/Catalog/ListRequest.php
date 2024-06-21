@@ -30,10 +30,7 @@ class ListRequest extends FormRequest
         $type = array_keys(self::SORT_TYPE);
 
         return [
-            'property' => 'array',
-//            'property.*' => 'required|integer',
-//            'propertyValue' => 'array',
-//            'propertyValue.*' => 'required|integer',
+            'filter' => 'array',
             'sort' => 'array',
             'sort.name' => 'in:' . (implode(',', $name)),
             'sort.type' => 'in:' . (implode(',', $type))

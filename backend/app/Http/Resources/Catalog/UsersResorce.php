@@ -6,6 +6,7 @@ use App\Http\Resources\Traits\NestedParametersTrait;
 use App\Http\Resources\Traits\PropValuesTrait;
 use App\Http\Resources\UserResource;
 use App\Models\Catalog\Prop;
+use App\Models\Catalog\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -40,7 +41,7 @@ class UsersResorce extends JsonResource
         ];
 
         if(!self::$isCollection) {
-            $resorce['available'] = $this->getAvailableStatus();
+            $resorce['available'] = User::AVAILABLE_STATUS[$this->getAvailableStatus()];
             $resorce['allSkills'] = ValueResorce::collection($this->getPropValues('all_skills', null));
             $resorce['userId'] = $this->getNested('user.id');
             $resorce['language'] = $this->getLanguage();
