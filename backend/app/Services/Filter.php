@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Contracts\FilterContract;
 use App\Models\Catalog\Prop;
 use App\Models\Catalog\User;
+use App\Models\Catalog\Value;
 use App\Services\Filter\Availability;
 use App\Services\Filter\Years;
 
@@ -21,7 +22,7 @@ class Filter implements FilterContract
         'lvl', 'key_skills', 'industries'
     ];
 
-    public function propertis(array $data, $query)
+    public function properties(array $data, $query)
     {
         $i = 0;
         $users = [];
@@ -30,8 +31,16 @@ class Filter implements FilterContract
             return;
         }
 
+        $FilterQuery = clone $query;
+
+        $FilterQuery->join('catalog_user_value', 'catalog_user_value.id_catalog_user', '=', 'catalog_user.id')
+            ->join('catalog_prop_value', function($join){
+                $join->on('catalog_prop_value.id', '=', 'catalog_user_value.cataloggable_id')
+                    ->where('catalog_user_value.cataloggable_type', '=', Value::class);
+            });
+
         foreach($data as $id => $value) {
-            $newQuery = clone $query;
+            $newQuery = clone $FilterQuery;
             $type = is_int($id) ? 'id' : 'id_name';
             $prop = Prop::where($type, $id)->where('filter', 1)->with(['children', 'values'])->first();
 

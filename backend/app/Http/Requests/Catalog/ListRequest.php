@@ -16,8 +16,8 @@ class ListRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     const SORT = [
-        'rateHourly' => 'hourly',
-        'rate8h' => 'daily'
+        'priceHour' => 'priceHour',
+        'priceDay' => 'priceDay'
     ];
     const SORT_TYPE = [
         'asc' => 'asc',
@@ -40,7 +40,8 @@ class ListRequest extends FormRequest
     public function getSort($type = false)
     {
         $s = !$type ? self::SORT : self::SORT_TYPE ;
+        $typeName = !$type ? 'name' : 'type';
         $sort = $this->sort ?? [];
-        return Arr::get($sort, 'name', $s[array_key_first($s)]);
+        return $s[Arr::get($sort, $typeName, array_key_first($s))];
     }
 }
