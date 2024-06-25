@@ -2,6 +2,8 @@ export const authTokenString = 'authToken'
 export const profileInfoString = 'profileInfo'
 export const userTalentsPageString = 'userTalentsPage'
 
+export const page = '?page='
+
 export const roles = {
   client: 'Client',
   admin: 'Admin',

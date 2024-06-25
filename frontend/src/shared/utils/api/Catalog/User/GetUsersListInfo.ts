@@ -13,6 +13,8 @@ export const getUsersListInfo = async (page: string, sort?: object) => {
       },
     )
 
+    console.log(JSON.stringify({ filter: sort }))
+
     const data = await response.json()
 
     return data

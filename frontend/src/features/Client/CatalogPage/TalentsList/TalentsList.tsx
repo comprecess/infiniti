@@ -2,6 +2,7 @@ import { FC, memo, useCallback, useEffect, useState } from 'react'
 
 import {
   FiltersState,
+  page,
   TalentData,
   TalentsListMetaData,
   userTalentsPageString,
@@ -24,7 +25,7 @@ interface TalentsListProps {
 }
 
 export const TalentsList: FC<TalentsListProps> = ({ selectedFilters }) => {
-  const [currentPage, setCurrentPage] = useState<string>(
+  const [currentPage, setCurrentPage] = useState<number>(
     getSession(userTalentsPageString),
   )
   const [talentsList, setTalentsList] = useState<{
@@ -33,9 +34,9 @@ export const TalentsList: FC<TalentsListProps> = ({ selectedFilters }) => {
   } | null>(null)
 
   const nextPage = useCallback((id: number) => {
-    saveSession(userTalentsPageString, `?page=${id}`)
+    saveSession(userTalentsPageString, id)
 
-    setCurrentPage(`?page=${id}`)
+    setCurrentPage(id)
   }, [])
 
   const scrollToTop = useCallback(() => {
@@ -46,9 +47,13 @@ export const TalentsList: FC<TalentsListProps> = ({ selectedFilters }) => {
 
   const getInfo = useCallback(async () => {
     const talentsData = await getUsersListInfo(
-      currentPage,
+      page + String(currentPage),
       selectedFilters,
     )
+
+    if (currentPage > talentsData.meta.last_page) {
+      setCurrentPage(1)
+    }
 
     setTalentsList(talentsData)
   }, [currentPage, selectedFilters])
@@ -56,11 +61,6 @@ export const TalentsList: FC<TalentsListProps> = ({ selectedFilters }) => {
   useEffect(() => {
     getInfo()
   }, [currentPage, selectedFilters, getInfo])
-
-  useEffect(() => {
-    nextPage(1)
-    getInfo()
-  }, [selectedFilters])
 
   if (!talentsList) {
     return (

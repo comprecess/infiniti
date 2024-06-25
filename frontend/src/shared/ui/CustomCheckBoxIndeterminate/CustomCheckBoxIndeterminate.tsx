@@ -1,5 +1,6 @@
 import { FC } from 'react'
 
+import { FiltersState } from '../../../app/constants/constants'
 import styles from './CustomCheckBoxIndeterminate.module.scss'
 import { Indeterminate } from './Indeterminate/Indeterminate'
 
@@ -17,12 +18,20 @@ interface LanguagesList {
 
 interface CheckBoxListProps {
   languages: LanguagesList[]
+  filters: FiltersState
   searchItem?: string
+  onCheckboxChange: (
+    propId: string,
+    value: number,
+    checked: boolean,
+  ) => void
 }
 
 export const CustomCheckBoxIndeterminate: FC<CheckBoxListProps> = ({
   languages,
+  filters,
   searchItem,
+  onCheckboxChange,
 }) => {
   let filteredLanguages = languages
 
@@ -35,11 +44,17 @@ export const CustomCheckBoxIndeterminate: FC<CheckBoxListProps> = ({
   return (
     <div className={styles.wrapper}>
       {filteredLanguages.map(language => {
+        const isChecked =
+          filters[language.id]?.includes(language.id) || false
+
         return (
           <Indeterminate
             key={language.id}
             languageTitle={language.name}
             languageLevels={language.values}
+            isChecked={isChecked}
+            filters={filters}
+            onCheckboxChange={onCheckboxChange}
           />
         )
       })}

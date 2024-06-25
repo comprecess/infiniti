@@ -122,7 +122,9 @@ export const Filters: FC<FiltersProps> = ({
                     >
                       <CustomCheckBoxIndeterminate
                         languages={filter.children}
+                        filters={selectedFilters}
                         searchItem={searchItems[index]}
+                        onCheckboxChange={handleCheckboxChange}
                       />
                     </CategoryItem>
                     <CustomDivider />
