@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Traits\AuthPasswordTrait;
+use App\Models\Traits\FileStorageTrait;
 use App\Models\Users\Interfaces\LoginIntarface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,7 +16,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, AuthPasswordTrait;
+    use HasApiTokens, HasFactory, Notifiable, AuthPasswordTrait, FileStorageTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -96,6 +97,12 @@ class User extends Authenticatable
     public function setApiToken()
     {
         $this->api_token = hash('sha256', Hash::make(Str::random(36)));
+    }
+
+    public function getAvatar($isLink = false)
+    {
+        $avatar = $this->files->where('data', null)->sortByDesc('id')->first();
+        return $isLink ? $avatar?->getLink() : $avatar;
     }
 
 

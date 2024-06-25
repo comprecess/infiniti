@@ -18,6 +18,8 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
 
     public $table = 'crm_accounts';
 
+    protected $morphClass = 'Client';
+
     protected $nameClass = 'Client';
 
     public function checkCart()
