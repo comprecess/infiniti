@@ -34,7 +34,7 @@ export const getProfileInfo = async () => {
       const data = await response.json()
 
       saveSession(profileInfoString, data.data)
-      saveSession(userTalentsPageString, '?page=1')
+      saveSession(userTalentsPageString, 1)
 
       return data.data
     } catch (error) {

@@ -1,28 +1,79 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
+import { FiltersState } from '../../../../app/constants/constants'
 import { CustomCheckBox } from '../../CustomCheckBox/CustomCheckBox'
 import { LevelsList } from '../CustomCheckBoxIndeterminate'
 import styles from './Indeterminate.module.scss'
 
 interface ParentChildrenProps {
   languageTitle: string
+  isChecked: boolean
+  filters: FiltersState
   languageLevels?: LevelsList[]
+  onCheckboxChange: (
+    propId: string,
+    value: number,
+    checked: boolean,
+  ) => void
 }
 
 export const Indeterminate: FC<ParentChildrenProps> = ({
   languageTitle,
+  isChecked,
   languageLevels,
+  filters,
+  onCheckboxChange,
 }) => {
-  const initialCheckedState = languageLevels?.map(() => false) || []
+  const initialCheckedState =
+    languageLevels?.map(
+      level => filters[level.propId]?.includes(level.id) || false,
+    ) || []
   const [checkedItems, setCheckedItems] = useState(initialCheckedState)
 
-  const handleCheckboxChange = (index: number, isChecked: boolean) => {
+  const handleCheckboxChange = (index: number, checked: boolean) => {
     const newCheckedItems = [...checkedItems]
-    newCheckedItems[index] = isChecked
+    newCheckedItems[index] = checked
+
     setCheckedItems(newCheckedItems)
+
+    if (languageLevels) {
+      onCheckboxChange(
+        languageLevels[index].propId.toString(),
+        languageLevels[index].id,
+        checked,
+      )
+    }
   }
 
-  const allChecked = checkedItems.every(Boolean)
+  const handleParentCheckboxChange = (checked: boolean) => {
+    const newCheckedItems = checkedItems.map(() => checked)
+
+    setCheckedItems(newCheckedItems)
+
+    if (languageLevels) {
+      languageLevels.forEach((level, index) => {
+        if (checkedItems[index] !== checked) {
+          onCheckboxChange(level.propId.toString(), level.id, checked)
+        }
+      })
+    }
+  }
+
+  useEffect(() => {
+    setCheckedItems(
+      languageLevels?.map(
+        level => filters[level.propId]?.includes(level.id) || false,
+      ) || [],
+    )
+  }, [filters, languageLevels])
+
+  useEffect(() => {
+    if (isChecked) {
+      handleParentCheckboxChange(true)
+    }
+  }, [isChecked])
+
+  const allChecked = checkedItems.length > 0 && checkedItems.every(Boolean)
   const isIndeterminate = checkedItems.some(Boolean) && !allChecked
 
   return (
@@ -31,23 +82,17 @@ export const Indeterminate: FC<ParentChildrenProps> = ({
         title={languageTitle}
         isChecked={allChecked}
         isIndeterminate={isIndeterminate}
-        onChange={e =>
-          setCheckedItems(
-            Array(languageLevels?.length).fill(e.target.checked),
-          )
-        }
+        onChange={e => handleParentCheckboxChange(e.target.checked)}
       />
       <div className={styles.list}>
-        {languageLevels?.map((level, index) => {
-          return (
-            <CustomCheckBox
-              key={level.id}
-              title={level.value}
-              isChecked={checkedItems[index]}
-              onChange={e => handleCheckboxChange(index, e.target.checked)}
-            />
-          )
-        })}
+        {languageLevels?.map((level, index) => (
+          <CustomCheckBox
+            key={level.id}
+            title={level.value}
+            isChecked={checkedItems[index]}
+            onChange={e => handleCheckboxChange(index, e.target.checked)}
+          />
+        ))}
       </div>
     </>
   )
