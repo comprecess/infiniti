@@ -41,6 +41,8 @@ Route::group(
     'prefix' => 'client',
     ], function(){
         Route::get('/', [ClientController::class, 'index']);
+        Route::put('/', [ClientController::class, 'update']);
+        Route::post('/avatar', [ClientController::class, 'updateAvatar']);
     }
 );
 
@@ -53,6 +55,15 @@ Route::group(
 }
 );
 
+#tools
+Route::group(
+    [
+        'prefix' => 'tools',
+    ], function(){
+    Route::get('countries', [\App\Http\Controllers\Api\ToolsController::class, 'countries']);
+}
+);
+
 #catalog
 Route::group(['prefix' => 'catalog'], function(){
     Route::get('filters', [CatalogController::class, 'filters']);
@@ -61,3 +72,7 @@ Route::group(['prefix' => 'catalog'], function(){
     Route::post('list', [CatalogController::class, 'list']);
     Route::get('item/{catalogUser}', [CatalogController::class, 'item']);
 });
+
+#fileStorage
+Route::get('/file/{file_storage}', [\App\Http\Controllers\Api\FileController::class, 'load'])
+    ->name('file_storage');

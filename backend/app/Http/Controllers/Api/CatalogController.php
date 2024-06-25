@@ -47,7 +47,7 @@ class CatalogController extends Controller
 
     public function list(ListRequest $request, FilterContract $filter)
     {
-        $queryBuild = User::select(['catalog_user.*'])->distinct()->with(['user', 'blockExperience', 'values', 'props', 'values.prop']);
+        $queryBuild = User::select(['catalog_user.*'])->distinct()->with(['user', 'blockExperience', 'values', 'props', 'values.prop','user.files']);
 
         if($request->filter) {
             $filter->properties($request->filter, $queryBuild);

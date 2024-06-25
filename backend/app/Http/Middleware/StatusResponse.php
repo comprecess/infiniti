@@ -21,13 +21,15 @@ class StatusResponse
          *
          * @var Response $reqsponse
          */
-        $json = json_decode($response->getContent(), true);
+        if($request->expectsJson()) {
+            $json = json_decode($response->getContent(), true);
 
-        if(!isset($json['status'])) {
-            $json['status'] = $response->getStatusCode() == 200;
+            if(!isset($json['status'])) {
+                $json['status'] = $response->getStatusCode() == 200;
+            }
+
+            $response->setContent(json_encode($json));
         }
-
-        $response->setContent(json_encode($json));
 
         return $response;
     }

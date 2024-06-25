@@ -26,6 +26,8 @@ class UserResource extends JsonResource implements ListInterface
         ];
 
         $this->setList($resource);
+        $resource['img'] = $this->getAvatar(true) ?? "";
+
 
 
         return $resource;
