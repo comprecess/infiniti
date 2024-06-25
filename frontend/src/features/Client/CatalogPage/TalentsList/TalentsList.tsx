@@ -81,13 +81,34 @@ export const TalentsList: FC<TalentsListProps> = ({ selectedFilters }) => {
           <SortListMemoized />
         </div>
         <div className={styles.list}>
-          <div className={styles.talentsList}>
-            {talentsList.data?.map(talent => {
-              return <TalentsCard key={talent.id} talent={talent} />
-            })}
+          {talentsList.data.length > 0 ? (
+            <>
+              <div className={styles.talentsList}>
+                {talentsList.data?.map(talent => {
+                  return <TalentsCard key={talent.id} talent={talent} />
+                })}
+              </div>
+              <PagesList meta={talentsList.meta} nextPage={nextPage} />
+            </>
+          ) : (
+            <div className={styles.nothingFound}>
+              <span className={styles.nothingFoundText}>
+                Nothing Found
+              </span>
+            </div>
+          )}
+          <div
+            className={
+              talentsList.data.length > 0
+                ? styles.buttonBackToTopActive
+                : styles.buttonBackToTopInactive
+            }
+          >
+            <ButtonBrandMemoized
+              title='Back to top'
+              onClick={scrollToTop}
+            />
           </div>
-          <PagesList meta={talentsList.meta} nextPage={nextPage} />
-          <ButtonBrandMemoized title='Back to top' onClick={scrollToTop} />
         </div>
       </div>
     </div>
