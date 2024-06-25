@@ -1,7 +1,9 @@
 .wrapper {
-  display: block;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   min-width: 200px;
+  align-items: center;
 
   @include mobileBreakpoint('min', $bpL) {
     max-width: 357px;
@@ -10,6 +12,7 @@
 
 .header {
   display: flex;
+  width: 100%;
   height: 56px;
   justify-content: space-between;
   padding: 16px 32px 16px 32px;
@@ -20,6 +23,7 @@
 
 .filters {
   display: flex;
+  width: 100%;
   flex-direction: column;
   padding: 16px 32px 32px 32px;
   background-color: $brand-900;
@@ -43,15 +47,16 @@
   letter-spacing: -0.03em;
   color: $gray-300;
   user-select: none;
+  transition: all 0.2s;
   cursor: pointer;
+
+  @include hover() {
+    color: $gray-200;
+  }
 }
 
 .items {
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-.buttonSubmit {
-  margin-top: 20px;
 }

@@ -1,6 +1,7 @@
 import { FC, memo, useCallback, useEffect, useState } from 'react'
 
 import {
+  FiltersState,
   TalentData,
   TalentsListMetaData,
   userTalentsPageString,
@@ -18,7 +19,11 @@ import styles from './TalentsList.module.scss'
 const SortListMemoized = memo(SortList)
 const ButtonBrandMemoized = memo(ButtonBrand)
 
-export const TalentsList: FC = () => {
+interface TalentsListProps {
+  selectedFilters: FiltersState
+}
+
+export const TalentsList: FC<TalentsListProps> = ({ selectedFilters }) => {
   const [currentPage, setCurrentPage] = useState<string>(
     getSession(userTalentsPageString),
   )
@@ -40,21 +45,30 @@ export const TalentsList: FC = () => {
   }, [])
 
   const getInfo = useCallback(async () => {
-    const talentsData = await getUsersListInfo(currentPage)
+    const talentsData = await getUsersListInfo(
+      currentPage,
+      selectedFilters,
+    )
 
     setTalentsList(talentsData)
-  }, [currentPage])
+  }, [currentPage, selectedFilters])
 
   useEffect(() => {
     getInfo()
-  }, [currentPage, getInfo])
+  }, [currentPage, selectedFilters, getInfo])
 
-  if (!talentsList)
+  useEffect(() => {
+    nextPage(1)
+    getInfo()
+  }, [selectedFilters])
+
+  if (!talentsList) {
     return (
       <div className={styles.wrapper}>
         <LoadingSpinner size='xl' />
       </div>
     )
+  }
 
   return (
     <div className={styles.wrapper}>
