@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 
+import { FiltersState } from '../../../app/constants/constants'
 import { CatalogCategories } from '../../../app/data/catalogCategories'
 import { CategoriesItem } from '../../../features/Client/CatalogPage/CategoriesItem/CategoriesItem'
 import { Filters } from '../../../features/Client/CatalogPage/Filters/Filters'
@@ -9,6 +10,7 @@ import styles from './CatalogPage.module.scss'
 
 export const ClientCatalogPage: FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('All')
+  const [selectedFilters, setSelectedFilters] = useState<FiltersState>({})
 
   const setCategories = (category: string) => {
     setActiveCategory(category)
@@ -47,8 +49,11 @@ export const ClientCatalogPage: FC = () => {
       </section>
       <section className={styles.sectionSecond}>
         <div className={styles.itemsSecond}>
-          <Filters />
-          <TalentsList />
+          <Filters
+            selectedFilters={selectedFilters}
+            setSelectedFilters={setSelectedFilters}
+          />
+          <TalentsList selectedFilters={selectedFilters} />
         </div>
       </section>
     </div>

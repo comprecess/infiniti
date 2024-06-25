@@ -1,4 +1,4 @@
-export const getUsersListInfo = async (page: string) => {
+export const getUsersListInfo = async (page: string, sort?: object) => {
   try {
     const response = await fetch(
       import.meta.env.VITE_MAIN_DOMAIN +
@@ -9,7 +9,7 @@ export const getUsersListInfo = async (page: string) => {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        body: JSON.stringify({}),
+        body: JSON.stringify({ filter: sort }),
       },
     )
 

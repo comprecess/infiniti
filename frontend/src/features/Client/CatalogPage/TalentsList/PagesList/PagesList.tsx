@@ -50,22 +50,28 @@ export const PagesList: FC<PagesListProps> = ({ meta, nextPage }) => {
   const renderPages = useMemo(() => {
     const pages = []
 
+    const countPages =
+      meta.last_page > 1
+        ? meta.last_page - (maxVisiblePages - 1)
+        : meta.last_page
+
     for (
-      let i = Math.min(
-        meta.current_page,
-        meta.last_page - (maxVisiblePages - 1),
-      );
+      let i = Math.min(meta.current_page, countPages);
       i <= meta.last_page;
       i++
     ) {
-      pages.push(
-        <NumberItem
-          key={i}
-          number={i}
-          isActive={meta.links[i].active}
-          onClick={() => nextPage(i)}
-        />,
-      )
+      const link = meta.links[i]
+
+      if (link && i > 0) {
+        pages.push(
+          <NumberItem
+            key={i}
+            number={i}
+            isActive={link.active}
+            onClick={() => nextPage(i)}
+          />,
+        )
+      }
     }
 
     if (meta.last_page > maxVisiblePages) {

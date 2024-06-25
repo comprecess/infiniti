@@ -7,6 +7,10 @@ export const roles = {
   admin: 'Admin',
 }
 
+export interface FiltersState {
+  [key: string]: number[]
+}
+
 export interface UserInfo {
   id: number
   account: string

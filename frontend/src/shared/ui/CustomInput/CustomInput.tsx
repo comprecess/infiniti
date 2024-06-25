@@ -4,6 +4,7 @@ import styles from './CustomInput.module.scss'
 
 interface CustomInputProps {
   title: string
+  id?: string
   name?: string
   type: string
   placeHolder?: string
@@ -11,6 +12,7 @@ interface CustomInputProps {
 }
 
 export const CustomInput: FC<CustomInputProps> = ({
+  id,
   title,
   name,
   type,
@@ -25,9 +27,12 @@ export const CustomInput: FC<CustomInputProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <h4 className={styles.title}>{title}</h4>
+      <label htmlFor={id} className={styles.title}>
+        {title}
+      </label>
       <div className={styles.wrapperInput}>
         <input
+          id={id}
           name={name}
           type={type}
           value={inputValue ?? ''}
