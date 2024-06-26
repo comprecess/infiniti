@@ -8,10 +8,9 @@ trait ConvertingPropertiesTrait
     {
         foreach ($this->getListProperties() as $key => $val)
         {
-            if(is_int($key)) {
-                $this->{$val} = $this->{$val};
-            } else {
-                $this->{$val} = $this->{$key};
+            $value = is_int($key) ? $this->{$val} : $this->{$key};
+            if(!is_null($value)) {
+                $this->{$val} = $value;
             }
         }
     }
@@ -20,10 +19,9 @@ trait ConvertingPropertiesTrait
     {
         foreach ($this->getListProperties() as $key => $val)
         {
-            if(is_int($key)) {
-                $model->{$val} = $this->{$val};
-            } else {
-                $model->{$val} = $this->{$key};
+            $value = is_int($key) ? $this->{$val} : $this->{$key};
+            if(!is_null($value)) {
+                $model->{$val} = $value;
             }
         }
     }
