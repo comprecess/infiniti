@@ -13,6 +13,20 @@ export interface FiltersState {
   [key: string]: number[]
 }
 
+export interface UpdateProfileInfoProps {
+  account: string
+  email: string
+  company?: string
+  businessNumber?: string
+  phone?: string
+  address?: string
+  city?: string
+  state?: string
+  zip?: string
+  country?: string
+  password?: string
+}
+
 export interface UserInfo {
   id: number
   account: string

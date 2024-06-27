@@ -1,43 +1,38 @@
 import {
   authTokenString,
-  profileInfoString,
-  UserInfo,
-  userTalentsPageString,
+  UpdateProfileInfoProps,
 } from '../../../../app/constants/constants'
 import { getCookies } from '../../Saving/Cookies/GetCookies'
-import { removeCookies } from '../../Saving/Cookies/RemoveCookies'
-import { saveSession } from '../../Saving/Session/SaveSession'
 
-export const getProfileInfo = async (): Promise<UserInfo | false> => {
+export const updateProfileInfo = async (
+  props: Partial<UpdateProfileInfoProps>,
+) => {
   const authToken = getCookies(authTokenString)
 
   if (authToken.status) {
     try {
       const response = await fetch(
-        import.meta.env.VITE_MAIN_DOMAIN +
-          import.meta.env.VITE_PROFILE_API_CLIENT_INFO,
+        `${import.meta.env.VITE_MAIN_DOMAIN}${
+          import.meta.env.VITE_PROFILE_API_UPDATE_CLIENT_INFO
+        }`,
         {
-          method: 'GET',
+          method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
             Authorization: `Bearer ${authToken.cookie}`,
           },
+          body: JSON.stringify(props),
         },
       )
 
       if (!response.ok) {
-        removeCookies(authTokenString)
-
         return false
       }
 
       const data = await response.json()
 
-      saveSession(profileInfoString, data.data)
-      saveSession(userTalentsPageString, 1)
-
-      return data.data
+      return data.status
     } catch (error) {
       return false
     }

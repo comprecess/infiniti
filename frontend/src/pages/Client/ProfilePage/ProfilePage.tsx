@@ -1,11 +1,8 @@
 import { FC, useCallback, useEffect, useState } from 'react'
 
-import {
-  profileInfoString,
-  UserInfo,
-} from '../../../app/constants/constants'
+import { UserInfo } from '../../../app/constants/constants'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getSession } from '../../../shared/utils/Saving/Session/GetSession'
+import { getProfileInfo } from '../../../shared/utils/api/Profile/GetProfileInfo'
 import { ProfileCard } from '../../../widgets/ProfileCard/ProfileCard'
 import { ProfileChangeInfoCard } from '../../../widgets/ProfileChangeInfoCard/ProfileChangeInfoCard'
 import styles from './ProfilePage.module.scss'
@@ -13,18 +10,24 @@ import styles from './ProfilePage.module.scss'
 export const ClientProfilePage: FC = () => {
   const [profileData, setProfileData] = useState<UserInfo>()
 
-  useEffect(() => {
-    document.title = 'infiniti | Profile'
-  }, [])
-
   const getProfileData = useCallback(async () => {
-    const profileData = getSession(profileInfoString) as UserInfo
+    const profileData = await getProfileInfo()
 
-    setProfileData(profileData)
+    if (profileData) {
+      setProfileData(profileData)
+    }
   }, [])
+
+  const updatedProfileInfo = () => {
+    getProfileData()
+  }
 
   useEffect(() => {
     getProfileData()
+  }, [])
+
+  useEffect(() => {
+    document.title = 'infiniti | Profile'
   }, [])
 
   return (
@@ -32,8 +35,14 @@ export const ClientProfilePage: FC = () => {
       {profileData ? (
         <div className={styles.section}>
           <div className={styles.listItems}>
-            <ProfileCard talent={profileData} />
-            <ProfileChangeInfoCard talent={profileData} />
+            <ProfileCard
+              talent={profileData}
+              onChangeInfo={updatedProfileInfo}
+            />
+            <ProfileChangeInfoCard
+              talent={profileData}
+              onChangeInfo={updatedProfileInfo}
+            />
           </div>
         </div>
       ) : (

@@ -3,10 +3,6 @@ General:
 		• Доделать мелкие UI элементы из дизайна Figma
 
 
-CheckBox:
-		• Нужно увеличить иконку Check
-
-
 Admin Sidebar:
 		• Доделать вложенные страницы (Sales, Suppliers, Purchase, Leads, SMS, Support, Knowledge Base, Orders, HRM, Products & Services, Reports, Utilities, Appearance, Settings)
 
@@ -25,3 +21,7 @@ Admin Document Title:
 
 Catalog Page PWA:
 		• Белая линия внизу страницы
+
+
+Catalog Page Filters:
+		• Доделать фильтры (Rate, Experience, Age)
