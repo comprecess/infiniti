@@ -1,15 +1,76 @@
-import { FC } from 'react'
+import { FC, useRef } from 'react'
 
 import { UserInfo } from '../../app/constants/constants'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
+import { useCustomToast } from '../../shared/ui/CustomToast/CustomToast'
+import { updateProfileAvatar } from '../../shared/utils/api/Profile/UpdateProfileAvatar'
 import { InfoItem } from './InfoItem/InfoItem'
 import styles from './ProfileCard.module.scss'
 
 interface ProfileCardProps {
   talent: UserInfo
+  onChangeInfo: () => void
 }
 
-export const ProfileCard: FC<ProfileCardProps> = ({ talent }) => {
+export const ProfileCard: FC<ProfileCardProps> = ({
+  talent,
+  onChangeInfo,
+}) => {
+  const showToast = useCustomToast()
+
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const handleButtonClick = () => {
+    inputRef.current?.click()
+  }
+
+  const handleAvatarChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const files = event.target.files
+
+    if (files && files.length > 0) {
+      if (
+        !['image/jpeg', 'image/jpg', 'image/png'].includes(files[0].type)
+      ) {
+        showToast({
+          title: 'Invalid file type',
+          description: 'Only JPEG and PNG images are allowed',
+          status: 'error',
+        })
+
+        return
+      }
+
+      const formData = new FormData()
+      formData.append('file', files[0])
+
+      const updateResponse = await updateProfileAvatar(formData)
+
+      if (updateResponse) {
+        onChangeInfo()
+
+        showToast({
+          title: 'Uploaded',
+          description: 'Your photo has been successfully uploaded',
+          status: 'success',
+        })
+      } else {
+        showToast({
+          title: 'Not loaded',
+          description: 'Your photo has not been uploaded',
+          status: 'error',
+        })
+      }
+    } else {
+      showToast({
+        title: 'Not loaded',
+        description: 'Your photo has not been uploaded',
+        status: 'error',
+      })
+    }
+  }
+
   return (
     <div className={styles.wrapper}>
       <img
@@ -55,7 +116,13 @@ export const ProfileCard: FC<ProfileCardProps> = ({ talent }) => {
         />
       </div>
       <div className={styles.uploadPicture}>
-        <ButtonBlue title='Upload picture' />
+        <ButtonBlue title='Upload picture' onClick={handleButtonClick} />
+        <input
+          ref={inputRef}
+          type='file'
+          style={{ display: 'none' }}
+          onChange={handleAvatarChange}
+        />
       </div>
     </div>
   )
