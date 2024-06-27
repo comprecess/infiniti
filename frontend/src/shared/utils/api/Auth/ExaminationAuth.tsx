@@ -16,11 +16,14 @@ export const ExaminationAuth: FC<PropsWithChildren> = ({ children }) => {
     const checkAuthentication = async () => {
       try {
         const user = await getProfileInfo()
-        const isAuth = !!user
-        const userRole = user?.userType
 
-        setIsUserRole(userRole)
-        setIsAuthenticated(isAuth)
+        if (user) {
+          const isAuth = !!user
+          const userRole = user?.userType
+
+          setIsUserRole(userRole)
+          setIsAuthenticated(isAuth)
+        }
       } catch (error: any) {
         console.error(error)
         navigate('/' + Routes.auth + '/' + Routes.signIn)
