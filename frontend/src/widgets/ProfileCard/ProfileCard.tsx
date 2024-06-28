@@ -4,6 +4,7 @@ import { UserInfo } from '../../app/constants/constants'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../shared/ui/CustomToast/CustomToast'
 import { updateProfileAvatar } from '../../shared/utils/api/Profile/UpdateProfileAvatar'
+import { cropImageToSquare } from '../../shared/utils/Avatar/CropImage'
 import { InfoItem } from './InfoItem/InfoItem'
 import styles from './ProfileCard.module.scss'
 
@@ -42,8 +43,10 @@ export const ProfileCard: FC<ProfileCardProps> = ({
         return
       }
 
+      const croppedFile = await cropImageToSquare(files[0])
+
       const formData = new FormData()
-      formData.append('file', files[0])
+      formData.append('file', croppedFile)
 
       const updateResponse = await updateProfileAvatar(formData)
 

@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from 'react'
 
 import { TalentData } from '../../../../app/constants/constants'
 import { InfoIcon } from '../../../../shared/icons/InfoIcon'
+import { PhoneCallIcon } from '../../../../shared/icons/PhoneCallIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { ButtonBrand } from '../../../../shared/ui/ButtonBrand/ButtonBrand'
 import { CustomModalWindow } from '../../../../shared/ui/CustomModalWindow/CustomModalWindow'
@@ -55,7 +56,12 @@ export const TalentCard: FC<TalentCardProps> = ({ talent }) => {
             alt='Avatar'
             className={styles.avatar}
           />
-          <span className={styles.name}>{talent.name}</span>
+          <div className={styles.nameAndCall}>
+            <span className={styles.name}>{talent.name}</span>
+            <div className={styles.callIconWrapper}>
+              <PhoneCallIcon style={styles.callIcon} />
+            </div>
+          </div>
           <div className={styles.level}>
             <TalentsLevel title={talent.level} />
           </div>
