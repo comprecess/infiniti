@@ -24,9 +24,45 @@
 .avatar {
   width: 56px;
   height: 56px;
+  border-radius: 50%;
+}
+
+.nameAndCall {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+  align-items: center;
+}
+
+.callIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 8px;
+  background-color: $brand-800;
+  user-select: none;
+  cursor: pointer;
+
+  @include hover() {
+    .callIcon * {
+      stroke: $gray-200;
+    }
+  }
+}
+
+.callIcon * {
+  transition: all 0.1s;
+  width: 25px;
+  height: 25px;
+  stroke: $gray-300;
 }
 
 .name {
+  width: 100%;
+
   font-family: $fontSpaceGrotesk;
   font-size: 38px;
   font-weight: 700;

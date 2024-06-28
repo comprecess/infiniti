@@ -39,5 +39,8 @@
 
 .uploadPicture {
   width: 100%;
-  max-width: 300px;
+
+  @include mobileBreakpoint('min', $bpS) {
+    max-width: 300px;
+  }
 }
