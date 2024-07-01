@@ -21,7 +21,7 @@ trait PropValuesTrait
 
     public function getPropValues($nameId, $type = 1)
     {
-        $propValues = $this->getPropVauesUser()->where('id_name', $nameId)->first()?->values ?? collect([]);
+        $propValues = $this->getPropVauesUser()->where('id_name', $nameId)?->first()?->values ?? collect([]);
 
         return match($type) {
             1 => $propValues->first()?->value,

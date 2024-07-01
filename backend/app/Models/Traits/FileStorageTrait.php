@@ -7,6 +7,7 @@ namespace App\Models\Traits;
 use App\Models\FileStorage;
 use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Log;
 
 trait FileStorageTrait
 {
@@ -18,7 +19,12 @@ trait FileStorageTrait
     public function uploads(UploadedFile|File $file, $data = null)
     {
         $fileStorage = new FileStorage();
-        return $fileStorage->uploads($this, $file, $data);
+        try {
+            return $fileStorage->uploads($this, $file, $data);
+        }catch (\Exception $e) {
+            Log::info(print_r($this, true), ['**FILE**' => print_r($file, true)]);
+            throw new \Exception("Error format file");
+        }
     }
 
     public function deleteAllFiles()

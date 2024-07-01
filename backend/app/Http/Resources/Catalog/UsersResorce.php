@@ -37,14 +37,17 @@ class UsersResorce extends JsonResource
             'level' => $this->getPropValues('lvl'),
             'industries' => ValueResorce::collection(self::$isCollection ? $industries->chunk(3)->first() : $industries),
             'keySkills' => ValueResorce::collection(self::$isCollection ? $keySkills->chunk(3)->first() : $keySkills),
-            'priceDay' => $this->getPropValues('priceDay'),
-            'priceHour' => $this->getPropValues('priceHour'),
+//            'priceDay' => $this->getPropValues('priceDay'),
+//            'priceHour' => $this->getPropValues('priceHour'),
+            'priceDay' => $this->getCurrency((int) $this->getPropValues('priceDay')),
+            'priceHour' => $this->getCurrency((int) $this->getPropValues('priceHour')),
         ];
 
         if(!self::$isCollection) {
             $resorce['available'] = User::AVAILABLE_STATUS[$this->getAvailableStatus()];
             $resorce['allSkills'] = ValueResorce::collection($this->getPropValues('all_skills', null));
             $resorce['userId'] = $this->getNested('user.id');
+            $resorce['taxesIncluded'] = (bool) $this->getPropValues('rate');
             $resorce['language'] = $this->getLanguage();
 //            $resorce['experience'] = $this->getExpirence();
             $resorce['experience'] = $this->experience;

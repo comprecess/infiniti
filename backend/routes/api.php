@@ -56,21 +56,21 @@ Route::group(
 );
 
 #tools
-Route::group(
-    [
-        'prefix' => 'tools',
-    ], function(){
+Route::group(['prefix' => 'tools'], function(){
     Route::get('countries', [\App\Http\Controllers\Api\ToolsController::class, 'countries']);
 }
 );
 
 #catalog
-Route::group(['prefix' => 'catalog'], function(){
+Route::group(['prefix' => 'catalog', 'middleware' => ['auth:api_client']], function(){
     Route::get('filters', [CatalogController::class, 'filters']);
     Route::get('properties', [CatalogController::class, 'properties']);
     Route::get('property/{id}', [CatalogController::class, 'property']);
     Route::post('list', [CatalogController::class, 'list']);
     Route::get('item/{catalogUser}', [CatalogController::class, 'item']);
+    Route::get('cart', [CatalogController::class, 'getCart']);
+    Route::post('cart', [CatalogController::class, 'addCart']);
+    Route::delete('cart/item/{id}', [CatalogController::class, 'deleteItemCart']);
 });
 
 #fileStorage

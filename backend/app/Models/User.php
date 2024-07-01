@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Events\UserIsAuthorized;
 use App\Models\Traits\AuthPasswordTrait;
 use App\Models\Traits\FileStorageTrait;
 use App\Models\Users\Interfaces\LoginIntarface;
@@ -88,6 +89,7 @@ class User extends Authenticatable
         $checkPassword = $user->userCheckPassword($password);
 
         if($checkPassword) {
+            event(new UserIsAuthorized($user));
             return $user;
         } else {
             return false;

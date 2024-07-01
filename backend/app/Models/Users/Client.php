@@ -8,9 +8,11 @@ use App\Models\Log;
 use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\User;
 use App\Models\Users\Interfaces\LoginIntarface;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\Catalog\Cart as CatalogCart;
 
 class Client extends User implements LoginIntarface, InsertDefaultValueInterface
 {
@@ -94,5 +96,16 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
             'skype' => [''],
             'cid' => [0]
         ];
+    }
+
+    public function myCart()
+    {
+        $time = Carbon::now()->subSeconds(CatalogCart::$timeForCart);
+        return $this->hasOne(CatalogCart::class, 'id_client')->where('updated_at', '>', $time)->orderBy('id', 'DESC');
+    }
+
+    public function carts()
+    {
+        return $this->hasMany(CatalogCart::class, 'id_client')->where('updated_at', '>', $time)->orderBy('id', 'DESC');
     }
 }
