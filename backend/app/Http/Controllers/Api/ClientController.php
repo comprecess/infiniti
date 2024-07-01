@@ -44,7 +44,10 @@ class ClientController extends UserController
     {
         $user = auth()->user();
         $file = $user->uploads($request->file);
-        $user->files()->where('id', '!=', $file->id)->whereNull('data')->delete();
+//        $user->files()->where('id', '!=', $file->id)->whereNull('data')->delete();
+        $user->files()->where('id', '!=', $file->id)->whereNull('data')->get()->each(function($item){
+            $item->delete();
+        });
 
         return response()->json(['success' => true]);
     }

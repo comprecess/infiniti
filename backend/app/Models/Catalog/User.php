@@ -3,6 +3,7 @@
 namespace App\Models\Catalog;
 
 use App\Contracts\FilterContract;
+use App\Models\Traits\CurrencyTrait;
 use App\Models\Users\Client;
 use App\Services\Filter;
 use Carbon\Carbon;
@@ -12,7 +13,7 @@ use Illuminate\Support\Collection;
 
 class User extends Model
 {
-    use HasFactory;
+    use HasFactory, CurrencyTrait;
 
     const AVAILABLE_STATUS = [
         'now',

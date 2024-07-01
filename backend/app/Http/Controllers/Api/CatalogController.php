@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Contracts\FilterContract;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Catalog\CartRequest;
 use App\Http\Requests\Catalog\ListRequest;
+use App\Http\Resources\Catalog\CartResorce;
 use App\Http\Resources\Catalog\PropertyResorce;
 use App\Http\Resources\Catalog\UsersResorce;
+use App\Models\Catalog\Cart;
+use App\Models\Catalog\CartItem;
 use App\Models\Catalog\Prop;
 use App\Models\Catalog\User;
 use App\Models\Catalog\UserValue;
@@ -82,5 +86,63 @@ class CatalogController extends Controller
     public function item(User $catalogUser)
     {
         return new UsersResorce($catalogUser);
+    }
+
+    public function addCart(CartRequest $request)
+    {
+        try{
+            $user = auth()->user();
+            $cart = $user->myCart;
+            if(!$cart) {
+                $cart = new Cart();
+                $cart->setSecret();
+                $cart->id_client = $user->id;
+                $cart->save();
+            }
+
+            $item = $cart->items()->where('id_catalog_user', $request->catalogUser)->first();
+
+            if($item) {
+                if($item->name_id_type == $request->type) {
+                    $item->amount = $request->amount;
+                } else {
+                    $item->name_id_type = $request->type;
+                    $item->amount = $request->amount;
+                }
+            } else {
+                $item = new CartItem();
+                $item->id_catalog_cart = $cart->id;
+                $item->id_catalog_user = $request->catalogUser;
+                $item->name_id_type = $request->type;
+                $item->amount = $request->amount;
+            }
+            $item->save();
+
+            $cart->calculation();
+        }catch (\Exception $e) {
+            return response()->json(['success' => false]);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    public function getCart()
+    {
+        return new CartResorce(auth()->user()->myCart ?? new Cart());
+    }
+
+    public function deleteItemCart(Request $request)
+    {
+        $id = $request->route('id');
+        $cart = auth()->user()->myCart;
+        $cartItem = $cart->items->where('id', $id)->first();
+        if($cartItem) {
+            $cartItem->delete();
+            $cart->calculation();
+
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false]);
+        }
     }
 }

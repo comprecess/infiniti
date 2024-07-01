@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Exceptions\LoadFileStorageException;
+use App\Models\Traits\BootTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\File;
@@ -14,7 +15,7 @@ use Intervention\Image\Laravel\Facades\Image;
 
 class FileStorage extends Model
 {
-    use HasFactory;
+    use HasFactory, BootTrait;
 
     const NAME = 'file_storage';
 
