@@ -46,13 +46,11 @@ export const FromTo: FC<FromToProps> = ({
       {title && <span className={styles.title}>{title}</span>}
       <div className={styles.inputs}>
         <Input
-          isFilters
           placeholder={placeholderFirst}
           value={values[0] !== null ? values[0].toString() : ''}
           onChange={e => handleInputChange(0, e.target.value)}
         />
         <Input
-          isFilters
           placeholder={placeholderSecond}
           value={values[1] !== null ? values[1].toString() : ''}
           onChange={e => handleInputChange(1, e.target.value)}

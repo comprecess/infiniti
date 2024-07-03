@@ -21,13 +21,13 @@ export const ResetPasswordForm: FC = () => {
 
     if (resetPasswordResponse.status) {
       showToast({
-        title: 'Successful Reset',
+        title: 'Successfully',
         description: resetPasswordResponse.message,
         status: 'success',
       })
     } else {
       showToast({
-        title: 'Reset Failed',
+        title: 'Error',
         description: resetPasswordResponse.message,
         status: 'error',
       })

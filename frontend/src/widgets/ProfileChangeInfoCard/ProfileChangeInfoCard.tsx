@@ -62,14 +62,14 @@ export const ProfileChangeInfoCard: FC<ProfileChangeInfoCardProps> = ({
         onChangeInfo()
 
         showToast({
-          title: 'Data updated',
+          title: 'Successfully',
           description:
             'You have successfully updated your profile information',
           status: 'success',
         })
       } else {
         showToast({
-          title: 'Data not updated',
+          title: 'Error',
           description: 'Your information has not been updated',
           status: 'error',
         })

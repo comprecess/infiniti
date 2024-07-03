@@ -44,9 +44,12 @@
 .avatar {
   width: 56px;
   height: 56px;
+  border-radius: 50%;
 }
 
 .name {
+  max-width: 325px;
+
   font-family: $fontSpaceGrotesk;
   font-size: 38px;
   font-weight: 700;
@@ -130,6 +133,13 @@
   max-width: 208px;
 }
 
+.total {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 325px;
+}
+
 .totalTitle {
   font-size: 16px;
   font-weight: 400;
@@ -146,5 +156,8 @@
   line-height: 40px;
   letter-spacing: -0.03em;
   text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: $white;
 }

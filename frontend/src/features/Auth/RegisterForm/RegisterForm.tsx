@@ -32,7 +32,7 @@ export const RegisterForm: FC = () => {
 
     if (registerResponse.status) {
       showToast({
-        title: 'Successful Register',
+        title: 'Successfully',
         description: registerResponse.message,
         status: 'success',
       })
@@ -40,7 +40,7 @@ export const RegisterForm: FC = () => {
       navigate('/' + Routes.clientPages + '/' + Routes.dashboard)
     } else {
       showToast({
-        title: 'Register Failed',
+        title: 'Error',
         description: registerResponse.message,
         status: 'error',
       })

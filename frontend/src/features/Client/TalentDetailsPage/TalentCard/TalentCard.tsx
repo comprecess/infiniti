@@ -15,9 +15,13 @@ type OrientationDivider = 'vertical' | 'horizontal'
 
 interface TalentCardProps {
   talent: TalentData
+  showSimilar: () => void
 }
 
-export const TalentCard: FC<TalentCardProps> = ({ talent }) => {
+export const TalentCard: FC<TalentCardProps> = ({
+  talent,
+  showSimilar,
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [modalWidth, setModalWidth] = useState<string>('800px')
   const [dividerOrientation, setDividerOrientation] =
@@ -81,7 +85,7 @@ export const TalentCard: FC<TalentCardProps> = ({ talent }) => {
           <img src='/icons/info.svg' alt='Info' />
           <span className={styles.taxesText}>Taxes included</span>
         </div>
-        <ButtonBrand title='Show similar' />
+        <ButtonBrand title='Show similar' onClick={showSimilar} />
       </div>
       <CustomModalWindow
         maxWidth={modalWidth}

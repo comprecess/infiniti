@@ -1,4 +1,11 @@
-import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import {
+  FC,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { TalentData } from '../../../app/constants/constants'
@@ -35,6 +42,8 @@ const useIdFromUrl = () => {
 export const TalentPage: FC = () => {
   const [talentInfo, setTalentInfo] = useState<TalentData | null>(null)
 
+  const similarTalentsRef = useRef<HTMLDivElement>(null)
+
   const id = useIdFromUrl()
 
   const navigate = useNavigate()
@@ -46,6 +55,14 @@ export const TalentPage: FC = () => {
   const scrollToTop = useCallback(() => {
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: 'smooth' })
+    }, 0)
+  }, [])
+
+  const scrollToSimilarTalents = useCallback(() => {
+    setTimeout(() => {
+      if (similarTalentsRef.current) {
+        similarTalentsRef.current.scrollIntoView({ behavior: 'smooth' })
+      }
     }, 0)
   }, [])
 
@@ -92,7 +109,10 @@ export const TalentPage: FC = () => {
           </section>
           <section className={styles.section}>
             <div className={styles.listItems}>
-              <TalentCard talent={talentInfo} />
+              <TalentCard
+                talent={talentInfo}
+                showSimilar={scrollToSimilarTalents}
+              />
               <div className={styles.info}>
                 <AboutTalentCard talentInfo={talentInfo} />
                 <ProjectsExperienceCard talentInfo={talentInfo} />
@@ -100,10 +120,10 @@ export const TalentPage: FC = () => {
               </div>
             </div>
           </section>
-          <section className={styles.section}>
-            <div className={styles.item}>
+          <section ref={similarTalentsRef} className={styles.section}>
+            <section className={styles.item}>
               <SimilarTalents similarTalents={talentInfo.similar} />
-            </div>
+            </section>
           </section>
           <section className={styles.section}>
             <div className={styles.item}>
