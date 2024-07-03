@@ -4,7 +4,6 @@ import styles from './Input.module.scss'
 
 interface InputProps {
   placeholder: string
-  isFilters?: boolean
   tabIndex?: number
   value?: string
   style?: string
@@ -13,7 +12,6 @@ interface InputProps {
 
 export const Input: FC<InputProps> = ({
   placeholder,
-  isFilters = false,
   tabIndex,
   value,
   style,
@@ -26,7 +24,7 @@ export const Input: FC<InputProps> = ({
       placeholder={placeholder}
       className={`${styles.input} ${style}`}
       tabIndex={tabIndex}
-      onChange={isFilters ? onChange : undefined}
+      onChange={onChange}
     />
   )
 }

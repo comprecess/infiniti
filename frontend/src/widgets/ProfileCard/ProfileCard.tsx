@@ -35,7 +35,7 @@ export const ProfileCard: FC<ProfileCardProps> = ({
         !['image/jpeg', 'image/jpg', 'image/png'].includes(files[0].type)
       ) {
         showToast({
-          title: 'Invalid file type',
+          title: 'Error',
           description: 'Only JPEG and PNG images are allowed',
           status: 'error',
         })
@@ -54,20 +54,20 @@ export const ProfileCard: FC<ProfileCardProps> = ({
         onChangeInfo()
 
         showToast({
-          title: 'Uploaded',
+          title: 'Successfully',
           description: 'Your photo has been successfully uploaded',
           status: 'success',
         })
       } else {
         showToast({
-          title: 'Not loaded',
+          title: 'Error',
           description: 'Your photo has not been uploaded',
           status: 'error',
         })
       }
     } else {
       showToast({
-        title: 'Not loaded',
+        title: 'Error',
         description: 'Your photo has not been uploaded',
         status: 'error',
       })

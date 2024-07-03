@@ -5,17 +5,21 @@ import {
   MenuItem,
   MenuList,
 } from '@chakra-ui/react'
-import { FC, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { TalentData } from '../../../../app/constants/constants'
+import { Routes } from '../../../../app/router/routes'
 import { ChevronDownIcon } from '../../../../shared/icons/ChevronDownIcon'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { InfoIcon } from '../../../../shared/icons/InfoIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { ButtonBrand } from '../../../../shared/ui/ButtonBrand/ButtonBrand'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
+import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { Input } from '../../../../shared/ui/FromTo/Input/Input'
 import { TalentsLevel } from '../../../../shared/ui/TalentsLevel/TalentsLevel'
+import { addOrderToCart } from '../../../../shared/utils/api/Cart/AddOrderToCart'
 import { Item } from '../../../../widgets/TalentsCard/Footer/Item/Item'
 import { TitleCard } from '../TitleCard/TitleCard'
 import styles from './ModalWindow.module.scss'
@@ -31,11 +35,81 @@ export const ModalWindow: FC<ModalWindowProps> = ({
   dividerOrientation,
   onClose,
 }) => {
-  const [item, setItem] = useState<string>('Hours (h)')
+  const [item, setItem] = useState<string>('priceHour')
+  const [unit, setUnit] = useState<string>('Hours (h)')
+  const [total, setTotal] = useState<string>('0 €')
+  const [amount, setAmount] = useState<number>(0)
+
+  const navigate = useNavigate()
+  const showToast = useCustomToast()
+
+  const formatNumberWithSpaces = (num: number): string => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
 
   const handleItemClick = (selectedItem: string) => {
+    if (selectedItem === 'priceHour') {
+      setUnit('Hours (h)')
+    } else if (selectedItem === 'priceDay') {
+      setUnit('Days')
+    }
+
     setItem(selectedItem)
   }
+
+  const handleContinueSearch = useCallback(() => {
+    navigate('/' + Routes.clientPages + '/' + Routes.catalog)
+  }, [navigate])
+
+  const handleSetAmount = useCallback(() => {
+    if (amount > 0) {
+      let totalAmount = 0
+
+      if (item === 'priceHour') {
+        setUnit('Hours (h)')
+        totalAmount = amount * parseInt(talent.priceHour)
+      } else if (item === 'priceDay') {
+        setUnit('Days')
+        totalAmount = amount * parseInt(talent.priceDay)
+      }
+
+      setTotal(formatNumberWithSpaces(totalAmount) + ' €')
+    } else {
+      setTotal('0 €')
+    }
+  }, [amount, item])
+
+  const handleAmountChange = useCallback((number: string) => {
+    const amount = parseInt(number)
+
+    setAmount(amount)
+  }, [])
+
+  const handleAddOrderToCart = async () => {
+    if (amount > 0) {
+      const addResponse = await addOrderToCart(talent.id, amount, item)
+
+      if (addResponse) {
+        showToast({
+          title: 'Successfully',
+          description: 'You have successfully added to cart',
+          status: 'success',
+        })
+      } else {
+        showToast({
+          title: 'Error',
+          description: 'Error adding to cart',
+          status: 'error',
+        })
+      }
+
+      onClose()
+    }
+  }
+
+  useEffect(() => {
+    handleSetAmount()
+  }, [item, amount, handleSetAmount])
 
   return (
     <div className={styles.wrapper}>
@@ -82,6 +156,7 @@ export const ModalWindow: FC<ModalWindowProps> = ({
             placeholder='up to 180'
             style={styles.input}
             tabIndex={-1}
+            onChange={e => handleAmountChange(e.target.value)}
           />
           <Menu isLazy>
             <MenuButton
@@ -103,13 +178,13 @@ export const ModalWindow: FC<ModalWindowProps> = ({
               as={Button}
               rightIcon={<ChevronDownIcon />}
             >
-              {`${item}`}
+              {unit}
             </MenuButton>
             <MenuList>
-              <MenuItem onClick={() => handleItemClick('Hours (h)')}>
+              <MenuItem onClick={() => handleItemClick('priceHour')}>
                 Hours (h)
               </MenuItem>
-              <MenuItem onClick={() => handleItemClick('Days')}>
+              <MenuItem onClick={() => handleItemClick('priceDay')}>
                 Days
               </MenuItem>
             </MenuList>
@@ -117,10 +192,13 @@ export const ModalWindow: FC<ModalWindowProps> = ({
         </div>
         <div className={styles.total}>
           <span className={styles.totalTitle}>Total</span>
-          <h4 className={styles.totalPrice}>520 €</h4>
+          <h4 className={styles.totalPrice}>{total}</h4>
         </div>
-        <ButtonBlue title='Proceed to checkout' />
-        <ButtonBrand title='Continue search' />
+        <ButtonBlue title='Add to order' onClick={handleAddOrderToCart} />
+        <ButtonBrand
+          title='Continue search'
+          onClick={handleContinueSearch}
+        />
       </div>
     </div>
   )

@@ -174,3 +174,24 @@ interface LinksProps {
   label: string
   url: string
 }
+
+export interface CartProps {
+  count: number
+  items: ItemsCartProps[]
+  total: string
+  subTax: string
+  subTotal: string
+}
+
+export type NameIdType = 'priceHour' | 'priceDay'
+
+export interface ItemsCartProps {
+  amount: number
+  id: number
+  nameIdType: NameIdType
+  price: string
+  taxes: string
+  taxesInclude: number
+  total: string
+  userCatalog: TalentData
+}

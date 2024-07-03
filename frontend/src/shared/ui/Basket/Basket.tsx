@@ -1,6 +1,5 @@
 import { FC } from 'react'
 
-import { ProfileData } from '../../../app/data/general/profile'
 import { BasketIcon } from '../../icons/BasketIcon'
 import styles from './Basket.module.scss'
 import { Notification } from './Notification/Notification'
@@ -26,7 +25,9 @@ export const Basket: FC<BasketProps> = ({
       onClick={onIconClick}
     >
       <BasketIcon />
-      <Notification count={ProfileData.carts.length} />
+      <div className={styles.notification}>
+        <Notification count={1} />
+      </div>
     </div>
   )
 }

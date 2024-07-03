@@ -1,34 +1,61 @@
 import { FC } from 'react'
 
+import { NameIdType } from '../../../../app/constants/constants'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import styleItem from '../../../../widgets/BasketCart/Cart/Cart.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
+  amount: number
   avatar: string
   nameEmail: string
   profession: string
-  quantity: string
-  taxes: string
+  nameIdType: NameIdType
+  taxes: number
   taxesAmount: string
-  amount: string
+  total: string
   onDelete: () => void
 }
 
+interface FormatTimeProps {
+  amount: number
+  type: NameIdType
+}
+
 export const Item: FC<ItemProps> = ({
+  amount,
   avatar,
   nameEmail,
   profession,
-  quantity,
+  nameIdType,
   taxes,
   taxesAmount,
-  amount,
+  total,
   onDelete,
 }) => {
+  const formatTime = ({ amount, type }: FormatTimeProps): string => {
+    let unit: string
+
+    switch (type) {
+      case 'priceHour':
+        unit = amount === 1 ? 'hour' : 'hours'
+        break
+      case 'priceDay':
+        unit = amount === 1 ? 'day' : 'days'
+        break
+    }
+
+    return `${amount} ${unit}`
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styleItem.avatarColumn}>
-        <img src={avatar} alt='Avatar' />
+        <img
+          src={avatar ? avatar : '/profileWithoutAvatar.svg'}
+          alt='Avatar'
+          className={styles.avatar}
+        />
       </div>
       <div
         className={`${styleItem.nameEmailColumn} ${styles.itemsColumn}`}
@@ -39,16 +66,20 @@ export const Item: FC<ItemProps> = ({
       <span
         className={`${styleItem.quantityColumn} ${styles.quantityItem}`}
       >
-        {quantity}
+        {formatTime({ amount, type: nameIdType })}
       </span>
       <div className={`${styleItem.taxesColumn} ${styles.itemsRow}`}>
-        {taxes === 'Included' ? (
-          <img src='/icons/info.svg' alt='Info' />
-        ) : null}
-        <span className={styles.taxesItem}>{taxes}</span>
+        {taxes === 0 ? (
+          <span className={styles.taxesItem}>Not included</span>
+        ) : (
+          <>
+            <img src='/icons/info.svg' alt='Info' />
+            <span className={styles.taxesItem}>Included</span>
+          </>
+        )}
       </div>
       <div className={`${styleItem.amountColumn} ${styles.itemsColumn}`}>
-        <span className={styles.amountItem}>{amount}</span>
+        <span className={styles.amountItem}>{total}</span>
         <span className={styles.taxesAmountItem}>{taxesAmount}</span>
       </div>
       <div className={styleItem.crossColumn}>

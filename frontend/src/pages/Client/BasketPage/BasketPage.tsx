@@ -1,53 +1,52 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 
-import { ProfileData } from '../../../app/data/general/profile'
+import { CartProps } from '../../../app/constants/constants'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
-import { sumAmountsAndFormat } from '../../../shared/utils/Basket/AmountInCart'
+import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { getOrdersInCart } from '../../../shared/utils/api/Cart/GetOrdersInCart'
 import { Basket } from '../../../widgets/BasketCart/Basket/Basket'
 import { Cart } from '../../../widgets/BasketCart/Cart/Cart'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './BasketPage.module.scss'
 
 export const BasketPage: FC = () => {
-  const subtotalCost = sumAmountsAndFormat(
-    ProfileData.carts.map(item =>
-      parseInt(item.amount.replace(/\D/g, ''), 10),
-    ),
-  )
+  const [orders, setOrder] = useState<CartProps>()
 
-  const taxesAmount = sumAmountsAndFormat(
-    ProfileData.carts.map(item =>
-      parseInt(item.taxesAmount.replace(/\D/g, ''), 10),
-    ),
-  )
+  const getOrders = async () => {
+    const ordersResponse: CartProps = await getOrdersInCart()
 
-  const totalAmount = sumAmountsAndFormat([
-    parseInt(subtotalCost.replace(/\D/g, ''), 10),
-    parseInt(taxesAmount.replace(/\D/g, ''), 10),
-  ])
+    setOrder(ordersResponse)
+  }
 
   useEffect(() => {
     document.title = 'infiniti | Cart'
   }, [])
 
+  useEffect(() => {
+    getOrders()
+  }, [])
+
   return (
     <div className={styles.wrapper}>
-      <div className={styles.title}>
-        <TitlePage
-          title='Cart'
-          secondTitle={String(ProfileData.carts.length)}
-        />
-      </div>
-      <section className={styles.sectionFirst}>
-        <RecentCard style={styles.cart}>
-          <Cart />
-        </RecentCard>
-        <Basket
-          subtotalCost={subtotalCost}
-          taxesAmount={taxesAmount}
-          totalPrice={totalAmount}
-        />
-      </section>
+      {orders ? (
+        <>
+          <div className={styles.title}>
+            <TitlePage title='Cart' secondTitle={String(orders.count)} />
+          </div>
+          <section className={styles.sectionFirst}>
+            <RecentCard style={styles.cart}>
+              <Cart cart={orders.items} />
+            </RecentCard>
+            <Basket
+              subtotalCost={orders.subTotal}
+              taxesAmount={orders.subTax}
+              totalPrice={orders.total}
+            />
+          </section>
+        </>
+      ) : (
+        <LoadingSpinner size='xl' />
+      )}
     </div>
   )
 }
