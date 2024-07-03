@@ -36,10 +36,11 @@ class Cart extends Model
     public function calculation()
     {
         $total = 0;
+        $taxses = 0;
 //        $rate = Prop::where('id_name', 'rate')->first();
 //        $type = $rate->children->push($rate);
 
-        $this->items()->with(['userCatalog'])->get()->each(function($item) use(/*$rate, $type, */&$total){
+        $this->items()->with(['userCatalog'])->get()->each(function($item) use(/*$rate, $type, */&$total, &$taxses){
 //            $user = $item->userCatalog;
 //            $values = $user->values()
 //                ->whereIn('catalog_prop_value.id_prop', $type->pluck('id'))
@@ -53,12 +54,13 @@ class Cart extends Model
 //            $item->total = $price * $item->amount;
 //            $item->save();
             $item->calculation();
-
+            $taxses += (float) $item->getTaxesTotalPrice();
             $total += !$item->taxes_include ? $item->total + ($item->total * self::$taxes) : $item->total ;
 //            $total += $item->getTaxesPrice() * $item->amount ;
         });
 
         $this->total = $total;
+        $this->general_tax = $taxses;
         $this->save();
 
     }
