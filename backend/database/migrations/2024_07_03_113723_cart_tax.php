@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('catalog_cart', function(Blueprint $table){
-            $table->decimal('general_tax', 16, 2)->default(0);
+            $table->decimal('sub_tax', 16, 2)->after('total')->default(0);
+            $table->decimal('sub_total', 16, 2)->after('total')->default(0);
         });
     }
 
@@ -22,7 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('catalog_cart', function(Blueprint $table){
-            $table->dropColumn('general_tax');
+            $table->dropColumn('sub_tax');
+            $table->dropColumn('sub_total');
         });
     }
 };
