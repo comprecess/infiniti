@@ -10,7 +10,7 @@ export const roles = {
 }
 
 export interface FiltersState {
-  [key: string]: number[]
+  [key: string]: (number | null)[]
 }
 
 export interface UpdateProfileInfoProps {

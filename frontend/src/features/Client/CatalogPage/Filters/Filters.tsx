@@ -139,12 +139,29 @@ export const Filters: FC<FiltersProps> = ({
                             <FromTo
                               key={item.id}
                               title={item.name}
+                              filters={selectedFilters}
+                              propId={String(item.id)}
+                              setSelectedFilters={setSelectedFilters}
                               placeholderFirst={`from ${item.options.placeholder.from}`}
                               placeholderSecond={`to ${item.options.placeholder.to}`}
                             />
                           )
                         })}
-                        <CustomCheckBox title={filter.values[0].value} />
+                        <CustomCheckBox
+                          title={filter.values[0].value}
+                          isChecked={
+                            selectedFilters[
+                              filter.values[0].propId
+                            ]?.includes(filter.values[0].id) || false
+                          }
+                          onChange={e =>
+                            handleCheckboxChange(
+                              filter.values[0].propId.toString(),
+                              filter.values[0].id,
+                              e.target.checked,
+                            )
+                          }
+                        />
                       </div>
                     </CategoryItem>
                     <CustomDivider />
@@ -159,6 +176,9 @@ export const Filters: FC<FiltersProps> = ({
                             <FromTo
                               key={item.id}
                               title={item.name}
+                              filters={selectedFilters}
+                              propId={String(item.id)}
+                              setSelectedFilters={setSelectedFilters}
                               placeholderFirst={`from ${item.options.placeholder.from}`}
                               placeholderSecond={`to ${item.options.placeholder.to}`}
                             />
@@ -175,6 +195,9 @@ export const Filters: FC<FiltersProps> = ({
                       <div className={styles.items}>
                         <FromTo
                           key={filter.id}
+                          setSelectedFilters={setSelectedFilters}
+                          filters={selectedFilters}
+                          propId={String(filter.id)}
                           placeholderFirst={`from ${filter.options.placeholder.from}`}
                           placeholderSecond={`to ${filter.options.placeholder.to}`}
                         />
