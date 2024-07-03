@@ -1,21 +1,31 @@
+import { authTokenString } from '../../../../../app/constants/constants'
+import { getCookies } from '../../../Saving/Cookies/GetCookies'
+
 export const getUserInfo = async (id: number) => {
-  try {
-    const url = `${import.meta.env.VITE_MAIN_DOMAIN}${
-      import.meta.env.VITE_CATALOG_API_USER_INFO
-    }${id}`
+  const authToken = getCookies(authTokenString)
 
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    })
+  if (authToken) {
+    try {
+      const url = `${import.meta.env.VITE_MAIN_DOMAIN}${
+        import.meta.env.VITE_CATALOG_API_USER_INFO
+      }${id}`
 
-    const data = await response.json()
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${authToken.cookie}`,
+        },
+      })
 
-    return data
-  } catch (error) {
+      const data = await response.json()
+
+      return data
+    } catch (error) {
+      return false
+    }
+  } else {
     return false
   }
 }
