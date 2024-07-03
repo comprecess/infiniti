@@ -60,7 +60,8 @@ class Cart extends Model
         });
 
         $this->total = $total;
-        $this->general_tax = $taxses;
+        $this->sub_total = $subTotal;
+        $this->sub_tax = $subTax;
         $this->save();
 
     }
