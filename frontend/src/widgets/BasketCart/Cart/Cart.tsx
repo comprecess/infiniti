@@ -5,14 +5,37 @@ import { Item } from '../../../features/Client/BasketPage/Item/Item'
 import { Title } from '../../../features/Main/RecentCard/Title/Title'
 import { CrossIcon } from '../../../shared/icons/CrossIcon'
 import { CustomDivider } from '../../../shared/ui/CustomDivider/CustomDivider'
+import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
+import { deleteOrderInCart } from '../../../shared/utils/api/Cart/DeleteOrdernInCart'
 import styles from './Cart.module.scss'
 
 interface CartProps {
   cart: ItemsCartProps[]
+  onDelete: () => void
 }
 
-export const Cart: FC<CartProps> = ({ cart }) => {
-  const handleDelete = () => {}
+export const Cart: FC<CartProps> = ({ cart, onDelete }) => {
+  const showToast = useCustomToast()
+
+  const handleDelete = async (id: number) => {
+    const deleteResponse = await deleteOrderInCart(id)
+
+    if (deleteResponse) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully removed from the recycle bin',
+        status: 'success',
+      })
+
+      onDelete()
+    } else {
+      showToast({
+        title: 'Error',
+        description: 'Error when deleting from trash',
+        status: 'error',
+      })
+    }
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -39,7 +62,7 @@ export const Cart: FC<CartProps> = ({ cart }) => {
                 taxes={order.taxesInclude}
                 taxesAmount={order.taxes}
                 total={order.total}
-                onDelete={() => handleDelete()}
+                onDelete={() => handleDelete(order.id)}
               />
               {index !== cart.length - 1 && <CustomDivider />}
             </React.Fragment>

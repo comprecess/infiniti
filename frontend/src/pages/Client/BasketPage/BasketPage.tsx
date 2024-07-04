@@ -10,12 +10,16 @@ import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './BasketPage.module.scss'
 
 export const BasketPage: FC = () => {
-  const [orders, setOrder] = useState<CartProps>()
+  const [orders, setOrder] = useState<CartProps | null>(null)
 
   const getOrders = async () => {
     const ordersResponse: CartProps = await getOrdersInCart()
 
     setOrder(ordersResponse)
+  }
+
+  const handleDeleteOrder = () => {
+    getOrders()
   }
 
   useEffect(() => {
@@ -35,7 +39,7 @@ export const BasketPage: FC = () => {
           </div>
           <section className={styles.sectionFirst}>
             <RecentCard style={styles.cart}>
-              <Cart cart={orders.items} />
+              <Cart cart={orders.items} onDelete={handleDeleteOrder} />
             </RecentCard>
             <Basket
               subtotalCost={orders.subTotal}
