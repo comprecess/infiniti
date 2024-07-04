@@ -3,7 +3,7 @@ import { FC } from 'react'
 import styles from './Notification.module.scss'
 
 interface NotificationProps {
-  count: number | null
+  count: number | undefined
 }
 
 export const Notification: FC<NotificationProps> = ({ count }) => {

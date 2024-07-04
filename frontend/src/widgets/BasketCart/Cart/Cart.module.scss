@@ -47,9 +47,16 @@
   text-align: right;
 }
 
-.nameEmailColumn,
+.nameEmailColumn {
+  max-width: 289px;
+  min-width: 200px;
+}
+
+.taxesColumn {
+  max-width: 170px;
+}
+
 .quantityColumn,
-.taxesColumn,
 .amountColumn {
   max-width: 229.5px;
 }

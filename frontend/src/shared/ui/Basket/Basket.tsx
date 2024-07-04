@@ -7,12 +7,14 @@ import { Notification } from './Notification/Notification'
 interface BasketProps {
   isActive: boolean
   style: string
+  quantityGoods: number | undefined
   onIconClick: () => void
 }
 
 export const Basket: FC<BasketProps> = ({
   isActive,
   style,
+  quantityGoods,
   onIconClick,
 }) => {
   return (
@@ -26,7 +28,7 @@ export const Basket: FC<BasketProps> = ({
     >
       <BasketIcon />
       <div className={styles.notification}>
-        <Notification count={1} />
+        <Notification count={quantityGoods} />
       </div>
     </div>
   )

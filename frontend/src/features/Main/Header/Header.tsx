@@ -1,6 +1,7 @@
-import { FC, memo, useMemo } from 'react'
+import { FC, memo, useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
+import { CartProps } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { ChevronsLeftIcon } from '../../../shared/icons/ChevronsLeftIcon'
 import { LockIcon } from '../../../shared/icons/LockIcon'
@@ -10,6 +11,7 @@ import { NotificationIndicatorIcon } from '../../../shared/icons/NotificationInd
 import { Basket } from '../../../shared/ui/Basket/Basket'
 import { Icon } from '../../../shared/ui/Icon/Icon'
 import { Profile } from '../../../shared/ui/Profile/Profile'
+import { getOrdersInCart } from '../../../shared/utils/api/Cart/GetOrdersInCart'
 import styles from './Header.module.scss'
 
 const IconMemo = memo(Icon)
@@ -27,6 +29,8 @@ export const Header: FC<HeaderProps> = ({
   toggleSidebar,
   toggleMiniSidebar,
 }) => {
+  const [orders, setOrder] = useState<CartProps>()
+
   const navigate = useNavigate()
 
   const location = useLocation()
@@ -39,6 +43,16 @@ export const Header: FC<HeaderProps> = ({
     () => location.pathname.includes(Routes.adminPages),
     [location.pathname],
   )
+
+  const getOrders = async () => {
+    const ordersResponse: CartProps = await getOrdersInCart()
+
+    setOrder(ordersResponse)
+  }
+
+  useEffect(() => {
+    getOrders()
+  }, [])
 
   return (
     <div className={styles.wrapper}>
@@ -60,6 +74,7 @@ export const Header: FC<HeaderProps> = ({
         ) : (
           <BasketMemo
             isActive={isBasket}
+            quantityGoods={orders?.count}
             style={isBasket ? styles.basketPageActive : ''}
             onIconClick={() => {
               navigate(Routes.basket)
