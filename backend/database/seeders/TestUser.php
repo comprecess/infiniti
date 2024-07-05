@@ -10,6 +10,7 @@ use App\Models\Users\Client;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Faker\Generator;
 
@@ -113,6 +114,10 @@ class TestUser extends Seeder
                 $block->save();
             }
         }
+
+        //Перерасчет опыта и корзины
+        Artisan::call('app:user-experience');
+        Artisan::call('app:cart-calculation');
 
 //        $value = Value::find(231);
 //        dd($value->users);
