@@ -27,14 +27,16 @@ export const ProjectsExperienceCard: FC<ProjectsExperienceCardProps> = ({
     return dataText
   }
 
+  const experienceYear = talentInfo.experience ? talentInfo.experience.year : 0
+  const experienceMonth = talentInfo.experience
+    ? talentInfo.experience.month
+    : 0
+
   return (
     <div className={styles.wrapper}>
       <TitleCard
         title='Projects and experience'
-        secondTitle={getYearText(
-          talentInfo.experience.year,
-          talentInfo.experience.month,
-        )}
+        secondTitle={getYearText(experienceYear, experienceMonth)}
       />
       {talentInfo.blockExperience.map((item, index) => {
         return (

@@ -1,11 +1,4 @@
-import {
-  FC,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { TalentData } from '../../../app/constants/constants'
@@ -98,10 +91,7 @@ export const TalentPage: FC = () => {
         <>
           <section className={styles.section}>
             <div className={styles.item}>
-              <div
-                className={styles.buttonBack}
-                onClick={handleNavigateBack}
-              >
+              <div className={styles.buttonBack} onClick={handleNavigateBack}>
                 <ChevronDownIcon style={styles.buttonBackIcon} />
                 <span className={styles.buttonBackText}>Back</span>
               </div>
