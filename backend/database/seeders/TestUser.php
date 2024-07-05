@@ -30,7 +30,7 @@ class TestUser extends Seeder
         'gender' => [1, 1],
         'age' => [18, 30],
         'lvl' => [1, 1],
-        'specialization' => 'test',
+        'specialization' => [0, 15],
         'education_name' => 'test',
         'education_specialization' => 'test',
         'education_degree' => 'test',
@@ -47,7 +47,7 @@ class TestUser extends Seeder
         DB::statement('DELETE FROM catalog_user_block;');
         DB::statement('ALTER TABLE catalog_user_block AUTO_INCREMENT = 1;');
 
-        $users = Client::all()->random(25);
+        $users = Client::all()->all();
 
         foreach($users as $user) {
             $userCatalog = new User();
