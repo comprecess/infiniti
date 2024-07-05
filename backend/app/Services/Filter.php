@@ -42,7 +42,7 @@ class Filter implements FilterContract
         foreach($data as $id => $value) {
             $newQuery = clone $FilterQuery;
             $type = is_int($id) ? 'id' : 'id_name';
-            $prop = Prop::where($type, $id)->where('filter', 1)->with(['children', 'values'])->first();
+            $prop = Prop::where($type, $id)/*->where('filter', 1)*/->with(['children', 'values'])->first();
 
             if(!$prop || !$prop?->type || !is_array($value)) {
                 continue;
