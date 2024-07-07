@@ -35,7 +35,7 @@ export const BasketPage: FC = () => {
       {orders ? (
         <>
           <div className={styles.title}>
-            <TitlePage title='Cart' secondTitle={String(orders.count)} />
+            <TitlePage title='My orders' secondTitle={String(orders.count)} />
           </div>
           <section className={styles.sectionFirst}>
             <RecentCard style={styles.cart}>
