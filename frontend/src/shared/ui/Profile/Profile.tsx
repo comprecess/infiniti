@@ -1,6 +1,7 @@
 import { FC, useCallback, useEffect, useState } from 'react'
 
 import {
+  AdminInfo,
   profileInfoString,
   UserInfo,
 } from '../../../app/constants/constants'
@@ -8,32 +9,39 @@ import { getSession } from '../../utils/Saving/Session/GetSession'
 import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner'
 import styles from './Profile.module.scss'
 
-export const Profile: FC = () => {
-  const [profileData, setProfileData] = useState<UserInfo>()
+interface ProfileProps {
+  isAdmin?: boolean
+}
 
-  const getProfileData = useCallback(async () => {
-    const profileData = getSession(profileInfoString) as UserInfo
+type ProfileData = UserInfo | AdminInfo
 
-    setProfileData(profileData)
-  }, [])
+export const Profile: FC<ProfileProps> = ({ isAdmin }) => {
+  const [profileData, setProfileData] = useState<ProfileData | null>(null)
+
+  const fetchProfileData = useCallback(() => {
+    const profileData = getSession(profileInfoString) as ProfileData
+    if (isAdmin) {
+      setProfileData(profileData as AdminInfo)
+    } else {
+      setProfileData(profileData as UserInfo)
+    }
+  }, [isAdmin])
 
   useEffect(() => {
-    getProfileData()
-  }, [])
+    fetchProfileData()
+  }, [fetchProfileData])
 
   return (
     <div className={styles.wrapper}>
       {profileData ? (
         <>
-          <span className={styles.name}>{profileData.account}</span>
+          <span className={styles.name}>
+            {profileData.account ? profileData.account : 'Not Indicated'}
+          </span>
           <img
             className={styles.avatar}
             alt='Profile Avatar'
-            src={
-              profileData.img
-                ? profileData.img
-                : '/profileWithoutAvatar.svg'
-            }
+            src={profileData.img || '/profileWithoutAvatar.svg'}
           />
         </>
       ) : (

@@ -1,0 +1,29 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.fillHoverIcon,
+.strokeHoverIcon {
+  user-select: none;
+  transition: 0.3s ease;
+}
+
+.strokeHoverIcon {
+  &:hover * {
+    stroke: $gray-200;
+  }
+}
+
+.fillHoverIcon {
+  &:hover * {
+    fill: $gray-200;
+  }
+}

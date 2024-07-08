@@ -1,23 +1,25 @@
 import { FC, PropsWithChildren, useState } from 'react'
 
-import { ArrowsExpandIcon } from '../../shared/icons/ArrowsExpandIcon'
-import { ChevronIcon } from '../../shared/icons/ChevronIcon'
-import { MoreVertIcon } from '../../shared/icons/MoreVertIcon'
-import { RefreshIcon } from '../../shared/icons/RefreshIcon'
+import { ChevronExpandMoreVert } from './ChevronExpandMoreVert/ChevronExpandMoreVert'
 import styles from './RecentCard.module.scss'
+import { UpdateExpandMoreVert } from './RefreshExpandMoreVert/UpdateExpandMoreVert'
 
 interface RecentCardProps {
   title?: string
   style?: string
-  rightIcons?: boolean
-  updateIcon?: boolean
+  refreshIcon?: boolean
+  ordinaryIcons?: boolean
+  Component?: React.FC<any>
+  componentProps?: any
 }
 
 export const RecentCard: FC<PropsWithChildren<RecentCardProps>> = ({
   title,
   style,
-  rightIcons = false,
-  updateIcon = false,
+  refreshIcon = false,
+  ordinaryIcons = false,
+  Component,
+  componentProps,
   children,
 }) => {
   const [openContent, setOpenContent] = useState<boolean>(false)
@@ -28,35 +30,19 @@ export const RecentCard: FC<PropsWithChildren<RecentCardProps>> = ({
 
   return (
     <div className={`${styles.wrapper} ${style}`}>
-      {title ? (
-        rightIcons ? (
-          <div className={styles.items}>
-            <h6 className={styles.title}>{title}</h6>
-            <div className={styles.itemsIcons}>
-              {updateIcon ? (
-                <RefreshIcon
-                  stroke={`${styles.strokeHoverIcon} ${styles.icon}`}
-                />
-              ) : (
-                <ChevronIcon
-                  stroke={
-                    openContent
-                      ? `${styles.strokeHoverIcon} ${styles.icon}`
-                      : `${styles.strokeHoverIcon} ${styles.icon} ${styles.rotate}`
-                  }
-                  onClick={handleChevronClick}
-                />
-              )}
-              <ArrowsExpandIcon
-                stroke={`${styles.strokeHoverIcon} ${styles.icon}`}
-              />
-              <MoreVertIcon fill={`${styles.fillHoverIcon} ${styles.icon}`} />
-            </div>
-          </div>
-        ) : (
-          <h6 className={styles.title}>{title}</h6>
-        )
-      ) : null}
+      <div className={styles.items}>
+        {title ? <h6 className={styles.title}>{title}</h6> : null}
+        <div>
+          {Component ? <Component {...componentProps} /> : null}
+          {refreshIcon ? <UpdateExpandMoreVert /> : null}
+          {ordinaryIcons ? (
+            <ChevronExpandMoreVert
+              openContent={openContent}
+              handleChevronClick={handleChevronClick}
+            />
+          ) : null}
+        </div>
+      </div>
       <div className={!openContent ? styles.content : styles.childNone}>
         {children}
       </div>

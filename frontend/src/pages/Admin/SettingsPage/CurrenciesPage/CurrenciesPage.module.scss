@@ -1,0 +1,86 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  gap: 40px;
+
+  @include scrollbar;
+}
+
+.section {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  width: 100%;
+  max-width: $maxContentSize;
+}
+
+.recentFullScreen {
+  max-width: $maxContentSize;
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+}
+
+.blueButton {
+  height: 42px;
+}
+
+.modalHeader {
+  display: flex;
+}
+
+.modalInput {
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+  color: $white;
+}
+
+.modalTitle {
+  font-family: $fontSpaceGrotesk;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.modalInputDescription {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.modalDescription {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 14px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $brand-400;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cross {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  transition: 0.3s ease;
+  cursor: pointer;
+
+  &:hover * {
+    stroke: $gray-200;
+  }
+}

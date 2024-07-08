@@ -281,7 +281,7 @@ export const adminSidebarPages = [
       { id: 1, title: 'Staff', path: '' },
       { id: 2, title: 'Roles', path: '' },
       { id: 3, title: 'Localization', path: '' },
-      { id: 4, title: 'Currencies', path: '' },
+      { id: 4, title: 'Currencies', path: Routes.currencies },
       { id: 5, title: 'Payment Gateways', path: '' },
       { id: 6, title: 'Expense Categories', path: '' },
       { id: 7, title: 'Expense Types', path: '' },

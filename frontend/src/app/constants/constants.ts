@@ -56,7 +56,7 @@ export interface AdminInfo {
   city: string
   country: string
   currency: string
-  fullName: string
+  account: string
   img: string
   jobTitle: string
   language: string
