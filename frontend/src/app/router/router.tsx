@@ -125,7 +125,12 @@ export const router = createBrowserRouter([
       { path: Routes.utilities, element: Pages.adminUtilitiesPage },
       { path: Routes.appearance, element: Pages.adminAppearancePage },
       { path: Routes.plugins, element: Pages.adminPluginsPage },
-      { path: Routes.settings, element: Pages.adminSettingsPage },
+      {
+        path: Routes.settings,
+        children: [
+          { path: Routes.currencies, element: Pages.adminCurrenciesPage },
+        ],
+      },
       {
         path: Routes.productsServices,
         element: Pages.adminProductsServicesPage,

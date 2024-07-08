@@ -8,12 +8,14 @@ import { App } from './app.tsx'
 import { checkboxTheme } from './shared/themes/CheckBox.ts'
 import { menuTheme } from './shared/themes/MenuList.ts'
 import { modalTheme } from './shared/themes/Modal.ts'
+import { switchTheme } from './shared/themes/Switch.ts'
 
 const theme = extendTheme({
   components: {
     Checkbox: checkboxTheme,
     Menu: menuTheme,
     Modal: modalTheme,
+    Switch: switchTheme,
   },
   colors: {
     brand: {
@@ -32,6 +34,10 @@ const theme = extendTheme({
       500: '#343543',
       400: '#55586e',
       200: '#9ea0b7',
+    },
+    mint: {
+      500: '#10b7b7',
+      400: '#36d3d3',
     },
   },
 })

@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 
 import { Calendar } from '../../../features/Admin/DashboardPage/Calendar/Calendar'
 import { CashFlow } from '../../../features/Admin/DashboardPage/CashFlow/CashFlow'
@@ -14,12 +14,15 @@ import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './DashboardPage.module.scss'
 
 export const AdminDashboardPage: FC = () => {
+  useEffect(() => {
+    document.title = 'infiniti | Dashboard'
+  }, [])
+
   return (
     <div className={styles.wrapper}>
       <section className={styles.sectionFirst}>
         <RecentCard
-          rightIcons
-          updateIcon
+          refreshIcon
           title='Cash Flow'
           style={styles.recentFullScreen}
         >
@@ -27,11 +30,15 @@ export const AdminDashboardPage: FC = () => {
         </RecentCard>
       </section>
       <section className={styles.sectionSecond}>
-        <RecentCard rightIcons title='Recent Clients' style={styles.recentHalf}>
+        <RecentCard
+          ordinaryIcons
+          title='Recent Clients'
+          style={styles.recentHalf}
+        >
           <RecentClients />
         </RecentCard>
         <RecentCard
-          rightIcons
+          ordinaryIcons
           title='Recent Projects'
           style={styles.recentHalf}
         >
@@ -40,34 +47,46 @@ export const AdminDashboardPage: FC = () => {
       </section>
       <section className={styles.sectionThird}>
         <RecentCard
-          rightIcons
+          ordinaryIcons
           title='Recent Invoices'
           style={styles.recentHalf}
         >
           <RecentInvoices />
         </RecentCard>
-        <RecentCard rightIcons title='Calendar' style={styles.recentHalf}>
+        <RecentCard
+          ordinaryIcons
+          title='Calendar'
+          style={styles.recentHalf}
+        >
           <Calendar />
         </RecentCard>
       </section>
       <section className={styles.sectionFourth}>
-        <RecentCard rightIcons title='Latest Income' style={styles.recentHalf}>
+        <RecentCard
+          ordinaryIcons
+          title='Latest Income'
+          style={styles.recentHalf}
+        >
           <LatestIncome />
         </RecentCard>
-        <RecentCard rightIcons title='Latest Expense' style={styles.recentHalf}>
+        <RecentCard
+          ordinaryIcons
+          title='Latest Expense'
+          style={styles.recentHalf}
+        >
           <LatestExpense />
         </RecentCard>
       </section>
       <section className={styles.sectionFifth}>
         <RecentCard
-          rightIcons
+          ordinaryIcons
           title='Net Worth & Account Balances'
           style={styles.recentHalf}
         >
           <NetWorthAccountBalances />
         </RecentCard>
         <RecentCard
-          rightIcons
+          ordinaryIcons
           title='Expenses by Category'
           style={styles.recentHalf}
         >
@@ -76,7 +95,7 @@ export const AdminDashboardPage: FC = () => {
       </section>
       <section className={styles.sectionSixth}>
         <RecentCard
-          rightIcons
+          ordinaryIcons
           title='Income vs Expense: Monthly'
           style={styles.recentFullScreen}
         >

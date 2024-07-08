@@ -7,6 +7,10 @@ Admin Sidebar:
 		• Доделать вложенные страницы (Sales, Suppliers, Purchase, Leads, SMS, Support, Knowledge Base, Orders, HRM, Products & Services, Reports, Utilities, Appearance, Settings)
 
 
+Admin Document Title:
+		• Сделать название URL для страниц (Sales, Suppliers, Purchase, Leads, SMS, Support, Knowledge Base, Orders, HRM, Products & Services, Reports, Utilities, Appearance, Settings)
+
+
 Admin Dashboard Page:
 		• Сделать все графики в админ части
 
@@ -15,13 +19,5 @@ Client Invoices Page:
 		• Доделать страницу (график)
 
 
-Admin Document Title:
-		• Сделать название URL для каждой станицы
-
-
 Catalog Page PWA:
 		• Белая линия внизу страницы
-
-
-Catalog Page Filters:
-		• Доделать фильтры (Rate, Experience, Age)

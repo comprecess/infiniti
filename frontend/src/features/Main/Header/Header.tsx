@@ -51,7 +51,9 @@ export const Header: FC<HeaderProps> = ({
   }
 
   useEffect(() => {
-    getOrders()
+    if (!isAdmin) {
+      getOrders()
+    }
   }, [])
 
   return (

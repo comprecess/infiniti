@@ -28,7 +28,7 @@ import { AdminProjectsPage } from '../../pages/Admin/ProjectsPage/ProjectsPage'
 import { AdminPurchasePage } from '../../pages/Admin/PurchasePage/PurchasePage'
 import { AdminReportsPage } from '../../pages/Admin/ReportsPage/ReportsPage'
 import { AdminSalesPage } from '../../pages/Admin/SalesPage/SalesPage'
-import { AdminSettingsPage } from '../../pages/Admin/SettingsPage/SettingsPage'
+import { AdminCurrenciesPage } from '../../pages/Admin/SettingsPage/CurrenciesPage/CurrenciesPage'
 import { AdminSMSPage } from '../../pages/Admin/SMSPage/SMSPage'
 import { AdminSuppliersPage } from '../../pages/Admin/SuppliersPage/SuppliersPage'
 import { AdminSupportPage } from '../../pages/Admin/SupportPage/SupportPage'
@@ -63,6 +63,7 @@ export const Routes = {
   catalog: 'catalog',
   accounting: 'accounting',
   sales: 'sales',
+  currencies: 'currencies',
   suppliers: 'suppliers',
   sms: 'sms',
   hrm: 'hrm',
@@ -175,7 +176,7 @@ export const Pages = {
   adminUtilitiesPage: <AdminUtilitiesPage />,
   adminAppearancePage: <AdminAppearancePage />,
   adminPluginsPage: <AdminPluginsPage />,
-  adminSettingsPage: <AdminSettingsPage />,
+  adminCurrenciesPage: <AdminCurrenciesPage />,
 
   /* General  pages */
   basketPage: <BasketPage />,
