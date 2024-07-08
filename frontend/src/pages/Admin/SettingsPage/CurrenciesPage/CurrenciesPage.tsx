@@ -16,7 +16,7 @@ export const AdminCurrenciesPage: FC = () => {
   }
 
   const handleInputChange = (name: string, value: string) => {
-    console.log('change')
+    console.log(name, value)
   }
 
   useEffect(() => {
