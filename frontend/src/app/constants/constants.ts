@@ -132,9 +132,9 @@ export interface FiltersData {
 }
 
 export interface ChildrenProps {
+  id: number
   children: any[]
   filter: number
-  id: number
   name: string
   nameId: string
   options: OptionsProps
@@ -186,12 +186,20 @@ export interface CartProps {
 export type NameIdType = 'priceHour' | 'priceDay'
 
 export interface ItemsCartProps {
-  amount: number
   id: number
+  amount: number
   nameIdType: NameIdType
   price: string
   taxes: string
   taxesInclude: number
   total: string
   userCatalog: TalentData
+}
+
+export interface CurrencyProps {
+  id: number
+  code: string
+  isdefault: number
+  rate: string
+  symbol: string
 }

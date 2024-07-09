@@ -1,12 +1,28 @@
 import React, { FC } from 'react'
 
-import { RecentCurrenciesData } from '../../../../app/data/admin/recentCurrencies'
+import { CurrencyProps } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentCurrencies.module.scss'
 
-export const RecentCurrencies: FC = () => {
+interface RecentCurrenciesProps {
+  currencyList: CurrencyProps[]
+  deleteCurrency: (id: number) => void
+  changeBaseCurrency: (id: number) => void
+  editCurrency: (
+    id: number,
+    inputValueName: string,
+    inputValueRate: string,
+  ) => void
+}
+
+export const RecentCurrencies: FC<RecentCurrenciesProps> = ({
+  currencyList,
+  deleteCurrency,
+  changeBaseCurrency,
+  editCurrency,
+}) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -18,17 +34,19 @@ export const RecentCurrencies: FC = () => {
         <Title title='Manage' style={styles.manageColumn} />
       </div>
       <div className={styles.items}>
-        {RecentCurrenciesData.map((order, index) => {
+        {currencyList.map((order, index) => {
           return (
             <React.Fragment key={order.id}>
               <Item
-                currencyCode={order.currencyCode}
-                baseConversionRate={order.baseConversionRate}
-                baseCurrency={order.baseCurrency}
+                id={order.id}
+                currencyCode={order.code}
+                baseConversionRate={order.rate}
+                baseCurrency={order.isdefault}
+                deleteCurrency={deleteCurrency}
+                changeBaseCurrency={changeBaseCurrency}
+                editCurrency={editCurrency}
               />
-              {index !== RecentCurrenciesData.length - 1 && (
-                <CustomDivider />
-              )}
+              {index !== currencyList.length - 1 && <CustomDivider />}
             </React.Fragment>
           )
         })}

@@ -20,10 +20,6 @@ export const getCountries = async () => {
         },
       )
 
-      if (!response.ok) {
-        return false
-      }
-
       const data = await response.json()
 
       return data

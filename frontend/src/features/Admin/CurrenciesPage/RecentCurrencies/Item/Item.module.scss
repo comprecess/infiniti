@@ -33,7 +33,9 @@
   align-items: center;
 }
 
-.buttonStar {
+.buttonStar,
+.buttonEdit,
+.buttonTrash {
   display: flex;
   width: 100%;
   max-width: 56px;
@@ -41,7 +43,36 @@
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  background-color: $brand-400;
+}
+
+.buttonStar,
+.buttonEdit,
+.buttonTrash {
+  transition: all 0.2s ease;
+}
+
+.buttonStar {
+  background-color: $amber-500;
+
+  @include hover() {
+    background-color: $amber-400;
+  }
+}
+
+.buttonEdit {
+  background-color: $mint-500;
+
+  @include hover() {
+    background-color: $mint-400;
+  }
+}
+
+.buttonTrash {
+  background-color: $cherry-500;
+
+  @include hover() {
+    background-color: $cherry-400;
+  }
 }
 
 .starIcon {
