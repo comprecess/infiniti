@@ -1,85 +1,204 @@
 import { FC, useEffect, useState } from 'react'
 
+import { CurrencyProps } from '../../../../app/constants/constants'
 import { RecentCurrencies } from '../../../../features/Admin/CurrenciesPage/RecentCurrencies/RecentCurrencies'
-import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
-import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
-import { CustomModalWindow } from '../../../../shared/ui/CustomModalWindow/CustomModalWindow'
+import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
+import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { addCurrency } from '../../../../shared/utils/api/Currency/AddCurrency'
+import { changeBaseCurrency } from '../../../../shared/utils/api/Currency/ChangeBaseCurrency'
+import { deleteCurrency } from '../../../../shared/utils/api/Currency/DeleteCurrency'
+import { editCurrency } from '../../../../shared/utils/api/Currency/EditCurrency'
+import { getListOfActive } from '../../../../shared/utils/api/Currency/GetListOfActive'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CurrenciesPage.module.scss'
+import { EditCurrency } from './EditCurrency/EditCurrency'
+import { NewCurrency } from './NewCurrency/NewCurrency'
 
 export const AdminCurrenciesPage: FC = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [currenciesList, setCurrenciesList] = useState<
+  CurrencyProps[] | null
+  >(null)
+  const [modalNewCurrency, setModalNewCurrency] = useState<boolean>(false)
+  const [modalEditCurrency, setModalEditCurrency] =
+    useState<boolean>(false)
 
-  const handleOpenCloseModal = () => {
-    setIsOpen(!isOpen)
+  const [id, setId] = useState<number>(0)
+  const [inputValueName, setInputValueName] = useState<string>('')
+  const [inputValueRate, setInputValueRate] = useState<string>('')
+
+  const [name, setName] = useState<string>('')
+  const [rate, setRate] = useState<number>(0)
+
+  const showToast = useCustomToast()
+
+  const handleOpenCloseModalNewCurrency = () => {
+    setModalNewCurrency(!modalNewCurrency)
   }
 
-  const handleInputChange = (name: string, value: string) => {
-    console.log(name, value)
+  const handleOpenCloseModalEditCurrency = () => {
+    setModalEditCurrency(!modalEditCurrency)
+  }
+
+  const handleInputChange = (name: string, value: string | number) => {
+    if (name === 'currencyCode') {
+      setName(value as string)
+    } else if (name === 'baseConversionRate') {
+      setRate(Number(value))
+    }
+  }
+
+  const getCurrencyList = async () => {
+    const currencyResponse: CurrencyProps[] = await getListOfActive()
+
+    setCurrenciesList(currencyResponse)
+  }
+
+  const loadEditModalWindow = (
+    id: number,
+    inputValueName: string,
+    inputValueRate: string,
+  ) => {
+    setId(id)
+    setInputValueName(inputValueName)
+    setInputValueRate(inputValueRate)
+
+    setName(inputValueName)
+    setRate(parseFloat(inputValueRate))
+
+    handleOpenCloseModalEditCurrency()
+  }
+
+  const deleteSelectedCurrency = async (id: number) => {
+    const deleteResponse = await deleteCurrency(id)
+
+    if (deleteResponse) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully deleted the currency',
+        status: 'success',
+      })
+      getCurrencyList()
+    } else {
+      showToast({
+        title: 'Error',
+        description: 'Error when deleting currency',
+        status: 'error',
+      })
+    }
+  }
+
+  const changeSelectedBaseCurrency = async (id: number) => {
+    const changeResponse = await changeBaseCurrency(id)
+
+    if (changeResponse) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully changed the base currency',
+        status: 'success',
+      })
+      getCurrencyList()
+    } else {
+      showToast({
+        title: 'Error',
+        description: 'Error when changing base currency',
+        status: 'error',
+      })
+    }
+  }
+
+  const editSelectedCurrency = async (id: number) => {
+    const changeResponse = await editCurrency(id, name, rate)
+
+    if (changeResponse) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully changed the base currency',
+        status: 'success',
+      })
+      getCurrencyList()
+    } else {
+      showToast({
+        title: 'Error',
+        description: 'Error when changing base currency',
+        status: 'error',
+      })
+    }
+
+    handleOpenCloseModalEditCurrency()
+  }
+
+  const createNewCurrency = async () => {
+    const addResponse = await addCurrency(name, rate)
+
+    if (addResponse) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully added currency',
+        status: 'success',
+      })
+      getCurrencyList()
+    } else {
+      showToast({
+        title: 'Error',
+        description: 'Error adding currency',
+        status: 'error',
+      })
+    }
+
+    handleOpenCloseModalNewCurrency()
   }
 
   useEffect(() => {
     document.title = 'infiniti | Currencies'
   }, [])
 
+  useEffect(() => {
+    getCurrencyList()
+  }, [])
+
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        <RecentCard
-          title='Currencies'
-          style={styles.recentFullScreen}
-          Component={ButtonBlue}
-          componentProps={{
-            title: 'New Currency',
-            icon: '/icons/plus.svg',
-            iconProps: styles.icon,
-            onClick: handleOpenCloseModal,
-            style: styles.blueButton,
-          }}
-        >
-          <RecentCurrencies />
-        </RecentCard>
+        {currenciesList ? (
+          <RecentCard
+            title='Currencies'
+            style={styles.recentFullScreen}
+            Component={ButtonBlue}
+            componentProps={{
+              title: 'New Currency',
+              icon: '/icons/plus.svg',
+              iconProps: styles.icon,
+              onClick: handleOpenCloseModalNewCurrency,
+              style: styles.blueButton,
+            }}
+          >
+            <RecentCurrencies
+              currencyList={currenciesList}
+              deleteCurrency={deleteSelectedCurrency}
+              changeBaseCurrency={changeSelectedBaseCurrency}
+              editCurrency={loadEditModalWindow}
+            />
+          </RecentCard>
+        ) : (
+          <LoadingSpinner size='xl' />
+        )}
       </section>
-      <CustomModalWindow
-        maxWidth={'400px'}
-        isOpen={isOpen}
-        onClose={handleOpenCloseModal}
-      >
-        <div className={styles.modalInput}>
-          <div className={styles.modalHeader}>
-            <h4 className={styles.modalTitle}>New Currency</h4>
-            <div className={styles.cross} onClick={handleOpenCloseModal}>
-              <CrossIcon />
-            </div>
-          </div>
-          <div className={styles.modalInputDescription}>
-            <CustomInput
-              title='Currency Code'
-              type='text'
-              id='currencyCode'
-              name='currencyCode'
-              onChange={handleInputChange}
-            />
-            <span className={styles.modalDescription}>
-              Currency ISO Code, eg. USD, GBP, INR etc...
-            </span>
-          </div>
-          <div className={styles.modalInputDescription}>
-            <CustomInput
-              title='Base Conversion Rate'
-              type='number'
-              id='baseConversionRate'
-              name='baseConversionRate'
-              onChange={handleInputChange}
-            />
-            <span className={styles.modalDescription}>
-              Enter the value of 1 = How much RUB ?
-            </span>
-          </div>
-          <ButtonBlue title='Save' />
-        </div>
-      </CustomModalWindow>
+      <NewCurrency
+        modalNewCurrency={modalNewCurrency}
+        handleOpenCloseModal={handleOpenCloseModalNewCurrency}
+        createNewCurrency={createNewCurrency}
+        handleInputChange={handleInputChange}
+      />
+      <EditCurrency
+        id={id}
+        inputValueName={inputValueName}
+        inputValueRate={inputValueRate}
+        modalEditCurrency={modalEditCurrency}
+        handleOpenCloseModal={handleOpenCloseModalEditCurrency}
+        editCurrency={editSelectedCurrency}
+        handleInputChange={handleInputChange}
+      />
     </div>
   )
 }

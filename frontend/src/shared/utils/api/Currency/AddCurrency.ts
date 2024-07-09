@@ -1,32 +1,33 @@
-import {
-  authTokenString,
-  UpdateProfileInfoProps,
-} from '../../../../app/constants/constants'
+import { authTokenString } from '../../../../app/constants/constants'
 import { getCookies } from '../../Saving/Cookies/GetCookies'
 
-export const updateProfileInfo = async (
-  props: Partial<UpdateProfileInfoProps>,
-) => {
+interface Response {
+  status: boolean
+}
+
+export const addCurrency = async (
+  code: string,
+  rate: number,
+): Promise<boolean> => {
   const authToken = getCookies(authTokenString)
 
   if (authToken.status) {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_MAIN_DOMAIN}${
-          import.meta.env.VITE_PROFILE_API_UPDATE_CLIENT_INFO
-        }`,
+        import.meta.env.VITE_MAIN_DOMAIN +
+          import.meta.env.VITE_CURRENCY_ADD_CURRENCY,
         {
-          method: 'PUT',
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
             Authorization: `Bearer ${authToken.cookie}`,
           },
-          body: JSON.stringify(props),
+          body: JSON.stringify({ code, rate }),
         },
       )
 
-      const data = await response.json()
+      const data: Response = await response.json()
 
       return data.status
     } catch (error) {
