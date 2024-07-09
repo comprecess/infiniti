@@ -27,7 +27,7 @@ class CurrencyController extends SettingsController
 
         $currency = new Currency();
         $currency->cname = $request->code;
-        $currency->iso_code = $request->currency;
+        $currency->iso_code = $request->code;
         $currency->symbol = $curencyInfo['symbol'];
         $currency->rate = floatval($request->rate);
         $currency->save();
@@ -37,8 +37,8 @@ class CurrencyController extends SettingsController
 
     public function update(CurrencyRequest $request, Currency $currency)
     {
-        $currency->cname = $request->currency;
-        $currency->iso_code = $request->currency;
+        $currency->cname = $request->code;
+        $currency->iso_code = $request->code;
         $currency->rate = floatval($request->rate);
         $currency->save();
 
