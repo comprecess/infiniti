@@ -11,13 +11,31 @@ class Config extends Model
 
     public $table = 'sys_appconfig';
 
+    public $timestamps = false;
+
+    public static function getSettings($name)
+    {
+        return self::where('setting', $name)->first();
+    }
+
     public static function get($name, $default = null)
     {
-        $setting = self::where('setting', $name)->first();
-        if($setting === null) {
+        $settings = self::getSettings($name);
+        if($settings === null) {
             return $default;
         }
 
-        return $setting->value;
+        return $settings->value;
+    }
+
+    public static function set($name, $value)
+    {
+        $settings = self::getSettings($name);
+        if(!$settings) {
+            throw new \Exception("Config name '{$name}' not found");
+        }
+
+        $settings->value = $value;
+        $settings->save();
     }
 }

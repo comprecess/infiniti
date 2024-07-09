@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CatalogController;
+use App\Http\Controllers\Api\Resident\Settings\CurrencyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,12 +47,27 @@ Route::group(
     }
 );
 
+#resident
 Route::group(
     [
         'middleware' => ['auth:api_admin'],
         'prefix' => 'resident',
     ], function(){
     Route::get('/', [ClientController::class, 'index']);
+
+    #client
+    Route::group(['prefix' => 'client',], function(){
+
+    });
+    #settings
+    Route::group(['prefix' => 'settings'], function(){
+        #Currency
+        Route::get('/currency', [CurrencyController::class, 'currency']);
+        Route::post('/currency', [CurrencyController::class, 'create']);
+        Route::put('/currency/{currency}', [CurrencyController::class, 'update']);
+        Route::put('/currency/{currency}/base', [CurrencyController::class, 'updateBase']);
+        Route::delete('/currency/{currency}', [CurrencyController::class, 'delete']);
+    });
 }
 );
 
