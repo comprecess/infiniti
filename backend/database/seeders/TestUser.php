@@ -30,7 +30,7 @@ class TestUser extends Seeder
         'gender' => [1, 1],
         'age' => [18, 30],
         'lvl' => [1, 1],
-        'specialization' => [0, 15],
+        'specialization' => [1, 1],
         'education_name' => 'test',
         'education_specialization' => 'test',
         'education_degree' => 'test',
