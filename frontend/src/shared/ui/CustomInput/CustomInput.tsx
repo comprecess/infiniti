@@ -39,6 +39,7 @@ export const CustomInput: FC<CustomInputProps> = ({
           id={id}
           name={name}
           type={type}
+          tabIndex={-1}
           value={inputValue ?? ''}
           placeholder={placeHolder}
           className={styles.input}
