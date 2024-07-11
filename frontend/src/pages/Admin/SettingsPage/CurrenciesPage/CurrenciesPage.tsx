@@ -18,7 +18,7 @@ import styles from './CurrenciesPage.module.scss'
 
 export const AdminCurrenciesPage: FC = () => {
   const [currenciesList, setCurrenciesList] = useState<
-    CurrencyProps[] | null
+  CurrencyProps[] | null
   >(null)
   const [modalNewCurrency, setModalNewCurrency] = useState<boolean>(false)
   const [modalEditCurrency, setModalEditCurrency] =
