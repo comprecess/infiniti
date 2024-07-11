@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CatalogController;
 use App\Http\Controllers\Api\Resident\Settings\CurrencyController;
+use App\Http\Controllers\Api\Resident\Client;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,7 +58,15 @@ Route::group(
 
     #client
     Route::group(['prefix' => 'client',], function(){
-
+        Route::get('/list', [Client\ClientController::class, 'list']);
+        #group
+        Route::group(['prefix' => 'group'], function(){
+            Route::get('/', [Client\GroupController::class, 'index']);
+            Route::post('/', [Client\GroupController::class, 'create']);
+            Route::put('/sort', [Client\GroupController::class, 'sort']);
+            Route::put('/{group}', [Client\GroupController::class, 'create']);
+            Route::delete('/{group}', [Client\GroupController::class, 'delete']);
+        });
     });
     #settings
     Route::group(['prefix' => 'settings'], function(){
