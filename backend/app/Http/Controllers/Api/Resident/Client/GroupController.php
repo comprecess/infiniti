@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Api\Resident\Client;
 
 
 use App\Http\Controllers\Api\Traits\CRUD;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Resident\Client\GroupRequest;
 use App\Http\Requests\Resident\Client\GroupSortRequest;
 use App\Http\Resources\Resident\Client\GroupResource;
 use App\Models\Resident\Client\Group;
 
-class GroupController extends ClientController
+class GroupController extends Controller
 {
     use CRUD {
         index as myIndex;
