@@ -17,13 +17,17 @@ trait InsertDefaultValueTrait
         $def = $this->getDefault();
 
         foreach($def as $column => $data) {
-            if(isset($data[1]) && is_array($data[1])) {
-                foreach($data[1] as $val) {
-                    $input = request()->input($val);
+            if(is_array($data)) {
+                if(isset($data[1]) && is_array($data[1])) {
+                    foreach($data[1] as $val) {
+                        $input = request()->input($val);
+                    }
+                    $this->{$column} = $input ?? $data[0];
+                } else {
+                    $this->{$column} = request()->input($data[1] ?? $column, $data[0]);
                 }
-                $this->{$column} = $input ?? $data[0];
             } else {
-                $this->{$column} = request()->input($data[1] ?? $column, $data[0]);
+                $this->{$column} = $data;
             }
 
         }

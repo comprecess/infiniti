@@ -5,6 +5,8 @@ namespace App\Models\Users;
 use App\Models\Cart;
 use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Log;
+use App\Models\Resident\Client\Company;
+use App\Models\Resident\Client\Group;
 use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\User;
 use App\Models\Users\Interfaces\LoginIntarface;
@@ -35,6 +37,16 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
                 $cart->save();
             }
         }
+    }
+
+    public function group()
+    {
+        return $this->belongsTo(Group::class, 'gid');
+    }
+
+    public function companyClient()
+    {
+        return $this->belongsTo(Company::class, 'cid');
     }
 
     public function login($username, $password)

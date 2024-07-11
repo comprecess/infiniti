@@ -34,7 +34,7 @@ class CurrencyRequest extends FormRequest
                 Rule::in($cur),
                 $rule/*->ignore()*/
             ],
-            'rate' => 'decimal:2'
+            'rate' => 'decimal:1,6'
         ];
     }
 
