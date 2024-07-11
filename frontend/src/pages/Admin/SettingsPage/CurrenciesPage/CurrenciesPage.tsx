@@ -1,8 +1,11 @@
 import { FC, useEffect, useState } from 'react'
 
 import { CurrencyProps } from '../../../../app/constants/constants'
+import { EditCurrency } from '../../../../features/Admin/CurrenciesPage/EditCurrency/EditCurrency'
+import { NewCurrency } from '../../../../features/Admin/CurrenciesPage/NewCurrency/NewCurrency'
 import { RecentCurrencies } from '../../../../features/Admin/CurrenciesPage/RecentCurrencies/RecentCurrencies'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
+import { ConfirmationModal } from '../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { addCurrency } from '../../../../shared/utils/api/Currency/AddCurrency'
@@ -12,12 +15,10 @@ import { editCurrency } from '../../../../shared/utils/api/Currency/EditCurrency
 import { getListOfActive } from '../../../../shared/utils/api/Currency/GetListOfActive'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CurrenciesPage.module.scss'
-import { EditCurrency } from './EditCurrency/EditCurrency'
-import { NewCurrency } from './NewCurrency/NewCurrency'
 
 export const AdminCurrenciesPage: FC = () => {
   const [currenciesList, setCurrenciesList] = useState<
-  CurrencyProps[] | null
+    CurrencyProps[] | null
   >(null)
   const [modalNewCurrency, setModalNewCurrency] = useState<boolean>(false)
   const [modalEditCurrency, setModalEditCurrency] =
@@ -30,6 +31,12 @@ export const AdminCurrenciesPage: FC = () => {
   const [name, setName] = useState<string>('')
   const [rate, setRate] = useState<number>(0)
 
+  const [selectedGroupId, setSelectedGroupId] = useState<number | null>(
+    null,
+  )
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
+    useState<boolean>(false)
+
   const showToast = useCustomToast()
 
   const handleOpenCloseModalNewCurrency = () => {
@@ -38,6 +45,15 @@ export const AdminCurrenciesPage: FC = () => {
 
   const handleOpenCloseModalEditCurrency = () => {
     setModalEditCurrency(!modalEditCurrency)
+  }
+
+  const handleOpenConfirmationModal = () => {
+    setIsConfirmationModalOpen(!isConfirmationModalOpen)
+  }
+
+  const confirmDeleteGroup = (id: number) => {
+    setSelectedGroupId(id)
+    setIsConfirmationModalOpen(true)
   }
 
   const handleInputChange = (name: string, value: string | number) => {
@@ -69,8 +85,10 @@ export const AdminCurrenciesPage: FC = () => {
     handleOpenCloseModalEditCurrency()
   }
 
-  const deleteSelectedCurrency = async (id: number) => {
-    const deleteResponse = await deleteCurrency(id)
+  const deleteSelectedCurrency = async () => {
+    if (selectedGroupId === null) return
+
+    const deleteResponse = await deleteCurrency(selectedGroupId)
 
     if (deleteResponse) {
       showToast({
@@ -86,6 +104,8 @@ export const AdminCurrenciesPage: FC = () => {
         status: 'error',
       })
     }
+
+    handleOpenConfirmationModal()
   }
 
   const changeSelectedBaseCurrency = async (id: number) => {
@@ -175,7 +195,7 @@ export const AdminCurrenciesPage: FC = () => {
           >
             <RecentCurrencies
               currencyList={currenciesList}
-              deleteCurrency={deleteSelectedCurrency}
+              deleteCurrency={confirmDeleteGroup}
               changeBaseCurrency={changeSelectedBaseCurrency}
               editCurrency={loadEditModalWindow}
             />
@@ -198,6 +218,11 @@ export const AdminCurrenciesPage: FC = () => {
         handleOpenCloseModal={handleOpenCloseModalEditCurrency}
         editCurrency={editSelectedCurrency}
         handleInputChange={handleInputChange}
+      />
+      <ConfirmationModal
+        isOpened={isConfirmationModalOpen}
+        handleOpenCloseModal={handleOpenConfirmationModal}
+        agree={deleteSelectedCurrency}
       />
     </div>
   )

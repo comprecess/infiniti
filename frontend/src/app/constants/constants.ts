@@ -203,3 +203,9 @@ export interface CurrencyProps {
   rate: string
   symbol: string
 }
+
+export interface GroupsListProps {
+  id: number
+  name: string
+  sort: number
+}

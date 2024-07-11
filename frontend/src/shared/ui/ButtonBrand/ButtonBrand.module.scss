@@ -1,18 +1,35 @@
-.wrapper {
+.ordinaryWrapper,
+.iconWrapper {
   width: 100%;
   height: 48px;
   border-radius: 8px;
   padding: 0px 20px 0px 20px;
   background-color: $brand-800;
-
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 24px;
-  letter-spacing: -0.03em;
-  color: $brand-100;
   transition: all 0.2s;
 
   @include hover() {
     background-color: lighten($brand-800, 5%);
   }
+}
+
+.title,
+.titleNone {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  color: $white;
+}
+
+.titleNone {
+  @include mobileBreakpoint('max', $bpS) {
+    display: none;
+  }
+}
+
+.iconWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
 }

@@ -53,11 +53,7 @@ export const Item: FC<ItemProps> = ({
       </span>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
         <button className={styles.buttonEdit} onClick={handleEditCurrency}>
-          <img
-            src='/icons/edit.svg'
-            alt='Star'
-            className={styles.starIcon}
-          />
+          <img src='/icons/edit.svg' alt='Star' className={styles.icon} />
         </button>
         {baseCurrency === 0 ? (
           <button
@@ -67,16 +63,12 @@ export const Item: FC<ItemProps> = ({
             <img
               src='/icons/star.svg'
               alt='Star'
-              className={styles.starIcon}
+              className={styles.icon}
             />
           </button>
         ) : null}
         <button className={styles.buttonTrash} onClick={handleDeleteClick}>
-          <img
-            src='/icons/trash.svg'
-            alt='Star'
-            className={styles.starIcon}
-          />
+          <img src='/icons/trash.svg' alt='Star' className={styles.icon} />
         </button>
       </div>
     </div>

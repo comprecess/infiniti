@@ -14,14 +14,6 @@
   justify-content: center;
 }
 
-.item {
-  display: flex;
-  flex-direction: row;
-  gap: 24px;
-  width: 100%;
-  max-width: $maxContentSize;
-}
-
 .recentFullScreen {
   max-width: $maxContentSize;
 }
