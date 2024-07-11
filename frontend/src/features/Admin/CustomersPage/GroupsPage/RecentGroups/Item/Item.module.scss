@@ -6,19 +6,10 @@
   padding: 10px 12px 10px 12px;
 }
 
-.currencyCodeItem {
+.groupNameItem {
   font-size: 16px;
   font-weight: 500;
   line-height: 26px;
-  letter-spacing: -0.03em;
-  text-align: left;
-  color: $white;
-}
-
-.baseConversionRateItem {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 20px;
   letter-spacing: -0.03em;
   text-align: left;
   color: $white;
@@ -33,7 +24,7 @@
   align-items: center;
 }
 
-.buttonStar,
+.buttonList,
 .buttonEdit,
 .buttonTrash {
   display: flex;
@@ -45,13 +36,13 @@
   border-radius: 8px;
 }
 
-.buttonStar,
+.buttonList,
 .buttonEdit,
 .buttonTrash {
   transition: all 0.2s ease;
 }
 
-.buttonStar {
+.buttonList {
   background-color: $amber-500;
 
   @include hover() {

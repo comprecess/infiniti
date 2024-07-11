@@ -1,0 +1,23 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+.buttonWrench,
+.buttonPlus {
+  height: 42px;
+}
+
+.iconPlus {
+  width: 14px;
+  height: 14px;
+}
+
+.iconWrench {
+  width: 20px;
+  height: 20px;
+}
