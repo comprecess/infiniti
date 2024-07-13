@@ -1,6 +1,9 @@
 import { FC, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { GroupsListProps } from '../../../../app/constants/constants'
+import { Routes } from '../../../../app/router/routes'
+import { EditGroup } from '../../../../features/Admin/CustomersPage/GroupsPage/EditGroup/EditGroup'
 import { NewGroup } from '../../../../features/Admin/CustomersPage/GroupsPage/NewGroup/NewGroup'
 import { RecentButtons } from '../../../../features/Admin/CustomersPage/GroupsPage/RecentButtons/RecentButtons'
 import { RecentGroups } from '../../../../features/Admin/CustomersPage/GroupsPage/RecentGroups/RecentGroups'
@@ -9,13 +12,16 @@ import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { addGroup } from '../../../../shared/utils/api/Groups/AddGroup'
 import { deleteGroup } from '../../../../shared/utils/api/Groups/DeleteGroup'
+import { editGroup } from '../../../../shared/utils/api/Groups/EditGroup'
 import { getListGroups } from '../../../../shared/utils/api/Groups/GetGroups'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './GroupsPage.module.scss'
 
 export const AdminGroupsPage: FC = () => {
   const [groups, setGroups] = useState<GroupsListProps[]>([])
+
   const [newGroup, setNewGroup] = useState<boolean>(false)
+  const [modalEditGroups, setModalEditGroups] = useState<boolean>(false)
 
   const [selectedGroupId, setSelectedGroupId] = useState<number | null>(
     null,
@@ -25,6 +31,7 @@ export const AdminGroupsPage: FC = () => {
 
   const [name, setName] = useState<string>('')
 
+  const navigate = useNavigate()
   const showToast = useCustomToast()
 
   const getGroups = async () => {
@@ -39,6 +46,20 @@ export const AdminGroupsPage: FC = () => {
 
   const openConfirmationModal = () => {
     setIsConfirmationModalOpen(!isConfirmationModalOpen)
+  }
+
+  const openEditGroupModal = () => {
+    setModalEditGroups(!modalEditGroups)
+  }
+
+  const handleNavigateToOrder = () => {
+    navigate(Routes.reorder)
+  }
+
+  const setIdEditGroup = (id: number, name: string) => {
+    setSelectedGroupId(id)
+    setName(name)
+    openEditGroupModal()
   }
 
   const confirmDeleteGroup = (id: number) => {
@@ -90,6 +111,29 @@ export const AdminGroupsPage: FC = () => {
     openConfirmationModal()
   }
 
+  const editSelectedGroup = async () => {
+    if (selectedGroupId === null) return
+
+    const editResponse = await editGroup(selectedGroupId, name)
+
+    if (editResponse) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully changed the group name',
+        status: 'success',
+      })
+      getGroups()
+    } else {
+      showToast({
+        title: 'Error',
+        description: 'Error when changing group name',
+        status: 'error',
+      })
+    }
+
+    openEditGroupModal()
+  }
+
   const handleInputChange = (name: string, value: string) => {
     if (name === 'groupName') {
       setName(value)
@@ -112,11 +156,15 @@ export const AdminGroupsPage: FC = () => {
             title='Groups'
             style={styles.recentFullScreen}
             Component={RecentButtons}
-            componentProps={{ firstButtonClick: openNewGroupModal }}
+            componentProps={{
+              firstButtonClick: openNewGroupModal,
+              secondButtonClick: handleNavigateToOrder,
+            }}
           >
             <RecentGroups
               groupsList={groups}
               deleteGroup={confirmDeleteGroup}
+              editGroup={setIdEditGroup}
             />
           </RecentCard>
         ) : (
@@ -128,6 +176,14 @@ export const AdminGroupsPage: FC = () => {
         handleOpenCloseModal={openNewGroupModal}
         handleInputChange={handleInputChange}
         createNewGroup={createGroup}
+      />
+      <EditGroup
+        id={selectedGroupId || 0}
+        inputValueName={name}
+        modalEditGroup={modalEditGroups}
+        handleOpenCloseModal={openEditGroupModal}
+        editGroup={editSelectedGroup}
+        handleInputChange={handleInputChange}
       />
       <ConfirmationModal
         isOpened={isConfirmationModalOpen}

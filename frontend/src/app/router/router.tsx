@@ -46,6 +46,14 @@ export const router = createBrowserRouter([
             element: Pages.adminGroupsPage,
           },
           {
+            path: `${Routes.groups + '/' + Routes.contactsList}/:id`,
+            element: Pages.adminContactsListPage,
+          },
+          {
+            path: `${Routes.groups + '/' + Routes.reorder}`,
+            element: Pages.adminReorderGroupsPage,
+          },
+          {
             path: Routes.files,
             element: Pages.adminFilesPage,
           },

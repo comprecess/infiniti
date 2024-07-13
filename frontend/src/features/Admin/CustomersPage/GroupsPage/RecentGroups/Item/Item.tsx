@@ -1,5 +1,7 @@
 import { FC } from 'react'
+import { useNavigate } from 'react-router-dom'
 
+import { Routes } from '../../../../../../app/router/routes'
 import styleItem from '../RecentGroups.module.scss'
 import styles from './Item.module.scss'
 
@@ -7,11 +9,27 @@ interface ItemProps {
   id: number
   groupName: string
   deleteGroup: (id: number) => void
+  editGroup: (id: number, name: string) => void
 }
 
-export const Item: FC<ItemProps> = ({ id, groupName, deleteGroup }) => {
+export const Item: FC<ItemProps> = ({
+  id,
+  groupName,
+  deleteGroup,
+  editGroup,
+}) => {
+  const navigate = useNavigate()
+
+  const handleNavigateToListContacts = () => {
+    navigate(Routes.contactsList + '/' + id)
+  }
+
   const handleDeleteGroup = () => {
     deleteGroup(id)
+  }
+
+  const handleEditGroup = () => {
+    editGroup(id, groupName)
   }
 
   return (
@@ -22,14 +40,25 @@ export const Item: FC<ItemProps> = ({ id, groupName, deleteGroup }) => {
         {groupName}
       </span>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <button className={styles.buttonEdit}>
+        <button className={styles.buttonEdit} onClick={handleEditGroup}>
           <img src='/icons/edit.svg' alt='Star' className={styles.icon} />
         </button>
-        <button className={styles.buttonList}>
-          <img src='/icons/users.svg' alt='Star' className={styles.icon} />
+        <button
+          className={styles.buttonList}
+          onClick={handleNavigateToListContacts}
+        >
+          <img
+            src='/icons/users.svg'
+            alt='Users'
+            className={styles.icon}
+          />
         </button>
         <button className={styles.buttonTrash} onClick={handleDeleteGroup}>
-          <img src='/icons/trash.svg' alt='Star' className={styles.icon} />
+          <img
+            src='/icons/trash.svg'
+            alt='Trash'
+            className={styles.icon}
+          />
         </button>
       </div>
     </div>

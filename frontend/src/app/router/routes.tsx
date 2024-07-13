@@ -14,7 +14,9 @@ import { AdminCalendarPage } from '../../pages/Admin/CalendarPage/CalendarPage'
 import { AdminAddCustomerPage } from '../../pages/Admin/CustomersPage/AddCustomerPage/AddCustomerPage'
 import { AdminCompaniesPage } from '../../pages/Admin/CustomersPage/CompaniesPage/CompaniesPage'
 import { AdminFilesPage } from '../../pages/Admin/CustomersPage/FilesPage/FilesPage'
+import { AdminContactsListPage } from '../../pages/Admin/CustomersPage/GroupsPage/ContactsListPage/ContactsListPage'
 import { AdminGroupsPage } from '../../pages/Admin/CustomersPage/GroupsPage/GroupsPage'
+import { AdminReorderGroupsPage } from '../../pages/Admin/CustomersPage/GroupsPage/ReorderGroupsPage/ReorderGroupsPage'
 import { AdminListCustomerPage } from '../../pages/Admin/CustomersPage/ListCustomerPage/ListCustomerPage'
 import { AdminDashboardPage } from '../../pages/Admin/DashboardPage/DashboardPage'
 import { AdminDocumentsPage } from '../../pages/Admin/DocumentsPage/DocumentsPage'
@@ -61,6 +63,7 @@ export const Routes = {
   customers: 'customers',
   businessPlan: 'businessplan',
   catalog: 'catalog',
+  reorder: 'reorder',
   accounting: 'accounting',
   sales: 'sales',
   currencies: 'currencies',
@@ -94,6 +97,7 @@ export const Routes = {
   newExpense: 'newexpense',
   transfer: 'transfer',
   bills: 'bills',
+  contactsList: 'contactslist',
   viewTransactions: 'viewtransactions',
   unclearedTransactions: 'unclearedtransactions',
   accounts: 'accounts',
@@ -152,6 +156,8 @@ export const Pages = {
   adminAccountsPage: <AdminAccountsPage />,
   adminAssetsPage: <AdminAssetsPage />,
   adminBillsPage: <AdminBillsPage />,
+  adminContactsListPage: <AdminContactsListPage />,
+  adminReorderGroupsPage: <AdminReorderGroupsPage />,
   adminNewAccountPage: <AdminNewAccountPage />,
   adminNewDepositPage: <AdminNewDepositPage />,
   adminNewExpensePage: <AdminNewExpensePage />,
