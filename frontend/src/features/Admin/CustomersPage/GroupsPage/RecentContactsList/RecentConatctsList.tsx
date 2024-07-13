@@ -1,0 +1,44 @@
+import React, { FC } from 'react'
+
+import { GroupContactsListProps } from '../../../../../app/constants/constants'
+import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
+import { Title } from '../../../../Main/RecentCard/Title/Title'
+import { Item } from './Item/Item'
+import styles from './RecentContactsList.module.scss'
+
+interface RecentContactsListProps {
+  list: GroupContactsListProps[]
+}
+
+export const RecentContactsList: FC<RecentContactsListProps> = ({
+  list,
+}) => {
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.columns}>
+        <Title title='#' style={styles.hashtagColumn} />
+        <Title title='Name' style={styles.nameColumn} />
+        <Title title='Company Name' style={styles.companyNameColumn} />
+        <Title title='Email' style={styles.emailColumn} />
+        <Title title='Phone' style={styles.phoneColumn} />
+        <Title title='Manage' style={styles.manageColumn} />
+      </div>
+      <div className={styles.items}>
+        {list.map((item, index) => {
+          return (
+            <React.Fragment key={item.id}>
+              <Item
+                id={item.id}
+                name={item.account}
+                companyName={item.company?.name}
+                email={item.email}
+                phone={item.phone}
+              />
+              {index !== list.length - 1 && <CustomDivider />}
+            </React.Fragment>
+          )
+        })}
+      </div>
+    </div>
+  )
+}

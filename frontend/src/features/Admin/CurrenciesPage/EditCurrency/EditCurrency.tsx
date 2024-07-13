@@ -35,7 +35,7 @@ export const EditCurrency: FC<NewCurrencyProps> = ({
       isOpen={modalEditCurrency}
       onClose={handleOpenCloseModal}
     >
-      <div className={styles.input}>
+      <div className={styles.wrapper}>
         <div className={styles.header}>
           <h4 className={styles.title}>Edit Currency</h4>
           <div className={styles.cross} onClick={handleOpenCloseModal}>

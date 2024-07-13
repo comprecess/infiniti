@@ -209,3 +209,25 @@ export interface GroupsListProps {
   name: string
   sort: number
 }
+
+export interface GroupContactsListProps {
+  id: number
+  account: string
+  img: string
+  company: CompanyProps
+  group: GroupProps
+  email: string
+  phone: string
+}
+
+interface CompanyProps {
+  id: number
+  code: string
+  name: string
+}
+
+interface GroupProps {
+  id: number
+  name: string
+  sort: number
+}

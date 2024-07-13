@@ -9,11 +9,13 @@ import styles from './RecentGroups.module.scss'
 interface RecentTableProps {
   groupsList: GroupsListProps[]
   deleteGroup: (id: number) => void
+  editGroup: (id: number, name: string) => void
 }
 
 export const RecentGroups: FC<RecentTableProps> = ({
   groupsList,
   deleteGroup,
+  editGroup,
 }) => {
   return (
     <div className={styles.wrapper}>
@@ -29,6 +31,7 @@ export const RecentGroups: FC<RecentTableProps> = ({
                 id={item.id}
                 groupName={item.name}
                 deleteGroup={deleteGroup}
+                editGroup={editGroup}
               />
               {index !== groupsList.length - 1 && <CustomDivider />}
             </React.Fragment>

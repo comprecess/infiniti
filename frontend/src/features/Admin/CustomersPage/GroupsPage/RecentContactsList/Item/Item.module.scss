@@ -6,13 +6,31 @@
   padding: 10px 12px 10px 12px;
 }
 
-.groupNameItem {
+.idItem {
   font-size: 16px;
   font-weight: 500;
   line-height: 26px;
   letter-spacing: -0.03em;
   text-align: left;
   color: $white;
+}
+
+.nameItem,
+.companyNameItem,
+.emailItem,
+.phoneItem {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $white;
+}
+
+.companyNameItem {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .manageItem {
@@ -24,8 +42,7 @@
   align-items: center;
 }
 
-.buttonList,
-.buttonEdit,
+.viewButton,
 .buttonTrash {
   display: flex;
   width: 100%;
@@ -37,15 +54,7 @@
   transition: all 0.2s ease;
 }
 
-.buttonList {
-  background-color: $amber-500;
-
-  @include hover() {
-    background-color: $amber-400;
-  }
-}
-
-.buttonEdit {
+.viewButton {
   background-color: $mint-500;
 
   @include hover() {
