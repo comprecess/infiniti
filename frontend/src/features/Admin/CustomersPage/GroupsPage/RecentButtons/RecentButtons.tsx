@@ -16,6 +16,7 @@ export const RecentButtons: FC<RecentButtonsProps> = ({
   return (
     <div className={styles.wrapper}>
       <ButtonBlue
+        titleNone
         title='New Group'
         icon='/icons/plus.svg'
         style={styles.buttonPlus}
@@ -23,6 +24,7 @@ export const RecentButtons: FC<RecentButtonsProps> = ({
         onClick={firstButtonClick}
       />
       <ButtonBrand
+        titleNone
         title='Reorder'
         icon='/icons/wrench.svg'
         style={styles.buttonWrench}
