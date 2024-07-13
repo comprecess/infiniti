@@ -28,7 +28,7 @@ const useIdFromUrl = () => {
 
 export const AdminContactsListPage: FC = () => {
   const [contacts, setContacts] = useState<
-  GroupContactsListProps[] | null
+    GroupContactsListProps[] | null
   >(null)
 
   const id = useIdFromUrl()

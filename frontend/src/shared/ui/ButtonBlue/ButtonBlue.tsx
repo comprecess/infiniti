@@ -8,6 +8,7 @@ interface ButtonBlueProps {
   style?: string
   icon?: string
   iconProps?: string
+  titleNone?: boolean
   onClick?: () => void
 }
 
@@ -17,6 +18,7 @@ export const ButtonBlue: FC<ButtonBlueProps> = ({
   style,
   icon,
   iconProps,
+  titleNone = false,
   onClick,
 }) => {
   return (
@@ -30,7 +32,7 @@ export const ButtonBlue: FC<ButtonBlueProps> = ({
       onClick={onClick}
     >
       {icon ? <img src={icon} alt='Icon' className={iconProps} /> : null}
-      <span className={icon ? styles.titleNone : styles.title}>
+      <span className={titleNone ? styles.titleNone : styles.title}>
         {title}
       </span>
     </button>
