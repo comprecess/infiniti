@@ -45,6 +45,11 @@ export const Item: FC<ItemProps> = ({ index, name, moveItem, sort }) => {
       className={styles.wrapper}
       style={{ opacity }}
     >
+      <div className={styles.circleWrapper}>
+        <div className={styles.circleMini}>
+          <span className={styles.circleIndex}>{index + 1}</span>
+        </div>
+      </div>
       <span className={styles.name}>{name}</span>
     </div>
   )
