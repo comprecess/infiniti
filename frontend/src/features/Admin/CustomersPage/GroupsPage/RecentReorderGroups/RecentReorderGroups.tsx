@@ -1,10 +1,15 @@
 import { FC, useState } from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import { TouchBackend } from 'react-dnd-touch-backend'
 
 import { GroupsListProps } from '../../../../../app/constants/constants'
 import { Item } from './Item/Item'
 import styles from './RecentReorderGroups.module.scss'
+
+const isMobileDevice = () => {
+  return navigator.maxTouchPoints > 0 && 'orientation' in window
+}
 
 interface RecentReorderGroupsProps {
   groupsList: GroupsListProps[]
@@ -39,7 +44,7 @@ export const RecentReorderGroups: FC<RecentReorderGroupsProps> = ({
   }
 
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndProvider backend={isMobileDevice() ? TouchBackend : HTML5Backend}>
       <div className={styles.wrapper}>
         <h5 className={styles.title}>
           Drag & drop the Items below for Repositioning. Click to Edit.
