@@ -20,19 +20,19 @@ export const TalentsLevel: FC<TalentsLevelProps> = ({ title }) => {
   switch (title) {
     case 'Lead':
       levelStyle = levelColors.Lead
-      levelIcon = '/levels/Lead.svg'
+      levelIcon = '/levels/lead.svg'
       break
     case 'Senior':
       levelStyle = levelColors.Senior
-      levelIcon = '/levels/Senior.svg'
+      levelIcon = '/levels/senior.svg'
       break
     case 'Middle':
       levelStyle = levelColors.Middle
-      levelIcon = '/levels/Middle.svg'
+      levelIcon = '/levels/middle.svg'
       break
     case 'Junior':
       levelStyle = levelColors.Junior
-      levelIcon = '/levels/Junior.svg'
+      levelIcon = '/levels/junior.svg'
       break
   }
 

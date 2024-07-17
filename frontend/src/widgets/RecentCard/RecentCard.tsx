@@ -9,6 +9,8 @@ interface RecentCardProps {
   style?: string
   refreshIcon?: boolean
   ordinaryIcons?: boolean
+  HeaderComponent?: React.FC<any>
+  PagesComponent?: React.FC<any>
   Component?: React.FC<any>
   componentProps?: any
 }
@@ -18,6 +20,8 @@ export const RecentCard: FC<PropsWithChildren<RecentCardProps>> = ({
   style,
   refreshIcon = false,
   ordinaryIcons = false,
+  HeaderComponent,
+  PagesComponent,
   Component,
   componentProps,
   children,
@@ -43,8 +47,14 @@ export const RecentCard: FC<PropsWithChildren<RecentCardProps>> = ({
           ) : null}
         </div>
       </div>
+      <div className={styles.header}>
+        {HeaderComponent ? <HeaderComponent /> : null}
+      </div>
       <div className={!openContent ? styles.content : styles.childNone}>
         {children}
+      </div>
+      <div className={styles.pages}>
+        {PagesComponent ? <PagesComponent /> : null}
       </div>
     </div>
   )

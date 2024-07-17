@@ -231,3 +231,12 @@ interface GroupProps {
   name: string
   sort: number
 }
+
+export interface CompaniesListProps {
+  id: number
+  logo: string
+  name: string
+  code: string
+  email: string
+  phone: string
+}
