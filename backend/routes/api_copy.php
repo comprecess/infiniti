@@ -1,11 +1,13 @@
 <?php
 
-
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CatalogController;
+use App\Http\Controllers\Api\Resident\Settings\CurrencyController;
+use App\Http\Controllers\Api\Resident\Client;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +20,9 @@ use App\Http\Controllers\Api\CatalogController;
 |
 */
 
+Route::middleware('auth:api_client')->get('/test', function (Request $request) {
+    return response()->json(['test' => '123']);
+});
 
 Route::post('/client/login', [AuthController::class, 'clientLogin']);
 Route::post('/client/register', [AuthController::class, 'registration']);
@@ -31,6 +36,18 @@ Route::group(
     Route::get('/', [UserController::class, 'getUser']);
 }
 );
+
+Route::group(
+    [
+    'middleware' => ['auth:api_client'],
+    'prefix' => 'client',
+    ], function(){
+        Route::get('/', [ClientController::class, 'index']);
+        Route::put('/', [ClientController::class, 'update']);
+        Route::post('/avatar', [ClientController::class, 'updateAvatar']);
+    }
+);
+
 
 #tools
 Route::group(['prefix' => 'tools'], function(){

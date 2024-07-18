@@ -18,6 +18,7 @@ class ClientResource extends JsonResource
             'id' => $this->id,
             'img' => $this->getAvatar(true),
             'account' => $this->account,
+            'code' => $this->code,
             'company' => new CompanyResource($this->companyClient),
             'group' => new GroupResource($this->group),
             'email' => $this->email,

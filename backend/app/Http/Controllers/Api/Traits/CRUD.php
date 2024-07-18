@@ -33,11 +33,11 @@ trait CRUD
         return $resorce::collection($model);
     }
 
-    public function createOrUpdate(FormRequest $request, Model $model, ?callable $setDataModel = null)
+    public function createOrUpdate(FormRequest $request, Model $model, ?callable $setDataModel = null, ?callable $afterDataSet = null)
     {
-        $isUpdate = (bool) $model->getAttributes();
+        $isUpdate = !((bool) $model->getAttributes());
 
-        if(!$isUpdate && ($model instanceof InsertDefaultValueInterface)) {
+        if($isUpdate && ($model instanceof InsertDefaultValueInterface)) {
             $model->insertDefaultValue();
         }
 
@@ -46,10 +46,14 @@ trait CRUD
         }
 
         if(is_callable($setDataModel)) {
-            $setDataModel($model, $request);
+            $setDataModel($model, $request, $isUpdate);
         }
 
         $model->save();
+
+        if(is_callable($afterDataSet)) {
+            $afterDataSet($model, $request, $isUpdate);
+        }
 
         return response()->json(['success' => true]);
 

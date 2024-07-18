@@ -34,7 +34,8 @@ class FileStorage extends Model
         'bmp' => 'img',
         'webp' => 'img',
         'tif' => 'img',
-        'heic' => 'img'
+        'heic' => 'img',
+        'svg' => 'svg'
     ];
 
     private $convertorByJpg = [
@@ -79,7 +80,7 @@ class FileStorage extends Model
 
     public function uploads(Model $model, UploadedFile|File $file, $data = null) :FileStorage
     {
-        if($file->getError()) {
+        if($file instanceof UploadedFile && $file->getError()) {
             Log::error($file->getErrorMessage());
             throw new LoadFileStorageException($file->getErrorMessage(), 2);
         }
@@ -123,6 +124,38 @@ class FileStorage extends Model
 
         $this->dropTmpFile();
         return $this;
+    }
+
+    public function uplodsUrl(Model $model, string $url)
+    {
+        $urlFile = new \SplFileInfo($url);
+        $tmpStorage = storage_path("app/".self::NAME ."/tmp/");
+        $tmp = self::NAME . "/tmp/";
+        $baseName = $urlFile->getBasename();
+
+//        if(!isset(self::FILE_TYPE[$urlFile->getExtension()])) {
+//            throw new LoadFileStorageException("Invalid file format");
+//        }
+
+        $storage = Storage::disk('local');
+
+        if(!$storage->exists($tmp)) {
+            $storage->makeDirectory($tmp);
+        }
+
+        $urlFile = fopen($url, 'r');
+
+        if($urlFile !== false) {
+
+            if($storage->put($tmp . $baseName, $urlFile)) {
+                $fileStorage = $this->uploads($model, new File($tmpStorage . $baseName));
+                if($fileStorage->id) {
+                    $storage->delete($tmp . $baseName);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public function setFile(UploadedFile|File $file)
