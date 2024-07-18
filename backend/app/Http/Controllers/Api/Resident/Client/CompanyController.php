@@ -11,6 +11,7 @@ use App\Http\Resources\Resident\Client\CompanyResource;
 use App\Models\Resident\Client\Company;
 use App\Services\Tools\Countries;
 use Illuminate\Support\Arr;
+use Illuminate\Validation\ValidationException;
 
 class CompanyController extends Controller
 {
@@ -34,8 +35,15 @@ class CompanyController extends Controller
         },
         function($model, $request){
             $file = $model->getLastFile();
-            if($request->logo && $request->logo != $file?->getLink()) {
-                $model->urlFile($request->logo);
+            if($request->logo) {
+                if($request->logo != $file?->getLink()) {
+                    $newFile = $model->urlFile($request->logo);
+                    if(!$newFile->isImage()) {
+                        return ValidationException::withMessages(['The logo is not a picture']);
+                    }
+                    $file?->delete();
+                }
+            } else {
                 $file?->delete();
             }
         });
