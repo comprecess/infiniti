@@ -34,9 +34,9 @@ class CompanyController extends Controller
         },
         function($model, $request){
             $file = $model->getLastFile();
-            if($request->logo && $request->logo != $file->getLink()) {
+            if($request->logo && $request->logo != $file?->getLink()) {
                 $model->urlFile($request->logo);
-                $file->delete();
+                $file?->delete();
             }
         });
     }
