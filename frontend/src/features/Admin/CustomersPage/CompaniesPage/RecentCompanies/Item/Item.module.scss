@@ -8,15 +8,26 @@
 
 .logoItem {
   max-width: 230px;
+  max-height: 42px;
 }
 
-.companyNameItem {
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.companyNameItem,
+.companyCodeItem {
   font-size: 16px;
   font-weight: 500;
   line-height: 26px;
   letter-spacing: -0.03em;
   text-align: left;
   color: $white;
+}
+
+.companyCodeItem {
+  color: $gray-300;
 }
 
 .emailItem,

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import styles from './CustomInput.module.scss'
 
@@ -25,9 +25,16 @@ export const CustomInput: FC<CustomInputProps> = ({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value
+
     setInputValue(newValue)
     onChange(id!, newValue)
   }
+
+  useEffect(() => {
+    if (value !== null) {
+      onChange(id!, value)
+    }
+  }, [])
 
   return (
     <div className={styles.wrapper}>
