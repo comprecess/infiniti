@@ -23,8 +23,9 @@ class CompanyRequest extends FormRequest implements ConvertingPropertiesInterfac
 //        if($model = $this->route('company')) {
 //            $rule->ignore($model->id);
 //        }
-        $result =  [
+        return [
             'name' => 'required|string',
+            'logo' => 'nullable|url',
             'code' => [
                 'required',
                 'string',
@@ -33,20 +34,13 @@ class CompanyRequest extends FormRequest implements ConvertingPropertiesInterfac
             'address' => 'string',
             'businessNumber' => 'string',
             'city' => 'string',
+            'url' => 'nullable|url',
             'state' => 'string',
             'email' => 'email',
             'zip' => 'string',
             'phone' => 'string',
             'country' => 'string',
         ];
-
-        foreach(['logo', 'url'] as $value) {
-            if($this->input($value) !== '') {
-                $result[$value] = 'url';
-            }
-        }
-
-        return $result;
     }
 
     public function getListProperties(): array
