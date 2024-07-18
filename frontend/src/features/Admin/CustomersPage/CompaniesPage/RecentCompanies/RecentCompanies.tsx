@@ -8,10 +8,14 @@ import styles from './RecentCompanies.module.scss'
 
 interface RecentCompaniesProps {
   companiesList: CompaniesListProps[]
+  deleteCompany: (id: number) => void
+  editCompany: (id: number) => void
 }
 
 export const RecentCompanies: FC<RecentCompaniesProps> = ({
   companiesList,
+  deleteCompany,
+  editCompany,
 }) => {
   return (
     <div className={styles.wrapper}>
@@ -27,10 +31,14 @@ export const RecentCompanies: FC<RecentCompaniesProps> = ({
           return (
             <React.Fragment key={item.id}>
               <Item
+                id={item.id}
                 logo={item.logo}
+                code={item.code}
                 name={item.name}
                 email={item.email}
                 phone={item.phone}
+                deleteCompany={deleteCompany}
+                editCompany={editCompany}
               />
               {index !== companiesList.length - 1 && <CustomDivider />}
             </React.Fragment>

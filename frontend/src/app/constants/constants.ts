@@ -240,3 +240,18 @@ export interface CompaniesListProps {
   email: string
   phone: string
 }
+
+export interface CompanyData {
+  name: string
+  code: string
+  logo: string
+  address: string
+  businessNumber: string
+  city: string
+  url: string
+  state: string
+  email: string
+  zip: string
+  phone: string
+  country: string
+}

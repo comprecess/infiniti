@@ -4,23 +4,47 @@ import styleItem from '../RecentCompanies.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
+  id: number
   logo: string
+  code: string
   name: string
   email: string
   phone: string
+  deleteCompany: (id: number) => void
+  editCompany: (id: number) => void
 }
 
-export const Item: FC<ItemProps> = ({ logo, name, email, phone }) => {
+export const Item: FC<ItemProps> = ({
+  id,
+  logo,
+  code,
+  name,
+  email,
+  phone,
+  deleteCompany,
+  editCompany,
+}) => {
+  const handleEditCompany = () => {
+    editCompany(id)
+  }
+
+  const handleDeleteCompany = () => {
+    deleteCompany(id)
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styleItem.logoColumn}>
-        <img src={logo} alt='Logo' className={styles.logoItem} />
+        {logo ? (
+          <img src={logo} alt='Logo' className={styles.logoItem} />
+        ) : null}
       </div>
-      <span
-        className={`${styleItem.companyNameColumn} ${styles.companyNameItem}`}
-      >
-        {name}
-      </span>
+      <div className={styleItem.companyNameColumn}>
+        <div className={styles.container}>
+          <span className={styles.companyNameItem}>{name}</span>
+          <span className={styles.companyCodeItem}>{code}</span>
+        </div>
+      </div>
       <span className={`${styleItem.emailColumn} ${styles.emailItem}`}>
         {email}
       </span>
@@ -31,10 +55,13 @@ export const Item: FC<ItemProps> = ({ logo, name, email, phone }) => {
         <button className={styles.viewButton}>
           <img src='/icons/view.svg' alt='View' className={styles.icon} />
         </button>
-        <button className={styles.buttonEdit}>
+        <button className={styles.buttonEdit} onClick={handleEditCompany}>
           <img src='/icons/edit.svg' alt='Star' className={styles.icon} />
         </button>
-        <button className={styles.buttonTrash}>
+        <button
+          className={styles.buttonTrash}
+          onClick={handleDeleteCompany}
+        >
           <img
             src='/icons/trash.svg'
             alt='Trash'

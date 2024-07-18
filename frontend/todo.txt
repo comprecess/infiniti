@@ -1,8 +1,3 @@
-General:
-		• Убрать все статические части и соединить все с беком (Ожидаю бэк)
-		• Доделать мелкие UI элементы из дизайна Figma
-
-
 Admin Sidebar:
 		• Доделать вложенные страницы (Sales, Suppliers, Purchase, Leads, SMS, Support, Knowledge Base, Orders, HRM, Products & Services, Reports, Utilities, Appearance, Settings)
 
