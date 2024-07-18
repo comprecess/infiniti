@@ -103,8 +103,7 @@ class User extends Authenticatable
 
     public function getAvatar($isLink = false)
     {
-        $avatar = $this->files->where('data', null)->sortByDesc('id')->first();
-        return $isLink ? $avatar?->getLink() : $avatar;
+        return $this->getLastFile($isLink);
     }
 
 

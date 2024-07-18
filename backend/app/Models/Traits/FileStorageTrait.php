@@ -8,6 +8,7 @@ use App\Models\FileStorage;
 use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 trait FileStorageTrait
 {
@@ -66,5 +67,17 @@ trait FileStorageTrait
             $cloneFile->model()->associate($new);
             $cloneFile->save();
         }
+    }
+
+    public function getLastFile($isLink = false)
+    {
+        $file = $this->files->where('data', null)->sortByDesc('id')->first();
+        return $isLink ? $file?->getLink() : $file;
+    }
+
+    public function urlFile(string $url)
+    {
+        $fileStorage = new FileStorage();
+        $fileStorage->uplodsUrl($this, $url);
     }
 }
