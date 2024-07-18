@@ -31,15 +31,15 @@ class CompanyRequest extends FormRequest implements ConvertingPropertiesInterfac
                 'string',
 //                $rule
             ],
-            'address' => 'string',
-            'businessNumber' => 'string',
-            'city' => 'string',
+            'address' => 'nullable|string',
+            'businessNumber' => 'nullable|string',
+            'city' => 'nullable|string',
             'url' => 'nullable|url',
-            'state' => 'string',
-            'email' => 'email',
-            'zip' => 'string',
-            'phone' => 'string',
-            'country' => 'string',
+            'state' => 'nullable|string',
+            'email' => 'nullable|email',
+            'zip' => 'nullable|string',
+            'phone' => 'nullable|string',
+            'country' => 'nullable|string',
         ];
     }
 
