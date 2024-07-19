@@ -9,7 +9,7 @@ import { CustomCheckBoxIndeterminate } from '../../../../shared/ui/CustomCheckBo
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { FromTo } from '../../../../shared/ui/FromTo/FromTo'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getPropertiesFiltering } from '../../../../shared/utils/api/Catalog/Properties/GetPropertiesFiltering'
+import { getPropertiesFiltering } from '../../../../shared/utils/api/Client/Catalog/Properties/GetPropertiesFiltering'
 import { CategoryItem } from './CategoryItem/CategoryItem'
 import { Item } from './CategoryItem/Item/Item'
 import styles from './Filters.module.scss'

@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react'
 import { CartProps } from '../../../app/constants/constants'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getOrdersInCart } from '../../../shared/utils/api/Cart/GetOrdersInCart'
+import { getOrdersInCart } from '../../../shared/utils/api/Client/Cart/GetOrdersInCart'
 import { Basket } from '../../../widgets/BasketCart/Basket/Basket'
 import { Cart } from '../../../widgets/BasketCart/Cart/Cart'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
@@ -35,7 +35,10 @@ export const BasketPage: FC = () => {
       {orders ? (
         <>
           <div className={styles.title}>
-            <TitlePage title='My orders' secondTitle={String(orders.count)} />
+            <TitlePage
+              title='My orders'
+              secondTitle={String(orders.count)}
+            />
           </div>
           <section className={styles.sectionFirst}>
             <RecentCard style={styles.cart}>

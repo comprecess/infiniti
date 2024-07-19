@@ -3,7 +3,7 @@ import { RouterProvider } from 'react-router-dom'
 
 import { router } from './app/router/router'
 import { LoadingScreen } from './shared/ui/LoadingScreen/LoadingScreen'
-import { getProfileInfo } from './shared/utils/api/Profile/GetProfileInfo'
+import { getProfileInfo } from './shared/utils/api/GetProfileInfo'
 
 export const App: FC = () => {
   const [isLoading, setIsLoading] = useState(true)

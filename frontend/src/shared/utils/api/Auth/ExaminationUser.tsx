@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import { roles } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
-import { getProfileInfo } from '../Profile/GetProfileInfo'
+import { getProfileInfo } from '../GetProfileInfo'
 
 export const ExaminationUser: FC<PropsWithChildren> = ({ children }) => {
   const [isUserRole, setIsUserRole] = useState<string>('')

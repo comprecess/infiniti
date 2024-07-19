@@ -10,10 +10,10 @@ import { RecentGroups } from '../../../../features/Admin/CustomersPage/GroupsPag
 import { ConfirmationModal } from '../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { addGroup } from '../../../../shared/utils/api/Groups/AddGroup'
-import { deleteGroup } from '../../../../shared/utils/api/Groups/DeleteGroup'
-import { editGroup } from '../../../../shared/utils/api/Groups/EditGroup'
-import { getListGroups } from '../../../../shared/utils/api/Groups/GetGroups'
+import { addGroup } from '../../../../shared/utils/api/Admin/Groups/AddGroup'
+import { deleteGroup } from '../../../../shared/utils/api/Admin/Groups/DeleteGroup'
+import { editGroup } from '../../../../shared/utils/api/Admin/Groups/EditGroup'
+import { getListGroups } from '../../../../shared/utils/api/Admin/Groups/GetGroups'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './GroupsPage.module.scss'
 
@@ -70,7 +70,7 @@ export const AdminGroupsPage: FC = () => {
   const createGroup = async () => {
     const addGroupResponse = await addGroup(name)
 
-    if (addGroupResponse) {
+    if (addGroupResponse.status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully created a new group',
@@ -80,7 +80,7 @@ export const AdminGroupsPage: FC = () => {
     } else {
       showToast({
         title: 'Error',
-        description: 'Error creating group',
+        description: addGroupResponse.message,
         status: 'error',
       })
     }
@@ -93,7 +93,7 @@ export const AdminGroupsPage: FC = () => {
 
     const deleteResponse = await deleteGroup(selectedGroupId)
 
-    if (deleteResponse) {
+    if (deleteResponse.status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully deleted the group',
@@ -103,7 +103,7 @@ export const AdminGroupsPage: FC = () => {
     } else {
       showToast({
         title: 'Error',
-        description: 'Error when deleting group',
+        description: deleteResponse.message,
         status: 'error',
       })
     }
@@ -116,7 +116,7 @@ export const AdminGroupsPage: FC = () => {
 
     const editResponse = await editGroup(selectedGroupId, name)
 
-    if (editResponse) {
+    if (editResponse.status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully changed the group name',
@@ -126,7 +126,7 @@ export const AdminGroupsPage: FC = () => {
     } else {
       showToast({
         title: 'Error',
-        description: 'Error when changing group name',
+        description: editResponse.message,
         status: 'error',
       })
     }

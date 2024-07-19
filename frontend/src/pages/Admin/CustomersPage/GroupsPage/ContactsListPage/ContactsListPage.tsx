@@ -5,7 +5,7 @@ import { GroupContactsListProps } from '../../../../../app/constants/constants'
 import { RecentContactsList } from '../../../../../features/Admin/CustomersPage/GroupsPage/RecentContactsList/RecentConatctsList'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getContactsList } from '../../../../../shared/utils/api/Groups/GetContactsList'
+import { getContactsList } from '../../../../../shared/utils/api/Admin/Groups/GetContactsList'
 import styles from './ContactsListPage.module.scss'
 
 const extractIdFromUrl = (url: string): number | null => {

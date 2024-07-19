@@ -10,12 +10,14 @@ interface RecentCompaniesProps {
   companiesList: CompaniesListProps[]
   deleteCompany: (id: number) => void
   editCompany: (id: number) => void
+  infoCompany: () => void
 }
 
 export const RecentCompanies: FC<RecentCompaniesProps> = ({
   companiesList,
   deleteCompany,
   editCompany,
+  infoCompany,
 }) => {
   return (
     <div className={styles.wrapper}>
@@ -39,6 +41,7 @@ export const RecentCompanies: FC<RecentCompaniesProps> = ({
                 phone={item.phone}
                 deleteCompany={deleteCompany}
                 editCompany={editCompany}
+                infoCompany={infoCompany}
               />
               {index !== companiesList.length - 1 && <CustomDivider />}
             </React.Fragment>

@@ -239,6 +239,7 @@ export interface CompaniesListProps {
   code: string
   email: string
   phone: string
+  notes: string
 }
 
 export interface CompanyData {

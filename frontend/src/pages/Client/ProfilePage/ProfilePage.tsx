@@ -2,7 +2,7 @@ import { FC, useCallback, useEffect, useState } from 'react'
 
 import { UserInfo } from '../../../app/constants/constants'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getProfileInfo } from '../../../shared/utils/api/Profile/GetProfileInfo'
+import { getProfileInfo } from '../../../shared/utils/api/GetProfileInfo'
 import { ProfileCard } from '../../../widgets/ProfileCard/ProfileCard'
 import { ProfileChangeInfoCard } from '../../../widgets/ProfileChangeInfoCard/ProfileChangeInfoCard'
 import styles from './ProfilePage.module.scss'

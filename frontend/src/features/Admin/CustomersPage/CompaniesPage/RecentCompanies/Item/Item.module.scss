@@ -7,6 +7,7 @@
 }
 
 .logoItem {
+  display: block;
   max-width: 230px;
   max-height: 42px;
 }
@@ -14,6 +15,7 @@
 .container {
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .companyNameItem,

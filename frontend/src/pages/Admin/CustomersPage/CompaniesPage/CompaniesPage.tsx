@@ -5,22 +5,26 @@ import {
   CompanyData,
 } from '../../../../app/constants/constants'
 import { ModalWindowCompany } from '../../../../features/Admin/CustomersPage/CompaniesPage/ModalWindowCompany/ModalWindowCompany'
+import { ModalWindowCompanyInfo } from '../../../../features/Admin/CustomersPage/CompaniesPage/ModalWindowCompanyInfo/ModalWindowCompanyInfo'
 import { RecentCompanies } from '../../../../features/Admin/CustomersPage/CompaniesPage/RecentCompanies/RecentCompanies'
 import { SearchAndButtons } from '../../../../features/Admin/CustomersPage/CompaniesPage/RecentCompanies/SearchAndButtons/SearchAndButtons'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { ConfirmationModal } from '../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { createNewCompany } from '../../../../shared/utils/api/Companies/CreateNewCompany'
-import { deleteCompany } from '../../../../shared/utils/api/Companies/DeleteCompany'
-import { editCompany } from '../../../../shared/utils/api/Companies/EditCompany'
-import { getCompaniesList } from '../../../../shared/utils/api/Companies/GetCompanies'
-import { getCompany } from '../../../../shared/utils/api/Companies/GetCompany'
+import { createNewCompany } from '../../../../shared/utils/api/Admin/Companies/CreateNewCompany'
+import { deleteCompany } from '../../../../shared/utils/api/Admin/Companies/DeleteCompany'
+import { editCompany } from '../../../../shared/utils/api/Admin/Companies/EditCompany'
+import { getCompaniesList } from '../../../../shared/utils/api/Admin/Companies/GetCompanies'
+import { getCompany } from '../../../../shared/utils/api/Admin/Companies/GetCompany'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CompaniesPage.module.scss'
 
 export const AdminCompaniesPage: FC = () => {
   const [companies, setCompanies] = useState<CompaniesListProps[]>([])
+  const [filteredCompanies, setFilteredCompanies] = useState<
+    CompaniesListProps[]
+  >([])
 
   const [selectedCompanyId, setSelectedCompanyId] = useState<
     number | null
@@ -28,6 +32,7 @@ export const AdminCompaniesPage: FC = () => {
 
   const [modalNewCompany, setModalNewCompany] = useState<boolean>(false)
   const [modalEditCompany, setModalEditCompany] = useState<boolean>(false)
+  const [modalCompanyInfo, setModalCompanyInfo] = useState<boolean>(false)
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
     useState<boolean>(false)
 
@@ -56,6 +61,10 @@ export const AdminCompaniesPage: FC = () => {
     setModalEditCompany(!modalEditCompany)
   }
 
+  const handleOpenCloseModalCompanyInfo = () => {
+    setModalCompanyInfo(!modalCompanyInfo)
+  }
+
   const handleOpenConfirmationModal = () => {
     setIsConfirmationModalOpen(!isConfirmationModalOpen)
   }
@@ -70,6 +79,21 @@ export const AdminCompaniesPage: FC = () => {
       ...prevState,
       [name]: value,
     }))
+  }
+
+  const handleSearchChange = (searchItem: string) => {
+    const filtered = companies.filter(company =>
+      company.name.toLowerCase().includes(searchItem.toLowerCase()),
+    )
+    setFilteredCompanies(filtered)
+  }
+
+  const reloadSearchFilter = () => {
+    setFilteredCompanies(prevFilteredCompanies =>
+      prevFilteredCompanies.filter(
+        company => company.id !== selectedCompanyId,
+      ),
+    )
   }
 
   const getCompanies = async () => {
@@ -110,7 +134,7 @@ export const AdminCompaniesPage: FC = () => {
     const filteredData = filterEmptyFields(companyData)
     const createResponse = await createNewCompany(filteredData)
 
-    if (createResponse) {
+    if (createResponse.status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully created a new company',
@@ -121,7 +145,7 @@ export const AdminCompaniesPage: FC = () => {
     } else {
       showToast({
         title: 'Error',
-        description: 'Error when creating a company',
+        description: createResponse.message,
         status: 'error',
       })
     }
@@ -132,17 +156,18 @@ export const AdminCompaniesPage: FC = () => {
 
     const deleteResponse = await deleteCompany(selectedCompanyId)
 
-    if (deleteResponse) {
+    if (deleteResponse.status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully deleted the company',
         status: 'success',
       })
       getCompanies()
+      reloadSearchFilter()
     } else {
       showToast({
         title: 'Error',
-        description: 'Error when deleting company',
+        description: deleteResponse.message,
         status: 'error',
       })
     }
@@ -188,6 +213,7 @@ export const AdminCompaniesPage: FC = () => {
             title='Companies'
             style={styles.recentFullScreen}
             HeaderComponent={SearchAndButtons}
+            headerProps={{ searchChange: handleSearchChange }}
             Component={ButtonBlue}
             componentProps={{
               title: 'New Company',
@@ -199,9 +225,14 @@ export const AdminCompaniesPage: FC = () => {
             }}
           >
             <RecentCompanies
-              companiesList={companies}
               deleteCompany={confirmDeleteCompany}
               editCompany={loadCompanyInfo}
+              infoCompany={handleOpenCloseModalCompanyInfo}
+              companiesList={
+                filteredCompanies.length > 0
+                  ? filteredCompanies
+                  : companies
+              }
             />
           </RecentCard>
         ) : (
@@ -222,6 +253,11 @@ export const AdminCompaniesPage: FC = () => {
         handleOpenCloseModal={handleOpenCloseModalEditCompany}
         functionCompany={editSelectedCompany}
         handleInputChange={handleInputChange}
+      />
+      <ModalWindowCompanyInfo
+        companyName={'Company Name'}
+        modalOpen={modalCompanyInfo}
+        handleOpenCloseModal={handleOpenCloseModalCompanyInfo}
       />
       <ConfirmationModal
         isOpened={isConfirmationModalOpen}

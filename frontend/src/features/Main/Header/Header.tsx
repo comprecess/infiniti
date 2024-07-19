@@ -11,7 +11,7 @@ import { NotificationIndicatorIcon } from '../../../shared/icons/NotificationInd
 import { Basket } from '../../../shared/ui/Basket/Basket'
 import { Icon } from '../../../shared/ui/Icon/Icon'
 import { Profile } from '../../../shared/ui/Profile/Profile'
-import { getOrdersInCart } from '../../../shared/utils/api/Cart/GetOrdersInCart'
+import { getOrdersInCart } from '../../../shared/utils/api/Client/Cart/GetOrdersInCart'
 import styles from './Header.module.scss'
 
 const IconMemo = memo(Icon)

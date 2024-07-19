@@ -13,6 +13,8 @@ interface RecentCardProps {
   PagesComponent?: React.FC<any>
   Component?: React.FC<any>
   componentProps?: any
+  headerProps?: any
+  pagesProps?: any
 }
 
 export const RecentCard: FC<PropsWithChildren<RecentCardProps>> = ({
@@ -24,6 +26,8 @@ export const RecentCard: FC<PropsWithChildren<RecentCardProps>> = ({
   PagesComponent,
   Component,
   componentProps,
+  headerProps,
+  pagesProps,
   children,
 }) => {
   const [openContent, setOpenContent] = useState<boolean>(false)
@@ -49,7 +53,7 @@ export const RecentCard: FC<PropsWithChildren<RecentCardProps>> = ({
       </div>
       {HeaderComponent ? (
         <div className={styles.header}>
-          <HeaderComponent />
+          <HeaderComponent {...headerProps} />
         </div>
       ) : null}
       <div className={!openContent ? styles.content : styles.childNone}>
@@ -57,7 +61,7 @@ export const RecentCard: FC<PropsWithChildren<RecentCardProps>> = ({
       </div>
       {PagesComponent ? (
         <div className={styles.pages}>
-          <PagesComponent />
+          <PagesComponent {...pagesProps} />
         </div>
       ) : null}
     </div>

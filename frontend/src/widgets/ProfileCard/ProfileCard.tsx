@@ -3,7 +3,7 @@ import { FC, useRef } from 'react'
 import { UserInfo } from '../../app/constants/constants'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../shared/ui/CustomToast/CustomToast'
-import { updateProfileAvatar } from '../../shared/utils/api/Profile/UpdateProfileAvatar'
+import { updateProfileAvatar } from '../../shared/utils/api/Client/Profile/UpdateProfileAvatar'
 import { cropImageToSquare } from '../../shared/utils/Avatar/CropImage'
 import { InfoItem } from './InfoItem/InfoItem'
 import styles from './ProfileCard.module.scss'
@@ -50,18 +50,17 @@ export const ProfileCard: FC<ProfileCardProps> = ({
 
       const updateResponse = await updateProfileAvatar(formData)
 
-      if (updateResponse) {
-        onChangeInfo()
-
+      if (updateResponse.status) {
         showToast({
           title: 'Successfully',
           description: 'Your photo has been successfully uploaded',
           status: 'success',
         })
+        onChangeInfo()
       } else {
         showToast({
           title: 'Error',
-          description: 'Your photo has not been uploaded',
+          description: updateResponse.message,
           status: 'error',
         })
       }

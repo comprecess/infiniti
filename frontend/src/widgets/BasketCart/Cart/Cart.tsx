@@ -6,7 +6,7 @@ import { Title } from '../../../features/Main/RecentCard/Title/Title'
 import { CrossIcon } from '../../../shared/icons/CrossIcon'
 import { CustomDivider } from '../../../shared/ui/CustomDivider/CustomDivider'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
-import { deleteOrderInCart } from '../../../shared/utils/api/Cart/DeleteOrdernInCart'
+import { deleteOrderInCart } from '../../../shared/utils/api/Client/Cart/DeleteOrdernInCart'
 import styles from './Cart.module.scss'
 
 interface CartProps {
@@ -20,18 +20,17 @@ export const Cart: FC<CartProps> = ({ cart, onDelete }) => {
   const handleDelete = async (id: number) => {
     const deleteResponse = await deleteOrderInCart(id)
 
-    if (deleteResponse) {
+    if (deleteResponse.status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully removed from the recycle bin',
         status: 'success',
       })
-
       onDelete()
     } else {
       showToast({
         title: 'Error',
-        description: 'Error when deleting from trash',
+        description: deleteResponse.message,
         status: 'error',
       })
     }
