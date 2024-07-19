@@ -4,8 +4,8 @@ import { GroupsListProps } from '../../../../../app/constants/constants'
 import { RecentReorderGroups } from '../../../../../features/Admin/CustomersPage/GroupsPage/RecentReorderGroups/RecentReorderGroups'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getListGroups } from '../../../../../shared/utils/api/Groups/GetGroups'
-import { sortGroups } from '../../../../../shared/utils/api/Groups/SortGroups'
+import { getListGroups } from '../../../../../shared/utils/api/Admin/Groups/GetGroups'
+import { sortGroups } from '../../../../../shared/utils/api/Admin/Groups/SortGroups'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './ReorderGroupsPage.module.scss'
 
@@ -23,7 +23,7 @@ export const AdminReorderGroupsPage: FC = () => {
   const sortGroupsList = async (listId: number[]) => {
     const sortResponse = await sortGroups(listId)
 
-    if (sortResponse) {
+    if (sortResponse.status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully changed the group order',
@@ -34,7 +34,7 @@ export const AdminReorderGroupsPage: FC = () => {
     } else {
       showToast({
         title: 'Error',
-        description: 'Error when changing group order',
+        description: sortResponse.message,
         status: 'error',
       })
     }

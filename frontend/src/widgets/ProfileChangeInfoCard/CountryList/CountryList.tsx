@@ -26,13 +26,16 @@ export const CountryList: FC<CountryListProps> = ({
   onChange,
 }) => {
   const [item, setItem] = useState<string>(country || 'Select Country')
-  const [allCountries, setAllCountries] = useState<
-  [string, string][] | null
-  >(null)
+  const [allCountries, setAllCountries] = useState<[string, string][]>([])
 
-  const handleItemClick = (selectedItem: string) => {
-    onChange('country', selectedItem)
-    setItem(selectedItem)
+  const handleItemClick = (selectedCode: string) => {
+    const selectedItem = allCountries.find(
+      ([code]) => code === selectedCode,
+    )
+    if (selectedItem) {
+      onChange('country', selectedItem[0])
+      setItem(selectedItem[1])
+    }
   }
 
   const getCountriesData = useCallback(async () => {
@@ -51,7 +54,7 @@ export const CountryList: FC<CountryListProps> = ({
   return (
     <div className={styles.wrapper}>
       <h4 className={styles.title}>Country</h4>
-      {allCountries ? (
+      {allCountries.length > 0 ? (
         <Menu isLazy>
           <MenuButton
             height='46px'
@@ -70,7 +73,7 @@ export const CountryList: FC<CountryListProps> = ({
           <MenuList>
             {allCountries.map(([code, name]) => {
               return (
-                <MenuItem key={code} onClick={() => handleItemClick(name)}>
+                <MenuItem key={code} onClick={() => handleItemClick(code)}>
                   {name}
                 </MenuItem>
               )

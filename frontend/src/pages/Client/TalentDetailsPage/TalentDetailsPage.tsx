@@ -1,4 +1,11 @@
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  FC,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { TalentData } from '../../../app/constants/constants'
@@ -11,7 +18,7 @@ import { TalentCard } from '../../../features/Client/TalentDetailsPage/TalentCar
 import { ChevronDownIcon } from '../../../shared/icons/ChevronDownIcon'
 import { ButtonBrand } from '../../../shared/ui/ButtonBrand/ButtonBrand'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getUserInfo } from '../../../shared/utils/api/Catalog/User/GetUserInfo'
+import { getUserInfo } from '../../../shared/utils/api/Client/Catalog/User/GetUserInfo'
 import styles from './TalentDetailsPage.module.scss'
 
 const extractIdFromUrl = (url: string): number | null => {
@@ -91,7 +98,10 @@ export const TalentPage: FC = () => {
         <>
           <section className={styles.section}>
             <div className={styles.item}>
-              <div className={styles.buttonBack} onClick={handleNavigateBack}>
+              <div
+                className={styles.buttonBack}
+                onClick={handleNavigateBack}
+              >
                 <ChevronDownIcon style={styles.buttonBackIcon} />
                 <span className={styles.buttonBackText}>Back</span>
               </div>

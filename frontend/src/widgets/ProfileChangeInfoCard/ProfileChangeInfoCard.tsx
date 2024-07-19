@@ -7,7 +7,7 @@ import {
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../shared/ui/CustomInput/CustomInput'
 import { useCustomToast } from '../../shared/ui/CustomToast/CustomToast'
-import { updateProfileInfo } from '../../shared/utils/api/Profile/UpdateProfileInfo'
+import { updateProfileInfo } from '../../shared/utils/api/Client/Profile/UpdateProfileInfo'
 import { RecentCard } from '../RecentCard/RecentCard'
 import { CountryList } from './CountryList/CountryList'
 import styles from './ProfileChangeInfoCard.module.scss'
@@ -58,19 +58,18 @@ export const ProfileChangeInfoCard: FC<ProfileChangeInfoCardProps> = ({
     if (isDataChanged()) {
       const updateInfoResponse = await updateProfileInfo(formData)
 
-      if (updateInfoResponse) {
-        onChangeInfo()
-
+      if (updateInfoResponse.status) {
         showToast({
           title: 'Successfully',
           description:
             'You have successfully updated your profile information',
           status: 'success',
         })
+        onChangeInfo()
       } else {
         showToast({
           title: 'Error',
-          description: 'Your information has not been updated',
+          description: updateInfoResponse.message,
           status: 'error',
         })
       }

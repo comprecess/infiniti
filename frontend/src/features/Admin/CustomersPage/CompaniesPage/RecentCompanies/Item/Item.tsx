@@ -12,6 +12,7 @@ interface ItemProps {
   phone: string
   deleteCompany: (id: number) => void
   editCompany: (id: number) => void
+  infoCompany: () => void
 }
 
 export const Item: FC<ItemProps> = ({
@@ -23,7 +24,12 @@ export const Item: FC<ItemProps> = ({
   phone,
   deleteCompany,
   editCompany,
+  infoCompany,
 }) => {
+  const handleInfoCompany = () => {
+    infoCompany()
+  }
+
   const handleEditCompany = () => {
     editCompany(id)
   }
@@ -40,7 +46,7 @@ export const Item: FC<ItemProps> = ({
         ) : null}
       </div>
       <div className={styleItem.companyNameColumn}>
-        <div className={styles.container}>
+        <div className={styles.container} onClick={handleInfoCompany}>
           <span className={styles.companyNameItem}>{name}</span>
           <span className={styles.companyCodeItem}>{code}</span>
         </div>
@@ -52,7 +58,7 @@ export const Item: FC<ItemProps> = ({
         {phone}
       </span>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <button className={styles.viewButton}>
+        <button className={styles.viewButton} onClick={handleInfoCompany}>
           <img src='/icons/view.svg' alt='View' className={styles.icon} />
         </button>
         <button className={styles.buttonEdit} onClick={handleEditCompany}>

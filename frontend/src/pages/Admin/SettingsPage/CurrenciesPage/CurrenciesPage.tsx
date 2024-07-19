@@ -8,11 +8,11 @@ import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { ConfirmationModal } from '../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { addCurrency } from '../../../../shared/utils/api/Currency/AddCurrency'
-import { changeBaseCurrency } from '../../../../shared/utils/api/Currency/ChangeBaseCurrency'
-import { deleteCurrency } from '../../../../shared/utils/api/Currency/DeleteCurrency'
-import { editCurrency } from '../../../../shared/utils/api/Currency/EditCurrency'
-import { getListOfActive } from '../../../../shared/utils/api/Currency/GetListOfActive'
+import { addCurrency } from '../../../../shared/utils/api/Admin/Currency/AddCurrency'
+import { changeBaseCurrency } from '../../../../shared/utils/api/Admin/Currency/ChangeBaseCurrency'
+import { deleteCurrency } from '../../../../shared/utils/api/Admin/Currency/DeleteCurrency'
+import { editCurrency } from '../../../../shared/utils/api/Admin/Currency/EditCurrency'
+import { getListOfActive } from '../../../../shared/utils/api/Admin/Currency/GetListOfActive'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CurrenciesPage.module.scss'
 
@@ -90,7 +90,7 @@ export const AdminCurrenciesPage: FC = () => {
 
     const deleteResponse = await deleteCurrency(selectedGroupId)
 
-    if (deleteResponse) {
+    if (deleteResponse.status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully deleted the currency',
@@ -100,7 +100,7 @@ export const AdminCurrenciesPage: FC = () => {
     } else {
       showToast({
         title: 'Error',
-        description: 'Error when deleting currency',
+        description: deleteResponse.message,
         status: 'error',
       })
     }
@@ -111,7 +111,7 @@ export const AdminCurrenciesPage: FC = () => {
   const changeSelectedBaseCurrency = async (id: number) => {
     const changeResponse = await changeBaseCurrency(id)
 
-    if (changeResponse) {
+    if (changeResponse.status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully changed the base currency',
@@ -121,7 +121,7 @@ export const AdminCurrenciesPage: FC = () => {
     } else {
       showToast({
         title: 'Error',
-        description: 'Error when changing base currency',
+        description: changeResponse.message,
         status: 'error',
       })
     }
@@ -130,7 +130,7 @@ export const AdminCurrenciesPage: FC = () => {
   const editSelectedCurrency = async (id: number) => {
     const changeResponse = await editCurrency(id, name, rate)
 
-    if (changeResponse) {
+    if (changeResponse.status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully changed the base currency',
@@ -140,7 +140,7 @@ export const AdminCurrenciesPage: FC = () => {
     } else {
       showToast({
         title: 'Error',
-        description: 'Error when changing base currency',
+        description: changeResponse.message,
         status: 'error',
       })
     }
@@ -151,7 +151,7 @@ export const AdminCurrenciesPage: FC = () => {
   const createNewCurrency = async () => {
     const addResponse = await addCurrency(name, rate)
 
-    if (addResponse) {
+    if (addResponse.status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully added currency',
@@ -161,7 +161,7 @@ export const AdminCurrenciesPage: FC = () => {
     } else {
       showToast({
         title: 'Error',
-        description: 'Error adding currency',
+        description: addResponse.message,
         status: 'error',
       })
     }

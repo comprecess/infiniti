@@ -6,7 +6,7 @@ import { CurrentBalance } from '../../features/Client/DashboardPage/ProfileCard/
 import { PersonInfo } from '../../features/Client/DashboardPage/ProfileCard/PersonInfo/PersonInfo'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
 import { LoadingSpinner } from '../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getProfileInfo } from '../../shared/utils/api/Profile/GetProfileInfo'
+import { getProfileInfo } from '../../shared/utils/api/GetProfileInfo'
 import styles from './UserCard.module.scss'
 
 export const UserCard: FC = () => {

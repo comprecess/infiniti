@@ -19,7 +19,7 @@ import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { Input } from '../../../../shared/ui/FromTo/Input/Input'
 import { TalentsLevel } from '../../../../shared/ui/TalentsLevel/TalentsLevel'
-import { addOrderToCart } from '../../../../shared/utils/api/Cart/AddOrderToCart'
+import { addOrderToCart } from '../../../../shared/utils/api/Client/Cart/AddOrderToCart'
 import { Item } from '../../../../widgets/TalentsCard/Footer/Item/Item'
 import { TitleCard } from '../TitleCard/TitleCard'
 import styles from './ModalWindow.module.scss'
@@ -89,7 +89,7 @@ export const ModalWindow: FC<ModalWindowProps> = ({
     if (amount > 0) {
       const addResponse = await addOrderToCart(talent.id, amount, item)
 
-      if (addResponse) {
+      if (addResponse.status) {
         showToast({
           title: 'Successfully',
           description: 'You have successfully added to cart',
@@ -98,7 +98,7 @@ export const ModalWindow: FC<ModalWindowProps> = ({
       } else {
         showToast({
           title: 'Error',
-          description: 'Error adding to cart',
+          description: addResponse.message,
           status: 'error',
         })
       }

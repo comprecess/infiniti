@@ -9,7 +9,7 @@ import {
 } from '../../../../app/constants/constants'
 import { ButtonBrand } from '../../../../shared/ui/ButtonBrand/ButtonBrand'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getUsersListInfo } from '../../../../shared/utils/api/Catalog/User/GetUsersListInfo'
+import { getUsersListInfo } from '../../../../shared/utils/api/Client/Catalog/User/GetUsersListInfo'
 import { getSession } from '../../../../shared/utils/Saving/Session/GetSession'
 import { saveSession } from '../../../../shared/utils/Saving/Session/SaveSession'
 import { TalentsCard } from '../../../../widgets/TalentsCard/TalentsCard'

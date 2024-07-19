@@ -4,9 +4,15 @@ import { Search } from '../../../../../../shared/ui/Search/Search'
 import { RecentRightButtons } from '../../RecentRightButtons/RecentRightButtons'
 import styles from './SearchAndButtons.module.scss'
 
-export const SearchAndButtons: FC = () => {
+interface SearchAndButtonsProps {
+  searchChange: (searchItem: string) => void
+}
+
+export const SearchAndButtons: FC<SearchAndButtonsProps> = ({
+  searchChange,
+}) => {
   const handleSearchChange = (searchItem: string) => {
-    console.log(searchItem)
+    searchChange(searchItem)
   }
 
   return (
