@@ -7,6 +7,8 @@ interface SideBarItemProps {
   icon: React.ReactNode
   isFirst: boolean
   isLast: boolean
+  isActive: boolean
+  onClick: () => void
 }
 
 export const SideBarItem: FC<SideBarItemProps> = ({
@@ -14,15 +16,30 @@ export const SideBarItem: FC<SideBarItemProps> = ({
   icon,
   isFirst,
   isLast,
+  isActive,
+  onClick,
 }) => {
+  const wrapperClass = isActive
+    ? styles.wrapperActive
+    : styles.wrapperDisable
+
   return (
     <div
-      className={`${styles.wrapper} ${isFirst ? styles.first : ''} ${
+      className={`${wrapperClass} ${isFirst ? styles.first : ''} ${
         isLast ? styles.last : ''
       }`}
+      onClick={!isActive ? onClick : () => {}}
     >
-      <div className={styles.icon}>{icon}</div>
-      <span className={styles.nameCompany}>{name}</span>
+      <div className={isActive ? styles.iconActive : styles.iconDisable}>
+        {icon}
+      </div>
+      <span
+        className={
+          isActive ? styles.nameCompanyActive : styles.nameCompanyDisable
+        }
+      >
+        {name}
+      </span>
     </div>
   )
 }

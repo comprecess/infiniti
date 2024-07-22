@@ -1,15 +1,37 @@
-.wrapper {
+.wrapperActive,
+.wrapperDisable {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 6px;
   width: 100%;
   padding: 12px;
-  background-color: $brand-800;
+
   border-bottom: 1px solid $brand-900;
   border-top: 1px solid $brand-900;
   user-select: none;
+  transition: all 0.2s ease;
   cursor: pointer;
+}
+
+.wrapperActive {
+  background-color: $brand-1000;
+}
+
+.wrapperDisable {
+  background-color: $brand-800;
+
+  @include hover() {
+    background-color: lighten($brand-800, 5%);
+
+    .nameCompanyDisable {
+      color: $gray-200;
+    }
+
+    .iconDisable * {
+      fill: $gray-200;
+    }
+  }
 }
 
 .first {
@@ -20,15 +42,27 @@
   border-radius: 0px 0px 8px 8px;
 }
 
-.nameCompany {
+.nameCompanyActive,
+.nameCompanyDisable {
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 20px;
   letter-spacing: -0.03em;
   text-align: left;
+  transition: all 0.2s ease;
 }
 
-.icon * {
+.nameCompanyDisable {
+  color: $gray-300;
+}
+
+.iconActive *,
+.iconDisable * {
   width: 18px;
   height: 18px;
+  transition: all 0.2s ease;
+}
+
+.iconActive * {
+  fill: $white;
 }

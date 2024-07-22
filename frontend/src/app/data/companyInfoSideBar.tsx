@@ -1,3 +1,10 @@
+import { CustomersPage } from '../../features/Admin/CustomersPage/CompaniesPage/ModalWindowCompanyInfo/ModalPages/CustomersPage/CustomersPage'
+import { InvoicesPage } from '../../features/Admin/CustomersPage/CompaniesPage/ModalWindowCompanyInfo/ModalPages/InvoicesPage/InvoicesPage'
+import { MemoPage } from '../../features/Admin/CustomersPage/CompaniesPage/ModalWindowCompanyInfo/ModalPages/MemoPage/MemoPage'
+import { OffersPage } from '../../features/Admin/CustomersPage/CompaniesPage/ModalWindowCompanyInfo/ModalPages/OffersPage/OffersPage'
+import { OrdersPage } from '../../features/Admin/CustomersPage/CompaniesPage/ModalWindowCompanyInfo/ModalPages/OrdersPage/OrdersPage'
+import { SummaryPage } from '../../features/Admin/CustomersPage/CompaniesPage/ModalWindowCompanyInfo/ModalPages/SummaryPage/SummaryPage'
+import { TransactionsPage } from '../../features/Admin/CustomersPage/CompaniesPage/ModalWindowCompanyInfo/ModalPages/TransactionsPage/TransactionsPage'
 import { DashboardIcon } from '../../shared/icons/sidebarList/DashboardIcon'
 import { DocumentsIcon } from '../../shared/icons/sidebarList/DocumentsIcon'
 import { FileIcon } from '../../shared/icons/sidebarList/FileIcon'
@@ -14,4 +21,14 @@ export const CompanyInfoSideBarData = [
   { id: 4, name: 'Offers', icon: <FileIcon /> },
   { id: 5, name: 'Orders', icon: <MyOrdersIcon /> },
   { id: 6, name: 'Transactions', icon: <TransactionsIcon /> },
+]
+
+export const CompanyInfoPagesData = [
+  SummaryPage,
+  MemoPage,
+  CustomersPage,
+  InvoicesPage,
+  OffersPage,
+  OrdersPage,
+  TransactionsPage,
 ]

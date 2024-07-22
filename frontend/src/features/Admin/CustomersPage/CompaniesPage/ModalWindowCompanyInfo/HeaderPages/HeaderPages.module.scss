@@ -1,0 +1,14 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+.title {
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 26px;
+  letter-spacing: -0.03em;
+  color: $white;
+}
