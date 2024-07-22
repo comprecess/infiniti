@@ -22,7 +22,7 @@ class TransferringFiles extends Seeder
     {
         $list = [
             Company::class => ['companies', 'logo_url', 1],
-            Client::class => [null, 'img', 0]
+//            Client::class => [null, 'img', 0]
         ];
 
         foreach($list as $class => $data) {

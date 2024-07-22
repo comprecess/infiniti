@@ -20,16 +20,16 @@ class UpdateRequest extends FormRequest implements ConvertingPropertiesInterface
 
         return [
             'account' => 'string|required',
-            'company' => 'string',
+            'company' => 'nullable|string',
             'email' => 'required|email|unique:crm_accounts,email,'.$id.',id',
-            'phone' => 'string',
-            'businessNumber' => 'string',
-            'address' => 'string',
-            'city' => 'string',
-            'state' => 'string',
-            'zip' => 'string',
-            'country' => 'string',
-            'password' => 'string',
+            'phone' => 'nullable|string',
+            'businessNumber' => 'nullable|string',
+            'address' => 'nullable|string',
+            'city' => 'nullable|string',
+            'state' => 'nullable|string',
+            'zip' => 'nullable|string',
+            'country' => 'nullable|string',
+            'password' => 'nullable|string',
         ];
     }
 

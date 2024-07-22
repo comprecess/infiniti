@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Resources\Resident\Client;
+namespace App\Http\Resources\Resident\Invoices;
 
 use App\Http\Resources\Contracts\ListInterface;
 use App\Http\Resources\Traits\ListTrait;
-use App\Services\Tools\Countries;
+use App\Http\Resources\Resident\Client\ClientResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CompanyResource extends JsonResource implements ListInterface
+class InvoiceResource extends JsonResource implements ListInterface
 {
     use ListTrait;
 
@@ -22,10 +22,10 @@ class CompanyResource extends JsonResource implements ListInterface
     public function toArray(Request $request): array
     {
         $resorce = [
-            'logo' => $this->getLastFile()?->getLink(),
+            'nameId' => $this->invoicenum . " " . $this->cn ? $this->cn : $this->id,
+            'account' => new ClientResource($this->user)
         ];
         $this->setList($resorce);
-        $resorce['memo'] = $this->memo ?? '';
 
         if (!self::$isCollection) {
             $resorce['country'] = $this->country;
@@ -37,18 +37,7 @@ class CompanyResource extends JsonResource implements ListInterface
 
     public function getList(): array
     {
-        $resorce = ['id', 'company_name' => 'name', 'code', 'email', 'phone'];
-
-        if (!self::$isCollection) {
-             $resorce = array_merge($resorce, [
-                 'address1' => 'address',
-                 'business_number' => 'businessNumber',
-                 'url',
-                 'city',
-                 'state',
-                 'zip'
-             ]);
-        }
+        $resorce = ['id', 'total', 'code', 'email', 'phone', 'notes'];
 
         return $resorce;
     }
