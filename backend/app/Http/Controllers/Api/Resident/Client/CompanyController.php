@@ -7,10 +7,16 @@ namespace App\Http\Controllers\Api\Resident\Client;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Resident\Client\CompanyRequest;
+use App\Http\Requests\Resident\Client\CompanyViewRequest;
 use App\Http\Resources\Resident\Client\CompanyResource;
+use App\Http\Resources\Resident\Invoices\InvoiceResource;
 use App\Models\Resident\Client\Company;
 use App\Services\Tools\Countries;
+use http\Env\Response;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Validation\ValidationException;
+use App\Http\Resources\Resident\Client\CompanyView;
 
 class CompanyController extends Controller
 {
@@ -34,8 +40,15 @@ class CompanyController extends Controller
         },
         function($model, $request){
             $file = $model->getLastFile();
-            if($request->logo && $request->logo != $file?->getLink()) {
-                $model->urlFile($request->logo);
+            if($request->logo) {
+                if($request->logo != $file?->getLink()) {
+                    $newFile = $model->urlFile($request->logo);
+                    if(!$newFile->isImage()) {
+                        return ValidationException::withMessages(['The logo is not a picture']);
+                    }
+                    $file?->delete();
+                }
+            } else {
                 $file?->delete();
             }
         });
@@ -49,6 +62,105 @@ class CompanyController extends Controller
     public function delete(Company $company)
     {
         return $this->myDelete($company);
+    }
+
+    public function getAllType(Company $company)
+    {
+        $data = ['logo' => $company->getLastFile()?->getLink()];
+        $typesValue = [null, null];
+
+        $companyUsers = $company->users()->with(['invoices', 'offers', 'orders', 'transactionPayer', 'transactionPayee'])->get();
+
+        $typesValue[] = $companyUsers->count();
+
+        foreach(['invoices', 'offers', 'orders'] as $relations) {
+            $typesValue[] = $companyUsers->sum(function($item) use($relations){
+                return $item->{$relations}?->count();
+            });
+        }
+
+        $transaction = $companyUsers->sum(function($item) use($relations){
+            return $item->transactionPayer?->count();
+        });
+
+        $transaction += $companyUsers->sum(function($item) use($relations){
+            return $item->transactionPayee?->count();
+        });
+
+        $typesValue[] = $transaction;
+        $data['type'] = array_combine(CompanyViewRequest::TYPE, $typesValue);
+
+        return response()->json($data);
+    }
+
+    public function type(Company $company, CompanyViewRequest $request)
+    {
+        $type = array_flip(CompanyViewRequest::TYPE);
+        $listResponse = [
+            2 => [
+                'with' => null,
+                'response' => CompanyView\ClientResource::class
+            ],
+            [
+                'with' => ['invoices'],
+                'response' => CompanyView\InvoceResource::class,
+                'withDop' => ['invoices.getCurrencyIso'],
+            ],
+            [
+                'with' => ['offers'],
+                'response' => CompanyView\OffercResource::class,
+                'withDop' => ['offers.getCurrencyIso'],
+            ],
+            [
+                'with' => ['orders'],
+                'response' => CompanyView\OrderResource::class
+            ],
+            [
+                'with' => ['transactionPayer', 'transactionPayee'],
+                'response' => CompanyView\TransactionResource::class
+            ],
+        ];
+
+        $usersBuild = $company->users();
+
+        if($request->type == "summary"){
+            return new CompanyResource($company);
+        }elseif ($request->type == "memo") {
+            return response()->json(['notes' => $company->notes ?? '']);
+        }elseif(isset($listResponse[$type[$request->type]])){
+            $response = $listResponse[$type[$request->type]];
+
+            if(($with = $response['with']) || isset($response['withDop'])) {
+
+                $usersBuild->with(array_merge($with, $response['withDop'] ?? []));
+            }
+
+            $users = $usersBuild->get();
+            if($with) {
+                $data = collect([]);
+                foreach($with as $withData) {
+                    $data = $data->merge($users->pluck($withData)->flatten());
+                }
+                $resource = $response['response'];
+                return $resource::collection($data);
+            } else {
+                $resource = $response['response'];
+                return $resource::collection($users);
+            }
+
+        }
+    }
+
+    public function updateType(Company $company, CompanyViewRequest $request)
+    {
+        if($request->type == 'memo') {
+            $company->notes = $request->memo;
+            $company->save();
+
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false], 422);
     }
 
 }

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Catalog\Prop;
+use App\Models\FileStorage;
 use App\Models\Resident\Client\Company;
 use App\Models\Users\Client;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -21,7 +22,7 @@ class TransferringFiles extends Seeder
     {
         $list = [
             Company::class => ['companies', 'logo_url', 1],
-            Client::class => [null, 'img', 0]
+//            Client::class => [null, 'img', 0]
         ];
 
         foreach($list as $class => $data) {
@@ -41,6 +42,12 @@ class TransferringFiles extends Seeder
                     }
                 }
             });
+        }
+        try{
+            $path = storage_path("app/" . FileStorage::NAME);
+            system("/bin/chown -R www-data:www-data {$path}");
+        } catch (\Exception $e) {
+            $this->command->error($e->getMessage());
         }
     }
 

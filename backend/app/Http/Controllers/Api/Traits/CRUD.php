@@ -10,6 +10,7 @@ use App\Models\Contracts\InsertDefaultValueInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\DB;
 
 trait CRUD
 {
@@ -35,6 +36,7 @@ trait CRUD
 
     public function createOrUpdate(FormRequest $request, Model $model, ?callable $setDataModel = null, ?callable $afterDataSet = null)
     {
+        DB::beginTransaction();
         $isUpdate = !((bool) $model->getAttributes());
 
         if($isUpdate && ($model instanceof InsertDefaultValueInterface)) {
@@ -46,17 +48,27 @@ trait CRUD
         }
 
         if(is_callable($setDataModel)) {
-            $setDataModel($model, $request, $isUpdate);
+            $this->checkException($setDataModel($model, $request, $isUpdate));
         }
 
         $model->save();
 
         if(is_callable($afterDataSet)) {
-            $afterDataSet($model, $request, $isUpdate);
+            $this->checkException($afterDataSet($model, $request, $isUpdate));
         }
+
+        DB::commit();
 
         return response()->json(['success' => true]);
 
+    }
+
+    private function checkException(mixed $resultCallable)
+    {
+        if($resultCallable instanceof \Exception) {
+            DB::rollBack();
+            throw $resultCallable;
+        }
     }
 
     public function delete(Model $model)

@@ -7,6 +7,10 @@ use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Log;
 use App\Models\Resident\Client\Company;
 use App\Models\Resident\Client\Group;
+use App\Models\Resident\Invoices\Invoice;
+use App\Models\Resident\Invoices\Offer;
+use App\Models\Resident\Orders\Order;
+use App\Models\Resident\Transactions\Transaction;
 use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\User;
 use App\Models\Users\Interfaces\LoginIntarface;
@@ -47,6 +51,33 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
     public function companyClient()
     {
         return $this->belongsTo(Company::class, 'cid');
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'userid');
+    }
+
+    public function offers()
+    {
+        return $this->hasMany(Offer::class, 'userid');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'cid');
+    }
+
+    //Плательщик
+    public function transactionPayer()
+    {
+        return $this->hasMany(Transaction::class, 'payerid');
+    }
+
+    //получатель платежа
+    public function transactionPayee()
+    {
+        return $this->hasMany(Transaction::class, 'payeeid');
     }
 
     public function login($username, $password)

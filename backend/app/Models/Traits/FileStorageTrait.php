@@ -78,6 +78,6 @@ trait FileStorageTrait
     public function urlFile(string $url)
     {
         $fileStorage = new FileStorage();
-        $fileStorage->uplodsUrl($this, $url);
+        return $fileStorage->uplodsUrl($this, $url);
     }
 }

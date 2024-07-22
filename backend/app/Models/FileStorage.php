@@ -35,7 +35,7 @@ class FileStorage extends Model
         'webp' => 'img',
         'tif' => 'img',
         'heic' => 'img',
-        'svg' => 'svg'
+        'svg' => 'img'
     ];
 
     private $convertorByJpg = [
@@ -126,7 +126,7 @@ class FileStorage extends Model
         return $this;
     }
 
-    public function uplodsUrl(Model $model, string $url)
+    public function uplodsUrl(Model $model, string $url) :FileStorage|bool
     {
         $urlFile = new \SplFileInfo($url);
         $tmpStorage = storage_path("app/".self::NAME ."/tmp/");
@@ -151,7 +151,7 @@ class FileStorage extends Model
                 $fileStorage = $this->uploads($model, new File($tmpStorage . $baseName));
                 if($fileStorage->id) {
                     $storage->delete($tmp . $baseName);
-                    return true;
+                    return $fileStorage;
                 }
             }
         }

@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Api\Resident\Settings;
 use App\Http\Requests\Resident\Settings\CurrencyRequest;
 use App\Http\Resources\Resident\Settings\CurrencyResorce;
 use App\Models\Config;
-use App\Models\Settings\Currency;
+use App\Models\Resident\Settings\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 

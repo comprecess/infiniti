@@ -23,6 +23,9 @@ Route::group(['prefix' => 'client',], function(){
     #company
     Route::group(['prefix' => 'company'], function(){
         Route::get('/', [Client\CompanyController::class, 'list']);
+        Route::get('/{company}/view/', [Client\CompanyController::class, 'getAllType']);
+        Route::get('/{company}/view/{type}', [Client\CompanyController::class, 'type']);
+        Route::put('/{company}/view/{type}', [Client\CompanyController::class, 'updateType']);
         Route::post('/', [Client\CompanyController::class, 'create']);
         Route::put('/{company}', [Client\CompanyController::class, 'create']);
         Route::get('/{company}', [Client\CompanyController::class, 'index']);
