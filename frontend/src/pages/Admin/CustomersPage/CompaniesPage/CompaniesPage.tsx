@@ -23,11 +23,11 @@ import styles from './CompaniesPage.module.scss'
 export const AdminCompaniesPage: FC = () => {
   const [companies, setCompanies] = useState<CompaniesListProps[]>([])
   const [filteredCompanies, setFilteredCompanies] = useState<
-    CompaniesListProps[]
+  CompaniesListProps[]
   >([])
 
   const [selectedCompanyId, setSelectedCompanyId] = useState<
-    number | null
+  number | null
   >(null)
 
   const [modalNewCompany, setModalNewCompany] = useState<boolean>(false)
@@ -120,12 +120,14 @@ export const AdminCompaniesPage: FC = () => {
   const loadCompanyInfo = async (id: number) => {
     const companyResponse: CompanyData = await getCompany(id)
 
-    const filteredData = filterEmptyFields(companyResponse)
-
     setCompanyData(prevState => ({
       ...prevState,
-      ...filteredData,
+      ...companyResponse,
     }))
+  }
+
+  const loadCompanyInfoEdit = async (id: number) => {
+    await loadCompanyInfo(id)
     setSelectedCompanyId(id)
     handleOpenCloseModalEditCompany()
   }
@@ -226,7 +228,7 @@ export const AdminCompaniesPage: FC = () => {
           >
             <RecentCompanies
               deleteCompany={confirmDeleteCompany}
-              editCompany={loadCompanyInfo}
+              editCompany={loadCompanyInfoEdit}
               infoCompany={handleOpenCloseModalCompanyInfo}
               companiesList={
                 filteredCompanies.length > 0
@@ -255,7 +257,6 @@ export const AdminCompaniesPage: FC = () => {
         handleInputChange={handleInputChange}
       />
       <ModalWindowCompanyInfo
-        companyName={'Company Name'}
         modalOpen={modalCompanyInfo}
         handleOpenCloseModal={handleOpenCloseModalCompanyInfo}
       />

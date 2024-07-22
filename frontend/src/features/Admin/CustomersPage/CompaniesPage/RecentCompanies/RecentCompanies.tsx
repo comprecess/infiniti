@@ -10,7 +10,7 @@ interface RecentCompaniesProps {
   companiesList: CompaniesListProps[]
   deleteCompany: (id: number) => void
   editCompany: (id: number) => void
-  infoCompany: () => void
+  infoCompany: (id: number) => void
 }
 
 export const RecentCompanies: FC<RecentCompaniesProps> = ({

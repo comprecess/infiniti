@@ -6,8 +6,14 @@
   padding: 10px 12px 10px 12px;
 }
 
+.logoWrapper {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: start;
+}
+
 .logoItem {
-  display: block;
   max-width: 230px;
   max-height: 42px;
 }
