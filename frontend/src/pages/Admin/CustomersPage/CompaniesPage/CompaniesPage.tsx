@@ -132,6 +132,15 @@ export const AdminCompaniesPage: FC = () => {
     handleOpenCloseModalEditCompany()
   }
 
+  const handleOpenEditInView = (id: number) => {
+    loadCompanyInfoEdit(id)
+  }
+
+  const loadViewCompany = (id: number) => {
+    setSelectedCompanyId(id)
+    handleOpenCloseModalCompanyInfo()
+  }
+
   const createCompany = async () => {
     const filteredData = filterEmptyFields(companyData)
     const createResponse = await createNewCompany(filteredData)
@@ -229,7 +238,7 @@ export const AdminCompaniesPage: FC = () => {
             <RecentCompanies
               deleteCompany={confirmDeleteCompany}
               editCompany={loadCompanyInfoEdit}
-              infoCompany={handleOpenCloseModalCompanyInfo}
+              infoCompany={loadViewCompany}
               companiesList={
                 filteredCompanies.length > 0
                   ? filteredCompanies
@@ -257,8 +266,10 @@ export const AdminCompaniesPage: FC = () => {
         handleInputChange={handleInputChange}
       />
       <ModalWindowCompanyInfo
+        id={selectedCompanyId}
         modalOpen={modalCompanyInfo}
         handleOpenCloseModal={handleOpenCloseModalCompanyInfo}
+        openEditModal={handleOpenEditInView}
       />
       <ConfirmationModal
         isOpened={isConfirmationModalOpen}

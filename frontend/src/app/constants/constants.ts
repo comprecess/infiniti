@@ -256,3 +256,20 @@ export interface CompanyData {
   phone: string
   country: string
 }
+
+export interface ViewCompanyProps {
+  logo: string
+  name: string
+  type: TypeViewCompany
+}
+
+export interface TypeViewCompany {
+  [key: string]: number | null
+}
+
+export interface CustomersViewCompany {
+  id: number
+  account: string
+  email: string
+  phone: string
+}

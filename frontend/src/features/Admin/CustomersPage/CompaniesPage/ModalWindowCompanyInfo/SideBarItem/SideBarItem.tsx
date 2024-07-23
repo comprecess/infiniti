@@ -1,5 +1,6 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 
+import { TypeViewCompany } from '../../../../../../app/constants/constants'
 import styles from './SideBarItem.module.scss'
 
 interface SideBarItemProps {
@@ -8,6 +9,8 @@ interface SideBarItemProps {
   isFirst: boolean
   isLast: boolean
   isActive: boolean
+  type: string
+  allTypes: TypeViewCompany
   onClick: () => void
 }
 
@@ -17,11 +20,28 @@ export const SideBarItem: FC<SideBarItemProps> = ({
   isFirst,
   isLast,
   isActive,
+  type,
+  allTypes,
   onClick,
 }) => {
+  const [numberItems, setNumberItems] = useState<number | null>(null)
+
   const wrapperClass = isActive
     ? styles.wrapperActive
     : styles.wrapperDisable
+
+  const getNumberBadge = () => {
+    for (const key in allTypes) {
+      if (key === type) {
+        setNumberItems(allTypes[key])
+        break
+      }
+    }
+  }
+
+  useEffect(() => {
+    getNumberBadge()
+  }, [])
 
   return (
     <div
@@ -30,16 +50,23 @@ export const SideBarItem: FC<SideBarItemProps> = ({
       }`}
       onClick={!isActive ? onClick : () => {}}
     >
-      <div className={isActive ? styles.iconActive : styles.iconDisable}>
-        {icon}
+      <div className={styles.container}>
+        <div className={isActive ? styles.iconActive : styles.iconDisable}>
+          {icon}
+        </div>
+        <span
+          className={
+            isActive ? styles.nameCompanyActive : styles.nameCompanyDisable
+          }
+        >
+          {name}
+        </span>
       </div>
-      <span
-        className={
-          isActive ? styles.nameCompanyActive : styles.nameCompanyDisable
-        }
-      >
-        {name}
-      </span>
+      {numberItems !== null && (
+        <div className={styles.badge}>
+          <span className={styles.count}>{numberItems}</span>
+        </div>
+      )}
     </div>
   )
 }
