@@ -1,17 +1,22 @@
 .wrapperActive,
 .wrapperDisable {
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  gap: 6px;
   width: 100%;
   padding: 12px;
-
   border-bottom: 1px solid $brand-900;
   border-top: 1px solid $brand-900;
   user-select: none;
-  transition: all 0.2s ease;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 6px;
 }
 
 .wrapperActive {
@@ -65,4 +70,22 @@
 
 .iconActive * {
   fill: $white;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 18px;
+  border-radius: 4px;
+  background-color: $brand-500;
+}
+
+.count {
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: -0.03em;
+  color: $white;
 }

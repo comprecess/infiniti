@@ -1,19 +1,62 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 
+import { CompanyData } from '../../../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
+import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { getPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/GetPage'
 import { Item } from './Item/Item'
 import styles from './SummaryPage.module.scss'
 
-export const SummaryPage: FC = () => {
+interface SummaryPageProps {
+  id: number
+  onClick: (id: number) => void
+}
+
+export const SummaryPage: FC<SummaryPageProps> = ({ id, onClick }) => {
+  const [summary, setSummary] = useState<CompanyData | null>(null)
+
+  const getSummaryPage = async () => {
+    const getResponse = await getPage(id, 'summary')
+
+    setSummary(getResponse.data)
+  }
+
+  const handleOpenEditPanel = () => {
+    onClick(id)
+  }
+
+  useEffect(() => {
+    getSummaryPage()
+  }, [])
+
   return (
     <div className={styles.wrapper}>
-      <div className={styles.list}>
-        <Item title='Company Name:' description={''} />
-        <Item title='URL:' description={''} />
-        <Item title='Email:' description={''} />
-        <Item title='Phone:' description={''} />
-      </div>
-      <ButtonBlue title='Edit' style={styles.buttonBlue} />
+      {summary ? (
+        <>
+          <div className={styles.list}>
+            {summary.name && (
+              <Item title='Company Name:' description={summary.name} />
+            )}
+            {summary.url && (
+              <Item title='URL:' description={summary.url} />
+            )}
+            {summary.email && (
+              <Item title='Email:' description={summary.email} />
+            )}
+            {summary.phone && (
+              <Item title='Phone:' description={summary.phone} />
+            )}
+          </div>
+          <ButtonBlue
+            title='Edit'
+            style={styles.buttonBlue}
+            styleTitle={styles.buttonBlueTitle}
+            onClick={handleOpenEditPanel}
+          />
+        </>
+      ) : (
+        <LoadingSpinner />
+      )}
     </div>
   )
 }
