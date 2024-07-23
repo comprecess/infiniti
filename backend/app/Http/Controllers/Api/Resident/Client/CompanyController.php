@@ -66,7 +66,7 @@ class CompanyController extends Controller
 
     public function getAllType(Company $company)
     {
-        $data = ['logo' => $company->getLastFile()?->getLink()];
+        $data = ['logo' => $company->getLastFile()?->getLink(), 'name' => $company->company_name];
         $typesValue = [null, null];
 
         $companyUsers = $company->users()->with(['invoices', 'offers', 'orders', 'transactionPayer', 'transactionPayee'])->get();
