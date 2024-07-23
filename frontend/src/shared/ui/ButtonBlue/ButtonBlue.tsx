@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from 'react'
+import { FC } from 'react'
 
 import styles from './ButtonBlue.module.scss'
 
@@ -23,17 +23,8 @@ export const ButtonBlue: FC<ButtonBlueProps> = ({
   titleNone = false,
   onClick,
 }) => {
-  const buttonRef = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    if (buttonRef.current) {
-      buttonRef.current.focus()
-    }
-  }, [])
-
   return (
     <button
-      ref={buttonRef}
       type={type}
       className={
         icon
