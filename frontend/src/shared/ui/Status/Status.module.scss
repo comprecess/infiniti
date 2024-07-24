@@ -3,6 +3,7 @@
   height: 24px;
   border-radius: 100px;
   padding: 1px 8px 1px 8px;
+  user-select: none;
 }
 
 .title {
@@ -65,4 +66,10 @@
   width: 98px;
   background-color: $cherry-transparent;
   color: $cherry-500;
+}
+
+.statusAccepted {
+  width: 78px;
+  background-color: $mint-transparent;
+  color: $mint-500;
 }

@@ -1,5 +1,71 @@
-import { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 
-export const OffersPage: FC = () => {
-  return <div>OffersPage</div>
+import { OffersViewCompany } from '../../../../../../../app/constants/constants'
+import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
+import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { getPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/GetPage'
+import { Title } from '../../../../../../Main/RecentCard/Title/Title'
+import { Item } from './Item/Item'
+import styles from './OffersPage.module.scss'
+
+interface OffersPageProps {
+  id: number
+}
+
+export const OffersPage: FC<OffersPageProps> = ({ id }) => {
+  const [offers, setOffers] = useState<OffersViewCompany[] | null>(null)
+
+  const getOffers = async () => {
+    const getResponse = await getPage(id, 'quotes')
+
+    setOffers(getResponse.data)
+  }
+
+  useEffect(() => {
+    getOffers()
+  }, [])
+
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
+        {offers ? (
+          <div className={styles.table}>
+            <div className={styles.columns}>
+              <Title title='#' style={styles.hashTagColumn} />
+              <Title title='Customer' style={styles.customerColumn} />
+              <Title title='Subject' style={styles.subjectColumn} />
+              <Title title='Amount' style={styles.amountColumn} />
+              <Title
+                title='Date Created'
+                style={styles.dateCreatedColumn}
+              />
+              <Title title='Expiry Date' style={styles.expiryDateColumn} />
+              <Title title='Stage' style={styles.stageColumn} />
+              <Title title='Manage' style={styles.manageColumn} />
+            </div>
+            <div className={styles.items}>
+              {offers.map((item, index) => {
+                return (
+                  <React.Fragment key={item.id}>
+                    <Item
+                      id={item.id}
+                      account={item.account}
+                      code={item.code}
+                      total={item.total}
+                      dateCreated={item.dateCreated}
+                      validUntil={item.validUntil}
+                      stage={item.stage}
+                    />
+                    {index !== offers.length - 1 && <CustomDivider />}
+                  </React.Fragment>
+                )
+              })}
+            </div>
+          </div>
+        ) : (
+          <LoadingSpinner />
+        )}
+      </div>
+    </div>
+  )
 }
