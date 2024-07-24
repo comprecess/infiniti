@@ -273,3 +273,45 @@ export interface CustomersViewCompany {
   email: string
   phone: string
 }
+
+export interface InvoicesViewCompany {
+  id: number
+  account: string
+  code: string
+  total: string
+  date: string
+  dueDate: string
+  status: string
+}
+
+export interface OffersViewCompany {
+  id: number
+  account: string
+  code: string
+  total: string
+  dateCreated: string
+  validUntil: string
+  stage: string
+}
+
+export interface OrdersViewCompany {
+  id: number
+  orderNum: string
+  dateAdded: string
+  account: string
+  amount: string
+  status: string
+}
+
+export interface TransactionsViewCompany {
+  id: number
+  date: string
+  account: string
+  type: string
+  amount: string
+  status: string
+  description: string
+  dr: string
+  cr: string
+  bal: string
+}
