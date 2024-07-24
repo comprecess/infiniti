@@ -19,6 +19,7 @@ class TransactionResource extends JsonResource
             'date' => $this->date->format('Y-m-d'),
             'account' => $this->account,
             'type' => $this->type,
+            'status' => $this->status,
             'amount' => $this->printPrice('amount'),
             'description' => $this->description,
             'dr' => $this->dr,
