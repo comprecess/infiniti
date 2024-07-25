@@ -1,7 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ClientController;
-use App\Http\Controllers\Api\Resident\Settings\CurrencyController;
+use App\Http\Controllers\Api\Resident\Settings;
 use App\Http\Controllers\Api\Resident\Client;
 
 #resident
@@ -35,10 +35,28 @@ Route::group(['prefix' => 'client',], function(){
 });
 #settings
 Route::group(['prefix' => 'settings'], function(){
-    #Currency
-    Route::get('/currency', [CurrencyController::class, 'currency']);
-    Route::post('/currency', [CurrencyController::class, 'create']);
-    Route::put('/currency/{currency}', [CurrencyController::class, 'update']);
-    Route::put('/currency/{currency}/base', [CurrencyController::class, 'updateBase']);
-    Route::delete('/currency/{currency}', [CurrencyController::class, 'delete']);
+    #currency
+    Route::controller(Settings\CurrencyController::class)->prefix('currency')
+        ->group(function(){
+            Route::get('/',  'currency');
+            Route::post('/', 'create');
+            Route::put('/{currency}', 'update');
+            Route::put('/{currency}/base', 'updateBase');
+            Route::delete('/{currency}', 'delete');
+        });
+//    #Currency
+//    Route::get('/currency', [Settings\CurrencyController::class, 'currency']);
+//    Route::post('/currency', [Settings\CurrencyController::class, 'create']);
+//    Route::put('/currency/{currency}', [Settings\CurrencyController::class, 'update']);
+//    Route::put('/currency/{currency}/base', [Settings\CurrencyController::class, 'updateBase']);
+//    Route::delete('/currency/{currency}', [Settings\CurrencyController::class, 'delete']);
+    #custom fields
+    Route::controller(Settings\CustomFieldsController::class)->prefix('custom_fields')
+        ->group(function(){
+            Route::get('/', 'list');
+            Route::post('/', 'createOrUpdate');
+            Route::put('/{customFields}', 'createOrUpdate');
+            Route::get('/{customFields}', 'item');
+            Route::delete('/{customFields}', 'delete');
+        });
 });
