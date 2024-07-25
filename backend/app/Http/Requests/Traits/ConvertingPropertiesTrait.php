@@ -13,12 +13,18 @@ trait ConvertingPropertiesTrait
         }
     }
 
-    public function setModel($model)
+    public function setModel($model, $isPut = false)
     {
         foreach ($this->getListProperties() as $key => $val)
         {
             $value = is_int($key) ? $this->{$val} : $this->{$key};
-            $model->{$val} = $value;
+            if($isPut) {
+                if(!is_null($value)) {
+                    $model->{$val} = $value;
+                }
+            } else {
+                $model->{$val} = $value;
+            }
         }
     }
 }

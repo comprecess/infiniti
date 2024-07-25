@@ -27,7 +27,7 @@ class CustomFieldsRequest extends FormRequest implements ConvertingPropertiesInt
 
     public function getListProperties(): array
     {
-        [
+        return [
             "name" => "fieldname",
             "type" => "fieldtype",
             "description",

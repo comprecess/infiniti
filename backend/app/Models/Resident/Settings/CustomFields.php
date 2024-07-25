@@ -12,4 +12,12 @@ class CustomFields extends Model
     protected $table = 'crm_customfields';
 
     public $timestamps = false;
+
+    public function setShowinvoiceAttribute($value) {
+        $this->attributes['showinvoice'] = $value ? "Yes" : "No";
+    }
+
+    public function getShowinvoiceAttribute($value) {
+        return $value == "Yes" ? 1 : 0;
+    }
 }
