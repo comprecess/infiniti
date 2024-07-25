@@ -19,14 +19,15 @@ class CustomFieldsRequest extends FormRequest implements ConvertingPropertiesInt
     public function rules(): array
     {
         return [
-            "type" => "required"
+            "type" => "required",
+            "name" => "required",
         ];
     }
 
 
     public function getListProperties(): array
     {
-        [
+        return [
             "name" => "fieldname",
             "type" => "fieldtype",
             "description",
