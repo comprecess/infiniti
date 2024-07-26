@@ -8,6 +8,8 @@ import { App } from './app.tsx'
 import { checkboxTheme } from './shared/themes/CheckBox.ts'
 import { menuTheme } from './shared/themes/MenuList.ts'
 import { modalTheme } from './shared/themes/Modal.ts'
+import { radioTheme } from './shared/themes/Radio.ts'
+import { selectTheme } from './shared/themes/Select.ts'
 import { switchTheme } from './shared/themes/Switch.ts'
 
 const theme = extendTheme({
@@ -16,6 +18,8 @@ const theme = extendTheme({
     Menu: menuTheme,
     Modal: modalTheme,
     Switch: switchTheme,
+    Select: selectTheme,
+    Radio: radioTheme,
   },
   colors: {
     brand: {
