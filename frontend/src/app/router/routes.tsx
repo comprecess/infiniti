@@ -31,6 +31,7 @@ import { AdminPurchasePage } from '../../pages/Admin/PurchasePage/PurchasePage'
 import { AdminReportsPage } from '../../pages/Admin/ReportsPage/ReportsPage'
 import { AdminSalesPage } from '../../pages/Admin/SalesPage/SalesPage'
 import { AdminCurrenciesPage } from '../../pages/Admin/SettingsPage/CurrenciesPage/CurrenciesPage'
+import { AdminCustomContactFields } from '../../pages/Admin/SettingsPage/CustomContactFields/CustomContactFields'
 import { AdminSMSPage } from '../../pages/Admin/SMSPage/SMSPage'
 import { AdminSuppliersPage } from '../../pages/Admin/SuppliersPage/SuppliersPage'
 import { AdminSupportPage } from '../../pages/Admin/SupportPage/SupportPage'
@@ -78,6 +79,7 @@ export const Routes = {
   appearance: 'appearance',
   plugins: 'plugins',
   settings: 'settings',
+  customFields: 'customfields',
   productsServices: 'productsservices',
   support: 'support',
   purchase: 'purchase',
@@ -183,6 +185,7 @@ export const Pages = {
   adminAppearancePage: <AdminAppearancePage />,
   adminPluginsPage: <AdminPluginsPage />,
   adminCurrenciesPage: <AdminCurrenciesPage />,
+  adminCustomContactFields: <AdminCustomContactFields />,
 
   /* General  pages */
   basketPage: <BasketPage />,

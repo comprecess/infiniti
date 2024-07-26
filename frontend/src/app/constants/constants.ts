@@ -315,3 +315,13 @@ export interface TransactionsViewCompany {
   cr: string
   bal: string
 }
+
+export interface SettingsCustomFieldsProps {
+  id: number
+  name: string
+  type: string
+  description: string
+  fieldOptions: string
+  regexpr: string
+  showInvoice: number
+}

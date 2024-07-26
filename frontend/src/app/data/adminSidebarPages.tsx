@@ -292,7 +292,11 @@ export const adminSidebarPages = [
       { id: 12, title: 'Sales Taxes', path: '' },
       { id: 13, title: 'Email Settings', path: '' },
       { id: 14, title: 'Email Templates', path: '' },
-      { id: 15, title: 'Custom Contact Fields', path: '' },
+      {
+        id: 15,
+        title: 'Custom Contact Fields',
+        path: Routes.customFields,
+      },
       { id: 16, title: 'Automation Settings', path: '' },
       { id: 17, title: 'API Access', path: '' },
       { id: 18, title: 'Choose Features', path: '' },

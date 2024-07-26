@@ -137,6 +137,10 @@ export const router = createBrowserRouter([
         path: Routes.settings,
         children: [
           { path: Routes.currencies, element: Pages.adminCurrenciesPage },
+          {
+            path: Routes.customFields,
+            element: Pages.adminCustomContactFields,
+          },
         ],
       },
       {
