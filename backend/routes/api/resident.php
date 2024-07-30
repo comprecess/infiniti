@@ -10,6 +10,9 @@ Route::get('/', [ClientController::class, 'index']);
 #client
 Route::group(['prefix' => 'client',], function(){
     Route::get('/list', [Client\ClientController::class, 'list']);
+    Route::get('/{client}/view/', [Client\ClientController::class, 'getAllType']);
+    Route::get('/{client}/view/{type}', [Client\ClientController::class, 'type']);
+    Route::put('/{client}/view/{type}', [Client\ClientController::class, 'updateType']);
 
     #group
     Route::group(['prefix' => 'group'], function(){
