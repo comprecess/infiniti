@@ -7,6 +7,8 @@ namespace App\Http\Controllers\Api\Traits;
 
 use App\Http\Requests\Interfaces\ConvertingPropertiesInterface;
 use App\Models\Contracts\InsertDefaultValueInterface;
+use App\Services\Document\DocumentVariables;
+use App\Services\Document\FactoryDocument;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest;
@@ -14,9 +16,16 @@ use Illuminate\Support\Facades\DB;
 
 trait CRUD
 {
+    protected $page = 6;
+
     public function getNamePrePage() :string
     {
         return 'amount';
+    }
+
+    public function getDocumentVariables() :DocumentVariables
+    {
+        return new DocumentVariables();
     }
 
     public function index(string|Builder $model, string $resorce, bool $paginate = false)
@@ -25,8 +34,15 @@ trait CRUD
             $model = $model::query();
         }
 
+        if($document = request()->input('document')) {
+            $documentData = (new FactoryDocument($model, $resorce, $this->getDocumentVariables()))->creator($document);
+            if($documentData !== null) {
+                return $documentData;
+            }
+        }
+
         if($paginate) {
-            $model = $model->paginate(request()->input($this->getNamePrePage()) ?? 6);
+            $model = $model->paginate(request()->input($this->getNamePrePage()) ?? $this->page);
         } else {
             $model = $model->get();
         }
