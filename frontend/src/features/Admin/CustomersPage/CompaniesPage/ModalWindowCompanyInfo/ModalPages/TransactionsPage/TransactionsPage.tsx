@@ -14,7 +14,7 @@ interface TransactionsPageProps {
 
 export const TransactionsPage: FC<TransactionsPageProps> = ({ id }) => {
   const [transactions, setTransactions] = useState<
-    TransactionsViewCompany[] | null
+  TransactionsViewCompany[] | null
   >(null)
 
   const getTransactions = async () => {

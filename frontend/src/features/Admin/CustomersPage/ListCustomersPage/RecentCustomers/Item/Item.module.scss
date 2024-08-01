@@ -6,38 +6,8 @@
   padding: 10px 12px 10px 12px;
 }
 
-.logoWrapper {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: start;
-}
-
-.logoItem {
-  max-width: 230px;
-  max-height: 42px;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-}
-
 .companyNameItem,
-.companyCodeItem {
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 26px;
-  letter-spacing: -0.03em;
-  text-align: left;
-  color: $white;
-}
-
-.companyCodeItem {
-  color: $gray-300;
-}
-
+.groupItem,
 .emailItem,
 .phoneItem {
   font-size: 16px;
@@ -46,6 +16,33 @@
   letter-spacing: -0.03em;
   text-align: left;
   color: $white;
+}
+
+.nameItem,
+.codeItem {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 26px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $white;
+}
+
+.nameItem,
+.codeItem,
+.imageItem {
+  cursor: pointer;
+}
+
+.nameCodeItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.imageItem {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
 }
 
 .manageItem {

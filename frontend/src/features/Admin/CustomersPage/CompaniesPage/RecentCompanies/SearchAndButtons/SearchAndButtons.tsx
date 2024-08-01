@@ -6,10 +6,12 @@ import styles from './SearchAndButtons.module.scss'
 
 interface SearchAndButtonsProps {
   searchChange: (searchItem: string) => void
+  rightButtons?: (name: string) => void
 }
 
 export const SearchAndButtons: FC<SearchAndButtonsProps> = ({
   searchChange,
+  rightButtons,
 }) => {
   const handleSearchChange = (searchItem: string) => {
     searchChange(searchItem)
@@ -21,7 +23,7 @@ export const SearchAndButtons: FC<SearchAndButtonsProps> = ({
         <Search onSearchChange={handleSearchChange} />
       </div>
       <div className={styles.headerButtons}>
-        <RecentRightButtons />
+        <RecentRightButtons rightButtons={rightButtons} />
       </div>
     </div>
   )

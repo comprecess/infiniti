@@ -3,8 +3,8 @@ import { FC, memo, useCallback, useEffect, useState } from 'react'
 import {
   FiltersState,
   page,
+  PagesMetaData,
   TalentData,
-  TalentsListMetaData,
   userTalentsPageString,
 } from '../../../../app/constants/constants'
 import { ButtonBrand } from '../../../../shared/ui/ButtonBrand/ButtonBrand'
@@ -30,7 +30,7 @@ export const TalentsList: FC<TalentsListProps> = ({ selectedFilters }) => {
   )
   const [talentsList, setTalentsList] = useState<{
     data: TalentData[]
-    meta: TalentsListMetaData
+    meta: PagesMetaData
   } | null>(null)
 
   const nextPage = useCallback((id: number) => {

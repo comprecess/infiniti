@@ -17,6 +17,7 @@
   width: 100%;
   height: 100%;
   color: $white;
+  overflow: hidden;
 }
 
 .headerStandard,
@@ -66,5 +67,6 @@
   @include mobileBreakpoint('max', $custom-bpXXL) {
     width: 100%;
     margin-left: 0;
+    overflow-y: auto;
   }
 }
