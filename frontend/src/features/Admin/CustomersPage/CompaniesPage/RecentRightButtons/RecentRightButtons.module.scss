@@ -20,8 +20,7 @@
 .buttonPDF,
 .buttonExcel,
 .buttonCSV,
-.buttonCopy,
-.buttonPrint {
+.buttonCopy {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,13 +58,5 @@
 
   @include hover() {
     background-color: $gray-500;
-  }
-}
-
-.buttonPrint {
-  background-color: $amber-600;
-
-  @include hover() {
-    background-color: $amber-500;
   }
 }

@@ -6,18 +6,22 @@ import styles from './NumberItem.module.scss'
 interface NumberItemProps {
   number: number
   isActive: boolean
+  size?: 'sm' | 'md'
   onClick: () => void
 }
 
 export const NumberItem: FC<NumberItemProps> = ({
   number,
   isActive,
+  size = 'md',
   onClick,
 }) => {
+  const sizeClass = size === 'md' ? styles.numberMD : styles.numberSM
+
   return (
-    <BackGround isActive={isActive}>
+    <BackGround isActive={isActive} size={size}>
       <div className={styles.wrapper} onClick={onClick}>
-        <span className={styles.number}>{number}</span>
+        <span className={sizeClass}>{number}</span>
       </div>
     </BackGround>
   )

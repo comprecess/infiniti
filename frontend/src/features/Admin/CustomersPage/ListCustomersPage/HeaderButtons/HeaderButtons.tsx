@@ -2,14 +2,14 @@ import { FC } from 'react'
 
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
-import styles from './RecentButtons.module.scss'
+import styles from './HeaderButtons.module.scss'
 
-interface RecentButtonsProps {
+interface HeaderButtonsProps {
   firstButtonClick: () => void
   secondButtonClick: () => void
 }
 
-export const RecentButtons: FC<RecentButtonsProps> = ({
+export const HeaderButtons: FC<HeaderButtonsProps> = ({
   firstButtonClick,
   secondButtonClick,
 }) => {
@@ -17,7 +17,7 @@ export const RecentButtons: FC<RecentButtonsProps> = ({
     <div className={styles.wrapper}>
       <ButtonBlue
         titleNone
-        title='New Group'
+        title='Add Customer'
         icon='/icons/plus.svg'
         style={styles.buttonPlus}
         iconProps={styles.iconPlus}
@@ -25,10 +25,10 @@ export const RecentButtons: FC<RecentButtonsProps> = ({
       />
       <ButtonBrand
         titleNone
-        title='Reorder'
-        icon='/icons/reorder.svg'
-        style={styles.buttonWrench}
-        iconProps={styles.iconWrench}
+        title='Import'
+        icon='/icons/import.svg'
+        style={styles.buttonImport}
+        iconProps={styles.iconImport}
         onClick={secondButtonClick}
       />
     </div>

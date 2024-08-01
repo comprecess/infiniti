@@ -158,7 +158,7 @@ export interface ValuesProps {
   value: string
 }
 
-export interface TalentsListMetaData {
+export interface PagesMetaData {
   current_page: number
   from: number
   last_page: number
@@ -324,4 +324,21 @@ export interface SettingsCustomFieldsProps {
   fieldOptions: string
   regexpr: string
   showInvoice: number
+}
+
+export interface ListCustomersData {
+  id: number
+  account: string
+  code: string
+  company: CompanyData
+  email: string
+  group: ListCustomersGroupProps
+  phone: string
+  img: string
+}
+
+interface ListCustomersGroupProps {
+  id: number
+  name: string
+  sort: number
 }

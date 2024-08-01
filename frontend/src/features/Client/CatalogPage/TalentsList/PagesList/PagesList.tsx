@@ -1,16 +1,22 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react'
 
-import { TalentsListMetaData } from '../../../../../app/constants/constants'
+import { PagesMetaData } from '../../../../../app/constants/constants'
 import { ArrowItem } from './ArrowItem/ArrowItem'
+import { BackGround } from './BackGround/BackGround'
 import { NumberItem } from './NumberItem/NumberItem'
 import styles from './PagesList.module.scss'
 
 interface PagesListProps {
-  meta: TalentsListMetaData
-  nextPage: (id: number) => void
+  meta: PagesMetaData
+  nextPage: (page: number) => void
+  size?: 'sm' | 'md'
 }
 
-export const PagesList: FC<PagesListProps> = ({ meta, nextPage }) => {
+export const PagesList: FC<PagesListProps> = ({
+  meta,
+  size,
+  nextPage,
+}) => {
   const [maxVisiblePages, setMaxVisiblePages] = useState<number>(4)
 
   useEffect(() => {
@@ -65,9 +71,10 @@ export const PagesList: FC<PagesListProps> = ({ meta, nextPage }) => {
       if (link && i > 0) {
         pages.push(
           <NumberItem
-            key={i}
+            key={`page-${i}`}
             number={i}
             isActive={link.active}
+            size={size}
             onClick={() => nextPage(i)}
           />,
         )
@@ -78,9 +85,9 @@ export const PagesList: FC<PagesListProps> = ({ meta, nextPage }) => {
       const firstPages = pages.slice(0, maxVisiblePages / 2)
       const lastPages = pages.slice(-maxVisiblePages / 2)
       const middlePages = (
-        <div key='divider' className={styles.divider}>
+        <BackGround key='middlePages' backGroundActive={false} size={size}>
           ...
-        </div>
+        </BackGround>
       )
 
       return [...firstPages, middlePages, ...lastPages]
@@ -91,9 +98,9 @@ export const PagesList: FC<PagesListProps> = ({ meta, nextPage }) => {
 
   return (
     <div className={styles.wrapper}>
-      <ArrowItem onClick={lastArrowPage} />
+      <ArrowItem size={size} onClick={lastArrowPage} />
       {renderPages}
-      <ArrowItem isLeftArrow={false} onClick={nextArrowPage} />
+      <ArrowItem size={size} isLeftArrow={false} onClick={nextArrowPage} />
     </div>
   )
 }

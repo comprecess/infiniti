@@ -1,0 +1,23 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+.buttonImport,
+.buttonPlus {
+  height: 42px;
+}
+
+.iconPlus {
+  width: 14px;
+  height: 14px;
+}
+
+.iconImport {
+  width: 22px;
+  height: 22px;
+}

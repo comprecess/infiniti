@@ -64,7 +64,7 @@ export const Item: FC<ItemProps> = ({
           <img src='/icons/view.svg' alt='View' className={styles.icon} />
         </button>
         <button className={styles.buttonEdit} onClick={handleEditCompany}>
-          <img src='/icons/edit.svg' alt='Star' className={styles.icon} />
+          <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
         </button>
         <button
           className={styles.buttonTrash}
