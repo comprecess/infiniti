@@ -19,7 +19,7 @@ class FactoryDocument
 
     public function creator(string $document)
     {
-        $document = $document . "Document";
+        $document = ucfirst($document) . "Document";
         $class = __NAMESPACE__ . "\\{$document}";
         if(class_exists($class)) {
             $class = new $class($this->builder, $this->resorce, $this->varibles);
