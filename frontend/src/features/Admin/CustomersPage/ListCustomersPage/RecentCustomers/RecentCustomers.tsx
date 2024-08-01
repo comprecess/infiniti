@@ -22,7 +22,7 @@ export const RecentCustomers: FC<RecentCustomersProps> = ({
   const handleSortChange = useCallback(
     (index: number, sortNameItem: string, sortTypeItem: number) => {
       setSortNumbers(prevSortNumbers =>
-        prevSortNumbers.map((num, i) => (i === index ? sortTypeItem : 1)),
+        prevSortNumbers.map(i => (i === index ? sortTypeItem : 1)),
       )
       changeSortName(sortNameItem, sortTypeItem)
     },
