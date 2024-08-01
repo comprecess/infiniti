@@ -7,11 +7,12 @@ use App\Http\Requests\Traits\ConvertingPropertiesTrait;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ClientRequest extends FormRequest
+class ClientListRequest extends FormRequest
 {
     const SORT = [
         'id' => 'crm_accounts.id',
         'img' => 'file_storages.id',
+        'name' => 'file_storages.account',
         'company' => 'sys_companies.company_name',
         'group' => 'crm_groups.gname',
         'email' => 'crm_accounts.email',
