@@ -12,7 +12,7 @@ class ClientListRequest extends FormRequest
     const SORT = [
         'id' => 'crm_accounts.id',
         'img' => 'file_storages.id',
-        'name' => 'file_storages.account',
+        'name' => 'crm_accounts.account',
         'company' => 'sys_companies.company_name',
         'group' => 'crm_groups.gname',
         'email' => 'crm_accounts.email',
