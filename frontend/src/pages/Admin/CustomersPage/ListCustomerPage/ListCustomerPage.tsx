@@ -72,7 +72,7 @@ export const AdminListCustomerPage: FC = () => {
         saveAs(downloadInitiated, 'Customers-Infiniti.csv')
       } else if (contentType === 'text/html') {
         const htmlText = await downloadInitiated.text()
-        navigator.clipboard.writeText(htmlText)
+        await navigator.clipboard.writeText(htmlText)
         showToast({
           title: 'Successfully',
           description:

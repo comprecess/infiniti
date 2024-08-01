@@ -21,6 +21,7 @@ export const AdminAddCustomerPage: FC = () => {
             style: styles.blueButton,
             icon: '/icons/import.svg',
             iconProps: styles.icon,
+            titleNone: true,
           }}
         >
           Content

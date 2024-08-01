@@ -6,6 +6,17 @@
   padding: 10px 12px 10px 12px;
 }
 
+.nameItem,
+.codeItem,
+.companyNameItem,
+.groupItem,
+.emailItem,
+.phoneItem {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .companyNameItem,
 .groupItem,
 .emailItem,
