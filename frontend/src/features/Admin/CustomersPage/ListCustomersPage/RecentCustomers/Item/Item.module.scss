@@ -17,6 +17,14 @@
   text-overflow: ellipsis;
 }
 
+.nameCodeItem,
+.companyNameItem,
+.groupItem,
+.emailItem,
+.phoneItem {
+  padding-right: 8px;
+}
+
 .companyNameItem,
 .groupItem,
 .emailItem,
@@ -47,6 +55,8 @@
 
 .nameCodeItem {
   display: flex;
+  white-space: nowrap;
+  overflow: hidden;
   flex-direction: column;
 }
 
