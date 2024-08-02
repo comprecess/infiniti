@@ -116,7 +116,7 @@ class ClientController extends ResidentController
             'company' => CompanyResource::collection(Company::getForSelect()),
             'group' => GroupResource::collection(Group::getForSelect()),
             'currency' => CurrencyResorce::collection(Currency::getForSelect()),
-//            'owner' => UserResource::collection(Admin::getForSelect()),
+            'owner' => UserResource::collection(Admin::getForSelect()),
             'country' => Countries::list(),
             'сustomFields' => CustomFieldsResorce::collection(CustomFields::getForSelect())
         ];
