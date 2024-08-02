@@ -10,25 +10,34 @@ use App\Models\Resident\Client\Group;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Invoices\Offer;
 use App\Models\Resident\Orders\Order;
+use App\Models\Resident\Settings\CustomFields;
+use App\Models\Resident\Settings\CustomFieldsValues;
 use App\Models\Resident\Transactions\Transaction;
+use App\Models\Traits\CurrencyTrait;
+use App\Models\Traits\HelperTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\User;
 use App\Models\Users\Interfaces\LoginIntarface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\Catalog\Cart as CatalogCart;
 
 class Client extends User implements LoginIntarface, InsertDefaultValueInterface
 {
-    use InsertDefaultValueTrait;
+    use InsertDefaultValueTrait, HelperTrait, CurrencyTrait;
 
     public $table = 'crm_accounts';
 
     protected $morphClass = 'Client';
 
     protected $nameClass = 'Client';
+
+    const TYPE = [
+        'customer', 'supplier'
+    ];
 
     public function checkCart()
     {
@@ -41,6 +50,21 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
                 $cart->save();
             }
         }
+    }
+
+    public function getCurrencyId()
+    {
+        return true;
+    }
+
+    public function setTypeAttribute($value)
+    {
+        $this->attributes['type'] = is_array($value) ? implode(',',$value) : $value;
+    }
+
+    public function getTypeAttribute($value)
+    {
+        return explode(',', $value);
     }
 
     public function group()
@@ -66,6 +90,12 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
     public function orders()
     {
         return $this->hasMany(Order::class, 'cid');
+    }
+
+    public function customFieldsValues()
+    {
+        return $this->belongsToMany(CustomFields::class, CustomFieldsValues::class, 'relid', 'fieldid')
+            ->withPivot(['fvalue']);
     }
 
     //Плательщик
@@ -117,7 +147,7 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
         return [
             'account' => ['', 'fullName'],
             'email' => [''],
-            'password' => [''],
+//            'password' => [rand(1, 999999)],
             'phone' => [''],
             'address' => [''],
             'city' => [''],
@@ -125,8 +155,8 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
             'state' => [''],
             'country' => [''],
             'company' => [''],
-            'signed_up_ip' => ['', 'ip'],
-            'isp' => [''],
+            'signed_up_ip' => [null, 'ip'],
+            'isp' => [request()->ip()],
             'balance' => ['0.00'],
             'status' => ['Active'],
             'notes' => [''],

@@ -31,4 +31,9 @@ class Currency extends Model
 
         return $value;
     }
+
+    public static function getForSelect()
+    {
+        return self::orderBy('iso_code')->get();
+    }
 }

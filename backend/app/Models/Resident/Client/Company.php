@@ -25,4 +25,9 @@ class Company extends Model
     {
         $item->deleteAllFiles();
     }
+
+    public static function getForSelect()
+    {
+        return self::orderBy('company_name')->get();
+    }
 }

@@ -17,6 +17,7 @@ use App\Http\Resources\Resident\Client\GroupResource;
 use App\Http\Resources\Resident\Settings\CurrencyResorce;
 use App\Http\Resources\Resident\Settings\CustomFieldsResorce;
 use App\Http\Resources\UserResource;
+use App\Models\Log;
 use App\Models\Resident\Client\Company;
 use App\Models\Resident\Client\Group;
 use App\Models\Resident\Settings\Currency;
@@ -115,7 +116,7 @@ class ClientController extends ResidentController
             'company' => CompanyResource::collection(Company::getForSelect()),
             'group' => GroupResource::collection(Group::getForSelect()),
             'currency' => CurrencyResorce::collection(Currency::getForSelect()),
-            'owner' => UserResource::collection(Admin::getForSelect()),
+//            'owner' => UserResource::collection(Admin::getForSelect()),
             'country' => Countries::list(),
             'сustomFields' => CustomFieldsResorce::collection(CustomFields::getForSelect())
         ];
@@ -135,9 +136,16 @@ class ClientController extends ResidentController
                 if($request->password) {
                     $model->setNewPassword($request->password);
                 }
+                $model->o = auth()->id();
             },
-            function(){
+            function($model, $request){
+                Log::send(__('resident.newContact', ['name' => $model->account, 'id' => $model->id]));
 
+                $data = [];
+                foreach($request->customFields as $id => $value) {
+                    $data[$id] = ['fvalue' => $value];
+                }
+                $model->customFieldsValues()->sync($data);
             }
         );
     }
