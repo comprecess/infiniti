@@ -136,7 +136,6 @@ class ClientController extends ResidentController
                 if($request->password) {
                     $model->setNewPassword($request->password);
                 }
-                $model->o = auth()->id();
             },
             function($model, $request){
                 Log::send(__('resident.newContact', ['name' => $model->account, 'id' => $model->id]));
