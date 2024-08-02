@@ -58,7 +58,7 @@ class Log extends Model
         $this->type = $type;
         $this->description = $msg;
         $this->userid = $userid;
-        $this->ip = request()->input('ip', '127.0.0.1');
+        $this->ip = request()->ip();
         $this->save();
 
         return $this;

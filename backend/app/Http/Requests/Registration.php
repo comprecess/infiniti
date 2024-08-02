@@ -17,7 +17,7 @@ class Registration extends FormRequest
         return [
             'fullName' => 'required',
             'email' => 'required|email|unique:App\Models\Users\Client,email',
-            'password' => 'min:6|required|required_with:password2|same:confirmationPassword',
+            'password' => 'min:6|required|required_with:confirmationPassword|same:confirmationPassword',
             'confirmationPassword' => 'min:6|required|required_with:confirmationPassword|same:confirmationPassword'
         ];
     }

@@ -20,4 +20,15 @@ class CustomFields extends Model
     public function getShowinvoiceAttribute($value) {
         return $value == "Yes" ? 1 : 0;
     }
+
+    public function values()
+    {
+        return $this->hasMany(CustomFieldsValues::class, 'fieldid');
+    }
+
+    public static function getForSelect()
+    {
+        return self::orderBy('id')->get();
+    }
+
 }

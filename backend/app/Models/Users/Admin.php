@@ -41,4 +41,10 @@ class Admin extends User implements LoginIntarface
     }
 
 
+    public static function getForSelect()
+    {
+        return self::orderBy('fullname')->get();
+    }
+
+
 }

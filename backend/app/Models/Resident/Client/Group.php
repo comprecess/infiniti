@@ -30,4 +30,9 @@ class Group extends Model implements InsertDefaultValueInterface
             'sorder' => 0
         ];
     }
+
+    public static function getForSelect()
+    {
+        return self::orderBy('gname')->get();
+    }
 }
