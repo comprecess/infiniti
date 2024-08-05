@@ -21,6 +21,19 @@ class CustomFields extends Model
         return $value == "Yes" ? 1 : 0;
     }
 
+    public function setFieldoptionsAttribute($value) {
+        $this->attributes['fieldoptions'] = $value ? implode(',', $value) : null;
+    }
+
+    public function getFieldoptionsAttribute($value) {
+        if(!$value) {
+            return null;
+        }
+        $options = explode(',', $value);
+        $options = array_map(function($v){return trim($v);}, $options);
+        return $options;
+    }
+
     public function values()
     {
         return $this->hasMany(CustomFieldsValues::class, 'fieldid');

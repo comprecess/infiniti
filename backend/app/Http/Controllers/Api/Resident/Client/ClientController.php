@@ -152,7 +152,7 @@ class ClientController extends ResidentController
 
     public function getAllType(Client $client)
     {
-        $data = ['img' => $client->getLastFile()?->getLink(), 'email' => $client->email, 'phone' => $client->phone];
+        $data = ['img' => $client->getLastFile()?->getLink(), 'email' => $client->email, 'phone' => $client->phone, 'account' => $client->account];
         $type = ClientViewRequest::TYPE;
         $typesValue = array_fill(0, count($type), null);
         $data['type'] = array_combine($type, $typesValue);
