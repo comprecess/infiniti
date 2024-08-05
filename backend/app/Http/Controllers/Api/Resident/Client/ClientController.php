@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Resident\ResidentController;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Client\ClientCreateRequest;
 use App\Http\Requests\Resident\Client\ClientListRequest;
+use App\Http\Requests\Resident\Client\ClientViewRequest;
 use App\Http\Requests\Resident\Settings\CustomFieldsRequest;
 use App\Http\Resources\Resident\Client\ClientExcelResource;
 use App\Http\Resources\Resident\Client\ClientPdfResource;
@@ -118,7 +119,7 @@ class ClientController extends ResidentController
             'currency' => CurrencyResorce::collection(Currency::getForSelect()),
             'owner' => UserResource::collection(Admin::getForSelect()),
             'country' => Countries::list(),
-            'сustomFields' => CustomFieldsResorce::collection(CustomFields::getForSelect())
+            'customFields' => CustomFieldsResorce::collection(CustomFields::getForSelect())
         ];
 
         return response()->json($data);
@@ -149,33 +150,36 @@ class ClientController extends ResidentController
         );
     }
 
-    public function getAllType(Client $company)
+    public function getAllType(Client $client)
     {
-        $data = ['logo' => $company->getLastFile()?->getLink(), 'name' => $company->company_name];
-        $typesValue = [null, null];
+        $data = ['img' => $client->getLastFile()?->getLink(), 'email' => $client->email, 'phone' => $client->phone];
+        $type = ClientViewRequest::TYPE;
+        $typesValue = array_fill(0, count($type), null);
+        $data['type'] = array_combine($type, $typesValue);
 
-        $companyUsers = $company->users()->with(['invoices', 'offers', 'orders', 'transactionPayer', 'transactionPayee'])->get();
 
-        $typesValue[] = $companyUsers->count();
-
-        foreach(['invoices', 'offers', 'orders'] as $relations) {
-            $typesValue[] = $companyUsers->sum(function($item) use($relations){
-                return $item->{$relations}?->count();
-            });
-        }
-
-        $transaction = $companyUsers->sum(function($item) use($relations){
-            return $item->transactionPayer?->count();
-        });
-
-        $transaction += $companyUsers->sum(function($item) use($relations){
-            return $item->transactionPayee?->count();
-        });
-
-        $typesValue[] = $transaction;
-        $data['type'] = array_combine(CompanyViewRequest::TYPE, $typesValue);
-
-        return response()->json($data);
+//        $companyUsers = $company->users()->with(['invoices', 'offers', 'orders', 'transactionPayer', 'transactionPayee'])->get();
+//
+//        $typesValue[] = $companyUsers->count();
+//
+//        foreach(['invoices', 'offers', 'orders'] as $relations) {
+//            $typesValue[] = $companyUsers->sum(function($item) use($relations){
+//                return $item->{$relations}?->count();
+//            });
+//        }
+//
+//        $transaction = $companyUsers->sum(function($item) use($relations){
+//            return $item->transactionPayer?->count();
+//        });
+//
+//        $transaction += $companyUsers->sum(function($item) use($relations){
+//            return $item->transactionPayee?->count();
+//        });
+//
+//        $typesValue[] = $transaction;
+//        $data['type'] = array_combine($type, $typesValue);
+//
+//        return response()->json($data);
     }
 
 }
