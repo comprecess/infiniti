@@ -157,29 +157,10 @@ class ClientController extends ResidentController
         $typesValue = array_fill(0, count($type), null);
         $data['type'] = array_combine($type, $typesValue);
 
+        $data['type']['invoices'] = $client->invoices()->count();
+        $data['type']['quotes'] = $client->offers()->count();
 
-//        $companyUsers = $company->users()->with(['invoices', 'offers', 'orders', 'transactionPayer', 'transactionPayee'])->get();
-//
-//        $typesValue[] = $companyUsers->count();
-//
-//        foreach(['invoices', 'offers', 'orders'] as $relations) {
-//            $typesValue[] = $companyUsers->sum(function($item) use($relations){
-//                return $item->{$relations}?->count();
-//            });
-//        }
-//
-//        $transaction = $companyUsers->sum(function($item) use($relations){
-//            return $item->transactionPayer?->count();
-//        });
-//
-//        $transaction += $companyUsers->sum(function($item) use($relations){
-//            return $item->transactionPayee?->count();
-//        });
-//
-//        $typesValue[] = $transaction;
-//        $data['type'] = array_combine($type, $typesValue);
-//
-//        return response()->json($data);
+        return response()->json($data);
     }
 
 }
