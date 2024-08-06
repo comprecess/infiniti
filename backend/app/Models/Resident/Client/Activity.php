@@ -11,4 +11,9 @@ class Activity extends Model
     use HasFactory, UserTrait;
 
     protected $table = "sys_activity";
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 }

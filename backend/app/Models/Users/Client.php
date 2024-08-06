@@ -5,6 +5,7 @@ namespace App\Models\Users;
 use App\Models\Cart;
 use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Log;
+use App\Models\Resident\Client\Activity;
 use App\Models\Resident\Client\Company;
 use App\Models\Resident\Client\Group;
 use App\Models\Resident\Invoices\Invoice;
@@ -94,6 +95,11 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
     {
         return $this->belongsToMany(CustomFields::class, CustomFieldsValues::class, 'relid', 'fieldid')
             ->withPivot(['fvalue']);
+    }
+
+    public function activity()
+    {
+        return $this->hasMany(Activity::class, 'cid');
     }
 
     //Плательщик

@@ -180,11 +180,12 @@ class ClientController extends ResidentController
     public function type(ClientViewRequest $request, Client $client)
     {
         $this->client = $client;
-        return $this->viewObject($request);
+        return $this->viewObject($request, $request->getMethod());
     }
 
     private function viewObject($request, $prefix = "Get")
     {
+        $prefix = ucfirst(strtolower($prefix));
         $method = $request->type . $prefix;
 
         if(!method_exists($this, $method)) {
@@ -196,8 +197,12 @@ class ClientController extends ResidentController
 
     private function summaryGet()
     {
-//        dd($this->client->load(['group', 'customFieldsValues']));
         return new ClientView\SummaryResource($this->client->load(['group', 'customFieldsValues', 'transactionPayer', 'transactionPayee']));
+    }
+
+    private function activityGet()
+    {
+        return ClientView\ActivityResource::collection($this->client?->activity()->with(['admin','client'])->orderByDesc('id')->get());
     }
 
 

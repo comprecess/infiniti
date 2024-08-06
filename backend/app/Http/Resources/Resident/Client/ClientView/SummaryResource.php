@@ -19,9 +19,9 @@ class SummaryResource extends JsonResource
         $ti = $this->transactionPayer->profit();
         $te = $this->transactionPayee->expense();
         if ($ti > $te) {
-            $amount = ['status' => 'green', 'ammount' => $ti - $te];
+            $amount = ['status' => 'green', 'ammount' => $this->printPrice($ti - $te)];
         } else {
-            $amount = ['status' => 'danger', 'ammount' => $te - $ti];
+            $amount = ['status' => 'danger', 'ammount' => $this->printPrice($te - $ti)];
         }
 
         $data = [
