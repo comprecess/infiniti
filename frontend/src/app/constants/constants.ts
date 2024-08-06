@@ -319,9 +319,9 @@ export interface TransactionsViewCompany {
 export interface SettingsCustomFieldsProps {
   id: number
   name: string
-  type: string
+  type: 'textBox' | 'password' | 'dropDown' | 'textArea'
   description: string
-  fieldOptions: string
+  fieldOptions: string[]
   regexpr: string
   showInvoice: number
 }
@@ -341,4 +341,15 @@ interface ListCustomersGroupProps {
   id: number
   name: string
   sort: number
+}
+
+export interface CustomerInputsData {
+  code: string
+  company: CompaniesListProps[]
+  group: ListCustomersGroupProps[]
+  currency: CurrencyProps[]
+  country: string[]
+  owner: AdminInfo[]
+  customFields: SettingsCustomFieldsProps[]
+  type: string[]
 }

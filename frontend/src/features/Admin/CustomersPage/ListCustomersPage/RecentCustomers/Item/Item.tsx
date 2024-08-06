@@ -1,9 +1,12 @@
 import { FC } from 'react'
+import { useNavigate } from 'react-router-dom'
 
+import { Routes } from '../../../../../../app/router/routes'
 import styleItem from '../RecentCustomers.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
+  id: number
   image: string
   name: string
   code: string
@@ -14,6 +17,7 @@ interface ItemProps {
 }
 
 export const Item: FC<ItemProps> = ({
+  id,
   image,
   name,
   code,
@@ -22,6 +26,21 @@ export const Item: FC<ItemProps> = ({
   email,
   phone,
 }) => {
+  const navigate = useNavigate()
+
+  const handleNavigate = () => {
+    navigate(
+      '/' +
+        Routes.adminPages +
+        '/' +
+        Routes.customers +
+        '/' +
+        Routes.view +
+        '/' +
+        id,
+    )
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styleItem.imageColumn}>
@@ -31,7 +50,10 @@ export const Item: FC<ItemProps> = ({
           className={styles.imageItem}
         />
       </div>
-      <div className={`${styleItem.nameColumn} ${styles.nameCodeItem}`}>
+      <div
+        className={`${styleItem.nameColumn} ${styles.nameCodeItem}`}
+        onClick={handleNavigate}
+      >
         <span className={styles.nameItem}>{name}</span>
         <span className={styles.codeItem}>{code}</span>
       </div>
@@ -50,7 +72,7 @@ export const Item: FC<ItemProps> = ({
         {phone}
       </span>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <button className={styles.viewButton}>
+        <button className={styles.viewButton} onClick={handleNavigate}>
           <img src='/icons/view.svg' alt='View' className={styles.icon} />
         </button>
         <button className={styles.buttonEdit}>

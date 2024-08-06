@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { FieldProps } from '../../../../pages/Admin/SettingsPage/CustomContactFields/CustomContactFields'
+import { FieldProps } from '../../../../pages/Admin/SettingsPage/CustomContactFieldsPage/CustomContactFieldsPage'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
@@ -15,7 +15,10 @@ interface FieldModalProps {
   filedValues?: FieldProps
   handleOpenCloseModal: () => void
   functionModal: () => void
-  handleInputChange: (name: string, value: string | number) => void
+  handleInputChange: (
+    name: string,
+    value: string | string[] | number,
+  ) => void
 }
 
 export const FieldModal: FC<FieldModalProps> = ({
@@ -40,6 +43,15 @@ export const FieldModal: FC<FieldModalProps> = ({
     } else if (item === 'No') {
       handleInputChange('showInvoice', 0)
     }
+  }
+
+  const handleFieldOptionsChange = (name: string, value: string) => {
+    const optionsArray: string[] = value
+      .split(',')
+      .map(option => option.trim())
+      .filter(option => option !== '')
+
+    handleInputChange(name, optionsArray)
   }
 
   const changeSelect = (type: string) => {
@@ -69,6 +81,7 @@ export const FieldModal: FC<FieldModalProps> = ({
             onChange={handleInputChange}
           />
           <CustomSelect
+            camelCase
             title='Field Type'
             size='lg'
             value={filedValues?.type}
@@ -96,8 +109,8 @@ export const FieldModal: FC<FieldModalProps> = ({
             type='text'
             id='fieldOptions'
             name='fieldOptions'
-            value={filedValues?.fieldOptions}
-            onChange={handleInputChange}
+            value={(filedValues?.fieldOptions || []).join(', ')}
+            onChange={handleFieldOptionsChange}
           />
           <CustomRadio
             title='Show in View Invoice?'

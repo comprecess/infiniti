@@ -52,36 +52,39 @@ export const AdminListCustomerPage: FC = () => {
     [],
   )
 
-  const documentOnChange = useCallback(async (documentItem: string) => {
-    // eslint-disable-next-line max-len
-    const urlOptions = `?page=${page}&filter[search]=${search}&sort[name]=${sortName}&sort[type]=${sortType}&document=${documentItem}`
+  const documentOnChange = useCallback(
+    async (documentItem: string) => {
+      // eslint-disable-next-line max-len
+      const urlOptions = `?page=${page}&filter[search]=${search}&sort[name]=${sortName}&sort[type]=${sortType}&document=${documentItem}`
 
-    const downloadInitiated = await getDocumentFileCustomers(urlOptions)
+      const downloadInitiated = await getDocumentFileCustomers(urlOptions)
 
-    if (downloadInitiated instanceof Blob) {
-      const contentType = downloadInitiated.type
+      if (downloadInitiated instanceof Blob) {
+        const contentType = downloadInitiated.type
 
-      if (contentType === 'application/pdf') {
-        saveAs(downloadInitiated, 'Customers-Infiniti.pdf')
-      } else if (
-        contentType ===
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      ) {
-        saveAs(downloadInitiated, 'Customers-Infiniti.xlsx')
-      } else if (contentType === 'text/plain') {
-        saveAs(downloadInitiated, 'Customers-Infiniti.csv')
-      } else if (contentType === 'text/html') {
-        const htmlText = await downloadInitiated.text()
-        await navigator.clipboard.writeText(htmlText)
-        showToast({
-          title: 'Successfully',
-          description:
-            'You have successfully copied information to the clipboard',
-          status: 'success',
-        })
+        if (contentType === 'application/pdf') {
+          saveAs(downloadInitiated, 'Customers-Infiniti.pdf')
+        } else if (
+          contentType ===
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        ) {
+          saveAs(downloadInitiated, 'Customers-Infiniti.xlsx')
+        } else if (contentType === 'text/plain') {
+          saveAs(downloadInitiated, 'Customers-Infiniti.csv')
+        } else if (contentType === 'text/html') {
+          const htmlText = await downloadInitiated.text()
+          await navigator.clipboard.writeText(htmlText)
+          showToast({
+            title: 'Successfully',
+            description:
+              'You have successfully copied information to the clipboard',
+            status: 'success',
+          })
+        }
       }
-    }
-  }, [])
+    },
+    [page, search, sortName, sortType],
+  )
 
   const searchOnChange = useCallback((searchItem: string) => {
     setSearch(searchItem)

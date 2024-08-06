@@ -103,6 +103,7 @@ export const RecentCustomers: FC<RecentCustomersProps> = ({
           return (
             <React.Fragment key={item.id}>
               <Item
+                id={item.id}
                 image={item.img}
                 name={item.account}
                 code={item.code}

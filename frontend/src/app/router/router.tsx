@@ -30,6 +30,10 @@ export const router = createBrowserRouter([
         path: Routes.customers,
         children: [
           {
+            path: `${Routes.view}/:id`,
+            element: Pages.adminViewPage,
+          },
+          {
             path: Routes.addCustomer,
             element: Pages.adminAddCustomerPage,
           },
