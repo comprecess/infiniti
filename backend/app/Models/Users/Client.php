@@ -20,8 +20,6 @@ use App\Models\User;
 use App\Models\Users\Interfaces\LoginIntarface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\Catalog\Cart as CatalogCart;
 
@@ -139,7 +137,7 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
 
     public function failPassword()
     {
-
+        (new Log())->setUser($this)->writeLog(__('login.failed', ['name' => $this->username]));
     }
 
     public function getDefault(): array
@@ -180,5 +178,10 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
     public function carts()
     {
         return $this->hasMany(CatalogCart::class, 'id_client')->where('updated_at', '>', $time)->orderBy('id', 'DESC');
+    }
+
+    public function getAutologin()
+    {
+        return $this->autologin ? route('autologin', [$this->autologin]) : null;
     }
 }

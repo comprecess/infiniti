@@ -43,7 +43,8 @@ trait CurrencyTrait
         $currency = $this->getCurrencyIso;
         $info = $currency?->getInfo();
         if($info) {
-            $format = number_format($this->{$column}, 2, $info['decimal_mark'], $info['thousands_separator']);
+            $price = is_string($column) ? $this->{$column} : $column;
+            $format = number_format($price, 2, $info['decimal_mark'], $info['thousands_separator']);
             return $info['symbol_first'] ? $info['symbol'] . $r .$format : $format . $r . $info['symbol'];
         }
 
