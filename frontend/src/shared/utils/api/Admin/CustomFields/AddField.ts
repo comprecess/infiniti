@@ -1,5 +1,5 @@
 import { authTokenString } from '../../../../../app/constants/constants'
-import { FieldProps } from '../../../../../pages/Admin/SettingsPage/CustomContactFieldsPage/CustomContactFields'
+import { FieldProps } from '../../../../../pages/Admin/SettingsPage/CustomContactFieldsPage/CustomContactFieldsPage'
 import { getCookies } from '../../../Saving/Cookies/GetCookies'
 
 interface Response {
