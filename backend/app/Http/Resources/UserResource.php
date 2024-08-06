@@ -27,6 +27,9 @@ class UserResource extends JsonResource implements ListInterface
 
         $this->setList($resource);
         $resource['img'] = $this->getAvatar(true) ?? "";
+        if($this->getNameClass() == (new Client())->getNameClass()) {
+            $resource['company'] = $this->companyClient?->company_name;
+        }
 
 
 
