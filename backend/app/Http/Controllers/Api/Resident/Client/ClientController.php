@@ -140,6 +140,11 @@ class ClientController extends ResidentController
                     $model->setNewPassword($request->password);
                 }
 
+                if($request->currency) {
+                    $cur = Currency::where('iso_code', $request->currency)->first();
+                    $model->currency = $cur->id;
+                }
+
                 if($request->country) {
                     $countryList = Countries::list();
                     $model->country = $countryList[$request->country];
