@@ -9,10 +9,10 @@ use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Client\ClientCreateRequest;
 use App\Http\Requests\Resident\Client\ClientListRequest;
 use App\Http\Requests\Resident\Client\ClientViewRequest;
-use App\Http\Requests\Resident\Settings\CustomFieldsRequest;
 use App\Http\Resources\Resident\Client\ClientExcelResource;
 use App\Http\Resources\Resident\Client\ClientPdfResource;
 use App\Http\Resources\Resident\Client\ClientResource;
+use App\Http\Resources\Resident\Client\ClientView;
 use App\Http\Resources\Resident\Client\CompanyResource;
 use App\Http\Resources\Resident\Client\GroupResource;
 use App\Http\Resources\Resident\Settings\CurrencyResorce;
@@ -36,6 +36,8 @@ class ClientController extends ResidentController
     use CRUD {
        createOrUpdate as createOrUpdateCRUD;
     }
+
+    protected $client = null;
 
     public function getDocumentVariables(): DocumentVariables
     {
@@ -137,6 +139,11 @@ class ClientController extends ResidentController
                 if($request->password) {
                     $model->setNewPassword($request->password);
                 }
+
+                if($request->country) {
+                    $countryList = Countries::list();
+                    $model->country = $countryList[$request->country];
+                }
             },
             function($model, $request){
                 Log::send(__('resident.newContact', ['name' => $model->account, 'id' => $model->id]));
@@ -162,5 +169,30 @@ class ClientController extends ResidentController
 
         return response()->json($data);
     }
+
+    public function type(ClientViewRequest $request, Client $client)
+    {
+        $this->client = $client;
+        return $this->viewObject($request);
+    }
+
+    private function viewObject($request, $prefix = "Get")
+    {
+        $method = $request->type . $prefix;
+
+        if(!method_exists($this, $method)) {
+            abort(404);
+        }
+
+        return $this->{$method}();
+    }
+
+    private function summaryGet()
+    {
+//        dd($this->client->load(['group', 'customFieldsValues']));
+        return new ClientView\SummaryResource($this->client->load(['group', 'customFieldsValues', 'transactionPayer', 'transactionPayee']));
+    }
+
+
 
 }
