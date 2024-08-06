@@ -18,6 +18,7 @@ import { AdminContactsListPage } from '../../pages/Admin/CustomersPage/GroupsPag
 import { AdminGroupsPage } from '../../pages/Admin/CustomersPage/GroupsPage/GroupsPage'
 import { AdminReorderGroupsPage } from '../../pages/Admin/CustomersPage/GroupsPage/ReorderGroupsPage/ReorderGroupsPage'
 import { AdminListCustomerPage } from '../../pages/Admin/CustomersPage/ListCustomerPage/ListCustomerPage'
+import { AdminViewPage } from '../../pages/Admin/CustomersPage/ViewPage/ViewPage'
 import { AdminDashboardPage } from '../../pages/Admin/DashboardPage/DashboardPage'
 import { AdminDocumentsPage } from '../../pages/Admin/DocumentsPage/DocumentsPage'
 import { AdminHRMPage } from '../../pages/Admin/HRMPage/HRMPage'
@@ -31,7 +32,7 @@ import { AdminPurchasePage } from '../../pages/Admin/PurchasePage/PurchasePage'
 import { AdminReportsPage } from '../../pages/Admin/ReportsPage/ReportsPage'
 import { AdminSalesPage } from '../../pages/Admin/SalesPage/SalesPage'
 import { AdminCurrenciesPage } from '../../pages/Admin/SettingsPage/CurrenciesPage/CurrenciesPage'
-import { AdminCustomContactFields } from '../../pages/Admin/SettingsPage/CustomContactFields/CustomContactFields'
+import { AdminCustomContactFields } from '../../pages/Admin/SettingsPage/CustomContactFieldsPage/CustomContactFieldsPage'
 import { AdminSMSPage } from '../../pages/Admin/SMSPage/SMSPage'
 import { AdminSuppliersPage } from '../../pages/Admin/SuppliersPage/SuppliersPage'
 import { AdminSupportPage } from '../../pages/Admin/SupportPage/SupportPage'
@@ -62,6 +63,7 @@ export const Routes = {
   clientPages: 'client',
   dashboard: 'dashboard',
   customers: 'customers',
+  view: 'view',
   businessPlan: 'businessplan',
   catalog: 'catalog',
   reorder: 'reorder',
@@ -186,6 +188,7 @@ export const Pages = {
   adminPluginsPage: <AdminPluginsPage />,
   adminCurrenciesPage: <AdminCurrenciesPage />,
   adminCustomContactFields: <AdminCustomContactFields />,
+  adminViewPage: <AdminViewPage />,
 
   /* General  pages */
   basketPage: <BasketPage />,

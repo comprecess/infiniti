@@ -18,7 +18,7 @@ export const CustomInput: FC<CustomInputProps> = ({
   name,
   type,
   placeHolder,
-  value = '',
+  value = null,
   onChange,
 }) => {
   const [inputValue, setInputValue] = useState<string | null>(value)

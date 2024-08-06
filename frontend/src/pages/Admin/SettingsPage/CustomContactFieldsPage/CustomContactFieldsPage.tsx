@@ -13,13 +13,13 @@ import { getFields } from '../../../../shared/utils/api/Admin/CustomFields/GetFi
 import { getSelectedField } from '../../../../shared/utils/api/Admin/CustomFields/GetSelectedField'
 import { deleteField } from '../../../../shared/utils/api/Admin/CustomFields/RemoveField'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './CustomContactFields.module.scss'
+import styles from './CustomContactFieldsPage.module.scss'
 
 export interface FieldProps {
   name: string
   type: string
   description: string
-  fieldOptions: string
+  fieldOptions: string[]
   regexpr: string
   showInvoice: number
 }
@@ -35,7 +35,7 @@ export const AdminCustomContactFields: FC = () => {
     name: '',
     type: '',
     description: '',
-    fieldOptions: '',
+    fieldOptions: [],
     regexpr: '',
     showInvoice: 0,
   })
@@ -119,7 +119,10 @@ export const AdminCustomContactFields: FC = () => {
     }
   }
 
-  const handleInputChange = (name: string, value: string | number) => {
+  const handleInputChange = (
+    name: string,
+    value: string | number | string[],
+  ) => {
     setFieldData(prevState => ({
       ...prevState,
       [name]: value,

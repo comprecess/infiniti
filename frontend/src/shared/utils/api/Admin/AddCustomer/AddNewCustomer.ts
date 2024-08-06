@@ -1,5 +1,5 @@
 import { authTokenString } from '../../../../../app/constants/constants'
-import { FieldProps } from '../../../../../pages/Admin/SettingsPage/CustomContactFieldsPage/CustomContactFields'
+import { PartialFieldsPostData } from '../../../../../features/Admin/CustomersPage/AddCustomer/Fields'
 import { getCookies } from '../../../Saving/Cookies/GetCookies'
 
 interface Response {
@@ -7,26 +7,24 @@ interface Response {
   message: string
 }
 
-export const editField = async (
-  id: number,
-  fieldData: FieldProps,
+export const addNewCustomer = async (
+  formData: PartialFieldsPostData,
 ): Promise<Response> => {
   const authToken = getCookies(authTokenString)
 
   if (authToken.status) {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_MAIN_DOMAIN}${
-          import.meta.env.VITE_CUSTOM_FIELDS_EDIT_SELECTED_FIELD
-        }${id}`,
+        import.meta.env.VITE_MAIN_DOMAIN +
+          import.meta.env.VITE_CUSTOMERS_ADD_NEW_CUSTOMER,
         {
-          method: 'PUT',
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
             Authorization: `Bearer ${authToken.cookie}`,
           },
-          body: JSON.stringify({ ...fieldData }),
+          body: JSON.stringify({ ...formData }),
         },
       )
 

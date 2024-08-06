@@ -5,23 +5,27 @@ import styles from './CustomSelect.module.scss'
 
 interface CustomSelectProps {
   title: string
+  titleOnChange?: string
   selectedList: string[]
   placeholder?: string
   size?: 'xs' | 'sm' | 'md' | 'lg'
   value?: string
-  onChange: (value: string) => void
+  camelCase?: boolean
+  onChange: (name: string, value: string) => void
 }
 
 export const CustomSelect: FC<CustomSelectProps> = ({
   title,
   selectedList,
+  titleOnChange = '',
   placeholder,
   size = 'md',
   value,
+  camelCase = false,
   onChange,
 }) => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    onChange(event.target.value)
+    onChange(titleOnChange, event.target.value)
   }
 
   const camelCaseToTitleCase = (camelCaseString: string): string => {
@@ -38,7 +42,7 @@ export const CustomSelect: FC<CustomSelectProps> = ({
 
   const checkValue = () => {
     if (value) {
-      onChange(value)
+      onChange(titleOnChange, value)
     }
   }
 
@@ -66,7 +70,7 @@ export const CustomSelect: FC<CustomSelectProps> = ({
         {selectedList.map(item => {
           return (
             <option key={item} value={item}>
-              {camelCaseToTitleCase(item)}
+              {camelCase ? camelCaseToTitleCase(item) : item}
             </option>
           )
         })}

@@ -1,0 +1,45 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 25px;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+
+  @include mobileBreakpoint('max', $bpL) {
+    flex-direction: column;
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0 1px 0 1px;
+  max-width: 750px;
+}
+
+.containerTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  font-family: $fontSpaceGrotesk;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.buttonBlue {
+  @include mobileBreakpoint('min', $bpL) {
+    max-width: 200px;
+  }
+}
