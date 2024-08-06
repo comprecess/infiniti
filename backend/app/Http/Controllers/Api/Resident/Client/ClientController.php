@@ -153,11 +153,13 @@ class ClientController extends ResidentController
             function($model, $request){
                 Log::send(__('resident.newContact', ['name' => $model->account, 'id' => $model->id]));
 
-                $data = [];
-                foreach($request->customFields as $id => $value) {
-                    $data[$id] = ['fvalue' => $value];
+                if($request->customFields) {
+                    $data = [];
+                    foreach($request->customFields as $id => $value) {
+                        $data[$id] = ['fvalue' => $value];
+                    }
+                    $model->customFieldsValues()->sync($data);
                 }
-                $model->customFieldsValues()->sync($data);
             }
         );
     }
