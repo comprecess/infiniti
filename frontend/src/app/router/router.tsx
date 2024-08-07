@@ -32,6 +32,61 @@ export const router = createBrowserRouter([
           {
             path: `${Routes.view}/:id`,
             element: Pages.adminViewPage,
+            children: [
+              {
+                path: Routes.summary,
+                element: Pages.adminContactSummaryPage,
+              },
+              {
+                path: Routes.activity,
+                element: Pages.adminContactActivityPage,
+              },
+              {
+                path: Routes.invoices,
+                element: Pages.adminContactInvoicesPage,
+              },
+              {
+                path: Routes.offers,
+                element: Pages.adminContactOffersPage,
+              },
+              {
+                path: Routes.files,
+                element: Pages.adminContactFilesPage,
+              },
+              {
+                path: Routes.transactions,
+                element: Pages.adminContactTransactionsPage,
+              },
+              {
+                path: Routes.email,
+                element: Pages.adminContactEmailPage,
+              },
+              {
+                path: Routes.log,
+                element: Pages.adminContactLogPage,
+              },
+              {
+                path: Routes.passwordManager,
+                element: Pages.adminContactPasswordManagerPage,
+              },
+              {
+                path: Routes.edit,
+                element: Pages.adminContactEditPage,
+              },
+              {
+                path: Routes.more,
+                element: Pages.adminContactMorePage,
+              },
+              {
+                path: '*',
+                index: true,
+                element: <Navigate replace to={To.summary()} />,
+              },
+              {
+                index: true,
+                element: <Navigate replace to={To.summary()} />,
+              },
+            ],
           },
           {
             path: Routes.addCustomer,
@@ -60,6 +115,15 @@ export const router = createBrowserRouter([
           {
             path: Routes.files,
             element: Pages.adminFilesPage,
+          },
+          {
+            index: true,
+            element: (
+              <Navigate
+                replace
+                to={'/' + Routes.adminPages + '/' + Routes.dashboard}
+              />
+            ),
           },
         ],
       },

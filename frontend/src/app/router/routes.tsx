@@ -18,6 +18,17 @@ import { AdminContactsListPage } from '../../pages/Admin/CustomersPage/GroupsPag
 import { AdminGroupsPage } from '../../pages/Admin/CustomersPage/GroupsPage/GroupsPage'
 import { AdminReorderGroupsPage } from '../../pages/Admin/CustomersPage/GroupsPage/ReorderGroupsPage/ReorderGroupsPage'
 import { AdminListCustomerPage } from '../../pages/Admin/CustomersPage/ListCustomerPage/ListCustomerPage'
+import { AdminContactActivityPage } from '../../pages/Admin/CustomersPage/ViewPage/ActivityPage/ActivityPage'
+import { AdminContactEditPage } from '../../pages/Admin/CustomersPage/ViewPage/EditPage/EditPage'
+import { AdminContactEmailPage } from '../../pages/Admin/CustomersPage/ViewPage/EmailPage/EmailPage'
+import { AdminContactFilesPage } from '../../pages/Admin/CustomersPage/ViewPage/FilesPage/FilesPage'
+import { AdminContactInvoicesPage } from '../../pages/Admin/CustomersPage/ViewPage/InvoicesPage/InvoicesPage'
+import { AdminContactLogPage } from '../../pages/Admin/CustomersPage/ViewPage/LogPage/LogPage'
+import { AdminContactMorePage } from '../../pages/Admin/CustomersPage/ViewPage/MorePage/MorePage'
+import { AdminContactOffersPage } from '../../pages/Admin/CustomersPage/ViewPage/OffersPage/OffersPage'
+import { AdminContactPasswordManagerPage } from '../../pages/Admin/CustomersPage/ViewPage/PasswordManagerPage/PasswordManagerPage'
+import { AdminContactSummaryPage } from '../../pages/Admin/CustomersPage/ViewPage/SummaryPage/SummaryPage'
+import { AdminContactTransactionsPage } from '../../pages/Admin/CustomersPage/ViewPage/TransactionsPage/TransactionsPage'
 import { AdminViewPage } from '../../pages/Admin/CustomersPage/ViewPage/ViewPage'
 import { AdminDashboardPage } from '../../pages/Admin/DashboardPage/DashboardPage'
 import { AdminDocumentsPage } from '../../pages/Admin/DocumentsPage/DocumentsPage'
@@ -64,6 +75,7 @@ export const Routes = {
   dashboard: 'dashboard',
   customers: 'customers',
   view: 'view',
+  summary: 'summary',
   businessPlan: 'businessplan',
   catalog: 'catalog',
   reorder: 'reorder',
@@ -101,6 +113,12 @@ export const Routes = {
   newExpense: 'newexpense',
   transfer: 'transfer',
   bills: 'bills',
+  email: 'email',
+  log: 'log',
+  edit: 'edit',
+  more: 'more',
+  passwordManager: 'passwordmanager',
+  activity: 'activity',
   contactsList: 'contactslist',
   viewTransactions: 'viewtransactions',
   unclearedTransactions: 'unclearedtransactions',
@@ -123,6 +141,7 @@ export const Routes = {
 
 export const To = {
   dashboard: () => Routes.dashboard,
+  summary: () => Routes.summary,
   signIn: () => Routes.signIn,
   notFound: () => Routes.notFound,
 }
@@ -189,6 +208,17 @@ export const Pages = {
   adminCurrenciesPage: <AdminCurrenciesPage />,
   adminCustomContactFields: <AdminCustomContactFields />,
   adminViewPage: <AdminViewPage />,
+  adminContactSummaryPage: <AdminContactSummaryPage />,
+  adminContactActivityPage: <AdminContactActivityPage />,
+  adminContactInvoicesPage: <AdminContactInvoicesPage />,
+  adminContactOffersPage: <AdminContactOffersPage />,
+  adminContactFilesPage: <AdminContactFilesPage />,
+  adminContactTransactionsPage: <AdminContactTransactionsPage />,
+  adminContactEmailPage: <AdminContactEmailPage />,
+  adminContactLogPage: <AdminContactLogPage />,
+  adminContactPasswordManagerPage: <AdminContactPasswordManagerPage />,
+  adminContactEditPage: <AdminContactEditPage />,
+  adminContactMorePage: <AdminContactMorePage />,
 
   /* General  pages */
   basketPage: <BasketPage />,

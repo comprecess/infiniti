@@ -37,7 +37,9 @@ export const Item: FC<ItemProps> = ({
         '/' +
         Routes.view +
         '/' +
-        id,
+        id +
+        '/' +
+        Routes.summary,
     )
   }
 

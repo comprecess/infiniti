@@ -353,3 +353,11 @@ export interface CustomerInputsData {
   customFields: SettingsCustomFieldsProps[]
   type: string[]
 }
+
+export interface ViewListPagesAndInfo {
+  account: string
+  img: string
+  email: string
+  phone: string
+  type: { [key: string]: number | null }
+}
