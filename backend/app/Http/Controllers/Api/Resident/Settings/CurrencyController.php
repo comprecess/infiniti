@@ -10,6 +10,7 @@ use App\Models\Config;
 use App\Models\Resident\Settings\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
 
 class CurrencyController extends SettingsController
 {
@@ -59,6 +60,8 @@ class CurrencyController extends SettingsController
         Config::set('dec_point', $info['decimal_mark']);
         Config::set('thousands_sep', $info['thousands_separator']);
         Config::set('currency_symbol_position', $info['symbol_first'] ? 'p' : 's');
+
+        Cache::forget('Currency.Default');
 
         return response()->json(['success' => true]);
     }

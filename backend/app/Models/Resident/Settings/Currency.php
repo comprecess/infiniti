@@ -36,4 +36,11 @@ class Currency extends Model
     {
         return self::orderBy('iso_code')->get();
     }
+
+    public static function getDefault()
+    {
+        return Cache::remember('Currency.Default', config('cache.time.1month'), function(){
+            return self::where('isdefault', 1)->first();
+        });
+    }
 }

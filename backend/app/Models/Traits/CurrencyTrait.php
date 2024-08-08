@@ -10,6 +10,7 @@ use NumberFormatter;
 
 trait CurrencyTrait
 {
+    private $rateSum = null;
 
     public function getCurrency($column)
     {
@@ -38,16 +39,67 @@ trait CurrencyTrait
         }
     }
 
-    public function printPrice($column, $r = " ")
+    public function printPrice($column, ?Currency $currencyTransform = null, $r = " ")
     {
-        $currency = $this->getCurrencyIso;
+        $currency = $currencyTransform ?? $this->getCurrencyIso;
         $info = $currency?->getInfo();
+        $price = is_string($column) ? $this->{$column} : $column;
         if($info) {
-            $price = is_string($column) ? $this->{$column} : $column;
             $format = number_format($price, 2, $info['decimal_mark'], $info['thousands_separator']);
             return $info['symbol_first'] ? $info['symbol'] . $r .$format : $format . $r . $info['symbol'];
         }
 
-        return $this->{$column};
+        return $price;
     }
+
+    private function getRate(?Currency $currencyTransform = null)
+    {
+        if($this->rateSum === null) {
+            $def = $currencyTransform ?? Currency::getDefault();
+            if(!$def) {
+                throw new \Exception("Currency not set");
+            }
+            $currency = $this->getCurrencyIso;
+            $this->rateSum = 1;
+            if($currency && $def->iso_code != $currency->iso_code) {
+                $this->rateSum = $def->rate / $currency->rate;
+            }
+        }
+
+        return $this->rateSum;
+    }
+
+    public function transformPrice(string $nameColumn, ?Currency $currencyTransform = null, $print = false)
+    {
+        $price = (float) $this->{$nameColumn};
+        $price = round($price * $this->getRate($currencyTransform), 2);
+        return $print ? $this->printPrice($price, $currencyTransform ?? Currency::getDefault()) : $price;
+
+    }
+
+    /*
+     private function getRate()
+    {
+        if($this->rateSum === null) {
+            $def = Currency::getDefault();
+            $currency = $this->getCurrencyIso;
+            $this->rateSum = 1;
+            if($currency && $def->iso_code != $currency->iso_code) {
+//                dd($currency->rate);
+                $this->rateSum = $def->rate / $currency->rate;
+            }
+        }
+        dd($this->rateSum, $def->rate, $currency->rate);
+
+        return $this->rateSum;
+    }
+
+    public function transformPrice(string $nameColumn, $print = false)
+    {
+        $price = (float) $this->{$nameColumn};
+        $price = round($price * $this->getRate(), 2);
+        return $print ? $this->printPrice($price) : $price;
+
+    }
+     */
 }

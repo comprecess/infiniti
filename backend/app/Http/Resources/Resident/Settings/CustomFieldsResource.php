@@ -5,7 +5,7 @@ namespace App\Http\Resources\Resident\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CustomFieldsResorce extends JsonResource
+class CustomFieldsResource extends JsonResource
 {
 
     /**

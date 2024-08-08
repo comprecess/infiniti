@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Resident\Settings;
 
 
 use App\Http\Requests\Resident\Settings\CustomFieldsRequest;
-use App\Http\Resources\Resident\Settings\CustomFieldsResorce;
+use App\Http\Resources\Resident\Settings\CustomFieldsResource;
 use App\Models\Resident\Settings\CustomFields;
 
 class CustomFieldsController extends SettingsController
@@ -13,7 +13,7 @@ class CustomFieldsController extends SettingsController
     public function list()
     {
         $currencyData = CustomFields::all();
-        return CustomFieldsResorce::collection($currencyData);
+        return CustomFieldsResource::collection($currencyData);
     }
 
     public function createOrUpdate(CustomFields $customFields, CustomFieldsRequest $request)
@@ -26,7 +26,7 @@ class CustomFieldsController extends SettingsController
 
     public function item(CustomFields $customFields)
     {
-        return new CustomFieldsResorce($customFields);
+        return new CustomFieldsResource($customFields);
     }
 
     public function delete(CustomFields $customFields)

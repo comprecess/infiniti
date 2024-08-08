@@ -2,8 +2,7 @@
 
 namespace App\Http\Resources\Resident\Client\ClientView;
 
-use App\Http\Resources\Resident\Settings\CustomFieldsResorce;
-use App\Models\Collection\TransactionCollection;
+use App\Http\Resources\Resident\Settings\CustomFieldsResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -37,7 +36,7 @@ class SummaryResource extends JsonResource
             'primaryContact' => $this->is_primary_contact,
             'notes' => $this->notes,
             'autologin' => $this->getAutologin(),
-            'customFields' => CustomFieldsResorce::collection($this->customFieldsValues),
+            'customFields' => CustomFieldsResource::collection($this->customFieldsValues),
             'totalProfit' => $this->printPrice($ti),
             'totalExpense' => $this->printPrice($te),
             'amount' => $amount

@@ -16,18 +16,18 @@ use App\Http\Resources\Resident\Client\ClientView;
 use App\Http\Resources\Resident\Client\CompanyResource;
 use App\Http\Resources\Resident\Client\GroupResource;
 use App\Http\Resources\Resident\Settings\CurrencyResorce;
-use App\Http\Resources\Resident\Settings\CustomFieldsResorce;
+use App\Http\Resources\Resident\Settings\CustomFieldsResource;
 use App\Http\Resources\UserResource;
 use App\Models\Log;
 use App\Models\Resident\Client\Company;
 use App\Models\Resident\Client\Group;
+use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\CustomFields;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
 use App\Services\Tools\Countries;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
@@ -121,7 +121,7 @@ class ClientController extends ResidentController
             'currency' => CurrencyResorce::collection(Currency::getForSelect()),
             'owner' => UserResource::collection(Admin::getForSelect()),
             'country' => Countries::list(),
-            'customFields' => CustomFieldsResorce::collection(CustomFields::getForSelect())
+            'customFields' => CustomFieldsResource::collection(CustomFields::getForSelect())
         ];
 
         return response()->json($data);
@@ -203,6 +203,22 @@ class ClientController extends ResidentController
     private function activityGet()
     {
         return ClientView\ActivityResource::collection($this->client?->activity()->with(['admin','client'])->orderByDesc('id')->get());
+    }
+
+    private function invoicesGet()
+    {
+        $invoices = $this->client->invoices()->with(['user'])->get();
+        $currency = Currency::getDefault();
+        $invoicesCur = new Invoice();
+        return response()
+            ->json([
+                'listStatus' => Invoice::STATUS,
+                'invoiceAmount' => $invoicesCur->printPrice($invoices->invoice_amount, $currency),
+                'paidAmount' => $invoicesCur->printPrice($invoices->paid_amount, $currency),
+                'unpaidAmount' => $invoicesCur->printPrice($invoices->unpaid_amount, $currency),
+                'cancelledAmount' => $invoicesCur->printPrice($invoices->cancelled_amount, $currency),
+                'invoice' => ClientView\InvoiceResource::collection($invoices),
+            ]);
     }
 
 

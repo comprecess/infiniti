@@ -100,7 +100,7 @@ class CompanyController extends Controller
             ],
             [
                 'with' => ['invoices'],
-                'response' => CompanyView\InvoceResource::class,
+                'response' => CompanyView\InvoiceResource::class,
                 'withDop' => ['invoices.getCurrencyIso'],
             ],
             [

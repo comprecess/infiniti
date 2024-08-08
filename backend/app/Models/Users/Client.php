@@ -78,7 +78,7 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
 
     public function invoices()
     {
-        return $this->hasMany(Invoice::class, 'userid');
+        return $this->hasMany(Invoice::class, 'userid')->with(['getCurrencyIso']);
     }
 
     public function offers()
