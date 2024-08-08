@@ -97,6 +97,11 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
             ->withPivot(['fvalue']);
     }
 
+    public function allCustomFieldsValues()
+    {
+
+    }
+
     public function activity()
     {
         return $this->hasMany(Activity::class, 'cid');

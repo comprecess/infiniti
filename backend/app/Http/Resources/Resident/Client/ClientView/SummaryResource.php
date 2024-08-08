@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Resident\Client\ClientView;
 
-use App\Http\Resources\Resident\Settings\CustomFieldsResource;
+use App\Models\Resident\Settings\CustomFields;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,14 +18,22 @@ class SummaryResource extends JsonResource
         $ti = $this->transactionPayer->profit();
         $te = $this->transactionPayee->expense();
         if ($ti > $te) {
-            $amount = ['status' => 'green', 'ammount' => $this->printPrice($ti - $te)];
+            $amount = ['status' => 'green', 'amount' => $this->printPrice($ti - $te)];
         } else {
-            $amount = ['status' => 'danger', 'ammount' => $this->printPrice($te - $ti)];
+            $amount = ['status' => 'danger', 'amount' => $this->printPrice($te - $ti)];
         }
+
+        $customFields = CustomFields::select(['crm_customfields.*', 'crm_customfieldsvalues.fvalue as value'])
+            ->leftJoin('crm_customfieldsvalues', function($join){
+                $join->on('crm_customfieldsvalues.fieldid', '=', 'crm_customfields.id')->where('crm_customfieldsvalues.relid', $this->id);
+            })
+            ->get();
 
         $data = [
             'id' => $this->id,
             'account' => $this->account,
+            'group' => $this->group?->gname,
+            'company' => $this->companyClient?->company_name,
             'email' => $this->email,
             'phone' => $this->phone,
             'address' => $this->address,
@@ -35,9 +43,9 @@ class SummaryResource extends JsonResource
             'country' => $this->country,
             'primaryContact' => $this->is_primary_contact,
             'notes' => $this->notes,
-            'balance' => $this->balance,
+            'balance' => $this->printPrice('balance'),
             'autologin' => $this->getAutologin(),
-            'customFields' => CustomFieldsResource::collection($this->customFieldsValues),
+            'customFields' => CustomFieldsResource::collection($customFields),
             'totalProfit' => $this->printPrice($ti),
             'totalExpense' => $this->printPrice($te),
             'amount' => $amount

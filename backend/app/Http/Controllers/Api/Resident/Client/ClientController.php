@@ -197,7 +197,7 @@ class ClientController extends ResidentController
 
     private function summaryGet()
     {
-        return new ClientView\SummaryResource($this->client->load(['group', 'customFieldsValues', 'transactionPayer', 'transactionPayee']));
+        return new ClientView\SummaryResource($this->client->load(['group', 'companyClient', 'transactionPayer', 'transactionPayee']));
     }
 
     private function activityGet()
