@@ -5,6 +5,7 @@ namespace App\Models\Users;
 use App\Models\Cart;
 use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Log;
+use App\Models\Resident\Client\Activity;
 use App\Models\Resident\Client\Company;
 use App\Models\Resident\Client\Group;
 use App\Models\Resident\Invoices\Invoice;
@@ -20,8 +21,6 @@ use App\Models\User;
 use App\Models\Users\Interfaces\LoginIntarface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\Catalog\Cart as CatalogCart;
 
@@ -79,7 +78,7 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
 
     public function invoices()
     {
-        return $this->hasMany(Invoice::class, 'userid');
+        return $this->hasMany(Invoice::class, 'userid')->with(['getCurrencyIso']);
     }
 
     public function offers()
@@ -96,6 +95,11 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
     {
         return $this->belongsToMany(CustomFields::class, CustomFieldsValues::class, 'relid', 'fieldid')
             ->withPivot(['fvalue']);
+    }
+
+    public function activity()
+    {
+        return $this->hasMany(Activity::class, 'cid');
     }
 
     //Плательщик
@@ -139,7 +143,7 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
 
     public function failPassword()
     {
-
+        (new Log())->setUser($this)->writeLog(__('login.failed', ['name' => $this->username]));
     }
 
     public function getDefault(): array
@@ -180,5 +184,10 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
     public function carts()
     {
         return $this->hasMany(CatalogCart::class, 'id_client')->where('updated_at', '>', $time)->orderBy('id', 'DESC');
+    }
+
+    public function getAutologin()
+    {
+        return $this->autologin ? route('autologin', [$this->autologin]) : null;
     }
 }

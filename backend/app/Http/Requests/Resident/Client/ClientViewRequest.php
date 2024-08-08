@@ -21,7 +21,7 @@ class ClientViewRequest extends FormRequest
         "email",
         "log",
         "client-password-manager",
-        "credit_card_info",
+//        "credit_card_info",
         "edit",
         "more",
     ];

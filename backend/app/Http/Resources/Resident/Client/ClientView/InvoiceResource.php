@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Resident\Client\CompanyView;
+namespace App\Http\Resources\Resident\Client\ClientView;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class InvoceResource extends JsonResource
+class InvoiceResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,16 +14,15 @@ class InvoceResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-
-        return [
+       return [
             'id' => $this->id,
             'code' => $this->getCode(),
-            'account' => $this->account,
-            'total' => $this->printPrice('total'),
-            'date' => $this->date->format('Y-m-d'),
-            'dueDate' => $this->date->format('Y-m-d'),
+            'account' => $this->user?->account,
+            'total' => $this->transformPrice('total', null, true),
+            'date' => $this->date,
+            'dueDate' => $this->duedate,
             'status' => $this->status,
-        ];
+       ];
     }
 
 

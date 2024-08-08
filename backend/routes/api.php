@@ -24,6 +24,10 @@ Route::post('/client/register', [AuthController::class, 'registration']);
 Route::post('/client/resetpassword', [AuthController::class, 'resetpassword']);
 Route::post('/resident/login', [AuthController::class, 'residentLogin']);
 
+#autologin
+Route::get('/client/autologin/{autologin}', [AuthController::class, 'autologin'])
+    ->name('autologin');
+
 Route::group(
     [
         'prefix' => 'user',

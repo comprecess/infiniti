@@ -5,7 +5,7 @@ namespace App\Http\Resources\Resident\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CustomFieldsResorce extends JsonResource
+class CustomFieldsResource extends JsonResource
 {
 
     /**
@@ -15,7 +15,7 @@ class CustomFieldsResorce extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $data = [
             'id' => $this->id,
             'name' => $this->fieldname,
             'type' => $this->fieldtype,
@@ -24,5 +24,9 @@ class CustomFieldsResorce extends JsonResource
             'regexpr' => $this->regexpr,
             'showInvoice' => $this->showinvoice,
         ];
+
+        $data['value'] = $this->pivot?->fvalue;
+
+        return $data;
     }
 }
