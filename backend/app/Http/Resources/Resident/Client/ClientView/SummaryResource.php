@@ -35,6 +35,7 @@ class SummaryResource extends JsonResource
             'country' => $this->country,
             'primaryContact' => $this->is_primary_contact,
             'notes' => $this->notes,
+            'balance' => $this->balance,
             'autologin' => $this->getAutologin(),
             'customFields' => CustomFieldsResource::collection($this->customFieldsValues),
             'totalProfit' => $this->printPrice($ti),
