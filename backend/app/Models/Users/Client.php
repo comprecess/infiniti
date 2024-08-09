@@ -8,6 +8,7 @@ use App\Models\Log;
 use App\Models\Resident\Client\Activity;
 use App\Models\Resident\Client\Company;
 use App\Models\Resident\Client\Group;
+use App\Models\Resident\Document;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Invoices\Offer;
 use App\Models\Resident\Orders\Order;
@@ -20,6 +21,7 @@ use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\User;
 use App\Models\Users\Interfaces\LoginIntarface;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Catalog\Cart as CatalogCart;
@@ -81,6 +83,7 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
         return $this->hasMany(Invoice::class, 'userid')->with(['getCurrencyIso']);
     }
 
+    #sys_quotes
     public function offers()
     {
         return $this->hasMany(Offer::class, 'userid');
@@ -91,20 +94,42 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
         return $this->hasMany(Order::class, 'cid');
     }
 
+    public function logs()
+    {
+        return $this->hasMany(Log::class, 'userid')
+            ->where('type', $this->nameClass);
+    }
+
     public function customFieldsValues()
     {
         return $this->belongsToMany(CustomFields::class, CustomFieldsValues::class, 'relid', 'fieldid')
             ->withPivot(['fvalue']);
     }
 
-    public function allCustomFieldsValues()
+    public function documents()
     {
-
+        return $this->belongsToMany(Document::class, 'ib_doc_rel', 'rid', 'did')
+            ->withPivot(['rtype', 'can_download']);
     }
 
     public function activity()
     {
         return $this->hasMany(Activity::class, 'cid');
+    }
+
+    public function transaction()
+    {
+
+        $instance = $this->newRelatedInstance(Transaction::class);
+
+        $query = $instance->newQuery()->where(function($q){
+            $q->where('payerid', $this->attributes['id'])
+                ->orWhere('payeeid', $this->attributes['id']);
+        });
+
+        return $this->newHasMany(
+            $query, $this, null, null
+        );
     }
 
     //Плательщик
