@@ -25,13 +25,11 @@ export const PersonInfo: FC<PersonInfoProps> = ({
   stateRegion,
   country,
 }) => {
-  const notSpecified = 'Not Indicated'
-
   return (
     <div className={styles.wrapper}>
       <Item
         title='Person Number'
-        info={personalNumber ? personalNumber : notSpecified}
+        info={personalNumber ? personalNumber : '-'}
       />
       <Item title='E-mail' info={email} />
       <div className={styles.dividerWrapper}>
@@ -39,16 +37,13 @@ export const PersonInfo: FC<PersonInfoProps> = ({
       </div>
       <Item
         title='Business Number'
-        info={businessNumber ? businessNumber : notSpecified}
+        info={businessNumber ? businessNumber : '-'}
       />
-      <Item title='Company' info={company ? company : notSpecified} />
-      <Item title='City' info={city ? city : notSpecified} />
-      <Item title='Zip Code' info={zipCode ? zipCode : notSpecified} />
-      <Item
-        title='State/Region'
-        info={stateRegion ? stateRegion : notSpecified}
-      />
-      <Item title='Country' info={country ? country : notSpecified} />
+      <Item title='Company' info={company ? company : '-'} />
+      <Item title='City' info={city ? city : '-'} />
+      <Item title='Zip Code' info={zipCode ? zipCode : '-'} />
+      <Item title='State/Region' info={stateRegion ? stateRegion : '-'} />
+      <Item title='Country' info={country ? country : '-'} />
     </div>
   )
 }

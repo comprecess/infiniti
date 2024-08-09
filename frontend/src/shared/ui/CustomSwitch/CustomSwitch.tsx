@@ -4,6 +4,7 @@ import { FC } from 'react'
 interface ToggleProps {
   size?: 'sm' | 'md' | 'lg'
   titleOnChange?: string
+  isChecked?: boolean
   onChange: (
     name: string,
     value: string | number | boolean | null | undefined,
@@ -13,6 +14,7 @@ interface ToggleProps {
 export const CustomSwitch: FC<ToggleProps> = ({
   size = 'md',
   titleOnChange = '',
+  isChecked,
   onChange,
 }) => {
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,5 +22,11 @@ export const CustomSwitch: FC<ToggleProps> = ({
     onChange(titleOnChange, isChecked)
   }
 
-  return <Switch size={size} onChange={handleOnChange} />
+  return (
+    <Switch
+      defaultChecked={isChecked}
+      size={size}
+      onChange={handleOnChange}
+    />
+  )
 }

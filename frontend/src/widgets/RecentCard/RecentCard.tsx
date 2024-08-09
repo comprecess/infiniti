@@ -38,19 +38,21 @@ export const RecentCard: FC<PropsWithChildren<RecentCardProps>> = ({
 
   return (
     <div className={`${styles.wrapper} ${style}`}>
-      <div className={styles.items}>
-        {title ? <h6 className={styles.title}>{title}</h6> : null}
-        <div>
-          {Component ? <Component {...componentProps} /> : null}
-          {refreshIcon ? <UpdateExpandMoreVert /> : null}
-          {ordinaryIcons ? (
-            <ChevronExpandMoreVert
-              openContent={openContent}
-              handleChevronClick={handleChevronClick}
-            />
-          ) : null}
+      {(title || Component || refreshIcon || ordinaryIcons) && (
+        <div className={styles.items}>
+          {title && <h6 className={styles.title}>{title}</h6>}
+          <div>
+            {Component && <Component {...componentProps} />}
+            {refreshIcon && <UpdateExpandMoreVert />}
+            {ordinaryIcons && (
+              <ChevronExpandMoreVert
+                openContent={openContent}
+                handleChevronClick={handleChevronClick}
+              />
+            )}
+          </div>
         </div>
-      </div>
+      )}
       {HeaderComponent ? (
         <div className={styles.header}>
           <HeaderComponent {...headerProps} />

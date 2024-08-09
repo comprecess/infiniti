@@ -28,7 +28,7 @@ export const Item: FC<ItemProps> = ({
 }) => {
   const navigate = useNavigate()
 
-  const handleNavigate = () => {
+  const handleNavigate = (name: string) => {
     navigate(
       '/' +
         Routes.adminPages +
@@ -39,7 +39,7 @@ export const Item: FC<ItemProps> = ({
         '/' +
         id +
         '/' +
-        Routes.summary,
+        name,
     )
   }
 
@@ -54,7 +54,7 @@ export const Item: FC<ItemProps> = ({
       </div>
       <div
         className={`${styleItem.nameColumn} ${styles.nameCodeItem}`}
-        onClick={handleNavigate}
+        onClick={() => handleNavigate(Routes.summary)}
       >
         <span className={styles.nameItem}>{name}</span>
         <span className={styles.codeItem}>{code}</span>
@@ -74,10 +74,16 @@ export const Item: FC<ItemProps> = ({
         {phone}
       </span>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <button className={styles.viewButton} onClick={handleNavigate}>
+        <button
+          className={styles.viewButton}
+          onClick={() => handleNavigate(Routes.summary)}
+        >
           <img src='/icons/view.svg' alt='View' className={styles.icon} />
         </button>
-        <button className={styles.buttonEdit}>
+        <button
+          className={styles.buttonEdit}
+          onClick={() => handleNavigate(Routes.edit)}
+        >
           <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
         </button>
         <button className={styles.buttonTrash}>

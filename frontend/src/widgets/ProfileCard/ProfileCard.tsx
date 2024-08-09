@@ -84,31 +84,29 @@ export const ProfileCard: FC<ProfileCardProps> = ({
       <div className={styles.info}>
         <InfoItem
           title='Phone:'
-          description={talent.phone ? talent.phone : 'Not Indicated'}
+          description={talent.phone ? talent.phone : '-'}
         />
         <InfoItem
           title='Email:'
-          description={talent.email ? talent.email : 'Not Indicated'}
+          description={talent.email ? talent.email : '-'}
         />
         <InfoItem
           title='Business Number:'
-          description={
-            talent.businessNumber ? talent.businessNumber : 'Not Indicated'
-          }
+          description={talent.businessNumber ? talent.businessNumber : '-'}
         />
       </div>
       <div className={styles.address}>
         <InfoItem
           title='Company Name:'
-          description={talent.company ? talent.company : 'Not Indicated'}
+          description={talent.company ? talent.company : '-'}
         />
         <InfoItem
           title='Address:'
-          description={talent.address ? talent.address : 'Not Indicated'}
+          description={talent.address ? talent.address : '-'}
         />
         <InfoItem
           title='City:'
-          description={talent.city ? talent.city : 'Not Indicated'}
+          description={talent.city ? talent.city : '-'}
         />
         <InfoItem
           title='State/Region:'

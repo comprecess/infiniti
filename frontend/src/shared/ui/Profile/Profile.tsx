@@ -36,7 +36,7 @@ export const Profile: FC<ProfileProps> = ({ isAdmin }) => {
       {profileData ? (
         <>
           <span className={styles.name}>
-            {profileData.account ? profileData.account : 'Not Indicated'}
+            {profileData.account ? profileData.account : '-'}
           </span>
           <img
             className={styles.avatar}

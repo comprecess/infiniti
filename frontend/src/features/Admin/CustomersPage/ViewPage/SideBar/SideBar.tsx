@@ -8,9 +8,10 @@ import styles from './SideBar.module.scss'
 
 interface SideBarProps {
   data: ViewListPagesAndInfo
+  isActive: boolean
 }
 
-export const SideBar: FC<SideBarProps> = ({ data }) => {
+export const SideBar: FC<SideBarProps> = ({ data, isActive }) => {
   const [activeItem, setActiveItem] = useState<number>(0)
 
   const location = useLocation()
@@ -36,7 +37,9 @@ export const SideBar: FC<SideBarProps> = ({ data }) => {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={isActive ? styles.wrapperActive : styles.wrapperDisable}
+    >
       <img
         src={data.img ? data.img : '/profileWithoutAvatar.svg'}
         alt='Avatar'
