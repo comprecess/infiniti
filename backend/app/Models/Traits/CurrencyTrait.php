@@ -41,7 +41,7 @@ trait CurrencyTrait
 
     public function printPrice($column, ?Currency $currencyTransform = null, $r = " ")
     {
-        $currency = $currencyTransform ?? $this->getCurrencyIso;
+        $currency = $currencyTransform ?? $this->getCurrencyIso ?? Currency::getDefault();
         $info = $currency?->getInfo();
         $price = is_string($column) ? $this->{$column} : $column;
         if($info) {
