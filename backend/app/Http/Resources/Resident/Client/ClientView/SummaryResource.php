@@ -18,9 +18,9 @@ class SummaryResource extends JsonResource
         $ti = $this->transactionPayer->profit();
         $te = $this->transactionPayee->expense();
         if ($ti > $te) {
-            $amount = ['status' => 'green', 'amount' => $this->printPrice($ti - $te)];
+            $amount = $this->printPrice($ti - $te);
         } else {
-            $amount = ['status' => 'danger', 'amount' => $this->printPrice($te - $ti)];
+            $amount = $this->printPrice($te - $ti);
         }
 
         $customFields = CustomFields::select(['crm_customfields.*', 'crm_customfieldsvalues.fvalue as value'])

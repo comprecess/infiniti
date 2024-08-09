@@ -14,13 +14,16 @@ use App\Http\Resources\Resident\Client\ClientPdfResource;
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\Client\ClientView;
 use App\Http\Resources\Resident\Client\CompanyResource;
+use App\Http\Resources\Resident\Client\CompanyView\TransactionResource;
 use App\Http\Resources\Resident\Client\GroupResource;
+use App\Http\Resources\Resident\DocumentResource;
 use App\Http\Resources\Resident\Settings\CurrencyResorce;
 use App\Http\Resources\Resident\Settings\CustomFieldsResource;
 use App\Http\Resources\UserResource;
 use App\Models\Log;
 use App\Models\Resident\Client\Company;
 use App\Models\Resident\Client\Group;
+use App\Models\Resident\Document;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\CustomFields;
@@ -173,6 +176,8 @@ class ClientController extends ResidentController
 
         $data['type']['invoices'] = $client->invoices()->count();
         $data['type']['quotes'] = $client->offers()->count();
+        $data['type']['files'] = $client->documents()->count();
+        $data['type']['log'] = $client->logs()->count();
 
         return response()->json($data);
     }
@@ -219,6 +224,24 @@ class ClientController extends ResidentController
                 'cancelledAmount' => $invoicesCur->printPrice($invoices->cancelled_amount, $currency),
                 'invoice' => ClientView\InvoiceResource::collection($invoices),
             ]);
+    }
+
+    private function quotesGet()
+    {
+        return ClientView\OffercResource::collection($this->client?->offers);
+    }
+
+    private function filesGet()
+    {
+        return response()->json([
+           'clientFiles' =>  DocumentResource::collection($this->client->documents()->wherePivot('rtype', 'contact')->get()),
+           'addFiles' => DocumentResource::collection(Document::all())
+        ]);
+    }
+
+    private function transactionsGet()
+    {
+        return TransactionResource::collection($this->client->transaction()->get());
     }
 
 

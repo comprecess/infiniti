@@ -22,8 +22,8 @@ class TransactionResource extends JsonResource
             'status' => $this->status,
             'amount' => $this->printPrice('amount'),
             'description' => $this->description,
-            'dr' => $this->dr,
-            'cr' => $this->cr,
+            'dr' => $this->printPrice('dr'),
+            'cr' => $this->printPrice('cr'),
             'bal' => $this->bal,
         ];
     }

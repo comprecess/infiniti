@@ -23,7 +23,7 @@ class Offer extends Model
 
     public function getCode()
     {
-        return $this->invoicenum . $this->cn ?? $this->id;
+        return $this->invoicenum . ($this->cn ?? $this->id);
     }
 
     public function user()
