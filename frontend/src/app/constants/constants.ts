@@ -361,3 +361,26 @@ export interface ViewListPagesAndInfo {
   phone: string
   type: { [key: string]: number | null }
 }
+
+export interface ViewSummaryTypeData {
+  id: number
+  account: string
+  company: string
+  address: string
+  amount: string
+  autologin: null
+  group: string
+  balance: string
+  city: string
+  country: string
+  tags: string
+  customFields: [{ id: number; name: string; value: string }]
+  email: string
+  notes: string
+  phone: string
+  primaryContact: number
+  state: string
+  totalExpense: number
+  totalProfit: number
+  zip: string
+}

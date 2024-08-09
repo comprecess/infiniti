@@ -151,6 +151,10 @@ export const AdminCustomContactFields: FC = () => {
   }
 
   useEffect(() => {
+    document.title = 'infiniti | Custom Fields'
+  }, [])
+
+  useEffect(() => {
     getFieldsData()
   }, [])
 
