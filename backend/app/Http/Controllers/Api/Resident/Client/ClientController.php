@@ -221,7 +221,7 @@ class ClientController extends ResidentController
                 'invoiceAmount' => $invoicesCur->printPrice($invoices->invoice_amount, $currency),
                 'paidAmount' => $invoicesCur->printPrice($invoices->paid_amount, $currency),
                 'unpaidAmount' => $invoicesCur->printPrice($invoices->unpaid_amount, $currency),
-                'cancelledAmount' => $invoicesCur->printPrice($invoices->cancelled_amount, $currency),
+//                'cancelledAmount' => $invoicesCur->printPrice($invoices->cancelled_amount, $currency),
                 'invoice' => ClientView\InvoiceResource::collection($invoices),
             ]);
     }

@@ -19,8 +19,8 @@ class OffercResource extends JsonResource
             'code' => $this->getCode(),
             'account' => $this->account,
             'total' => $this->printPrice('total'),
-            'dateCreated' => $this->datecreated->format('Y-m-d'),
-            'validUntil' => $this->validuntil->format('Y-m-d'),
+            'dateCreated' => $this->datecreated->format('d/m/Y'),
+            'validUntil' => $this->validuntil->format('d/m/Y'),
             'stage' => $this->stage,
         ];
     }
