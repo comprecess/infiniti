@@ -19,8 +19,8 @@ class InvoiceResource extends JsonResource
             'code' => $this->getCode(),
             'account' => $this->user?->account,
             'total' => $this->transformPrice('total', null, true),
-            'date' => $this->date,
-            'dueDate' => $this->duedate,
+            'date' => $this->date->format('d/m/Y'),
+            'dueDate' => $this->duedate->format('d/m/Y'),
             'status' => $this->status,
        ];
     }
