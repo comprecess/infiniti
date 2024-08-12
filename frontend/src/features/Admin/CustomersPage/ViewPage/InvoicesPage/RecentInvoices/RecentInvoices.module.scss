@@ -1,0 +1,58 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 850px;
+  overflow-y: hidden;
+}
+
+.columns {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  padding: 8px 12px 8px 12px;
+  border-radius: 8px;
+  align-items: center;
+  background-color: $brand-800;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.codeColumn,
+.accountColumn,
+.amountColumn,
+.invoiceDateColumn,
+.dueDateColumn,
+.statusColumn,
+.manageColumn {
+  width: 100%;
+}
+
+.manageColumn {
+  max-width: 125px;
+  text-align: right;
+}
+
+.codeColumn {
+  max-width: 100px;
+}
+
+.accountColumn {
+  min-width: 190px;
+  max-width: 220px;
+}
+
+.amountColumn,
+.invoiceDateColumn,
+.dueDateColumn {
+  max-width: 200px;
+}
+
+.statusColumn {
+  max-width: 150px;
+}

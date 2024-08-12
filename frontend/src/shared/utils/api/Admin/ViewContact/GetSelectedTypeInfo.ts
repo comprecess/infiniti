@@ -24,7 +24,7 @@ export const getSelectedTypeInfo = async (id: number, type: string) => {
 
       const data = await response.json()
 
-      return data.data
+      return data
     } catch (error) {
       return false
     }

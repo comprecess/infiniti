@@ -14,15 +14,16 @@ import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './SummaryPage.module.scss'
 
 export const AdminContactSummaryPage: FC = () => {
-  const [profileInfo, setProfileInfo] =
-    useState<ViewSummaryTypeData | null>(null)
+  const [profileInfo, setProfileInfo] = useState<ViewSummaryTypeData | null>(
+    null,
+  )
 
   const id = useOutletContext<number>()
 
   const getInfoProfile = async () => {
     const getResponse = await getSelectedTypeInfo(id, 'summary')
 
-    setProfileInfo(getResponse)
+    setProfileInfo(getResponse.data)
   }
 
   const onChangeInput = (
@@ -54,26 +55,14 @@ export const AdminContactSummaryPage: FC = () => {
             <div className={styles.wrapperInfo}>
               <div className={styles.infoContainer}>
                 <div>
-                  <InfoItem
-                    title='Full Name: '
-                    value={profileInfo.account}
-                  />
-                  <InfoItem
-                    title='Company Name:'
-                    value={profileInfo.company}
-                  />
+                  <InfoItem title='Full Name: ' value={profileInfo.account} />
+                  <InfoItem title='Company Name:' value={profileInfo.company} />
                   <InfoItem title='Email:' value={profileInfo.email} />
                   <InfoItem title='Phone:' value={profileInfo.phone} />
                   <InfoItem title='Address:' value={profileInfo.address} />
                   <InfoItem title='City:' value={profileInfo.city} />
-                  <InfoItem
-                    title='State/Region:'
-                    value={profileInfo.state}
-                  />
-                  <InfoItem
-                    title='ZIP/Postal Code:'
-                    value={profileInfo.zip}
-                  />
+                  <InfoItem title='State/Region:' value={profileInfo.state} />
+                  <InfoItem title='ZIP/Postal Code:' value={profileInfo.zip} />
                   <InfoItem title='Country:' value={profileInfo.country} />
                   <InfoItem title='Tags:' value={profileInfo.tags} />
                   <InfoItem title='Group:' value={profileInfo.group} />
@@ -129,10 +118,7 @@ export const AdminContactSummaryPage: FC = () => {
                 {profileInfo.balance}
               </h5>
               <div className={styles.balanceButtons}>
-                <ButtonBlue
-                  title='Add Fund'
-                  style={styles.buttonBalance}
-                />
+                <ButtonBlue title='Add Fund' style={styles.buttonBalance} />
                 <ButtonBlue
                   title='Return Fund'
                   style={`${styles.buttonReturnFund} ${styles.buttonBalance}`}
@@ -163,9 +149,7 @@ export const AdminContactSummaryPage: FC = () => {
               </div>
             </div>
             <div className={styles.accountingSummaryWrapper}>
-              <h5 className={styles.accountingTitle}>
-                Accounting Summary
-              </h5>
+              <h5 className={styles.accountingTitle}>Accounting Summary</h5>
               <div className={styles.accountingList}>
                 <AccountingItem
                   title='Total Income'

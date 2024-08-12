@@ -31,8 +31,9 @@ export const AdminViewPage: FC = () => {
   const [isOpenSideBar, setIsOpenSideBar] = useState<boolean>(true)
   const [isMobile, setIsMobile] = useState<boolean>(false)
 
-  const [pagesAndInfo, setPagesAndInfo] =
-    useState<ViewListPagesAndInfo | null>(null)
+  const [pagesAndInfo, setPagesAndInfo] = useState<ViewListPagesAndInfo | null>(
+    null,
+  )
 
   const navigate = useNavigate()
 
@@ -121,15 +122,18 @@ export const AdminViewPage: FC = () => {
               className={
                 isMobile
                   ? isOpenSideBar
-                    ? styles.sideBarActive
-                    : styles.sideBarClosed
-                  : styles.sidebar
+                    ? styles.sidebarWrapperActive
+                    : styles.sidebarWrapperDisable
+                  : ''
               }
             >
-              <SideBar
-                data={pagesAndInfo}
-                isActive={isMobile && isOpenSideBar}
-              />
+              <div className={styles.sideBarOverFlow}>
+                <SideBar
+                  data={pagesAndInfo}
+                  isActive={isMobile && isOpenSideBar}
+                  openCloseSidebar={handleOpenCloseSidebar}
+                />
+              </div>
             </div>
             <main className={styles.content}>
               <div className={styles.openSidebarWrapper}>
@@ -139,9 +143,7 @@ export const AdminViewPage: FC = () => {
                 >
                   <ArrowBackGroundIcon />
                 </div>
-                <h4 className={styles.accountName}>
-                  {pagesAndInfo.account}
-                </h4>
+                <h4 className={styles.accountName}>{pagesAndInfo.account}</h4>
               </div>
               <Outlet context={id} />
             </main>

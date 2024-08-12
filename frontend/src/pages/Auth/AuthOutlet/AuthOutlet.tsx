@@ -33,13 +33,13 @@ export const AuthOutlet: FC = () => {
                 </h1>
                 <span className={styles.description}>
                   We&apos;re decentralized IT teams. We help to realize the
-                  talents of our residents, create IT products for the
-                  global market and lead our clients to their financial
-                  goals by shortest possible way.
+                  talents of our residents, create IT products for the global
+                  market and lead our clients to their financial goals by
+                  shortest possible way.
                 </span>
                 <span className={styles.description}>
-                  We create product of your dream in an incubation ambience
-                  full of digital care.
+                  We create product of your dream in an incubation ambience full
+                  of digital care.
                 </span>
               </div>
             </div>

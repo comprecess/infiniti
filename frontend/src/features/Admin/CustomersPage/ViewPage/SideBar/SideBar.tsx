@@ -9,9 +9,14 @@ import styles from './SideBar.module.scss'
 interface SideBarProps {
   data: ViewListPagesAndInfo
   isActive: boolean
+  openCloseSidebar: () => void
 }
 
-export const SideBar: FC<SideBarProps> = ({ data, isActive }) => {
+export const SideBar: FC<SideBarProps> = ({
+  data,
+  isActive,
+  openCloseSidebar,
+}) => {
   const [activeItem, setActiveItem] = useState<number>(0)
 
   const location = useLocation()
@@ -34,12 +39,11 @@ export const SideBar: FC<SideBarProps> = ({ data, isActive }) => {
   const handleItemClick = (index: number, page: string) => {
     setActiveItem(index === activeItem ? 0 : index)
     navigate(page)
+    openCloseSidebar()
   }
 
   return (
-    <div
-      className={isActive ? styles.wrapperActive : styles.wrapperDisable}
-    >
+    <div className={isActive ? styles.wrapperActive : styles.wrapperDisable}>
       <img
         src={data.img ? data.img : '/profileWithoutAvatar.svg'}
         alt='Avatar'

@@ -5,29 +5,38 @@ import styleItem from '../InvoicesPage.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
-  id: string
+  id: number
+  code: string
   customer: string
   amount: string
   invoiceDate: string
   dueDate: string
   status: string
+  onClick: (id: number) => void
 }
 
 export const Item: FC<ItemProps> = ({
   id,
+  code,
   customer,
   amount,
   invoiceDate,
   dueDate,
   status,
+  onClick,
 }) => {
+  const onClickItem = () => {
+    onClick(id)
+  }
+
   return (
     <div className={styles.wrapper}>
       <span className={`${styleItem.hashTagColumn} ${styles.hashTagItem}`}>
-        {id}
+        {code}
       </span>
       <span
         className={`${styleItem.customerColumn} ${styles.customerItem}`}
+        onClick={onClickItem}
       >
         {customer}
       </span>

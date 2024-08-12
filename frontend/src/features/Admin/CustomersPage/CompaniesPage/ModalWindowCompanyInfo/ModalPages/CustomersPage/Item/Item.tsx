@@ -8,15 +8,23 @@ interface ItemProps {
   name: string
   email: string
   phone: string
+  onClick: (id: number) => void
 }
 
-export const Item: FC<ItemProps> = ({ id, name, email, phone }) => {
+export const Item: FC<ItemProps> = ({ id, name, email, phone, onClick }) => {
+  const onItemClick = () => {
+    onClick(id)
+  }
+
   return (
     <div className={styles.wrapper}>
       <span className={`${styleItem.hashTagColumn} ${styles.hashTagItem}`}>
         {id}
       </span>
-      <span className={`${styleItem.nameColumn} ${styles.nameItem}`}>
+      <span
+        className={`${styleItem.nameColumn} ${styles.nameItem}`}
+        onClick={onItemClick}
+      >
         {name}
       </span>
       <span className={`${styleItem.emailColumn} ${styles.emailItem}`}>

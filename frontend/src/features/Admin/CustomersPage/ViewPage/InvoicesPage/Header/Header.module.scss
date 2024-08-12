@@ -1,0 +1,41 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.buttonsList {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 12px;
+
+  @include mobileBreakpoint('max', $bpS) {
+    flex-direction: column;
+  }
+}
+
+.buttonNewInvoices,
+.buttonNewRecurring {
+  height: 44px;
+}
+
+.buttonNewInvoices {
+  width: 150px;
+}
+
+.buttonNewRecurring {
+  width: 225px;
+}
+
+.totalInvoiceAmount {
+  color: $mint-700;
+}
+
+.totalPaidAmount {
+  color: $cherry-600;
+}
+
+.totalUnPaidAmount {
+  color: $brand-400;
+}

@@ -13,15 +13,15 @@ interface InvoicesPageProps {
 }
 
 export const InvoicesPage: FC<InvoicesPageProps> = ({ id }) => {
-  const [invoices, setInvoices] = useState<InvoicesViewCompany[] | null>(
-    null,
-  )
+  const [invoices, setInvoices] = useState<InvoicesViewCompany[] | null>(null)
 
   const getInvoices = async () => {
     const getResponse = await getPage(id, 'invoices')
 
     setInvoices(getResponse.data)
   }
+
+  const handleNavigate = () => {}
 
   useEffect(() => {
     getInvoices()
@@ -36,10 +36,7 @@ export const InvoicesPage: FC<InvoicesPageProps> = ({ id }) => {
               <Title title='#' style={styles.hashTagColumn} />
               <Title title='Customer' style={styles.customerColumn} />
               <Title title='Amount' style={styles.amountColumn} />
-              <Title
-                title='Invoice Date'
-                style={styles.invoiceDateColumn}
-              />
+              <Title title='Invoice Date' style={styles.invoiceDateColumn} />
               <Title title='Due Date' style={styles.dueDateColumn} />
               <Title title='Status' style={styles.statusColumn} />
               <Title title='Manage' style={styles.manageColumn} />
@@ -49,12 +46,14 @@ export const InvoicesPage: FC<InvoicesPageProps> = ({ id }) => {
                 return (
                   <React.Fragment key={item.id}>
                     <Item
-                      id={item.code}
+                      id={item.id}
+                      code={item.code}
                       customer={item.account}
                       amount={item.total}
                       invoiceDate={item.date}
                       dueDate={item.dueDate}
                       status={item.status}
+                      onClick={handleNavigate}
                     />
                     {index !== invoices.length - 1 && <CustomDivider />}
                   </React.Fragment>
