@@ -384,3 +384,21 @@ export interface ViewSummaryTypeData {
   totalProfit: number
   zip: string
 }
+
+export interface ViewInvoicesTypeData {
+  listStatus: []
+  invoiceAmount: string
+  paidAmount: string
+  unpaidAmount: string
+  invoice: ViewInvoicesProps[]
+}
+
+export interface ViewInvoicesProps {
+  id: number
+  code: string
+  account: string
+  total: string
+  date: string
+  dueDate: string
+  status: string
+}

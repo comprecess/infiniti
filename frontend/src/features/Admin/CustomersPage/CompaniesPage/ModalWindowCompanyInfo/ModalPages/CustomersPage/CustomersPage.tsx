@@ -1,6 +1,8 @@
 import React, { FC, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { CustomersViewCompany } from '../../../../../../../app/constants/constants'
+import { Routes } from '../../../../../../../app/router/routes'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
@@ -14,14 +16,31 @@ interface CustomersPageProps {
 }
 
 export const CustomersPage: FC<CustomersPageProps> = ({ id }) => {
-  const [customers, setCustomers] = useState<
-  CustomersViewCompany[] | null
-  >(null)
+  const [customers, setCustomers] = useState<CustomersViewCompany[] | null>(
+    null,
+  )
+
+  const navigate = useNavigate()
 
   const getCustomers = async () => {
     const getResponse = await getPage(id, 'customers')
 
     setCustomers(getResponse.data)
+  }
+
+  const handleNavigate = (id: number) => {
+    navigate(
+      '/' +
+        Routes.adminPages +
+        '/' +
+        Routes.customers +
+        '/' +
+        Routes.view +
+        '/' +
+        id +
+        '/' +
+        Routes.summary,
+    )
   }
 
   useEffect(() => {
@@ -53,6 +72,7 @@ export const CustomersPage: FC<CustomersPageProps> = ({ id }) => {
                       name={item.account}
                       email={item.email}
                       phone={item.phone}
+                      onClick={handleNavigate}
                     />
                     {index !== customers.length - 1 && <CustomDivider />}
                   </React.Fragment>

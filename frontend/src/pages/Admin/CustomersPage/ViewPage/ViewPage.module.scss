@@ -21,6 +21,7 @@
 
 .sidebarOverlay {
   position: fixed;
+  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
@@ -30,29 +31,41 @@
   overflow: hidden;
 }
 
-.sideBarActive,
-.sideBarClosed {
+.sidebarWrapperActive,
+.sidebarWrapperDisable {
   @include mobileBreakpoint('max', $bpXL) {
     position: fixed;
+    top: 0;
     left: 0;
-    width: 252px;
+    width: 262px;
     height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
+    padding-bottom: 100px;
+    padding-top: 100px;
     transition: transform 0.3s ease;
-    transform: translateX(-252px);
+    transform: translateX(-262px);
     background-color: $brand-1000;
   }
 
   z-index: 899;
 }
 
-.sideBarActive {
-  transform: translateX(10px);
+.sidebarWrapperActive {
+  transform: translateX(0);
 }
 
-.sideBarClosed {
-  transform: translateX(-252px);
+.sidebarWrapperDisable {
+  transform: translateX(-262px);
+}
+
+.sideBarOverFlow {
+  @include mobileBreakpoint('max', $bpXL) {
+    width: 262px;
+    height: 100%;
+    padding-left: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: $brand-1000;
+  }
 }
 
 .openSidebarWrapper {

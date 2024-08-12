@@ -34,31 +34,21 @@ export const Item: FC<ItemProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <span
-        className={`${styleItem.groupNameColumn} ${styles.groupNameItem}`}
-      >
+      <span className={`${styleItem.groupNameColumn} ${styles.groupNameItem}`}>
         {groupName}
       </span>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
         <button className={styles.buttonEdit} onClick={handleEditGroup}>
-          <img src='/icons/edit.svg' alt='Star' className={styles.icon} />
+          <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
         </button>
         <button
           className={styles.buttonList}
           onClick={handleNavigateToListContacts}
         >
-          <img
-            src='/icons/users.svg'
-            alt='Users'
-            className={styles.icon}
-          />
+          <img src='/icons/users.svg' alt='Users' className={styles.icon} />
         </button>
         <button className={styles.buttonTrash} onClick={handleDeleteGroup}>
-          <img
-            src='/icons/trash.svg'
-            alt='Trash'
-            className={styles.icon}
-          />
+          <img src='/icons/trash.svg' alt='Trash' className={styles.icon} />
         </button>
       </div>
     </div>
