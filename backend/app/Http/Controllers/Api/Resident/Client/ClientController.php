@@ -235,7 +235,7 @@ class ClientController extends ResidentController
     {
         return response()->json([
            'clientFiles' =>  DocumentResource::collection($this->client->documents()->wherePivot('rtype', 'contact')->get()),
-           'addFiles' => DocumentResource::collection(Document::all())
+           'listFiles' => DocumentResource::collection(Document::all())
         ]);
     }
 
