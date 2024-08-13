@@ -173,10 +173,9 @@ class ClientController extends ResidentController
         $type = ClientViewRequest::TYPE;
         $typesValue = array_fill(0, count($type), null);
         $data['type'] = array_combine($type, $typesValue);
-
         $data['type']['invoices'] = $client->invoices()->count();
         $data['type']['quotes'] = $client->offers()->count();
-        $data['type']['files'] = $client->documents()->count();
+        $data['type']['files'] = $client->documents()->wherePivot('rtype', 'contact')->count();
         $data['type']['log'] = $client->logs()->count();
 
         return response()->json($data);
