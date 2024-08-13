@@ -16,6 +16,7 @@ class OffercResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'subject' => $this->subject,
             'code' => $this->getCode(),
             'account' => $this->account,
             'total' => $this->printPrice('total'),
