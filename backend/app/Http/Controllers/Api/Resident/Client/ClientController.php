@@ -241,7 +241,7 @@ class ClientController extends ResidentController
 
     private function transactionsGet()
     {
-        return TransactionResource::collection($this->client->transaction()->get());
+        return TransactionResource::collection($this->client->transaction()->with(['payer', 'payee'])->get());
     }
 
 
