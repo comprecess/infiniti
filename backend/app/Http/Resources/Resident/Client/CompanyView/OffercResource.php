@@ -18,6 +18,7 @@ class OffercResource extends JsonResource
             'id' => $this->id,
             'code' => $this->getCode(),
             'account' => $this->account,
+            'client' => new ClientResource($this->user),
             'total' => $this->printPrice('total'),
             'dateCreated' => $this->datecreated->format('Y-m-d'),
             'validUntil' => $this->validuntil->format('Y-m-d'),

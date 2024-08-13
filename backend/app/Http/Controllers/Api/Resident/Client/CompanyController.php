@@ -101,20 +101,22 @@ class CompanyController extends Controller
             [
                 'with' => ['invoices'],
                 'response' => CompanyView\InvoiceResource::class,
-                'withDop' => ['invoices.getCurrencyIso'],
+                'withDop' => ['invoices.getCurrencyIso', 'invoices.user'],
             ],
             [
                 'with' => ['offers'],
                 'response' => CompanyView\OffercResource::class,
-                'withDop' => ['offers.getCurrencyIso'],
+                'withDop' => ['offers.getCurrencyIso', 'offers.user'],
             ],
             [
                 'with' => ['orders'],
-                'response' => CompanyView\OrderResource::class
+                'response' => CompanyView\OrderResource::class,
+                'withDop' => ['orders.user'],
             ],
             [
                 'with' => ['transactionPayer', 'transactionPayee'],
-                'response' => CompanyView\TransactionResource::class
+                'response' => CompanyView\TransactionResource::class,
+                'withDop' => ['transactionPayer.payerUser', 'transactionPayee.payeeUser'],
             ],
         ];
 

@@ -18,6 +18,7 @@ class InvoiceResource extends JsonResource
         return [
             'id' => $this->id,
             'code' => $this->getCode(),
+            'client' => new ClientResource($this->user),
             'account' => $this->account,
             'total' => $this->printPrice('total'),
             'date' => $this->date->format('Y-m-d'),

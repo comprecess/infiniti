@@ -16,8 +16,11 @@ class TransactionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'date' => $this->date->format('Y-m-d'),
+            'date' => $this->date->format('d/m/Y'),
             'account' => $this->account,
+            'client' => $this->payerid ? new ClientResource($this->payerUser) : new ClientResource($this->payeeUser),
+            'payerid' => $this->payerid,
+            'payeeid' => $this->payeeid,
             'type' => $this->type,
             'status' => $this->status,
             'amount' => $this->printPrice('amount'),

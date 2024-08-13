@@ -19,6 +19,7 @@ class OrderResource extends JsonResource
             'orderNum' => $this->ordernum,
             'dateAdded' => $this->date_added->format('d/m/Y'),
             'account' => $this->cname,
+            'client' => new ClientResource($this->user),
             'amount' => $this->amount,
             'status' => $this->status,
         ];

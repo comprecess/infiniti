@@ -22,13 +22,13 @@ class Transaction extends Model
     ];
 
     //Плательщик
-    public function payer()
+    public function payerUser()
     {
         return $this->belongsTo(Client::class, 'payerid');
     }
 
     //получатель платежа
-    public function payee()
+    public function payeeUser()
     {
         return $this->belongsTo(Client::class, 'payeeid');
     }
