@@ -16,6 +16,10 @@ class Log extends Model
 
     protected ?User $user = null;
 
+    protected $casts = [
+        'date' => 'datetime',
+    ];
+
     public function setUser(User $user)
     {
         $this->user = $user;

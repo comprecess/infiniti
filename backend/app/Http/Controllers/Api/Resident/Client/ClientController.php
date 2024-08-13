@@ -174,6 +174,7 @@ class ClientController extends ResidentController
         $typesValue = array_fill(0, count($type), null);
         $data['type'] = array_combine($type, $typesValue);
         $data['type']['invoices'] = $client->invoices()->count();
+        $data['type']['transactions'] = $client->transaction()->count();
         $data['type']['quotes'] = $client->offers()->count();
         $data['type']['files'] = $client->documents()->wherePivot('rtype', 'contact')->count();
         $data['type']['log'] = $client->logs()->count();
@@ -240,7 +241,12 @@ class ClientController extends ResidentController
 
     private function transactionsGet()
     {
-        return TransactionResource::collection($this->client->transaction()->with(['payer', 'payee'])->get());
+        return TransactionResource::collection($this->client->transaction()->with(['payerUser', 'payeeUser'])->get());
+    }
+
+    private function logGet()
+    {
+        return ClientView\LogResource::collection($this->client->logs()->orderBy('id', 'desc')->get());
     }
 
 
