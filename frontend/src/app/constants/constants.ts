@@ -277,6 +277,7 @@ export interface CustomersViewCompany {
 export interface InvoicesViewCompany {
   id: number
   account: string
+  client: { id: number }
   code: string
   total: string
   date: string
@@ -287,6 +288,7 @@ export interface InvoicesViewCompany {
 export interface OffersViewCompany {
   id: number
   account: string
+  client: { id: number }
   code: string
   total: string
   dateCreated: string
@@ -299,6 +301,7 @@ export interface OrdersViewCompany {
   orderNum: string
   dateAdded: string
   account: string
+  client: { id: number }
   amount: string
   status: string
 }
@@ -401,4 +404,49 @@ export interface ViewInvoicesProps {
   date: string
   dueDate: string
   status: string
+}
+
+export interface ViewOffersTypeData {
+  id: number
+  account: string
+  subject: string
+  code: string
+  dateCreated: string
+  stage: string
+  total: string
+  validUntil: string
+}
+
+export interface ViewFilesTypeData {
+  clientFiles: ViewFileProps[]
+  listFiles: ViewFileProps[]
+}
+
+export interface ViewFileProps {
+  id: number
+  global: number
+  title: string
+  type: string
+}
+
+export interface ViewLogTypeData {
+  id: number
+  description: string
+  ip: string
+  time: string
+}
+
+export interface ViewTransactionsTypeData {
+  id: number
+  account: string
+  amount: string
+  bal: string
+  cr: string
+  date: string
+  description: string
+  dr: string
+  payeeid: number
+  payerid: number
+  status: string
+  type: string
 }

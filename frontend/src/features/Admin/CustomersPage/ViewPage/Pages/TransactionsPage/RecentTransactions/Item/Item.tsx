@@ -1,23 +1,19 @@
 import { FC } from 'react'
 
-import styleItem from '../TransactionsPage.module.scss'
+import styleItem from '../RecentTransactions.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
-  code: number
   date: string
   account: string
   type: string
   amount: string
-  status: string
   description: string
   dr: string
   cr: string
-  bal: string
 }
 
 export const Item: FC<ItemProps> = ({
-  code,
   date,
   account,
   type,
@@ -25,13 +21,9 @@ export const Item: FC<ItemProps> = ({
   description,
   dr,
   cr,
-  bal,
 }) => {
   return (
     <div className={styles.wrapper}>
-      <span className={`${styleItem.hashTagColumn} ${styles.hashTagItem}`}>
-        {code}
-      </span>
       <span className={`${styleItem.dateColumn} ${styles.dateItem}`}>
         {date}
       </span>
@@ -51,12 +43,9 @@ export const Item: FC<ItemProps> = ({
       </span>
       <span className={`${styleItem.drColumn} ${styles.drItem}`}>{dr}</span>
       <span className={`${styleItem.crColumn} ${styles.crItem}`}>{cr}</span>
-      <span className={`${styleItem.balanceColumn} ${styles.balanceItem}`}>
-        {bal}
-      </span>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
         <button className={styles.buttonEdit}>
-          <img src='/icons/edit.svg' alt='Star' className={styles.icon} />
+          <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
         </button>
       </div>
     </div>

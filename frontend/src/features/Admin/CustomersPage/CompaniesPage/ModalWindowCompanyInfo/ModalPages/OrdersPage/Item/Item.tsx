@@ -1,22 +1,35 @@
 import { FC } from 'react'
 
-import { OrdersViewCompany } from '../../../../../../../../app/constants/constants'
 import { Status } from '../../../../../../../../shared/ui/Status/Status'
 import styleItem from '../OrdersPage.module.scss'
 import styles from './Item.module.scss'
 
-export const Item: FC<OrdersViewCompany> = ({
+interface ItemProps {
+  id: number
+  orderNum: string
+  dateAdded: string
+  account: string
+  amount: string
+  status: string
+  onClick: (id: number) => void
+}
+
+export const Item: FC<ItemProps> = ({
+  id,
   orderNum,
   dateAdded,
   account,
   amount,
   status,
+  onClick,
 }) => {
+  const onClickItem = () => {
+    onClick(id)
+  }
+
   return (
     <div className={styles.wrapper}>
-      <span
-        className={`${styleItem.hashTagColumn} ${styles.orderNumItem}`}
-      >
+      <span className={`${styleItem.hashTagColumn} ${styles.orderNumItem}`}>
         {orderNum}
       </span>
       <span className={`${styleItem.dateColumn} ${styles.dateAddedItem}`}>
@@ -24,6 +37,7 @@ export const Item: FC<OrdersViewCompany> = ({
       </span>
       <span
         className={`${styleItem.customerColumn} ${styles.accountItem}`}
+        onClick={onClickItem}
       >
         {account}
       </span>

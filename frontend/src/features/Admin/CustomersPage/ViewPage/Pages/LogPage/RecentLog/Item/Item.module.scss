@@ -1,0 +1,18 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 10px 12px 10px 12px;
+}
+
+.timeItem,
+.ipItem,
+.descriptionItem {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $white;
+}
