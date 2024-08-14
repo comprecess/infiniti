@@ -1,0 +1,12 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.buttonSubmit {
+  max-width: 125px;
+  height: 44px;
+}

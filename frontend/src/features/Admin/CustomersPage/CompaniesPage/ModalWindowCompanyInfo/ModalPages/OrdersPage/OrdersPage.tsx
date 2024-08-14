@@ -1,6 +1,8 @@
 import React, { FC, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { OrdersViewCompany } from '../../../../../../../app/constants/constants'
+import { Routes } from '../../../../../../../app/router/routes'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/GetPage'
@@ -15,10 +17,27 @@ interface OrdersPageProps {
 export const OrdersPage: FC<OrdersPageProps> = ({ id }) => {
   const [orders, setOrders] = useState<OrdersViewCompany[] | null>(null)
 
+  const navigate = useNavigate()
+
   const getOrders = async () => {
     const getResponse = await getPage(id, 'orders')
 
     setOrders(getResponse.data)
+  }
+
+  const handleNavigate = (id: number) => {
+    navigate(
+      '/' +
+        Routes.adminPages +
+        '/' +
+        Routes.customers +
+        '/' +
+        Routes.view +
+        '/' +
+        id +
+        '/' +
+        Routes.summary,
+    )
   }
 
   useEffect(() => {
@@ -42,12 +61,13 @@ export const OrdersPage: FC<OrdersPageProps> = ({ id }) => {
                 return (
                   <React.Fragment key={item.id}>
                     <Item
-                      id={item.id}
+                      id={item.client.id}
                       orderNum={item.orderNum}
                       dateAdded={item.dateAdded}
                       account={item.account}
                       amount={item.amount}
                       status={item.status}
+                      onClick={handleNavigate}
                     />
                     {index !== orders.length - 1 && <CustomDivider />}
                   </React.Fragment>

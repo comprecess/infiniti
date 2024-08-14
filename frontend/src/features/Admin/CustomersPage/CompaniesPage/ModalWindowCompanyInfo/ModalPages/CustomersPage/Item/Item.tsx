@@ -4,22 +4,22 @@ import styleItem from '../CustomersPage.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
-  id: number
+  code: number
   name: string
   email: string
   phone: string
   onClick: (id: number) => void
 }
 
-export const Item: FC<ItemProps> = ({ id, name, email, phone, onClick }) => {
+export const Item: FC<ItemProps> = ({ code, name, email, phone, onClick }) => {
   const onItemClick = () => {
-    onClick(id)
+    onClick(code)
   }
 
   return (
     <div className={styles.wrapper}>
       <span className={`${styleItem.hashTagColumn} ${styles.hashTagItem}`}>
-        {id}
+        {code}
       </span>
       <span
         className={`${styleItem.nameColumn} ${styles.nameItem}`}

@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { ButtonBlue } from '../../../../../../shared/ui/ButtonBlue/ButtonBlue'
+import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { TotalItem } from '../TotalItem/TotalItem'
 import styles from './Header.module.scss'
 

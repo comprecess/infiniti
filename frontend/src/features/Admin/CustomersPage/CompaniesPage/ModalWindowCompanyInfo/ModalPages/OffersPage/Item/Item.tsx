@@ -1,31 +1,49 @@
 import { FC } from 'react'
 
-import { OffersViewCompany } from '../../../../../../../../app/constants/constants'
 import { Status } from '../../../../../../../../shared/ui/Status/Status'
 import styleItem from '../OffersPage.module.scss'
 import styles from './Item.module.scss'
 
-export const Item: FC<OffersViewCompany> = ({
+interface ItemProps {
+  id: number
+  code: number
+  account: string
+  subject: string
+  total: string
+  dateCreated: string
+  validUntil: string
+  stage: string
+  onClick: (id: number) => void
+}
+
+export const Item: FC<ItemProps> = ({
   id,
-  account,
   code,
+  account,
+  subject,
   total,
   dateCreated,
   validUntil,
   stage,
+  onClick,
 }) => {
+  const onClickItem = () => {
+    onClick(id)
+  }
+
   return (
     <div className={styles.wrapper}>
       <span className={`${styleItem.hashTagColumn} ${styles.hashTagItem}`}>
-        {id}
+        {code}
       </span>
       <span
         className={`${styleItem.customerColumn} ${styles.customerItem}`}
+        onClick={onClickItem}
       >
         {account}
       </span>
       <span className={`${styleItem.subjectColumn} ${styles.subjectItem}`}>
-        {code}
+        {subject}
       </span>
       <span className={`${styleItem.amountColumn} ${styles.amountItem}`}>
         {total}

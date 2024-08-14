@@ -1,6 +1,8 @@
 import React, { FC, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { OffersViewCompany } from '../../../../../../../app/constants/constants'
+import { Routes } from '../../../../../../../app/router/routes'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/GetPage'
@@ -15,10 +17,27 @@ interface OffersPageProps {
 export const OffersPage: FC<OffersPageProps> = ({ id }) => {
   const [offers, setOffers] = useState<OffersViewCompany[] | null>(null)
 
+  const navigate = useNavigate()
+
   const getOffers = async () => {
     const getResponse = await getPage(id, 'quotes')
 
     setOffers(getResponse.data)
+  }
+
+  const handleNavigate = (id: number) => {
+    navigate(
+      '/' +
+        Routes.adminPages +
+        '/' +
+        Routes.customers +
+        '/' +
+        Routes.view +
+        '/' +
+        id +
+        '/' +
+        Routes.summary,
+    )
   }
 
   useEffect(() => {
@@ -35,10 +54,7 @@ export const OffersPage: FC<OffersPageProps> = ({ id }) => {
               <Title title='Customer' style={styles.customerColumn} />
               <Title title='Subject' style={styles.subjectColumn} />
               <Title title='Amount' style={styles.amountColumn} />
-              <Title
-                title='Date Created'
-                style={styles.dateCreatedColumn}
-              />
+              <Title title='Date Created' style={styles.dateCreatedColumn} />
               <Title title='Expiry Date' style={styles.expiryDateColumn} />
               <Title title='Stage' style={styles.stageColumn} />
               <Title title='Manage' style={styles.manageColumn} />
@@ -48,13 +64,15 @@ export const OffersPage: FC<OffersPageProps> = ({ id }) => {
                 return (
                   <React.Fragment key={item.id}>
                     <Item
-                      id={item.id}
+                      id={item.client.id}
+                      code={item.id}
                       account={item.account}
-                      code={item.code}
+                      subject={item.code}
                       total={item.total}
                       dateCreated={item.dateCreated}
                       validUntil={item.validUntil}
                       stage={item.stage}
+                      onClick={handleNavigate}
                     />
                     {index !== offers.length - 1 && <CustomDivider />}
                   </React.Fragment>

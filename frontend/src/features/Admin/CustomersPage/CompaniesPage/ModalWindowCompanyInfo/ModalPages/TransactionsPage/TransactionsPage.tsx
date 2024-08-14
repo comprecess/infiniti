@@ -38,10 +38,7 @@ export const TransactionsPage: FC<TransactionsPageProps> = ({ id }) => {
               <Title title='Account' style={styles.accountColumn} />
               <Title title='Type' style={styles.typeColumn} />
               <Title title='Amount' style={styles.amountColumn} />
-              <Title
-                title='Description'
-                style={styles.descriptionColumn}
-              />
+              <Title title='Description' style={styles.descriptionColumn} />
               <Title title='Dr.' style={styles.drColumn} />
               <Title title='Cr' style={styles.crColumn} />
               <Title title='Balance' style={styles.balanceColumn} />
@@ -52,7 +49,7 @@ export const TransactionsPage: FC<TransactionsPageProps> = ({ id }) => {
                 return (
                   <React.Fragment key={item.id}>
                     <Item
-                      id={item.id}
+                      code={item.id}
                       date={item.date}
                       account={item.account}
                       type={item.type}
@@ -63,9 +60,7 @@ export const TransactionsPage: FC<TransactionsPageProps> = ({ id }) => {
                       cr={item.cr}
                       bal={item.bal}
                     />
-                    {index !== transactions.length - 1 && (
-                      <CustomDivider />
-                    )}
+                    {index !== transactions.length - 1 && <CustomDivider />}
                   </React.Fragment>
                 )
               })}

@@ -1,6 +1,8 @@
 import React, { FC, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { InvoicesViewCompany } from '../../../../../../../app/constants/constants'
+import { Routes } from '../../../../../../../app/router/routes'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/GetPage'
@@ -15,13 +17,28 @@ interface InvoicesPageProps {
 export const InvoicesPage: FC<InvoicesPageProps> = ({ id }) => {
   const [invoices, setInvoices] = useState<InvoicesViewCompany[] | null>(null)
 
+  const navigate = useNavigate()
+
   const getInvoices = async () => {
     const getResponse = await getPage(id, 'invoices')
 
     setInvoices(getResponse.data)
   }
 
-  const handleNavigate = () => {}
+  const handleNavigate = (id: number) => {
+    navigate(
+      '/' +
+        Routes.adminPages +
+        '/' +
+        Routes.customers +
+        '/' +
+        Routes.view +
+        '/' +
+        id +
+        '/' +
+        Routes.summary,
+    )
+  }
 
   useEffect(() => {
     getInvoices()
@@ -46,7 +63,7 @@ export const InvoicesPage: FC<InvoicesPageProps> = ({ id }) => {
                 return (
                   <React.Fragment key={item.id}>
                     <Item
-                      id={item.id}
+                      id={item.client.id}
                       code={item.code}
                       customer={item.account}
                       amount={item.total}

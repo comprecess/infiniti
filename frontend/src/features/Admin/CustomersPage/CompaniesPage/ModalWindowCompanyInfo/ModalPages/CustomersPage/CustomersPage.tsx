@@ -68,7 +68,7 @@ export const CustomersPage: FC<CustomersPageProps> = ({ id }) => {
                 return (
                   <React.Fragment key={item.id}>
                     <Item
-                      id={item.id}
+                      code={item.id}
                       name={item.account}
                       email={item.email}
                       phone={item.phone}

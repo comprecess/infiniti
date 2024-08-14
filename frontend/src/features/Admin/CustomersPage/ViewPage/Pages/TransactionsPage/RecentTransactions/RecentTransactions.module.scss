@@ -1,0 +1,53 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 1000px;
+  overflow-y: hidden;
+}
+
+.columns {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  padding: 8px 12px 8px 12px;
+  border-radius: 8px;
+  align-items: center;
+  background-color: $brand-800;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.dateColumn,
+.accountColumn,
+.typeColumn,
+.amountColumn,
+.descriptionColumn,
+.drColumn,
+.crColumn,
+.manageColumn {
+  width: 100%;
+}
+
+.dateColumn,
+.accountColumn,
+.typeColumn,
+.amountColumn,
+.drColumn,
+.crColumn {
+  max-width: 140px;
+}
+
+.descriptionColumn {
+  max-width: 310px;
+}
+
+.manageColumn {
+  max-width: 70px;
+  text-align: right;
+}

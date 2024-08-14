@@ -1,36 +1,38 @@
 import { FC } from 'react'
 
-import { ViewInvoicesProps } from '../../../../../../../app/constants/constants'
-import { Status } from '../../../../../../../shared/ui/Status/Status'
-import styleItem from '../RecentInvoices.module.scss'
+import { ViewOffersTypeData } from '../../../../../../../../app/constants/constants'
+import { Status } from '../../../../../../../../shared/ui/Status/Status'
+import styleItem from '../RecentOffers.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
-  item: ViewInvoicesProps
+  item: ViewOffersTypeData
 }
 
 export const Item: FC<ItemProps> = ({ item }) => {
   return (
     <div className={styles.wrapper}>
       <span className={`${styleItem.codeColumn} ${styles.codeItem}`}>
-        {item.code}
+        {item.id}
       </span>
-      <span className={`${styleItem.accountColumn} ${styles.accountItem}`}>
-        {item.account}
+      <span className={`${styleItem.subjectColumn} ${styles.subjectItem}`}>
+        {item.subject}
       </span>
       <span className={`${styleItem.amountColumn} ${styles.amountItem}`}>
         {item.total}
       </span>
       <span
-        className={`${styleItem.invoiceDateColumn} ${styles.invoiceDateItem}`}
+        className={`${styleItem.dateCreatedColumn} ${styles.dateCreatedItem}`}
       >
-        {item.date}
+        {item.dateCreated}
       </span>
-      <span className={`${styleItem.dueDateColumn} ${styles.dueDateItem}`}>
-        {item.dueDate}
+      <span
+        className={`${styleItem.dateExpiryColumn} ${styles.dateExpiryItem}`}
+      >
+        {item.validUntil}
       </span>
-      <div className={styleItem.statusColumn}>
-        <Status title={item.status} status={item.status} />
+      <div className={styleItem.stageColumn}>
+        <Status title={item.stage} status={item.stage} />
       </div>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
         <button className={styles.buttonView}>
