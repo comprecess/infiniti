@@ -42,6 +42,15 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
         'customer', 'supplier'
     ];
 
+    protected $casts = [
+        'lastlogin' => 'datetime',
+    ];
+
+    public function getColumnLastTime()
+    {
+        return 'lastlogin';
+    }
+
     public function checkCart()
     {
         $cookieCart = request()->cookie('ib_cart_secret');
@@ -171,11 +180,13 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
     public function checkedPassword()
     {
         $this->checkCart();
-
+        $lastLogin = $this->lastlogin;
         $this->lastlogin = now();
 
         if(request()->is('api/*')) {
-            $this->setApiToken();
+            if(!$this->isLastTime(false)) {
+                $this->setApiToken();
+            }
         } else {
             Auth::guard('Client')->loginUsingId($this->id, true);
             $this->token = Str::random(20) . md5(time());

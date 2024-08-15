@@ -14,6 +14,15 @@ class Admin extends User implements LoginIntarface
 
     protected $nameClass = 'Admin';
 
+    protected $casts = [
+        'last_login' => 'datetime',
+    ];
+
+    public function getColumnLastTime()
+    {
+        return 'last_login';
+    }
+
 
     public function login($username, $password)
     {
@@ -25,10 +34,13 @@ class Admin extends User implements LoginIntarface
 
     public function checkedPassword()
     {
+        $lastLogin = $this->last_login;
         $this->last_login = now();
 
         if(request()->is('api/*')) {
-            $this->setApiToken();
+            if(!$this->isLastTime(false)) {
+                $this->setApiToken();
+            }
         }
 
         $this->save();
