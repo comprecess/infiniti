@@ -18,7 +18,6 @@ class ClientViewRequest extends FormRequest
         "files",
         "transactions",
         "email",
-        "email",
         "log",
         "client-password-manager",
 //        "credit_card_info",
@@ -37,6 +36,11 @@ class ClientViewRequest extends FormRequest
         return [
             'type' => "in:" . implode(",", self::TYPE),
         ];
+    }
+
+    public function getType()
+    {
+        return preg_replace('/[^a-z]/', '', $this->type);
     }
 
 

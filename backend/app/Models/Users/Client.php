@@ -7,7 +7,9 @@ use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Log;
 use App\Models\Resident\Client\Activity;
 use App\Models\Resident\Client\Company;
+use App\Models\Resident\Client\EmailLog;
 use App\Models\Resident\Client\Group;
+use App\Models\Resident\Client\PasswordManager;
 use App\Models\Resident\Document;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Invoices\Offer;
@@ -92,6 +94,16 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
     public function orders()
     {
         return $this->hasMany(Order::class, 'cid');
+    }
+
+    public function emailLog()
+    {
+        return $this->hasMany(EmailLog::class, 'userid');
+    }
+
+    public function passwordManager()
+    {
+        return $this->hasMany(PasswordManager::class, 'client_id');
     }
 
     public function logs()
@@ -219,5 +231,14 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
     public function getAutologin()
     {
         return $this->autologin ? route('autologin', [$this->autologin]) : null;
+    }
+
+    public function getCustomFieldsValues()
+    {
+        return CustomFields::select(['crm_customfields.*', 'crm_customfieldsvalues.fvalue as value'])
+            ->leftJoin('crm_customfieldsvalues', function($join){
+                $join->on('crm_customfieldsvalues.fieldid', '=', 'crm_customfields.id')->where('crm_customfieldsvalues.relid', $this->id);
+            })
+            ->get();
     }
 }
