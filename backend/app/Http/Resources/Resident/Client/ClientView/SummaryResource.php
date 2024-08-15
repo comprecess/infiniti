@@ -23,12 +23,6 @@ class SummaryResource extends JsonResource
             $amount = $this->printPrice($te - $ti);
         }
 
-        $customFields = CustomFields::select(['crm_customfields.*', 'crm_customfieldsvalues.fvalue as value'])
-            ->leftJoin('crm_customfieldsvalues', function($join){
-                $join->on('crm_customfieldsvalues.fieldid', '=', 'crm_customfields.id')->where('crm_customfieldsvalues.relid', $this->id);
-            })
-            ->get();
-
         $data = [
             'id' => $this->id,
             'account' => $this->account,
@@ -46,7 +40,7 @@ class SummaryResource extends JsonResource
             'notes' => $this->notes,
             'balance' => $this->printPrice('balance'),
             'autologin' => $this->getAutologin(),
-            'customFields' => CustomFieldsResource::collection($customFields),
+            'customFields' => CustomFieldsResource::collection($this->getCustomFieldsValues()),
             'totalProfit' => $this->printPrice($ti),
             'totalExpense' => $this->printPrice($te),
             'amount' => $amount

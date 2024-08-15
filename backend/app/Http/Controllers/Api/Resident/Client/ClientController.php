@@ -188,10 +188,10 @@ class ClientController extends ResidentController
         return $this->viewObject($request, $request->getMethod());
     }
 
-    private function viewObject($request, $prefix = "Get")
+    private function viewObject(ClientViewRequest $request, $prefix = "Get")
     {
         $prefix = ucfirst(strtolower($prefix));
-        $method = $request->type . $prefix;
+        $method = $request->getType() . $prefix;
 
         if(!method_exists($this, $method)) {
             abort(404);
@@ -244,9 +244,24 @@ class ClientController extends ResidentController
         return TransactionResource::collection($this->client->transaction()->with(['payerUser', 'payeeUser'])->get());
     }
 
+    private function emailGet()
+    {
+        return ClientView\EmailLogResource::collection($this->client->emailLog()->orderBy('id', 'desc')->get());
+    }
+
     private function logGet()
     {
         return ClientView\LogResource::collection($this->client->logs()->orderBy('id', 'desc')->get());
+    }
+
+    private function clientpasswordmanagerGet()
+    {
+        return ClientView\PasswordManagerResource::collection($this->client->passwordManager()->orderBy('id', 'desc')->get());
+    }
+
+    private function moreGet()
+    {
+        return ClientView\CustomFieldsResource::collection($this->client->getCustomFieldsValues());
     }
 
 
