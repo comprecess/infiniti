@@ -72,4 +72,20 @@ class AuthController extends Controller
         }
     }
 
+    public function autologin(Request $request)
+    {
+        $client = Client::where('autologin', $request->route('autologin'))->orderBy('id', 'desc')->first();
+        if($client) {
+            if(!$client->api_token) {
+                $client->setApiToken();
+            }
+            $client->{$client->getColumnLastTime()} = now();
+            $client->save();
+
+            return response()->json(['token' => $client->api_token, 'message' => 'You are logged in']);
+        }
+
+        return response()->json(['message' => __('login.autologin')], 403);
+    }
+
 }

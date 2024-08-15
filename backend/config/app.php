@@ -187,6 +187,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'authtime' => \App\Http\Middleware\Auth\AuthenticateLastTime::class
     ])->toArray(),
 
     'rtl' => env('RTL', 0),

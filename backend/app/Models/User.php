@@ -19,6 +19,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, AuthPasswordTrait, FileStorageTrait;
 
+    protected $authHours = 168;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -66,6 +68,17 @@ class User extends Authenticatable
             $this->failPassword();
             return false;
         }
+    }
+
+    public function isLastTime($save = true) :bool
+    {
+        $nameColumn = $this->getColumnLastTime();
+        $last = now()->subHours($this->authHours) < $this->{$nameColumn};
+        if($last && $save) {
+            $this->{$nameColumn} = now();
+            $this->save();
+        }
+        return $last;
     }
 
     public static function getAuth()

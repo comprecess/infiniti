@@ -13,8 +13,9 @@ Route::group(['prefix' => 'client',], function(){
     Route::get('/input-data', [Client\ClientController::class, 'inputData']);
     Route::post('/', [Client\ClientController::class, 'createOrUpdate']);
     Route::get('/{client}/view/', [Client\ClientController::class, 'getAllType']);
-    Route::get('/{client}/view/{type}', [Client\ClientController::class, 'type']);
-    Route::put('/{client}/view/{type}', [Client\ClientController::class, 'updateType']);
+    Route::match(['get', 'put'], '/{client}/view/{type}', [Client\ClientController::class, 'type']);
+//    Route::get('/{client}/view/{type}', [Client\ClientController::class, 'type']);
+//    Route::put('/{client}/view/{type}', [Client\ClientController::class, 'type']);
 
     #group
     Route::group(['prefix' => 'group'], function(){

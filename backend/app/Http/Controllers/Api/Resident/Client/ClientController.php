@@ -197,7 +197,12 @@ class ClientController extends ResidentController
             abort(404);
         }
 
-        return $this->{$method}();
+        $result = $this->{$method}($request);
+        if($result === null) {
+            return response()->json(['success' => true]);
+        }
+
+        return $result;
     }
 
     private function summaryGet()
@@ -262,6 +267,26 @@ class ClientController extends ResidentController
     private function moreGet()
     {
         return ClientView\CustomFieldsResource::collection($this->client->getCustomFieldsValues());
+    }
+
+    #put
+    private function summaryPut($request)
+    {
+        $data = $request->all();
+        if(isset($data['primaryContact']) && in_array($request->primaryContact, [0, 1])) {
+            $this->client->is_primary_contact = $data['primaryContact'];
+        }
+
+        if(isset($data['notes'])) {
+            $this->client->notes = $data['notes'];
+        }
+
+        if(isset($data['autologin'])) {
+            $this->client->autologin = $data['autologin'] ? str()->random(64) : null;
+        }
+
+        $this->client->save();
+
     }
 
 
