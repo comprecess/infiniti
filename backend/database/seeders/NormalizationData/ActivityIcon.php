@@ -17,6 +17,7 @@ class ActivityIcon
         'fal fa-reply' => 'reply',
         'fal fa-tasks' => 'task',
         'fal fa-truck' => 'truck',
+        'fal fa-check' => 'check'
     ];
 
     protected $listData = null;
