@@ -36,7 +36,6 @@
   text-align: left;
   white-space: pre-wrap;
   word-wrap: break-word;
-  touch-action: manipulation;
   font-family: $fontSpaceGrotesk;
 }
 .ql-editor > * {
@@ -392,6 +391,7 @@
   content: attr(data-placeholder);
   font-style: italic;
   pointer-events: none;
+  touch-action: manipulation;
   position: absolute;
 }
 .ql-snow.ql-toolbar:after,
