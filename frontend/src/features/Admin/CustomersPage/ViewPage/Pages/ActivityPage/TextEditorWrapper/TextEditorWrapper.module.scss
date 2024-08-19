@@ -1,0 +1,70 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.iconsListAndPost {
+  display: flex;
+  flex-direction: row;
+
+  @include mobileBreakpoint('min', $bpL) {
+    justify-content: space-between;
+  }
+
+  @include mobileBreakpoint('max', $bpL) {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.iconsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 8px;
+  min-height: 42px;
+  background-color: $brand-800;
+
+  @include mobileBreakpoint('min', $bpS) {
+    justify-content: space-between;
+  }
+
+  @include mobileBreakpoint('max', $bpS) {
+    flex-direction: row;
+  }
+}
+
+.iconButton {
+  width: 22px;
+  height: 22px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.iconStroke,
+.iconFill {
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.iconStroke {
+  * {
+    stroke: $gray-400;
+  }
+}
+
+.iconFill {
+  * {
+    fill: $gray-400;
+  }
+}
+
+.buttonBlue {
+  height: 44px;
+}

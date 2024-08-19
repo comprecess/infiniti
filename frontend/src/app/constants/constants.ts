@@ -450,3 +450,21 @@ export interface ViewTransactionsTypeData {
   status: string
   type: string
 }
+
+export interface ViewActivityTypeData {
+  id: number
+  admin: AdminInfo
+  client: UserInfo
+  date: string
+  icon: string
+  message: string
+  time: string
+}
+
+export interface ViewPasswordManagerTypeData {
+  id: number
+  name: string
+  url: string
+  username: string
+  password: string
+}
