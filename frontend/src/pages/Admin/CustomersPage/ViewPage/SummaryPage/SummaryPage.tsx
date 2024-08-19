@@ -113,7 +113,9 @@ export const AdminContactSummaryPage: FC = () => {
             </div>
             <div className={styles.balanceContainer}>
               <h5 className={styles.balanceText}>
-                Balance: {profileInfo.balance}
+                Balance:
+                {' '}
+                {profileInfo.balance}
               </h5>
               <div className={styles.balanceButtons}>
                 <ButtonBlue title='Add Fund' style={styles.buttonBalance} />
