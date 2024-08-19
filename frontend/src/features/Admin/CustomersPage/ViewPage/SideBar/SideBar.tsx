@@ -50,7 +50,9 @@ export const SideBar: FC<SideBarProps> = ({
         className={styles.avatar}
       />
       <div className={styles.info}>
-        <span className={styles.email}>{data.email}</span>
+        <span className={styles.email} contentEditable={false}>
+          {data.email}
+        </span>
         {data.phone && <span className={styles.phone}>{data.phone}</span>}
       </div>
       <div className={styles.pagesList}>

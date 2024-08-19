@@ -36,6 +36,7 @@
   text-align: left;
   white-space: pre-wrap;
   word-wrap: break-word;
+  touch-action: manipulation;
   font-family: $fontSpaceGrotesk;
 }
 .ql-editor > * {
