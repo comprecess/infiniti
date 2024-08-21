@@ -17,6 +17,18 @@ class FilesRequest extends FormRequest
 
     public function rules(): array
     {
+        if($this->method() == 'DELETE') {
+            $this->merge(['id' => $this->route('id')]);
+            return [
+                'id' => [
+                    'required',
+//                    Rule::unique('ib_doc_rel','did')->where('rid', $this->route('client')->id)->where('rtype', Document::TYPE_CONTACT),
+//                    'exists:sys_documents,id',
+                    Rule::exists('ib_doc_rel', 'did')->where('rid', $this->route('client')->id)->where('rtype', Document::TYPE_CONTACT)
+                ]
+            ];
+
+        }
 
         return [
 //            'id' => "required|unique:ib_doc_rel,did",

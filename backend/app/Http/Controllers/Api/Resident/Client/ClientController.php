@@ -213,8 +213,15 @@ class ClientController extends ResidentController
         return new ClientView\SummaryResource($this->client->load(['group', 'companyClient', 'transactionPayer', 'transactionPayee']));
     }
 
-    private function activityGet()
+    private function activityGet($request)
     {
+        if($id = $request->route('id')) {
+            $activity = $this->client?->activity()->with(['admin','client'])->where('id', $id)->first();
+            if(!$activity) {
+                abort(404);
+            }
+            return new ClientView\ActivityResource($activity);
+        }
         return ClientView\ActivityResource::collection($this->client?->activity()->with(['admin','client'])->orderByDesc('id')->get());
     }
 
@@ -342,6 +349,14 @@ class ClientController extends ResidentController
     {
         $activity = Activity::findOrFail($request->route('id'));
         $activity->delete();
+    }
+
+    private function filesDelete()
+    {
+        $requestData = app(FilesRequest::class);
+//        $this->client->documents()->attach($requestData->id, ['rtype' => Document::TYPE_CONTACT]);
+//        dd($this->client->documents()->where('ib_doc_rel.id', $requestData->id)->toRawSql());
+        $this->client->documents()/*->where('ib_doc_rel.id', $requestData->id)*/->detach([$requestData->id]);
     }
 
 
