@@ -13,6 +13,11 @@ export interface FiltersState {
   [key: string]: (number | null)[]
 }
 
+export interface ViewPageContext {
+  idClient: number
+  idType: number
+}
+
 export interface UpdateProfileInfoProps {
   account: string
   email: string
@@ -386,6 +391,14 @@ export interface ViewSummaryTypeData {
   totalExpense: number
   totalProfit: number
   zip: string
+}
+
+export interface SummaryPageUpdateInfo {
+  primaryContact: boolean
+  notes: string
+  autologin: boolean
+  addAmount: string
+  returnAmount: string
 }
 
 export interface ViewInvoicesTypeData {

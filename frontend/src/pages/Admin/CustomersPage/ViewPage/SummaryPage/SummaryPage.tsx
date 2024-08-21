@@ -1,42 +1,139 @@
 import { Textarea } from '@chakra-ui/react'
-import { FC, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useRef, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
-import { ViewSummaryTypeData } from '../../../../../app/constants/constants'
+import {
+  SummaryPageUpdateInfo,
+  ViewPageContext,
+  ViewSummaryTypeData,
+} from '../../../../../app/constants/constants'
 import { AccountingItem } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/SummaryPage/AccountingItem/AccountingItem'
+import { AddFundModal } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/SummaryPage/AddFundModal/AddFundModal'
 import { InfoItem } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/SummaryPage/InfoItem/InfoItem'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSwitch } from '../../../../../shared/ui/CustomSwitch/CustomSwitch'
+import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/GetSelectedTypeInfo'
+import { updateAllInfo } from '../../../../../shared/utils/api/Admin/ViewContact/Summary/UpdateAllInfo'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './SummaryPage.module.scss'
 
+export interface PartialFieldsPostData
+  extends Partial<SummaryPageUpdateInfo> {
+  [key: string]: string | boolean | undefined | number | null
+}
+
 export const AdminContactSummaryPage: FC = () => {
-  const [profileInfo, setProfileInfo] = useState<ViewSummaryTypeData | null>(
-    null,
-  )
+  const [profileInfo, setProfileInfo] =
+    useState<ViewSummaryTypeData | null>(null)
+  const [updateInfo, setUpdateInfo] = useState<PartialFieldsPostData>({})
 
-  const id = useOutletContext<number>()
+  const [addFundModal, setAddFundModal] = useState<boolean>(false)
+  const [returnFundModal, setReturnFundModal] = useState<boolean>(false)
 
-  const getInfoProfile = async () => {
-    const getResponse = await getSelectedTypeInfo(id, 'summary')
+  const context = useOutletContext<ViewPageContext>()
+  const showToast = useCustomToast()
+  const timerRef = useRef<number | null>(null)
 
+  const openCloseAddFundModal = () => {
+    setAddFundModal(!addFundModal)
+  }
+
+  const openCloseReturnFundModal = () => {
+    setReturnFundModal(!returnFundModal)
+  }
+
+  const getInfoProfile = useCallback(async () => {
+    const getResponse = await getSelectedTypeInfo(
+      context.idClient,
+      'summary',
+    )
     setProfileInfo(getResponse.data)
+  }, [context.idClient])
+
+  const updateData = useCallback(async () => {
+    const updateResponse = await updateAllInfo(
+      context.idClient,
+      'summary',
+      updateInfo,
+    )
+
+    if (updateResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully changed your information',
+        status: 'success',
+      })
+      getInfoProfile()
+    } else {
+      showToast({
+        title: 'Error',
+        description: updateResponse.message,
+        status: 'error',
+      })
+    }
+  }, [updateInfo])
+
+  const changeToBooleanInt = (item: boolean): number => {
+    return item === true ? 1 : 0
   }
 
   const onChangeInput = (
     name: string,
-    value: string | number | boolean | null | undefined,
+    value: string | boolean | undefined | number | null,
   ) => {
-    console.log(name, value)
+    if (typeof value === 'boolean') {
+      value = changeToBooleanInt(value)
+    }
+
+    if (name === 'notes') {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+      }
+
+      timerRef.current = window.setTimeout(() => {
+        setUpdateInfo(prev => ({
+          ...prev,
+          [name]: value as string,
+        }))
+      }, 2500)
+    } else {
+      setUpdateInfo(prev => ({
+        ...prev,
+        [name]: value,
+      }))
+    }
+  }
+
+  const AddAndReturnFund = async (name: string, value: string) => {
+    const updateResponse = await updateAllInfo(
+      context.idClient,
+      'summary',
+      { [name]: value },
+    )
+
+    if (updateResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully changed your information',
+        status: 'success',
+      })
+      getInfoProfile()
+    } else {
+      showToast({
+        title: 'Error',
+        description: updateResponse.message,
+        status: 'error',
+      })
+    }
   }
 
   const handleTextAreaChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
-    onChangeInput('nameText', event.target.value)
+    onChangeInput('notes', event.target.value)
   }
 
   useEffect(() => {
@@ -45,7 +142,13 @@ export const AdminContactSummaryPage: FC = () => {
 
   useEffect(() => {
     getInfoProfile()
-  }, [id])
+  }, [context.idClient])
+
+  useEffect(() => {
+    if (Object.keys(updateInfo).length > 0) {
+      updateData()
+    }
+  }, [updateInfo, updateData])
 
   return (
     <div className={styles.wrapper}>
@@ -55,14 +158,26 @@ export const AdminContactSummaryPage: FC = () => {
             <div className={styles.wrapperInfo}>
               <div className={styles.infoContainer}>
                 <div>
-                  <InfoItem title='Full Name: ' value={profileInfo.account} />
-                  <InfoItem title='Company Name:' value={profileInfo.company} />
+                  <InfoItem
+                    title='Full Name: '
+                    value={profileInfo.account}
+                  />
+                  <InfoItem
+                    title='Company Name:'
+                    value={profileInfo.company}
+                  />
                   <InfoItem title='Email:' value={profileInfo.email} />
                   <InfoItem title='Phone:' value={profileInfo.phone} />
                   <InfoItem title='Address:' value={profileInfo.address} />
                   <InfoItem title='City:' value={profileInfo.city} />
-                  <InfoItem title='State/Region:' value={profileInfo.state} />
-                  <InfoItem title='ZIP/Postal Code:' value={profileInfo.zip} />
+                  <InfoItem
+                    title='State/Region:'
+                    value={profileInfo.state}
+                  />
+                  <InfoItem
+                    title='ZIP/Postal Code:'
+                    value={profileInfo.zip}
+                  />
                   <InfoItem title='Country:' value={profileInfo.country} />
                   <InfoItem title='Tags:' value={profileInfo.tags} />
                   <InfoItem title='Group:' value={profileInfo.group} />
@@ -74,6 +189,7 @@ export const AdminContactSummaryPage: FC = () => {
                         Primary Contact?
                       </span>
                       <CustomSwitch
+                        titleOnChange='primaryContact'
                         isChecked={
                           profileInfo.primaryContact === 0 ? false : true
                         }
@@ -113,15 +229,18 @@ export const AdminContactSummaryPage: FC = () => {
             </div>
             <div className={styles.balanceContainer}>
               <h5 className={styles.balanceText}>
-                Balance:
-                {' '}
-                {profileInfo.balance}
+                Balance: {profileInfo.balance}
               </h5>
               <div className={styles.balanceButtons}>
-                <ButtonBlue title='Add Fund' style={styles.buttonBalance} />
+                <ButtonBlue
+                  title='Add Fund'
+                  style={styles.buttonBalance}
+                  onClick={openCloseAddFundModal}
+                />
                 <ButtonBlue
                   title='Return Fund'
                   style={`${styles.buttonReturnFund} ${styles.buttonBalance}`}
+                  onClick={openCloseReturnFundModal}
                 />
               </div>
             </div>
@@ -132,7 +251,7 @@ export const AdminContactSummaryPage: FC = () => {
                 name='autoLogin'
                 value={profileInfo.autologin || ''}
                 type='text'
-                onChange={onChangeInput}
+                onChange={() => {}}
               />
               <div className={styles.interactURL}>
                 <span className={styles.loginCustomerText}>
@@ -149,7 +268,9 @@ export const AdminContactSummaryPage: FC = () => {
               </div>
             </div>
             <div className={styles.accountingSummaryWrapper}>
-              <h5 className={styles.accountingTitle}>Accounting Summary</h5>
+              <h5 className={styles.accountingTitle}>
+                Accounting Summary
+              </h5>
               <div className={styles.accountingList}>
                 <AccountingItem
                   title='Total Income'
@@ -173,6 +294,22 @@ export const AdminContactSummaryPage: FC = () => {
       ) : (
         <LoadingSpinner size='xl' />
       )}
+      <AddFundModal
+        title='Add Fund'
+        name='addAmount'
+        buttonTitle='Add'
+        modalAddFundGroup={addFundModal}
+        handleOpenCloseModal={openCloseAddFundModal}
+        onSendValue={AddAndReturnFund}
+      />
+      <AddFundModal
+        title='Return Fund'
+        name='returnAmount'
+        buttonTitle='Return'
+        modalAddFundGroup={returnFundModal}
+        handleOpenCloseModal={openCloseReturnFundModal}
+        onSendValue={AddAndReturnFund}
+      />
     </div>
   )
 }

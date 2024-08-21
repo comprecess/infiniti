@@ -1,0 +1,46 @@
+.iconButton {
+  width: 22px;
+  height: 22px;
+  user-select: none;
+  cursor: pointer;
+
+  @include hover() {
+    .iconStrokeDisable * {
+      stroke: $gray-200;
+    }
+
+    .iconFillDisable * {
+      fill: $gray-200;
+    }
+  }
+}
+
+.iconStrokeActive,
+.iconFillActive,
+.iconStrokeDisable,
+.iconFillDisable {
+  * {
+    transition: all 0.1s ease;
+  }
+
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.iconStrokeActive * {
+  stroke: $gray-200;
+}
+
+.iconFillActive * {
+  fill: $gray-200;
+}
+
+.iconStrokeDisable * {
+  stroke: $gray-400;
+}
+
+.iconFillDisable * {
+  fill: $gray-400;
+}

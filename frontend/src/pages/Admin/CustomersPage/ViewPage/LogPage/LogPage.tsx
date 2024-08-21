@@ -1,7 +1,10 @@
 import { FC, useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
-import { ViewLogTypeData } from '../../../../../app/constants/constants'
+import {
+  ViewLogTypeData,
+  ViewPageContext,
+} from '../../../../../app/constants/constants'
 import { RecentLog } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/LogPage/RecentLog/RecentLog'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/GetSelectedTypeInfo'
@@ -11,10 +14,10 @@ import styles from './LogPage.module.scss'
 export const AdminContactLogPage: FC = () => {
   const [data, setData] = useState<ViewLogTypeData[] | null>(null)
 
-  const id = useOutletContext<number>()
+  const context = useOutletContext<ViewPageContext>()
 
   const getInfo = async () => {
-    const getResponse = await getSelectedTypeInfo(id, 'log')
+    const getResponse = await getSelectedTypeInfo(context.idClient, 'log')
 
     setData(getResponse.data)
   }
@@ -25,7 +28,7 @@ export const AdminContactLogPage: FC = () => {
 
   useEffect(() => {
     getInfo()
-  }, [id])
+  }, [context.idClient])
 
   return (
     <div className={styles.wrapper}>

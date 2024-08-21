@@ -1,7 +1,10 @@
 import { FC, useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
-import { ViewOffersTypeData } from '../../../../../app/constants/constants'
+import {
+  ViewOffersTypeData,
+  ViewPageContext,
+} from '../../../../../app/constants/constants'
 import { RecentOffers } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/OffersPage/RecentOffers/RecentOffers'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
@@ -12,10 +15,13 @@ import styles from './OffersPage.module.scss'
 export const AdminContactOffersPage: FC = () => {
   const [data, setData] = useState<ViewOffersTypeData[] | null>(null)
 
-  const id = useOutletContext<number>()
+  const context = useOutletContext<ViewPageContext>()
 
   const getInfo = async () => {
-    const getResponse = await getSelectedTypeInfo(id, 'quotes')
+    const getResponse = await getSelectedTypeInfo(
+      context.idClient,
+      'quotes',
+    )
 
     setData(getResponse.data)
   }
@@ -26,7 +32,7 @@ export const AdminContactOffersPage: FC = () => {
 
   useEffect(() => {
     getInfo()
-  }, [id])
+  }, [context.idClient])
 
   return (
     <div className={styles.wrapper}>
