@@ -1,7 +1,10 @@
 import { FC, useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
-import { ViewInvoicesTypeData } from '../../../../../app/constants/constants'
+import {
+  ViewInvoicesTypeData,
+  ViewPageContext,
+} from '../../../../../app/constants/constants'
 import { Header } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/InvoicesPage/Header/Header'
 import { RecentInvoices } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/InvoicesPage/RecentInvoices/RecentInvoices'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
@@ -12,10 +15,13 @@ import styles from './InvoicesPage.module.scss'
 export const AdminContactInvoicesPage: FC = () => {
   const [data, setData] = useState<ViewInvoicesTypeData | null>(null)
 
-  const id = useOutletContext<number>()
+  const context = useOutletContext<ViewPageContext>()
 
   const getInfo = async () => {
-    const getResponse = await getSelectedTypeInfo(id, 'invoices')
+    const getResponse = await getSelectedTypeInfo(
+      context.idClient,
+      'invoices',
+    )
 
     setData(getResponse)
   }
@@ -26,7 +32,7 @@ export const AdminContactInvoicesPage: FC = () => {
 
   useEffect(() => {
     getInfo()
-  }, [id])
+  }, [context.idClient])
 
   return (
     <div className={styles.wrapper}>

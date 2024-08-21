@@ -5,15 +5,29 @@ import { IconItem } from '../IconItem/IconItem'
 import styles from './Item.module.scss'
 
 interface ItemProps {
+  id: number
   account: string
   date: string
   icon: string
   message: string
   time: string
+  deleteSelectedActivity: (idType: number) => void
 }
 
-export const Item: FC<ItemProps> = ({ account, date, icon, message, time }) => {
+export const Item: FC<ItemProps> = ({
+  id,
+  account,
+  date,
+  icon,
+  message,
+  time,
+  deleteSelectedActivity,
+}) => {
   const safeHTML = DOMPurify.sanitize(message)
+
+  const handleClickDelete = () => {
+    deleteSelectedActivity(id)
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -34,9 +48,16 @@ export const Item: FC<ItemProps> = ({ account, date, icon, message, time }) => {
             />
             <div className={styles.buttonsList}>
               <button className={styles.buttonEdit}>
-                <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
+                <img
+                  src='/icons/edit.svg'
+                  alt='Edit'
+                  className={styles.icon}
+                />
               </button>
-              <button className={styles.buttonTrash}>
+              <button
+                className={styles.buttonTrash}
+                onClick={handleClickDelete}
+              >
                 <img
                   src='/icons/trash.svg'
                   alt='Trash'

@@ -1,7 +1,10 @@
 import { FC, useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
-import { ViewFilesTypeData } from '../../../../../app/constants/constants'
+import {
+  ViewFilesTypeData,
+  ViewPageContext,
+} from '../../../../../app/constants/constants'
 import { Header } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/FilesPage/Header/Header'
 import { RecentFiles } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/FilesPage/RecentFiles/RecentFiles'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
@@ -12,10 +15,13 @@ import styles from './FilesPage.module.scss'
 export const AdminContactFilesPage: FC = () => {
   const [data, setData] = useState<ViewFilesTypeData | null>(null)
 
-  const id = useOutletContext<number>()
+  const context = useOutletContext<ViewPageContext>()
 
   const getInfo = async () => {
-    const getResponse = await getSelectedTypeInfo(id, 'files')
+    const getResponse = await getSelectedTypeInfo(
+      context.idClient,
+      'files',
+    )
 
     setData(getResponse)
   }
@@ -30,14 +36,17 @@ export const AdminContactFilesPage: FC = () => {
 
   useEffect(() => {
     getInfo()
-  }, [id])
+  }, [context.idClient])
 
   return (
     <div className={styles.wrapper}>
       {data ? (
         <RecentCard
           HeaderComponent={Header}
-          headerProps={{ onChange: onChangeInput, groupsList: data.listFiles }}
+          headerProps={{
+            onChange: onChangeInput,
+            groupsList: data.listFiles,
+          }}
         >
           <RecentFiles list={data.clientFiles} />
         </RecentCard>

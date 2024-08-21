@@ -13,35 +13,110 @@ import { TaskIcon } from '../../../../../../../shared/icons/TaskIcon'
 import { TruckIcon } from '../../../../../../../shared/icons/TruckIcon'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { TextEditor } from '../../../../../../../shared/ui/TextEditor/TextEditor'
+import { Item } from './Item/Item'
 import styles from './TextEditorWrapper.module.scss'
 
 const iconsList = [
-  { id: 0, icon: CheckIcon, style: styles.iconStroke },
-  { id: 1, icon: EnvelopeIcon, style: styles.iconStroke },
-  { id: 2, icon: PhoneIcon, style: styles.iconStroke },
-  { id: 3, icon: PaperPlaneIcon, style: styles.iconStroke },
-  { id: 4, icon: PDFIcon, style: styles.iconStroke },
-  { id: 5, icon: LifebuoyIcon, style: styles.iconFill },
-  { id: 6, icon: CreditCardIcon, style: styles.iconStroke },
-  { id: 7, icon: LocationArrowIcon, style: styles.iconStroke },
-  { id: 8, icon: ReplyIcon, style: styles.iconStroke },
-  { id: 9, icon: TaskIcon, style: styles.iconStroke },
-  { id: 10, icon: TruckIcon, style: styles.iconStroke },
+  {
+    id: 0,
+    nameIcon: 'check',
+    icon: <CheckIcon />,
+    stroke: true,
+  },
+  {
+    id: 1,
+    nameIcon: 'envelope',
+    icon: <EnvelopeIcon />,
+    stroke: true,
+  },
+  {
+    id: 2,
+    nameIcon: 'phone',
+    icon: <PhoneIcon />,
+    stroke: true,
+  },
+  {
+    id: 3,
+    nameIcon: 'paperPlane',
+    icon: <PaperPlaneIcon />,
+    stroke: true,
+  },
+  {
+    id: 4,
+    nameIcon: 'pdf',
+    icon: <PDFIcon />,
+    stroke: true,
+  },
+  {
+    id: 5,
+    nameIcon: 'lifeRing',
+    icon: <LifebuoyIcon />,
+    stroke: false,
+  },
+  {
+    id: 6,
+    nameIcon: 'creditCard',
+    icon: <CreditCardIcon />,
+    stroke: true,
+  },
+  {
+    id: 7,
+    nameIcon: 'locationArrow',
+    icon: <LocationArrowIcon />,
+    stroke: true,
+  },
+  {
+    id: 8,
+    nameIcon: 'reply',
+    icon: <ReplyIcon />,
+    stroke: true,
+  },
+  {
+    id: 9,
+    nameIcon: 'task',
+    icon: <TaskIcon />,
+    stroke: true,
+  },
+  {
+    id: 10,
+    nameIcon: 'truck',
+    icon: <TruckIcon />,
+    stroke: true,
+  },
 ]
 
-export const TextEditorWrapper: FC = () => {
+interface TextEditorWrapperProps {
+  selectedIcon: string
+  setSelectedIcon: (nameIcon: string) => void
+  setMessage: (message: string) => void
+  addNewActivity: () => void
+}
+
+export const TextEditorWrapper: FC<TextEditorWrapperProps> = ({
+  selectedIcon,
+  setSelectedIcon,
+  setMessage,
+  addNewActivity,
+}) => {
+  const changeIcon = (nameIcon: string) => {
+    setSelectedIcon(nameIcon)
+  }
+
   return (
     <div className={styles.wrapper}>
-      <TextEditor placeholder='Add Activity...' />
+      <TextEditor placeholder='Add Activity...' setValue={setMessage} />
       <div className={styles.iconsListAndPost}>
         <div className={styles.iconsList}>
           {iconsList.map(item => {
-            const IconComponent = item.icon
-
             return (
-              <div key={item.id} className={styles.iconButton}>
-                <IconComponent style={item.style} />
-              </div>
+              <Item
+                key={item.id}
+                iconComponent={item.icon}
+                nameIcon={item.nameIcon}
+                isActive={selectedIcon === item.nameIcon}
+                isStroke={item.stroke}
+                onClick={changeIcon}
+              />
             )
           })}
         </div>
@@ -50,6 +125,7 @@ export const TextEditorWrapper: FC = () => {
             title='Add Activity'
             icon='/icons/plus.svg'
             style={styles.buttonBlue}
+            onClick={addNewActivity}
           />
         </div>
       </div>

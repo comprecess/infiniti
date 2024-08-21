@@ -1,6 +1,6 @@
 import './ThemeEditor.scss'
 
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import ReactQuill from 'react-quill'
 
 import styles from './TextEditor.module.scss'
@@ -36,19 +36,19 @@ const formats = [
 interface TextEditorProps {
   defaultValue?: string
   placeholder?: string
+  setValue: (message: string) => void
 }
 
 export const TextEditor: FC<TextEditorProps> = ({
-  defaultValue,
+  defaultValue = '',
   placeholder = '',
+  setValue,
 }) => {
-  const [value, setValue] = useState<string>(defaultValue || '')
-
   return (
     <div className={styles.wrapper}>
       <ReactQuill
         placeholder={placeholder}
-        value={value}
+        defaultValue={defaultValue}
         className={styles.editor}
         modules={modules}
         formats={formats}

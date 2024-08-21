@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'react'
 import styles from './CustomInput.module.scss'
 
 interface CustomInputProps {
-  title: string
+  title?: string
   id?: string
   name?: string
   type: string
@@ -38,9 +38,11 @@ export const CustomInput: FC<CustomInputProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <label htmlFor={id} className={styles.title}>
-        {title}
-      </label>
+      {title && (
+        <label htmlFor={id} className={styles.title}>
+          {title}
+        </label>
+      )}
       <div className={styles.wrapperInput}>
         <input
           id={id}
