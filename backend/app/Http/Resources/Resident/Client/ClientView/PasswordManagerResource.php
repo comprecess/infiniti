@@ -18,7 +18,7 @@ class PasswordManagerResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'url' => $this->name,
+            'url' => $this->url,
             'username' => $this->username,
             'password' => $this->password,
 

@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Client\ClientCreateRequest;
 use App\Http\Requests\Resident\Client\ClientListRequest;
 use App\Http\Requests\Resident\Client\ClientViewRequest;
+use App\Http\Requests\Resident\Client\View\ActivityRequest;
+use App\Http\Requests\Resident\Client\View\FilesRequest;
 use App\Http\Resources\Resident\Client\ClientExcelResource;
 use App\Http\Resources\Resident\Client\ClientPdfResource;
 use App\Http\Resources\Resident\Client\ClientResource;
@@ -21,6 +23,7 @@ use App\Http\Resources\Resident\Settings\CurrencyResorce;
 use App\Http\Resources\Resident\Settings\CustomFieldsResource;
 use App\Http\Resources\UserResource;
 use App\Models\Log;
+use App\Models\Resident\Client\Activity;
 use App\Models\Resident\Client\Company;
 use App\Models\Resident\Client\Group;
 use App\Models\Resident\Document;
@@ -285,9 +288,63 @@ class ClientController extends ResidentController
             $this->client->autologin = $data['autologin'] ? str()->random(64) : null;
         }
 
-        $this->client->save();
+        if(isset($data['addAmount']) || isset($data['returnAmount'])) {
+            $type = isset($data['addAmount']);
+            $amount = $type ? $data['addAmount'] : $data['returnAmount'];
 
+            $request->validateWithBag('put', [$type ? 'addAmount' : 'returnAmount' => 'numeric|min:0|not_in:0']);
+
+            $balancePrivate = $this->client->balance;
+            if($type) {
+                $newBalance = $balancePrivate + $amount;
+            } else {
+                $newBalance = $balancePrivate - $amount;
+            }
+            $this->client->balance = $newBalance;
+            Log::send(__('log.amount', ['amount' => $amount,'balancePrivate' => $balancePrivate, 'nameadmin' => auth()->user()->fullname, 'nameclient' => $this->client->account, 'newBalace' => $newBalance, 'id' => $this->client->id]), $this->client);
+        }
+
+        $this->client->save();
     }
+
+    private function activityPut($request)
+    {
+        $requestData = app(ActivityRequest::class);
+        $activity = Activity::findOrFail($request->route('id'));
+        $requestData->setModel($activity);
+        $activity->save();
+    }
+
+    private function filesPut()
+    {
+        $requestData = app(FilesRequest::class);
+        $this->client->documents()->attach($requestData->id, ['rtype' => Document::TYPE_CONTACT]);
+    }
+
+    #post
+    private function activityPost()
+    {
+        $requestData = app(ActivityRequest::class);
+        $activity = new Activity();
+        $requestData->setModel($activity);
+        $activity->o = auth()->id();
+        #delete old code
+        $activity->oname = auth()->user()->fullname;
+        $date = now();
+        $activity->stime = $date->timestamp;
+        $activity->sdate = $date;
+        #delete
+        $this->client->activity()->saveMany([$activity]);
+    }
+
+    #delete
+    private function activityDelete($request)
+    {
+        $activity = Activity::findOrFail($request->route('id'));
+        $activity->delete();
+    }
+
+
 
 
 
