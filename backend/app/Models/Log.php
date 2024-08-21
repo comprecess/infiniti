@@ -26,9 +26,9 @@ class Log extends Model
         return $this;
     }
 
-    public static function send($description, $type = null)
+    public static function send($description, ?User $userSet= null, $type = null)
     {
-        $user = User::getAuth();
+        $user = $userSet ?? User::getAuth();
         $log = new self();
         if($user) {
             $log->setUser($user);
