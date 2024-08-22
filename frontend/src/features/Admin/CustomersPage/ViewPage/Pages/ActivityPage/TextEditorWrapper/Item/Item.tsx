@@ -26,8 +26,8 @@ export const Item: FC<ItemProps> = ({
       ? styles.iconStrokeActive
       : styles.iconFillActive
     : isStroke
-    ? styles.iconStrokeDisable
-    : styles.iconFillDisable
+      ? styles.iconStrokeDisable
+      : styles.iconFillDisable
 
   return (
     <div className={styles.iconButton} onClick={handleClick}>

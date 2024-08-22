@@ -32,7 +32,7 @@ export const AdminContactActivityPage: FC = () => {
   const [selectedIdType, setSelectedIdType] = useState<number>(0)
 
   const [editActiveData, setEditActiveData] = useState<
-    EditActiveModalData | undefined
+  EditActiveModalData | undefined
   >()
 
   const [isEditActivityModal, setIsEditActivityModal] =

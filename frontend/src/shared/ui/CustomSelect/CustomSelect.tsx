@@ -67,9 +67,9 @@ export const CustomSelect: FC<CustomSelectProps> = ({
         focusBorderColor='brand.500'
         onChange={handleChange}
       >
-        {selectedList.map(item => {
+        {selectedList.map((item, index) => {
           return (
-            <option key={item} value={item}>
+            <option key={`${item}-${index}`} value={item}>
               {camelCase ? camelCaseToTitleCase(item) : item}
             </option>
           )

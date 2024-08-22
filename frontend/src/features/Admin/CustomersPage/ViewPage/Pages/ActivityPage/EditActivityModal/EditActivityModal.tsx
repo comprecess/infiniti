@@ -38,7 +38,7 @@ export const EditActivityModal: FC<EditActivityModalProps> = ({
   useEffect(() => {
     setValue(message || '')
     setImage(icon || '')
-  }, [message])
+  }, [message, icon])
 
   return (
     <CustomModalWindow

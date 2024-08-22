@@ -22,6 +22,12 @@ export const TypeFiles: FC<TypeFilesProps> = ({ type }) => {
     case 'zip':
       typeIcon = '/icons/zipFolder.svg'
       break
+    case 'txt':
+      typeIcon = '/icons/file.svg'
+      break
+    default:
+      typeIcon = '/icons/fileEmpty.svg'
+      break
   }
 
   return <img src={typeIcon} alt='Icon' className={styles.icon} />

@@ -8,9 +8,13 @@ import styles from './RecentFiles.module.scss'
 
 interface RecentFilesProps {
   list: ViewFileProps[]
+  deleteFile: (idType: number) => void
 }
 
-export const RecentFiles: FC<RecentFilesProps> = ({ list }) => {
+export const RecentFiles: FC<RecentFilesProps> = ({
+  list,
+  deleteFile,
+}) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -22,7 +26,12 @@ export const RecentFiles: FC<RecentFilesProps> = ({ list }) => {
         {list.map((item, index) => {
           return (
             <React.Fragment key={item.id}>
-              <Item type={item.type} title={item.title} />
+              <Item
+                idType={item.id}
+                type={item.type}
+                title={item.title}
+                deleteFile={deleteFile}
+              />
               {index !== list.length - 1 && <CustomDivider />}
             </React.Fragment>
           )
