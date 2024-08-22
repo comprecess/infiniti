@@ -12,6 +12,7 @@ interface ItemProps {
   message: string
   time: string
   deleteSelectedActivity: (idType: number) => void
+  editActivity: (idType: number, icon: string, message: string) => void
 }
 
 export const Item: FC<ItemProps> = ({
@@ -21,9 +22,14 @@ export const Item: FC<ItemProps> = ({
   icon,
   message,
   time,
+  editActivity,
   deleteSelectedActivity,
 }) => {
   const safeHTML = DOMPurify.sanitize(message)
+
+  const handleClickEdit = () => {
+    editActivity(id, icon, message)
+  }
 
   const handleClickDelete = () => {
     deleteSelectedActivity(id)
@@ -47,7 +53,10 @@ export const Item: FC<ItemProps> = ({
               className={styles.message}
             />
             <div className={styles.buttonsList}>
-              <button className={styles.buttonEdit}>
+              <button
+                className={styles.buttonEdit}
+                onClick={handleClickEdit}
+              >
                 <img
                   src='/icons/edit.svg'
                   alt='Edit'

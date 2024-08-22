@@ -54,7 +54,8 @@
 .ql-editor h6 {
   margin: 0;
   padding: 0;
-  counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+  counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8
+    list-9;
 }
 .ql-editor ol,
 .ql-editor ul {
@@ -110,7 +111,8 @@
   padding-right: 1.5em;
 }
 .ql-editor ol li {
-  counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
+  counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8
+    list-9;
   counter-increment: list-0;
 }
 .ql-editor ol li:before {
@@ -425,8 +427,6 @@
 }
 .ql-snow.ql-toolbar button:hover,
 .ql-snow .ql-toolbar button:hover,
-.ql-snow.ql-toolbar button:focus,
-.ql-snow .ql-toolbar button:focus,
 .ql-snow.ql-toolbar button.ql-active,
 .ql-snow .ql-toolbar button.ql-active,
 .ql-snow.ql-toolbar .ql-picker-label:hover,
@@ -442,8 +442,6 @@
 }
 .ql-snow.ql-toolbar button:hover .ql-fill,
 .ql-snow .ql-toolbar button:hover .ql-fill,
-.ql-snow.ql-toolbar button:focus .ql-fill,
-.ql-snow .ql-toolbar button:focus .ql-fill,
 .ql-snow.ql-toolbar button.ql-active .ql-fill,
 .ql-snow .ql-toolbar button.ql-active .ql-fill,
 .ql-snow.ql-toolbar .ql-picker-label:hover .ql-fill,
@@ -456,8 +454,6 @@
 .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-fill,
 .ql-snow.ql-toolbar button:hover .ql-stroke.ql-fill,
 .ql-snow .ql-toolbar button:hover .ql-stroke.ql-fill,
-.ql-snow.ql-toolbar button:focus .ql-stroke.ql-fill,
-.ql-snow .ql-toolbar button:focus .ql-stroke.ql-fill,
 .ql-snow.ql-toolbar button.ql-active .ql-stroke.ql-fill,
 .ql-snow .ql-toolbar button.ql-active .ql-stroke.ql-fill,
 .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill,
@@ -473,8 +469,6 @@
 }
 .ql-snow.ql-toolbar button:hover .ql-stroke,
 .ql-snow .ql-toolbar button:hover .ql-stroke,
-.ql-snow.ql-toolbar button:focus .ql-stroke,
-.ql-snow .ql-toolbar button:focus .ql-stroke,
 .ql-snow.ql-toolbar button.ql-active .ql-stroke,
 .ql-snow .ql-toolbar button.ql-active .ql-stroke,
 .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke,
@@ -487,8 +481,6 @@
 .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke,
 .ql-snow.ql-toolbar button:hover .ql-stroke-miter,
 .ql-snow .ql-toolbar button:hover .ql-stroke-miter,
-.ql-snow.ql-toolbar button:focus .ql-stroke-miter,
-.ql-snow .ql-toolbar button:focus .ql-stroke-miter,
 .ql-snow.ql-toolbar button.ql-active .ql-stroke-miter,
 .ql-snow .ql-toolbar button.ql-active .ql-stroke-miter,
 .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke-miter,
@@ -820,14 +812,20 @@
 .ql-snow .ql-picker.ql-font .ql-picker-item[data-value='serif']::before {
   content: 'Serif';
 }
-.ql-snow .ql-picker.ql-font .ql-picker-label[data-value='monospace']::before,
-.ql-snow .ql-picker.ql-font .ql-picker-item[data-value='monospace']::before {
+.ql-snow
+  .ql-picker.ql-font
+  .ql-picker-label[data-value='monospace']::before,
+.ql-snow
+  .ql-picker.ql-font
+  .ql-picker-item[data-value='monospace']::before {
   content: 'Monospace';
 }
 .ql-snow .ql-picker.ql-font .ql-picker-item[data-value='serif']::before {
   font-family: Georgia, Times New Roman, serif;
 }
-.ql-snow .ql-picker.ql-font .ql-picker-item[data-value='monospace']::before {
+.ql-snow
+  .ql-picker.ql-font
+  .ql-picker-item[data-value='monospace']::before {
   font-family: Monaco, Courier New, monospace;
 }
 .ql-snow .ql-picker.ql-size {

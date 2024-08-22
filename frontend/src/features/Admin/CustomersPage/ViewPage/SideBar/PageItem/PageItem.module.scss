@@ -72,8 +72,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 23px;
+  min-width: 23px;
   height: 23px;
+  padding-right: 7px;
+  padding-left: 7px;
   border-radius: 4px;
   background-color: $brand-500;
 }

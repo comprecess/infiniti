@@ -1,0 +1,60 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+  color: $white;
+}
+
+.header {
+  display: flex;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.title {
+  font-family: $fontSpaceGrotesk;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.cross {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  transition: 0.3s ease;
+  cursor: pointer;
+
+  &:hover * {
+    stroke: $gray-200;
+  }
+}
+
+.iconListWrapper {
+  display: flex;
+  max-width: 386px;
+  min-height: 42px;
+  background-color: $brand-800;
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.iconsList {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+}
+
+.buttonBlue {
+  @include mobileBreakpoint('min', $bpL) {
+    max-width: 100px;
+  }
+}

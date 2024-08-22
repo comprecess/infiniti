@@ -10,7 +10,7 @@ interface AddFundModalProps {
   title: string
   name: string
   buttonTitle: string
-  modalAddFundGroup: boolean
+  modalAddFund: boolean
   handleOpenCloseModal: () => void
   onSendValue: (name: string, value: string) => void
 }
@@ -19,7 +19,7 @@ export const AddFundModal: FC<AddFundModalProps> = ({
   title,
   name,
   buttonTitle,
-  modalAddFundGroup,
+  modalAddFund,
   handleOpenCloseModal,
   onSendValue,
 }) => {
@@ -37,7 +37,7 @@ export const AddFundModal: FC<AddFundModalProps> = ({
   return (
     <CustomModalWindow
       maxWidth={'400px'}
-      isOpen={modalAddFundGroup}
+      isOpen={modalAddFund}
       onClose={handleOpenCloseModal}
     >
       <div className={styles.wrapper}>
@@ -47,14 +47,12 @@ export const AddFundModal: FC<AddFundModalProps> = ({
             <CrossIcon />
           </div>
         </div>
-        <div className={styles.inputDescription}>
-          <CustomInput
-            type='number'
-            id={name}
-            name={name}
-            onChange={onChange}
-          />
-        </div>
+        <CustomInput
+          type='number'
+          id={name}
+          name={name}
+          onChange={onChange}
+        />
         <ButtonBlue title={buttonTitle} onClick={sendValue} />
       </div>
     </CustomModalWindow>

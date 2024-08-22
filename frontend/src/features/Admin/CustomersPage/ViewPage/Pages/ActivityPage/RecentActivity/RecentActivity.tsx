@@ -7,11 +7,13 @@ import styles from './RecentActivity.module.scss'
 interface RecentActivityProps {
   list: ViewActivityTypeData[]
   deleteSelectedActivity: (idType: number) => void
+  editActivity: (idType: number, icon: string, message: string) => void
 }
 
 export const RecentActivity: FC<RecentActivityProps> = ({
   list,
   deleteSelectedActivity,
+  editActivity,
 }) => {
   return (
     <div className={styles.wrapper}>
@@ -26,6 +28,7 @@ export const RecentActivity: FC<RecentActivityProps> = ({
             message={item.message}
             time={item.time}
             deleteSelectedActivity={deleteSelectedActivity}
+            editActivity={editActivity}
           />
         )
       })}
