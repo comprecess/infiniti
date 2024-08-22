@@ -110,7 +110,8 @@
 
 .loginCustomerText,
 .revokeCustomerText,
-.reGenerateCustomerText {
+.reGenerateCustomerText,
+.createAutoLogin {
   user-select: none;
   cursor: pointer;
 }
@@ -141,6 +142,20 @@
 
   @include hover() {
     color: $gray-300;
+  }
+}
+
+.createAutoLogin {
+  font-family: $fontSpaceGrotesk;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.03em;
+  color: $white;
+  transition: color 0.2s ease;
+
+  @include hover() {
+    color: $gray-100;
   }
 }
 
@@ -183,4 +198,37 @@
 
 .profitColor {
   color: $brand-400;
+}
+
+.autoLoginURL {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wrapperAutoLoginLink {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 48px;
+  background-color: $brand-800;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.autoLoginLink {
+  display: flex;
+  width: 100%;
+  color: $gray-400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.titleAutoLogin {
+  font-family: $fontSpaceGrotesk;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
 }

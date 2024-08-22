@@ -1,5 +1,4 @@
 import { authTokenString } from '../../../../../../app/constants/constants'
-import { PartialFieldsPostData } from '../../../../../../pages/Admin/CustomersPage/ViewPage/SummaryPage/SummaryPage'
 import { getCookies } from '../../../../Saving/Cookies/GetCookies'
 
 interface Response {
@@ -7,10 +6,12 @@ interface Response {
   message: string
 }
 
-export const updateAllInfo = async (
+export const editSelectedActivity = async (
   id: number,
+  idType: number,
   viewType: string,
-  info: PartialFieldsPostData,
+  icon: string,
+  message: string,
 ): Promise<Response> => {
   const authToken = getCookies(authTokenString)
 
@@ -18,8 +19,8 @@ export const updateAllInfo = async (
     try {
       const response = await fetch(
         `${import.meta.env.VITE_MAIN_DOMAIN}${
-          import.meta.env.VITE_CUSTOMERS_VIEW_ADD_NEW_ELEMENT
-        }${id}/view/${viewType}`,
+          import.meta.env.VITE_CUSTOMERS_VIEW_UPDATE_SELECTED_ELEMENT
+        }${id}/view/${viewType}/${idType}`,
         {
           method: 'PUT',
           headers: {
@@ -27,7 +28,7 @@ export const updateAllInfo = async (
             Accept: 'application/json',
             Authorization: `Bearer ${authToken.cookie}`,
           },
-          body: JSON.stringify({ ...info }),
+          body: JSON.stringify({ icon, message }),
         },
       )
 

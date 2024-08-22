@@ -11,7 +11,6 @@ import { AccountingItem } from '../../../../../features/Admin/CustomersPage/View
 import { AddFundModal } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/SummaryPage/AddFundModal/AddFundModal'
 import { InfoItem } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/SummaryPage/InfoItem/InfoItem'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
-import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSwitch } from '../../../../../shared/ui/CustomSwitch/CustomSwitch'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
@@ -107,7 +106,7 @@ export const AdminContactSummaryPage: FC = () => {
     }
   }
 
-  const AddAndReturnFund = async (name: string, value: string) => {
+  const addInformationSeparately = async (name: string, value: string) => {
     const updateResponse = await updateAllInfo(
       context.idClient,
       'summary',
@@ -244,29 +243,55 @@ export const AdminContactSummaryPage: FC = () => {
                 />
               </div>
             </div>
-            <div className={styles.autoLoginWrapper}>
-              <CustomInput
-                title='Auto Login URL'
-                id='autoLogin'
-                name='autoLogin'
-                value={profileInfo.autologin || ''}
-                type='text'
-                onChange={() => {}}
-              />
-              <div className={styles.interactURL}>
-                <span className={styles.loginCustomerText}>
-                  Login As Customer
-                </span>
-                <span className={styles.miniDivider}>|</span>
-                <span className={styles.revokeCustomerText}>
-                  Revoke Auto Login
-                </span>
-                <span className={styles.miniDivider}>|</span>
-                <span className={styles.reGenerateCustomerText}>
-                  Re Generate URL
-                </span>
+            {profileInfo.autologin ? (
+              <div className={styles.autoLoginWrapper}>
+                <div className={styles.autoLoginURL}>
+                  <span className={styles.titleAutoLogin}>
+                    Auto Login URL
+                  </span>
+                  <div className={styles.wrapperAutoLoginLink}>
+                    <span className={styles.autoLoginLink}>
+                      {profileInfo.autologin}
+                    </span>
+                  </div>
+                </div>
+                <div className={styles.interactURL}>
+                  <a
+                    className={styles.loginCustomerText}
+                    target='_blank'
+                    href={profileInfo.autologin}
+                    rel='noreferrer'
+                  >
+                    Login As Customer
+                  </a>
+                  <span className={styles.miniDivider}>|</span>
+                  <span
+                    className={styles.revokeCustomerText}
+                    onClick={() =>
+                      addInformationSeparately('autologin', '0')
+                    }
+                  >
+                    Revoke Auto Login
+                  </span>
+                  <span className={styles.miniDivider}>|</span>
+                  <span
+                    className={styles.reGenerateCustomerText}
+                    onClick={() =>
+                      addInformationSeparately('autologin', '1')
+                    }
+                  >
+                    Re Generate URL
+                  </span>
+                </div>
               </div>
-            </div>
+            ) : (
+              <span
+                className={styles.createAutoLogin}
+                onClick={() => addInformationSeparately('autologin', '1')}
+              >
+                Create Auto Login URL
+              </span>
+            )}
             <div className={styles.accountingSummaryWrapper}>
               <h5 className={styles.accountingTitle}>
                 Accounting Summary
@@ -298,17 +323,17 @@ export const AdminContactSummaryPage: FC = () => {
         title='Add Fund'
         name='addAmount'
         buttonTitle='Add'
-        modalAddFundGroup={addFundModal}
+        modalAddFund={addFundModal}
         handleOpenCloseModal={openCloseAddFundModal}
-        onSendValue={AddAndReturnFund}
+        onSendValue={addInformationSeparately}
       />
       <AddFundModal
         title='Return Fund'
         name='returnAmount'
         buttonTitle='Return'
-        modalAddFundGroup={returnFundModal}
+        modalAddFund={returnFundModal}
         handleOpenCloseModal={openCloseReturnFundModal}
-        onSendValue={AddAndReturnFund}
+        onSendValue={addInformationSeparately}
       />
     </div>
   )
