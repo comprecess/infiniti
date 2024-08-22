@@ -1,24 +1,56 @@
-import { FC } from 'react'
+import { Select } from '@chakra-ui/react'
+import { FC, useState } from 'react'
 
 import { ViewFileProps } from '../../../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
-import { CustomSelect } from '../../../../../../../shared/ui/CustomSelect/CustomSelect'
 import styles from './Header.module.scss'
 
 interface HeaderProps {
   groupsList: ViewFileProps[]
-  onChange: (name: string, value: string) => void
+  onChange: (value: number) => void
 }
 
 export const Header: FC<HeaderProps> = ({ groupsList, onChange }) => {
+  const [value, setValue] = useState<number>(0)
+
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setValue(parseInt(event.target.value))
+  }
+
+  const addNewFile = () => {
+    onChange(value)
+  }
+
   return (
     <div className={styles.wrapper}>
-      <CustomSelect
-        title='Files'
-        selectedList={groupsList.map(item => item.title)}
-        onChange={onChange}
+      <div className={styles.select}>
+        <h3 className={styles.title}>Files</h3>
+        <Select
+          fontSize='17px'
+          fontWeight='400'
+          lineHeight='24px'
+          color='gray.400'
+          size='md'
+          border='none'
+          outline='none'
+          tabIndex={-1}
+          focusBorderColor='brand.500'
+          onChange={handleChange}
+        >
+          {groupsList.map((item, index) => {
+            return (
+              <option key={`${item}-${index}`} value={item.id}>
+                {item.title}
+              </option>
+            )
+          })}
+        </Select>
+      </div>
+      <ButtonBlue
+        title='Submit'
+        style={styles.buttonSubmit}
+        onClick={addNewFile}
       />
-      <ButtonBlue title='Submit' style={styles.buttonSubmit} />
     </div>
   )
 }

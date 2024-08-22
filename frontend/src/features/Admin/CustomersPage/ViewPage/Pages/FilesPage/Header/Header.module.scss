@@ -6,6 +6,20 @@
   margin-bottom: 15px;
 }
 
+.title {
+  font-family: $fontSpaceGrotesk;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.select {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .buttonSubmit {
   max-width: 125px;
   height: 44px;

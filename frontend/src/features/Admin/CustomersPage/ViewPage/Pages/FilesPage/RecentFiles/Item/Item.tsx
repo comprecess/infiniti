@@ -5,11 +5,22 @@ import styleItem from '../RecentFiles.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
+  idType: number
   type: string
   title: string
+  deleteFile: (idType: number) => void
 }
 
-export const Item: FC<ItemProps> = ({ type, title }) => {
+export const Item: FC<ItemProps> = ({
+  idType,
+  type,
+  title,
+  deleteFile,
+}) => {
+  const handleDeleteFile = () => {
+    deleteFile(idType)
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={`${styleItem.typeColumn} ${styles.typeItem}`}>
@@ -19,8 +30,12 @@ export const Item: FC<ItemProps> = ({ type, title }) => {
         {title}
       </span>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <button className={styles.buttonTrash}>
-          <img src='/icons/trash.svg' alt='Trash' className={styles.icon} />
+        <button className={styles.buttonTrash} onClick={handleDeleteFile}>
+          <img
+            src='/icons/trash.svg'
+            alt='Trash'
+            className={styles.icon}
+          />
         </button>
       </div>
     </div>
