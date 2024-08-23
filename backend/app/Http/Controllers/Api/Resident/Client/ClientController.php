@@ -288,9 +288,6 @@ class ClientController extends ResidentController
     private function summaryPut($request)
     {
         $data = $request->all();
-        #dellCode
-        \Illuminate\Support\Facades\Log::alert('REQUEST', $data);
-        #dellCode
         if($request->isSet('primaryContact') && in_array($request->primaryContact, [0, 1])) {
             $this->client->is_primary_contact = $data['primaryContact'];
         }
