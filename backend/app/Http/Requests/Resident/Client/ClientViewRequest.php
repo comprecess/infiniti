@@ -43,5 +43,10 @@ class ClientViewRequest extends FormRequest
         return preg_replace('/[^a-z]/', '', $this->type);
     }
 
+    public function isSet(string $name)
+    {
+        return array_key_exists($name, $this->all());
+    }
+
 
 }

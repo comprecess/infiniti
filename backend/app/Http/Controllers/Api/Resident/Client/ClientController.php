@@ -291,19 +291,19 @@ class ClientController extends ResidentController
         #dellCode
         \Illuminate\Support\Facades\Log::alert('REQUEST', $data);
         #dellCode
-        if(isset($data['primaryContact']) && in_array($request->primaryContact, [0, 1])) {
+        if($request->isSet('primaryContact') && in_array($request->primaryContact, [0, 1])) {
             $this->client->is_primary_contact = $data['primaryContact'];
         }
 
-        if(isset($data['notes'])) {
+        if($request->isSet('notes')) {
             $this->client->notes = $data['notes'];
         }
 
-        if(isset($data['autologin'])) {
+        if($request->isSet('autologin')) {
             $this->client->autologin = $data['autologin'] ? str()->random(64) : null;
         }
 
-        if(isset($data['addAmount']) || isset($data['returnAmount'])) {
+        if($request->isSet('addAmount') || $request->isSet('returnAmount')) {
             $type = isset($data['addAmount']);
             $amount = $type ? $data['addAmount'] : $data['returnAmount'];
 
