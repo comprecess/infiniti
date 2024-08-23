@@ -33,6 +33,7 @@ use App\Models\Resident\Settings\CustomFields;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
+use App\Services\Template\Template;
 use App\Services\Tools\Countries;
 use Illuminate\Support\Arr;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
@@ -261,7 +262,11 @@ class ClientController extends ResidentController
 
     private function emailGet()
     {
-        return ClientView\EmailLogResource::collection($this->client->emailLog()->orderBy('id', 'desc')->get());
+//        return ClientView\EmailLogResource::collection($this->client->emailLog()->orderBy('id', 'desc')->get());
+        return response()->json([
+            'client' => new ClientResource($this->client),
+            'logEmail' =>  ClientView\EmailLogResource::collection($this->client->emailLog()->orderBy('id', 'desc')->get()),
+        ]);
     }
 
     private function logGet()
@@ -283,6 +288,9 @@ class ClientController extends ResidentController
     private function summaryPut($request)
     {
         $data = $request->all();
+        #dellCode
+        \Illuminate\Support\Facades\Log::alert('REQUEST', $data);
+        #dellCode
         if(isset($data['primaryContact']) && in_array($request->primaryContact, [0, 1])) {
             $this->client->is_primary_contact = $data['primaryContact'];
         }
@@ -326,6 +334,14 @@ class ClientController extends ResidentController
     {
         $requestData = app(FilesRequest::class);
         $this->client->documents()->attach($requestData->id, ['rtype' => Document::TYPE_CONTACT]);
+    }
+
+    private function emailPut()
+    {
+        $t = new Template();
+        $text = '<p>{{ticket_message}}</p>
+<p>----------------------------------------------<br /> Ticket ID: #{{ticket_id}}<br /> Subject: {{ticket_subject}}<br /> Status: {{ticket_status}}<br /> Ticket URL: {{ticket_link}}<br /> ----------------------------------------------</p>';
+        $t->render($text);
     }
 
     #post
