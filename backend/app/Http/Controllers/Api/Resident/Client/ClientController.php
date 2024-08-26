@@ -11,6 +11,7 @@ use App\Http\Requests\Resident\Client\ClientListRequest;
 use App\Http\Requests\Resident\Client\ClientViewRequest;
 use App\Http\Requests\Resident\Client\View\ActivityRequest;
 use App\Http\Requests\Resident\Client\View\FilesRequest;
+use App\Http\Resources\Resident\Client\ClientAllResource;
 use App\Http\Resources\Resident\Client\ClientExcelResource;
 use App\Http\Resources\Resident\Client\ClientPdfResource;
 use App\Http\Resources\Resident\Client\ClientResource;
@@ -124,7 +125,7 @@ class ClientController extends ResidentController
 
     public function item(Client $client)
     {
-        dd($client->getTags()->toRawSql());
+        return new ClientAllResource($client);
     }
 
     public function inputData()
