@@ -23,7 +23,7 @@ class ClientAllResource extends JsonResource
             'code' => $this->code,
             'company' => new CompanyResource($this->companyClient),
             'group' => new GroupResource($this->group),
-            'secondaryEmail' => $this->second_email,
+            'secondaryEmail' => $this->secondary_email,
             'ownerId' => $this->o,
             'businessNumber' => $this->business_number,
             'address' => $this->address,
