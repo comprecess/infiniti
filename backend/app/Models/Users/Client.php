@@ -20,18 +20,16 @@ use App\Models\Resident\Transactions\Transaction;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\HelperTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
-use App\Models\Traits\TagsTrait;
 use App\Models\User;
 use App\Models\Users\Interfaces\LoginIntarface;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Catalog\Cart as CatalogCart;
 
 class Client extends User implements LoginIntarface, InsertDefaultValueInterface
 {
-    use InsertDefaultValueTrait, HelperTrait, CurrencyTrait, TagsTrait;
+    use InsertDefaultValueTrait, HelperTrait, CurrencyTrait;
 
     public $table = 'crm_accounts';
 
