@@ -20,12 +20,14 @@ class ClientCreateRequest extends FormRequest implements ConvertingPropertiesInt
 
     public function rules(): array
     {
+        $client = $this->route('client');
+        $unique = $client?->id ? ','.$client->id : '';
         return [
             'account' => "required",
 //            'email' => "nullable|email",
-            'email' => 'required|email|unique:App\Models\Users\Client,email',
-            'phone' => 'nullable|unique:App\Models\Users\Client,phone',
-            'code' => 'nullable|unique:App\Models\Users\Client,code',
+            'email' => 'required|email|unique:App\Models\Users\Client,email' . $unique,
+            'phone' => 'nullable|unique:App\Models\Users\Client,phone' . $unique,
+            'code' => 'nullable|unique:App\Models\Users\Client,code' . $unique,
             'password' => 'min:6|nullable|required_with:confirmationPassword|same:confirmationPassword',
             'confirmationPassword' => 'min:6|nullable|required_with:confirmationPassword|same:confirmationPassword',
             'secondaryEmail' => "nullable|email",

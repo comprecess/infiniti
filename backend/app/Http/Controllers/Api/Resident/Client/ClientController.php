@@ -22,6 +22,7 @@ use App\Http\Resources\Resident\DocumentResource;
 use App\Http\Resources\Resident\Settings\CurrencyResorce;
 use App\Http\Resources\Resident\Settings\CustomFieldsResource;
 use App\Http\Resources\UserResource;
+use App\Mail\EmailTemplateMail;
 use App\Models\Log;
 use App\Models\Resident\Client\Activity;
 use App\Models\Resident\Client\Company;
@@ -30,12 +31,14 @@ use App\Models\Resident\Document;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\CustomFields;
+use App\Models\Resident\Settings\EmailLog;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
 use App\Services\Template\Template;
 use App\Services\Tools\Countries;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Mail;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class ClientController extends ResidentController
@@ -157,8 +160,10 @@ class ClientController extends ResidentController
                     $model->country = $countryList[$request->country];
                 }
             },
-            function($model, $request){
-                Log::send(__('resident.newContact', ['name' => $model->account, 'id' => $model->id]));
+            function($model, $request, $isUpdate){
+                if($isUpdate) {
+                    Log::send(__('resident.newContact', ['name' => $model->account, 'id' => $model->id]));
+                }
 
                 if($request->customFields) {
                     $data = [];
@@ -333,12 +338,18 @@ class ClientController extends ResidentController
         $this->client->documents()->attach($requestData->id, ['rtype' => Document::TYPE_CONTACT]);
     }
 
-    private function emailPut()
+    private function emailPut($request)
     {
-        $t = new Template();
-        $text = '<p>{{ticket_message}}</p>
-<p>----------------------------------------------<br /> Ticket ID: #{{ticket_id}}<br /> Subject: {{ticket_subject}}<br /> Status: {{ticket_status}}<br /> Ticket URL: {{ticket_link}}<br /> ----------------------------------------------</p>';
-        $t->render($text);
+//        $t = new Template();
+//        $text = '<p>{{ticket_message}}</p>
+//<p>----------------------------------------------<br /> Ticket ID: #{{ticket_id}}<br /> Subject: {{ticket_subject}}<br /> Status: {{ticket_status}}<br /> Ticket URL: {{ticket_link}}<br /> ----------------------------------------------</p>';
+//        $t->render($text);
+        $request->validateWithBag('put', [
+            'title' => 'required',
+            'message' => 'required'
+        ]);
+        Mail::to($this->client)->send(new EmailTemplateMail($this->client, $request->title, $request->message));
+
     }
 
     #post

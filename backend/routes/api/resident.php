@@ -12,6 +12,7 @@ Route::group(['prefix' => 'client',], function(){
     Route::get('/list', [Client\ClientController::class, 'list']);
     Route::get('/input-data', [Client\ClientController::class, 'inputData']);
     Route::post('/', [Client\ClientController::class, 'createOrUpdate']);
+    Route::put('/{client}', [Client\ClientController::class, 'createOrUpdate']);
     Route::get('/{client}/view/', [Client\ClientController::class, 'getAllType']);
     Route::match(['get', 'put', 'post', 'delete'], '/{client}/view/{type}/{id?}', [Client\ClientController::class, 'type']);
 //    Route::get('/{client}/view/{type}', [Client\ClientController::class, 'type']);
