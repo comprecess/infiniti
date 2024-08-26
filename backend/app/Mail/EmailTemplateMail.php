@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Users\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -16,9 +17,18 @@ class EmailTemplateMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(
+        protected Client $client,
+        protected string $title,
+        protected string $content
+    )
     {
         //
+    }
+
+    public function __destruct()
+    {
+        $this->log();
     }
 
     /**
@@ -27,7 +37,7 @@ class EmailTemplateMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Email Template Mail',
+            subject: $this->title,
         );
     }
 
@@ -37,7 +47,8 @@ class EmailTemplateMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.email-template',
+            with: ['content' => $this->content]
         );
     }
 
@@ -49,5 +60,15 @@ class EmailTemplateMail extends Mailable
     public function attachments(): array
     {
         return [];
+    }
+
+    protected function log()
+    {
+        $this->client->emailLog()->create([
+            'email' => $this->client->email,
+            'subject' => $this->title,
+            'message' => $this->content,
+            'sender' => ''
+        ]);
     }
 }
