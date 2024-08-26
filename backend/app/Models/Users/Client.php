@@ -20,6 +20,7 @@ use App\Models\Resident\Transactions\Transaction;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\HelperTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
+use App\Models\Traits\TagsTrait;
 use App\Models\User;
 use App\Models\Users\Interfaces\LoginIntarface;
 use Carbon\Carbon;
@@ -30,7 +31,7 @@ use App\Models\Catalog\Cart as CatalogCart;
 
 class Client extends User implements LoginIntarface, InsertDefaultValueInterface
 {
-    use InsertDefaultValueTrait, HelperTrait, CurrencyTrait;
+    use InsertDefaultValueTrait, HelperTrait, CurrencyTrait, TagsTrait;
 
     public $table = 'crm_accounts';
 
