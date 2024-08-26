@@ -30,7 +30,7 @@ class ClientAllResource extends JsonResource
             'state' => $this->state,
             'zip' => $this->zip,
             'country' => $this->country,
-            'currency' => $this->currency,
+            'currency' => $this->getCurrencyIso(),
             'email' => $this->email,
             'phone' => $this->phone,
             'displayName' => $this->display_name,
