@@ -3,9 +3,7 @@
 namespace App\Providers;
 
 use App\Contracts\FilterContract;
-use App\Models\Users\Client;
 use App\Services\Filter;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
@@ -44,9 +42,5 @@ class AppServiceProvider extends ServiceProvider
                 ]
             );
         });
-
-        Relation::enforceMorphMap([
-            'Client' => Client::class
-        ]);
     }
 }
