@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-width: 1000px;
+  min-width: 900px;
   overflow-y: hidden;
 }
 
@@ -23,20 +23,19 @@
   height: 100%;
 }
 
-.timeColumn,
-.ipColumn,
-.descriptionColumn {
+.subjectColumn,
+.dateColumn {
   width: 100%;
 }
 
-.timeColumn {
-  max-width: 150px;
-}
-
-.ipColumn {
-  max-width: 200px;
-}
-
-.descriptionColumn {
+.dateColumn {
   text-align: right;
+}
+
+.subjectColumn {
+  max-width: 850px;
+}
+
+.dateColumn {
+  max-width: 350px;
 }

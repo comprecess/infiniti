@@ -26,6 +26,7 @@ export const CustomField: FC<CustomFiledProps> = ({ input, onChange }) => {
           type='text'
           id={input.name}
           name={input.name}
+          value={input.value}
           onChange={onChange}
         />
       )}
@@ -35,6 +36,7 @@ export const CustomField: FC<CustomFiledProps> = ({ input, onChange }) => {
           type='password'
           id={input.name}
           name={input.name}
+          value={input.value}
           onChange={onChange}
         />
       )}
@@ -43,6 +45,7 @@ export const CustomField: FC<CustomFiledProps> = ({ input, onChange }) => {
           title={input.name}
           titleOnChange={input.name}
           placeholder='None'
+          value={input.value}
           selectedList={
             input.fieldOptions ? Object.values(input.fieldOptions) : []
           }
@@ -63,6 +66,7 @@ export const CustomField: FC<CustomFiledProps> = ({ input, onChange }) => {
             fontSize='16px'
             fontWeight='400'
             lineHeight='24px'
+            value={input.value}
             onChange={handleTextAreaChange}
           />
         </div>

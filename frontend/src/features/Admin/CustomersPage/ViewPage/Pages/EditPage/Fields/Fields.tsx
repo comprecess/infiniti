@@ -1,22 +1,25 @@
 import { FC, useState } from 'react'
 
-import { CustomerInputsData } from '../../../../app/constants/constants'
-import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
-import { CustomCheckBox } from '../../../../shared/ui/CustomCheckBox/CustomCheckBox'
-import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
-import { CustomSelect } from '../../../../shared/ui/CustomSelect/CustomSelect'
-import { CustomSwitch } from '../../../../shared/ui/CustomSwitch/CustomSwitch'
-import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
-import { addNewCustomer } from '../../../../shared/utils/api/Admin/AddCustomer/AddNewCustomer'
-import { CustomField } from './CustomField/CustomField'
+import {
+  CustomerInputsData,
+  ViewEditTypeData,
+} from '../../../../../../../app/constants/constants'
+import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
+import { CustomCheckBox } from '../../../../../../../shared/ui/CustomCheckBox/CustomCheckBox'
+import { CustomInput } from '../../../../../../../shared/ui/CustomInput/CustomInput'
+import { CustomSelect } from '../../../../../../../shared/ui/CustomSelect/CustomSelect'
+import { useCustomToast } from '../../../../../../../shared/ui/CustomToast/CustomToast'
+import { updateProfileInfo } from '../../../../../../../shared/utils/api/Admin/ViewContact/Edit/UpdateProfileInfo'
+import { CustomField } from '../../../../AddCustomer/CustomField/CustomField'
 import styles from './Fields.module.scss'
 
 interface FieldsProps {
-  data: CustomerInputsData
+  idClient: number
+  data: ViewEditTypeData
+  inputs: CustomerInputsData
 }
 
 interface FieldsPostData {
-  code: string
   type: string[]
   customFields: { [id: number]: string }
 }
@@ -31,9 +34,9 @@ export interface PartialFieldsPostData extends Partial<FieldsPostData> {
   | { [id: number]: string }
 }
 
-export const Fields: FC<FieldsProps> = ({ data }) => {
+export const Fields: FC<FieldsProps> = ({ idClient, data, inputs }) => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({
-    code: data.code,
+    type: data.type,
   })
 
   const showToast = useCustomToast()
@@ -48,26 +51,20 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
       if (value === '' || value === null || value === undefined) {
         delete updatedFormData[name]
       } else if (name === 'ownerId') {
-        const selectedOwner = data.owner.find(
+        const selectedOwner = inputs.owner.find(
           owner => owner.account === value,
         )
         updatedFormData[name] = selectedOwner?.id
       } else if (name === 'groupId') {
-        const selectedGroup = data.group.find(
+        const selectedGroup = inputs.group.find(
           group => group.name === value,
         )
         updatedFormData[name] = selectedGroup?.id
       } else if (name === 'companyId') {
-        const selectedCompany = data.company.find(
+        const selectedCompany = inputs.company.find(
           company => company.name === value,
         )
         updatedFormData[name] = selectedCompany?.id
-      } else if (name === 'welcomeEmail') {
-        if (value === true) {
-          updatedFormData[name] = 1
-        } else {
-          updatedFormData[name] = 0
-        }
       } else {
         updatedFormData[name] = value
       }
@@ -129,7 +126,7 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
 
   const onChangeCountry = (_name: string, value: string) => {
     setFormData(prevFormData => {
-      const countryKey = Object.entries(data.country).find(
+      const countryKey = Object.entries(inputs.country).find(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ([_key, val]) => val === value,
       )?.[0]
@@ -145,19 +142,19 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
     })
   }
 
-  const addCustomer = async () => {
-    const addResponse = await addNewCustomer(formData)
+  const updateInfo = async () => {
+    const updateResponse = await updateProfileInfo(idClient, formData)
 
-    if (addResponse.status) {
+    if (updateResponse.status) {
       showToast({
         title: 'Successfully',
-        description: 'You have successfully created a new user',
+        description: 'You have successfully changed information',
         status: 'success',
       })
     } else {
       showToast({
         title: 'Error',
-        description: addResponse.message,
+        description: updateResponse.message,
         status: 'error',
       })
     }
@@ -172,28 +169,7 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
             type='text'
             id='account'
             name='account'
-            onChange={onChangeInput}
-          />
-          <CustomInput
-            title='Code'
-            value={data.code}
-            type='text'
-            id='code'
-            name='code'
-            onChange={onChangeInput}
-          />
-          <CustomInput
-            title='Display Name'
-            type='text'
-            id='displayName'
-            name='displayName'
-            onChange={onChangeInput}
-          />
-          <CustomSelect
-            title='Company'
-            titleOnChange='companyId'
-            placeholder='None'
-            selectedList={data.company.map(item => item.name)}
+            value={data.account}
             onChange={onChangeInput}
           />
           <CustomInput
@@ -201,15 +177,17 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
             type='text'
             id='businessNumber'
             name='businessNumber'
+            value={data.businessNumber}
             onChange={onChangeInput}
           />
-          <div className={styles.containerTitle}>
+          <div className={styles.containerTypes}>
             <span className={styles.title}>Type</span>
-            {data.type.map(item => {
+            {inputs.type.map(item => {
               return (
                 <CustomCheckBox
                   key={item}
                   titleOnChange={item}
+                  defaultChecked={data.type.includes(item)}
                   title={item.charAt(0).toUpperCase() + item.slice(1)}
                   onInputChange={OnChangeCheckBox}
                 />
@@ -221,6 +199,7 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
             type='text'
             id='address'
             name='address'
+            value={data.address}
             onChange={onChangeInput}
           />
           <CustomInput
@@ -228,6 +207,7 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
             type='text'
             id='city'
             name='city'
+            value={data.city}
             onChange={onChangeInput}
           />
           <CustomInput
@@ -235,6 +215,7 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
             type='text'
             id='state'
             name='state'
+            value={data.state}
             onChange={onChangeInput}
           />
           <CustomInput
@@ -242,13 +223,8 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
             type='text'
             id='zip'
             name='zip'
+            value={data.zip}
             onChange={onChangeInput}
-          />
-          <CustomSelect
-            title='Country'
-            selectedList={Object.values(data.country)}
-            value='Russian Federation'
-            onChange={onChangeCountry}
           />
           {data.customFields.map(item => {
             return (
@@ -259,55 +235,21 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
               />
             )
           })}
+          <CustomInput
+            title='Tags'
+            type='text'
+            id='tags'
+            name='tags'
+            onChange={onChangeInput}
+          />
         </section>
         <section className={styles.section}>
           <CustomInput
-            title='Email'
+            title='Display Name'
             type='text'
-            id='email'
-            name='email'
-            onChange={onChangeInput}
-          />
-          <CustomInput
-            title='Secondary Email'
-            type='text'
-            id='secondaryEmail'
-            name='secondaryEmail'
-            onChange={onChangeInput}
-          />
-          <div className={styles.containerTitle}>
-            <span className={styles.title}>Welcome Email</span>
-            <CustomSwitch
-              titleOnChange='welcomeEmail'
-              onChange={onChangeInput}
-            />
-          </div>
-          <CustomInput
-            title='Phone'
-            type='text'
-            id='phone'
-            name='phone'
-            onChange={onChangeInput}
-          />
-          <CustomSelect
-            title='Currency'
-            titleOnChange='currency'
-            value='RUB'
-            selectedList={data.currency.map(item => item.code)}
-            onChange={onChangeInput}
-          />
-          <CustomSelect
-            title='Group'
-            titleOnChange='groupId'
-            placeholder='None'
-            selectedList={data.group.map(item => item.name)}
-            onChange={onChangeInput}
-          />
-          <CustomSelect
-            title='Owner'
-            titleOnChange='ownerId'
-            value={data.owner[0].account}
-            selectedList={data.owner.map(item => item.account)}
+            id='displayName'
+            name='displayName'
+            value={data.displayName}
             onChange={onChangeInput}
           />
           <CustomInput
@@ -315,28 +257,98 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
             type='text'
             id='userName'
             name='userName'
+            value={data.userName}
             onChange={onChangeInput}
           />
           <CustomInput
-            title='Password'
-            type='password'
-            id='password'
-            name='password'
+            title='Code'
+            type='text'
+            id='code'
+            name='code'
+            value={data.code}
             onChange={onChangeInput}
           />
           <CustomInput
-            title='Confirm Password'
-            type='password'
-            id='confirmationPassword'
-            name='confirmationPassword'
+            title='Email'
+            type='text'
+            id='email'
+            name='email'
+            value={data.email}
             onChange={onChangeInput}
           />
+          <CustomInput
+            title='Secondary Email'
+            type='text'
+            id='secondaryEmail'
+            name='secondaryEmail'
+            value={data.secondaryEmail}
+            onChange={onChangeInput}
+          />
+          <CustomInput
+            title='Phone'
+            type='text'
+            id='phone'
+            name='phone'
+            value={data.phone}
+            onChange={onChangeInput}
+          />
+          <CustomSelect
+            title='Company'
+            titleOnChange='companyId'
+            placeholder='None'
+            value={data.company?.name}
+            selectedList={inputs.company.map(item => item.name)}
+            onChange={onChangeInput}
+          />
+          <CustomSelect
+            title='Country'
+            titleOnChange='countryId'
+            selectedList={Object.values(inputs.country)}
+            value={data.country}
+            onChange={onChangeCountry}
+          />
+          <CustomSelect
+            title='Currency'
+            titleOnChange='currency'
+            value={data.currency.code}
+            selectedList={inputs.currency.map(item => item.code)}
+            onChange={onChangeInput}
+          />
+          <CustomSelect
+            title='Group'
+            titleOnChange='groupId'
+            placeholder='None'
+            value={data.group?.name}
+            selectedList={inputs.group.map(item => item.name)}
+            onChange={onChangeInput}
+          />
+          <CustomSelect
+            title='Owner'
+            titleOnChange='ownerId'
+            selectedList={inputs.owner.map(item => item.account)}
+            value={
+              inputs.owner.find(item => item.id === data.ownerId)?.account
+            }
+            onChange={onChangeInput}
+          />
+          <div className={styles.passwordContainer}>
+            <CustomInput
+              title='Password'
+              type='password'
+              id='password'
+              name='password'
+              onChange={onChangeInput}
+            />
+            <span className={styles.passwordDescription}>
+              Keep Blank to do not change Password
+            </span>
+          </div>
         </section>
       </div>
       <ButtonBlue
-        title='Add Contact'
+        title='Submit'
         style={styles.buttonBlue}
-        onClick={addCustomer}
+        onClick={updateInfo}
       />
     </div>
   )

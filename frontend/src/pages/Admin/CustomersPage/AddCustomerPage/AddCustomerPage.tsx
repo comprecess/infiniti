@@ -34,7 +34,7 @@ export const AdminAddCustomerPage: FC = () => {
             style={styles.recentFullScreen}
             Component={ButtonBlue}
             componentProps={{
-              title: 'Import Conatcts',
+              title: 'Import Contacts',
               style: styles.blueButton,
               icon: '/icons/import.svg',
               iconProps: styles.icon,

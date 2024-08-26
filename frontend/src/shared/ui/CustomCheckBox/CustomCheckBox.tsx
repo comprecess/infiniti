@@ -6,6 +6,7 @@ interface CheckBoxProps {
   titleOnChange?: string
   isChecked?: boolean
   isIndeterminate?: boolean
+  defaultChecked?: boolean
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
   onInputChange?: (name: string, isChecked: boolean) => void
 }
@@ -15,6 +16,7 @@ export const CustomCheckBox: FC<CheckBoxProps> = ({
   titleOnChange = null,
   isChecked,
   isIndeterminate,
+  defaultChecked = false,
   onChange,
   onInputChange,
 }) => {
@@ -32,6 +34,7 @@ export const CustomCheckBox: FC<CheckBoxProps> = ({
       iconColor='white'
       colorScheme='brand'
       isChecked={isChecked}
+      defaultChecked={defaultChecked}
       isIndeterminate={isIndeterminate}
       onChange={handleOnChange}
     >

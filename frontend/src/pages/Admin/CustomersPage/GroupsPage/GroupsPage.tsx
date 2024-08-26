@@ -18,7 +18,7 @@ import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './GroupsPage.module.scss'
 
 export const AdminGroupsPage: FC = () => {
-  const [groups, setGroups] = useState<GroupsListProps[]>([])
+  const [groups, setGroups] = useState<GroupsListProps[] | null>(null)
 
   const [newGroup, setNewGroup] = useState<boolean>(false)
   const [modalEditGroups, setModalEditGroups] = useState<boolean>(false)
@@ -151,7 +151,7 @@ export const AdminGroupsPage: FC = () => {
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        {groups.length > 0 ? (
+        {groups ? (
           <RecentCard
             title='Groups'
             style={styles.recentFullScreen}

@@ -14,5 +14,10 @@ Client Invoices Page:
 		• Доделать страницу (график)
 
 
-Catalog Page PWA:
-		• Белая линия внизу страницы
+PWA:
+		• Белая линия внизу страниц
+
+
+Admin Contact Page:
+		• Доделать страницу More
+		• На странице Email сделать Templates

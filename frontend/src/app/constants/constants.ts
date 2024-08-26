@@ -332,6 +332,7 @@ export interface SettingsCustomFieldsProps {
   fieldOptions: string[]
   regexpr: string
   showInvoice: number
+  value: string
 }
 
 export interface ListCustomersData {
@@ -480,4 +481,43 @@ export interface ViewPasswordManagerTypeData {
   url: string
   username: string
   password: string
+}
+
+export interface ViewEmailTypeData {
+  client: { email: string }
+  logEmail: ViewEmailProps[]
+}
+
+export interface ViewEmailProps {
+  id: number
+  subject: string
+  date: string
+}
+
+export interface ViewEmailValuesData {
+  title: string
+  message: string
+}
+
+export interface ViewEditTypeData {
+  id: number
+  account: string
+  address: string
+  businessNumber: string
+  city: string
+  code: string
+  company: CompaniesListProps
+  country: string
+  currency: CurrencyProps
+  customFields: SettingsCustomFieldsProps[]
+  displayName: string
+  email: string
+  group: ListCustomersGroupProps
+  ownerId: number
+  phone: string
+  secondaryEmail: string
+  state: string
+  type: string[]
+  userName: string
+  zip: string
 }

@@ -94,13 +94,6 @@
   }
 }
 
-.autoLoginWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  width: 100%;
-}
-
 .interactURL {
   display: flex;
   flex-direction: row;
@@ -200,6 +193,13 @@
   color: $brand-400;
 }
 
+.autoLoginWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
 .autoLoginURL {
   display: flex;
   flex-direction: column;
@@ -214,6 +214,8 @@
   background-color: $brand-800;
   padding: 12px;
   border-radius: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .autoLoginLink {
@@ -221,8 +223,6 @@
   width: 100%;
   color: $gray-400;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .titleAutoLogin {
