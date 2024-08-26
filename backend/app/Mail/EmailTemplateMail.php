@@ -68,7 +68,8 @@ class EmailTemplateMail extends Mailable
             'email' => $this->client->email,
             'subject' => $this->title,
             'message' => $this->content,
-            'sender' => ''
+            'sender' => '',
+            'date' => now()
         ]);
     }
 }
