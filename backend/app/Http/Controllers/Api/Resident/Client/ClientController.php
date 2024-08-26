@@ -121,6 +121,12 @@ class ClientController extends ResidentController
 
         return $this->index($clients, ClientResource::class, true);
     }
+
+    public function item(Client $client)
+    {
+        dd($client->getTags()->toRawSql());
+    }
+
     public function inputData()
     {
         $data = [

@@ -18,7 +18,7 @@ class EmailLogResource extends JsonResource
         return [
             'id' => $this->id,
             'subject' => $this->subject,
-            'date' => $this->date->format('Y-m-d H:i:s'),
+            'date' => $this->date?->format('Y-m-d H:i:s'),
         ];
     }
 
