@@ -23,8 +23,8 @@ import styles from './CompaniesPage.module.scss'
 export const AdminCompaniesPage: FC = () => {
   const [companies, setCompanies] = useState<CompaniesListProps[]>([])
   const [filteredCompanies, setFilteredCompanies] = useState<
-  CompaniesListProps[]
-  >([])
+  CompaniesListProps[] | null
+  >(null)
 
   const [selectedCompanyId, setSelectedCompanyId] = useState<
   number | null
@@ -90,9 +90,11 @@ export const AdminCompaniesPage: FC = () => {
 
   const reloadSearchFilter = () => {
     setFilteredCompanies(prevFilteredCompanies =>
-      prevFilteredCompanies.filter(
-        company => company.id !== selectedCompanyId,
-      ),
+      prevFilteredCompanies
+        ? prevFilteredCompanies.filter(
+          company => company.id !== selectedCompanyId,
+        )
+        : [],
     )
   }
 
@@ -219,7 +221,7 @@ export const AdminCompaniesPage: FC = () => {
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        {companies?.length > 0 ? (
+        {companies ? (
           <RecentCard
             title='Companies'
             style={styles.recentFullScreen}
@@ -240,7 +242,7 @@ export const AdminCompaniesPage: FC = () => {
               editCompany={loadCompanyInfoEdit}
               infoCompany={loadViewCompany}
               companiesList={
-                filteredCompanies.length > 0
+                filteredCompanies && filteredCompanies.length > 0
                   ? filteredCompanies
                   : companies
               }

@@ -1,0 +1,22 @@
+import { FC } from 'react'
+
+import styleItem from '../RecentEmail.module.scss'
+import styles from './Item.module.scss'
+
+interface ItemProps {
+  subject: string
+  date: string
+}
+
+export const Item: FC<ItemProps> = ({ subject, date }) => {
+  return (
+    <div className={styles.wrapper}>
+      <span className={`${styleItem.subjectColumn} ${styles.subjectItem}`}>
+        {subject}
+      </span>
+      <span className={`${styleItem.dateColumn} ${styles.dateItem}`}>
+        {date}
+      </span>
+    </div>
+  )
+}

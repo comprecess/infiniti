@@ -70,9 +70,11 @@
 
 .badge {
   display: flex;
-  min-width: 23px;
-  height: 23px;
-  padding: 1px 7px;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 8px;
   border-radius: 4px;
   background-color: $brand-500;
 }
@@ -80,7 +82,5 @@
 .count {
   font-size: 13px;
   font-weight: 500;
-  line-height: 20px;
-  letter-spacing: -0.03em;
   color: $white;
 }

@@ -9,6 +9,7 @@ interface CustomInputProps {
   type: string
   placeHolder?: string
   value?: string
+  readOnly?: boolean
   onChange: (name: string, value: string) => void
 }
 
@@ -19,6 +20,7 @@ export const CustomInput: FC<CustomInputProps> = ({
   type,
   placeHolder,
   value = null,
+  readOnly = false,
   onChange,
 }) => {
   const [inputValue, setInputValue] = useState<string | null>(value)
@@ -48,6 +50,7 @@ export const CustomInput: FC<CustomInputProps> = ({
           id={id}
           name={name}
           type={type}
+          readOnly={readOnly}
           tabIndex={-1}
           value={inputValue ?? ''}
           placeholder={placeHolder}

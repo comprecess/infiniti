@@ -1,0 +1,68 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+}
+
+.wrapperTemplates {
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  @include mobileBreakpoint('min', $bpM) {
+    justify-content: space-between;
+  }
+
+  @include mobileBreakpoint('max', $bpM) {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+.chooseTemplate {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  user-select: none;
+  cursor: pointer;
+
+  @include hover {
+    .chooseTemplateText {
+      color: $gray-300;
+    }
+
+    .fileIcon * {
+      stroke: $gray-300;
+    }
+  }
+}
+
+.fileIcon {
+  display: flex;
+  align-items: center;
+
+  * {
+    transition: all 0.1s ease;
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.chooseTemplateText {
+  font-family: $fontSpaceGrotesk;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.03em;
+  color: $gray-400;
+  transition: color 0.2s ease;
+}
+
+.buttonBlue {
+  height: 44px;
+
+  @include mobileBreakpoint('min', $bpM + 1) {
+    width: 100px;
+  }
+}
