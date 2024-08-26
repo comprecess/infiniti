@@ -21,6 +21,6 @@ class EmailLog extends Model
     ];
 
     protected $fillable = [
-        'email', 'subject', 'message', 'sender'
+        'email', 'subject', 'message', 'sender', 'date'
     ];
 }
