@@ -49,6 +49,7 @@ export const AdminContactSummaryPage: FC = () => {
       context.idClient,
       'summary',
     )
+
     setProfileInfo(getResponse.data)
   }, [context.idClient])
 
@@ -158,28 +159,28 @@ export const AdminContactSummaryPage: FC = () => {
               <div className={styles.infoContainer}>
                 <div>
                   <InfoItem
-                    title='Full Name: '
+                    title='Full Name'
                     value={profileInfo.account}
                   />
                   <InfoItem
-                    title='Company Name:'
+                    title='Company Name'
                     value={profileInfo.company}
                   />
-                  <InfoItem title='Email:' value={profileInfo.email} />
-                  <InfoItem title='Phone:' value={profileInfo.phone} />
-                  <InfoItem title='Address:' value={profileInfo.address} />
-                  <InfoItem title='City:' value={profileInfo.city} />
+                  <InfoItem title='Email' value={profileInfo.email} />
+                  <InfoItem title='Phone' value={profileInfo.phone} />
+                  <InfoItem title='Address' value={profileInfo.address} />
+                  <InfoItem title='City' value={profileInfo.city} />
                   <InfoItem
-                    title='State/Region:'
+                    title='State/Region'
                     value={profileInfo.state}
                   />
                   <InfoItem
-                    title='ZIP/Postal Code:'
+                    title='ZIP/Postal Code'
                     value={profileInfo.zip}
                   />
-                  <InfoItem title='Country:' value={profileInfo.country} />
-                  <InfoItem title='Tags:' value={profileInfo.tags} />
-                  <InfoItem title='Group:' value={profileInfo.group} />
+                  <InfoItem title='Country' value={profileInfo.country} />
+                  <InfoItem title='Tags' value={profileInfo.tags} />
+                  <InfoItem title='Group' value={profileInfo.group} />
                 </div>
                 <div className={styles.customFieldsWrapper}>
                   <div className={styles.customFieldsContainer}>

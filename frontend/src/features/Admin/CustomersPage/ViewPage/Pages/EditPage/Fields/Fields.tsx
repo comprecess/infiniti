@@ -9,6 +9,7 @@ import { CustomCheckBox } from '../../../../../../../shared/ui/CustomCheckBox/Cu
 import { CustomInput } from '../../../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../../../shared/ui/CustomSelect/CustomSelect'
 import { useCustomToast } from '../../../../../../../shared/ui/CustomToast/CustomToast'
+import { TagSelector } from '../../../../../../../shared/ui/TagSelector/TagSelector'
 import { updateProfileInfo } from '../../../../../../../shared/utils/api/Admin/ViewContact/Edit/UpdateProfileInfo'
 import { CustomField } from '../../../../AddCustomer/CustomField/CustomField'
 import styles from './Fields.module.scss'
@@ -38,7 +39,6 @@ export const Fields: FC<FieldsProps> = ({ idClient, data, inputs }) => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({
     type: data.type,
   })
-
   const showToast = useCustomToast()
 
   const onChangeInput = (
@@ -142,6 +142,15 @@ export const Fields: FC<FieldsProps> = ({ idClient, data, inputs }) => {
     })
   }
 
+  const onTagsChange = (tags: string[]) => {
+    setFormData(prevFormData => {
+      return {
+        ...prevFormData,
+        tags,
+      }
+    })
+  }
+
   const updateInfo = async () => {
     const updateResponse = await updateProfileInfo(idClient, formData)
 
@@ -180,20 +189,6 @@ export const Fields: FC<FieldsProps> = ({ idClient, data, inputs }) => {
             value={data.businessNumber}
             onChange={onChangeInput}
           />
-          <div className={styles.containerTypes}>
-            <span className={styles.title}>Type</span>
-            {inputs.type.map(item => {
-              return (
-                <CustomCheckBox
-                  key={item}
-                  titleOnChange={item}
-                  defaultChecked={data.type.includes(item)}
-                  title={item.charAt(0).toUpperCase() + item.slice(1)}
-                  onInputChange={OnChangeCheckBox}
-                />
-              )
-            })}
-          </div>
           <CustomInput
             title='Address'
             type='text'
@@ -235,12 +230,24 @@ export const Fields: FC<FieldsProps> = ({ idClient, data, inputs }) => {
               />
             )
           })}
-          <CustomInput
-            title='Tags'
-            type='text'
-            id='tags'
-            name='tags'
-            onChange={onChangeInput}
+          <div className={styles.containerTypes}>
+            <span className={styles.title}>Type</span>
+            {inputs.type.map(item => {
+              return (
+                <CustomCheckBox
+                  key={item}
+                  titleOnChange={item}
+                  defaultChecked={data.type.includes(item)}
+                  title={item.charAt(0).toUpperCase() + item.slice(1)}
+                  onInputChange={OnChangeCheckBox}
+                />
+              )
+            })}
+          </div>
+          <TagSelector
+            list={inputs.tags}
+            selectedTags={data.tags}
+            onTagsChange={onTagsChange}
           />
         </section>
         <section className={styles.section}>

@@ -8,7 +8,7 @@ interface CustomInputProps {
   name?: string
   type: string
   placeHolder?: string
-  value?: string
+  value?: string | null
   readOnly?: boolean
   onChange: (name: string, value: string) => void
 }

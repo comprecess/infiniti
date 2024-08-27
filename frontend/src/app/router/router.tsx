@@ -138,6 +138,15 @@ export const router = createBrowserRouter([
             path: Routes.businessPlan,
             element: Pages.adminBusinessPlanPage,
           },
+          {
+            index: true,
+            element: (
+              <Navigate
+                replace
+                to={'/' + Routes.adminPages + '/' + Routes.dashboard}
+              />
+            ),
+          },
         ],
       },
       {
@@ -179,9 +188,39 @@ export const router = createBrowserRouter([
             path: Routes.viewTransactions,
             element: Pages.adminViewTransactionsPage,
           },
+          {
+            index: true,
+            element: (
+              <Navigate
+                replace
+                to={'/' + Routes.adminPages + '/' + Routes.dashboard}
+              />
+            ),
+          },
         ],
       },
-      { path: Routes.sales, element: Pages.adminSalesPage },
+      {
+        path: Routes.sales,
+        children: [
+          {
+            path: Routes.invoices,
+            element: Pages.adminInvoicesPage,
+          },
+          {
+            path: Routes.newInvoices,
+            element: Pages.adminNewInvoicePage,
+          },
+          {
+            index: true,
+            element: (
+              <Navigate
+                replace
+                to={'/' + Routes.adminPages + '/' + Routes.dashboard}
+              />
+            ),
+          },
+        ],
+      },
       { path: Routes.suppliers, element: Pages.adminSuppliersPage },
       { path: Routes.purchase, element: Pages.adminPurchasePage },
       { path: Routes.projects, element: Pages.adminProjectsPage },
