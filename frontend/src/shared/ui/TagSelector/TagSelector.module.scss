@@ -58,7 +58,7 @@
 
 .selectOption {
   transition: all 0.2s ease;
-  padding: 4px;
+  padding: 4px 12px;
   cursor: pointer;
 
   @include hover() {
