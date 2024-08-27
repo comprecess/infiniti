@@ -82,8 +82,8 @@ export const adminSidebarPages = [
     name: 'Sales',
     icon: <SalesIcon />,
     openPaths: [
-      { id: 0, title: 'Invoices', path: '' },
-      { id: 1, title: 'New Invoice', path: '' },
+      { id: 0, title: 'Invoices', path: Routes.invoices },
+      { id: 1, title: 'New Invoice', path: Routes.newInvoices },
       { id: 2, title: 'POS', path: '' },
       { id: 3, title: 'Recurring Invoices', path: '' },
       { id: 4, title: 'New Recurring Invoice', path: '' },

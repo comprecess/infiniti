@@ -1,0 +1,67 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.title {
+  font-family: $fontSpaceGrotesk;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.tagList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tagListTitle {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.input {
+  width: 100%;
+  height: 48px;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: $brand-800;
+}
+
+.selectDropdown {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  border-radius: 8px;
+  background-color: $brand-800;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  transform: translateY(-8px);
+}
+
+.selectOption {
+  transition: all 0.2s ease;
+  padding: 4px;
+  cursor: pointer;
+
+  @include hover() {
+    background-color: $brand-600;
+  }
+}

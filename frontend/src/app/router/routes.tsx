@@ -41,6 +41,8 @@ import { AdminProductsServicesPage } from '../../pages/Admin/ProductsServicesPag
 import { AdminProjectsPage } from '../../pages/Admin/ProjectsPage/ProjectsPage'
 import { AdminPurchasePage } from '../../pages/Admin/PurchasePage/PurchasePage'
 import { AdminReportsPage } from '../../pages/Admin/ReportsPage/ReportsPage'
+import { AdminInvoicesPage } from '../../pages/Admin/SalesPage/InvoicesPage/InvoicesPage'
+import { AdminNewInvoicePage } from '../../pages/Admin/SalesPage/NewInvoicePage/NewInvoicePage'
 import { AdminSalesPage } from '../../pages/Admin/SalesPage/SalesPage'
 import { AdminCurrenciesPage } from '../../pages/Admin/SettingsPage/CurrenciesPage/CurrenciesPage'
 import { AdminCustomContactFields } from '../../pages/Admin/SettingsPage/CustomContactFieldsPage/CustomContactFieldsPage'
@@ -74,6 +76,7 @@ export const Routes = {
   clientPages: 'client',
   dashboard: 'dashboard',
   customers: 'customers',
+  newInvoices: 'newinvoices',
   view: 'view',
   summary: 'summary',
   businessPlan: 'businessplan',
@@ -219,6 +222,8 @@ export const Pages = {
   adminContactPasswordManagerPage: <AdminContactPasswordManagerPage />,
   adminContactEditPage: <AdminContactEditPage />,
   adminContactMorePage: <AdminContactMorePage />,
+  adminInvoicesPage: <AdminInvoicesPage />,
+  adminNewInvoicePage: <AdminNewInvoicePage />,
 
   /* General  pages */
   basketPage: <BasketPage />,

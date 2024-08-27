@@ -144,11 +144,11 @@
   font-weight: 500;
   line-height: 20px;
   letter-spacing: -0.03em;
-  color: $white;
   transition: color 0.2s ease;
+  color: $brand-300;
 
   @include hover() {
-    color: $gray-100;
+    color: $brand-200;
   }
 }
 

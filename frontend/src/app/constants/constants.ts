@@ -361,6 +361,7 @@ export interface CustomerInputsData {
   owner: AdminInfo[]
   customFields: SettingsCustomFieldsProps[]
   type: string[]
+  tags: string[]
 }
 
 export interface ViewListPagesAndInfo {
@@ -517,6 +518,7 @@ export interface ViewEditTypeData {
   phone: string
   secondaryEmail: string
   state: string
+  tags: string[]
   type: string[]
   userName: string
   zip: string
