@@ -5,15 +5,29 @@ namespace App\Models\Traits;
 
 
 use App\Models\Resident\Settings\Tag;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
 trait TagsTrait
 {
-    public function getTags()
+    public function tagsModel()
     {
+        return $this->morphToMany(Tag::class, 'taggable', 'gable_tag', relatedPivotKey: 'tag_id');
+    }
 
-//        $instance = $this->newRelatedInstance(Tag::class);
-//        return $this->newHasMany($instance->newQuery(), $this);
-//        $this->morphToMany()
+    public function setTag(array $data)
+    {
+        $tags = collect([]);
+        foreach($data as $value) {
+            $tag = Tag::where('text', $value)->first();
+            if(!$tag) {
+                $tag = new Tag();
+                $tag->text = $value;
+                $tag->type = $this->nameClass ?? self::class;
+                $tag->save();
+            }
+            $tags->push($tag);
+        }
+
+        $this->tagsModel()->sync($tags->pluck('id'));
+
     }
 }
