@@ -22,7 +22,8 @@ class ClientCreateRequest extends FormRequest implements ConvertingPropertiesInt
     {
         $client = $this->route('client');
         $unique = $client?->id ? ','.$client->id : '';
-        return [
+        $isPost = $this->method() == 'POST';
+        $rules = [
             'account' => "required",
 //            'email' => "nullable|email",
             'email' => 'required|email|unique:App\Models\Users\Client,email' . $unique,
@@ -40,6 +41,13 @@ class ClientCreateRequest extends FormRequest implements ConvertingPropertiesInt
             'country' => "nullable|string|in:" . implode(",", array_keys(Countries::list())),
             'customFields' => 'array|nullable',
         ];
+
+        if(!$isPost) {
+            unset($rules['confirmationPassword']);
+            $rules['password'] = 'min:6|nullable';
+        }
+
+        return $rules;
     }
 
 

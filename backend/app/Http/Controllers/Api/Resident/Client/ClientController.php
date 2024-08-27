@@ -153,7 +153,11 @@ class ClientController extends ResidentController
         return $this->createOrUpdateCRUD(
             $request,
             $client,
-            function($model, $request){
+            function($model, $request, $isNew){
+
+                if($isNew) {
+                    $model->setApiToken();
+                }
                 /**
                  * @var Client $model
                  */
@@ -171,8 +175,8 @@ class ClientController extends ResidentController
                     $model->country = $countryList[$request->country];
                 }
             },
-            function($model, $request, $isUpdate){
-                if($isUpdate) {
+            function($model, $request, $isNew){
+                if($isNew) {
                     Log::send(__('resident.newContact', ['name' => $model->account, 'id' => $model->id]));
                 }
 
