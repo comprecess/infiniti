@@ -33,6 +33,7 @@ use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\CustomFields;
 use App\Models\Resident\Settings\EmailLog;
+use App\Models\Resident\Settings\Tag;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
@@ -125,6 +126,8 @@ class ClientController extends ResidentController
 
     public function item(Client $client)
     {
+//        dd($client->setTag(['test', '123']));
+//        dd(Tag::getForSelect(Client::class));
         return new ClientAllResource($client);
     }
 
@@ -138,7 +141,8 @@ class ClientController extends ResidentController
             'currency' => CurrencyResorce::collection(Currency::getForSelect()),
             'owner' => UserResource::collection(Admin::getForSelect()),
             'country' => Countries::list(),
-            'customFields' => CustomFieldsResource::collection(CustomFields::getForSelect())
+            'customFields' => CustomFieldsResource::collection(CustomFields::getForSelect()),
+            'tags' => Tag::getForSelect(Client::class)->pluck('text')->toArray()
         ];
 
         return response()->json($data);
@@ -146,7 +150,7 @@ class ClientController extends ResidentController
 
     public function createOrUpdate(ClientCreateRequest $request, Client $client)
     {
-        $this->createOrUpdateCRUD(
+        return $this->createOrUpdateCRUD(
             $request,
             $client,
             function($model, $request){
@@ -178,6 +182,11 @@ class ClientController extends ResidentController
                         $data[$id] = ['fvalue' => $value];
                     }
                     $model->customFieldsValues()->sync($data);
+                }
+
+
+                if($request->tags) {
+                    $model->setTag($request->tags);
                 }
             }
         );
@@ -321,11 +330,13 @@ class ClientController extends ResidentController
             $balancePrivate = $this->client->balance;
             if($type) {
                 $newBalance = $balancePrivate + $amount;
+                Log::send(__('log.added_amount', ['amount' => $amount,'balancePrivate' => $balancePrivate, 'nameadmin' => auth()->user()->fullname, 'nameclient' => $this->client->account, 'newBalace' => $newBalance, 'id' => $this->client->id]), $this->client);
             } else {
                 $newBalance = $balancePrivate - $amount;
+                Log::send(__('log.return_amount', ['amount' => $amount,'balancePrivate' => $balancePrivate, 'nameadmin' => auth()->user()->fullname, 'nameclient' => $this->client->account, 'newBalace' => $newBalance, 'id' => $this->client->id]), $this->client);
             }
             $this->client->balance = $newBalance;
-            Log::send(__('log.amount', ['amount' => $amount,'balancePrivate' => $balancePrivate, 'nameadmin' => auth()->user()->fullname, 'nameclient' => $this->client->account, 'newBalace' => $newBalance, 'id' => $this->client->id]), $this->client);
+
         }
 
         $this->client->save();

@@ -38,6 +38,7 @@ class ClientAllResource extends JsonResource
             'userName' => $this->username,
             'type' => $this->type,
             'customFields' => CustomFieldsResource::collection($this->getCustomFieldsValues()),
+            'tags' => $this->tagsModel->pluck('text')->toArray()
         ];
     }
 
