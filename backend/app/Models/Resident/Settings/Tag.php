@@ -23,6 +23,14 @@ class Tag extends Model
             ->get();
     }
 
+    public static function getForSelectByName($name)
+    {
+        return self::distinct()->select(['sys_tags.*'])
+            ->where('sys_tags.type', $name)
+            ->orderBy('sys_tags.text', 'asc')
+            ->get();
+    }
+
     public function setTag(array $data)
     {
         $tags = collect([]);
