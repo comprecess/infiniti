@@ -53,7 +53,7 @@ trait CRUD
     public function createOrUpdate(FormRequest $request, Model $model, ?callable $setDataModel = null, ?callable $afterDataSet = null)
     {
         DB::beginTransaction();
-        $isUpdate = !((bool) $model->getAttributes());
+        $isNew = !((bool) $model->getAttributes());
 
         if($isUpdate && ($model instanceof InsertDefaultValueInterface)) {
             $model->insertDefaultValue();
@@ -64,13 +64,13 @@ trait CRUD
         }
 
         if(is_callable($setDataModel)) {
-            $this->checkException($setDataModel($model, $request, $isUpdate));
+            $this->checkException($setDataModel($model, $request, $isNew));
         }
 
         $model->save();
 
         if(is_callable($afterDataSet)) {
-            $this->checkException($afterDataSet($model, $request, $isUpdate));
+            $this->checkException($afterDataSet($model, $request, $isNew));
         }
 
         DB::commit();
