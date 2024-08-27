@@ -142,7 +142,7 @@ class ClientController extends ResidentController
             'owner' => UserResource::collection(Admin::getForSelect()),
             'country' => Countries::list(),
             'customFields' => CustomFieldsResource::collection(CustomFields::getForSelect()),
-            'tags' => Tag::getForSelect(Client::class)->pluck('text')->toArray()
+            'tags' => Tag::getForSelectByName('Client')->pluck('text')->toArray()
         ];
 
         return response()->json($data);
