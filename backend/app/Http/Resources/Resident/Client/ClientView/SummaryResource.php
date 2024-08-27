@@ -35,7 +35,7 @@ class SummaryResource extends JsonResource
             'state' => $this->state,
             'zip' => $this->zip,
             'country' => $this->country,
-            'tags' => $this->tags,
+            'tags' => $this->tagsModel->pluck('text')->implode(', '),
             'primaryContact' => $this->is_primary_contact,
             'notes' => $this->notes,
             'balance' => $this->printPrice('balance'),
