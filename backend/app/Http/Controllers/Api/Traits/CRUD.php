@@ -55,7 +55,7 @@ trait CRUD
         DB::beginTransaction();
         $isNew = !((bool) $model->getAttributes());
 
-        if($isUpdate && ($model instanceof InsertDefaultValueInterface)) {
+        if($isNew && ($model instanceof InsertDefaultValueInterface)) {
             $model->insertDefaultValue();
         }
 
