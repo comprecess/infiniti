@@ -184,7 +184,7 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
         $this->lastlogin = now();
 
         if(request()->is('api/*')) {
-            if(!$this->isLastTime(false)) {
+            if(!$this->isLastTime(false) || !$this->api_token) {
                 $this->setApiToken();
             }
         } else {
