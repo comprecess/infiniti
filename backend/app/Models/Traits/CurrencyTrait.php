@@ -39,6 +39,20 @@ trait CurrencyTrait
         }
     }
 
+    public function getColumn()
+    {
+        if($this->getCurrencyId()) {
+            return $this->getCurrencyId() === true ? 'currency' : $this->getCurrencyId();
+        }
+        return $this->getCurrencyColumnName();
+    }
+
+    public function setCurrency(?Currency $currency = null)
+    {
+        $this->{$this->getColumn()} = $currency?->iso_code ?? Currency::getDefault()->iso_code;
+        return $this;
+    }
+
     public function printPrice($column, ?Currency $currencyTransform = null, $r = " ")
     {
         $currency = $currencyTransform ?? $this->getCurrencyIso ?? Currency::getDefault();
