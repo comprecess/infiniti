@@ -41,6 +41,18 @@ Route::group(['prefix' => 'client',], function(){
     });
 
 });
+
+#invoce
+Route::controller(\App\Http\Controllers\Api\Resident\InvoiceController::class)->prefix('invoice')
+    ->group(function(){
+        Route::get('/stat', 'stat');
+//        Route::get('/', 'list');
+//        Route::post('/', 'createOrUpdate');
+//        Route::put('/{invoice}', 'createOrUpdate');
+//        Route::get('/{invoice}', 'item');
+//        Route::delete('/{invoice}', 'delete');
+    });
+
 #settings
 Route::group(['prefix' => 'settings'], function(){
     #currency
