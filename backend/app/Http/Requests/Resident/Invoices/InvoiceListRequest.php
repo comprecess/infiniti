@@ -1,23 +1,25 @@
 <?php
 
-namespace App\Http\Requests\Resident\Client;
+namespace App\Http\Requests\Resident\Invoices;
 
-use App\Http\Requests\Interfaces\ConvertingPropertiesInterface;
-use App\Http\Requests\Traits\ConvertingPropertiesTrait;
+
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+
 
 class InvoiceListRequest extends FormRequest
 {
     const SORT = [
         'id' => 'sys_invoices.id',
-        'account' => 'crm_account.account',
-        'name' => 'crm_accounts.account',
-        'company' => 'sys_companies.company_name',
-        'group' => 'crm_groups.gname',
-        'email' => 'crm_accounts.email',
-        'phone' => 'crm_accounts.phone'
+        'code' => 'sortCode',
+        'account' => 'crm_accounts.account',
+        'amount' => 'sys_invoices.total',
+        'invoiceDate' => 'sys_invoices.date',
+        'dueDate' => 'sys_invoices.duedate',
+        'status' => 'sys_invoices.status',
+        'type' => 'sys_invoices.r'
     ];
+
     const DOCUMENT = ['json', 'pdf', 'excel', 'csv', 'copy'];
 
 
@@ -31,7 +33,7 @@ class InvoiceListRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'filter.group' => "nullable|exists:crm_groups,id",
+            'filter.status' => "nullable|exists:sys_invoices,status",
             'filter.search' => "nullable|string",
             'sort.name' => "nullable|in:" . implode(",", array_keys(self::SORT)),
             'document' => "nullable|in:" . implode(",", self::DOCUMENT),
@@ -41,7 +43,17 @@ class InvoiceListRequest extends FormRequest
     public function sortModel($model)
     {
         $desc = isset($this->sort['type']) ? (bool) $this->sort['type'] : true;
-        $model->orderBy(self::SORT[$this->sort['name'] ?? 'id'], $desc ? "desc" : 'asc');
+        if(method_exists($this, self::SORT[$this->sort['name'] ?? 'id'])) {
+            $method = self::SORT[$this->sort['name'] ?? 'id'];
+            $model->orderBy($this->{$method}(), $desc ? "desc" : 'asc');
+        } else {
+            $model->orderBy(self::SORT[$this->sort['name'] ?? 'id'], $desc ? "desc" : 'asc');
+        }
+    }
+
+    private function sortCode()
+    {
+        return DB::raw("IF(`sys_invoices`.`cn` != '', `sys_invoices`.`cn`, `sys_invoices`.`id`) * 1");
     }
 
 
