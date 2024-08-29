@@ -13,7 +13,9 @@ class PdfDocument extends Document
     {
         $pdf = PDF::loadView('document.pdf', [
             'varibles' => $this->varibles,
-            'data' => $this->varibles->resource ? json_decode($this->varibles->resource::collection($this->builder->get())->toJson()) : $this->builder->get()
+            'data' => $this->varibles->resource
+                ? json_decode($this->varibles->resource::collection($this->builder->get())->toJson())
+                : $this->builder->get()
         ]);
 
         return $pdf->download($this->varibles->nameDocument . ".pdf");
