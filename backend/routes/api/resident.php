@@ -46,7 +46,7 @@ Route::group(['prefix' => 'client',], function(){
 Route::controller(\App\Http\Controllers\Api\Resident\InvoiceController::class)->prefix('invoice')
     ->group(function(){
         Route::get('/stat', 'stat');
-//        Route::get('/', 'list');
+        Route::get('/list', 'list');
 //        Route::post('/', 'createOrUpdate');
 //        Route::put('/{invoice}', 'createOrUpdate');
 //        Route::get('/{invoice}', 'item');

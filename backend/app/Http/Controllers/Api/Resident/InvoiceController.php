@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Api\Resident;
 
 
 use App\Http\Controllers\Api\Traits\CRUD;
+use App\Http\Requests\Resident\Invoices\InvoiceListRequest;
+use App\Http\Resources\Resident\Invoices\InvoiceListResource;
 use App\Models\Resident\Invoices\Invoice;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends ResidentController
 {
@@ -31,34 +35,36 @@ class InvoiceController extends ResidentController
 
     }
 
-//    public function list(ClientListRequest $request)
-//    {
-//        $clients = Invoice::query()
-//            ->select('sys_invoices.*')
-//            ->leftJoin('crm_account', 'crm_account.id', '=', 'sys_invoices.userid')
-//            ->with(['user']);
-//
-//        $requestAll = $request->all();
-//        if($group = Arr::get($requestAll, 'filter.group')) {
-//            $clients->where('gid', $group);
-//        }
-//
-//        if($search = Arr::get($requestAll, 'filter.search')) {
-//            $clients->where(function($q) use ($search){
-//                $search = "%" . $search . "%";
-//                $q->where('sys_invoices.id', 'like', $search)
-//                    ->orWhere('sys_invoices.code', 'like', $search)
-//                    ->orWhere('crm_accounts.email', 'like', $search)
-//                    ->orWhere('crm_accounts.phone', 'like', $search)
-//                    ->orWhere('crm_groups.gname', 'like', $search)
-//                    ->orWhere('sys_companies.company_name', 'like', $search);
-//            });
-//        }
-//
-//        $request->sortModel($clients);
-//
-//        return $this->index($clients, ClientResource::class, true);
-//    }
+    public function list(InvoiceListRequest $request)
+    {
+        $invoice = Invoice::query()
+            ->select('sys_invoices.*')
+            ->leftJoin('crm_accounts', 'crm_accounts.id', '=', 'sys_invoices.userid')
+            ->leftJoin('sys_companies', 'sys_companies.id', '=', 'crm_accounts.cid')
+            ->with(['user', 'user.companyClient', 'user.group']);
+
+        $requestAll = $request->all();
+        if($status = Arr::get($requestAll, 'filter.status')) {
+            $invoice->where('sys_invoices.status', $status);
+        }
+
+        if($search = Arr::get($requestAll, 'filter.search')) {
+            $invoice->where(function($q) use ($search){
+                $search = "%" . $search . "%";
+                $q->where('sys_invoices.id', 'like', $search)
+                    ->orWhere(DB::raw("CONCAT(`sys_invoices`.`invoicenum`, '', IF(`sys_invoices`.`cn` != '', `sys_invoices`.`cn`, `sys_invoices`.`id`))"), 'like', $search)
+                    ->orWhere('crm_accounts.account', 'like', $search)
+                    ->orWhere('sys_companies.company_name', 'like', $search)
+                    ->orWhere('sys_invoices.total', 'like', $search)
+                    ->orWhere(DB::raw("DATE_FORMAT(`sys_invoices`.`date`, '%d/%m/%Y')"), 'like', $search)
+                    ->orWhere(DB::raw("DATE_FORMAT(`sys_invoices`.`duedate`, '%d/%m/%Y')"), 'like', $search);
+            });
+        }
+
+        $request->sortModel($invoice);
+
+        return $this->index($invoice, InvoiceListResource::class, true);
+    }
 
 
 }
