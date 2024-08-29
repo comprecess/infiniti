@@ -6,8 +6,11 @@ namespace App\Http\Controllers\Api\Resident;
 
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Invoices\InvoiceListRequest;
+use App\Http\Resources\Resident\Invoices\InvoiceExcelResource;
 use App\Http\Resources\Resident\Invoices\InvoiceListResource;
+use App\Http\Resources\Resident\Invoices\InvoicePdfResource;
 use App\Models\Resident\Invoices\Invoice;
+use App\Services\Document\DocumentVariables;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
@@ -35,8 +38,35 @@ class InvoiceController extends ResidentController
 
     }
 
+    public function getDocumentVariables(): DocumentVariables
+    {
+        $columns = [
+            'code' => 'Code',
+            'account' => 'Name and Company name',
+            'amount' => 'Amount',
+            'invoiceDate' => 'Invoice date',
+            'dueDate' => 'Due date',
+            'status' => 'Status',
+            'type' => 'Type',
+        ];
+
+        $varibles = new DocumentVariables();
+
+        $varibles->nameDocument = "Invoice";
+        $varibles->header = "Invoice - Infiniti";
+        $varibles->columns = $columns;
+        $varibles->excelView = 'document.excel.resident-invoice';
+        $varibles->resource = request()->input('document') == 'pdf' ? InvoicePdfResource::class : InvoiceExcelResource::class;
+
+
+        return $varibles;
+    }
+
     public function list(InvoiceListRequest $request)
     {
+
+        #ДОСТУП
+
         $invoice = Invoice::query()
             ->select('sys_invoices.*')
             ->leftJoin('crm_accounts', 'crm_accounts.id', '=', 'sys_invoices.userid')
