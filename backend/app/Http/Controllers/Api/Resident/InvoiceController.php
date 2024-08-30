@@ -13,7 +13,6 @@ use App\Models\Resident\Invoices\Invoice;
 use App\Services\Document\DocumentVariables;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class InvoiceController extends ResidentController
 {
@@ -75,7 +74,7 @@ class InvoiceController extends ResidentController
             ->with(['user', 'user.companyClient', 'user.group']);
 
         $requestAll = $request->all();
-        Log::alert('REQUEST', $requestAll);
+
         if($status = Arr::get($requestAll, 'filter.status')) {
             $invoice->where('sys_invoices.status', $status);
         }
@@ -94,8 +93,6 @@ class InvoiceController extends ResidentController
         }
 
         $request->sortModel($invoice);
-
-        Log::alert('QUERY', [$invoice->toRawSql()]);
 
         return $this->index($invoice, InvoiceListResource::class, true);
     }
