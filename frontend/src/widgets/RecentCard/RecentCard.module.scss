@@ -12,6 +12,7 @@
 }
 
 .title {
+  max-width: 100%;
   font-family: $fontSpaceGrotesk;
   font-size: 18px;
   font-weight: 700;
@@ -38,8 +39,16 @@
 
 .items {
   display: flex;
+  width: 100%;
   justify-content: space-between;
+  gap: 12px;
   align-items: center;
+}
+
+.rightComponents {
+  display: flex;
+  justify-content: flex-end;
+  max-width: 100%;
 }
 
 .rotate {

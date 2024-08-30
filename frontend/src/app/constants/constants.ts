@@ -523,3 +523,20 @@ export interface ViewEditTypeData {
   userName: string
   zip: string
 }
+
+export interface SalesInvoicesStatData {
+  count: number
+  percentage: number
+  status: string
+  total: string
+}
+
+export interface ViewInvoicesRecentData {
+  code: string
+  account: ListCustomersData
+  amount: string
+  invoiceDate: string
+  dueDate: string
+  status: string
+  type: number
+}

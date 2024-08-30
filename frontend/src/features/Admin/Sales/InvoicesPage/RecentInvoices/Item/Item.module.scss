@@ -6,74 +6,6 @@
   padding: 10px 12px 10px 12px;
 }
 
-.nameItem,
-.codeItem,
-.companyNameItem,
-.groupItem,
-.emailItem,
-.phoneItem {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.nameCodeItem,
-.companyNameItem,
-.groupItem,
-.emailItem,
-.phoneItem {
-  padding-right: 8px;
-}
-
-.companyNameItem,
-.groupItem,
-.emailItem,
-.phoneItem {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 30px;
-  letter-spacing: -0.03em;
-  text-align: left;
-  color: $white;
-}
-
-.nameItem {
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 26px;
-  letter-spacing: -0.03em;
-  text-align: left;
-  color: $white;
-}
-
-.codeItem {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 26px;
-  letter-spacing: -0.03em;
-  text-align: left;
-  color: $gray-300;
-}
-
-.nameItem,
-.codeItem,
-.imageItem {
-  cursor: pointer;
-}
-
-.nameCodeItem {
-  display: flex;
-  white-space: nowrap;
-  overflow: hidden;
-  flex-direction: column;
-}
-
-.imageItem {
-  width: 50px;
-  height: 50px;
-  border-radius: 100%;
-}
-
 .manageItem {
   display: flex;
   flex-direction: row;
@@ -83,9 +15,48 @@
   align-items: center;
 }
 
+.codeItem,
+.accountItem,
+.companyNameItem {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 23px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $white;
+  cursor: pointer;
+}
+
+.companyNameItem,
+.invoiceDateItem,
+.dueDateItem {
+  color: $gray-300;
+}
+
+.amountItem {
+  color: $white;
+}
+
+.amountItem,
+.invoiceDateItem,
+.dueDateItem {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 23px;
+  letter-spacing: -0.03em;
+  text-align: left;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
 .viewButton,
 .buttonEdit,
-.buttonTrash {
+.buttonTrash,
+.buttonClone,
+.buttonStopRecurring {
   display: flex;
   width: 100%;
   max-width: 56px;
@@ -109,6 +80,22 @@
 
   @include hover() {
     background-color: $amber-400;
+  }
+}
+
+.buttonClone {
+  background-color: $brand-500;
+
+  @include hover() {
+    background-color: $brand-400;
+  }
+}
+
+.buttonStopRecurring {
+  background-color: $cherry-500;
+
+  @include hover() {
+    background-color: $cherry-400;
   }
 }
 
