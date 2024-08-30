@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Resident\Invoices;
 
 
+use App\Models\Resident\Invoices\Invoice;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
 
@@ -33,7 +34,7 @@ class InvoiceListRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'filter.status' => "nullable|exists:sys_invoices,status",
+            'filter.status' => "nullable|in:". implode(",", Invoice::STATUS),
             'filter.search' => "nullable|string",
             'sort.name' => "nullable|in:" . implode(",", array_keys(self::SORT)),
             'document' => "nullable|in:" . implode(",", self::DOCUMENT),
