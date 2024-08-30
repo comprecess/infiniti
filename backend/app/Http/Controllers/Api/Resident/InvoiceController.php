@@ -80,7 +80,7 @@ class InvoiceController extends ResidentController
             $invoice->where('sys_invoices.status', $status);
         }
 
-        if($search = Arr::get($requestAll, 'filter.search')) {
+        if(($search = Arr::get($requestAll, 'filter.search')) !== null) {
             $invoice->where(function($q) use ($search){
                 $search = "%" . $search . "%";
                 $q->where('sys_invoices.id', 'like', $search)
