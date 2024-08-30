@@ -41,7 +41,7 @@ export const RecentCard: FC<PropsWithChildren<RecentCardProps>> = ({
       {(title || Component || refreshIcon || ordinaryIcons) && (
         <div className={styles.items}>
           {title && <h6 className={styles.title}>{title}</h6>}
-          <div>
+          <div className={styles.rightComponents}>
             {Component && <Component {...componentProps} />}
             {refreshIcon && <UpdateExpandMoreVert />}
             {ordinaryIcons && (

@@ -1,0 +1,26 @@
+.wrapper {
+  display: flex;
+  height: 24px;
+  border-radius: 100px;
+  padding: 1px 8px 1px 8px;
+  user-select: none;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: -0.03em;
+}
+
+.statusOneTime {
+  width: 69px;
+  background-color: $mint-transparent;
+  color: $mint-500;
+}
+
+.statusRecurring {
+  width: 76px;
+  background-color: $cherry-transparent;
+  color: $cherry-500;
+}

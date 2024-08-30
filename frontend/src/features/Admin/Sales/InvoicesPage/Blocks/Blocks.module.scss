@@ -1,0 +1,63 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  min-width: 230px;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.title {
+  font-family: $fontSpaceGrotesk;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 27px;
+  letter-spacing: -0.03em;
+  text-align: left;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.status {
+  font-family: $fontSpaceGrotesk;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 23px;
+  letter-spacing: -0.03em;
+  text-align: left;
+}
+
+.segments {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  width: 100%;
+  height: 100%;
+}
+
+.segment {
+  width: 100%;
+  height: 10px;
+  border-radius: 8px;
+}
+
+.backgroundSegment {
+  width: 100%;
+  height: 10px;
+  border-radius: 8px;
+  background-color: rgba($brand-1000, 0.25);
+}
+
+.percentage {
+  font-family: $fontSpaceGrotesk;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.03em;
+  text-align: left;
+}

@@ -1,0 +1,50 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  width: 100%;
+
+  @include mobileBreakpoint('min', $bpL) {
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  @include mobileBreakpoint('max', $bpL) {
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 17px;
+
+    .search {
+      order: 2;
+    }
+
+    .headerButtons {
+      order: 1;
+    }
+  }
+}
+
+.search {
+  @include mobileBreakpoint('min', $bpL) {
+    width: 400px;
+  }
+
+  @include mobileBreakpoint('max', $bpL) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.tabs {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}

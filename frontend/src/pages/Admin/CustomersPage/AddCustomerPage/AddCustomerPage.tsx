@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react'
 
 import { CustomerInputsData } from '../../../../app/constants/constants'
 import { Fields } from '../../../../features/Admin/CustomersPage/AddCustomer/Fields'
-import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
+import { ImportButton } from '../../../../features/Admin/CustomersPage/AddCustomer/ImportButton/ImportButton'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getCustomerInputsData } from '../../../../shared/utils/api/Admin/AddCustomer/GetCustomerInputsData'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
@@ -32,14 +32,7 @@ export const AdminAddCustomerPage: FC = () => {
           <RecentCard
             title='Add Contact'
             style={styles.recentFullScreen}
-            Component={ButtonBlue}
-            componentProps={{
-              title: 'Import Contacts',
-              style: styles.blueButton,
-              icon: '/icons/import.svg',
-              iconProps: styles.icon,
-              titleNone: true,
-            }}
+            Component={ImportButton}
           >
             <Fields data={data} />
           </RecentCard>

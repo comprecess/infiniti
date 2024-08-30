@@ -24,9 +24,8 @@
   cursor: pointer;
 }
 
-.companyNameItem,
-.companyCodeItem {
-  font-size: 15px;
+.companyNameItem {
+  font-size: 16px;
   font-weight: 500;
   line-height: 26px;
   letter-spacing: -0.03em;
@@ -35,6 +34,11 @@
 }
 
 .companyCodeItem {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: -0.03em;
+  text-align: left;
   color: $gray-300;
 }
 

@@ -20,7 +20,7 @@ import styles from './ListCustomerPage.module.scss'
 
 export const AdminListCustomerPage: FC = () => {
   const [page, setPage] = useState<number>(1)
-  const [search, setSearch] = useState<string>('0')
+  const [search, setSearch] = useState<string>('')
   const [sortName, setSortName] = useState<string>('id')
   const [sortType, setSortType] = useState<number>(1)
   const [options, setOptions] = useState<string>('')
@@ -41,6 +41,7 @@ export const AdminListCustomerPage: FC = () => {
   ) => {
     // eslint-disable-next-line max-len
     const urlOptions = `?page=${pageItem}&filter[search]=${searchItem}&sort[name]=${sortNameItem}&sort[type]=${sortTypeItem}&document=json`
+
     setOptions(urlOptions)
   }
 
@@ -95,6 +96,8 @@ export const AdminListCustomerPage: FC = () => {
   }, [])
 
   const getCustomers = async () => {
+    if (!options) return
+
     const getResponse = await getCustomersList(options)
 
     if (page > getResponse.meta.last_page) {

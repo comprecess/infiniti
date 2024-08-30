@@ -1,0 +1,75 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+
+  @include scrollbar;
+}
+
+.sectionFirst,
+.sectionSecond,
+.title {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.blocksList {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  gap: 16px;
+  max-width: $maxContentSize;
+
+  @include mobileBreakpoint('max', $bpXL) {
+    flex-direction: column;
+  }
+}
+
+.recentFullScreen {
+  max-width: $maxContentSize;
+}
+
+.blocksContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 16px;
+
+  @include mobileBreakpoint('max', $bpL) {
+    flex-direction: column;
+  }
+}
+
+.blocksBackGroundFirst {
+  background: linear-gradient(to right, $mint-600, $mint-400);
+}
+
+.chartBackGroundFirst {
+  background-color: $brand-500;
+}
+
+.blocksBackGroundSecond {
+  background: linear-gradient(to right, $cherry-600, $cherry-400);
+}
+
+.chartBackGroundSecond {
+  background-color: $amber-500;
+}
+
+.blocksBackGroundThird {
+  background: linear-gradient(to right, $brand-600, $brand-400);
+}
+
+.chartBackGroundThird {
+  background-color: $mint-500;
+}
+
+.blocksBackGroundFourth {
+  background: linear-gradient(to right, $gray-600, $gray-400);
+}
+
+.chartBackGroundFourth {
+  background-color: $cherry-500;
+}
