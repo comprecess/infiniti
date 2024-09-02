@@ -252,4 +252,9 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
             })
             ->get();
     }
+
+    public static function getForSelect()
+    {
+        return self::orderBy('account')->with(['group', 'companyClient'])->get();
+    }
 }

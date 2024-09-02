@@ -47,6 +47,7 @@ Route::controller(\App\Http\Controllers\Api\Resident\InvoiceController::class)->
     ->group(function(){
         Route::get('/stat', 'stat');
         Route::get('/list', 'list');
+        Route::get('/input-data', 'inputData');
 //        Route::post('/', 'createOrUpdate');
 //        Route::put('/{invoice}', 'createOrUpdate');
 //        Route::get('/{invoice}', 'item');
