@@ -1,0 +1,27 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.buttonSave,
+.buttonSaveAndClose {
+  height: 42px;
+}
+
+.buttonSave {
+  max-width: 100px;
+}
+
+.buttonSaveAndClose {
+  max-width: 160px;
+}
+
+.iconSave,
+.iconSaveAndClose {
+  width: 22px;
+  height: 22px;
+}

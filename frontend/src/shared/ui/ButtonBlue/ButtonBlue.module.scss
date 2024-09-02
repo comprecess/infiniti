@@ -10,10 +10,6 @@
   @include hover() {
     background-color: $brand-400;
   }
-
-  @include mobileBreakpoint('max', $bpS) {
-    width: 60px;
-  }
 }
 
 .title,
@@ -28,6 +24,12 @@
 .titleNone {
   @include mobileBreakpoint('max', $bpS) {
     display: none;
+
+    .iconWrapper {
+      @include mobileBreakpoint('max', $bpS) {
+        width: 60px;
+      }
+    }
   }
 }
 

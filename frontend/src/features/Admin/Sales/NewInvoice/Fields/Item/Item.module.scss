@@ -1,0 +1,28 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.title {
+  font-family: $fontSpaceGrotesk;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: -0.03em;
+  color: $gray-300;
+}
+
+.value {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.value {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

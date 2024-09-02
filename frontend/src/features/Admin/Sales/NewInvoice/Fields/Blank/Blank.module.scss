@@ -12,10 +12,19 @@
 
   @include mobileBreakpoint('max', $bpL) {
     flex-direction: column;
+
+    .sectionFirst {
+      order: 2;
+    }
+
+    .sectionSecond {
+      order: 1;
+    }
   }
 }
 
-.section {
+.sectionFirst,
+.sectionSecond {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -39,38 +48,35 @@
   letter-spacing: -0.03em;
 }
 
-.blank {
+.buttonRemove {
   display: flex;
-  flex-direction: column;
   width: 100%;
-  gap: 20px;
+  justify-content: end;
+
+  @include mobileBreakpoint('max', $bpL) {
+    justify-content: start;
+  }
 }
 
-.buttonsBlank {
+.buttonDeleteBlank {
+  max-width: 150px;
+  height: 44px;
+  background-color: $cherry-500;
+
+  @include hover() {
+    background-color: $cherry-400;
+  }
+}
+
+.buttonIcon {
+  height: 20px;
+  width: 20px;
+}
+
+.discountContainer {
   display: flex;
   flex-direction: row;
-  gap: 12px;
-  width: 100%;
-}
-
-.buttonBlue {
-  max-width: 165px;
-  height: 44px;
-}
-
-.buttonAddIcon {
-  width: 17px;
-  height: 17px;
-}
-
-.buttonSearchIcon {
-  width: 20px;
-  height: 20px;
-}
-
-.calculations {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  gap: 24px;
+  align-items: center;
   width: 100%;
 }

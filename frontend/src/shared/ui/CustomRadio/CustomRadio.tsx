@@ -4,7 +4,7 @@ import { FC } from 'react'
 import styles from './CustomRadio.module.scss'
 
 interface CustomRadioProps {
-  title: string
+  title?: string
   radioList: string[]
   direction?: 'column' | 'row'
   defaultValue?: string
@@ -24,7 +24,7 @@ export const CustomRadio: FC<CustomRadioProps> = ({
 
   return (
     <>
-      <span className={styles.title}>{title}</span>
+      {title && <span className={styles.title}>{title}</span>}
       <RadioGroup
         defaultValue={defaultValue}
         fontSize='17px'
