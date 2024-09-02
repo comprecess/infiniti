@@ -540,3 +540,12 @@ export interface ViewInvoicesRecentData {
   status: string
   type: number
 }
+
+export interface SalesBlankData {
+  id: number
+  itemName: string
+  qty: number
+  price: number
+  tax: string
+  total: number
+}
