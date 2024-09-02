@@ -4,11 +4,9 @@ namespace App\Http\Resources\Resident\Settings;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Number;
 
-class CurrencyResorce extends JsonResource
+class TaxResorce extends JsonResource
 {
-    private $currencyInfo = null;
     /**
      * Transform the resource into an array.
      *
@@ -16,14 +14,11 @@ class CurrencyResorce extends JsonResource
      */
     public function toArray(Request $request): array
     {
-
         return [
             'id' => $this->id,
-            'code' => $this->iso_code,
-            'symbol' => $this->symbol,
+            'name' => $this->name,
             'rate' => $this->rate,
-            'isdefault' => $this->isdefault,
-            'info' => $this->getInfo()
+            'isDefault' => $this->is_default,
         ];
     }
 }

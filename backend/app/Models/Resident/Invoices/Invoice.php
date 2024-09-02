@@ -3,12 +3,14 @@
 namespace App\Models\Resident\Invoices;
 
 use App\Models\Collection\InvoiceCollection;
+use App\Models\Config;
 use App\Models\Traits\CollectionTrait;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class Invoice extends Model
 {
@@ -16,6 +18,22 @@ class Invoice extends Model
 
     const STATUS = [
         'Unpaid', 'Paid', 'Partially Paid', 'Cancelled'
+    ];
+
+    const REPEAT = [
+        [null, 0],
+        ['day', 1],
+        ['week', 1],
+        ['week', 2],
+        ['week', 3],
+        ['week', 4],
+        ['month', 1],
+        ['month', 2],
+        ['month', 3],
+        ['month', 6],
+        ['year', 1],
+        ['year', 2],
+        ['year', 3]
     ];
 
     protected $table = "sys_invoices";
@@ -26,6 +44,14 @@ class Invoice extends Model
       'date' => 'date',
       'duedate' => 'date',
     ];
+
+    public static function getNextNum()
+    {
+        $table = (new self())->getTable();
+        $query = DB::select("SHOW TABLE STATUS LIKE '{$table}'");
+        $nextID = $query[0]->Auto_increment;
+        return str_pad($nextID, Config::get('number_pad', 5), '0', STR_PAD_LEFT);
+    }
 
     public function getCode()
     {
@@ -61,5 +87,14 @@ class Invoice extends Model
             $data['percentage'] = $data['count'] ? round(($data['count'] / $summ) * 100, $round) : 0 ;
         }
         return $result;
+    }
+    public static function getRepeatName()
+    {
+        $repeat = [];
+        foreach(self::REPEAT as $key => $value) {
+            $repeat[$key] = $value[0] ? trans_choice("numerals.repeat.{$value[0]}", $value[1], [$value[0] => $value[1]]) : $value[1] ;
+        }
+
+        return $repeat;
     }
 }
