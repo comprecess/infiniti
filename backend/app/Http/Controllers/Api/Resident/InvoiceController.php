@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\Resident;
 
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Invoices\InvoiceListRequest;
+use App\Http\Requests\Resident\Invoices\InvoicePriceCalcRequest;
 use App\Http\Requests\Resident\Invoices\InvoiceRequest;
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\Invoices\InvoiceExcelResource;
@@ -124,6 +125,49 @@ class InvoiceController extends ResidentController
             'tax' => TaxResorce::collection(Tax::getForSelect()),
             'notes' => Config::get('invoice_terms')
         ]);
+    }
+
+    public function priceCalc(InvoicePriceCalcRequest $request)
+    {
+        $result = [];
+        $sum = [0,0,0,0];
+        foreach($request->getPriceList() as $key => $value) {
+            $class = InvoicePriceCalcRequest::TYPE[$value['type']];
+            if(class_exists($class)) {
+                $price = 0;
+                $discount = 0;
+            } else {
+                $price = round(intval($value['amount'] ?? 0) * ($value['price'] ?? 0), 2);
+                $discount =  round($request->discount($price, $value['discountType'] ?? null, $value['discount'] ?? null), 2);
+            }
+
+            $total = round($price - $discount, 2);
+
+            if(isset($value['tax'])) {
+                $taxModel = Tax::findOrFail($value['tax']);
+                $tax = $taxModel->getTaxPrice($total);
+            } else {
+                $tax = 0;
+            }
+
+            $total += $tax;
+            $result[$key]['total'] = $total;
+
+            $sum[0] += $price;
+            $sum[1] += $discount;
+            $sum[2] += $tax;
+            $sum[3] += $total;
+
+        }
+
+        if($request->currency) {
+            $currency = Currency::where('iso_code', $request->currency)->first();
+            foreach($sum as &$val) {
+                $val = (new Invoice())->printPrice($val, $currency);
+            }
+        }
+
+        return response()->json(['data' => $result, 'result' => array_combine(['price', 'discount', 'tax', 'total'], $sum)]);
     }
 
     public function createOrUpdate(InvoiceRequest $request, Invoice $invoice)

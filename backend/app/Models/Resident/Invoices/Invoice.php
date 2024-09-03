@@ -21,7 +21,7 @@ class Invoice extends Model
     ];
 
     const REPEAT = [
-        [null, 0],
+//        [null, 0],
         ['day', 1],
         ['week', 1],
         ['week', 2],
