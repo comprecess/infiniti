@@ -18,4 +18,9 @@ class Tax extends Model
         return self::orderBy('id')->get();
     }
 
+    public function getTaxPrice($price)
+    {
+        return round($price * ($this->rate * 0.01), 2);
+    }
+
 }
