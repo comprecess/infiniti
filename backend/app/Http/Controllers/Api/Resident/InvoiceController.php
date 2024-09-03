@@ -133,11 +133,14 @@ class InvoiceController extends ResidentController
         $sum = [0,0,0,0];
         foreach($request->getPriceList() as $key => $value) {
             $class = InvoicePriceCalcRequest::TYPE[$value['type']];
+            $a = intval($value['amount'] ?? 0);
             if(class_exists($class)) {
                 $price = 0;
                 $discount = 0;
+                $p = 0;
             } else {
-                $price = round(intval($value['amount'] ?? 0) * ($value['price'] ?? 0), 2);
+                $p = (float) ($value['price'] ?? 0);
+                $price = round($a * $p, 2);
                 $discount =  round($request->discount($price, $value['discountType'] ?? null, $value['discount'] ?? null), 2);
             }
 
@@ -152,6 +155,8 @@ class InvoiceController extends ResidentController
 
             $total += $tax;
             $result[$key]['total'] = $total;
+            $result[$key]['price'] = $p;
+            $result[$key]['amount'] = $a;
 
             $sum[0] += $price;
             $sum[1] += $discount;
