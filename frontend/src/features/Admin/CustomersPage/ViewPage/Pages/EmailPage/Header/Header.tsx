@@ -8,7 +8,7 @@ import styles from './Header.module.scss'
 
 interface HeaderProps {
   inputTo: string
-  updateInfo: (name: string, value: string) => void
+  updateInfo: (name: string, value: string | number) => void
   sendEmail: () => void
 }
 

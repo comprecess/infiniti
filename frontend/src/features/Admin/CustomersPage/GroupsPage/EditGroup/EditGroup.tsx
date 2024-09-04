@@ -12,7 +12,7 @@ interface EditGroupProps {
   modalEditGroup: boolean
   handleOpenCloseModal: () => void
   editGroup: (id: number) => void
-  handleInputChange: (name: string, value: string) => void
+  handleInputChange: (name: string, value: string | number) => void
 }
 
 export const EditGroup: FC<EditGroupProps> = ({

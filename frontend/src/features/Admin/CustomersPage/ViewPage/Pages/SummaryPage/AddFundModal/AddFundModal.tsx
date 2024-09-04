@@ -25,8 +25,8 @@ export const AddFundModal: FC<AddFundModalProps> = ({
 }) => {
   const [value, setValue] = useState<string>('')
 
-  const onChange = (_name: string, value: string) => {
-    setValue(value)
+  const onChange = (_name: string, value: string | number) => {
+    setValue(value.toString())
   }
 
   const sendValue = () => {

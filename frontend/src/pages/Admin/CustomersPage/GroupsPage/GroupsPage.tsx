@@ -134,9 +134,9 @@ export const AdminGroupsPage: FC = () => {
     openEditGroupModal()
   }
 
-  const handleInputChange = (name: string, value: string) => {
+  const handleInputChange = (name: string, value: string | number) => {
     if (name === 'groupName') {
-      setName(value)
+      setName(value.toString())
     }
   }
 
