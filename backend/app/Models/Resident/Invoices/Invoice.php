@@ -4,17 +4,20 @@ namespace App\Models\Resident\Invoices;
 
 use App\Models\Collection\InvoiceCollection;
 use App\Models\Config;
+use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Traits\CollectionTrait;
 use App\Models\Traits\CurrencyTrait;
+use App\Models\Traits\HelperTrait;
+use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
-class Invoice extends Model
+class Invoice extends Model implements InsertDefaultValueInterface
 {
-    use HasFactory, CurrencyTrait, CollectionTrait;
+    use HasFactory, CurrencyTrait, CollectionTrait, HelperTrait, InsertDefaultValueTrait;
 
     const STATUS = [
         'Unpaid', 'Paid', 'Partially Paid', 'Cancelled'
@@ -63,6 +66,11 @@ class Invoice extends Model
         return $this->belongsTo(Client::class, 'userid');
     }
 
+    public function items()
+    {
+        return $this->hasMany(InvoiceItem::class, 'invoiceid');
+    }
+
     public static function smallStat(callable $where = null, $round = 1)
     {
         $result = [];
@@ -96,5 +104,18 @@ class Invoice extends Model
         }
 
         return $repeat;
+    }
+
+    public function getDefault(): array
+    {
+        return [
+            'notes' => ['', 'notes'],
+            'account' => [''],
+            'taxname' => [''],
+            'tax2' => [0.0],
+            'taxrate' => [0.0],
+            'taxrate2' => [0.0],
+            'paymentmethod' => [''],
+        ];
     }
 }

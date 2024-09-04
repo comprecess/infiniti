@@ -16,10 +16,12 @@ use App\Http\Resources\Resident\Settings\CurrencyResorce;
 use App\Http\Resources\Resident\Settings\TaxResorce;
 use App\Models\Config;
 use App\Models\Resident\Invoices\Invoice;
+use App\Models\Resident\Invoices\InvoiceItem;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\Tax;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
@@ -127,7 +129,7 @@ class InvoiceController extends ResidentController
         ]);
     }
 
-    public function priceCalc(InvoicePriceCalcRequest $request)
+    public static function blankCalc(InvoicePriceCalcRequest $request)
     {
         $result = [];
         $sum = [0,0,0,0];
@@ -149,14 +151,23 @@ class InvoiceController extends ResidentController
             if(isset($value['tax'])) {
                 $taxModel = Tax::findOrFail($value['tax']);
                 $tax = $taxModel->getTaxPrice($total);
+                $taxRate = $taxModel->rate;
             } else {
                 $tax = 0;
+                $taxRate = 0;
             }
 
             $total += $tax;
+            $result[$key]['id'] = $value['id'] ?? null;
             $result[$key]['total'] = $total;
             $result[$key]['price'] = $p;
             $result[$key]['amount'] = $a;
+            $result[$key]['tax'] = $tax;
+            $result[$key]['taxRate'] = $taxRate;
+            $result[$key]['discountType'] = $value['discountType'] ?? null;
+            $result[$key]['discountValue'] = $value['discount'] ?? null;
+            $result[$key]['discountTotal'] = $discount;
+            $result[$key]['description'] = $value['description'] ?? $description ?? null;
 
             $sum[0] += $price;
             $sum[1] += $discount;
@@ -164,6 +175,13 @@ class InvoiceController extends ResidentController
             $sum[3] += $total;
 
         }
+
+        return [$sum, $result];
+    }
+
+    public function priceCalc(InvoicePriceCalcRequest $request)
+    {
+        list($sum, $result) = self::blankCalc($request);
 
         if($request->currency) {
             $currency = Currency::where('iso_code', $request->currency)->first();
@@ -177,19 +195,31 @@ class InvoiceController extends ResidentController
 
     public function createOrUpdate(InvoiceRequest $request, Invoice $invoice)
     {
+        $requestCalc = app(InvoicePriceCalcRequest::class);
+        list($sum, $result) = self::blankCalc($requestCalc);
+
         return $this->createOrUpdateCRUD(
             $request,
             $invoice,
-            function($model, $request, $isNew){
+            function($model, $request, $isNew) use($sum){
 
-                if($isNew) {
-                    $model->setApiToken();
+                $date = Carbon::createFromFormat('Y-m-d', $request->date);
+                $model->date = $date;
+
+                if($request->dueDate && isset(InvoiceRequest::DUEDATE[$request->dueDate])) {
+                    $model->duedate = $date->addDays(InvoiceRequest::DUEDATE[$request->dueDate]);
+                } else {
+                    $model->duedate = $date;
                 }
-                /**
-                 * @var Client $model
-                 */
-                if($request->password) {
-                    $model->setNewPassword($request->password);
+
+                if($request->repeat && isset(Invoice::REPEAT[$request->repeat])) {
+                    $repeat = Invoice::REPEAT[$request->repeat];
+                    $method = 'add'. ucfirst($repeat[0]) . 's';
+                    $model->nd = $date->{$method}($repeat[1]);
+                    $model->r = "+" . $repeat[1] . " " . $repeat[0];
+                }else{
+                    $model->nd = $date;
+                    $model->r = 0;
                 }
 
                 if($request->currency) {
@@ -197,27 +227,52 @@ class InvoiceController extends ResidentController
                     $model->currency = $cur->id;
                 }
 
-                if($request->country) {
-                    $countryList = Countries::list();
-                    $model->country = $countryList[$request->country];
+                $model->invoicenum = $request->invoiceNum ? $request->invoiceNum : Config::get('invoice_code_prefix', 'INV-');
+                $model->cn = $request->num ? $request->num : '';
+//                $model->notes = $request->notes ? $request->notes : '';
+                $model->subtotal = $sum[0];
+                $model->discount = $sum[1];
+                $model->total = $sum[3];
+                $model->tax = $sum[2];
+                $model->status = InvoiceRequest::STATUS[$request->status];
+                $model->aid = auth()->id();
+
+                if($request->protjectId) {
+                    $model->pid = $request->protjectId;
+                }
+
+
+                if($isNew) {
+                    $model->is_same_state = 1;
+                    $model->setRandomNum('vtoken', 10);
+                    $model->setRandomNum('ptoken', 10);
+                    $model->datepaid = now();
                 }
             },
-            function($model, $request, $isNew){
+            function($model, $request, $isNew) use ($result){
+
                 if($isNew) {
-                    Log::send(__('resident.newContact', ['name' => $model->account, 'id' => $model->id]));
-                }
-
-                if($request->customFields) {
-                    $data = [];
-                    foreach($request->customFields as $id => $value) {
-                        $data[$id] = ['fvalue' => $value];
+                    foreach($result as $value) {
+                        $invoiceItem = new InvoiceItem();
+                        $invoiceItem->insertDefaultValue();
+                        $invoiceItem->invoiceid = $model->id;
+                        $invoiceItem->userid = $request->clientId;
+                        $invoiceItem->description = $value['description'] ?? '';
+                        $invoiceItem->qty = $value['amount'];
+                        $invoiceItem->amount = $value['price'];
+                        $invoiceItem->total = $value['total'];
+                        $invoiceItem->tax_rate = $value['taxRate'];
+                        $invoiceItem->taxamount = $value['tax'];
+                        if($value['tax']) {
+                            $invoiceItem->taxed = 1;
+                        }else{
+                            $invoiceItem->taxed = 0;
+                        }
+                        $invoiceItem->discount_type = $value['discountType'] == 'percent' ? 'p' : 'f';
+                        $invoiceItem->discount_amount = $value['discountValue'] ?? 0;
+                        $invoiceItem->itemcode = $value['id'] ?? '';
+                        $invoiceItem->save();
                     }
-                    $model->customFieldsValues()->sync($data);
-                }
-
-
-                if($request->tags) {
-                    $model->setTag($request->tags);
                 }
             }
         );

@@ -16,4 +16,9 @@ trait HelperTrait
         $sep = '%0'.$limit.'d';
         return mb_strtoupper($name) . '-' . sprintf($sep, $nextID);
     }
+
+    public function setRandomNum($nameColumn, $col = 6)
+    {
+        $this->{$nameColumn} = substr(str_shuffle(str_repeat('0123456789', $col)), 0, $col);
+    }
 }

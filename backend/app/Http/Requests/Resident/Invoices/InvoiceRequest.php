@@ -33,16 +33,25 @@ class InvoiceRequest extends FormRequest implements ConvertingPropertiesInterfac
     public function rules(): array
     {
         return [
-            'filter.status' => "nullable|in:". implode(",", Invoice::STATUS),
-            'filter.search' => "nullable|string",
-            'sort.name' => "nullable|in:" . implode(",", array_keys(self::SORT)),
-            'document' => "nullable|in:" . implode(",", self::DOCUMENT),
+            'clientId' => "required|exists:crm_accounts,id",
+            'status' => "required|in:" . implode(",", array_keys(self::STATUS)),
+            'dueDate' => "nullable|in:" . implode(",", array_keys(self::DUEDATE)),
+            'currency' => "required|exists:sys_currencies,iso_code",
+            'date' => 'required|date_format:Y-m-d',
         ];
     }
 
 
     public function getListProperties(): array
     {
-        // TODO: Implement getListProperties() method.
+        return [
+            'clientId' => 'userid',
+            'currency' => 'currency_iso_code',
+            'title',
+            'invoiceNum' => 'invoicenum',
+            'num' => 'cn',
+            'receiptNumber' => 'receipt_number',
+            'showQuantity' => 'show_quantity_as',
+        ];
     }
 }
