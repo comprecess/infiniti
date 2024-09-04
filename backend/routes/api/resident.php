@@ -49,7 +49,7 @@ Route::controller(\App\Http\Controllers\Api\Resident\InvoiceController::class)->
         Route::get('/list', 'list');
         Route::get('/input-data', 'inputData');
         Route::post('/price-calc', 'priceCalc');
-//        Route::post('/', 'createOrUpdate');
+        Route::post('/', 'createOrUpdate');
 //        Route::put('/{invoice}', 'createOrUpdate');
 //        Route::get('/{invoice}', 'item');
 //        Route::delete('/{invoice}', 'delete');

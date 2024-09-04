@@ -22,7 +22,12 @@ class ClientResource extends JsonResource
             'company' => new CompanyResource($this->companyClient),
             'group' => new GroupResource($this->group),
             'email' => $this->email,
-            'phone' => $this->phone
+            'phone' => $this->phone,
+            'address' => $this->address,
+            'city' => $this->city,
+            'state' => $this->state,
+            'zip' => $this->zip,
+            'country' => $this->country,
         ];
     }
 

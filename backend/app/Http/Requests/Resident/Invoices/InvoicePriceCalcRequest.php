@@ -41,6 +41,7 @@ class InvoicePriceCalcRequest extends FormRequest
             $this->getPriceList('discount') => "nullable|numeric",
             $this->getPriceList('discountType') => "nullable|in:percent,fixed",
             $this->getPriceList('tax') => "nullable|exists:sys_tax,id",
+            $this->getPriceList('description') => "nullable",
             "currency" => "nullable|exists:sys_currencies,iso_code"
         ];
 
