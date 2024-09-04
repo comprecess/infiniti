@@ -5,6 +5,7 @@ namespace App\Http\Requests\Resident\Invoices;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 
@@ -22,6 +23,8 @@ class InvoicePriceCalcRequest extends FormRequest
 
     public function rules(): array
     {
+        Log::alert('InvoicePriceCalcRequest', $this->all());
+
         $type = array_keys(self::TYPE);
         unset($type[0]);
         collect($this->getPriceList() ?? [])->each(function($data, $key) use($type){
