@@ -22,7 +22,7 @@ export const ProfileChangeInfoCard: FC<ProfileChangeInfoCardProps> = ({
   onChangeInfo,
 }) => {
   const [formData, setFormData] = useState<
-  Partial<UpdateProfileInfoProps>
+    Partial<UpdateProfileInfoProps>
   >({
     account: talent.account,
     email: talent.email,
@@ -30,7 +30,7 @@ export const ProfileChangeInfoCard: FC<ProfileChangeInfoCardProps> = ({
 
   const showToast = useCustomToast()
 
-  const handleInputChange = (name: string, value: string) => {
+  const handleInputChange = (name: string, value: string | number) => {
     setFormData(prevFormData => ({
       ...prevFormData,
       [name]: value,
