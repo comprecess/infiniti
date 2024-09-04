@@ -53,9 +53,21 @@
   width: 100%;
 }
 
-.buttonBlue {
-  max-width: 165px;
+.buttonAddNew,
+.buttonAddProduct {
   height: 44px;
+
+  @include mobileBreakpoint('max', $bpS) {
+    width: 60px;
+  }
+}
+
+.buttonAddNew {
+  max-width: 135px;
+}
+
+.buttonAddProduct {
+  max-width: 235px;
 }
 
 .buttonAddIcon {

@@ -1,7 +1,6 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  width: 100%;
   gap: 20px;
 }
 
@@ -50,7 +49,6 @@
 
 .buttonRemove {
   display: flex;
-  width: 100%;
   justify-content: end;
 
   @include mobileBreakpoint('max', $bpL) {
@@ -62,6 +60,10 @@
   max-width: 150px;
   height: 44px;
   background-color: $cherry-500;
+
+  @include mobileBreakpoint('max', $bpS) {
+    width: 60px;
+  }
 
   @include hover() {
     background-color: $cherry-400;
@@ -79,4 +81,37 @@
   gap: 24px;
   align-items: center;
   width: 100%;
+}
+
+.wrapperTotalPrice {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.containerTotalPrice {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 48px;
+  background-color: $brand-800;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.valueTotalPrice {
+  display: flex;
+  width: 100%;
+  color: $gray-400;
+  white-space: nowrap;
+}
+
+.titleTotalPrice {
+  font-family: $fontSpaceGrotesk;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
 }

@@ -4,7 +4,7 @@ import styles from './Item.module.scss'
 
 interface ItemProps {
   title: string
-  value: string
+  value?: string
 }
 
 export const Item: FC<ItemProps> = ({ title, value }) => {
