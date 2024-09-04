@@ -9,7 +9,7 @@ import styles from './NewGroup.module.scss'
 interface NewGroupProps {
   modalNewGroup: boolean
   handleOpenCloseModal: () => void
-  handleInputChange: (name: string, value: string) => void
+  handleInputChange: (name: string, value: string | number) => void
   createNewGroup: () => void
 }
 
