@@ -6,17 +6,19 @@ import styles from './CustomSelect.module.scss'
 interface CustomSelectProps {
   title: string
   titleOnChange?: string
-  selectedList: string[]
+  idList: number[]
+  nameList: string[]
   placeholder?: string
   size?: 'xs' | 'sm' | 'md' | 'lg'
-  value?: string
+  value?: number
   camelCase?: boolean
-  onChange: (name: string, value: string) => void
+  onChange: (name: string, value: number) => void
 }
 
 export const CustomSelect: FC<CustomSelectProps> = ({
   title,
-  selectedList,
+  idList,
+  nameList,
   titleOnChange = '',
   placeholder,
   size = 'md',
@@ -25,7 +27,7 @@ export const CustomSelect: FC<CustomSelectProps> = ({
   onChange,
 }) => {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    onChange(titleOnChange, event.target.value)
+    onChange(titleOnChange, Number(event.target.value))
   }
 
   const camelCaseToTitleCase = (camelCaseString: string): string => {
@@ -67,9 +69,9 @@ export const CustomSelect: FC<CustomSelectProps> = ({
         focusBorderColor='brand.500'
         onChange={handleChange}
       >
-        {selectedList.map((item, index) => {
+        {nameList.map((item, index) => {
           return (
-            <option key={`${item}-${index}`} value={item}>
+            <option key={idList[index]} value={idList[index]}>
               {camelCase ? camelCaseToTitleCase(item) : item}
             </option>
           )

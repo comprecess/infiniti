@@ -206,7 +206,7 @@ export interface CurrencyProps {
   code: string
   isdefault: number
   rate: string
-  symbol: string
+  info: { symbol: string }
 }
 
 export interface GroupsListProps {
@@ -338,6 +338,7 @@ export interface SettingsCustomFieldsProps {
 export interface ListCustomersData {
   id: number
   account: string
+  address?: string
   code: string
   company: CompanyData
   email: string
@@ -542,10 +543,60 @@ export interface ViewInvoicesRecentData {
 }
 
 export interface SalesBlankData {
-  id: number
-  itemName: string
-  qty: number
+  id?: number
+  index: number
+  type: 'calc'
+  description: string
+  amount: number
   price: number
-  tax: string
+  tax: number
+  discount: number
+  discountType: 'percent' | 'fixed'
+}
+
+export interface SalesNewInvoiceFormData {
+  invoiceNum: string
+  num: string
+  status: string
+  currency: string
+  notes: string
+  blanks: SalesBlankData[]
+}
+
+export interface SalesNewInvoiceInputData {
+  currency: CurrencyProps[]
+  client: ListCustomersData[]
+  dueDate: string[]
+  invoiceNum: string
+  num: string
+  notes: string
+  repeat: string[]
+  status: string[]
+  tax: SalesNewInvoiceTaxProps[]
+}
+
+export interface SalesNewInvoiceTaxProps {
+  id: number
+  isDefault: number
+  name: string
+  rate: string
+}
+
+export interface SalesNewInvoicePriceCalcProps {
+  data: SalesNewInvoicePriceCalcDataData[] | null
+  result: {
+    discount: string
+    price: string
+    tax: string
+    total: string
+  } | null
+  status: boolean
+  message: string
+}
+
+interface SalesNewInvoicePriceCalcDataData {
+  amount: number
+  price: number
   total: number
+  description?: string
 }

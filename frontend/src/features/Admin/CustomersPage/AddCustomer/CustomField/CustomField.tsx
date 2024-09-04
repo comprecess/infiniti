@@ -18,6 +18,10 @@ export const CustomField: FC<CustomFiledProps> = ({ input, onChange }) => {
     onChange(input.name, event.target.value)
   }
 
+  const handleOnChange = (name: string, value: string | number) => {
+    onChange(name, value.toString())
+  }
+
   return (
     <div className={styles.wrapper}>
       {input.type === 'textBox' && (
@@ -27,7 +31,7 @@ export const CustomField: FC<CustomFiledProps> = ({ input, onChange }) => {
           id={input.name}
           name={input.name}
           value={input.value}
-          onChange={onChange}
+          onChange={handleOnChange}
         />
       )}
       {input.type === 'password' && (
@@ -37,19 +41,23 @@ export const CustomField: FC<CustomFiledProps> = ({ input, onChange }) => {
           id={input.name}
           name={input.name}
           value={input.value}
-          onChange={onChange}
+          onChange={handleOnChange}
         />
       )}
       {input.type === 'dropDown' && (
         <CustomSelect
           title={input.name}
           titleOnChange={input.name}
-          placeholder='None'
-          value={input.value}
-          selectedList={
+          value={Object.values(input.fieldOptions).findIndex(
+            value => value === input.value,
+          )}
+          idList={Object.values(input.fieldOptions).map(
+            (_country, index) => index,
+          )}
+          nameList={
             input.fieldOptions ? Object.values(input.fieldOptions) : []
           }
-          onChange={onChange}
+          onChange={handleOnChange}
         />
       )}
       {input.type === 'textArea' && (

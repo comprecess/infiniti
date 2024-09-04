@@ -21,6 +21,8 @@ interface FieldModalProps {
   ) => void
 }
 
+const types = ['textBox', 'password', 'dropDown', 'textArea']
+
 export const FieldModal: FC<FieldModalProps> = ({
   title,
   modalField,
@@ -45,8 +47,12 @@ export const FieldModal: FC<FieldModalProps> = ({
     }
   }
 
-  const handleFieldOptionsChange = (name: string, value: string) => {
+  const handleFieldOptionsChange = (
+    name: string,
+    value: string | number,
+  ) => {
     const optionsArray: string[] = value
+      .toString()
       .split(',')
       .map(option => option.trim())
       .filter(option => option !== '')
@@ -54,8 +60,8 @@ export const FieldModal: FC<FieldModalProps> = ({
     handleInputChange(name, optionsArray)
   }
 
-  const changeSelect = (type: string) => {
-    handleInputChange('type', type)
+  const changeSelect = (_name: string, index: number) => {
+    handleInputChange('type', types[index])
   }
 
   return (
@@ -84,8 +90,9 @@ export const FieldModal: FC<FieldModalProps> = ({
             camelCase
             title='Field Type'
             size='lg'
-            value={filedValues?.type}
-            selectedList={['textBox', 'password', 'dropDown', 'textArea']}
+            idList={types.map((_item, index) => index)}
+            nameList={types}
+            value={types.findIndex(value => value === filedValues?.type)}
             onChange={changeSelect}
           />
           <CustomInput

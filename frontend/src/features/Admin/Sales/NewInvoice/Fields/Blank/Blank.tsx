@@ -1,5 +1,6 @@
 import { FC } from 'react'
 
+import { SalesNewInvoiceTaxProps } from '../../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomRadio } from '../../../../../../shared/ui/CustomRadio/CustomRadio'
@@ -8,17 +9,32 @@ import { TextEditor } from '../../../../../../shared/ui/TextEditor/TextEditor'
 import styles from './Blank.module.scss'
 
 interface BlankProps {
+  id: number
+  currencySymbol: string | undefined
+  totalPrice: number | undefined
+  taxInput: SalesNewInvoiceTaxProps[]
   onChange: (name: string, value: string | number) => void
   onRemove: () => void
 }
 
-export const Blank: FC<BlankProps> = ({ onChange, onRemove }) => {
+export const Blank: FC<BlankProps> = ({
+  id,
+  currencySymbol,
+  totalPrice,
+  taxInput,
+  onChange,
+  onRemove,
+}) => {
   const handleOnInputChange = (name: string, value: string | number) => {
     onChange(name, value)
   }
 
   const handleOnTextEditorChange = (message: string) => {
-    onChange('itemName', message)
+    onChange('name', message)
+  }
+
+  const handleDiscountOnChange = (value: string) => {
+    onChange('discountType', value === '%' ? 'percent' : 'fixed')
   }
 
   return (
@@ -34,50 +50,53 @@ export const Blank: FC<BlankProps> = ({ onChange, onRemove }) => {
           <CustomInput
             title='Qty'
             type='number'
-            id='qty'
-            name='qty'
-            onChange={handleOnInputChange}
+            id={`${'qty'}-${id}`}
+            name={`${'qty'}-${id}`}
+            onChange={(_name, value) =>
+              handleOnInputChange('amount', value)
+            }
           />
           <CustomInput
             title='Price'
             type='number'
-            id='price'
-            name='price'
-            onChange={handleOnInputChange}
+            id={`${'price'}-${id}`}
+            name={`${'price'}-${id}`}
+            onChange={(_name, value) =>
+              handleOnInputChange('price', value)
+            }
           />
           <div className={styles.containerItems}>
             <span className={styles.containerItemsTitle}>Discount</span>
             <div className={styles.discountContainer}>
               <CustomRadio
-                radioList={['%', '₽']}
+                radioList={['%', currencySymbol || '-']}
                 defaultValue='%'
-                onChange={function (_value: string): void {
-                  throw new Error('Function not implemented.')
-                }}
+                onChange={handleDiscountOnChange}
               />
               <CustomInput
                 type='number'
-                id='discount'
-                name='discount'
-                onChange={handleOnInputChange}
+                id={`${'discount'}-${id}`}
+                name={`${'discount'}-${id}`}
+                onChange={(_name, value) =>
+                  handleOnInputChange('discount', value)
+                }
               />
             </div>
           </div>
           <CustomSelect
             title='Tax'
-            titleOnChange=''
-            value=''
-            selectedList={[]}
-            onChange={() => {}}
+            titleOnChange='tax'
+            idList={taxInput.map(tax => tax.id)}
+            nameList={taxInput.map(tax => tax.name)}
+            value={taxInput.find(tax => tax.isDefault === 1)?.id}
+            onChange={handleOnInputChange}
           />
-          <CustomInput
-            readOnly
-            title='Total'
-            type='number'
-            id='total'
-            name='total'
-            onChange={() => {}}
-          />
+          <div className={styles.wrapperTotalPrice}>
+            <span className={styles.titleTotalPrice}>Total</span>
+            <div className={styles.containerTotalPrice}>
+              <span className={styles.valueTotalPrice}>{totalPrice}</span>
+            </div>
+          </div>
         </section>
       </div>
       <div className={styles.buttonRemove}>

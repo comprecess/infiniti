@@ -50,21 +50,6 @@ export const Fields: FC<FieldsProps> = ({ idClient, data, inputs }) => {
 
       if (value === '' || value === null || value === undefined) {
         delete updatedFormData[name]
-      } else if (name === 'ownerId') {
-        const selectedOwner = inputs.owner.find(
-          owner => owner.account === value,
-        )
-        updatedFormData[name] = selectedOwner?.id
-      } else if (name === 'groupId') {
-        const selectedGroup = inputs.group.find(
-          group => group.name === value,
-        )
-        updatedFormData[name] = selectedGroup?.id
-      } else if (name === 'companyId') {
-        const selectedCompany = inputs.company.find(
-          company => company.name === value,
-        )
-        updatedFormData[name] = selectedCompany?.id
       } else {
         updatedFormData[name] = value
       }
@@ -124,16 +109,16 @@ export const Fields: FC<FieldsProps> = ({ idClient, data, inputs }) => {
     })
   }
 
-  const onChangeCountry = (_name: string, value: string) => {
+  const onChangeCountry = (_name: string, value: number) => {
     setFormData(prevFormData => {
+      const valuesArray = Object.values(inputs.country)
+
+      const countryValue = valuesArray[value]
+
       const countryKey = Object.entries(inputs.country).find(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        ([_key, val]) => val === value,
+        ([_key, val]) => val === countryValue,
       )?.[0]
-
-      if (!countryKey) {
-        return prevFormData
-      }
 
       return {
         ...prevFormData,
@@ -302,40 +287,44 @@ export const Fields: FC<FieldsProps> = ({ idClient, data, inputs }) => {
           <CustomSelect
             title='Company'
             titleOnChange='companyId'
-            placeholder='None'
-            value={data.company?.name}
-            selectedList={inputs.company.map(item => item.name)}
+            value={data.company?.id}
+            idList={inputs.company.map(item => item.id)}
+            nameList={inputs.company.map(item => item.name)}
             onChange={onChangeInput}
           />
           <CustomSelect
             title='Country'
-            titleOnChange='countryId'
-            selectedList={Object.values(inputs.country)}
-            value={data.country}
+            nameList={Object.values(inputs.country)}
+            value={Object.values(inputs.country).findIndex(
+              value => value === data.country,
+            )}
+            idList={Object.values(inputs.country).map(
+              (_country, index) => index,
+            )}
             onChange={onChangeCountry}
           />
           <CustomSelect
             title='Currency'
             titleOnChange='currency'
-            value={data.currency.code}
-            selectedList={inputs.currency.map(item => item.code)}
+            value={data.currency.id}
+            idList={inputs.currency.map(item => item.id)}
+            nameList={inputs.currency.map(item => item.code)}
             onChange={onChangeInput}
           />
           <CustomSelect
             title='Group'
             titleOnChange='groupId'
-            placeholder='None'
-            value={data.group?.name}
-            selectedList={inputs.group.map(item => item.name)}
+            value={data.group?.id}
+            idList={inputs.group.map(item => item.id)}
+            nameList={inputs.group.map(item => item.name)}
             onChange={onChangeInput}
           />
           <CustomSelect
             title='Owner'
             titleOnChange='ownerId'
-            selectedList={inputs.owner.map(item => item.account)}
-            value={
-              inputs.owner.find(item => item.id === data.ownerId)?.account
-            }
+            idList={inputs.owner.map(item => item.id)}
+            nameList={inputs.owner.map(item => item.account)}
+            value={inputs.owner.find(item => item.id === data.ownerId)?.id}
             onChange={onChangeInput}
           />
           <div className={styles.passwordContainer}>
