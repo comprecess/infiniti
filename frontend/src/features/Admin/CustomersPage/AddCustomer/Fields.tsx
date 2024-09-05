@@ -23,12 +23,13 @@ interface FieldsPostData {
 
 export interface PartialFieldsPostData extends Partial<FieldsPostData> {
   [key: string]:
-  | string
-  | number
-  | boolean
-  | undefined
-  | string[]
-  | { [id: number]: string }
+    | string
+    | number
+    | boolean
+    | undefined
+    | string[]
+    | { [id: number]: string }
+    | null
 }
 
 export const Fields: FC<FieldsProps> = ({ data }) => {
@@ -52,6 +53,18 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
           updatedFormData[name] = 1
         } else {
           updatedFormData[name] = 0
+        }
+      } else if (name === 'groupId' && typeof value === 'number') {
+        if (value === 0) {
+          updatedFormData[name] = null
+        } else {
+          updatedFormData[name] = data.group[value - 1].id
+        }
+      } else if (name === 'companyId' && typeof value === 'number') {
+        if (value === 0) {
+          updatedFormData[name] = null
+        } else {
+          updatedFormData[name] = data.company[value - 1].id
         }
       } else {
         updatedFormData[name] = value
@@ -177,7 +190,8 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
           <CustomSelect
             title='Company'
             titleOnChange='companyId'
-            idList={data.company.map(item => item.id)}
+            placeholder='None'
+            idList={data.company.map((_item, index) => index + 1)}
             nameList={data.company.map(item => item.name)}
             onChange={onChangeInput}
           />
@@ -292,7 +306,8 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
           <CustomSelect
             title='Group'
             titleOnChange='groupId'
-            idList={data.group.map(item => item.id)}
+            placeholder='None'
+            idList={data.group.map((_item, index) => index + 1)}
             nameList={data.group.map(item => item.name)}
             onChange={onChangeInput}
           />

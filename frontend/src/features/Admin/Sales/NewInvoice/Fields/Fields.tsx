@@ -12,6 +12,7 @@ import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/Cust
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
+import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 import { postInvoicePriceCalc } from '../../../../../shared/utils/api/Admin/Sales/NewInvoice/PostInvoicePriceCalc'
 import { Blank } from './Blank/Blank'
@@ -20,6 +21,7 @@ import { Item } from './Item/Item'
 
 interface FieldsProps {
   data: SalesNewInvoiceInputData
+  onFormDataChange: (data: Partial<SalesNewInvoiceFormData>) => void
 }
 
 export interface PartialFieldsPostData
@@ -27,17 +29,17 @@ export interface PartialFieldsPostData
   [key: string]: string | number | SalesBlankData[] | undefined | null
 }
 
-export const Fields: FC<FieldsProps> = ({ data }) => {
+export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({
     invoiceNum: data.invoiceNum,
     num: data.num,
     status: data.status[0],
     currency: data.currency.find(currency => currency.isdefault === 1)
       ?.code,
-    blanks: [
+    blankList: [
       {
         index: 0,
-        type: 'calc',
+        service: 'calc',
         description: '',
         amount: 0,
         price: 0,
@@ -53,9 +55,10 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
     useState<SalesNewInvoicePriceCalcProps | null>(null)
 
   const postPriceCalc = async () => {
-    const blankList = (formData.blanks || []).map(blank => ({
+    const blankList = (formData.blankList || []).map(blank => ({
+      serviceId: blank.serviceId,
       id: blank.id,
-      type: blank.type,
+      service: blank.service,
       amount: blank.amount,
       price: blank.price,
       tax: blank.tax,
@@ -84,6 +87,24 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
       value = currencyData ? currencyData.code : ''
     } else if (field === 'status' && typeof value === 'number') {
       value = data.status[value]
+    } else if (field === 'repeatEvery' && typeof value === 'number') {
+      if (value === 0) {
+        value = null
+      } else {
+        value = value - 1
+      }
+    } else if (field === 'dueDate' && typeof value === 'number') {
+      if (value === 0) {
+        value = null
+      } else {
+        value = value - 1
+      }
+    } else if (field === 'clientId' && typeof value === 'number') {
+      if (value === 0) {
+        value = null
+      } else {
+        value = data.client[value - 1].id
+      }
     }
 
     setFormData(prevFormData => ({
@@ -94,10 +115,10 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
 
   const handleAddBlank = () => {
     setFormData(prevFormData => {
-      const newId = prevFormData.blanks?.length || 0
+      const newId = prevFormData.blankList?.length || 0
       const newBlank: SalesBlankData = {
         index: newId,
-        type: 'calc',
+        service: 'calc',
         description: '',
         amount: 0,
         price: 0,
@@ -108,7 +129,7 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
 
       return {
         ...prevFormData,
-        blanks: [...(prevFormData.blanks || []), newBlank],
+        blankList: [...(prevFormData.blankList || []), newBlank],
       }
     })
   }
@@ -120,7 +141,7 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
   ) => {
     setFormData(prevFormData => ({
       ...prevFormData,
-      blanks: (prevFormData.blanks || []).map(blank =>
+      blankList: (prevFormData.blankList || []).map(blank =>
         blank.index === id ? { ...blank, [field]: value } : blank,
       ),
     }))
@@ -129,7 +150,7 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
   const handleRemoveBlank = (id: number) => {
     setFormData(prevFormData => ({
       ...prevFormData,
-      blanks: (prevFormData.blanks || []).filter(
+      blankList: (prevFormData.blankList || []).filter(
         blank => blank.index !== id,
       ),
     }))
@@ -137,11 +158,11 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
 
   useEffect(() => {
     postPriceCalc()
-  }, [formData.blanks, formData.currency])
+  }, [formData.blankList, formData.currency])
 
   useEffect(() => {
-    console.log(formData)
-  }, [formData])
+    onFormDataChange(formData)
+  }, [formData, onFormDataChange])
 
   return (
     <div className={styles.wrapper}>
@@ -200,7 +221,8 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
           <CustomSelect
             title='Customer'
             titleOnChange='clientId'
-            idList={data.client.map(client => client.id)}
+            placeholder='None'
+            idList={data.client.map((_client, index) => index + 1)}
             nameList={data.client.map(client =>
               `${client.account}${
                 client.email ? ` - ${client.email}` : ''
@@ -243,23 +265,25 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
           <CustomSelect
             title='Payment Terms'
             titleOnChange='dueDate'
-            idList={data.dueDate.map((_dueDate, index) => index)}
+            placeholder='None'
+            idList={data.dueDate.map((_dueDate, index) => index + 1)}
             nameList={data.dueDate.map(date => date)}
             onChange={handleChangeInput}
           />
           <CustomSelect
             title='Repeat Every'
             titleOnChange='repeatEvery'
-            idList={data.repeat.map((_repeat, index) => index)}
+            placeholder='None'
+            idList={data.repeat.map((_repeat, index) => index + 1)}
             nameList={data.repeat.map(date => date)}
             onChange={handleChangeInput}
           />
         </section>
       </div>
-      {formData.blanks && priceCalc?.data && (
+      {formData.blankList && priceCalc?.data ? (
         <section className={styles.blank}>
           <CustomDivider />
-          {formData.blanks.map(blank => (
+          {formData.blankList.map(blank => (
             <React.Fragment key={blank.index}>
               <Blank
                 id={blank.index}
@@ -284,6 +308,10 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
             </React.Fragment>
           ))}
         </section>
+      ) : (
+        <div className={styles.wrapperBlankLoadingSpinner}>
+          <LoadingSpinner size='xl' />
+        </div>
       )}
       <section className={styles.buttonsBlank}>
         <ButtonBlue

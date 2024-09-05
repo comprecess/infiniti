@@ -543,9 +543,10 @@ export interface ViewInvoicesRecentData {
 }
 
 export interface SalesBlankData {
+  serviceId?: number
   id?: number
   index: number
-  type: 'calc'
+  service: 'calc'
   description: string
   amount: number
   price: number
@@ -560,7 +561,7 @@ export interface SalesNewInvoiceFormData {
   status: string
   currency: string
   notes: string
-  blanks: SalesBlankData[]
+  blankList: SalesBlankData[]
 }
 
 export interface SalesNewInvoiceInputData {

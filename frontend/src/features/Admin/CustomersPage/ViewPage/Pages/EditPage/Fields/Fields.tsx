@@ -27,12 +27,13 @@ interface FieldsPostData {
 
 export interface PartialFieldsPostData extends Partial<FieldsPostData> {
   [key: string]:
-  | string
-  | number
-  | boolean
-  | undefined
-  | string[]
-  | { [id: number]: string }
+    | string
+    | number
+    | boolean
+    | undefined
+    | string[]
+    | { [id: number]: string }
+    | null
 }
 
 export const Fields: FC<FieldsProps> = ({ idClient, data, inputs }) => {
@@ -50,6 +51,18 @@ export const Fields: FC<FieldsProps> = ({ idClient, data, inputs }) => {
 
       if (value === '' || value === null || value === undefined) {
         delete updatedFormData[name]
+      } else if (name === 'groupId' && typeof value === 'number') {
+        if (value === 0) {
+          updatedFormData[name] = null
+        } else {
+          updatedFormData[name] = inputs.group[value - 1].id
+        }
+      } else if (name === 'companyId' && typeof value === 'number') {
+        if (value === 0) {
+          updatedFormData[name] = null
+        } else {
+          updatedFormData[name] = inputs.company[value - 1].id
+        }
       } else {
         updatedFormData[name] = value
       }
@@ -287,9 +300,14 @@ export const Fields: FC<FieldsProps> = ({ idClient, data, inputs }) => {
           <CustomSelect
             title='Company'
             titleOnChange='companyId'
-            value={data.company?.id}
-            idList={inputs.company.map(item => item.id)}
+            placeholder='None'
+            idList={inputs.company.map((_item, index) => index + 1)}
             nameList={inputs.company.map(item => item.name)}
+            value={
+              inputs.company.findIndex(
+                value => value.id === data.company?.id,
+              ) + 1
+            }
             onChange={onChangeInput}
           />
           <CustomSelect
@@ -314,9 +332,14 @@ export const Fields: FC<FieldsProps> = ({ idClient, data, inputs }) => {
           <CustomSelect
             title='Group'
             titleOnChange='groupId'
-            value={data.group?.id}
-            idList={inputs.group.map(item => item.id)}
+            placeholder='None'
+            idList={inputs.group.map((_item, index) => index + 1)}
             nameList={inputs.group.map(item => item.name)}
+            value={
+              inputs.group.findIndex(
+                value => value.id === data.group?.id,
+              ) + 1
+            }
             onChange={onChangeInput}
           />
           <CustomSelect
