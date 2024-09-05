@@ -134,7 +134,7 @@ class InvoiceController extends ResidentController
         $result = [];
         $sum = [0,0,0,0];
         foreach($request->getPriceList() as $key => $value) {
-            $class = InvoicePriceCalcRequest::TYPE[$value['type']];
+            $class = InvoicePriceCalcRequest::SERVICE[$value['service']];
             $a = intval($value['amount'] ?? 0);
             if(class_exists($class)) {
                 $price = 0;
@@ -158,6 +158,7 @@ class InvoiceController extends ResidentController
             }
 
             $total += $tax;
+            $result[$key]['serviceId'] = $value['serviceId'] ?? null;
             $result[$key]['id'] = $value['id'] ?? null;
             $result[$key]['total'] = $total;
             $result[$key]['price'] = $p;
@@ -273,6 +274,8 @@ class InvoiceController extends ResidentController
                         $invoiceItem->itemcode = $value['id'] ?? '';
                         $invoiceItem->save();
                     }
+                } else {
+
                 }
             }
         );

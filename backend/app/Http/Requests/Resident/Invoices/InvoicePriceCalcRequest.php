@@ -11,7 +11,7 @@ use Illuminate\Validation\ValidationException;
 
 class InvoicePriceCalcRequest extends FormRequest
 {
-    const TYPE = [
+    const SERVICE = [
         'calc' => null,
         'test' => 'test'
     ];
@@ -25,19 +25,19 @@ class InvoicePriceCalcRequest extends FormRequest
     {
         Log::alert('InvoicePriceCalcRequest', $this->all());
 
-        $type = array_keys(self::TYPE);
-        unset($type[0]);
-        collect($this->getPriceList() ?? [])->each(function($data, $key) use($type){
-            if(in_array($data['type'], $type)) {
+        $service = array_keys(self::SERVICE);
+        unset($service[0]);
+        collect($this->getPriceList() ?? [])->each(function($data, $key) use($service){
+            if(isset($data['service']) && in_array($data['service'], $service)) {
                 if(Arr::get($data, 'id') == null) {
-                    throw ValidationException::withMessages(["id" => __('validation.required_if', ['attribute' => "data.{$key}.id", "other" => 'type', 'value' => $data['type']])]);
+                    throw ValidationException::withMessages(["id" => __('validation.required_if', ['attribute' => "data.{$key}.id", "other" => 'service', 'value' => $data['service']])]);
                 }
             }
         });
 
         $data =  [
             $this->getPriceList(false) => "required|array",
-            $this->getPriceList('type') => "required|in:". implode(",", array_keys(self::TYPE)),
+            $this->getPriceList('service') => "required|in:". implode(",", array_keys(self::SERVICE)),
             $this->getPriceList('id') => "nullable|integer",
             $this->getPriceList('amount') => "nullable|integer",
             $this->getPriceList('price') => "nullable|numeric",
