@@ -6,8 +6,9 @@ import { getCookies } from '../../../../Saving/Cookies/GetCookies'
 
 export const postInvoicePriceCalc = async (blank: {
   blankList: {
+    serviceId?: number
     id?: number
-    type: 'calc'
+    service: 'calc'
     amount: number
     price: number
     tax: number

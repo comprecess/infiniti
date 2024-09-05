@@ -211,6 +211,10 @@ export const router = createBrowserRouter([
             element: Pages.adminNewInvoicePage,
           },
           {
+            path: Routes.editInvoice,
+            element: Pages.adminEditInvoice,
+          },
+          {
             index: true,
             element: (
               <Navigate
