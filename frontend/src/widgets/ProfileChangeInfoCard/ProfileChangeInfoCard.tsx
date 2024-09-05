@@ -22,7 +22,7 @@ export const ProfileChangeInfoCard: FC<ProfileChangeInfoCardProps> = ({
   onChangeInfo,
 }) => {
   const [formData, setFormData] = useState<
-    Partial<UpdateProfileInfoProps>
+  Partial<UpdateProfileInfoProps>
   >({
     account: talent.account,
     email: talent.email,

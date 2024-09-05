@@ -6,7 +6,7 @@ import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditInvoice.module.scss'
 
 export const AdminEditInvoice: FC = () => {
-  const [inputData, setInputData] = useState<null>(null)
+  const [inputData] = useState<null>(null)
 
   return (
     <div className={styles.wrapper}>

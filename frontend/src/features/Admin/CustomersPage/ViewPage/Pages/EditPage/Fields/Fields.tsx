@@ -27,13 +27,13 @@ interface FieldsPostData {
 
 export interface PartialFieldsPostData extends Partial<FieldsPostData> {
   [key: string]:
-    | string
-    | number
-    | boolean
-    | undefined
-    | string[]
-    | { [id: number]: string }
-    | null
+  | string
+  | number
+  | boolean
+  | undefined
+  | string[]
+  | { [id: number]: string }
+  | null
 }
 
 export const Fields: FC<FieldsProps> = ({ idClient, data, inputs }) => {
