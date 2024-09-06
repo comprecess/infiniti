@@ -38,7 +38,7 @@ class InvoicePriceCalcRequest extends FormRequest
         $data =  [
             $this->getPriceList(false) => "required|array",
             $this->getPriceList('service') => "required|in:". implode(",", array_keys(self::SERVICE)),
-            $this->getPriceList('id') => "nullable|integer",
+            $this->getPriceList('id') => "nullable|exists:sys_invoiceitems,id",
             $this->getPriceList('amount') => "nullable|integer",
             $this->getPriceList('price') => "nullable|numeric",
             $this->getPriceList('discount') => "nullable|numeric",
