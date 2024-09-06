@@ -24,6 +24,7 @@ use App\Services\Document\DocumentVariables;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class InvoiceController extends ResidentController
 {
@@ -250,35 +251,46 @@ class InvoiceController extends ResidentController
                     $model->datepaid = now();
                 }
             },
-            function($model, $request, $isNew) use ($result){
-
-                if($isNew) {
-                    foreach($result as $value) {
-                        $invoiceItem = new InvoiceItem();
-                        $invoiceItem->insertDefaultValue();
-                        $invoiceItem->invoiceid = $model->id;
-                        $invoiceItem->userid = $request->clientId;
-                        $invoiceItem->description = $value['description'] ?? '';
-                        $invoiceItem->qty = $value['amount'];
-                        $invoiceItem->amount = $value['price'];
-                        $invoiceItem->total = $value['total'];
-                        $invoiceItem->tax_rate = $value['taxRate'];
-                        $invoiceItem->taxamount = $value['tax'];
-                        if($value['tax']) {
-                            $invoiceItem->taxed = 1;
-                        }else{
-                            $invoiceItem->taxed = 0;
+            function($model, $request, $isNew) use ($result, $requestCalc){
+                foreach($result as $value) {
+                    if($value['id']) {
+                        $invoiceItem = $model->items()->where('id', $value['id'])->first();
+                        if(!$invoiceItem) {
+                            throw ValidationException::withMessages([$requestCalc->getPriceList(false) . ".id" => __('validation.regex', ['attribute' => $value['id']])]);
                         }
-                        $invoiceItem->discount_type = $value['discountType'] == 'percent' ? 'p' : 'f';
-                        $invoiceItem->discount_amount = $value['discountValue'] ?? 0;
-                        $invoiceItem->itemcode = $value['id'] ?? '';
-                        $invoiceItem->save();
+                    } else {
+                        $invoiceItem = new InvoiceItem();
                     }
-                } else {
-
+                    $invoiceItem->insertDefaultValue();
+                    $invoiceItem->invoiceid = $model->id;
+                    $invoiceItem->userid = $request->clientId;
+                    $invoiceItem->description = $value['description'] ?? '';
+                    $invoiceItem->qty = $value['amount'];
+                    $invoiceItem->amount = $value['price'];
+                    $invoiceItem->total = $value['total'];
+                    $invoiceItem->tax_rate = $value['taxRate'];
+                    $invoiceItem->taxamount = $value['tax'];
+                    if($value['tax']) {
+                        $invoiceItem->taxed = 1;
+                    }else{
+                        $invoiceItem->taxed = 0;
+                    }
+                    $invoiceItem->discount_type = $value['discountType'] == 'percent' ? 'p' : 'f';
+                    $invoiceItem->discount_amount = $value['discountValue'] ?? 0;
+                    $invoiceItem->itemcode = $value['serviceId'] ?? '';
+                    $invoiceItem->save();
                 }
             }
         );
+    }
+
+    public function blankDelete(Invoice $invoice, InvoiceItem $item)
+    {
+        if($invoice->id == $item->invoiceid) {
+            $item->delete();
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false, 'message' => 'Form not found in invoice']);
     }
 
 
