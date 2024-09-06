@@ -10,11 +10,14 @@ use App\Http\Requests\Resident\Invoices\InvoicePriceCalcRequest;
 use App\Http\Requests\Resident\Invoices\InvoiceRequest;
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\Invoices\InvoiceExcelResource;
+use App\Http\Resources\Resident\Invoices\InvoiceItemResource;
 use App\Http\Resources\Resident\Invoices\InvoiceListResource;
 use App\Http\Resources\Resident\Invoices\InvoicePdfResource;
+use App\Http\Resources\Resident\Invoices\InvoiceResource;
 use App\Http\Resources\Resident\Settings\CurrencyResorce;
 use App\Http\Resources\Resident\Settings\TaxResorce;
 use App\Models\Config;
+use App\Models\Contracts\ModelServiceInterface;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Invoices\InvoiceItem;
 use App\Models\Resident\Settings\Currency;
@@ -126,7 +129,8 @@ class InvoiceController extends ResidentController
             'repeat' => Invoice::getRepeatName(),
             'dueDate' => $dueDate,
             'tax' => TaxResorce::collection(Tax::getForSelect()),
-            'notes' => Config::get('invoice_terms')
+            'notes' => Config::get('invoice_terms'),
+            'service' => InvoicePriceCalcRequest::getService()->keys()
         ]);
     }
 
@@ -135,7 +139,7 @@ class InvoiceController extends ResidentController
         $result = [];
         $sum = [0,0,0,0];
         foreach($request->getPriceList() as $key => $value) {
-            $class = InvoicePriceCalcRequest::SERVICE[$value['service']];
+            $class = InvoiceItem::SERVICE[$value['service']];
             $a = intval($value['amount'] ?? 0);
             if(class_exists($class)) {
                 $price = 0;
@@ -291,6 +295,25 @@ class InvoiceController extends ResidentController
             return response()->json(['success' => true]);
         }
         return response()->json(['success' => false, 'message' => 'Form not found in invoice']);
+    }
+
+    public function listService($service)
+    {
+        $service = InvoicePriceCalcRequest::getService()->get($service);
+        if(!($service && class_exists($service))){
+            abort(404);
+        }
+        $model = new $service();
+        if(!$model instanceof ModelServiceInterface) {
+            abort(404);
+        }
+
+        return $model->getServiceResources()::collection($service::all());
+    }
+
+    public function item(Invoice $invoice)
+    {
+        return new InvoiceItemResource($invoice->load(['items']));
     }
 
 

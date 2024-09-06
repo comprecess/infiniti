@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Resident\Invoices;
 
 
+use App\Models\Contracts\ModelServiceInterface;
+use App\Models\Resident\Invoices\InvoiceItem;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
@@ -11,10 +13,6 @@ use Illuminate\Validation\ValidationException;
 
 class InvoicePriceCalcRequest extends FormRequest
 {
-    const SERVICE = [
-        'calc' => null,
-        'test' => 'test'
-    ];
 
     public function getPriceList($name = null)
     {
@@ -25,7 +23,7 @@ class InvoicePriceCalcRequest extends FormRequest
     {
         Log::alert('InvoicePriceCalcRequest', $this->all());
 
-        $service = array_keys(self::SERVICE);
+        $service = array_keys(InvoiceItem::SERVICE);
         unset($service[0]);
         collect($this->getPriceList() ?? [])->each(function($data, $key) use($service){
             if(isset($data['service']) && in_array($data['service'], $service)) {
@@ -37,7 +35,7 @@ class InvoicePriceCalcRequest extends FormRequest
 
         $data =  [
             $this->getPriceList(false) => "required|array",
-            $this->getPriceList('service') => "required|in:". implode(",", array_keys(self::SERVICE)),
+            $this->getPriceList('service') => "required|in:". implode(",", array_keys(InvoiceItem::SERVICE)),
             $this->getPriceList('id') => "nullable|exists:sys_invoiceitems,id",
             $this->getPriceList('amount') => "nullable|integer",
             $this->getPriceList('price') => "nullable|numeric",
@@ -65,6 +63,16 @@ class InvoicePriceCalcRequest extends FormRequest
 
         return $value;
 
+    }
+
+    public static function getService()
+    {
+        return collect(InvoiceItem::SERVICE)->filter(function($model){
+            if($model) {
+                $model = new $model();
+                return $model instanceof ModelServiceInterface;
+            }
+        });
     }
 
 }
