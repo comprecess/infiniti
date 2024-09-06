@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Resident\Invoices;
 
 
+use App\Models\Contracts\ModelServiceInterface;
+use App\Models\Resident\Invoices\Item;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
@@ -13,7 +15,7 @@ class InvoicePriceCalcRequest extends FormRequest
 {
     const SERVICE = [
         'calc' => null,
-        'test' => 'test'
+        'serviceProduct' => Item::class
     ];
 
     public function getPriceList($name = null)
@@ -65,6 +67,16 @@ class InvoicePriceCalcRequest extends FormRequest
 
         return $value;
 
+    }
+
+    public static function getService()
+    {
+        return collect(self::SERVICE)->filter(function($model){
+            if($model) {
+                $model = new $model();
+                return $model instanceof ModelServiceInterface;
+            }
+        });
     }
 
 }
