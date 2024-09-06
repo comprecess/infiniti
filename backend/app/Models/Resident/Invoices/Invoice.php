@@ -2,6 +2,7 @@
 
 namespace App\Models\Resident\Invoices;
 
+use App\Http\Requests\Resident\Invoices\InvoiceRequest;
 use App\Models\Collection\InvoiceCollection;
 use App\Models\Config;
 use App\Models\Contracts\InsertDefaultValueInterface;
@@ -117,5 +118,26 @@ class Invoice extends Model implements InsertDefaultValueInterface
             'taxrate2' => [0.0],
             'paymentmethod' => [''],
         ];
+    }
+
+    public function getKeyRepeat()
+    {
+        foreach(self::REPEAT as $key => $repeat) {
+            $name = "+" . $repeat[1] . " " . $repeat[0];
+            if($this->r == $name) {
+                return $key;
+            }
+        }
+        return null;
+    }
+
+    public function getDueDate()
+    {
+        if($this->duedate == $this->date) {
+            return null;
+        }
+        $search = array_search($this->date->diff($this->duedate)->days, InvoiceRequest::DUEDATE);
+
+        return $search === false ? null : $search;
     }
 }
