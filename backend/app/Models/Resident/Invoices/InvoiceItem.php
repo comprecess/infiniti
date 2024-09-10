@@ -60,7 +60,7 @@ class InvoiceItem extends Model implements InsertDefaultValueInterface
 
     public function getDiscountType()
     {
-        return array_flip(self::DISCOUNT_TYPE)[$this->discount_type];
+        return array_flip(self::DISCOUNT_TYPE)[$this->discount_type ?? 'f'];
     }
 
     public function getSumm()
