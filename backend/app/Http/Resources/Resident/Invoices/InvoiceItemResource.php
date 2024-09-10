@@ -30,14 +30,14 @@ class InvoiceItemResource extends JsonResource implements ListInterface
         $items = $this->items;
 
         $resorce = array_merge($resorce, [
-            'nameId' => $this->getCode(),
+            'id' => $this->id,
             'code' => $this->getCode(),
-            'account' => new ClientResource($this->user),
-            'country' => $this->country,
+            'client' => new ClientResource($this->user),
             'currency' => new CurrencyResorce($this->getCurrencyIso),
             'repeat' => $this->getKeyRepeat(),
             'date' => $this->date->format('Y-m-d'),
             'dueDate' => $this->getDueDate(),
+            'notes' => $this->notes,
             'blank' => InvoiceBlankResource::collection($items),
             'blankCalc' => [
                 'price' => $items->summPrice(),
@@ -57,7 +57,7 @@ class InvoiceItemResource extends JsonResource implements ListInterface
 
     public function getList(): array
     {
-        $resorce = ['id', 'title', 'total', 'email', 'phone', 'notes', 'status', 'invoicenum' => 'invoiceNum', 'num', 'receipt_number' => 'receiptNumber', 'show_quantity_as' => 'showQuantity'];
+        $resorce = ['id', 'title', 'email', 'phone', 'notes', 'status', 'invoicenum' => 'invoiceNum', 'num', 'receipt_number' => 'receiptNumber', 'show_quantity_as' => 'showQuantity'];
 
         return $resorce;
     }
