@@ -29,6 +29,6 @@ class Item extends Model implements ModelServiceInterface
 
     public function getPrice(): float|int
     {
-        // TODO: Implement getPrice() method.
+        return 0;
     }
 }
