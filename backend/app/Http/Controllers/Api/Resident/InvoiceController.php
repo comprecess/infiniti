@@ -27,6 +27,7 @@ use App\Services\Document\DocumentVariables;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class InvoiceController extends ResidentController
@@ -201,6 +202,10 @@ class InvoiceController extends ResidentController
 
     public function createOrUpdate(InvoiceRequest $request, Invoice $invoice)
     {
+        #test
+        Log::alert('Invoice::createOrUpdate', $request->all());
+        #test
+
         $requestCalc = app(InvoicePriceCalcRequest::class);
         list($sum, $result) = self::blankCalc($requestCalc);
 
@@ -212,16 +217,16 @@ class InvoiceController extends ResidentController
                 $date = Carbon::createFromFormat('Y-m-d', $request->date);
                 $model->date = $date;
 
-                if($request->dueDate && isset(InvoiceRequest::DUEDATE[$request->dueDate])) {
-                    $model->duedate = $date->addDays(InvoiceRequest::DUEDATE[$request->dueDate]);
+                if(isset(InvoiceRequest::DUEDATE[$request->dueDate])) {
+                    $model->duedate = $date->copy()->addDays(InvoiceRequest::DUEDATE[$request->dueDate]);
                 } else {
                     $model->duedate = $date;
                 }
 
-                if($request->repeat && isset(Invoice::REPEAT[$request->repeat])) {
+                if(isset(Invoice::REPEAT[$request->repeat])) {
                     $repeat = Invoice::REPEAT[$request->repeat];
                     $method = 'add'. ucfirst($repeat[0]) . 's';
-                    $model->nd = $date->{$method}($repeat[1]);
+                    $model->nd = $date->copy()->{$method}($repeat[1]);
                     $model->r = "+" . $repeat[1] . " " . $repeat[0];
                 }else{
                     $model->nd = $date;
@@ -308,7 +313,7 @@ class InvoiceController extends ResidentController
             abort(404);
         }
 
-        return $model->getServiceResources()::collection($service::all());
+        return $model->getServiceResources()::collection((new $service)->getServiceData() ?? $service::all());
     }
 
     public function item(Invoice $invoice)

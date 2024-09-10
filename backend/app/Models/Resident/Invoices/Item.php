@@ -6,6 +6,7 @@ namespace App\Models\Resident\Invoices;
 use App\Http\Resources\Resident\Invoices\Service\ItemResource;
 use App\Models\Contracts\ModelServiceInterface;
 use App\Models\Traits\InsertDefaultValueTrait;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,5 +20,10 @@ class Item extends Model implements ModelServiceInterface
     public function getServiceResources()
     {
         return ItemResource::class;
+    }
+
+    public function getServiceData(): ?Collection
+    {
+        return null;
     }
 }

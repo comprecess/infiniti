@@ -57,7 +57,7 @@ class InvoiceItemResource extends JsonResource implements ListInterface
 
     public function getList(): array
     {
-        $resorce = ['id', 'title', 'email', 'phone', 'notes', 'status', 'invoicenum' => 'invoiceNum', 'num', 'receipt_number' => 'receiptNumber', 'show_quantity_as' => 'showQuantity'];
+        $resorce = ['id', 'title', 'email', 'phone', 'notes', 'status', 'invoicenum' => 'invoiceNum', 'cn'=>'num', 'receipt_number' => 'receiptNumber', 'show_quantity_as' => 'showQuantity'];
 
         return $resorce;
     }
