@@ -26,4 +26,9 @@ class Item extends Model implements ModelServiceInterface
     {
         return null;
     }
+
+    public function getPrice(): float|int
+    {
+        return 0;
+    }
 }
