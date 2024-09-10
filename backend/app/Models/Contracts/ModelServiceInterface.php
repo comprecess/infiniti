@@ -11,4 +11,6 @@ interface ModelServiceInterface
     public function getServiceResources();
 
     public function getServiceData() :?Collection;
+
+    public function getPrice() :float|int;
 }
