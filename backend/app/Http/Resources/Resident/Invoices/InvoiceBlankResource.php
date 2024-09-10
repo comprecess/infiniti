@@ -22,6 +22,7 @@ class InvoiceBlankResource extends JsonResource
             'discountType' => $this->getDiscountType(),
             'tax' => new TaxResorce($this->getTax()->first()),
             'description' => $this->description,
+            'total' => $this->total
         ];
 
     }
