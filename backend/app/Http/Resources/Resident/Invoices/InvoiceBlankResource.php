@@ -11,7 +11,8 @@ class InvoiceBlankResource extends JsonResource
 
     public function toArray(Request $request): array
     {
-
+        $service = $this->service;
+        $serviceObject = $service?->getServiceResources();
         return [
             'id' => $this->id,
             'service' => $this->getNameService(),
@@ -22,7 +23,8 @@ class InvoiceBlankResource extends JsonResource
             'discountType' => $this->getDiscountType(),
             'tax' => new TaxResorce($this->getTax()->first()),
             'description' => $this->description,
-            'total' => $this->total
+            'total' => $this->total,
+            'serviceObject' => $service ? new $serviceObject($service) : null
         ];
 
     }

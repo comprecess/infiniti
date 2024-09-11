@@ -27,8 +27,8 @@ class InvoicePriceCalcRequest extends FormRequest
         unset($service[0]);
         collect($this->getPriceList() ?? [])->each(function($data, $key) use($service){
             if(isset($data['service']) && in_array($data['service'], $service)) {
-                if(Arr::get($data, 'id') == null) {
-                    throw ValidationException::withMessages(["id" => __('validation.required_if', ['attribute' => "data.{$key}.id", "other" => 'service', 'value' => $data['service']])]);
+                if(Arr::get($data, 'serviceId') == null) {
+                    throw ValidationException::withMessages(["serviceId" => __('validation.required_if', ['attribute' => "data.{$key}.serviceId", "other" => 'service', 'value' => $data['service']])]);
                 }
             }
         });

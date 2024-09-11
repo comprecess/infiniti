@@ -29,6 +29,6 @@ class Item extends Model implements ModelServiceInterface
 
     public function getPrice(): float|int
     {
-        return 0;
+        return $this->sales_price ?? 0;
     }
 }

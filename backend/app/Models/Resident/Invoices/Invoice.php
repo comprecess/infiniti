@@ -13,12 +13,13 @@ use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class Invoice extends Model implements InsertDefaultValueInterface
 {
-    use HasFactory, CurrencyTrait, CollectionTrait, HelperTrait, InsertDefaultValueTrait;
+    use HasFactory, CurrencyTrait, CollectionTrait, HelperTrait, InsertDefaultValueTrait, SoftDeletes;
 
     const STATUS = [
         'Unpaid', 'Paid', 'Partially Paid', 'Cancelled'
