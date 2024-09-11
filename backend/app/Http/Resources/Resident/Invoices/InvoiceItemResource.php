@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Resident\Invoices;
 
+use App\Http\Requests\Resident\Invoices\InvoiceRequest;
 use App\Http\Resources\Contracts\ListInterface;
 use App\Http\Resources\Resident\Settings\CurrencyResorce;
 use App\Http\Resources\Traits\ListTrait;
@@ -28,6 +29,7 @@ class InvoiceItemResource extends JsonResource implements ListInterface
         $this->setList($resorce);
 
         $items = $this->items;
+        $listStatus = array_flip(InvoiceRequest::STATUS);
 
         $resorce = array_merge($resorce, [
             'id' => $this->id,
@@ -39,6 +41,7 @@ class InvoiceItemResource extends JsonResource implements ListInterface
             'dueDate' => $this->getDueDate(),
             'notes' => $this->notes,
             'blank' => InvoiceBlankResource::collection($items),
+            'status' => isset($listStatus[$this->status]) ? $listStatus[$this->status] : null,
             'blankCalc' => [
                 'price' => $items->summPrice(),
                 'discount' => $items->summDiscount(),
@@ -57,7 +60,7 @@ class InvoiceItemResource extends JsonResource implements ListInterface
 
     public function getList(): array
     {
-        $resorce = ['id', 'title', 'email', 'phone', 'notes', 'status', 'invoicenum' => 'invoiceNum', 'cn'=>'num', 'receipt_number' => 'receiptNumber', 'show_quantity_as' => 'showQuantity'];
+        $resorce = ['id', 'title', 'email', 'phone', 'notes', 'invoicenum' => 'invoiceNum', 'cn'=>'num', 'receipt_number' => 'receiptNumber', 'show_quantity_as' => 'showQuantity'];
 
         return $resorce;
     }
