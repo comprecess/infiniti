@@ -7,6 +7,7 @@ use App\Http\Requests\Interfaces\ConvertingPropertiesInterface;
 use App\Http\Requests\Traits\ConvertingPropertiesTrait;
 use App\Models\Resident\Invoices\Invoice;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 
 class InvoiceRequest extends FormRequest implements ConvertingPropertiesInterface
@@ -32,6 +33,10 @@ class InvoiceRequest extends FormRequest implements ConvertingPropertiesInterfac
 
     public function rules(): array
     {
+        #test
+        Log::alert('Invoice::createOrUpdate', $this->all());
+        #test
+
         return [
             'clientId' => "required|exists:crm_accounts,id",
             'status' => "required|in:" . implode(",", array_keys(self::STATUS)),
