@@ -41,7 +41,7 @@ class InvoiceItemResource extends JsonResource implements ListInterface
             'dueDate' => $this->getDueDate(),
             'notes' => $this->notes,
             'blank' => InvoiceBlankResource::collection($items),
-            'status' => isset($listStatus[$this->status]) ? $listStatus[$this->status] : $this->status,
+            'status' => isset($listStatus[$this->status]) ? $listStatus[$this->status] : null,
             'blankCalc' => [
                 'price' => $items->summPrice(),
                 'discount' => $items->summDiscount(),
