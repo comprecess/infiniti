@@ -27,7 +27,6 @@ use App\Services\Document\DocumentVariables;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class InvoiceController extends ResidentController
@@ -203,9 +202,6 @@ class InvoiceController extends ResidentController
 
     public function createOrUpdate(InvoiceRequest $request, Invoice $invoice)
     {
-        #test
-        Log::alert('Invoice::createOrUpdate', $request->all());
-        #test
 
         $requestCalc = app(InvoicePriceCalcRequest::class);
         list($sum, $result) = self::blankCalc($requestCalc);
