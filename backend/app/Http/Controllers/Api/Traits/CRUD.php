@@ -54,7 +54,6 @@ trait CRUD
     {
         DB::beginTransaction();
         $isNew = !((bool) $model->getAttributes());
-
         if($isNew && ($model instanceof InsertDefaultValueInterface)) {
             $model->insertDefaultValue();
         }
@@ -64,13 +63,15 @@ trait CRUD
         }
 
         if(is_callable($setDataModel)) {
-            $this->checkException($setDataModel($model, $request, $isNew));
+//            $this->checkException($setDataModel($model, $request, $isNew));
+            $this->checkException($setDataModel, $model, $request, $isNew);
         }
 
         $model->save();
 
         if(is_callable($afterDataSet)) {
-            $this->checkException($afterDataSet($model, $request, $isNew));
+//            $this->checkException($afterDataSet($model, $request, $isNew));
+            $this->checkException($afterDataSet, $model, $request, $isNew);
         }
 
         DB::commit();
@@ -79,13 +80,27 @@ trait CRUD
 
     }
 
-    private function checkException(mixed $resultCallable)
+    private function checkException(callable $callable, ...$data)
     {
-        if($resultCallable instanceof \Exception) {
+        try{
+            $result = $callable(...$data);
+            if($result instanceof \Exception) {
+                DB::rollBack();
+                throw $result;
+            }
+        }catch (\Exception $e) {
             DB::rollBack();
-            throw $resultCallable;
+            throw $e;
         }
     }
+
+//    private function checkException(mixed $resultCallable)
+//    {
+//        if($resultCallable instanceof \Exception) {
+//            DB::rollBack();
+//            throw $resultCallable;
+//        }
+//    }
 
     public function delete(Model $model)
     {

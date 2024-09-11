@@ -53,7 +53,7 @@ Route::controller(\App\Http\Controllers\Api\Resident\InvoiceController::class)->
         Route::put('/{invoice}', 'createOrUpdate');
         Route::delete('/{invoice}/blank/{item}', 'blankDelete');
         Route::get('/{invoice}', 'item');
-//        Route::delete('/{invoice}', 'delete');
+        Route::delete('/{invoice}', 'delete');
         Route::get('/service/{service}', 'listService');
     });
 

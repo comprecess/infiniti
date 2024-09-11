@@ -34,6 +34,7 @@ class InvoiceController extends ResidentController
 {
     use CRUD{
         createOrUpdate as createOrUpdateCRUD;
+        delete as deleteCRUD;
     }
 
     public function stat()
@@ -143,14 +144,13 @@ class InvoiceController extends ResidentController
             $class = InvoiceItem::SERVICE[$value['service']];
             $a = intval($value['amount'] ?? 0);
             if(class_exists($class)) {
-                $price = 0;
-                $discount = 0;
-                $p = 0;
+                $priceModel = $class::findOrFail($value['serviceId']);
+                $p = $priceModel->getPrice();
             } else {
                 $p = (float) ($value['price'] ?? 0);
-                $price = round($a * $p, 2);
-                $discount =  round($request->discount($price, $value['discountType'] ?? null, $value['discount'] ?? null), 2);
             }
+            $price = round($a * $p, 2);
+            $discount =  round($request->discount($price, $value['discountType'] ?? null, $value['discount'] ?? null), 2);
 
             $total = round($price - $discount, 2);
 
@@ -164,6 +164,7 @@ class InvoiceController extends ResidentController
             }
 
             $total += $tax;
+            $result[$key]['service'] = $value['service'];
             $result[$key]['serviceId'] = $value['serviceId'] ?? null;
             $result[$key]['id'] = $value['id'] ?? null;
             $result[$key]['total'] = $total;
@@ -287,8 +288,16 @@ class InvoiceController extends ResidentController
                     $invoiceItem->discount_type = $value['discountType'] == 'percent' ? 'p' : 'f';
                     $invoiceItem->discount_amount = $value['discountValue'] ?? 0;
                     $invoiceItem->itemcode = $value['serviceId'] ?? '';
+
+                    if(isset($value['serviceId']) && isset($value['service'])) {
+                        $invoiceItem->service_type = InvoiceItem::SERVICE[$value['service']];
+                        $priceModel = $invoiceItem->service_type::findOrFail($value['serviceId']);
+                        $invoiceItem->service_id = $value['serviceId'];
+                        $invoiceItem->amount = $priceModel->getPrice();
+                    }
                     $invoiceItem->save();
                 }
+
             }
         );
     }
@@ -318,7 +327,12 @@ class InvoiceController extends ResidentController
 
     public function item(Invoice $invoice)
     {
-        return new InvoiceItemResource($invoice->load(['items']));
+        return new InvoiceItemResource($invoice->load(['items', 'items.service']));
+    }
+
+    public function delete(Invoice $invoice)
+    {
+        return $this->deleteCRUD($invoice);
     }
 
 
