@@ -18,10 +18,7 @@ export const AdminContactInvoicesPage: FC = () => {
   const context = useOutletContext<ViewPageContext>()
 
   const getInfo = async () => {
-    const getResponse = await getSelectedTypeInfo(
-      context.idClient,
-      'invoices',
-    )
+    const getResponse = await getSelectedTypeInfo(context.idClient, 'invoices')
 
     setData(getResponse)
   }

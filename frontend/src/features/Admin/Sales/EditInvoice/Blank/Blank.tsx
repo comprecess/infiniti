@@ -1,27 +1,39 @@
 import { FC } from 'react'
 
-import { SalesNewInvoiceTaxProps } from '../../../../../../app/constants/constants'
-import { ButtonBlue } from '../../../../../../shared/ui/ButtonBlue/ButtonBlue'
-import { CustomInput } from '../../../../../../shared/ui/CustomInput/CustomInput'
-import { CustomRadio } from '../../../../../../shared/ui/CustomRadio/CustomRadio'
-import { CustomSelect } from '../../../../../../shared/ui/CustomSelect/CustomSelect'
-import { TextEditor } from '../../../../../../shared/ui/TextEditor/TextEditor'
+import { SalesNewInvoiceTaxProps } from '../../../../../app/constants/constants'
+import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
+import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
+import { CustomRadio } from '../../../../../shared/ui/CustomRadio/CustomRadio'
+import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
+import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 import styles from './Blank.module.scss'
 
 interface BlankProps {
   id: number
-  currencySymbol: string | undefined
-  totalPrice: number | undefined
-  taxInput: SalesNewInvoiceTaxProps[]
+  currencySymbol: string
+  discountAmount: number
+  discountType: 'percent' | 'fixed'
+  amount: number
+  price: number
+  itemName: string
+  totalPrice: number
+  taxValue: SalesNewInvoiceTaxProps | number
+  allTaxes: SalesNewInvoiceTaxProps[]
   onChange: (name: string, value: string | number) => void
   onRemove: () => void
 }
 
 export const Blank: FC<BlankProps> = ({
   id,
+  amount,
   currencySymbol,
+  discountAmount,
+  discountType,
+  itemName,
+  price,
   totalPrice,
-  taxInput,
+  taxValue,
+  allTaxes,
   onChange,
   onRemove,
 }) => {
@@ -43,7 +55,10 @@ export const Blank: FC<BlankProps> = ({
         <section className={styles.sectionSecond}>
           <div className={styles.containerItems}>
             <span className={styles.containerItemsTitle}>Item Name</span>
-            <TextEditor setValue={handleOnTextEditorChange} />
+            <TextEditor
+              setValue={handleOnTextEditorChange}
+              defaultValue={itemName}
+            />
           </div>
         </section>
         <section className={styles.sectionFirst}>
@@ -52,6 +67,7 @@ export const Blank: FC<BlankProps> = ({
             type='number'
             id={`${'qty'}-${id}`}
             name={`${'qty'}-${id}`}
+            value={amount}
             onChange={(_name, value) => handleOnInputChange('amount', value)}
           />
           <CustomInput
@@ -59,6 +75,7 @@ export const Blank: FC<BlankProps> = ({
             type='number'
             id={`${'price'}-${id}`}
             name={`${'price'}-${id}`}
+            value={price}
             onChange={(_name, value) => handleOnInputChange('price', value)}
           />
           <div className={styles.containerItems}>
@@ -66,13 +83,20 @@ export const Blank: FC<BlankProps> = ({
             <div className={styles.discountContainer}>
               <CustomRadio
                 radioList={['%', currencySymbol || '-']}
-                defaultValue='%'
+                defaultValue={
+                  discountType
+                    ? discountType === 'percent'
+                      ? '%'
+                      : currencySymbol
+                    : '%'
+                }
                 onChange={handleDiscountOnChange}
               />
               <CustomInput
                 type='number'
                 id={`${'discount'}-${id}`}
                 name={`${'discount'}-${id}`}
+                value={discountAmount}
                 onChange={(_name, value) =>
                   handleOnInputChange('discount', value)
                 }
@@ -82,9 +106,9 @@ export const Blank: FC<BlankProps> = ({
           <CustomSelect
             title='Tax'
             titleOnChange='tax'
-            idList={taxInput.map(tax => tax.id)}
-            nameList={taxInput.map(tax => tax.name)}
-            value={taxInput.find(tax => tax.isDefault === 1)?.id}
+            idList={allTaxes.map(tax => tax.id)}
+            nameList={allTaxes.map(tax => tax.name)}
+            value={typeof taxValue === 'object' ? taxValue.id : undefined}
             onChange={handleOnInputChange}
           />
           <div className={styles.wrapperTotalPrice}>

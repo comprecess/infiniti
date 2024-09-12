@@ -1,20 +1,30 @@
 import './Theme.scss'
 
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
 
 import styles from './CustomDataPicker.module.scss'
 
 interface CustomDataPickerProps {
   title: string
+  value?: string
   onChange: (name: string, value: string) => void
 }
 
 export const CustomDataPicker: FC<CustomDataPickerProps> = ({
   title,
+  value = '',
   onChange,
 }) => {
-  const [date, setDate] = useState<Date>()
+  const [date, setDate] = useState<Date | null>(null)
+
+  useEffect(() => {
+    if (value) {
+      const parsedDate = new Date(value)
+
+      setDate(isNaN(parsedDate.getTime()) ? null : parsedDate)
+    }
+  }, [value])
 
   const handleOnChange = (newDate: Date | null) => {
     if (newDate) {
@@ -36,7 +46,7 @@ export const CustomDataPicker: FC<CustomDataPickerProps> = ({
       <DatePicker
         selected={date}
         dateFormat='yyyy-MM-dd'
-        onChange={date => handleOnChange(date)}
+        onChange={handleOnChange}
       />
     </div>
   )

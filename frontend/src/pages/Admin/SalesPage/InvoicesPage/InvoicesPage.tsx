@@ -16,6 +16,7 @@ import { PagesList } from '../../../../features/Client/CatalogPage/TalentsList/P
 import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { deleteInvoice } from '../../../../shared/utils/api/Admin/Sales/Invoices/DeleteInvoice'
 import { getInvoicesDocuments } from '../../../../shared/utils/api/Admin/Sales/Invoices/GetInvoicesDocuments'
 import { getList } from '../../../../shared/utils/api/Admin/Sales/Invoices/GetList'
 import { getStat } from '../../../../shared/utils/api/Admin/Sales/Invoices/GetStat'
@@ -68,6 +69,39 @@ export const AdminInvoicesPage: FC = () => {
     }
 
     setList(getResponse)
+  }
+
+  const deleteSelectedInvoice = async (idInvoice: number) => {
+    const deleteResponse = await deleteInvoice(idInvoice)
+
+    if (deleteResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully deleted Invoice',
+        status: 'success',
+      })
+      getStatInvoice()
+      getListInvoice()
+    } else {
+      showToast({
+        title: 'Error',
+        description: deleteResponse.message,
+        status: 'error',
+      })
+    }
+  }
+
+  const navigateToSelectInvoice = (idInvoice: number) => {
+    navigate(
+      '/' +
+        Routes.adminPages +
+        '/' +
+        Routes.sales +
+        '/' +
+        Routes.editInvoice +
+        '/' +
+        idInvoice,
+    )
   }
 
   const setIsActiveTab = useCallback((name: string) => {
@@ -126,12 +160,7 @@ export const AdminInvoicesPage: FC = () => {
 
   const navigateToAddInvoice = () => {
     navigate(
-      '/' +
-        Routes.adminPages +
-        '/' +
-        Routes.sales +
-        '/' +
-        Routes.newInvoices,
+      '/' + Routes.adminPages + '/' + Routes.sales + '/' + Routes.newInvoices,
     )
   }
 
@@ -218,6 +247,8 @@ export const AdminInvoicesPage: FC = () => {
               <RecentInvoices
                 invoicesList={list.data}
                 changeSortName={changeSort}
+                navigateToSelectInvoice={navigateToSelectInvoice}
+                deleteInvoice={deleteSelectedInvoice}
               />
             ) : (
               <LoadingSpinner size='xl' />
