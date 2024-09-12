@@ -211,7 +211,7 @@ export const router = createBrowserRouter([
             element: Pages.adminNewInvoicePage,
           },
           {
-            path: Routes.editInvoice,
+            path: `${Routes.editInvoice}/:id`,
             element: Pages.adminEditInvoice,
           },
           {

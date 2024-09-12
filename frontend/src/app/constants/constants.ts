@@ -533,6 +533,7 @@ export interface SalesInvoicesStatData {
 }
 
 export interface ViewInvoicesRecentData {
+  id: number
   code: string
   account: ListCustomersData
   amount: string
@@ -573,7 +574,14 @@ export interface SalesNewInvoiceInputData {
   notes: string
   repeat: string[]
   status: string[]
+  service: SalesProductOrServiceData[]
   tax: SalesNewInvoiceTaxProps[]
+}
+
+export interface SalesProductOrServiceData {
+  id: number
+  name: string
+  price: string
 }
 
 export interface SalesNewInvoiceTaxProps {
@@ -600,4 +608,30 @@ interface SalesNewInvoicePriceCalcDataData {
   price: number
   total: number
   description?: string
+}
+
+export interface SalesEditInvoiceData {
+  id: number
+  title: string
+  status: string
+  invoiceNum: string
+  num: string
+  receiptNumber: string
+  showQuantity: string
+  code: string
+  client: ListCustomersData
+  currency: CurrencyProps
+  repeat: number
+  date: string
+  dueDate: number
+  notes: string
+  blank: SalesBlankData[]
+  blankCalc: BlankCalc
+}
+
+export interface BlankCalc {
+  discount: string
+  price: string
+  tax: string
+  total: string
 }

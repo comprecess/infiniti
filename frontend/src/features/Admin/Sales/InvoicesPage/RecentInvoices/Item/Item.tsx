@@ -6,7 +6,13 @@ import styleItem from '../RecentInvoices.module.scss'
 import styles from './Item.module.scss'
 import { Type } from './Type/Type'
 
-export const Item: FC<ViewInvoicesRecentData> = ({
+interface ItemProps extends ViewInvoicesRecentData {
+  deleteInvoice: (idInvoice: number) => void
+  navigateToSelectInvoice: (idInvoice: number) => void
+}
+
+export const Item: FC<ItemProps> = ({
+  id,
   code,
   account,
   amount,
@@ -14,7 +20,17 @@ export const Item: FC<ViewInvoicesRecentData> = ({
   dueDate,
   status,
   type,
+  deleteInvoice,
+  navigateToSelectInvoice,
 }) => {
+  const handleDeleteInvoice = () => {
+    deleteInvoice(id)
+  }
+
+  const handleNavigateInvoice = () => {
+    navigateToSelectInvoice(id)
+  }
+
   return (
     <div className={styles.wrapper}>
       <span className={`${styleItem.codeColumn} ${styles.codeItem}`}>
@@ -22,9 +38,7 @@ export const Item: FC<ViewInvoicesRecentData> = ({
       </span>
       <div className={`${styleItem.accountColumn} ${styles.container}`}>
         <span className={styles.accountItem}>{account.account}</span>
-        <span className={styles.companyNameItem}>
-          {account.company?.name}
-        </span>
+        <span className={styles.companyNameItem}>{account.company?.name}</span>
       </div>
       <span className={`${styleItem.amountColumn} ${styles.amountItem}`}>
         {amount}
@@ -48,13 +62,9 @@ export const Item: FC<ViewInvoicesRecentData> = ({
           <img src='/icons/view.svg' alt='View' className={styles.icon} />
         </button>
         <button className={styles.buttonClone}>
-          <img
-            src='/icons/clone.svg'
-            alt='Clone'
-            className={styles.icon}
-          />
+          <img src='/icons/clone.svg' alt='Clone' className={styles.icon} />
         </button>
-        <button className={styles.buttonEdit}>
+        <button className={styles.buttonEdit} onClick={handleNavigateInvoice}>
           <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
         </button>
         {type === 1 && (
@@ -66,12 +76,8 @@ export const Item: FC<ViewInvoicesRecentData> = ({
             />
           </button>
         )}
-        <button className={styles.buttonTrash}>
-          <img
-            src='/icons/trash.svg'
-            alt='Trash'
-            className={styles.icon}
-          />
+        <button className={styles.buttonTrash} onClick={handleDeleteInvoice}>
+          <img src='/icons/trash.svg' alt='Trash' className={styles.icon} />
         </button>
       </div>
     </div>

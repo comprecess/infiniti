@@ -9,11 +9,15 @@ import styles from './RecentInvoices.module.scss'
 interface RecentInvoicesProps {
   invoicesList: ViewInvoicesRecentData[]
   changeSortName: (sortNameItem: string, sortTypeItem: number) => void
+  deleteInvoice: (idInvoice: number) => void
+  navigateToSelectInvoice: (idInvoice: number) => void
 }
 
 export const RecentInvoices: FC<RecentInvoicesProps> = ({
   invoicesList,
   changeSortName,
+  deleteInvoice,
+  navigateToSelectInvoice,
 }) => {
   const [sortNumbers, setSortNumbers] = useState<number[]>([
     1, 1, 1, 1, 1, 1, 1,
@@ -115,6 +119,7 @@ export const RecentInvoices: FC<RecentInvoicesProps> = ({
               return (
                 <React.Fragment key={`${item.code}-${index}`}>
                   <Item
+                    id={item.id}
                     code={item.code}
                     account={item.account}
                     amount={item.amount}
@@ -122,6 +127,8 @@ export const RecentInvoices: FC<RecentInvoicesProps> = ({
                     dueDate={item.dueDate}
                     status={item.status}
                     type={item.type}
+                    deleteInvoice={deleteInvoice}
+                    navigateToSelectInvoice={navigateToSelectInvoice}
                   />
                   {index !== invoicesList.length - 1 && <CustomDivider />}
                 </React.Fragment>
