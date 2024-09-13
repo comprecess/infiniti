@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api\Resident;
 
 
 use App\Http\Controllers\Api\Traits\CRUD;
+use App\Http\Requests\Resident\Invoices\InvoiceBlankRequest;
 use App\Http\Requests\Resident\Invoices\InvoiceListRequest;
 use App\Http\Requests\Resident\Invoices\InvoicePriceCalcRequest;
 use App\Http\Requests\Resident\Invoices\InvoiceRequest;
 use App\Http\Resources\Resident\Client\ClientResource;
+use App\Http\Resources\Resident\Invoices\InvoiceBlankResource;
 use App\Http\Resources\Resident\Invoices\InvoiceExcelResource;
 use App\Http\Resources\Resident\Invoices\InvoiceItemResource;
 use App\Http\Resources\Resident\Invoices\InvoiceListResource;
@@ -142,12 +144,12 @@ class InvoiceController extends ResidentController
         foreach($request->getPriceList() as $key => $value) {
             $class = InvoiceItem::SERVICE[$value['service']];
             $a = intval($value['amount'] ?? 0);
-            if(class_exists($class)) {
+            $p = (float) ($value['price'] ?? 0);
+            if(class_exists($class) && $p == 0) {
                 $priceModel = $class::findOrFail($value['serviceId']);
                 $p = $priceModel->getPrice();
-            } else {
-                $p = (float) ($value['price'] ?? 0);
             }
+
             $price = round($a * $p, 2);
             $discount =  round($request->discount($price, $value['discountType'] ?? null, $value['discount'] ?? null), 2);
 
@@ -329,6 +331,67 @@ class InvoiceController extends ResidentController
     public function delete(Invoice $invoice)
     {
         return $this->deleteCRUD($invoice);
+    }
+
+    public function blankList(Invoice $invoice)
+    {
+        $items = $invoice->items;
+        return response()->json([
+            'blank' => InvoiceBlankResource::collection($items),
+            'blankCalc' => [
+                'price' => $invoice->printPrice($items->summPrice()),
+                'discount' => $invoice->printPrice($items->summDiscount()),
+                'tax' => $invoice->printPrice($items->summTax()),
+                'total' => $invoice->printPrice($items->summTotal())
+            ]
+        ]);
+    }
+
+    public function blankCreateOrUpdate(InvoiceBlankRequest $request,Invoice $invoice, InvoiceItem $item)
+    {
+        if($item->id) {
+            if(!$invoice->items()->where('id', $item->id)->count()) {
+                abort(404);
+            }
+        }
+
+        return $this->createOrUpdateCRUD(
+            $request,
+            $item,
+            function ($model, $request, $isNew) use($invoice){
+                if($isNew) {
+                    $model->insertDefaultValue();
+                }
+                $model->invoiceid = $invoice->id;
+                $model->userid = $invoice->userid;
+                $model->description = $request->description ?? '';
+                $model->qty = (int) $request->amount ?? 0;
+                $model->amount =(float) $request->price;
+
+                if($request->tax) {
+                    $taxModel = Tax::findOrFail($request->tax);
+                    $model->tax_rate = $taxModel->rate;
+                    $model->taxed = 1;
+                } else {
+                    $model->tax_rate = 0;
+                    $model->taxed = 0;
+                }
+
+                $model->discount_type = InvoiceItem::DISCOUNT_TYPE[$request->discountType ?? 'fixed'];
+                $model->discount_amount =(float) $request->discountValue ?? 0;
+                $model->itemcode = $request->serviceId ?? '';
+
+                if($request->serviceId && $request->service) {
+                    $model->service_type = InvoiceItem::SERVICE[$request->service];
+                    $priceModel = $model->service_type::findOrFail($request->serviceId);
+                    $model->service_id = $priceModel->id;
+                    if($model->amount == 0) {
+                        $model->amount = $priceModel->getPrice();
+                    }
+                }
+                $model->calc();
+            }
+        );
     }
 
 

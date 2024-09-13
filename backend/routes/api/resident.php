@@ -51,6 +51,9 @@ Route::controller(\App\Http\Controllers\Api\Resident\InvoiceController::class)->
         Route::post('/price-calc', 'priceCalc');
         Route::post('/', 'createOrUpdate');
         Route::put('/{invoice}', 'createOrUpdate');
+        Route::get('/{invoice}/blank', 'blankList');
+        Route::post('/{invoice}/blank', 'blankCreateOrUpdate');
+        Route::put('/{invoice}/blank/{item}', 'blankCreateOrUpdate');
         Route::delete('/{invoice}/blank/{item}', 'blankDelete');
         Route::get('/{invoice}', 'item');
         Route::delete('/{invoice}', 'delete');

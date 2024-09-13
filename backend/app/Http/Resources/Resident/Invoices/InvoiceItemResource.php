@@ -43,10 +43,10 @@ class InvoiceItemResource extends JsonResource implements ListInterface
             'blank' => InvoiceBlankResource::collection($items),
             'status' => isset($listStatus[$this->status]) ? $listStatus[$this->status] : null,
             'blankCalc' => [
-                'price' => $items->summPrice(),
-                'discount' => $items->summDiscount(),
-                'tax' => $items->summTax(),
-                'total' => $items->summTotal()
+                'price' => $this->printPrice($items->summPrice()),
+                'discount' => $this->printPrice($items->summDiscount()),
+                'tax' => $this->printPrice($items->summTax()),
+                'total' => $this->printPrice($items->summTotal())
             ]
         ]);
 
