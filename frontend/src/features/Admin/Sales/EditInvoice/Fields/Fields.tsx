@@ -50,12 +50,12 @@ interface InfoData {
 
 export interface PartialFieldsData extends Partial<InfoData> {
   [key: string]:
-  | string
-  | number
-  | SalesEditInvoiceBlankData[]
-  | BlankCalc
-  | undefined
-  | null
+    | string
+    | number
+    | SalesEditInvoiceBlankData[]
+    | BlankCalc
+    | undefined
+    | null
 }
 
 export const Fields: FC<FieldsProps> = ({
@@ -78,13 +78,20 @@ export const Fields: FC<FieldsProps> = ({
     status: data.status === 'Unpaid' ? 'Published' : data.status,
     currency: data.currency.code,
     notes: data.notes,
-    blankList: blanks.blank,
+    blankList: blanks.blank.map(item => ({
+      ...item,
+      tax:
+        typeof item.tax === 'object'
+          ? (item.tax as SalesNewInvoiceTaxProps).id
+          : item.tax,
+    })),
     blankCalc: blanks.blankCalc,
     repeat: data.repeat + 1,
     dueDate: data.dueDate + 1,
   })
 
-  const [modalProductService, setModalProductService] = useState<boolean>(false)
+  const [modalProductService, setModalProductService] =
+    useState<boolean>(false)
 
   const timerRef = useRef<number | null>(null)
 
@@ -94,7 +101,12 @@ export const Fields: FC<FieldsProps> = ({
 
   const handleChangeInput = (
     field: string,
-    value: string | number | SalesEditInvoiceBlankData[] | undefined | null,
+    value:
+      | string
+      | number
+      | SalesEditInvoiceBlankData[]
+      | undefined
+      | null,
   ) => {
     let updatedValue = value
 
@@ -154,7 +166,7 @@ export const Fields: FC<FieldsProps> = ({
       blankList: blanks.blank.map(item => ({
         ...item,
         tax:
-          typeof item.tax === 'object' && 'id' in item.tax
+          typeof item.tax === 'object'
             ? (item.tax as SalesNewInvoiceTaxProps).id
             : item.tax,
       })),
@@ -170,8 +182,8 @@ export const Fields: FC<FieldsProps> = ({
   }, [blanks])
 
   const clientAddress =
-    inputData.client.find(client => client.id === formData.clientId)?.address ||
-    ''
+    inputData.client.find(client => client.id === formData.clientId)
+      ?.address || ''
 
   return (
     <div className={styles.wrapper}>
@@ -251,7 +263,9 @@ export const Fields: FC<FieldsProps> = ({
             value={inputData.status.findIndex(
               status =>
                 status ===
-                (formData.status === 'Unpaid' ? 'Published' : formData.status),
+                (formData.status === 'Unpaid'
+                  ? 'Published'
+                  : formData.status),
             )}
             onChange={handleChangeInput}
           />

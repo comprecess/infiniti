@@ -69,7 +69,9 @@ export const Blank: FC<BlankProps> = ({
             name={`${'qty'}-${id}`}
             value={amount}
             onInputChange={false}
-            onChange={(_name, value) => handleOnInputChange('amount', value)}
+            onChange={(_name, value) =>
+              handleOnInputChange('amount', value)
+            }
           />
           <CustomInput
             title='Price'
@@ -78,7 +80,9 @@ export const Blank: FC<BlankProps> = ({
             name={`${'price'}-${id}`}
             value={price}
             onInputChange={false}
-            onChange={(_name, value) => handleOnInputChange('price', value)}
+            onChange={(_name, value) =>
+              handleOnInputChange('price', value)
+            }
           />
           <div className={styles.containerItems}>
             <span className={styles.containerItemsTitle}>Discount</span>

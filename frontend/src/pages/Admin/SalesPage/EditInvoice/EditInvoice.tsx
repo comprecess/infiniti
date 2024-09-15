@@ -34,15 +34,17 @@ const extractIdFromUrl = (url: string): number | null => {
 const useIdFromUrl = () => {
   const location = useLocation()
 
-  return useMemo(() => extractIdFromUrl(location.pathname), [location.pathname])
+  return useMemo(
+    () => extractIdFromUrl(location.pathname),
+    [location.pathname],
+  )
 }
 
 export const AdminEditInvoice: FC = () => {
   const [data, setData] = useState<SalesEditInvoiceData | null>(null)
   const [formData, setFormData] = useState<PartialFieldsData>({})
-  const [inputData, setInputData] = useState<SalesNewInvoiceInputData | null>(
-    null,
-  )
+  const [inputData, setInputData] =
+    useState<SalesNewInvoiceInputData | null>(null)
   const [blanks, setBlanks] = useState<SalesBlanks | null>(null)
 
   const id = useIdFromUrl()
@@ -136,6 +138,7 @@ export const AdminEditInvoice: FC = () => {
         description: 'You have successfully changed the Invoice',
         status: 'success',
       })
+      getBlanksInvoice()
     } else {
       showToast({
         title: 'Error',
