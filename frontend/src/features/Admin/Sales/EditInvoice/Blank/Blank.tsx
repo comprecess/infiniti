@@ -17,7 +17,7 @@ interface BlankProps {
   price: number
   itemName: string
   totalPrice: number
-  taxValue: SalesNewInvoiceTaxProps | number
+  taxValue: number
   allTaxes: SalesNewInvoiceTaxProps[]
   onChange: (name: string, value: string | number) => void
   onRemove: () => void
@@ -68,6 +68,7 @@ export const Blank: FC<BlankProps> = ({
             id={`${'qty'}-${id}`}
             name={`${'qty'}-${id}`}
             value={amount}
+            onInputChange={false}
             onChange={(_name, value) => handleOnInputChange('amount', value)}
           />
           <CustomInput
@@ -76,6 +77,7 @@ export const Blank: FC<BlankProps> = ({
             id={`${'price'}-${id}`}
             name={`${'price'}-${id}`}
             value={price}
+            onInputChange={false}
             onChange={(_name, value) => handleOnInputChange('price', value)}
           />
           <div className={styles.containerItems}>
@@ -97,6 +99,7 @@ export const Blank: FC<BlankProps> = ({
                 id={`${'discount'}-${id}`}
                 name={`${'discount'}-${id}`}
                 value={discountAmount}
+                onInputChange={false}
                 onChange={(_name, value) =>
                   handleOnInputChange('discount', value)
                 }
@@ -108,7 +111,8 @@ export const Blank: FC<BlankProps> = ({
             titleOnChange='tax'
             idList={allTaxes.map(tax => tax.id)}
             nameList={allTaxes.map(tax => tax.name)}
-            value={typeof taxValue === 'object' ? taxValue.id : undefined}
+            value={taxValue}
+            onInputChange={false}
             onChange={handleOnInputChange}
           />
           <div className={styles.wrapperTotalPrice}>

@@ -11,6 +11,7 @@ interface CustomSelectProps {
   placeholder?: string
   size?: 'xs' | 'sm' | 'md' | 'lg'
   value?: number
+  onInputChange?: boolean
   camelCase?: boolean
   onChange: (name: string, value: number) => void
 }
@@ -23,6 +24,7 @@ export const CustomSelect: FC<CustomSelectProps> = ({
   placeholder,
   size = 'md',
   value,
+  onInputChange = true,
   camelCase = false,
   onChange,
 }) => {
@@ -31,9 +33,7 @@ export const CustomSelect: FC<CustomSelectProps> = ({
   }
 
   const camelCaseToTitleCase = (camelCaseString: string): string => {
-    const words = camelCaseString
-      .replace(/([a-z])([A-Z])/g, '$1 $2')
-      .split(' ')
+    const words = camelCaseString.replace(/([a-z])([A-Z])/g, '$1 $2').split(' ')
 
     const capitalizedWords = words.map(
       word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
@@ -43,7 +43,7 @@ export const CustomSelect: FC<CustomSelectProps> = ({
   }
 
   const checkValue = () => {
-    if (value) {
+    if (value && onInputChange) {
       onChange(titleOnChange, value)
     }
   }

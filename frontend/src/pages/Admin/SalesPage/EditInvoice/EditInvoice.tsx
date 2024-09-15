@@ -2,6 +2,8 @@ import { FC, useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import {
+  SalesBlanks,
+  SalesEditInvoiceBlankData,
   SalesEditInvoiceData,
   SalesNewInvoiceInputData,
 } from '../../../../app/constants/constants'
@@ -12,8 +14,12 @@ import {
 import { HeaderButtons } from '../../../../features/Admin/Sales/NewInvoice/HeaderButtons/HeaderButtons'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { addBlankInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/AddBlank'
 import { editSelectedInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/EditSelectedInvoice'
+import { getBlanksListInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/GetBlanks'
 import { getInfoSelectedInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/GetInfoSelectedInvoice'
+import { removeBlankInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/RemoveBlank'
+import { updateBlankInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/UpdateBlank'
 import { getInvoiceInputData } from '../../../../shared/utils/api/Admin/Sales/NewInvoice/GetInvoiceInputData'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditInvoice.module.scss'
@@ -28,12 +34,7 @@ const extractIdFromUrl = (url: string): number | null => {
 const useIdFromUrl = () => {
   const location = useLocation()
 
-  const id = useMemo(
-    () => extractIdFromUrl(location.pathname),
-    [location.pathname],
-  )
-
-  return id
+  return useMemo(() => extractIdFromUrl(location.pathname), [location.pathname])
 }
 
 export const AdminEditInvoice: FC = () => {
@@ -42,6 +43,7 @@ export const AdminEditInvoice: FC = () => {
   const [inputData, setInputData] = useState<SalesNewInvoiceInputData | null>(
     null,
   )
+  const [blanks, setBlanks] = useState<SalesBlanks | null>(null)
 
   const id = useIdFromUrl()
   const showToast = useCustomToast()
@@ -54,10 +56,73 @@ export const AdminEditInvoice: FC = () => {
     setData(getInfo)
   }
 
+  const getBlanksInvoice = async () => {
+    if (id === null) return
+
+    const getBlanks = await getBlanksListInvoice(id)
+
+    setBlanks(getBlanks)
+  }
+
   const getNewInvoiceInputData = async () => {
     const getResponse = await getInvoiceInputData()
 
     setInputData(getResponse)
+  }
+
+  const handleAddBlank = async () => {
+    if (id === null) return
+
+    const addResponse = await addBlankInvoice(id, 'calc')
+
+    if (addResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully added blank',
+        status: 'success',
+      })
+      getBlanksInvoice()
+    } else {
+      showToast({
+        title: 'Error',
+        description: addResponse.message,
+        status: 'error',
+      })
+    }
+  }
+
+  const handleRemoveBlank = async (idBlank: number) => {
+    if (id === null) return
+
+    const removeResponse = await removeBlankInvoice(id, idBlank)
+
+    if (removeResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully deleted blank',
+        status: 'success',
+      })
+      getBlanksInvoice()
+    } else {
+      showToast({
+        title: 'Error',
+        description: removeResponse.message,
+        status: 'error',
+      })
+    }
+  }
+
+  const handleUpdateBlank = async (
+    idBlank: number,
+    data: SalesEditInvoiceBlankData,
+  ) => {
+    if (id === null) return
+
+    const updateResponse = await updateBlankInvoice(id, idBlank, data)
+
+    if (updateResponse.status) {
+      getBlanksInvoice()
+    }
   }
 
   const updateInvoice = async () => {
@@ -68,7 +133,7 @@ export const AdminEditInvoice: FC = () => {
     if (updateResponse.status) {
       showToast({
         title: 'Successfully',
-        description: 'You have successfully deleted Invoice',
+        description: 'You have successfully changed the Invoice',
         status: 'success',
       })
     } else {
@@ -81,14 +146,17 @@ export const AdminEditInvoice: FC = () => {
   }
 
   useEffect(() => {
-    getNewInvoiceInputData()
-    getInfoInvoice()
+    if (id !== null) {
+      getNewInvoiceInputData()
+      getInfoInvoice()
+      getBlanksInvoice()
+    }
   }, [id])
 
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        {inputData && data ? (
+        {inputData && data && blanks ? (
           <RecentCard
             title={data.code}
             style={styles.recentFullScreen}
@@ -97,7 +165,11 @@ export const AdminEditInvoice: FC = () => {
           >
             <Fields
               inputData={inputData}
+              blanks={blanks}
               data={data}
+              addBlank={handleAddBlank}
+              removeBlank={handleRemoveBlank}
+              updateBlank={handleUpdateBlank}
               onFormDataChange={setFormData}
             />
           </RecentCard>
