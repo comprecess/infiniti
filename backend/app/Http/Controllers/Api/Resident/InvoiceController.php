@@ -378,7 +378,7 @@ class InvoiceController extends ResidentController
                 }
 
                 $model->discount_type = InvoiceItem::DISCOUNT_TYPE[$request->discountType ?? 'fixed'];
-                $model->discount_amount =(float) $request->discountValue ?? 0;
+                $model->discount_amount =(float) $request->discount ?? 0;
                 $model->itemcode = $request->serviceId ?? '';
 
                 if($request->serviceId && $request->service) {
@@ -388,6 +388,9 @@ class InvoiceController extends ResidentController
                     if($model->amount == 0) {
                         $model->amount = $priceModel->getPrice();
                     }
+                }else{
+                    $model->service_type = null;
+                    $model->service_id = null;
                 }
                 $model->calc();
             }
