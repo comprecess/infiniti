@@ -9,6 +9,7 @@ interface CustomInputProps {
   type: string
   placeHolder?: string
   value?: number | string | null
+  onInputChange?: boolean
   readOnly?: boolean
   onChange: (name: string, value: string | number) => void
 }
@@ -20,12 +21,11 @@ export const CustomInput: FC<CustomInputProps> = ({
   type,
   placeHolder,
   value = null,
+  onInputChange = true,
   readOnly = false,
   onChange,
 }) => {
-  const [inputValue, setInputValue] = useState<number | string | null>(
-    value,
-  )
+  const [inputValue, setInputValue] = useState<number | string | null>(value)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value
@@ -35,7 +35,7 @@ export const CustomInput: FC<CustomInputProps> = ({
   }
 
   useEffect(() => {
-    if (value !== null) {
+    if (value !== null && onInputChange) {
       onChange(id!, value)
     }
   }, [])

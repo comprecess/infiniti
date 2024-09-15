@@ -1,11 +1,13 @@
 import { Textarea } from '@chakra-ui/react'
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 
 import {
   BlankCalc,
-  SalesBlankData,
+  SalesBlanks,
+  SalesEditInvoiceBlankData,
   SalesEditInvoiceData,
   SalesNewInvoiceInputData,
+  SalesNewInvoiceTaxProps,
 } from '../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
@@ -14,7 +16,6 @@ import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
-import { postInvoicePriceCalc } from '../../../../../shared/utils/api/Admin/Sales/NewInvoice/PostInvoicePriceCalc'
 import { AddProductOrService } from '../../AddProductOrService/AddProductOrService'
 import { Item } from '../../NewInvoice/Fields/Item/Item'
 import { Blank } from '../Blank/Blank'
@@ -23,11 +24,11 @@ import styles from './Fields.module.scss'
 interface FieldsProps {
   data: SalesEditInvoiceData
   inputData: SalesNewInvoiceInputData
+  blanks: SalesBlanks
+  addBlank: () => void
+  removeBlank: (idBlank: number) => void
+  updateBlank: (idBlank: number, data: SalesEditInvoiceBlankData) => void
   onFormDataChange: (data: Partial<InfoData>) => void
-}
-
-interface SalesBlankDataNew extends SalesBlankData {
-  total?: number
 }
 
 interface InfoData {
@@ -39,27 +40,31 @@ interface InfoData {
   num: string
   status: string
   currency: string
-  blankList: SalesBlankDataNew[]
   notes: string
   date: string
-  blankCalc: BlankCalc
   repeat: number
   dueDate: number
+  blankList: SalesEditInvoiceBlankData[]
+  blankCalc: BlankCalc
 }
 
 export interface PartialFieldsData extends Partial<InfoData> {
   [key: string]:
-  | string
-  | number
-  | SalesBlankData[]
-  | BlankCalc
-  | undefined
-  | null
+    | string
+    | number
+    | SalesEditInvoiceBlankData[]
+    | BlankCalc
+    | undefined
+    | null
 }
 
 export const Fields: FC<FieldsProps> = ({
   data,
+  blanks,
   inputData,
+  addBlank,
+  removeBlank,
+  updateBlank,
   onFormDataChange,
 }) => {
   const [formData, setFormData] = useState<PartialFieldsData>({
@@ -72,129 +77,113 @@ export const Fields: FC<FieldsProps> = ({
     date: data.date,
     status: data.status === 'Unpaid' ? 'Published' : data.status,
     currency: data.currency.code,
-    blankList: data.blank,
     notes: data.notes,
-    blankCalc: data.blankCalc,
+    blankList: blanks.blank.map(item => ({
+      ...item,
+      tax:
+        typeof item.tax === 'object'
+          ? (item.tax as SalesNewInvoiceTaxProps).id
+          : item.tax,
+    })),
+    blankCalc: blanks.blankCalc,
     repeat: data.repeat + 1,
     dueDate: data.dueDate + 1,
   })
 
-  const [modalProductService, setModalProductService] = useState<boolean>(false)
+  const [modalProductService, setModalProductService] =
+    useState<boolean>(false)
+
+  const timerRef = useRef<number | null>(null)
 
   const handleOpenCloseProductService = () => {
-    setModalProductService(!modalProductService)
+    setModalProductService(prev => !prev)
   }
 
   const handleChangeInput = (
     field: string,
-    value: string | number | SalesBlankData[] | undefined | null,
+    value:
+      | string
+      | number
+      | SalesEditInvoiceBlankData[]
+      | undefined
+      | null,
   ) => {
+    let updatedValue = value
+
     if (field === 'currency' && typeof value === 'number') {
       const currencyData = inputData.currency.find(
         currency => currency.id === value,
       )
-      value = currencyData ? currencyData.code : ''
+      updatedValue = currencyData ? currencyData.code : ''
     } else if (field === 'status' && typeof value === 'number') {
-      value = inputData.status[value]
+      updatedValue = inputData.status[value]
     } else if (
       (field === 'dueDate' || field === 'repeat') &&
       typeof value === 'number'
     ) {
-      if (value === 0) {
-        value = null
-      } else {
-        value = value - 1
-      }
+      updatedValue = value === 0 ? null : value - 1
     } else if (field === 'clientId' && typeof value === 'number') {
-      if (value === 0) {
-        value = null
-      } else {
-        value = inputData.client[value - 1].id
-      }
+      updatedValue = value === 0 ? null : inputData.client[value - 1].id
     }
 
     setFormData(prevFormData => ({
       ...prevFormData,
-      [field]: value,
+      [field]: updatedValue,
     }))
   }
 
-  const handleAddBlank = () => {
-    setFormData(prevFormData => {
-      const newId = prevFormData.blankList?.length || 0
-      const newBlank: SalesBlankData = {
-        index: newId,
-        service: 'calc',
-        description: '',
-        amount: 0,
-        price: 0,
-        discount: 0,
-        discountType: 'percent',
-        tax: 1,
-      }
-
-      return {
-        ...prevFormData,
-        blankList: [...(prevFormData.blankList || []), newBlank],
-      }
-    })
-  }
-
-  const handleBlankChange = (
+  const handleBlankInputChange = (
     id: number,
     field: string,
-    value: string | number | undefined,
+    value: string | number,
   ) => {
+    const updatedBlankList = (formData.blankList || []).map(blank =>
+      blank.id === id ? { ...blank, [field]: value } : blank,
+    )
+
     setFormData(prevFormData => ({
       ...prevFormData,
-      blankList: (prevFormData.blankList || []).map(blank =>
-        blank.index === id ? { ...blank, [field]: value } : blank,
-      ),
-    }))
-  }
-
-  const handleRemoveBlank = (id: number) => {
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      blankList: (prevFormData.blankList || []).filter(
-        blank => blank.index !== id,
-      ),
-    }))
-  }
-
-  const postPriceCalc = async () => {
-    const blankList = (formData.blankList || []).map(blank => ({
-      serviceId: blank.serviceId,
-      id: blank.id,
-      service: blank.service,
-      amount: blank.amount,
-      price: blank.price,
-      tax: blank.tax,
-      discount: blank.discount,
-      discountType: blank.discountType,
+      blankList: updatedBlankList,
     }))
 
-    const currency = formData.currency || ''
+    const updatedBlank = updatedBlankList.find(blank => blank.id === id)
 
-    const postResponse = await postInvoicePriceCalc({
-      blankList,
-      currency,
-    })
-
-    console.log(postResponse)
-  }
-
-  useEffect(() => {
-    if (!formData.blankList) return
-
-    if (formData.blankList?.length > 0) {
-      postPriceCalc()
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
     }
-  }, [formData.blankList, formData.currency])
+
+    timerRef.current = window.setTimeout(() => {
+      if (updatedBlank) {
+        updateBlank(id, updatedBlank)
+      }
+    }, 1000)
+  }
+
+  const updateBlankList = () => {
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      blankCalc: blanks.blankCalc,
+      blankList: blanks.blank.map(item => ({
+        ...item,
+        tax:
+          typeof item.tax === 'object'
+            ? (item.tax as SalesNewInvoiceTaxProps).id
+            : item.tax,
+      })),
+    }))
+  }
 
   useEffect(() => {
     onFormDataChange(formData)
   }, [formData, onFormDataChange])
+
+  useEffect(() => {
+    updateBlankList()
+  }, [blanks])
+
+  const clientAddress =
+    inputData.client.find(client => client.id === formData.clientId)
+      ?.address || ''
 
   return (
     <div className={styles.wrapper}>
@@ -223,10 +212,7 @@ export const Fields: FC<FieldsProps> = ({
               fontSize='16px'
               fontWeight='400'
               lineHeight='24px'
-              value={
-                inputData.client.find(client => client.id === formData.clientId)
-                  ?.address
-              }
+              value={clientAddress}
             />
           </div>
           <CustomInput
@@ -273,11 +259,13 @@ export const Fields: FC<FieldsProps> = ({
             title='Status'
             titleOnChange='status'
             idList={inputData.status.map((_status, index) => index)}
-            nameList={inputData.status.map(status => status)}
+            nameList={inputData.status}
             value={inputData.status.findIndex(
               status =>
                 status ===
-                (formData.status === 'Unpaid' ? 'Published' : formData.status),
+                (formData.status === 'Unpaid'
+                  ? 'Published'
+                  : formData.status),
             )}
             onChange={handleChangeInput}
           />
@@ -289,7 +277,7 @@ export const Fields: FC<FieldsProps> = ({
             value={
               inputData.currency.find(
                 currency => currency.code === formData.currency,
-              )?.id
+              )?.id || 0
             }
             onChange={handleChangeInput}
           />
@@ -314,8 +302,8 @@ export const Fields: FC<FieldsProps> = ({
             titleOnChange='dueDate'
             placeholder='None'
             idList={inputData.dueDate.map((_dueDate, index) => index + 1)}
-            nameList={inputData.dueDate.map(date => date)}
-            value={formData.dueDate ? formData.dueDate : 0}
+            nameList={inputData.dueDate}
+            value={formData.dueDate || 0}
             onChange={handleChangeInput}
           />
           <CustomSelect
@@ -323,8 +311,8 @@ export const Fields: FC<FieldsProps> = ({
             titleOnChange='repeat'
             placeholder='None'
             idList={inputData.repeat.map((_repeat, index) => index + 1)}
-            nameList={inputData.repeat.map(date => date)}
-            value={formData.repeat ? formData.repeat : 0}
+            nameList={inputData.repeat}
+            value={formData.repeat || 0}
             onChange={handleChangeInput}
           />
         </section>
@@ -332,26 +320,26 @@ export const Fields: FC<FieldsProps> = ({
       {formData.blankList ? (
         <section className={styles.blank}>
           <CustomDivider />
-          {formData.blankList.map((blank, index) => (
-            <React.Fragment key={index}>
+          {formData.blankList.map(blank => (
+            <React.Fragment key={blank.id}>
               <Blank
-                id={index}
+                id={blank.id}
                 amount={blank.amount}
                 price={blank.price}
                 itemName={blank.description}
-                taxValue={blank.tax}
+                taxValue={blank.tax || 0}
                 discountAmount={blank.discount}
                 allTaxes={inputData.tax}
                 discountType={blank.discountType}
-                totalPrice={blank.total || 0}
+                totalPrice={blank.total}
                 currencySymbol={
                   inputData.currency.find(
                     currency => currency.code === formData.currency,
                   )?.info.symbol || ''
                 }
-                onRemove={() => handleRemoveBlank(blank.index)}
-                onChange={(field, value) =>
-                  handleBlankChange(blank.index, field, value)
+                onRemove={() => removeBlank(blank.id)}
+                onChange={(name, value) =>
+                  handleBlankInputChange(blank.id, name, value)
                 }
               />
               <CustomDivider />
@@ -370,7 +358,7 @@ export const Fields: FC<FieldsProps> = ({
           icon='/icons/plus.svg'
           iconProps={styles.buttonAddIcon}
           style={styles.buttonAddNew}
-          onClick={handleAddBlank}
+          onClick={addBlank}
         />
         <ButtonBlue
           titleNone

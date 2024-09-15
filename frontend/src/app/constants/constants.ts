@@ -556,6 +556,20 @@ export interface SalesBlankData {
   discountType: 'percent' | 'fixed'
 }
 
+export interface SalesEditInvoiceBlankData {
+  serviceId: number
+  id: number
+  index: number
+  service: 'calc'
+  description: string
+  amount: number
+  price: number
+  tax: number
+  discount: number
+  total: number
+  discountType: 'percent' | 'fixed'
+}
+
 export interface SalesNewInvoiceFormData {
   invoiceNum: string
   num: string
@@ -625,7 +639,10 @@ export interface SalesEditInvoiceData {
   date: string
   dueDate: number
   notes: string
-  blank: SalesBlankData[]
+}
+
+export interface SalesBlanks {
+  blank: SalesEditInvoiceBlankData[]
   blankCalc: BlankCalc
 }
 
