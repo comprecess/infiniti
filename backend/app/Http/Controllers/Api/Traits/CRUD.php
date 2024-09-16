@@ -106,6 +106,11 @@ trait CRUD
     {
         $model->delete();
 
+        return $this->defResponse();
+    }
+
+    public function defResponse()
+    {
         return response()->json(['success' => true]);
     }
 

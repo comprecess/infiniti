@@ -31,4 +31,9 @@ class Item extends Model implements ModelServiceInterface
     {
         return $this->sales_price ?? 0;
     }
+
+    public function getDescription()
+    {
+        return $this->name;
+    }
 }

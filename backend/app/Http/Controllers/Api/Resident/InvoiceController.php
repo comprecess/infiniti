@@ -328,6 +328,29 @@ class InvoiceController extends ResidentController
         return new InvoiceItemResource($invoice->load(['items', 'items.service']));
     }
 
+    public function invoiceClone(Invoice $invoice)
+    {
+        $new = $invoice->replicate(['status' => Invoice::STATUS[0], 'cn' => Invoice::getNextNum()]);
+        $new->status = Invoice::STATUS[0];
+        $new->cn = Invoice::getNextNum();
+        $new->save();
+
+        $invoice->items->each(function($item) use($new){
+            $newItem = $item->replicate(['invoiceid' => $new->id]);
+            $newItem->invoiceid = $new->id;
+            $newItem->save();
+        });
+
+        return $this->defResponse();
+    }
+
+    public function stopRecurring(Invoice $invoice)
+    {
+        $invoice->r = '0';
+        $invoice->save();
+        return $this->defResponse();
+    }
+
     public function delete(Invoice $invoice)
     {
         return $this->deleteCRUD($invoice);
@@ -387,6 +410,10 @@ class InvoiceController extends ResidentController
                     $model->service_id = $priceModel->id;
                     if($model->amount == 0) {
                         $model->amount = $priceModel->getPrice();
+                    }
+
+                    if(!$model->description) {
+                        $model->description = $priceModel->getDescription();
                     }
                 }else{
                     $model->service_type = null;
