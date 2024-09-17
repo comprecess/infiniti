@@ -27,7 +27,7 @@ export const AddProductOrService: FC<AddProductOrServiceProps> = ({
   handleOpenCloseModal,
 }) => {
   const [services, setService] = useState<
-    SalesProductOrServiceData[] | null
+  SalesProductOrServiceData[] | null
   >(null)
 
   const getServiceOnList = async () => {

@@ -17,13 +17,7 @@ export const Header: FC<HeaderProps> = ({
 }) => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.buttonsList}>
-        <ButtonBlue title='New Invoices' style={styles.buttonNewInvoices} />
-        <ButtonBlue
-          title='New Recurring Invoices'
-          style={styles.buttonNewRecurring}
-        />
-      </div>
+      <ButtonBlue title='New Invoice' style={styles.buttonNewInvoices} />
       <div className={styles.totalInfoList}>
         <TotalItem
           title='Invoice Amount'

@@ -13,6 +13,7 @@ interface ItemProps extends ViewInvoicesRecentData {
     idInvoice: number,
     type: '/clone' | '/stopRecurring',
   ) => void
+  navigateToViewInvoice: (idInvoice: number) => void
   navigateToSelectAccount: (idAccount: number) => void
   navigateToSelectInvoice: (idInvoice: number) => void
 }
@@ -29,6 +30,7 @@ export const Item: FC<ItemProps> = ({
   type,
   deleteInvoice,
   stopRecurringInvoice,
+  navigateToViewInvoice,
   navigateToSelectAccount,
   navigateToSelectInvoice,
 }) => {
@@ -52,9 +54,16 @@ export const Item: FC<ItemProps> = ({
     stopRecurringInvoice(id, '/clone')
   }
 
+  const handleNavigateViewInvoice = () => {
+    navigateToViewInvoice(id)
+  }
+
   return (
     <div className={styles.wrapper}>
-      <span className={`${styleItem.codeColumn} ${styles.codeItem}`}>
+      <span
+        className={`${styleItem.codeColumn} ${styles.codeItem}`}
+        onClick={handleNavigateViewInvoice}
+      >
         {code}
       </span>
       <div

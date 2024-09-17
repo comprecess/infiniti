@@ -44,6 +44,7 @@ import { AdminReportsPage } from '../../pages/Admin/ReportsPage/ReportsPage'
 import { AdminEditInvoice } from '../../pages/Admin/SalesPage/EditInvoice/EditInvoice'
 import { AdminInvoicesPage } from '../../pages/Admin/SalesPage/InvoicesPage/InvoicesPage'
 import { AdminNewInvoicePage } from '../../pages/Admin/SalesPage/NewInvoicePage/NewInvoicePage'
+import { AdminViewInvoice } from '../../pages/Admin/SalesPage/ViewInvoice/ViewInvoice'
 import { AdminCurrenciesPage } from '../../pages/Admin/SettingsPage/CurrenciesPage/CurrenciesPage'
 import { AdminCustomContactFields } from '../../pages/Admin/SettingsPage/CustomContactFieldsPage/CustomContactFieldsPage'
 import { AdminSMSPage } from '../../pages/Admin/SMSPage/SMSPage'
@@ -94,6 +95,7 @@ export const Routes = {
   addCustomer: 'addcustomer',
   reports: 'reports',
   utilities: 'utilities',
+  invoice: 'invoice',
   appearance: 'appearance',
   plugins: 'plugins',
   settings: 'settings',
@@ -225,6 +227,7 @@ export const Pages = {
   adminInvoicesPage: <AdminInvoicesPage />,
   adminNewInvoicePage: <AdminNewInvoicePage />,
   adminEditInvoice: <AdminEditInvoice />,
+  adminViewInvoice: <AdminViewInvoice />,
 
   /* General  pages */
   basketPage: <BasketPage />,
