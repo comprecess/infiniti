@@ -10,6 +10,10 @@ import styles from './Blank.module.scss'
 
 interface BlankProps {
   id: number
+  amount: number
+  price: number
+  itemName: string
+  discountAmount: number
   currencySymbol: string | undefined
   totalPrice: number | undefined
   taxInput: SalesNewInvoiceTaxProps[]
@@ -19,6 +23,10 @@ interface BlankProps {
 
 export const Blank: FC<BlankProps> = ({
   id,
+  amount,
+  price,
+  itemName,
+  discountAmount,
   currencySymbol,
   totalPrice,
   taxInput,
@@ -43,7 +51,10 @@ export const Blank: FC<BlankProps> = ({
         <section className={styles.sectionSecond}>
           <div className={styles.containerItems}>
             <span className={styles.containerItemsTitle}>Item Name</span>
-            <TextEditor setValue={handleOnTextEditorChange} />
+            <TextEditor
+              setValue={handleOnTextEditorChange}
+              defaultValue={itemName}
+            />
           </div>
         </section>
         <section className={styles.sectionFirst}>
@@ -52,14 +63,20 @@ export const Blank: FC<BlankProps> = ({
             type='number'
             id={`${'qty'}-${id}`}
             name={`${'qty'}-${id}`}
-            onChange={(_name, value) => handleOnInputChange('amount', value)}
+            value={amount}
+            onChange={(_name, value) =>
+              handleOnInputChange('amount', value)
+            }
           />
           <CustomInput
             title='Price'
             type='number'
             id={`${'price'}-${id}`}
             name={`${'price'}-${id}`}
-            onChange={(_name, value) => handleOnInputChange('price', value)}
+            value={price}
+            onChange={(_name, value) =>
+              handleOnInputChange('price', value)
+            }
           />
           <div className={styles.containerItems}>
             <span className={styles.containerItemsTitle}>Discount</span>
@@ -73,6 +90,7 @@ export const Blank: FC<BlankProps> = ({
                 type='number'
                 id={`${'discount'}-${id}`}
                 name={`${'discount'}-${id}`}
+                value={discountAmount}
                 onChange={(_name, value) =>
                   handleOnInputChange('discount', value)
                 }

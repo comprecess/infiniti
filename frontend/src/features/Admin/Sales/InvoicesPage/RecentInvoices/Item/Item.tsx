@@ -7,12 +7,19 @@ import styles from './Item.module.scss'
 import { Type } from './Type/Type'
 
 interface ItemProps extends ViewInvoicesRecentData {
+  idAccount: number
   deleteInvoice: (idInvoice: number) => void
+  stopRecurringInvoice: (
+    idInvoice: number,
+    type: '/clone' | '/stopRecurring',
+  ) => void
+  navigateToSelectAccount: (idAccount: number) => void
   navigateToSelectInvoice: (idInvoice: number) => void
 }
 
 export const Item: FC<ItemProps> = ({
   id,
+  idAccount,
   code,
   account,
   amount,
@@ -21,8 +28,14 @@ export const Item: FC<ItemProps> = ({
   status,
   type,
   deleteInvoice,
+  stopRecurringInvoice,
+  navigateToSelectAccount,
   navigateToSelectInvoice,
 }) => {
+  const handleNavigateSelectedAccount = () => {
+    navigateToSelectAccount(idAccount)
+  }
+
   const handleDeleteInvoice = () => {
     deleteInvoice(id)
   }
@@ -31,14 +44,27 @@ export const Item: FC<ItemProps> = ({
     navigateToSelectInvoice(id)
   }
 
+  const handleStopRecurring = () => {
+    stopRecurringInvoice(id, '/stopRecurring')
+  }
+
+  const handleCloneInvoice = () => {
+    stopRecurringInvoice(id, '/clone')
+  }
+
   return (
     <div className={styles.wrapper}>
       <span className={`${styleItem.codeColumn} ${styles.codeItem}`}>
         {code}
       </span>
-      <div className={`${styleItem.accountColumn} ${styles.container}`}>
+      <div
+        className={`${styleItem.accountColumn} ${styles.container}`}
+        onClick={handleNavigateSelectedAccount}
+      >
         <span className={styles.accountItem}>{account.account}</span>
-        <span className={styles.companyNameItem}>{account.company?.name}</span>
+        <span className={styles.companyNameItem}>
+          {account.company?.name}
+        </span>
       </div>
       <span className={`${styleItem.amountColumn} ${styles.amountItem}`}>
         {amount}
@@ -61,14 +87,27 @@ export const Item: FC<ItemProps> = ({
         <button className={styles.viewButton}>
           <img src='/icons/view.svg' alt='View' className={styles.icon} />
         </button>
-        <button className={styles.buttonClone}>
-          <img src='/icons/clone.svg' alt='Clone' className={styles.icon} />
+        <button
+          className={styles.buttonClone}
+          onClick={handleCloneInvoice}
+        >
+          <img
+            src='/icons/clone.svg'
+            alt='Clone'
+            className={styles.icon}
+          />
         </button>
-        <button className={styles.buttonEdit} onClick={handleNavigateInvoice}>
+        <button
+          className={styles.buttonEdit}
+          onClick={handleNavigateInvoice}
+        >
           <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
         </button>
         {type === 1 && (
-          <button className={styles.buttonStopRecurring}>
+          <button
+            className={styles.buttonStopRecurring}
+            onClick={handleStopRecurring}
+          >
             <img
               src='/icons/stop.svg'
               alt='StopRecurring'
@@ -76,8 +115,15 @@ export const Item: FC<ItemProps> = ({
             />
           </button>
         )}
-        <button className={styles.buttonTrash} onClick={handleDeleteInvoice}>
-          <img src='/icons/trash.svg' alt='Trash' className={styles.icon} />
+        <button
+          className={styles.buttonTrash}
+          onClick={handleDeleteInvoice}
+        >
+          <img
+            src='/icons/trash.svg'
+            alt='Trash'
+            className={styles.icon}
+          />
         </button>
       </div>
     </div>

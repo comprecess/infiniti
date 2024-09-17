@@ -34,7 +34,8 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
     invoiceNum: data.invoiceNum,
     num: data.num,
     status: data.status[0],
-    currency: data.currency.find(currency => currency.isdefault === 1)?.code,
+    currency: data.currency.find(currency => currency.isdefault === 1)
+      ?.code,
     blankList: [
       {
         index: 0,
@@ -53,7 +54,8 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
   const [priceCalc, setPriceCalc] =
     useState<SalesNewInvoicePriceCalcProps | null>(null)
 
-  const [modalProductService, setModalProductService] = useState<boolean>(false)
+  const [modalProductService, setModalProductService] =
+    useState<boolean>(false)
 
   const handleOpenCloseProductService = () => {
     setModalProductService(!modalProductService)
@@ -86,7 +88,9 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
     value: string | number | SalesBlankData[] | undefined | null,
   ) => {
     if (field === 'currency' && typeof value === 'number') {
-      const currencyData = data.currency.find(currency => currency.id === value)
+      const currencyData = data.currency.find(
+        currency => currency.id === value,
+      )
       value = currencyData ? currencyData.code : ''
     } else if (field === 'status' && typeof value === 'number') {
       value = data.status[value]
@@ -116,12 +120,40 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
   const handleAddBlank = () => {
     setFormData(prevFormData => {
       const newId = prevFormData.blankList?.length || 0
+
       const newBlank: SalesBlankData = {
         index: newId,
         service: 'calc',
         description: '',
         amount: 0,
         price: 0,
+        discount: 0,
+        discountType: 'percent',
+        tax: 1,
+      }
+
+      return {
+        ...prevFormData,
+        blankList: [...(prevFormData.blankList || []), newBlank],
+      }
+    })
+  }
+
+  const handleAddServiceBlank = (
+    idService: string,
+    price: number,
+    description: string,
+  ) => {
+    setFormData(prevFormData => {
+      const newId = prevFormData.blankList?.length || 0
+
+      const newBlank: SalesBlankData = {
+        index: newId,
+        serviceId: parseInt(idService),
+        service: 'serviceProduct',
+        description,
+        amount: 0,
+        price,
         discount: 0,
         discountType: 'percent',
         tax: 1,
@@ -216,7 +248,10 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
             value={data.num}
             onChange={handleChangeInput}
           />
-          <CustomDataPicker title='Invoice Date' onChange={handleChangeInput} />
+          <CustomDataPicker
+            title='Invoice Date'
+            onChange={handleChangeInput}
+          />
         </section>
         <section className={styles.section}>
           <CustomSelect
@@ -244,7 +279,9 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
             titleOnChange='currency'
             idList={data.currency.map(currency => currency.id)}
             nameList={data.currency.map(currency => currency.code)}
-            value={data.currency.find(currency => currency.isdefault === 1)?.id}
+            value={
+              data.currency.find(currency => currency.isdefault === 1)?.id
+            }
             onChange={handleChangeInput}
           />
           <CustomInput
@@ -286,6 +323,10 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
             <React.Fragment key={blank.index}>
               <Blank
                 id={blank.index}
+                amount={blank.amount}
+                price={blank.price}
+                itemName={blank.description}
+                discountAmount={blank.discount}
                 taxInput={data.tax}
                 totalPrice={
                   priceCalc.data &&
@@ -341,6 +382,7 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
       <AddProductOrService
         modalOpen={modalProductService}
         serviceList={data.service}
+        addNewServiceBlank={handleAddServiceBlank}
         handleOpenCloseModal={handleOpenCloseProductService}
       />
     </div>

@@ -8,7 +8,7 @@ export const postInvoicePriceCalc = async (blank: {
   blankList: {
     serviceId?: number
     id?: number
-    service: 'calc'
+    service: 'calc' | 'serviceProduct'
     amount: number
     price: number
     tax: number

@@ -547,7 +547,7 @@ export interface SalesBlankData {
   serviceId?: number
   id?: number
   index: number
-  service: 'calc'
+  service: 'calc' | 'serviceProduct'
   description: string
   amount: number
   price: number
@@ -560,7 +560,7 @@ export interface SalesEditInvoiceBlankData {
   serviceId: number
   id: number
   index: number
-  service: 'calc'
+  service: 'calc' | 'serviceProduct'
   description: string
   amount: number
   price: number
@@ -588,7 +588,7 @@ export interface SalesNewInvoiceInputData {
   notes: string
   repeat: string[]
   status: string[]
-  service: SalesProductOrServiceData[]
+  service: string[]
   tax: SalesNewInvoiceTaxProps[]
 }
 

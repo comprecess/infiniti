@@ -26,6 +26,7 @@ interface FieldsProps {
   inputData: SalesNewInvoiceInputData
   blanks: SalesBlanks
   addBlank: () => void
+  addServiceBlank: (idService: string) => void
   removeBlank: (idBlank: number) => void
   updateBlank: (idBlank: number, data: SalesEditInvoiceBlankData) => void
   onFormDataChange: (data: Partial<InfoData>) => void
@@ -42,20 +43,20 @@ interface InfoData {
   currency: string
   notes: string
   date: string
-  repeat: number
-  dueDate: number
+  repeat: number | null
+  dueDate: number | null
   blankList: SalesEditInvoiceBlankData[]
   blankCalc: BlankCalc
 }
 
 export interface PartialFieldsData extends Partial<InfoData> {
   [key: string]:
-  | string
-  | number
-  | SalesEditInvoiceBlankData[]
-  | BlankCalc
-  | undefined
-  | null
+    | string
+    | number
+    | SalesEditInvoiceBlankData[]
+    | BlankCalc
+    | undefined
+    | null
 }
 
 export const Fields: FC<FieldsProps> = ({
@@ -63,6 +64,7 @@ export const Fields: FC<FieldsProps> = ({
   blanks,
   inputData,
   addBlank,
+  addServiceBlank,
   removeBlank,
   updateBlank,
   onFormDataChange,
@@ -86,8 +88,8 @@ export const Fields: FC<FieldsProps> = ({
           : item.tax,
     })),
     blankCalc: blanks.blankCalc,
-    repeat: data.repeat + 1,
-    dueDate: data.dueDate + 1,
+    repeat: data.repeat !== null ? data.repeat + 1 : null,
+    dueDate: data.dueDate !== null ? data.dueDate + 1 : null,
   })
 
   const [modalProductService, setModalProductService] =
@@ -102,11 +104,11 @@ export const Fields: FC<FieldsProps> = ({
   const handleChangeInput = (
     field: string,
     value:
-    | string
-    | number
-    | SalesEditInvoiceBlankData[]
-    | undefined
-    | null,
+      | string
+      | number
+      | SalesEditInvoiceBlankData[]
+      | undefined
+      | null,
   ) => {
     let updatedValue = value
 
@@ -384,6 +386,7 @@ export const Fields: FC<FieldsProps> = ({
       <AddProductOrService
         modalOpen={modalProductService}
         serviceList={inputData.service}
+        addEditServiceBlank={addServiceBlank}
         handleOpenCloseModal={handleOpenCloseProductService}
       />
     </div>

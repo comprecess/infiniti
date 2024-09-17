@@ -15,6 +15,7 @@ import { HeaderButtons } from '../../../../features/Admin/Sales/NewInvoice/Heade
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { addBlankInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/AddBlank'
+import { addServiceBlankInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/AddServiceBlank'
 import { editSelectedInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/EditSelectedInvoice'
 import { getBlanksListInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/GetBlanks'
 import { getInfoSelectedInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/GetInfoSelectedInvoice'
@@ -76,6 +77,31 @@ export const AdminEditInvoice: FC = () => {
     if (id === null) return
 
     const addResponse = await addBlankInvoice(id, 'calc')
+
+    if (addResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully added blank',
+        status: 'success',
+      })
+      getBlanksInvoice()
+    } else {
+      showToast({
+        title: 'Error',
+        description: addResponse.message,
+        status: 'error',
+      })
+    }
+  }
+
+  const handleAddServiceBlank = async (idService: string) => {
+    if (id === null) return
+
+    const addResponse = await addServiceBlankInvoice(
+      id,
+      'serviceProduct',
+      idService,
+    )
 
     if (addResponse.status) {
       showToast({
@@ -171,6 +197,7 @@ export const AdminEditInvoice: FC = () => {
               blanks={blanks}
               data={data}
               addBlank={handleAddBlank}
+              addServiceBlank={handleAddServiceBlank}
               removeBlank={handleRemoveBlank}
               updateBlank={handleUpdateBlank}
               onFormDataChange={setFormData}
