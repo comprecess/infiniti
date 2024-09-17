@@ -120,6 +120,21 @@ export const AdminInvoicesPage: FC = () => {
     )
   }
 
+  const navigateToViewInvoice = (idInvoice: number) => {
+    navigate(
+      '/' +
+        Routes.adminPages +
+        '/' +
+        Routes.sales +
+        '/' +
+        Routes.invoice +
+        '/' +
+        Routes.view +
+        '/' +
+        idInvoice,
+    )
+  }
+
   const setIsActiveTab = useCallback((name: string) => {
     setFilterStatus(name)
   }, [])
@@ -290,6 +305,7 @@ export const AdminInvoicesPage: FC = () => {
               <RecentInvoices
                 invoicesList={list.data}
                 changeSortName={changeSort}
+                navigateToViewInvoice={navigateToViewInvoice}
                 navigateToSelectInvoice={navigateToSelectInvoice}
                 navigateToSelectAccount={navigateToSelectAccount}
                 deleteInvoice={deleteSelectedInvoice}

@@ -6,7 +6,6 @@
   padding: 10px 12px 10px 12px;
 }
 
-.dateItem,
 .accountItem,
 .typeItem,
 .amountItem,
@@ -19,6 +18,15 @@
   letter-spacing: -0.03em;
   text-align: left;
   color: $white;
+}
+
+.dateItem {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $gray-300;
 }
 
 .manageItem {

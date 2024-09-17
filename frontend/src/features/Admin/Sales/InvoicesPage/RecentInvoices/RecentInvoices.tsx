@@ -14,6 +14,7 @@ interface RecentInvoicesProps {
     idInvoice: number,
     type: '/clone' | '/stopRecurring',
   ) => void
+  navigateToViewInvoice: (idInvoice: number) => void
   navigateToSelectAccount: (idAccount: number) => void
   navigateToSelectInvoice: (idInvoice: number) => void
 }
@@ -23,6 +24,7 @@ export const RecentInvoices: FC<RecentInvoicesProps> = ({
   changeSortName,
   deleteInvoice,
   stopRecurringInvoice,
+  navigateToViewInvoice,
   navigateToSelectAccount,
   navigateToSelectInvoice,
 }) => {
@@ -137,6 +139,7 @@ export const RecentInvoices: FC<RecentInvoicesProps> = ({
                     type={item.type}
                     deleteInvoice={deleteInvoice}
                     stopRecurringInvoice={stopRecurringInvoice}
+                    navigateToViewInvoice={navigateToViewInvoice}
                     navigateToSelectAccount={navigateToSelectAccount}
                     navigateToSelectInvoice={navigateToSelectInvoice}
                   />

@@ -4,28 +4,12 @@
   gap: 32px;
 }
 
-.buttonsList {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  gap: 12px;
-
-  @include mobileBreakpoint('max', $bpS) {
-    flex-direction: column;
-  }
-}
-
-.buttonNewInvoices,
-.buttonNewRecurring {
+.buttonNewInvoices {
   height: 44px;
 }
 
 .buttonNewInvoices {
   width: 150px;
-}
-
-.buttonNewRecurring {
-  width: 225px;
 }
 
 .totalInvoiceAmount {

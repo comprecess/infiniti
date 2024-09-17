@@ -25,7 +25,15 @@
 }
 
 .subjectItem,
-.amountItem,
+.amountItem {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 30px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $white;
+}
+
 .dateCreatedItem,
 .dateExpiryItem {
   font-size: 16px;
@@ -33,7 +41,7 @@
   line-height: 30px;
   letter-spacing: -0.03em;
   text-align: left;
-  color: $white;
+  color: $gray-300;
 }
 
 .buttonView,
