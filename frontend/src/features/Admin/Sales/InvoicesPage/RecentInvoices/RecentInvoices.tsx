@@ -10,6 +10,11 @@ interface RecentInvoicesProps {
   invoicesList: ViewInvoicesRecentData[]
   changeSortName: (sortNameItem: string, sortTypeItem: number) => void
   deleteInvoice: (idInvoice: number) => void
+  stopRecurringInvoice: (
+    idInvoice: number,
+    type: '/clone' | '/stopRecurring',
+  ) => void
+  navigateToSelectAccount: (idAccount: number) => void
   navigateToSelectInvoice: (idInvoice: number) => void
 }
 
@@ -17,6 +22,8 @@ export const RecentInvoices: FC<RecentInvoicesProps> = ({
   invoicesList,
   changeSortName,
   deleteInvoice,
+  stopRecurringInvoice,
+  navigateToSelectAccount,
   navigateToSelectInvoice,
 }) => {
   const [sortNumbers, setSortNumbers] = useState<number[]>([
@@ -120,6 +127,7 @@ export const RecentInvoices: FC<RecentInvoicesProps> = ({
                 <React.Fragment key={`${item.code}-${index}`}>
                   <Item
                     id={item.id}
+                    idAccount={item.account.id}
                     code={item.code}
                     account={item.account}
                     amount={item.amount}
@@ -128,6 +136,8 @@ export const RecentInvoices: FC<RecentInvoicesProps> = ({
                     status={item.status}
                     type={item.type}
                     deleteInvoice={deleteInvoice}
+                    stopRecurringInvoice={stopRecurringInvoice}
+                    navigateToSelectAccount={navigateToSelectAccount}
                     navigateToSelectInvoice={navigateToSelectInvoice}
                   />
                   {index !== invoicesList.length - 1 && <CustomDivider />}

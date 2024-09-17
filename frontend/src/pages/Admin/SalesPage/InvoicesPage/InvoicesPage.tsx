@@ -20,6 +20,7 @@ import { deleteInvoice } from '../../../../shared/utils/api/Admin/Sales/Invoices
 import { getInvoicesDocuments } from '../../../../shared/utils/api/Admin/Sales/Invoices/GetInvoicesDocuments'
 import { getList } from '../../../../shared/utils/api/Admin/Sales/Invoices/GetList'
 import { getStat } from '../../../../shared/utils/api/Admin/Sales/Invoices/GetStat'
+import { stopRecurringAndClone } from '../../../../shared/utils/api/Admin/Sales/Invoices/StopRecurringAndClone'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './InvoicesPage.module.scss'
 
@@ -104,6 +105,21 @@ export const AdminInvoicesPage: FC = () => {
     )
   }
 
+  const navigateToSelectAccount = (idAccount: number) => {
+    navigate(
+      '/' +
+        Routes.adminPages +
+        '/' +
+        Routes.customers +
+        '/' +
+        Routes.view +
+        '/' +
+        idAccount +
+        '/' +
+        Routes.summary,
+    )
+  }
+
   const setIsActiveTab = useCallback((name: string) => {
     setFilterStatus(name)
   }, [])
@@ -115,6 +131,28 @@ export const AdminInvoicesPage: FC = () => {
   const pageOnChange = useCallback((pageItem: number) => {
     setPage(pageItem)
   }, [])
+
+  const stopRecurringInvoice = async (
+    idInvoice: number,
+    type: '/clone' | '/stopRecurring',
+  ) => {
+    const stopResponse = await stopRecurringAndClone(idInvoice, type)
+
+    if (stopResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully stopped the recurrence',
+        status: 'success',
+      })
+      getListInvoice()
+    } else {
+      showToast({
+        title: 'Error',
+        description: stopResponse.message,
+        status: 'error',
+      })
+    }
+  }
 
   const documentOnChange = useCallback(
     async (documentItem: string) => {
@@ -160,7 +198,12 @@ export const AdminInvoicesPage: FC = () => {
 
   const navigateToAddInvoice = () => {
     navigate(
-      '/' + Routes.adminPages + '/' + Routes.sales + '/' + Routes.newInvoices,
+      '/' +
+        Routes.adminPages +
+        '/' +
+        Routes.sales +
+        '/' +
+        Routes.newInvoices,
     )
   }
 
@@ -248,7 +291,9 @@ export const AdminInvoicesPage: FC = () => {
                 invoicesList={list.data}
                 changeSortName={changeSort}
                 navigateToSelectInvoice={navigateToSelectInvoice}
+                navigateToSelectAccount={navigateToSelectAccount}
                 deleteInvoice={deleteSelectedInvoice}
+                stopRecurringInvoice={stopRecurringInvoice}
               />
             ) : (
               <LoadingSpinner size='xl' />

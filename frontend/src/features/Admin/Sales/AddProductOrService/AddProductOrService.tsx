@@ -1,22 +1,45 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { SalesProductOrServiceData } from '../../../../app/constants/constants'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { CustomModalWindow } from '../../../../shared/ui/CustomModalWindow/CustomModalWindow'
+import { getServiceInvoice } from '../../../../shared/utils/api/Admin/Sales/AddProductOrService/GetService'
 import styles from './AddProductOrService.module.scss'
 import { RecentProductService } from './RecentProductService/RecentProductService'
 
 interface AddProductOrServiceProps {
-  serviceList: SalesProductOrServiceData[]
+  serviceList: string[]
   modalOpen: boolean
+  addEditServiceBlank?: (idService: string) => void
+  addNewServiceBlank?: (
+    idService: string,
+    price: number,
+    description: string,
+  ) => void
   handleOpenCloseModal: () => void
 }
 
 export const AddProductOrService: FC<AddProductOrServiceProps> = ({
   serviceList,
   modalOpen,
+  addEditServiceBlank,
+  addNewServiceBlank,
   handleOpenCloseModal,
 }) => {
+  const [services, setService] = useState<
+    SalesProductOrServiceData[] | null
+  >(null)
+
+  const getServiceOnList = async () => {
+    const getResponse = await getServiceInvoice(serviceList[0])
+
+    setService(getResponse)
+  }
+
+  useEffect(() => {
+    getServiceOnList()
+  }, [])
+
   return (
     <CustomModalWindow
       maxWidth={'800px'}
@@ -33,7 +56,14 @@ export const AddProductOrService: FC<AddProductOrServiceProps> = ({
           </div>
           <div className={styles.table}>
             <div className={styles.content}>
-              <RecentProductService servicesList={serviceList} />
+              {services && (
+                <RecentProductService
+                  servicesList={services}
+                  addEditServiceBlank={addEditServiceBlank}
+                  addNewServiceBlank={addNewServiceBlank}
+                  onCloseModalWindow={handleOpenCloseModal}
+                />
+              )}
             </div>
           </div>
         </div>
