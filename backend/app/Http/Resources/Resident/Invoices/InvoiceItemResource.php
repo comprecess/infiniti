@@ -4,9 +4,11 @@ namespace App\Http\Resources\Resident\Invoices;
 
 use App\Http\Requests\Resident\Invoices\InvoiceRequest;
 use App\Http\Resources\Contracts\ListInterface;
+use App\Http\Resources\Resident\Client\ClientView\SummaryResource;
 use App\Http\Resources\Resident\Settings\CurrencyResorce;
 use App\Http\Resources\Traits\ListTrait;
 use App\Http\Resources\Resident\Client\ClientResource;
+use App\Models\Config;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -34,10 +36,11 @@ class InvoiceItemResource extends JsonResource implements ListInterface
         $resorce = array_merge($resorce, [
             'id' => $this->id,
             'code' => $this->getCode(),
+            'token' => $this->vtoken,
             'client' => new ClientResource($this->user),
             'currency' => new CurrencyResorce($this->getCurrencyIso),
             'repeat' => $this->getKeyRepeat(),
-            'date' => $this->date->format('Y-m-d'),
+            'date' => $this->date?->format('Y-m-d'),
             'dueDate' => $this->getDueDate(),
             'notes' => $this->notes,
             'blank' => InvoiceBlankResource::collection($items),
@@ -54,6 +57,8 @@ class InvoiceItemResource extends JsonResource implements ListInterface
             $value = $this->printPrice($value);
         }
 
+        $this->typeContent($resorce, $request);
+
         return $resorce;
     }
 
@@ -69,5 +74,15 @@ class InvoiceItemResource extends JsonResource implements ListInterface
     {
         self::$isCollection = true;
         return parent::collection($resource);
+    }
+
+    public function typeContent(&$resorce, $request)
+    {
+        if($request->type == 'view') {
+            $resorce['date'] = $this->date?->format('d/m/Y');
+            $resorce['dueDate'] = $this->duedate?->format('d/m/Y');
+            $resorce['client'] = new SummaryResource($this->user->load(['group', 'companyClient', 'transactionPayer', 'transactionPayee']));
+            $resorce['company'] = ['companyName' => Config::get('CompanyName'), 'companyAddress' => Config::get('caddress')];
+        }
     }
 }

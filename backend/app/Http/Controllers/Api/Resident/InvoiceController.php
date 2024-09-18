@@ -239,7 +239,7 @@ class InvoiceController extends ResidentController
 
                 $model->invoicenum = $request->invoiceNum ? $request->invoiceNum : Config::get('invoice_code_prefix', 'INV-');
                 $model->cn = $request->num ? $request->num : '';
-//                $model->notes = $request->notes ? $request->notes : '';
+                $model->notes = $request->notes ? $request->notes : '';
                 $model->subtotal = $sum[0];
                 $model->discount = $sum[1];
                 $model->total = $sum[3];
@@ -254,8 +254,12 @@ class InvoiceController extends ResidentController
 
                 if($isNew) {
                     $model->is_same_state = 1;
-                    $model->setRandomNum('vtoken', 10);
-                    $model->setRandomNum('ptoken', 10);
+                    foreach(['vtoken', 'ptoken'] as $name) {
+                        do{
+                            $model->setRandomNum($name, 10);
+                            $count = Invoice::where($name, $model->{$name})->count();
+                        } while($count != 0);
+                    }
                     $model->datepaid = now();
                 }
             },
@@ -422,6 +426,21 @@ class InvoiceController extends ResidentController
                 $model->calc();
             }
         );
+    }
+
+    public function publicToken($token)
+    {
+        $invoice = Invoice::where('vtoken', $token)
+            ->with(['items', 'items.service'])
+            ->orderBy('id', 'desc')
+            ->first();
+
+        if(!$invoice) {
+            abort(404);
+        }
+
+        return new InvoiceItemResource($invoice/*->load(['items', 'items.service'])*/);
+
     }
 
 

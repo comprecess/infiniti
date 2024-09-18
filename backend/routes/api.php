@@ -28,6 +28,10 @@ Route::post('/resident/login', [AuthController::class, 'residentLogin']);
 Route::get('/client/autologin/{autologin}', [AuthController::class, 'autologin'])
     ->name('autologin');
 
+#invoice
+Route::get('/invoice/token/{token}', [\App\Http\Controllers\Api\Resident\InvoiceController::class, 'publicToken'])
+    ->name('invoicePublic');
+
 Route::group(
     [
         'prefix' => 'user',
