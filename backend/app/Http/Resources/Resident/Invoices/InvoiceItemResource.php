@@ -9,6 +9,7 @@ use App\Http\Resources\Resident\Settings\CurrencyResorce;
 use App\Http\Resources\Traits\ListTrait;
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Models\Config;
+use App\Models\Resident\Invoices\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -83,6 +84,7 @@ class InvoiceItemResource extends JsonResource implements ListInterface
             $resorce['dueDate'] = $this->duedate?->format('d/m/Y');
             $resorce['client'] = new SummaryResource($this->user->load(['group', 'companyClient', 'transactionPayer', 'transactionPayee']));
             $resorce['company'] = ['companyName' => Config::get('CompanyName'), 'companyAddress' => Config::get('caddress')];
+            $resorce['listStatus'] = Invoice::STATUS;
         }
     }
 }
