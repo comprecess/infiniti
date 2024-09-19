@@ -1,0 +1,27 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 24px;
+}
+
+.totalList,
+.noteWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+}
+
+.titleNote {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23px;
+  letter-spacing: -0.03em;
+}
+
+.note {
+  font-size: 15px;
+  line-height: 22px;
+  letter-spacing: -0.03em;
+}

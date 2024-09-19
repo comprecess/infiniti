@@ -1,0 +1,36 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  padding-left: 12px;
+  align-items: center;
+  border-radius: 8px;
+  height: 54px;
+}
+
+.title {
+  font-family: $fontSpaceGrotesk;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.statusUnpaid {
+  background-color: $amber-transparent;
+  color: $amber-500;
+}
+
+.statusPaid {
+  background-color: $mint-transparent;
+  color: $mint-500;
+}
+
+.statusPartiallyPaid {
+  background-color: $cherry-transparent;
+  color: $cherry-500;
+}
+
+.statusCancelled {
+  background-color: $gray-600;
+  color: $gray-100;
+}

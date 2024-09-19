@@ -1,7 +1,14 @@
-import { FC, useEffect, useMemo } from 'react'
-import { useLocation } from 'react-router-dom'
+import { FC, useEffect, useMemo, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
+import { SalesViewInvoiceData } from '../../../../app/constants/constants'
+import { Routes } from '../../../../app/router/routes'
+import { Buttons } from '../../../../features/Admin/Sales/ViewInvoice/Buttons/Buttons'
+import { Footer } from '../../../../features/Admin/Sales/ViewInvoice/Footer/Footer'
+import { Header } from '../../../../features/Admin/Sales/ViewInvoice/Header/Header'
+import { RecentInvoices } from '../../../../features/Admin/Sales/ViewInvoice/RecentInvoices/RecentInvoices'
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
+import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getInfoSelectedInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/GetInfoSelectedInvoice'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './ViewInvoice.module.scss'
@@ -23,14 +30,30 @@ const useIdFromUrl = () => {
 }
 
 export const AdminViewInvoice: FC = () => {
+  const [info, setInfo] = useState<SalesViewInvoiceData | null>(null)
+
   const id = useIdFromUrl()
+  const navigate = useNavigate()
 
   const getInvoiceInfo = async () => {
     if (id === null) return
 
-    const getResponse = await getInfoSelectedInvoice(id)
+    const getResponse = await getInfoSelectedInvoice(id, '?type=view')
 
-    console.log(getResponse)
+    setInfo(getResponse)
+  }
+
+  const navigateToEditInvoice = () => {
+    navigate(
+      '/' +
+        Routes.adminPages +
+        '/' +
+        Routes.sales +
+        '/' +
+        Routes.editInvoice +
+        '/' +
+        info?.id,
+    )
   }
 
   useEffect(() => {
@@ -43,19 +66,53 @@ export const AdminViewInvoice: FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      <section className={styles.section}>
-        <CustomInput
-          readOnly
-          title='Unique Invoice URL:'
-          type='text'
-          name='uniqueURL'
-          id='uniqueURL'
-          value='URL'
-          styleInput={styles.input}
-          onChange={() => {}}
-        />
-        <RecentCard title='---Invoice---'>Content</RecentCard>
-      </section>
+      {info ? (
+        <section className={styles.section}>
+          <CustomInput
+            readOnly
+            title='Unique Invoice URL:'
+            type='text'
+            name='uniqueURL'
+            id='uniqueURL'
+            value={`---url/token-${info.token}---`}
+            styleInput={styles.input}
+            onChange={() => {}}
+          />
+          <RecentCard
+            title={`Invoice - ${info.code}`}
+            HeaderComponent={Header}
+            Component={Buttons}
+            PagesComponent={Footer}
+            pagesProps={{
+              subtotal: info.blankCalc.price,
+              tax: info.blankCalc.tax,
+              discount: info.blankCalc.discount,
+              grandTotal: info.blankCalc.total,
+              note: info.notes,
+            }}
+            componentProps={{
+              statusList: info.listStatus.filter(
+                status => status !== info.status,
+              ),
+              editInvoice: navigateToEditInvoice,
+            }}
+            headerProps={{
+              title: info.title,
+              invoiceCode: info.code,
+              invoiceDate: info.date,
+              dueDate: info.dueDate,
+              status: info.status,
+              company: info.company,
+              totalInvoice: info.blankCalc.total,
+              client: info.client,
+            }}
+          >
+            <RecentInvoices blankList={info.blank} />
+          </RecentCard>
+        </section>
+      ) : (
+        <LoadingSpinner size='xl' />
+      )}
     </div>
   )
 }

@@ -93,7 +93,10 @@ export const Item: FC<ItemProps> = ({
         <Type type={type} />
       </div>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <button className={styles.viewButton}>
+        <button
+          className={styles.viewButton}
+          onClick={handleNavigateViewInvoice}
+        >
           <img src='/icons/view.svg' alt='View' className={styles.icon} />
         </button>
         <button

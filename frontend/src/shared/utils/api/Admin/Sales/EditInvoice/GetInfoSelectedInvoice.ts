@@ -1,7 +1,10 @@
 import { authTokenString } from '../../../../../../app/constants/constants'
 import { getCookies } from '../../../../Saving/Cookies/GetCookies'
 
-export const getInfoSelectedInvoice = async (id: number) => {
+export const getInfoSelectedInvoice = async (
+  id: number,
+  type?: string,
+) => {
   const authToken = getCookies(authTokenString)
 
   if (authToken) {
@@ -10,7 +13,8 @@ export const getInfoSelectedInvoice = async (id: number) => {
         import.meta.env.VITE_MAIN_DOMAIN +
         import.meta.env.VITE_SALES_CREATE_NEW_INVOICE +
         '/' +
-        id
+        id +
+        type
 
       const response = await fetch(url, {
         method: 'GET',

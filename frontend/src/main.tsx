@@ -45,6 +45,10 @@ const theme = extendTheme({
       400: '#36d3d3',
       100: '#d1fafa',
     },
+    cherry: {
+      500: '#ef4382',
+      400: '#f872a3',
+    },
   },
 })
 
