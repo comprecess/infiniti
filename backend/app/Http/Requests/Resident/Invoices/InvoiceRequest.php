@@ -7,6 +7,7 @@ use App\Http\Requests\Interfaces\ConvertingPropertiesInterface;
 use App\Http\Requests\Traits\ConvertingPropertiesTrait;
 use App\Models\Resident\Invoices\Invoice;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 
@@ -33,13 +34,18 @@ class InvoiceRequest extends FormRequest implements ConvertingPropertiesInterfac
 
     public function rules(): array
     {
+        $status = array_keys(self::STATUS);
+        if($this->route('invoice')) {
+            $status = array_merge($status, Invoice::STATUS);
+        }
+
         #test
         Log::alert('Invoice::createOrUpdate', $this->all());
         #test
 
         return [
             'clientId' => "required|exists:crm_accounts,id",
-            'status' => "required|in:" . implode(",", array_keys(self::STATUS)),
+            'status' => "required|in:" . implode(",", $status),
             'dueDate' => "nullable|in:" . implode(",", array_keys(self::DUEDATE)),
             'currency' => "required|exists:sys_currencies,iso_code",
             'date' => 'required|date_format:Y-m-d',
