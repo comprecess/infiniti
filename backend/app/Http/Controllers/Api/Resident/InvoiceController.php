@@ -329,7 +329,7 @@ class InvoiceController extends ResidentController
 
     public function item(Invoice $invoice)
     {
-        return new InvoiceItemResource($invoice->load(['items', 'items.service']));
+        return new InvoiceItemResource($invoice->load(['items', 'items.service', 'items.invoice']));
     }
 
     public function invoiceClone(Invoice $invoice)
@@ -431,7 +431,7 @@ class InvoiceController extends ResidentController
     public function publicToken($token)
     {
         $invoice = Invoice::where('vtoken', $token)
-            ->with(['items', 'items.service'])
+            ->with(['items', 'items.service', 'items.invoice'])
             ->orderBy('id', 'desc')
             ->first();
 
