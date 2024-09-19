@@ -34,6 +34,7 @@ class InvoiceItemResource extends JsonResource implements ListInterface
         $items = $this->items;
         $listStatus = array_flip(InvoiceRequest::STATUS);
 
+
         $resorce = array_merge($resorce, [
             'id' => $this->id,
             'code' => $this->getCode(),
@@ -47,10 +48,10 @@ class InvoiceItemResource extends JsonResource implements ListInterface
             'blank' => InvoiceBlankResource::collection($items),
             'status' => $this->status,
             'blankCalc' => [
-                'price' => $this->printPrice($items->summPrice()),
-                'discount' => $this->printPrice($items->summDiscount()),
-                'tax' => $this->printPrice($items->summTax()),
-                'total' => $this->printPrice($items->summTotal())
+                'price' => $items->summPrice(),
+                'discount' => $items->summDiscount(),
+                'tax' => $items->summTax(),
+                'total' => $items->summTotal()
             ]
         ]);
 
