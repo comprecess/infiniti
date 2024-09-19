@@ -652,3 +652,53 @@ export interface BlankCalc {
   tax: string
   total: string
 }
+
+export interface SalesViewInvoiceData {
+  id: number
+  blank: SalesEditInvoiceBlankData[]
+  blankCalc: BlankCalc
+  client: FullInfoClient
+  code: string
+  listStatus: string[]
+  company: {
+    companyAddress: string
+    companyName: string
+  }
+  currency: CurrencyProps
+  date: string
+  dueDate: string
+  email: string
+  invoiceNum: string
+  notes: string
+  num: string
+  phone: string
+  receiptNumber: string
+  repeat: string
+  showQuantity: string
+  status: string
+  title: string
+  token: string
+}
+
+export interface FullInfoClient {
+  id: number
+  account: string
+  address: string
+  amount: string
+  autologin: string
+  balance: string
+  city: string
+  company: string
+  country: string
+  customFields: SettingsCustomFieldsProps[]
+  email: string
+  group: string
+  notes: string
+  phone: string
+  primaryContact: number
+  state: string
+  tags: string
+  totalExpense: string
+  totalProfit: string
+  zip: string
+}
