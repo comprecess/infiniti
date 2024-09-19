@@ -13,7 +13,7 @@ class InvoiceBlankResource extends JsonResource
     {
         $service = $this->service;
         $serviceObject = $service?->getServiceResources();
-        return [
+        $resorce = [
             'id' => $this->id,
             'service' => $this->getNameService(),
             'serviceId' => $this->getNameService(null) ? $this->service_id : null,
@@ -27,6 +27,19 @@ class InvoiceBlankResource extends JsonResource
             'serviceObject' => $service ? new $serviceObject($service) : null
         ];
 
+        $this->typeContent($resorce, $request);
+
+        return $resorce;
+
+    }
+
+    public function typeContent(&$resorce, $request)
+    {
+        $invoice = $this->invoice;
+        if($request->type == 'view') {
+            $resorce['price'] = $invoice->printPrice((float) $resorce['price']);
+            $resorce['total'] = $invoice->printPrice((float) $resorce['total']);
+        }
     }
 
 }
