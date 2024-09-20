@@ -47,6 +47,7 @@ class InvoiceItemResource extends JsonResource implements ListInterface
             'notes' => $this->notes,
             'blank' => InvoiceBlankResource::collection($items),
             'status' => $this->status,
+            'blockEdit' => $this->blockEdit(),
             'blankCalc' => [
                 'price' => $items->summPrice(),
                 'discount' => $items->summDiscount(),

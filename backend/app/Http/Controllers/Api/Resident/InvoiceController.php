@@ -244,7 +244,9 @@ class InvoiceController extends ResidentController
                 $model->discount = $sum[1];
                 $model->total = $sum[3];
                 $model->tax = $sum[2];
-                $model->status = InvoiceRequest::STATUS[$request->status];
+                if($request->status && isset(InvoiceRequest::STATUS[$request->status])) {
+                    $model->status = InvoiceRequest::STATUS[$request->status];
+                }
                 $model->aid = auth()->id();
 
                 if($request->protjectId) {

@@ -141,4 +141,9 @@ class Invoice extends Model implements InsertDefaultValueInterface
 
         return $search === false ? null : $search;
     }
+
+    public function blockEdit()
+    {
+        return in_array($this->status, [self::STATUS[2], self::STATUS[3]]);
+    }
 }
