@@ -20,6 +20,7 @@ class InvoiceListResource extends JsonResource
             'invoiceDate' => $this->date?->format('d/m/Y'),
             'dueDate' => $this->duedate?->format('d/m/Y'),
             'status' => $this->status,
+            'blockEdit' => $this->blockEdit(),
             'type' => $this->r ? 1 : 0,
         ];
     }
