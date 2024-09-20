@@ -18,6 +18,10 @@ export const router = createBrowserRouter([
     ),
   },
   {
+    path: `${Routes.public}/${Routes.invoice}/${Routes.view}/:id`,
+    element: Pages.publicViewInvoice,
+  },
+  {
     path: Routes.adminPages,
     element: (
       <ExaminationUser>
@@ -105,11 +109,11 @@ export const router = createBrowserRouter([
             element: Pages.adminGroupsPage,
           },
           {
-            path: `${Routes.groups + '/' + Routes.contactsList}/:id`,
+            path: `${Routes.groups}/${Routes.contactsList}/:id`,
             element: Pages.adminContactsListPage,
           },
           {
-            path: `${Routes.groups + '/' + Routes.reorder}`,
+            path: `${Routes.groups}/${Routes.reorder}`,
             element: Pages.adminReorderGroupsPage,
           },
           {
@@ -121,7 +125,7 @@ export const router = createBrowserRouter([
             element: (
               <Navigate
                 replace
-                to={'/' + Routes.adminPages + '/' + Routes.dashboard}
+                to={`/${Routes.adminPages}/${Routes.dashboard}`}
               />
             ),
           },
@@ -143,7 +147,7 @@ export const router = createBrowserRouter([
             element: (
               <Navigate
                 replace
-                to={'/' + Routes.adminPages + '/' + Routes.dashboard}
+                to={`/${Routes.adminPages}/${Routes.dashboard}`}
               />
             ),
           },
@@ -193,7 +197,7 @@ export const router = createBrowserRouter([
             element: (
               <Navigate
                 replace
-                to={'/' + Routes.adminPages + '/' + Routes.dashboard}
+                to={`/${Routes.adminPages}/${Routes.dashboard}`}
               />
             ),
           },
@@ -223,7 +227,7 @@ export const router = createBrowserRouter([
             element: (
               <Navigate
                 replace
-                to={'/' + Routes.adminPages + '/' + Routes.dashboard}
+                to={`/${Routes.adminPages}/${Routes.dashboard}`}
               />
             ),
           },
@@ -280,7 +284,7 @@ export const router = createBrowserRouter([
       { path: Routes.dashboard, element: Pages.clientDashboardPage },
       { path: Routes.catalog, element: Pages.clientCatalogPage },
       {
-        path: `${Routes.catalog + '/' + Routes.talent}/:id`,
+        path: `${Routes.catalog}/${Routes.talent}/:id`,
         element: <TalentPage />,
       },
       { path: Routes.myOrders, element: Pages.clientMyOrdersPage },
@@ -304,7 +308,7 @@ export const router = createBrowserRouter([
         ],
       },
       { path: Routes.profile, element: Pages.clientProfilePage },
-      { path: Routes.basket, element: Pages.basketPage },
+      { path: Routes.basket, element: Pages.clientBasketPage },
       {
         path: '*',
         index: true,

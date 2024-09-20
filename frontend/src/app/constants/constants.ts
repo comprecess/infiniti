@@ -541,6 +541,7 @@ export interface ViewInvoicesRecentData {
   dueDate: string
   status: string
   type: number
+  blockEdit: boolean
 }
 
 export interface SalesBlankData {
@@ -678,6 +679,7 @@ export interface SalesViewInvoiceData {
   status: string
   title: string
   token: string
+  blockEdit: boolean
 }
 
 export interface FullInfoClient {

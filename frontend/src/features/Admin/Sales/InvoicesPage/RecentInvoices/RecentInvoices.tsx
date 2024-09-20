@@ -137,6 +137,7 @@ export const RecentInvoices: FC<RecentInvoicesProps> = ({
                     dueDate={item.dueDate}
                     status={item.status}
                     type={item.type}
+                    blockEdit={item.blockEdit}
                     deleteInvoice={deleteInvoice}
                     stopRecurringInvoice={stopRecurringInvoice}
                     navigateToViewInvoice={navigateToViewInvoice}

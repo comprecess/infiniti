@@ -56,6 +56,20 @@ export const AdminViewInvoice: FC = () => {
     )
   }
 
+  const navigateToPreviewInvoice = () => {
+    const url =
+      '/' +
+      Routes.public +
+      '/' +
+      Routes.invoice +
+      '/' +
+      Routes.view +
+      '/' +
+      info?.token
+
+    window.open(url, '_blank')
+  }
+
   useEffect(() => {
     document.title = 'infiniti | View Invoice '
   }, [])
@@ -74,12 +88,14 @@ export const AdminViewInvoice: FC = () => {
             type='text'
             name='uniqueURL'
             id='uniqueURL'
-            value={`---url/token-${info.token}---`}
             styleInput={styles.input}
+            value={`${import.meta.env.VITE_MAIN_DOMAIN}/${Routes.public}/${
+              Routes.invoice
+            }/${Routes.view}/${info.token}`}
             onChange={() => {}}
           />
           <RecentCard
-            title={`Invoice - ${info.code}`}
+            title='Invoice'
             HeaderComponent={Header}
             Component={Buttons}
             PagesComponent={Footer}
@@ -94,7 +110,9 @@ export const AdminViewInvoice: FC = () => {
               statusList: info.listStatus.filter(
                 status => status !== info.status,
               ),
+              blockEditButton: info.blockEdit,
               editInvoice: navigateToEditInvoice,
+              previewInvoice: navigateToPreviewInvoice,
             }}
             headerProps={{
               title: info.title,

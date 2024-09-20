@@ -1,0 +1,28 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  justify-content: center;
+  padding: 20px;
+  background-color: $brand-1000;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 980px;
+  height: 100%;
+  border-radius: 8px;
+  padding: 24px;
+  background-color: $brand-900;
+}
+
+.pdfButtons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+  gap: 12px;
+}
