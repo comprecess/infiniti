@@ -9,7 +9,7 @@ import { Cart } from '../../../widgets/BasketCart/Cart/Cart'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './BasketPage.module.scss'
 
-export const BasketPage: FC = () => {
+export const ClientBasketPage: FC = () => {
   const [orders, setOrder] = useState<CartProps | null>(null)
 
   const getOrders = async () => {

@@ -56,7 +56,7 @@ import { LoginResidentPage } from '../../pages/Auth/LoginResidentPage/LoginResid
 import { RegisterPage } from '../../pages/Auth/RegisterPage/RegisterPage'
 import { ResetPasswordPage } from '../../pages/Auth/ResetPasswordPage/ResetPasswordPage'
 import { SignInPage } from '../../pages/Auth/SignInPage/SignInPage'
-import { BasketPage } from '../../pages/Client/BasketPage/BasketPage'
+import { ClientBasketPage } from '../../pages/Client/BasketPage/BasketPage'
 import { ClientCatalogPage } from '../../pages/Client/CatalogPage/CatalogPage'
 import { ClientDashboardPage } from '../../pages/Client/DashboardPage/DashboardPage'
 import { ClientDocumentsPage } from '../../pages/Client/DocumentsPage/DocumentsPage'
@@ -69,6 +69,7 @@ import { ClientProjectsPage } from '../../pages/Client/ProjectsPage/ProjectsPage
 import { ClientOpenNewTicketPage } from '../../pages/Client/TicketsPage/OpenNewTicketPage/OpenNewTicketPage'
 import { ClientTicketsPage } from '../../pages/Client/TicketsPage/TicketsPage/TicketsPage'
 import { ClientTransactionsPage } from '../../pages/Client/TransactionsPage/TransactionsPage'
+import { InvoiceViewPage } from '../../pages/General/InvoiceViewPage/InvoiceViewPage'
 import { NotFoundPage } from '../../pages/General/NotFoundPage/NotFoundPage'
 
 export const Routes = {
@@ -76,6 +77,7 @@ export const Routes = {
   adminPages: 'admin',
   clientPages: 'client',
   dashboard: 'dashboard',
+  public: 'public',
   customers: 'customers',
   newInvoices: 'newinvoices',
   view: 'view',
@@ -172,6 +174,7 @@ export const Pages = {
   clientTicketsPage: <ClientTicketsPage />,
   clientOpenNewTicketPage: <ClientOpenNewTicketPage />,
   clientProfilePage: <ClientProfilePage />,
+  clientBasketPage: <ClientBasketPage />,
 
   /* Admin Dashboard pages */
   adminDashboardPage: <AdminDashboardPage />,
@@ -229,7 +232,7 @@ export const Pages = {
   adminEditInvoice: <AdminEditInvoice />,
   adminViewInvoice: <AdminViewInvoice />,
 
-  /* General  pages */
-  basketPage: <BasketPage />,
+  /* Public  pages */
+  publicViewInvoice: <InvoiceViewPage />,
   notFoundPage: <NotFoundPage />,
 }

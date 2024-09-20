@@ -28,6 +28,7 @@ export const Item: FC<ItemProps> = ({
   dueDate,
   status,
   type,
+  blockEdit,
   deleteInvoice,
   stopRecurringInvoice,
   navigateToViewInvoice,
@@ -109,12 +110,18 @@ export const Item: FC<ItemProps> = ({
             className={styles.icon}
           />
         </button>
-        <button
-          className={styles.buttonEdit}
-          onClick={handleNavigateInvoice}
-        >
-          <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
-        </button>
+        {!blockEdit && (
+          <button
+            className={styles.buttonEdit}
+            onClick={handleNavigateInvoice}
+          >
+            <img
+              src='/icons/edit.svg'
+              alt='Edit'
+              className={styles.icon}
+            />
+          </button>
+        )}
         {type === 1 && (
           <button
             className={styles.buttonStopRecurring}

@@ -15,10 +15,17 @@ import styles from './Buttons.module.scss'
 
 interface ButtonsProps {
   statusList: string[]
+  blockEditButton: boolean
   editInvoice: () => void
+  previewInvoice: () => void
 }
 
-export const Buttons: FC<ButtonsProps> = ({ statusList, editInvoice }) => {
+export const Buttons: FC<ButtonsProps> = ({
+  statusList,
+  blockEditButton,
+  editInvoice,
+  previewInvoice,
+}) => {
   return (
     <div className={styles.wrapper}>
       <Menu isLazy>
@@ -123,16 +130,18 @@ export const Buttons: FC<ButtonsProps> = ({ statusList, editInvoice }) => {
           className={styles.icon}
         />
       </button>
-      <button className={styles.buttonPreview}>
+      <button className={styles.buttonPreview} onClick={previewInvoice}>
         <img
           src='/icons/fileWhite.svg'
           alt='Preview'
           className={styles.icon}
         />
       </button>
-      <button className={styles.buttonEdit} onClick={editInvoice}>
-        <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
-      </button>
+      {!blockEditButton && (
+        <button className={styles.buttonEdit} onClick={editInvoice}>
+          <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
+        </button>
+      )}
       <button className={styles.buttonPaperClip}>
         <img
           src='/icons/paperClip.svg'
