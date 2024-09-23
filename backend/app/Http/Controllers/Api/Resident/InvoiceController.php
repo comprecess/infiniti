@@ -257,12 +257,7 @@ class InvoiceController extends ResidentController
                 if($isNew) {
                     $model->is_same_state = 1;
                     foreach(['vtoken', 'ptoken'] as $name) {
-                        $i = 0;
-                        do{
-                            $model->setRandomNum($name, 10);
-                            $count = Invoice::where($name, $model->{$name})->count();
-                            $i++;
-                        } while($count != 0 || $i < 255);
+                        $model->setRandomNum($name, 10, true);
                     }
                     $model->datepaid = now();
                 }
