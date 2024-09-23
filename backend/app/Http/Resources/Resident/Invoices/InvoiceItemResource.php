@@ -49,6 +49,7 @@ class InvoiceItemResource extends JsonResource implements ListInterface
             'status' => $this->status,
             'blockEdit' => $this->blockEdit(),
             'checkPublic' => $this->check_public,
+            'pdf' => route('pdf', ['name' => 'invoice', 'token' => $this->vtoken]),
             'blankCalc' => [
                 'price' => $items->summPrice(),
                 'discount' => $items->summDiscount(),

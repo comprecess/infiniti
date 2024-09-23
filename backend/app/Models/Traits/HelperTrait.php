@@ -17,8 +17,23 @@ trait HelperTrait
         return mb_strtoupper($name) . '-' . sprintf($sep, $nextID);
     }
 
-    public function setRandomNum($nameColumn, $col = 6)
+    public function setRandomNum($nameColumn, $col = 6, $unicke = false)
     {
-        $this->{$nameColumn} = substr(str_shuffle(str_repeat('0123456789', $col)), 0, $col);
+        $random = $this->randomNum($col);
+        if($unicke) {
+            $i = 0;
+            while ($i < 1000) {
+                if(self::where($nameColumn, $random)->count() == 0) {
+                    break;
+                }
+                $random = $this->randomNum($col);
+            }
+        }
+        $this->{$nameColumn} = $random;
+    }
+
+    public function randomNum($col = 6)
+    {
+        return substr(str_shuffle(str_repeat('0123456789', $col)), 0, $col);
     }
 }
