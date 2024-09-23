@@ -8,6 +8,7 @@ import {
   SalesNewInvoicePriceCalcProps,
 } from '../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
+import { CustomCheckBox } from '../../../../../shared/ui/CustomCheckBox/CustomCheckBox'
 import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
@@ -26,7 +27,13 @@ interface FieldsProps {
 
 export interface PartialFieldsPostData
   extends Partial<SalesNewInvoiceFormData> {
-  [key: string]: string | number | SalesBlankData[] | undefined | null
+  [key: string]:
+  | string
+  | number
+  | SalesBlankData[]
+  | boolean
+  | undefined
+  | null
 }
 
 export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
@@ -34,6 +41,7 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
     invoiceNum: data.invoiceNum,
     num: data.num,
     status: data.status[0],
+    checkPublic: 1,
     currency: data.currency.find(currency => currency.isdefault === 1)
       ?.code,
     blankList: [
@@ -85,7 +93,7 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
 
   const handleChangeInput = (
     field: string,
-    value: string | number | SalesBlankData[] | undefined | null,
+    value: string | number | SalesBlankData[] | boolean | undefined | null,
   ) => {
     if (field === 'currency' && typeof value === 'number') {
       const currencyData = data.currency.find(
@@ -109,6 +117,8 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
       } else {
         value = data.client[value - 1].id
       }
+    } else if (field === 'checkPublic' && typeof value === 'boolean') {
+      value = value === true ? 1 : 0
     }
 
     setFormData(prevFormData => ({
@@ -252,6 +262,15 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
             title='Invoice Date'
             onChange={handleChangeInput}
           />
+          <div className={styles.containerItems}>
+            <span className={styles.containerItemsTitle}>Hide Info</span>
+            <CustomCheckBox
+              defaultChecked
+              titleOnChange='checkPublic'
+              title='Hide Personal Info'
+              onInputChange={handleChangeInput}
+            />
+          </div>
         </section>
         <section className={styles.section}>
           <CustomSelect

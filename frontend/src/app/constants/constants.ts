@@ -584,6 +584,7 @@ export interface SalesNewInvoiceInputData {
   currency: CurrencyProps[]
   client: ListCustomersData[]
   dueDate: string[]
+  checkPublic: number
   invoiceNum: string
   num: string
   notes: string
@@ -638,6 +639,7 @@ export interface SalesEditInvoiceData {
   currency: CurrencyProps
   repeat: number
   date: string
+  checkPublic: number
   dueDate: number
   notes: string
 }
@@ -665,6 +667,7 @@ export interface SalesViewInvoiceData {
     companyAddress: string
     companyName: string
   }
+  checkPublic: number
   currency: CurrencyProps
   date: string
   dueDate: string
@@ -680,6 +683,7 @@ export interface SalesViewInvoiceData {
   title: string
   token: string
   blockEdit: boolean
+  pdf: string
 }
 
 export interface FullInfoClient {

@@ -70,6 +70,31 @@ export const AdminViewInvoice: FC = () => {
     window.open(url, '_blank')
   }
 
+  const interactPDF = async (name: string) => {
+    if (!info?.pdf) return
+
+    if (name === 'View PDF') {
+      const response = await fetch(info.pdf)
+
+      if (response.ok) {
+        const blob = await response.blob()
+        const url = URL.createObjectURL(blob)
+
+        window.open(url, '_blank')
+
+        URL.revokeObjectURL(url)
+      }
+    } else if (name === 'Download PDF') {
+      const a = document.createElement('a')
+
+      a.href = info.pdf
+      a.download = 'Invoice.pdf'
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+    }
+  }
+
   useEffect(() => {
     document.title = 'infiniti | View Invoice '
   }, [])
@@ -113,6 +138,7 @@ export const AdminViewInvoice: FC = () => {
               blockEditButton: info.blockEdit,
               editInvoice: navigateToEditInvoice,
               previewInvoice: navigateToPreviewInvoice,
+              selectPDF: interactPDF,
             }}
             headerProps={{
               title: info.title,

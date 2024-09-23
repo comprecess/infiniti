@@ -1,0 +1,167 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  color: $white;
+}
+
+.sectionFirst,
+.sectionSecond {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
+
+  @include mobileBreakpoint('max', $bpL) {
+    flex-direction: column;
+  }
+}
+
+.invoiceTitle,
+.infiniti,
+.invoiceTotal,
+.invoicedTo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.invoiceTotal {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: end;
+  text-align: right;
+
+  @include mobileBreakpoint('max', $bpL) {
+    align-items: start;
+    text-align: left;
+  }
+}
+
+.titleInvoice {
+  font-family: $fontSpaceGrotesk;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: -0.03em;
+}
+
+.invoiceCode {
+  font-family: $fontSpaceGrotesk;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: -0.03em;
+}
+
+.invoicedToList {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.invoicedToTitle {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23px;
+  letter-spacing: -0.03em;
+}
+
+.invoicedToItem {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.03em;
+  color: $gray-300;
+}
+
+.infiniti {
+  align-items: end;
+
+  @include mobileBreakpoint('max', $bpL) {
+    align-items: start;
+  }
+}
+
+.infinitiDescription {
+  display: flex;
+  align-items: end;
+  text-align: right;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 350px;
+
+  @include mobileBreakpoint('max', $bpL) {
+    align-items: start;
+    text-align: left;
+  }
+}
+
+.logo {
+  width: 170px;
+}
+
+.invoiceDate {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: end;
+
+  @include mobileBreakpoint('max', $bpL) {
+    align-items: start;
+  }
+}
+
+.totalWrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.totalTitle {
+  font-family: $fontSpaceGrotesk;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 30px;
+  letter-spacing: -0.03em;
+  color: $gray-300;
+}
+
+.totalValue {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: -0.03em;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.infinitiCompanyName {
+  font-family: $fontSpaceGrotesk;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.infinitiCompanyAddress {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.03em;
+}
+
+.hiddenInfo {
+  font-family: $fontSpaceGrotesk;
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.03em;
+}
