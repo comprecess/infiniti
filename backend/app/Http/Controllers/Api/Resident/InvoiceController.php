@@ -257,10 +257,12 @@ class InvoiceController extends ResidentController
                 if($isNew) {
                     $model->is_same_state = 1;
                     foreach(['vtoken', 'ptoken'] as $name) {
+                        $i = 0;
                         do{
                             $model->setRandomNum($name, 10);
                             $count = Invoice::where($name, $model->{$name})->count();
-                        } while($count != 0);
+                            $i++;
+                        } while($count != 0 || $i < 255);
                     }
                     $model->datepaid = now();
                 }
@@ -440,6 +442,8 @@ class InvoiceController extends ResidentController
         if(!$invoice) {
             abort(404);
         }
+
+        $invoice->getPublicToken = true;
 
         return new InvoiceItemResource($invoice/*->load(['items', 'items.service'])*/);
 

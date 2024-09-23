@@ -30,6 +30,10 @@ class InvoiceItem extends Model implements InsertDefaultValueInterface
 
     public $collection = InvoiceItemCollection::class;
 
+    protected $casts = [
+        'amount' => 'float',
+    ];
+
     public function service()
     {
         return $this->morphTo('service');

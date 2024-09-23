@@ -21,8 +21,8 @@ class StatusResponse
          *
          * @var Response $reqsponse
          */
-        if(!$request->document) {
-            if($request->expectsJson()) {
+//        if(!$request->document) {
+            if($request->expectsJson() && $response->headers->get('content-type') == 'application/json') {
                 $json = json_decode($response->getContent(), true);
 
                 if(!isset($json['status'])) {
@@ -31,7 +31,7 @@ class StatusResponse
 
                 $response->setContent(json_encode($json));
             }
-        }
+//        }
 
         return $response;
     }

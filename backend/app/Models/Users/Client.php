@@ -257,4 +257,37 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
     {
         return self::orderBy('account')->with(['group', 'companyClient'])->get();
     }
+
+    public function getFullAddress($line = PHP_EOL)
+    {
+//        $format = '%2$s%1$s%3$s%1$s%4$s %5$s%1$s%6$s';
+        $format = '';
+        $data = [$line];
+        if($this->address) {
+            $format.='%2$s%1$s';
+            $data[] = $this->address;
+        }
+
+        if($this->city) {
+            $format.='%3$s%1$s';
+            $data[] = $this->city;
+        }
+
+        if($this->state) {
+            $format.='%4$s ';
+            $data[] = $this->state;
+        }
+
+        if($this->zip) {
+            $format.='%5$s%1$s';
+            $data[] = $this->zip;
+        }
+
+        if($this->country) {
+            $format.='%6$s';
+            $data[] = $this->country;
+        }
+
+        return sprintf($format, ...$data);
+    }
 }

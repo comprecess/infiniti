@@ -61,6 +61,9 @@ Route::group(['prefix' => 'catalog', 'middleware' => ['auth:api_client']], funct
 #fileStorage
 Route::get('/file/{file_storage}', [\App\Http\Controllers\Api\FileController::class, 'load'])
     ->name('file_storage');
+#pdf
+Route::get('/pdf/{name}/token/{token}', [\App\Http\Controllers\Api\PdfController::class, 'index'])
+    ->name('pdf');
 
 
 #test
