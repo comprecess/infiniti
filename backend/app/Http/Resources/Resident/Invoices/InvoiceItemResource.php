@@ -48,6 +48,7 @@ class InvoiceItemResource extends JsonResource implements ListInterface
             'blank' => InvoiceBlankResource::collection($items),
             'status' => $this->status,
             'blockEdit' => $this->blockEdit(),
+            'checkPublic' => $this->check_public,
             'blankCalc' => [
                 'price' => $items->summPrice(),
                 'discount' => $items->summDiscount(),
@@ -55,6 +56,10 @@ class InvoiceItemResource extends JsonResource implements ListInterface
                 'total' => $items->summTotal()
             ]
         ]);
+
+        if($this->getPublicToken && $this->checkPublic) {
+            $resorce['client'] = null;
+        }
 
         foreach($resorce['blankCalc'] as &$value) {
             $value = $this->printPrice($value);

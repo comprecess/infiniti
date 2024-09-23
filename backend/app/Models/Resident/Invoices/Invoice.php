@@ -6,6 +6,7 @@ use App\Http\Requests\Resident\Invoices\InvoiceRequest;
 use App\Models\Collection\InvoiceCollection;
 use App\Models\Config;
 use App\Models\Contracts\InsertDefaultValueInterface;
+use App\Models\Resident\Transactions\Transaction;
 use App\Models\Traits\CollectionTrait;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\HelperTrait;
@@ -71,6 +72,16 @@ class Invoice extends Model implements InsertDefaultValueInterface
     public function items()
     {
         return $this->hasMany(InvoiceItem::class, 'invoiceid');
+    }
+
+    public function offer()
+    {
+        return $this->belongsTo(Offer::class, 'quote_id');
+    }
+
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class, 'iid');
     }
 
     public static function smallStat(callable $where = null, $round = 1)
@@ -146,4 +157,14 @@ class Invoice extends Model implements InsertDefaultValueInterface
     {
         return in_array($this->status, [self::STATUS[2], self::STATUS[3]]);
     }
+
+    public function duty()
+    {
+        if($this->credit) {
+            return $this->total - $this->credit;
+        }
+
+        return $this->credit;
+    }
+
 }

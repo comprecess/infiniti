@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Traits\FileStorageTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Config extends Model
 {
-    use HasFactory;
+    use HasFactory, FileStorageTrait;
 
     public $table = 'sys_appconfig';
 

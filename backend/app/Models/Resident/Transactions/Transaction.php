@@ -3,6 +3,7 @@
 namespace App\Models\Resident\Transactions;
 
 use App\Models\Collection\TransactionCollection;
+use App\Models\Resident\Invoices\Invoice;
 use App\Models\Traits\CollectionTrait;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Users\Client;
@@ -31,5 +32,10 @@ class Transaction extends Model
     public function payeeUser()
     {
         return $this->belongsTo(Client::class, 'payeeid');
+    }
+
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class, 'iid');
     }
 }
