@@ -18,6 +18,7 @@ interface ButtonsProps {
   blockEditButton: boolean
   editInvoice: () => void
   previewInvoice: () => void
+  selectPDF: (name: string) => void
 }
 
 export const Buttons: FC<ButtonsProps> = ({
@@ -25,6 +26,7 @@ export const Buttons: FC<ButtonsProps> = ({
   blockEditButton,
   editInvoice,
   previewInvoice,
+  selectPDF,
 }) => {
   return (
     <div className={styles.wrapper}>
@@ -95,8 +97,12 @@ export const Buttons: FC<ButtonsProps> = ({
           icon={<PDFIcon style={styles.flagIcon} />}
         />
         <MenuList>
-          <MenuItem onClick={() => {}}>View PDF</MenuItem>
-          <MenuItem onClick={() => {}}>Download PDF</MenuItem>
+          <MenuItem onClick={() => selectPDF('View PDF')}>
+            View PDF
+          </MenuItem>
+          <MenuItem onClick={() => selectPDF('Download PDF')}>
+            Download PDF
+          </MenuItem>
         </MenuList>
       </Menu>
       <Menu isLazy>
