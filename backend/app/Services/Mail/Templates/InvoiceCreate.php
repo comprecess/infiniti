@@ -29,8 +29,9 @@ class InvoiceCreate extends  Template
 
     public function getFile()
     {
-        $pdf = Pdf::loadView('pdf.invoice', ['model' => $this->varibles['invoice']]);
-        return [$pdf->output(), 'invoice.pdf'];
+        $invoice = $this->varibles['invoice'];
+        $pdf = Pdf::loadView('pdf.invoice', ['model' => $invoice]);
+        return [$pdf->output(), 'invoice_'.$invoice->getCode().'.pdf'];
     }
 
 
