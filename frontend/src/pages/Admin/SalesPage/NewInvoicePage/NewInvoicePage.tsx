@@ -49,7 +49,7 @@ export const AdminNewInvoicePage: FC = () => {
   }
 
   useEffect(() => {
-    document.title = 'infiniti | New Invoices'
+    document.title = 'infiniti | New Invoice'
   }, [])
 
   useEffect(() => {

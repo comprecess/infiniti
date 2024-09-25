@@ -41,9 +41,12 @@ import { AdminProductsServicesPage } from '../../pages/Admin/ProductsServicesPag
 import { AdminProjectsPage } from '../../pages/Admin/ProjectsPage/ProjectsPage'
 import { AdminPurchasePage } from '../../pages/Admin/PurchasePage/PurchasePage'
 import { AdminReportsPage } from '../../pages/Admin/ReportsPage/ReportsPage'
-import { AdminEditInvoice } from '../../pages/Admin/SalesPage/EditInvoice/EditInvoice'
+import { AdminEditInvoicePage } from '../../pages/Admin/SalesPage/EditInvoicePage/EditInvoicePage'
+import { AdminEditOfferPage } from '../../pages/Admin/SalesPage/EditOfferPage/EditOfferPage'
 import { AdminInvoicesPage } from '../../pages/Admin/SalesPage/InvoicesPage/InvoicesPage'
 import { AdminNewInvoicePage } from '../../pages/Admin/SalesPage/NewInvoicePage/NewInvoicePage'
+import { AdminNewOfferPage } from '../../pages/Admin/SalesPage/NewOfferPage/NewOfferPage'
+import { AdminOffersPage } from '../../pages/Admin/SalesPage/OffersPage/OffersPage'
 import { AdminViewInvoice } from '../../pages/Admin/SalesPage/ViewInvoice/ViewInvoice'
 import { AdminCurrenciesPage } from '../../pages/Admin/SettingsPage/CurrenciesPage/CurrenciesPage'
 import { AdminCustomContactFields } from '../../pages/Admin/SettingsPage/CustomContactFieldsPage/CustomContactFieldsPage'
@@ -79,7 +82,9 @@ export const Routes = {
   dashboard: 'dashboard',
   public: 'public',
   customers: 'customers',
-  newInvoices: 'newinvoices',
+  newInvoices: 'newinvoice',
+  newOffers: 'newoffer',
+  editOffer: 'editoffer',
   view: 'view',
   summary: 'summary',
   businessPlan: 'businessplan',
@@ -229,8 +234,11 @@ export const Pages = {
   adminContactMorePage: <AdminContactMorePage />,
   adminInvoicesPage: <AdminInvoicesPage />,
   adminNewInvoicePage: <AdminNewInvoicePage />,
-  adminEditInvoice: <AdminEditInvoice />,
+  adminEditInvoicePage: <AdminEditInvoicePage />,
   adminViewInvoice: <AdminViewInvoice />,
+  adminOffersPage: <AdminOffersPage />,
+  adminNewOfferPage: <AdminNewOfferPage />,
+  adminEditOfferPage: <AdminEditOfferPage />,
 
   /* Public  pages */
   publicViewInvoice: <InvoiceViewPage />,

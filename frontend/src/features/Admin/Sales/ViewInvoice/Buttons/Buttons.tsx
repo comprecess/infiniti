@@ -19,6 +19,7 @@ interface ButtonsProps {
   editInvoice: () => void
   previewInvoice: () => void
   selectPDF: (name: string) => void
+  email: (template: string) => void
 }
 
 export const Buttons: FC<ButtonsProps> = ({
@@ -27,6 +28,7 @@ export const Buttons: FC<ButtonsProps> = ({
   editInvoice,
   previewInvoice,
   selectPDF,
+  email,
 }) => {
   return (
     <div className={styles.wrapper}>
@@ -45,13 +47,19 @@ export const Buttons: FC<ButtonsProps> = ({
           icon={<EmailIcon style={styles.flagIcon} />}
         />
         <MenuList>
-          <MenuItem onClick={() => {}}>Invoice Created</MenuItem>
-          <MenuItem onClick={() => {}}>Invoice Payment Reminder</MenuItem>
-          <MenuItem onClick={() => {}}>Invoice Overdue Notice</MenuItem>
-          <MenuItem onClick={() => {}}>
+          <MenuItem onClick={() => email('invoice-create')}>
+            Invoice Created
+          </MenuItem>
+          <MenuItem onClick={() => email('reminder')}>
+            Invoice Payment Reminder
+          </MenuItem>
+          <MenuItem onClick={() => email('overdue')}>
+            Invoice Overdue Notice
+          </MenuItem>
+          <MenuItem onClick={() => email('confirm')}>
             Invoice Payment Confirmation
           </MenuItem>
-          <MenuItem onClick={() => {}}>
+          <MenuItem onClick={() => email('refund')}>
             Invoice Refund Confirmation
           </MenuItem>
         </MenuList>

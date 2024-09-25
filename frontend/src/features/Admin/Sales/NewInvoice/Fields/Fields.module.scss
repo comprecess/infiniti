@@ -11,6 +11,7 @@
   gap: 25px;
 
   @include mobileBreakpoint('max', $bpL) {
+    gap: 12px;
     flex-direction: column;
   }
 }

@@ -23,7 +23,7 @@ import { removeBlankInvoice } from '../../../../shared/utils/api/Admin/Sales/Edi
 import { updateBlankInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/UpdateBlank'
 import { getInvoiceInputData } from '../../../../shared/utils/api/Admin/Sales/NewInvoice/GetInvoiceInputData'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './EditInvoice.module.scss'
+import styles from './EditInvoicePage.module.scss'
 
 const extractIdFromUrl = (url: string): number | null => {
   const regex = /\/editinvoice\/(\d+)$/
@@ -41,7 +41,7 @@ const useIdFromUrl = () => {
   )
 }
 
-export const AdminEditInvoice: FC = () => {
+export const AdminEditInvoicePage: FC = () => {
   const [data, setData] = useState<SalesEditInvoiceData | null>(null)
   const [formData, setFormData] = useState<PartialFieldsData>({})
   const [inputData, setInputData] =
