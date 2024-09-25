@@ -7,6 +7,7 @@ import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './NewOfferPage.module.scss'
 
 export const AdminNewOfferPage: FC = () => {
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [_formData, _setFormData] = useState<Partial<[]>>([])
   const [inputData, _setInputData] = useState<[] | null>(null)
 

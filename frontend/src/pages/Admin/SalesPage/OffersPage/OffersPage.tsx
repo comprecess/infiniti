@@ -11,6 +11,7 @@ import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './OffersPage.module.scss'
 
 export const AdminOffersPage: FC = () => {
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const [page, setPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
   const [sortName, _setSortName] = useState<string>('id')
@@ -24,7 +25,6 @@ export const AdminOffersPage: FC = () => {
 
   const showToast = useCustomToast()
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const changeURL = (
     pageItem: number,
     searchItem: string,

@@ -90,7 +90,8 @@ export const Fields: FC = () => {
       {[].length > 0 && (
         <section className={styles.blank}>
           <CustomDivider />
-          {[].map(blank => (
+          {/* eslint-disable @typescript-eslint/no-unused-vars */}
+          {[].map(_blank => (
             <React.Fragment key={''}>
               Blank
               <CustomDivider />
