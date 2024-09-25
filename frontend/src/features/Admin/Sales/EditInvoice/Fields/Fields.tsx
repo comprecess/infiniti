@@ -335,7 +335,7 @@ export const Fields: FC<FieldsProps> = ({
           />
         </section>
       </div>
-      {formData.blankList ? (
+      {formData.blankList && formData.blankList.length > 0 ? (
         <section className={styles.blank}>
           <CustomDivider />
           {formData.blankList.map(blank => (

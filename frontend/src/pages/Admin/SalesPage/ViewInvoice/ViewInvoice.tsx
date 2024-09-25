@@ -1,15 +1,20 @@
 import { FC, useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { SalesViewInvoiceData } from '../../../../app/constants/constants'
+import {
+  SalesInvoiceEmailTemplateData,
+  SalesViewInvoiceData,
+} from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { Buttons } from '../../../../features/Admin/Sales/ViewInvoice/Buttons/Buttons'
+import { EmailPanel } from '../../../../features/Admin/Sales/ViewInvoice/EmailPanel/EmailPanel'
 import { Footer } from '../../../../features/Admin/Sales/ViewInvoice/Footer/Footer'
 import { Header } from '../../../../features/Admin/Sales/ViewInvoice/Header/Header'
 import { RecentInvoices } from '../../../../features/Admin/Sales/ViewInvoice/RecentInvoices/RecentInvoices'
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getInfoSelectedInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/GetInfoSelectedInvoice'
+import { getInvoiceEmailTemplate } from '../../../../shared/utils/api/Admin/Sales/Invoices/GetEmailTemplate'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './ViewInvoice.module.scss'
 
@@ -32,8 +37,31 @@ const useIdFromUrl = () => {
 export const AdminViewInvoice: FC = () => {
   const [info, setInfo] = useState<SalesViewInvoiceData | null>(null)
 
+  const [emailInfo, setEmailInfo] =
+    useState<SalesInvoiceEmailTemplateData | null>(null)
+  const [emailPanel, setEmailPanel] = useState<boolean>(false)
+
   const id = useIdFromUrl()
   const navigate = useNavigate()
+
+  const openCloseEmailPanel = () => {
+    setEmailPanel(email => !email)
+  }
+
+  const setTemplateEmail = async (
+    template:
+    | 'invoice-create'
+    | 'reminder'
+    | 'overdue'
+    | 'confirm'
+    | 'refund',
+  ) => {
+    if (template === null || id === null) return
+
+    const getResponse = await getInvoiceEmailTemplate(id, template)
+
+    setEmailInfo(getResponse)
+  }
 
   const getInvoiceInfo = async () => {
     if (id === null) return
@@ -103,6 +131,10 @@ export const AdminViewInvoice: FC = () => {
     getInvoiceInfo()
   }, [id])
 
+  useEffect(() => {
+    openCloseEmailPanel()
+  }, [emailInfo])
+
   return (
     <div className={styles.wrapper}>
       {info ? (
@@ -139,6 +171,7 @@ export const AdminViewInvoice: FC = () => {
               editInvoice: navigateToEditInvoice,
               previewInvoice: navigateToPreviewInvoice,
               selectPDF: interactPDF,
+              email: setTemplateEmail,
             }}
             headerProps={{
               title: info.title,
@@ -157,6 +190,11 @@ export const AdminViewInvoice: FC = () => {
       ) : (
         <LoadingSpinner size='xl' />
       )}
+      <EmailPanel
+        info={emailInfo}
+        modalEmailPanel={emailPanel}
+        handleOpenCloseModal={openCloseEmailPanel}
+      />
     </div>
   )
 }

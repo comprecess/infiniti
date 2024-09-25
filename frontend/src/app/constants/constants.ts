@@ -708,3 +708,10 @@ export interface FullInfoClient {
   totalProfit: string
   zip: string
 }
+
+export interface SalesInvoiceEmailTemplateData {
+  file: string
+  message: string
+  subject: string
+  variable: { code: string; client_email: string }
+}

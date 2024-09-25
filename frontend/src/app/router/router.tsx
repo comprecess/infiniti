@@ -216,11 +216,23 @@ export const router = createBrowserRouter([
           },
           {
             path: `${Routes.editInvoice}/:id`,
-            element: Pages.adminEditInvoice,
+            element: Pages.adminEditInvoicePage,
           },
           {
             path: `${Routes.invoice}/${Routes.view}/:id`,
             element: Pages.adminViewInvoice,
+          },
+          {
+            path: Routes.offers,
+            element: Pages.adminOffersPage,
+          },
+          {
+            path: Routes.newOffers,
+            element: Pages.adminNewOfferPage,
+          },
+          {
+            path: `${Routes.editOffer}/:id`,
+            element: Pages.adminEditOfferPage,
           },
           {
             index: true,
