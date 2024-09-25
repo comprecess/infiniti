@@ -80,7 +80,7 @@ abstract class Template
         $subject = $model->subject;
         $this->replaceTemplate($subject, $listVariable);
 
-        return ['subject' => $subject, 'template' => $template];
+        return ['subject' => $subject, 'message' => $template];
     }
 
     private function replaceTemplate(string &$message, array $value)
