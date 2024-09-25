@@ -89,3 +89,9 @@ Route::group(['prefix' => 'settings'], function(){
             Route::delete('/{customFields}', 'delete');
         });
 });
+
+#mail
+Route::controller(\App\Http\Controllers\Api\Resident\MailController::class)->prefix('mail')
+    ->group(function(){
+        Route::match(['GET', 'POST'],'/template/{nameTemplate}/{varible?}', 'template')->where('varible', '(.*)');
+    });

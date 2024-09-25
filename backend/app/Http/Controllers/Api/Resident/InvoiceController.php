@@ -333,13 +333,16 @@ class InvoiceController extends ResidentController
 
     public function invoiceClone(Invoice $invoice)
     {
-        $new = $invoice->replicate(['status' => Invoice::STATUS[0], 'cn' => Invoice::getNextNum()]);
+        $new = $invoice->replicate();
         $new->status = Invoice::STATUS[0];
         $new->cn = Invoice::getNextNum();
+        foreach(['vtoken', 'ptoken'] as $name) {
+            $new->setRandomNum($name, 10, true);
+        }
         $new->save();
 
         $invoice->items->each(function($item) use($new){
-            $newItem = $item->replicate(['invoiceid' => $new->id]);
+            $newItem = $item->replicate();
             $newItem->invoiceid = $new->id;
             $newItem->save();
         });
