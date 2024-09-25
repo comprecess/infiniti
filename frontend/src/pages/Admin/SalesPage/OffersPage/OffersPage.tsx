@@ -25,7 +25,7 @@ export const AdminOffersPage: FC = () => {
 
   const showToast = useCustomToast()
 
-  const changeURL = (
+  /* const changeURL = (
     pageItem: number,
     searchItem: string,
     sortNameItem: string,
@@ -36,7 +36,7 @@ export const AdminOffersPage: FC = () => {
     const urlOptions = `?page=${pageItem}&filter[search]=${searchItem}&filter[status]=${filterStatusItem}&sort[name]=${sortNameItem}&sort[type]=${sortTypeItem}&document=json`
 
     setOptions(urlOptions)
-  }
+  } */
 
   const searchOnChange = useCallback((searchItem: string) => {
     setSearch(searchItem)
