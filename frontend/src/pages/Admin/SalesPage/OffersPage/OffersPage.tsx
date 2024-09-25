@@ -16,7 +16,7 @@ export const AdminOffersPage: FC = () => {
   const [search, setSearch] = useState<string>('')
   const [sortName, _setSortName] = useState<string>('id')
   const [sortType, _setSortType] = useState<number>(1)
-  const [_options, setOptions] = useState<string>('')
+  const [_options, _setOptions] = useState<string>('')
 
   const [offers, _setOffers] = useState<{
     data: []
