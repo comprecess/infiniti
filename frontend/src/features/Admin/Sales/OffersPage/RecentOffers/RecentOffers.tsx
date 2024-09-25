@@ -117,7 +117,8 @@ export const RecentOffers: FC<RecentOffersProps> = ({
         <Title title='Manage' style={styles.manageColumn} />
       </div>
       <div className={styles.items}>
-        {offersList.map((item, index) => {
+        { }
+        {offersList.map((_item, index) => {
           return (
             <React.Fragment key={`item.id-${index}`}>
               Item
