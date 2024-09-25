@@ -80,7 +80,14 @@ abstract class Template
         $subject = $model->subject;
         $this->replaceTemplate($subject, $listVariable);
 
-        return ['subject' => $subject, 'message' => $template];
+        $data = ['subject' => $subject, 'message' => $template, 'file' => null];
+
+        $file = $this->getFile();
+        if($file){
+            $data['file'] = $file[1];
+        }
+
+        return $data;
     }
 
     private function replaceTemplate(string &$message, array $value)
