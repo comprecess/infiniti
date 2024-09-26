@@ -4,13 +4,16 @@ namespace App\Models\Resident\Invoices;
 
 use App\Models\Resident\Settings\Currency;
 use App\Models\Traits\CurrencyTrait;
+use App\Models\Traits\HelperTrait;
 use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Offer extends Model
 {
-    use HasFactory, CurrencyTrait;
+    use HasFactory, CurrencyTrait, HelperTrait;
+
+    const STAGE = ['Accepted', 'Dead', 'Delivered', 'Draft', 'Lost'];
 
     public $currencyId = true;
 

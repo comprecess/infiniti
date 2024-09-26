@@ -4,6 +4,7 @@
 namespace App\Models\Traits;
 
 
+use App\Models\Config;
 use Illuminate\Support\Facades\DB;
 
 trait HelperTrait
@@ -15,6 +16,14 @@ trait HelperTrait
         $nextID = $query[0]->Auto_increment;
         $sep = '%0'.$limit.'d';
         return mb_strtoupper($name) . '-' . sprintf($sep, $nextID);
+    }
+
+    public static function getNextNum()
+    {
+        $table = (new self())->getTable();
+        $query = DB::select("SHOW TABLE STATUS LIKE '{$table}'");
+        $nextID = $query[0]->Auto_increment;
+        return str_pad($nextID, Config::get('number_pad', 5), '0', STR_PAD_LEFT);
     }
 
     public function setRandomNum($nameColumn, $col = 6, $unicke = false)
