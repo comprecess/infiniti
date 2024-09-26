@@ -16,6 +16,7 @@ class MailController extends ResidentController
         $template = $request->getTemplate();
         $result = $template->render();
         $result['variable'] = $template->defaultVariables();
+        $result['adminEmail'] = auth()->user()->username;
 
         if($request->getMethod() == 'POST') {
             $requestSend = app(MailSendRequest::class);
