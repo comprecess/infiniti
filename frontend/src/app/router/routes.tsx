@@ -48,6 +48,7 @@ import { AdminNewInvoicePage } from '../../pages/Admin/SalesPage/NewInvoicePage/
 import { AdminNewOfferPage } from '../../pages/Admin/SalesPage/NewOfferPage/NewOfferPage'
 import { AdminOffersPage } from '../../pages/Admin/SalesPage/OffersPage/OffersPage'
 import { AdminViewInvoice } from '../../pages/Admin/SalesPage/ViewInvoice/ViewInvoice'
+import { AdminViewOfferPage } from '../../pages/Admin/SalesPage/ViewOfferPage/ViewOfferPage'
 import { AdminCurrenciesPage } from '../../pages/Admin/SettingsPage/CurrenciesPage/CurrenciesPage'
 import { AdminCustomContactFields } from '../../pages/Admin/SettingsPage/CustomContactFieldsPage/CustomContactFieldsPage'
 import { AdminSMSPage } from '../../pages/Admin/SMSPage/SMSPage'
@@ -105,6 +106,7 @@ export const Routes = {
   invoice: 'invoice',
   appearance: 'appearance',
   plugins: 'plugins',
+  offer: 'offer',
   settings: 'settings',
   customFields: 'customfields',
   productsServices: 'productsservices',
@@ -239,6 +241,7 @@ export const Pages = {
   adminOffersPage: <AdminOffersPage />,
   adminNewOfferPage: <AdminNewOfferPage />,
   adminEditOfferPage: <AdminEditOfferPage />,
+  adminViewOfferPage: <AdminViewOfferPage />,
 
   /* Public  pages */
   publicViewInvoice: <InvoiceViewPage />,

@@ -710,6 +710,7 @@ export interface FullInfoClient {
 }
 
 export interface SalesInvoiceEmailTemplateData {
+  adminEmail: string
   file: string
   message: string
   subject: string

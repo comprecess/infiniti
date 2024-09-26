@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { SalesInvoiceEmailTemplateData } from '../../../../../app/constants/constants'
 import { CrossIcon } from '../../../../../shared/icons/CrossIcon'
@@ -6,21 +6,115 @@ import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomCheckBox } from '../../../../../shared/ui/CustomCheckBox/CustomCheckBox'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomModalWindow } from '../../../../../shared/ui/CustomModalWindow/CustomModalWindow'
+import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
+import { sendEmailInvoice } from '../../../../../shared/utils/api/Admin/Sales/Invoices/SendEmailInvoice'
 import styles from './EmailPanel.module.scss'
 
 interface EmailPanelProps {
-  info: SalesInvoiceEmailTemplateData | null
+  idInvoice: number | null
+  template: string
+  info: SalesInvoiceEmailTemplateData
   modalEmailPanel: boolean
   handleOpenCloseModal: () => void
 }
 
+interface FormData {
+  subject: string
+  message: string
+  toEmail: string
+  bccEmail: string
+  ccEmail: string
+  attachFile: number
+}
+
+export interface PartialFormData extends Partial<FormData> {
+  [key: string]: string | number | boolean | null | undefined
+}
+
 export const EmailPanel: FC<EmailPanelProps> = ({
+  idInvoice,
+  template,
   info,
   modalEmailPanel,
   handleOpenCloseModal,
 }) => {
+  const [formData, setFormData] = useState<PartialFormData>({})
+
+  const showToast = useCustomToast()
+
+  const updateFormData = () => {
+    setFormData({
+      subject: info.subject,
+      toEmail: info.variable.client_email,
+      message: info.message,
+      bccEmail: '',
+      attachFile: 1,
+    })
+  }
+
+  const onChangeInput = (
+    name: string,
+    value: string | number | boolean | null | undefined,
+  ) => {
+    setFormData(prevFormData => {
+      const updatedFormData = { ...prevFormData }
+
+      if (value === '' || value === null || value === undefined) {
+        delete updatedFormData[name]
+      } else if (name === 'attachFile') {
+        if (value === true) {
+          updatedFormData[name] = 1
+        } else {
+          updatedFormData[name] = 0
+        }
+      } else {
+        updatedFormData[name] = value
+      }
+
+      return updatedFormData
+    })
+  }
+
+  const handleBccClick = () => {
+    setFormData(prevFormData => {
+      const updatedFormData = { ...prevFormData }
+
+      updatedFormData.bccEmail = info.adminEmail
+
+      return updatedFormData
+    })
+  }
+
+  const sendEmail = async () => {
+    if (idInvoice === null) return
+
+    const sendResponse = await sendEmailInvoice(
+      idInvoice,
+      template,
+      formData,
+    )
+
+    if (sendResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully sent your email',
+        status: 'success',
+      })
+    } else {
+      showToast({
+        title: 'Error',
+        description: sendResponse.message,
+        status: 'error',
+      })
+    }
+  }
+
+  useEffect(() => {
+    updateFormData()
+  }, [info])
+
   return (
     <CustomModalWindow
       maxWidth={'600px'}
@@ -39,50 +133,74 @@ export const EmailPanel: FC<EmailPanelProps> = ({
             <CustomInput
               title='To'
               type='text'
-              id='to'
-              name='to'
+              id='toEmail'
+              name='toEmail'
               value={info.variable.client_email}
-              onChange={() => {}}
+              onChange={onChangeInput}
             />
             <CustomInput
               title='Cc'
               type='text'
-              id='cc'
-              name='cc'
-              onChange={() => {}}
+              id='ccEmail'
+              name='ccEmail'
+              onChange={onChangeInput}
             />
-            <CustomInput
-              title='Bcc'
-              type='text'
-              id='bcc'
-              name='bcc'
-              onChange={() => {}}
-            />
+            <div className={styles.inputDescription}>
+              {formData.bccEmail && (
+                <CustomInput
+                  title='Bcc'
+                  type='text'
+                  id='bccEmail'
+                  name='bccEmail'
+                  value={formData.bccEmail}
+                  onChange={onChangeInput}
+                />
+              )}
+              {!formData.bccEmail && (
+                <CustomInput
+                  title='Bcc'
+                  type='text'
+                  id='bccEmail'
+                  name='bccEmail'
+                  onChange={onChangeInput}
+                />
+              )}
+              <span
+                className={styles.description}
+                onClick={handleBccClick}
+              >
+                Send Bcc to Admin? Click Here.
+              </span>
+            </div>
             <CustomInput
               title='Subject'
               type='text'
               id='subject'
               name='subject'
               value={info.subject}
-              onChange={() => {}}
+              onChange={onChangeInput}
             />
             <div className={styles.texEditorWrapper}>
               <span className={styles.texEditorTitle}>Message Body</span>
               <TextEditor
-                setValue={() => {}}
+                setValue={message => onChangeInput('message', message)}
                 defaultValue={info.message}
               />
             </div>
             {info.file && (
               <CustomCheckBox
                 defaultChecked
-                titleOnChange='file'
+                titleOnChange='attachFile'
                 title={info.file}
-                onInputChange={() => {}}
+                onInputChange={onChangeInput}
               />
             )}
           </div>
-          <ButtonBlue title='Send' style={styles.buttonSend} />
+          <ButtonBlue
+            title='Send'
+            style={styles.buttonSend}
+            onClick={sendEmail}
+          />
         </div>
       ) : (
         <div className={styles.loading}>

@@ -235,6 +235,10 @@ export const router = createBrowserRouter([
             element: Pages.adminEditOfferPage,
           },
           {
+            path: `${Routes.offer}/${Routes.view}/:id`,
+            element: Pages.adminViewOfferPage,
+          },
+          {
             index: true,
             element: (
               <Navigate
