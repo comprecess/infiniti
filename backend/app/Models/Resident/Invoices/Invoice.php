@@ -51,14 +51,6 @@ class Invoice extends Model implements InsertDefaultValueInterface
       'duedate' => 'date',
     ];
 
-    public static function getNextNum()
-    {
-        $table = (new self())->getTable();
-        $query = DB::select("SHOW TABLE STATUS LIKE '{$table}'");
-        $nextID = $query[0]->Auto_increment;
-        return str_pad($nextID, Config::get('number_pad', 5), '0', STR_PAD_LEFT);
-    }
-
     public function getCode()
     {
         return $this->invoicenum . ($this->cn ? $this->cn : $this->id);
