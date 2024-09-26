@@ -16,10 +16,10 @@ class MailSendRequest extends FormRequest
         return [
             'message' => 'required',
             'subject' => 'required',
-            'toEmail' => 'required',
+            'toEmail' => 'required|email',
             'attachFile' => 'nullable',
-            'bccEmail' => 'nullable',
-            'ccEmail' => 'nullable',
+            'bccEmail' => 'nullable|email',
+            'ccEmail' => 'nullable|email',
         ];
     }
 
