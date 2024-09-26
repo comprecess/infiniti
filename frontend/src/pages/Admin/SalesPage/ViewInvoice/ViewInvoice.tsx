@@ -39,6 +39,7 @@ export const AdminViewInvoice: FC = () => {
 
   const [emailInfo, setEmailInfo] =
     useState<SalesInvoiceEmailTemplateData | null>(null)
+  const [emailTemplate, setEmailTemplate] = useState<string>('')
   const [emailPanel, setEmailPanel] = useState<boolean>(false)
 
   const id = useIdFromUrl()
@@ -60,6 +61,7 @@ export const AdminViewInvoice: FC = () => {
 
     const getResponse = await getInvoiceEmailTemplate(id, template)
 
+    setEmailTemplate(template)
     setEmailInfo(getResponse)
   }
 
@@ -133,7 +135,7 @@ export const AdminViewInvoice: FC = () => {
 
   useEffect(() => {
     openCloseEmailPanel()
-  }, [emailInfo])
+  }, [emailInfo, emailTemplate])
 
   return (
     <div className={styles.wrapper}>
@@ -190,11 +192,15 @@ export const AdminViewInvoice: FC = () => {
       ) : (
         <LoadingSpinner size='xl' />
       )}
-      <EmailPanel
-        info={emailInfo}
-        modalEmailPanel={emailPanel}
-        handleOpenCloseModal={openCloseEmailPanel}
-      />
+      {emailInfo && (
+        <EmailPanel
+          info={emailInfo}
+          modalEmailPanel={emailPanel}
+          handleOpenCloseModal={openCloseEmailPanel}
+          idInvoice={id}
+          template={emailTemplate}
+        />
+      )}
     </div>
   )
 }
