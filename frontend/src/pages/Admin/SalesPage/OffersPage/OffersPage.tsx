@@ -1,42 +1,68 @@
 import saveAs from 'file-saver'
 import { FC, useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import { PagesMetaData } from '../../../../app/constants/constants'
+import {
+  PagesMetaData,
+  SalesOffersListData,
+} from '../../../../app/constants/constants'
+import { Routes } from '../../../../app/router/routes'
 import { RecentOffers } from '../../../../features/Admin/Sales/OffersPage/RecentOffers/RecentOffers'
 import { SearchAndButtons } from '../../../../features/Admin/Sales/OffersPage/SearchAndButtons/SearchAndButtons'
+import { PagesList } from '../../../../features/Client/CatalogPage/TalentsList/PagesList/PagesList'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getDocumentsOffers } from '../../../../shared/utils/api/Admin/Sales/Offers/GetDocumentsOffers'
+import { getListOffers } from '../../../../shared/utils/api/Admin/Sales/Offers/GetListOffers'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './OffersPage.module.scss'
 
 export const AdminOffersPage: FC = () => {
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-  const [page, setPage] = useState<number>(1)
-  const [search, setSearch] = useState<string>('')
-  const [sortName, _setSortName] = useState<string>('id')
-  const [sortType, _setSortType] = useState<number>(1)
-  const [_options, _setOptions] = useState<string>('')
-
-  const [offers, _setOffers] = useState<{
-    data: []
+  const [offers, setOffers] = useState<{
+    data: SalesOffersListData[]
     meta: PagesMetaData
   } | null>(null)
 
+  const [page, setPage] = useState<number>(1)
+  const [search, setSearch] = useState<string>('')
+  const [sortName, setSortName] = useState<string>('id')
+  const [sortType, setSortType] = useState<number>(1)
+  const [options, setOptions] = useState<string>('')
+
+  const navigate = useNavigate()
   const showToast = useCustomToast()
 
-  /* const changeURL = (
+  const getListOffer = async () => {
+    if (!options) return
+
+    const getResponse = await getListOffers(options)
+
+    if (page > getResponse.meta.last_page) {
+      setPage(1)
+    }
+
+    setOffers(getResponse)
+  }
+
+  const changeURL = (
     pageItem: number,
     searchItem: string,
     sortNameItem: string,
     sortTypeItem: number,
-    filterStatusItem: string,
   ) => {
     // eslint-disable-next-line max-len
-    const urlOptions = `?page=${pageItem}&filter[search]=${searchItem}&filter[status]=${filterStatusItem}&sort[name]=${sortNameItem}&sort[type]=${sortTypeItem}&document=json`
+    const urlOptions = `?page=${pageItem}&filter[search]=${searchItem}&sort[name]=${sortNameItem}&sort[type]=${sortTypeItem}&document=json`
 
     setOptions(urlOptions)
-  } */
+  }
+
+  const changeSort = useCallback(
+    (sortNameItem: string, sortTypeItem: number) => {
+      setSortName(sortNameItem)
+      setSortType(sortTypeItem)
+    },
+    [],
+  )
 
   const searchOnChange = useCallback((searchItem: string) => {
     setSearch(searchItem)
@@ -80,37 +106,88 @@ export const AdminOffersPage: FC = () => {
     [page, search, sortName, sortType],
   )
 
+  const navigateToViewOffer = (idOffer: number) => {
+    navigate(
+      '/' +
+        Routes.adminPages +
+        '/' +
+        Routes.sales +
+        '/' +
+        Routes.offer +
+        '/' +
+        Routes.view +
+        '/' +
+        idOffer,
+    )
+  }
+
+  const navigateToSelectAccount = (idAccount: number) => {
+    navigate(
+      '/' +
+        Routes.adminPages +
+        '/' +
+        Routes.customers +
+        '/' +
+        Routes.view +
+        '/' +
+        idAccount +
+        '/' +
+        Routes.summary,
+    )
+  }
+
+  const navigateToEditOffer = (idOffer: number) => {
+    navigate(
+      '/' +
+        Routes.adminPages +
+        '/' +
+        Routes.sales +
+        '/' +
+        Routes.edit +
+        '/' +
+        Routes.offer +
+        '/' +
+        idOffer,
+    )
+  }
+
   useEffect(() => {
     document.title = 'infiniti | Offers'
   }, [])
 
+  useEffect(() => {
+    changeURL(page, search, sortName, sortType)
+  }, [page, search, sortName, sortType])
+
+  useEffect(() => {
+    getListOffer()
+  }, [options])
+
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        {!offers ? (
+        {offers ? (
           <RecentCard
-            title={`---Total:---`}
+            title={`Total: ${offers.meta.total}`}
             style={styles.recentFullScreen}
             HeaderComponent={SearchAndButtons}
-            // PagesComponent={PagesList}
+            PagesComponent={PagesList}
             headerProps={{
               searchChange: searchOnChange,
               rightButtons: documentOnChange,
             }}
             pagesProps={{
-              // meta: offers.meta,
+              meta: offers.meta,
               nextPage: pageOnChange,
               size: 'sm',
             }}
           >
             <RecentOffers
-              offersList={[]}
-              changeSortName={function (
-                _sortNameItem: string,
-                _sortTypeItem: number,
-              ): void {
-                throw new Error('Function not implemented.')
-              }}
+              offersList={offers.data}
+              changeSortName={changeSort}
+              navigateToViewOffer={navigateToViewOffer}
+              navigateToSelectAccount={navigateToSelectAccount}
+              navigateToEditOffer={navigateToEditOffer}
             />
           </RecentCard>
         ) : (

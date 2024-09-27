@@ -79,3 +79,21 @@
   background-color: $gray-600;
   color: $gray-100;
 }
+
+.statusDead {
+  width: 49px;
+  background-color: $cherry-transparent;
+  color: $cherry-500;
+}
+
+.statusDelivered {
+  width: 75px;
+  background-color: $amber-transparent;
+  color: $amber-500;
+}
+
+.statusLost {
+  width: 44px;
+  background-color: $gray-600;
+  color: $gray-100;
+}

@@ -46,7 +46,7 @@ export const AdminViewInvoice: FC = () => {
   const navigate = useNavigate()
 
   const openCloseEmailPanel = () => {
-    setEmailPanel(email => !email)
+    setEmailPanel(!emailPanel)
   }
 
   const setTemplateEmail = async (
@@ -80,7 +80,9 @@ export const AdminViewInvoice: FC = () => {
         '/' +
         Routes.sales +
         '/' +
-        Routes.editInvoice +
+        Routes.edit +
+        '/' +
+        Routes.invoice +
         '/' +
         info?.id,
     )
@@ -134,7 +136,9 @@ export const AdminViewInvoice: FC = () => {
   }, [id])
 
   useEffect(() => {
-    openCloseEmailPanel()
+    if (emailInfo && emailTemplate) {
+      openCloseEmailPanel()
+    }
   }, [emailInfo, emailTemplate])
 
   return (

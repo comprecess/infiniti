@@ -1,7 +1,7 @@
 import { authTokenString } from '../../../../../../app/constants/constants'
 import { getCookies } from '../../../../Saving/Cookies/GetCookies'
 
-export const getDocumentsOffers = async (options: string) => {
+export const getListOffers = async (options: string) => {
   const authToken = getCookies(authTokenString)
 
   if (authToken) {
@@ -14,11 +14,13 @@ export const getDocumentsOffers = async (options: string) => {
       const response = await fetch(url, {
         method: 'GET',
         headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
           Authorization: `Bearer ${authToken.cookie}`,
         },
       })
 
-      const data = await response.blob()
+      const data = await response.json()
 
       return data
     } catch (error) {

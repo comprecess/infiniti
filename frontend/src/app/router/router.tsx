@@ -211,11 +211,11 @@ export const router = createBrowserRouter([
             element: Pages.adminInvoicesPage,
           },
           {
-            path: Routes.newInvoices,
+            path: `${Routes.new}/${Routes.invoice}`,
             element: Pages.adminNewInvoicePage,
           },
           {
-            path: `${Routes.editInvoice}/:id`,
+            path: `${Routes.edit}/${Routes.invoice}/:id`,
             element: Pages.adminEditInvoicePage,
           },
           {
@@ -227,11 +227,11 @@ export const router = createBrowserRouter([
             element: Pages.adminOffersPage,
           },
           {
-            path: Routes.newOffers,
+            path: `${Routes.new}/${Routes.offer}`,
             element: Pages.adminNewOfferPage,
           },
           {
-            path: `${Routes.editOffer}/:id`,
+            path: `${Routes.edit}/${Routes.offer}/:id`,
             element: Pages.adminEditOfferPage,
           },
           {
