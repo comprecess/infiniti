@@ -716,3 +716,14 @@ export interface SalesInvoiceEmailTemplateData {
   subject: string
   variable: { code: string; client_email: string }
 }
+
+export interface SalesOffersListData {
+  id: number
+  account: ListCustomersData
+  code: string
+  dateCreated: string
+  stage: string
+  subject: string
+  total: string
+  validUntil: string
+}

@@ -1,20 +1,28 @@
 import React, { FC, useCallback, useState } from 'react'
 
+import { SalesOffersListData } from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
+import { Item } from './Item/Item'
 import styles from './RecentOffers.module.scss'
 
 interface RecentOffersProps {
-  offersList: []
+  offersList: SalesOffersListData[]
   changeSortName: (sortNameItem: string, sortTypeItem: number) => void
+  navigateToViewOffer: (idOffer: number) => void
+  navigateToEditOffer: (idOffer: number) => void
+  navigateToSelectAccount: (idAccount: number) => void
 }
 
 export const RecentOffers: FC<RecentOffersProps> = ({
   offersList,
   changeSortName,
+  navigateToViewOffer,
+  navigateToEditOffer,
+  navigateToSelectAccount,
 }) => {
   const [sortNumbers, setSortNumbers] = useState<number[]>([
-    1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1,
   ])
 
   const handleSortChange = useCallback(
@@ -28,7 +36,7 @@ export const RecentOffers: FC<RecentOffersProps> = ({
   )
 
   const clearSort = () => {
-    setSortNumbers(new Array(8).fill(1))
+    setSortNumbers(new Array(7).fill(1))
   }
 
   return (
@@ -69,18 +77,8 @@ export const RecentOffers: FC<RecentOffersProps> = ({
           title='Amount'
           style={styles.amountColumn}
           sortType={sortNumbers[3]}
-          sortName='amount'
+          sortName='total'
           sortIndex={3}
-          changeSortName={handleSortChange}
-          clearSort={clearSort}
-        />
-        <Title
-          sorted
-          title='Email'
-          style={styles.emailColumn}
-          sortType={sortNumbers[4]}
-          sortName='email'
-          sortIndex={4}
           changeSortName={handleSortChange}
           clearSort={clearSort}
         />
@@ -88,19 +86,19 @@ export const RecentOffers: FC<RecentOffersProps> = ({
           sorted
           title='Date Created'
           style={styles.dateCreatedColumn}
-          sortType={sortNumbers[5]}
+          sortType={sortNumbers[4]}
           sortName='dateCreated'
-          sortIndex={5}
+          sortIndex={4}
           changeSortName={handleSortChange}
           clearSort={clearSort}
         />
         <Title
           sorted
           title='Expiry Date'
-          style={styles.dateExpiryColumn}
-          sortType={sortNumbers[6]}
-          sortName='expiryDate'
-          sortIndex={6}
+          style={styles.expiryDateColumn}
+          sortType={sortNumbers[5]}
+          sortName='validUntil'
+          sortIndex={5}
           changeSortName={handleSortChange}
           clearSort={clearSort}
         />
@@ -108,20 +106,32 @@ export const RecentOffers: FC<RecentOffersProps> = ({
           sorted
           title='Stage'
           style={styles.stageColumn}
-          sortType={sortNumbers[7]}
+          sortType={sortNumbers[6]}
           sortName='stage'
-          sortIndex={7}
+          sortIndex={6}
           changeSortName={handleSortChange}
           clearSort={clearSort}
         />
         <Title title='Manage' style={styles.manageColumn} />
       </div>
       <div className={styles.items}>
-        { }
-        {offersList.map((_item, index) => {
+        {offersList.map((item, index) => {
           return (
-            <React.Fragment key={`item.id-${index}`}>
-              Item
+            <React.Fragment key={item.id}>
+              <Item
+                id={item.id}
+                idAccount={item.account.id}
+                code={item.code}
+                account={item.account.account}
+                subject={item.subject}
+                amount={item.total}
+                dateCreated={item.dateCreated}
+                expiryDate={item.validUntil}
+                stage={item.stage}
+                navigateToViewOffer={navigateToViewOffer}
+                navigateToEditOffer={navigateToEditOffer}
+                navigateToSelectAccount={navigateToSelectAccount}
+              />
               {index !== offersList.length - 1 && <CustomDivider />}
             </React.Fragment>
           )

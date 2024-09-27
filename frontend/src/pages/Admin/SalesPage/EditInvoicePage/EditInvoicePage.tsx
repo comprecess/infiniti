@@ -26,7 +26,7 @@ import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditInvoicePage.module.scss'
 
 const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/editinvoice\/(\d+)$/
+  const regex = /\/invoice\/(\d+)$/
   const match = url.match(regex)
 
   return match ? parseInt(match[1], 10) : null

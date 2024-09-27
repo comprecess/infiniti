@@ -99,7 +99,9 @@ export const AdminInvoicesPage: FC = () => {
         '/' +
         Routes.sales +
         '/' +
-        Routes.editInvoice +
+        Routes.edit +
+        '/' +
+        Routes.invoice +
         '/' +
         idInvoice,
     )
@@ -185,9 +187,9 @@ export const AdminInvoicesPage: FC = () => {
           contentType ===
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         ) {
-          saveAs(downloadInitiated, 'Customers-Infiniti.xlsx')
+          saveAs(downloadInitiated, 'Invoices-Infiniti.xlsx')
         } else if (contentType === 'text/plain') {
-          saveAs(downloadInitiated, 'Customers-Infiniti.csv')
+          saveAs(downloadInitiated, 'Invoices-Infiniti.csv')
         } else if (contentType === 'text/html') {
           const htmlText = await downloadInitiated.text()
           await navigator.clipboard.writeText(htmlText)
@@ -218,7 +220,9 @@ export const AdminInvoicesPage: FC = () => {
         '/' +
         Routes.sales +
         '/' +
-        Routes.newInvoices,
+        Routes.new +
+        '/' +
+        Routes.invoice,
     )
   }
 
