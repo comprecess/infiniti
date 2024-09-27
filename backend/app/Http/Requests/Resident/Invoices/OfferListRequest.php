@@ -18,7 +18,7 @@ class OfferListRequest extends DocumentRequest
             'account' => 'crm_accounts.account',
             'subject' => 'sys_quotes.subject',
             'total' => 'sys_quotes.total',
-            'dateСreated' => 'sys_quotes.datecreated',
+            'dateCreated' => 'sys_quotes.datecreated',
             'validUntil' => 'sys_quotes.validuntil',
             'stage' => 'sys_quotes.stage',
         ];
