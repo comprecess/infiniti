@@ -24,7 +24,7 @@ class OfferListRequest extends DocumentRequest
         ];
     }
 
-    private function sortCode()
+    protected function sortCode()
     {
         return DB::raw("IF(`sys_quotes`.`cn` != '', `sys_quotes`.`cn`, `sys_quotes`.`id`) * 1");
     }

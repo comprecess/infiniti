@@ -21,7 +21,7 @@ class OfferListResource extends JsonResource
             'subject' => $this->subject,
             'total' => $this->total,
             'validUntil' => $this->validuntil?->format($format),
-            'dateСreated' => $this->datecreated?->format($format),
+            'dateCreated' => $this->datecreated?->format($format),
             'stage' => $this->stage,
         ];
     }
