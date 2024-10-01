@@ -61,9 +61,14 @@ class Invoice extends Model implements InsertDefaultValueInterface
         return $this->belongsTo(Client::class, 'userid');
     }
 
+//    public function items()
+//    {
+//        return $this->hasMany(InvoiceItem::class, 'invoiceid');
+//    }
+
     public function items()
     {
-        return $this->hasMany(InvoiceItem::class, 'invoiceid');
+        return $this->morphMany(InvoiceItem::class, 'document');
     }
 
     public function offer()
@@ -74,6 +79,11 @@ class Invoice extends Model implements InsertDefaultValueInterface
     public function transaction()
     {
         return $this->hasMany(Transaction::class, 'iid');
+    }
+
+    public function setCheckPublicAttribute($value)
+    {
+        $this->attributes['check_public'] = $value ? 1 : 0;
     }
 
     public static function smallStat(callable $where = null, $round = 1)

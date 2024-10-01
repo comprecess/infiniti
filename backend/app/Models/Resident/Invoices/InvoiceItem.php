@@ -3,6 +3,7 @@
 namespace App\Models\Resident\Invoices;
 
 
+use App\Http\Requests\Resident\Invoices\InvoicePriceCalcRequest;
 use App\Models\Collection\InvoiceItemCollection;
 use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Resident\Settings\Tax;
@@ -10,6 +11,7 @@ use App\Models\Traits\CollectionTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\ValidationException;
 
 
 class InvoiceItem extends Model implements InsertDefaultValueInterface
@@ -49,6 +51,11 @@ class InvoiceItem extends Model implements InsertDefaultValueInterface
         return $this->belongsTo(Invoice::class, 'invoiceid');
     }
 
+    public function document()
+    {
+        return $this->morphTo( 'document');
+    }
+
     public function getDefault(): array
     {
         return [
@@ -58,6 +65,8 @@ class InvoiceItem extends Model implements InsertDefaultValueInterface
             'paymentmethod' => [''],
             'notes' => [''],
             'itemcode' => [''],
+            'taxed' => [0],
+            'invoiceid' =>[0],
         ];
     }
 
@@ -119,6 +128,100 @@ class InvoiceItem extends Model implements InsertDefaultValueInterface
         }
 
         $this->total = $total;
+    }
+
+    public static function blankCalc(InvoicePriceCalcRequest $request)
+    {
+        $result = [];
+        $sum = [0,0,0,0];
+        foreach($request->getPriceList() ?? [] as $key => $value) {
+            $class = InvoiceItem::SERVICE[$value['service']];
+            $a = intval($value['amount'] ?? 0);
+            $p = (float) ($value['price'] ?? 0);
+            if(class_exists($class) && $p == 0) {
+                $priceModel = $class::findOrFail($value['serviceId']);
+                $p = $priceModel->getPrice();
+            }
+
+            $price = round($a * $p, 2);
+            $discount =  round($request->discount($price, $value['discountType'] ?? null, $value['discount'] ?? null), 2);
+
+            $total = round($price - $discount, 2);
+
+            if(isset($value['tax'])) {
+                $taxModel = Tax::findOrFail($value['tax']);
+                $tax = $taxModel->getTaxPrice($total);
+                $taxRate = $taxModel->rate;
+            } else {
+                $tax = 0;
+                $taxRate = 0;
+            }
+
+            $total += $tax;
+            $result[$key]['service'] = $value['service'];
+            $result[$key]['serviceId'] = $value['serviceId'] ?? null;
+            $result[$key]['id'] = $value['id'] ?? null;
+            $result[$key]['total'] = $total;
+            $result[$key]['price'] = $p;
+            $result[$key]['amount'] = $a;
+            $result[$key]['tax'] = $tax;
+            $result[$key]['taxRate'] = $taxRate;
+            $result[$key]['discountType'] = $value['discountType'] ?? null;
+            $result[$key]['discountValue'] = $value['discount'] ?? null;
+            $result[$key]['discountTotal'] = $discount;
+            $result[$key]['description'] = $value['description'] ?? $description ?? null;
+
+            $sum[0] += $price;
+            $sum[1] += $discount;
+            $sum[2] += $tax;
+            $sum[3] += $total;
+
+        }
+
+        return [$sum, $result];
+    }
+
+    public static function createOrUpdate(InvoicePriceCalcRequest $request, $model)
+    {
+        list($sum, $result) = self::blankCalc($request);
+
+        foreach($result as $value) {
+            if($value['id']) {
+                $invoiceItem = $model->items()->where('id', $value['id'])->first();
+                if(!$invoiceItem) {
+                    throw ValidationException::withMessages([$request->getPriceList(false) . ".id" => __('validation.regex', ['attribute' => $value['id']])]);
+                }
+            } else {
+                $invoiceItem = new InvoiceItem();
+            }
+            $invoiceItem->insertDefaultValue();
+            $invoiceItem->document_type = $model::class;
+            $invoiceItem->document_id = $model->id;
+            $invoiceItem->invoiceid = $model->id;
+            $invoiceItem->userid = $request->clientId;
+            $invoiceItem->description = $value['description'] ?? '';
+            $invoiceItem->qty = $value['amount'];
+            $invoiceItem->amount = $value['price'];
+            $invoiceItem->total = $value['total'];
+            $invoiceItem->tax_rate = $value['taxRate'];
+            $invoiceItem->taxamount = $value['tax'];
+            if($value['tax']) {
+                $invoiceItem->taxed = 1;
+            }else{
+                $invoiceItem->taxed = 0;
+            }
+            $invoiceItem->discount_type = $value['discountType'] == 'percent' ? 'p' : 'f';
+            $invoiceItem->discount_amount = $value['discountValue'] ?? 0;
+            $invoiceItem->itemcode = $value['serviceId'] ?? '';
+
+            if(isset($value['serviceId']) && isset($value['service'])) {
+                $invoiceItem->service_type = InvoiceItem::SERVICE[$value['service']];
+                $priceModel = $invoiceItem->service_type::findOrFail($value['serviceId']);
+                $invoiceItem->service_id = $value['serviceId'];
+                $invoiceItem->amount = $priceModel->getPrice();
+            }
+            $invoiceItem->save();
+        }
     }
 
 }

@@ -6,7 +6,6 @@ namespace App\Http\Requests\Resident\Invoices;
 use App\Http\Requests\Interfaces\ConvertingPropertiesInterface;
 use App\Http\Requests\Traits\ConvertingPropertiesTrait;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 
@@ -33,10 +32,6 @@ class InvoiceRequest extends FormRequest implements ConvertingPropertiesInterfac
 
     public function rules(): array
     {
-        #test
-        Log::alert('Invoice::createOrUpdate', $this->all());
-        #test
-
         $status = array_keys(self::STATUS);
         $rules = [
             'clientId' => "required|exists:crm_accounts,id",
@@ -48,9 +43,8 @@ class InvoiceRequest extends FormRequest implements ConvertingPropertiesInterfac
 
         $invoice = $this->route('invoice');
 
-        if(!$invoice) {
+        if($invoice) {
             unset($rules['status']);
-        } else {
             if($invoice->blockEdit()) {
                 throw throw ValidationException::withMessages(["invoice.status" => __('resident.invoice.blockStatus')]);
             }

@@ -4,7 +4,6 @@ namespace App\Http\Requests\Resident\Invoices;
 
 
 use App\Models\Resident\Invoices\InvoiceItem;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 
@@ -13,7 +12,7 @@ class InvoiceBlankRequest extends InvoicePriceCalcRequest
 
     public function rules(): array
     {
-        Log::alert('InvoiceBlankRequest', $this->all());
+
         $service = array_keys(InvoiceItem::SERVICE);
         $serviceModel = self::getService();
         $data =  [

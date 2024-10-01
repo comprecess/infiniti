@@ -7,7 +7,6 @@ use App\Models\Contracts\ModelServiceInterface;
 use App\Models\Resident\Invoices\InvoiceItem;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 
@@ -21,7 +20,6 @@ class InvoicePriceCalcRequest extends FormRequest
 
     public function rules(): array
     {
-        Log::alert('InvoicePriceCalcRequest', $this->all());
 
         $service = array_keys(InvoiceItem::SERVICE);
         unset($service[0]);
@@ -34,7 +32,7 @@ class InvoicePriceCalcRequest extends FormRequest
         });
 
         $data =  [
-            $this->getPriceList(false) => "required|array",
+            $this->getPriceList(false) => "nullable|array",
             $this->getPriceList('service') => "required|in:". implode(",", array_keys(InvoiceItem::SERVICE)),
             $this->getPriceList('id') => "nullable|exists:sys_invoiceitems,id",
             $this->getPriceList('amount') => "nullable|integer",

@@ -54,10 +54,10 @@ Route::controller(Resident\InvoiceController::class)->prefix('invoice')
         Route::put('/{invoice}', 'createOrUpdate');
         Route::get('/{invoice}/clone', 'invoiceClone');
         Route::get('/{invoice}/stopRecurring', 'stopRecurring');
-        Route::get('/{invoice}/blank', 'blankList');
-        Route::post('/{invoice}/blank', 'blankCreateOrUpdate');
-        Route::put('/{invoice}/blank/{item}', 'blankCreateOrUpdate');
-        Route::delete('/{invoice}/blank/{item}', 'blankDelete');
+//        Route::get('/{invoice}/blank', 'blankList');
+//        Route::post('/{invoice}/blank', 'blankCreateOrUpdate');
+//        Route::put('/{invoice}/blank/{item}', 'blankCreateOrUpdate');
+//        Route::delete('/{invoice}/blank/{item}', 'blankDelete');
         Route::get('/{invoice}', 'item');
         Route::delete('/{invoice}', 'delete');
         Route::get('/service/{service}', 'listService');
@@ -68,18 +68,21 @@ Route::controller(Resident\OfferController::class)->prefix('offer')
 //        Route::get('/stat', 'stat');
         Route::get('/list', 'list');
         Route::get('/input-data', 'inputData');
-        Route::post('/price-calc', 'priceCalc');
         Route::post('/', 'createOrUpdate');
-        Route::put('/{invoice}', 'createOrUpdate');
-        Route::get('/{invoice}/clone', 'invoiceClone');
-        Route::get('/{invoice}/stopRecurring', 'stopRecurring');
-        Route::get('/{invoice}/blank', 'blankList');
-        Route::post('/{invoice}/blank', 'blankCreateOrUpdate');
-        Route::put('/{invoice}/blank/{item}', 'blankCreateOrUpdate');
-        Route::delete('/{invoice}/blank/{item}', 'blankDelete');
-        Route::get('/{invoice}', 'item');
-        Route::delete('/{invoice}', 'delete');
+        Route::put('/{offer}', 'createOrUpdate');
+        Route::get('/{offer}/clone', 'offerClone');
+        Route::get('/{offer}/stopRecurring', 'stopRecurring');
+        Route::get('/{offer}', 'item');
+        Route::delete('/{offer}', 'delete');
         Route::get('/service/{service}', 'listService');
+    });
+#blank
+Route::controller(Resident\BlankController::class)->prefix('{typeBlank}')->whereIn('typeBlank', array_keys(Resident\BlankController::TYPE_BLANK))
+    ->group(function(){
+        Route::get('/{idType}/blank', 'blankList');
+        Route::post('/{idType}/blank', 'blankCreateOrUpdate');
+        Route::put('/{idType}/blank/{item}', 'blankCreateOrUpdate');
+        Route::delete('/{idType}/blank/{item}', 'blankDelete');
     });
 
 #settings
