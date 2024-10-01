@@ -7,12 +7,14 @@ import styles from './CustomDataPicker.module.scss'
 
 interface CustomDataPickerProps {
   title: string
+  titleOnChange: string
   value?: string
   onChange: (name: string, value: string) => void
 }
 
 export const CustomDataPicker: FC<CustomDataPickerProps> = ({
   title,
+  titleOnChange,
   value = '',
   onChange,
 }) => {
@@ -36,7 +38,7 @@ export const CustomDataPicker: FC<CustomDataPickerProps> = ({
 
       const formattedDate = `${year}-${month}-${day}`
 
-      onChange('date', formattedDate)
+      onChange(titleOnChange, formattedDate)
     }
   }
 
