@@ -9,6 +9,7 @@ use App\Http\Requests\Resident\Invoices\InvoiceBlankRequest;
 use App\Http\Requests\Resident\Invoices\InvoicePriceCalcRequest;
 use App\Http\Requests\Resident\Invoices\InvoiceRequest;
 use App\Http\Requests\Resident\Invoices\OfferListRequest;
+use App\Http\Requests\Resident\Invoices\OfferRequest;
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\Invoices\InvoiceBlankResource;
 use App\Http\Resources\Resident\Invoices\InvoiceItemResource;
@@ -36,26 +37,6 @@ class OfferController extends ResidentController
     use CRUD{
         createOrUpdate as createOrUpdateCRUD;
         delete as deleteCRUD;
-    }
-
-    public function stat()
-    {
-        #ДОСТУП
-
-        $stat = Invoice::smallStat();
-
-        foreach($stat as &$value) {
-            $column = $value['status'] == 'Partially Paid' ? 'credit' : 'total';
-            $total = 0;
-            $value['build']->get()->each(function($item) use($column, &$total){
-                $total += $item->transformPrice($column);
-            });
-            $value['total'] = (new Invoice())->setCurrency()->printPrice($total);
-            unset($value['build']);
-        }
-
-        return response()->json(['data' => $stat]);
-
     }
 
     public function getDocumentVariables(): DocumentVariables
@@ -121,199 +102,42 @@ class OfferController extends ResidentController
             'client' => ClientResource::collection(Client::getForSelect()),
             'stage' => Offer::STAGE,
             'num' => Offer::getNextNum(),
-            'invoiceNum' => Config::get('quotation_code_prefix', 'INV-'),
-            'repeat' => Invoice::getRepeatName(),
+            'offerNum' => Config::get('quotation_code_prefix', 'OFFER-'),
             'tax' => TaxResorce::collection(Tax::getForSelect()),
         ]);
     }
 
-    public static function blankCalc(InvoicePriceCalcRequest $request)
-    {
-        $result = [];
-        $sum = [0,0,0,0];
-        foreach($request->getPriceList() as $key => $value) {
-            $class = InvoiceItem::SERVICE[$value['service']];
-            $a = intval($value['amount'] ?? 0);
-            $p = (float) ($value['price'] ?? 0);
-            if(class_exists($class) && $p == 0) {
-                $priceModel = $class::findOrFail($value['serviceId']);
-                $p = $priceModel->getPrice();
-            }
 
-            $price = round($a * $p, 2);
-            $discount =  round($request->discount($price, $value['discountType'] ?? null, $value['discount'] ?? null), 2);
-
-            $total = round($price - $discount, 2);
-
-            if(isset($value['tax'])) {
-                $taxModel = Tax::findOrFail($value['tax']);
-                $tax = $taxModel->getTaxPrice($total);
-                $taxRate = $taxModel->rate;
-            } else {
-                $tax = 0;
-                $taxRate = 0;
-            }
-
-            $total += $tax;
-            $result[$key]['service'] = $value['service'];
-            $result[$key]['serviceId'] = $value['serviceId'] ?? null;
-            $result[$key]['id'] = $value['id'] ?? null;
-            $result[$key]['total'] = $total;
-            $result[$key]['price'] = $p;
-            $result[$key]['amount'] = $a;
-            $result[$key]['tax'] = $tax;
-            $result[$key]['taxRate'] = $taxRate;
-            $result[$key]['discountType'] = $value['discountType'] ?? null;
-            $result[$key]['discountValue'] = $value['discount'] ?? null;
-            $result[$key]['discountTotal'] = $discount;
-            $result[$key]['description'] = $value['description'] ?? $description ?? null;
-
-            $sum[0] += $price;
-            $sum[1] += $discount;
-            $sum[2] += $tax;
-            $sum[3] += $total;
-
-        }
-
-        return [$sum, $result];
-    }
-
-    public function priceCalc(InvoicePriceCalcRequest $request)
-    {
-        list($sum, $result) = self::blankCalc($request);
-
-        if($request->currency) {
-            $currency = Currency::where('iso_code', $request->currency)->first();
-            foreach($sum as &$val) {
-                $val = (new Invoice())->printPrice($val, $currency);
-            }
-        }
-
-        return response()->json(['data' => $result, 'result' => array_combine(['price', 'discount', 'tax', 'total'], $sum)]);
-    }
-
-    public function createOrUpdate(InvoiceRequest $request, Invoice $invoice)
+    public function createOrUpdate(OfferRequest $request, Offer $offer)
     {
 
         $requestCalc = app(InvoicePriceCalcRequest::class);
-        list($sum, $result) = self::blankCalc($requestCalc);
+        list($sum, $result) = InvoiceController::blankCalc($requestCalc);
 
         return $this->createOrUpdateCRUD(
             $request,
-            $invoice,
+            $offer,
             function($model, $request, $isNew) use($sum){
 
-                $date = Carbon::createFromFormat('Y-m-d', $request->date);
-                $model->date = $date;
-
-                if(isset(InvoiceRequest::DUEDATE[$request->dueDate])) {
-                    $model->duedate = $date->copy()->addDays(InvoiceRequest::DUEDATE[$request->dueDate]);
-                } else {
-                    $model->duedate = $date;
-                }
-
-                if(isset(Invoice::REPEAT[$request->repeat])) {
-                    $repeat = Invoice::REPEAT[$request->repeat];
-                    $method = 'add'. ucfirst($repeat[0]) . 's';
-                    $model->nd = $date->copy()->{$method}($repeat[1]);
-                    $model->r = "+" . $repeat[1] . " " . $repeat[0];
-                }else{
-                    $model->nd = $date;
-                    $model->r = 0;
-                }
-
-                if($request->currency) {
-                    $cur = Currency::where('iso_code', $request->currency)->first();
-                    $model->currency = $cur->id;
-                }
-
-                $model->invoicenum = $request->invoiceNum ? $request->invoiceNum : Config::get('invoice_code_prefix', 'INV-');
-                $model->cn = $request->num ? $request->num : '';
-                $model->notes = $request->notes ? $request->notes : '';
+                $model->invoicenum = $request->offerNum ? $request->offerNum : Config::get('quotation_code_prefix', 'OFFER-');
                 $model->subtotal = $sum[0];
                 $model->discount = $sum[1];
                 $model->total = $sum[3];
-                $model->tax = $sum[2];
-                if($request->status && isset(InvoiceRequest::STATUS[$request->status])) {
-                    $model->status = InvoiceRequest::STATUS[$request->status];
-                }
-                $model->aid = auth()->id();
 
-                if($request->protjectId) {
-                    $model->pid = $request->protjectId;
-                }
+                $model->lastmodified = now();
 
 
                 if($isNew) {
                     $model->is_same_state = 1;
-                    foreach(['vtoken', 'ptoken'] as $name) {
+                    foreach(['vtoken'] as $name) {
                         $model->setRandomNum($name, 10, true);
                     }
-                    $model->datepaid = now();
                 }
             },
-            function($model, $request, $isNew) use ($result, $requestCalc){
-                foreach($result as $value) {
-                    if($value['id']) {
-                        $invoiceItem = $model->items()->where('id', $value['id'])->first();
-                        if(!$invoiceItem) {
-                            throw ValidationException::withMessages([$requestCalc->getPriceList(false) . ".id" => __('validation.regex', ['attribute' => $value['id']])]);
-                        }
-                    } else {
-                        $invoiceItem = new InvoiceItem();
-                    }
-                    $invoiceItem->insertDefaultValue();
-                    $invoiceItem->invoiceid = $model->id;
-                    $invoiceItem->userid = $request->clientId;
-                    $invoiceItem->description = $value['description'] ?? '';
-                    $invoiceItem->qty = $value['amount'];
-                    $invoiceItem->amount = $value['price'];
-                    $invoiceItem->total = $value['total'];
-                    $invoiceItem->tax_rate = $value['taxRate'];
-                    $invoiceItem->taxamount = $value['tax'];
-                    if($value['tax']) {
-                        $invoiceItem->taxed = 1;
-                    }else{
-                        $invoiceItem->taxed = 0;
-                    }
-                    $invoiceItem->discount_type = $value['discountType'] == 'percent' ? 'p' : 'f';
-                    $invoiceItem->discount_amount = $value['discountValue'] ?? 0;
-                    $invoiceItem->itemcode = $value['serviceId'] ?? '';
-
-                    if(isset($value['serviceId']) && isset($value['service'])) {
-                        $invoiceItem->service_type = InvoiceItem::SERVICE[$value['service']];
-                        $priceModel = $invoiceItem->service_type::findOrFail($value['serviceId']);
-                        $invoiceItem->service_id = $value['serviceId'];
-                        $invoiceItem->amount = $priceModel->getPrice();
-                    }
-                    $invoiceItem->save();
-                }
-
+            function($model) use ($requestCalc){
+                InvoiceItem::createOrUpdate($requestCalc, $model);
             }
         );
-    }
-
-    public function blankDelete(Invoice $invoice, InvoiceItem $item)
-    {
-        if($invoice->id == $item->invoiceid) {
-            $item->delete();
-            return response()->json(['success' => true]);
-        }
-        return response()->json(['success' => false, 'message' => 'Form not found in invoice']);
-    }
-
-    public function listService($service)
-    {
-        $service = InvoicePriceCalcRequest::getService()->get($service);
-        if(!($service && class_exists($service))){
-            abort(404);
-        }
-        $model = new $service();
-        if(!$model instanceof ModelServiceInterface) {
-            abort(404);
-        }
-
-        return $model->getServiceResources()::collection((new $service)->getServiceData() ?? $service::all());
     }
 
     public function item(Invoice $invoice)

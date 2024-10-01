@@ -137,60 +137,9 @@ class InvoiceController extends ResidentController
         ]);
     }
 
-    public static function blankCalc(InvoicePriceCalcRequest $request)
-    {
-        $result = [];
-        $sum = [0,0,0,0];
-        foreach($request->getPriceList() as $key => $value) {
-            $class = InvoiceItem::SERVICE[$value['service']];
-            $a = intval($value['amount'] ?? 0);
-            $p = (float) ($value['price'] ?? 0);
-            if(class_exists($class) && $p == 0) {
-                $priceModel = $class::findOrFail($value['serviceId']);
-                $p = $priceModel->getPrice();
-            }
-
-            $price = round($a * $p, 2);
-            $discount =  round($request->discount($price, $value['discountType'] ?? null, $value['discount'] ?? null), 2);
-
-            $total = round($price - $discount, 2);
-
-            if(isset($value['tax'])) {
-                $taxModel = Tax::findOrFail($value['tax']);
-                $tax = $taxModel->getTaxPrice($total);
-                $taxRate = $taxModel->rate;
-            } else {
-                $tax = 0;
-                $taxRate = 0;
-            }
-
-            $total += $tax;
-            $result[$key]['service'] = $value['service'];
-            $result[$key]['serviceId'] = $value['serviceId'] ?? null;
-            $result[$key]['id'] = $value['id'] ?? null;
-            $result[$key]['total'] = $total;
-            $result[$key]['price'] = $p;
-            $result[$key]['amount'] = $a;
-            $result[$key]['tax'] = $tax;
-            $result[$key]['taxRate'] = $taxRate;
-            $result[$key]['discountType'] = $value['discountType'] ?? null;
-            $result[$key]['discountValue'] = $value['discount'] ?? null;
-            $result[$key]['discountTotal'] = $discount;
-            $result[$key]['description'] = $value['description'] ?? $description ?? null;
-
-            $sum[0] += $price;
-            $sum[1] += $discount;
-            $sum[2] += $tax;
-            $sum[3] += $total;
-
-        }
-
-        return [$sum, $result];
-    }
-
     public function priceCalc(InvoicePriceCalcRequest $request)
     {
-        list($sum, $result) = self::blankCalc($request);
+        list($sum, $result) = InvoiceItem::blankCalc($request);
 
         if($request->currency) {
             $currency = Currency::where('iso_code', $request->currency)->first();
@@ -206,7 +155,7 @@ class InvoiceController extends ResidentController
     {
 
         $requestCalc = app(InvoicePriceCalcRequest::class);
-        list($sum, $result) = self::blankCalc($requestCalc);
+        list($sum, $result) = InvoiceItem::blankCalc($requestCalc);
 
         return $this->createOrUpdateCRUD(
             $request,
@@ -263,53 +212,9 @@ class InvoiceController extends ResidentController
                 }
             },
             function($model, $request, $isNew) use ($result, $requestCalc){
-                foreach($result as $value) {
-                    if($value['id']) {
-                        $invoiceItem = $model->items()->where('id', $value['id'])->first();
-                        if(!$invoiceItem) {
-                            throw ValidationException::withMessages([$requestCalc->getPriceList(false) . ".id" => __('validation.regex', ['attribute' => $value['id']])]);
-                        }
-                    } else {
-                        $invoiceItem = new InvoiceItem();
-                    }
-                    $invoiceItem->insertDefaultValue();
-                    $invoiceItem->invoiceid = $model->id;
-                    $invoiceItem->userid = $request->clientId;
-                    $invoiceItem->description = $value['description'] ?? '';
-                    $invoiceItem->qty = $value['amount'];
-                    $invoiceItem->amount = $value['price'];
-                    $invoiceItem->total = $value['total'];
-                    $invoiceItem->tax_rate = $value['taxRate'];
-                    $invoiceItem->taxamount = $value['tax'];
-                    if($value['tax']) {
-                        $invoiceItem->taxed = 1;
-                    }else{
-                        $invoiceItem->taxed = 0;
-                    }
-                    $invoiceItem->discount_type = $value['discountType'] == 'percent' ? 'p' : 'f';
-                    $invoiceItem->discount_amount = $value['discountValue'] ?? 0;
-                    $invoiceItem->itemcode = $value['serviceId'] ?? '';
-
-                    if(isset($value['serviceId']) && isset($value['service'])) {
-                        $invoiceItem->service_type = InvoiceItem::SERVICE[$value['service']];
-                        $priceModel = $invoiceItem->service_type::findOrFail($value['serviceId']);
-                        $invoiceItem->service_id = $value['serviceId'];
-                        $invoiceItem->amount = $priceModel->getPrice();
-                    }
-                    $invoiceItem->save();
-                }
-
+                InvoiceItem::createOrUpdate($requestCalc, $model);
             }
         );
-    }
-
-    public function blankDelete(Invoice $invoice, InvoiceItem $item)
-    {
-        if($invoice->id == $item->invoiceid) {
-            $item->delete();
-            return response()->json(['success' => true]);
-        }
-        return response()->json(['success' => false, 'message' => 'Form not found in invoice']);
     }
 
     public function listService($service)
@@ -360,74 +265,6 @@ class InvoiceController extends ResidentController
     public function delete(Invoice $invoice)
     {
         return $this->deleteCRUD($invoice);
-    }
-
-    public function blankList(Invoice $invoice)
-    {
-        $items = $invoice->items;
-        return response()->json([
-            'blank' => InvoiceBlankResource::collection($items),
-            'blankCalc' => [
-                'price' => $invoice->printPrice($items->summPrice()),
-                'discount' => $invoice->printPrice($items->summDiscount()),
-                'tax' => $invoice->printPrice($items->summTax()),
-                'total' => $invoice->printPrice($items->summTotal())
-            ]
-        ]);
-    }
-
-    public function blankCreateOrUpdate(InvoiceBlankRequest $request,Invoice $invoice, InvoiceItem $item)
-    {
-        if($item->id) {
-            if(!$invoice->items()->where('id', $item->id)->count()) {
-                abort(404);
-            }
-        }
-
-        return $this->createOrUpdateCRUD(
-            $request,
-            $item,
-            function ($model, $request, $isNew) use($invoice){
-                if($isNew) {
-                    $model->insertDefaultValue();
-                }
-                $model->invoiceid = $invoice->id;
-                $model->userid = $invoice->userid;
-                $model->description = $request->description ?? '';
-                $model->qty = (int) $request->amount ?? 0;
-                $model->amount =(float) $request->price;
-
-                if($request->tax) {
-                    $taxModel = Tax::findOrFail($request->tax);
-                    $model->tax_rate = $taxModel->rate;
-                    $model->taxed = 1;
-                } else {
-                    $model->tax_rate = 0;
-                    $model->taxed = 0;
-                }
-
-                $model->discount_type = InvoiceItem::DISCOUNT_TYPE[$request->discountType ?? 'fixed'];
-                $model->discount_amount =(float) $request->discount ?? 0;
-                $model->itemcode = $request->serviceId ?? '';
-
-                if($request->serviceId && $request->service) {
-                    $model->service_type = InvoiceItem::SERVICE[$request->service];
-                    $priceModel = $model->service_type::findOrFail($request->serviceId);
-                    $model->service_id = $priceModel->id;
-                    if($model->amount == 0) {
-                        $model->amount = $priceModel->getPrice();
-                    }
-
-                    if(!$model->description) {
-                        $model->description = $priceModel->getDescription();
-                    }
-                }else{
-                    $model->service_type = null;
-                    $model->service_id = null;
-                }
-                $model->calc();
-            }
-        );
     }
 
     public function publicToken($token)

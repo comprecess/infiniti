@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('sys_invoices', function(Blueprint $table){
-            $table->boolean('check_public')->default(0);
+            $table->boolean('check_public')->nullable()->default(0);
         });
     }
 

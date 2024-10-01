@@ -2,7 +2,6 @@
 
 namespace App\Models\Resident\Invoices;
 
-use App\Models\Resident\Settings\Currency;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\HelperTrait;
 use App\Models\Users\Client;
@@ -32,6 +31,11 @@ class Offer extends Model
     public function user()
     {
         return $this->belongsTo(Client::class, 'userid');
+    }
+
+    public function items()
+    {
+        return $this->morphMany(InvoiceItem::class, 'document');
     }
 
 }
