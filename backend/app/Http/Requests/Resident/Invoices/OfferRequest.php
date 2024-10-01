@@ -39,7 +39,8 @@ class OfferRequest extends FormRequest implements ConvertingPropertiesInterface
             'dateCreated' => 'datecreated',
             'offerNum' => 'invoicenum',
             'num' => 'cn',
-            'notes' => 'proposal'
+            'proposal',
+            'notes' => 'customernotes',
         ];
     }
 }
