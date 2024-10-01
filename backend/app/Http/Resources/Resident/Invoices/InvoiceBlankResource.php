@@ -35,7 +35,7 @@ class InvoiceBlankResource extends JsonResource
 
     public function typeContent(&$resorce, $request)
     {
-        $invoice = $this->invoice;
+        $invoice = $this->document;
         if($request->type == 'view') {
             $resorce['price'] = $invoice->printPrice((float) $resorce['price']);
             $resorce['total'] = $invoice->printPrice((float) $resorce['total']);

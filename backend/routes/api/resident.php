@@ -70,11 +70,8 @@ Route::controller(Resident\OfferController::class)->prefix('offer')
         Route::get('/input-data', 'inputData');
         Route::post('/', 'createOrUpdate');
         Route::put('/{offer}', 'createOrUpdate');
-        Route::get('/{offer}/clone', 'offerClone');
-        Route::get('/{offer}/stopRecurring', 'stopRecurring');
         Route::get('/{offer}', 'item');
         Route::delete('/{offer}', 'delete');
-        Route::get('/service/{service}', 'listService');
     });
 #blank
 Route::controller(Resident\BlankController::class)->prefix('{typeBlank}')->whereIn('typeBlank', array_keys(Resident\BlankController::TYPE_BLANK))
