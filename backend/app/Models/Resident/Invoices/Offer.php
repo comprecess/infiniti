@@ -18,6 +18,8 @@ class Offer extends Model
 
     protected $table = "sys_quotes";
 
+    public $timestamps = false;
+
     protected $casts = [
         'datecreated' => 'date',
         'validuntil' => 'date',
