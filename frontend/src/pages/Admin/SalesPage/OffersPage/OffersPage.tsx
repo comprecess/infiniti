@@ -188,6 +188,7 @@ export const AdminOffersPage: FC = () => {
             HeaderComponent={SearchAndButtons}
             PagesComponent={PagesList}
             componentProps={{
+              titleNone: true,
               title: 'Add Offer',
               icon: '/icons/plus.svg',
               onClick: navigateToAddOffer,

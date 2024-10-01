@@ -334,9 +334,14 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
       <section className={styles.footerTextEditor}>
         <div className={styles.containerItems}>
           <span className={styles.containerItemsTitle}>Proposal Text</span>
-          <TextEditor
-            setValue={message => handleChangeInput('proposal', message)}
-          />
+          <div className={styles.containerEditorDesc}>
+            <TextEditor
+              setValue={message => handleChangeInput('proposal', message)}
+            />
+            <span className={styles.editorDesc}>
+              Displayed at the Top of the Offer
+            </span>
+          </div>
         </div>
       </section>
       <section className={styles.footerTextEditor}>
@@ -344,9 +349,14 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
           <span className={styles.containerItemsTitle}>
             Customer Notes
           </span>
-          <TextEditor
-            setValue={message => handleChangeInput('notes', message)}
-          />
+          <div className={styles.containerEditorDesc}>
+            <TextEditor
+              setValue={message => handleChangeInput('notes', message)}
+            />
+            <span className={styles.editorDesc}>
+              Displayed as a Footer to the Offer
+            </span>
+          </div>
         </div>
       </section>
       <AddProductOrService
