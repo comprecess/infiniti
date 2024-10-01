@@ -10,6 +10,7 @@ import { Routes } from '../../../../app/router/routes'
 import { RecentOffers } from '../../../../features/Admin/Sales/OffersPage/RecentOffers/RecentOffers'
 import { SearchAndButtons } from '../../../../features/Admin/Sales/OffersPage/SearchAndButtons/SearchAndButtons'
 import { PagesList } from '../../../../features/Client/CatalogPage/TalentsList/PagesList/PagesList'
+import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getDocumentsOffers } from '../../../../shared/utils/api/Admin/Sales/Offers/GetDocumentsOffers'
@@ -151,6 +152,19 @@ export const AdminOffersPage: FC = () => {
     )
   }
 
+  const navigateToAddOffer = () => {
+    navigate(
+      '/' +
+        Routes.adminPages +
+        '/' +
+        Routes.sales +
+        '/' +
+        Routes.new +
+        '/' +
+        Routes.offer,
+    )
+  }
+
   useEffect(() => {
     document.title = 'infiniti | Offers'
   }, [])
@@ -170,8 +184,15 @@ export const AdminOffersPage: FC = () => {
           <RecentCard
             title={`Total: ${offers.meta.total}`}
             style={styles.recentFullScreen}
+            Component={ButtonBlue}
             HeaderComponent={SearchAndButtons}
             PagesComponent={PagesList}
+            componentProps={{
+              title: 'Add Offer',
+              icon: '/icons/plus.svg',
+              onClick: navigateToAddOffer,
+              style: styles.buttonAddNewOffer,
+            }}
             headerProps={{
               searchChange: searchOnChange,
               rightButtons: documentOnChange,

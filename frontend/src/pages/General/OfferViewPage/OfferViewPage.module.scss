@@ -1,0 +1,84 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  justify-content: center;
+  padding: 20px;
+  background-color: $brand-1000;
+
+  @include scrollbar;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 980px;
+  height: 100%;
+  border-radius: 8px;
+  padding: 24px;
+  background-color: $brand-900;
+}
+
+.pdfButtons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: end;
+  gap: 12px;
+}
+
+.downloadPDF {
+  max-width: 150px;
+  height: 44px;
+}
+
+.viewPDF {
+  max-width: 110px;
+  height: 44px;
+}
+
+.acceptPDF {
+  max-width: 95px;
+  height: 44px;
+  background-color: $mint-500;
+
+  @include hover() {
+    background-color: $mint-400;
+  }
+}
+
+.declinePDF {
+  max-width: 100px;
+  height: 44px;
+  background-color: $cherry-500;
+
+  @include hover() {
+    background-color: $cherry-400;
+  }
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  color: $white;
+}
+
+.tableContent {
+  overflow-x: auto;
+  flex-grow: 1;
+  height: auto;
+  opacity: 1;
+}
+
+.footer {
+  display: flex;
+  width: 100%;
+}

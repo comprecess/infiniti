@@ -1,16 +1,200 @@
 import { Textarea } from '@chakra-ui/react'
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 
+import {
+  SalesBlankData,
+  SalesNewInvoicePriceCalcProps,
+  SalesNewOfferFormData,
+  SalesOfferInputData,
+} from '../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
+import { postOfferPriceCalc } from '../../../../../shared/utils/api/Admin/Sales/NewOffer/PostOfferPriceCalc'
+import { AddProductOrService } from '../../AddProductOrService/AddProductOrService'
+import { Blank } from './Blank/Blank'
 import styles from './Fields.module.scss'
 import { TotalItem } from './TotalItem/TotalItem'
 
-export const Fields: FC = () => {
+export interface FieldsProps {
+  data: SalesOfferInputData
+  onFormDataChange: (data: Partial<SalesNewOfferFormData>) => void
+}
+
+export interface PartialFieldsPostData
+  extends Partial<SalesNewOfferFormData> {
+  [key: string]:
+    | string
+    | number
+    | SalesBlankData[]
+    | boolean
+    | undefined
+    | null
+}
+
+export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
+  const [formData, setFormData] = useState<PartialFieldsPostData>({
+    offerNum: data.offerNum,
+    num: data.num,
+    stage: data.stage[0],
+    blankList: [
+      {
+        index: 0,
+        service: 'calc',
+        description: '',
+        amount: 0,
+        price: 0,
+        discount: 0,
+        discountType: 'percent',
+        tax: 1,
+      },
+    ],
+  })
+
+  const [priceCalc, setPriceCalc] =
+    useState<SalesNewInvoicePriceCalcProps | null>(null)
+
+  const [modalProductService, setModalProductService] =
+    useState<boolean>(false)
+
+  const handleOpenCloseProductService = () => {
+    setModalProductService(!modalProductService)
+  }
+
+  const postPriceCalc = async () => {
+    const blankList = (formData.blankList || []).map(blank => ({
+      serviceId: blank.serviceId,
+      id: blank.id,
+      service: blank.service,
+      amount: blank.amount,
+      price: blank.price,
+      tax: blank.tax,
+      discount: blank.discount,
+      discountType: blank.discountType,
+    }))
+
+    const postResponse = await postOfferPriceCalc({
+      blankList,
+    })
+
+    setPriceCalc(postResponse)
+  }
+
+  const handleBlankChange = (
+    id: number,
+    field: string,
+    value: string | number | undefined,
+  ) => {
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      blankList: (prevFormData.blankList || []).map(blank =>
+        blank.index === id ? { ...blank, [field]: value } : blank,
+      ),
+    }))
+  }
+
+  const handleAddBlank = () => {
+    setFormData(prevFormData => {
+      const newId = prevFormData.blankList?.length || 0
+
+      const newBlank: SalesBlankData = {
+        index: newId,
+        service: 'calc',
+        description: '',
+        amount: 0,
+        price: 0,
+        discount: 0,
+        discountType: 'percent',
+        tax: 1,
+      }
+
+      return {
+        ...prevFormData,
+        blankList: [...(prevFormData.blankList || []), newBlank],
+      }
+    })
+  }
+
+  const handleAddServiceBlank = (
+    idService: string,
+    price: number,
+    description: string,
+  ) => {
+    setFormData(prevFormData => {
+      const newId = prevFormData.blankList?.length || 0
+
+      const newBlank: SalesBlankData = {
+        index: newId,
+        serviceId: parseInt(idService),
+        service: 'serviceProduct',
+        description,
+        amount: 0,
+        price,
+        discount: 0,
+        discountType: 'percent',
+        tax: 1,
+      }
+
+      return {
+        ...prevFormData,
+        blankList: [...(prevFormData.blankList || []), newBlank],
+      }
+    })
+  }
+
+  const handleRemoveBlank = (id: number) => {
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      blankList: (prevFormData.blankList || []).filter(
+        blank => blank.index !== id,
+      ),
+    }))
+  }
+
+  const handleChangeInput = (
+    field: string,
+    value: string | number | SalesBlankData[] | boolean | undefined | null,
+  ) => {
+    if (field === 'stage' && typeof value === 'number') {
+      value = data.stage[value]
+    } else if (
+      (field === 'dueDate' || field === 'repeat') &&
+      typeof value === 'number'
+    ) {
+      if (value === 0) {
+        value = null
+      } else {
+        value = value - 1
+      }
+    } else if (field === 'clientId' && typeof value === 'number') {
+      if (value === 0) {
+        value = null
+      } else {
+        value = data.client[value - 1].id
+      }
+    }
+
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [field]: value,
+    }))
+  }
+
+  useEffect(() => {
+    if (!formData.blankList) return
+
+    if (formData.blankList?.length > 0) {
+      postPriceCalc()
+    }
+  }, [formData.blankList])
+
+  useEffect(() => {
+    onFormDataChange(formData)
+  }, [formData, onFormDataChange])
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -20,7 +204,7 @@ export const Fields: FC = () => {
             type='text'
             id='subject'
             name='subject'
-            onChange={() => {}}
+            onChange={handleChangeInput}
           />
           <div className={styles.containerItems}>
             <span className={styles.containerItemsTitle}>Address</span>
@@ -37,21 +221,27 @@ export const Fields: FC = () => {
               fontSize='16px'
               fontWeight='400'
               lineHeight='24px'
+              value={
+                data.client.find(client => client.id === formData.clientId)
+                  ?.address
+              }
             />
           </div>
           <CustomInput
             title='Offer Prefix'
             type='text'
-            id='offerPrefix'
-            name='offerPrefix'
-            onChange={() => {}}
+            id='offerNum'
+            name='offerNum'
+            value={data.offerNum}
+            onChange={handleChangeInput}
           />
           <CustomInput
             title='Offer #'
             type='text'
-            id='offer#'
-            name='offer#'
-            onChange={() => {}}
+            id='num'
+            name='num'
+            value={data.num}
+            onChange={handleChangeInput}
           />
         </section>
         <section className={styles.section}>
@@ -59,46 +249,64 @@ export const Fields: FC = () => {
             title='Customer'
             titleOnChange='clientId'
             placeholder='None'
-            idList={[]}
-            nameList={[]}
-            onChange={() => {}}
+            idList={data.client.map((_client, index) => index + 1)}
+            nameList={data.client.map(client =>
+              `${client.account}${
+                client.email ? ` - ${client.email}` : ''
+              }`.trim(),
+            )}
+            onChange={handleChangeInput}
           />
           <CustomSelect
             title='Stage'
             titleOnChange='stage'
-            idList={[]}
-            nameList={[]}
-            onChange={() => {}}
+            value={0}
+            idList={data.stage.map((_stage, index) => index)}
+            nameList={data.stage.map(stage => stage)}
+            onChange={handleChangeInput}
           />
-          <CustomSelect
-            title='Sales TAX'
-            titleOnChange='tax'
-            idList={[]}
-            nameList={[]}
-            onChange={() => {}}
+          <CustomDataPicker
+            title='Date Created'
+            titleOnChange='dateCreated'
+            onChange={handleChangeInput}
           />
-          <CustomDataPicker title='Date Created' onChange={() => {}} />
-          <CustomDataPicker title='Expiry Date' onChange={() => {}} />
+          <CustomDataPicker
+            title='Expiry Date'
+            titleOnChange='validUntil'
+            onChange={handleChangeInput}
+          />
         </section>
       </div>
-      <section className={styles.footerTextEditor}>
-        <div className={styles.containerItems}>
-          <span className={styles.containerItemsTitle}>Proposal Text</span>
-          <TextEditor setValue={() => {}} />
-        </div>
-      </section>
-      {[].length > 0 && (
-        <section className={styles.blank}>
-          <CustomDivider />
-          {/* eslint-disable @typescript-eslint/no-unused-vars */}
-          {[].map(_blank => (
-            <React.Fragment key={''}>
-              Blank
-              <CustomDivider />
-            </React.Fragment>
-          ))}
-        </section>
-      )}
+      {formData.blankList &&
+        formData.blankList.length > 0 &&
+        priceCalc?.data && (
+          <section className={styles.blank}>
+            <CustomDivider />
+            {formData.blankList.map(blank => (
+              <React.Fragment key={blank.index}>
+                <Blank
+                  id={blank.index}
+                  amount={blank.amount}
+                  price={blank.price}
+                  itemName={blank.description}
+                  discountAmount={blank.discount}
+                  taxInput={data.tax}
+                  totalPrice={
+                    priceCalc.data &&
+                    priceCalc.data[blank.index]?.total !== undefined
+                      ? priceCalc.data[blank.index].total
+                      : 0
+                  }
+                  onRemove={() => handleRemoveBlank(blank.index)}
+                  onChange={(field, value) =>
+                    handleBlankChange(blank.index, field, value)
+                  }
+                />
+                <CustomDivider />
+              </React.Fragment>
+            ))}
+          </section>
+        )}
       <section className={styles.buttonsBlank}>
         <ButtonBlue
           titleNone
@@ -106,7 +314,7 @@ export const Fields: FC = () => {
           icon='/icons/plus.svg'
           iconProps={styles.buttonAddIcon}
           style={styles.buttonAddNew}
-          onClick={() => {}}
+          onClick={handleAddBlank}
         />
         <ButtonBlue
           titleNone
@@ -114,24 +322,39 @@ export const Fields: FC = () => {
           icon='/icons/searchWhite.svg'
           iconProps={styles.buttonSearchIcon}
           style={styles.buttonAddProduct}
-          onClick={() => {}}
+          onClick={handleOpenCloseProductService}
         />
       </section>
       <section className={styles.calculations}>
-        <TotalItem title='Sub Total' />
-        <TotalItem title='Discount' />
-        <TotalItem title='Tax' />
-        <TotalItem title='Total' />
+        <TotalItem title='Sub Total' value={priceCalc?.result?.price} />
+        <TotalItem title='Discount' value={priceCalc?.result?.discount} />
+        <TotalItem title='Tax' value={priceCalc?.result?.tax} />
+        <TotalItem title='Total' value={priceCalc?.result?.total} />
+      </section>
+      <section className={styles.footerTextEditor}>
+        <div className={styles.containerItems}>
+          <span className={styles.containerItemsTitle}>Proposal Text</span>
+          <TextEditor
+            setValue={message => handleChangeInput('proposal', message)}
+          />
+        </div>
       </section>
       <section className={styles.footerTextEditor}>
         <div className={styles.containerItems}>
           <span className={styles.containerItemsTitle}>
             Customer Notes
           </span>
-          <TextEditor setValue={() => {}} />
+          <TextEditor
+            setValue={message => handleChangeInput('notes', message)}
+          />
         </div>
       </section>
-      Add Product Or Service Panel
+      <AddProductOrService
+        modalOpen={modalProductService}
+        serviceList={data.service}
+        addNewServiceBlank={handleAddServiceBlank}
+        handleOpenCloseModal={handleOpenCloseProductService}
+      />
     </div>
   )
 }

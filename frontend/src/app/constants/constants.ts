@@ -727,3 +727,19 @@ export interface SalesOffersListData {
   total: string
   validUntil: string
 }
+
+export interface SalesOfferInputData {
+  client: ListCustomersData[]
+  tax: SalesNewInvoiceTaxProps[]
+  service: string[]
+  stage: string[]
+  num: string
+  offerNum: string
+}
+
+export interface SalesNewOfferFormData {
+  blankList: SalesBlankData[]
+  num: string
+  offerNum: string
+  stage: string
+}

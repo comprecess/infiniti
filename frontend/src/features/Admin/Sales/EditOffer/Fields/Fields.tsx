@@ -77,8 +77,16 @@ export const Fields: FC = () => {
             nameList={[]}
             onChange={() => {}}
           />
-          <CustomDataPicker title='Date Created' onChange={() => {}} />
-          <CustomDataPicker title='Expiry Date' onChange={() => {}} />
+          <CustomDataPicker
+            title='Date Created'
+            titleOnChange='dateCreated'
+            onChange={() => {}}
+          />
+          <CustomDataPicker
+            title='Expiry Date'
+            titleOnChange='validUntil'
+            onChange={() => {}}
+          />
         </section>
       </div>
       <section className={styles.footerTextEditor}>
@@ -131,7 +139,6 @@ export const Fields: FC = () => {
           <TextEditor setValue={() => {}} />
         </div>
       </section>
-      Add Product Or Service Panel
     </div>
   )
 }

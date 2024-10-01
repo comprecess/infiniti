@@ -75,6 +75,7 @@ import { ClientTicketsPage } from '../../pages/Client/TicketsPage/TicketsPage/Ti
 import { ClientTransactionsPage } from '../../pages/Client/TransactionsPage/TransactionsPage'
 import { InvoiceViewPage } from '../../pages/General/InvoiceViewPage/InvoiceViewPage'
 import { NotFoundPage } from '../../pages/General/NotFoundPage/NotFoundPage'
+import { OfferViewPage } from '../../pages/General/OfferViewPage/OfferViewPage'
 
 export const Routes = {
   root: '/',
@@ -242,5 +243,6 @@ export const Pages = {
 
   /* Public  pages */
   publicViewInvoice: <InvoiceViewPage />,
+  publicViewOffer: <OfferViewPage />,
   notFoundPage: <NotFoundPage />,
 }
