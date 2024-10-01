@@ -117,6 +117,13 @@ class OfferController extends ResidentController
 
                 $model->lastmodified = now();
 
+                $client = Client::findOrFail($request->clientId);
+                $model->account = $client->account;
+                $model->cn = $request->num ? $request->num : '';
+                $model->customernotes = $request->notes ? $request->notes : '';
+                $model->lastmodified = now();
+                $model->datesent = now();
+
 
                 if($isNew) {
                     foreach(['vtoken'] as $name) {

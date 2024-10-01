@@ -233,7 +233,7 @@ class InvoiceController extends ResidentController
 
     public function item(Invoice $invoice)
     {
-        return new InvoiceItemResource($invoice->load(['items', 'items.service', 'items.invoice']));
+        return new InvoiceItemResource($invoice->load(['items', 'items.service', 'items.document']));
     }
 
     public function invoiceClone(Invoice $invoice)
