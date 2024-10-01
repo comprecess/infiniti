@@ -119,7 +119,6 @@ class OfferController extends ResidentController
 
 
                 if($isNew) {
-                    $model->is_same_state = 1;
                     foreach(['vtoken'] as $name) {
                         $model->setRandomNum($name, 10, true);
                     }
