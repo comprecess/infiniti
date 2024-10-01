@@ -95,6 +95,7 @@ class OfferController extends ResidentController
             'num' => Offer::getNextNum(),
             'offerNum' => Config::get('quotation_code_prefix', 'OFFER-'),
             'tax' => TaxResorce::collection(Tax::getForSelect()),
+            'service' => InvoicePriceCalcRequest::getService()->keys()
         ]);
     }
 
@@ -137,14 +138,14 @@ class OfferController extends ResidentController
         );
     }
 
-    public function item(Invoice $invoice)
+    public function item(Offer $offer)
     {
-        return new OfferItemResource($invoice->load(['items', 'items.invoice']));
+        return new OfferItemResource($offer->load(['items', 'items.invoice']));
     }
 
-    public function delete(Invoice $invoice)
+    public function delete(Offer $offer)
     {
-        return $this->deleteCRUD($invoice);
+        return $this->deleteCRUD($offer);
     }
 
 

@@ -6,12 +6,15 @@ namespace App\Http\Controllers\Api\Resident;
 
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Invoices\InvoiceBlankRequest;
+use App\Http\Requests\Resident\Invoices\InvoicePriceCalcRequest;
 use App\Http\Resources\Resident\Invoices\InvoiceBlankResource;
+use App\Models\Contracts\ModelServiceInterface;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Invoices\InvoiceItem;
 use App\Models\Resident\Invoices\Offer;
 use App\Models\Resident\Settings\Tax;
 use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
 
 class BlankController extends ResidentController
 {
@@ -121,6 +124,21 @@ class BlankController extends ResidentController
             return response()->json(['success' => true]);
         }
         return response()->json(['success' => false, 'message' => 'Form not found in invoice']);
+    }
+
+    public function listService(Request $request)
+    {
+        $service = $request->route('service');
+        $service = InvoicePriceCalcRequest::getService()->get($service);
+        if(!($service && class_exists($service))){
+            abort(404);
+        }
+        $model = new $service();
+        if(!$model instanceof ModelServiceInterface) {
+            abort(404);
+        }
+
+        return $model->getServiceResources()::collection((new $service)->getServiceData() ?? $service::all());
     }
 
 
