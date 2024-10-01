@@ -95,6 +95,7 @@ class OfferController extends ResidentController
             'num' => Offer::getNextNum(),
             'offerNum' => Config::get('quotation_code_prefix', 'OFFER-'),
             'tax' => TaxResorce::collection(Tax::getForSelect()),
+            'service' => InvoicePriceCalcRequest::getService()->keys()
         ]);
     }
 

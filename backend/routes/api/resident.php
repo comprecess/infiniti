@@ -60,7 +60,7 @@ Route::controller(Resident\InvoiceController::class)->prefix('invoice')
 //        Route::delete('/{invoice}/blank/{item}', 'blankDelete');
         Route::get('/{invoice}', 'item');
         Route::delete('/{invoice}', 'delete');
-        Route::get('/service/{service}', 'listService');
+//        Route::get('/service/{service}', 'listService');
     });
 #offer
 Route::controller(Resident\OfferController::class)->prefix('offer')
@@ -80,6 +80,7 @@ Route::controller(Resident\BlankController::class)->prefix('{typeBlank}')->where
         Route::post('/{idType}/blank', 'blankCreateOrUpdate');
         Route::put('/{idType}/blank/{item}', 'blankCreateOrUpdate');
         Route::delete('/{idType}/blank/{item}', 'blankDelete');
+        Route::get('/service/{service}', 'listService');
     });
 
 #settings
