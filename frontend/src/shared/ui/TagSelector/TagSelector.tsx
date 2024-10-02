@@ -120,15 +120,17 @@ export const TagSelector: FC<TagSelectorProps> = ({
           </div>
         )}
       </div>
-      <div className={styles.tagList}>
-        {tags.map((tag, index) => (
-          <TagItem
-            key={`${tag}-${index}`}
-            title={tag}
-            onRemove={() => handleTagRemove(tag)}
-          />
-        ))}
-      </div>
+      {tags.length > 0 && (
+        <div className={styles.tagList}>
+          {tags.map((tag, index) => (
+            <TagItem
+              key={`${tag}-${index}`}
+              title={tag}
+              onRemove={() => handleTagRemove(tag)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 }

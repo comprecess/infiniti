@@ -1,0 +1,32 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+
+  @include scrollbar;
+}
+
+.titleContainer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  max-width: $maxContentSize;
+}
+
+.sectionFirst,
+.title {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.buttonCreateProject {
+  max-width: 210px;
+  height: 44px;
+
+  @include mobileBreakpoint('max', $bpS) {
+    width: 60px;
+  }
+}

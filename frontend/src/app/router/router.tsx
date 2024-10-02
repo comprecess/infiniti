@@ -256,6 +256,14 @@ export const router = createBrowserRouter([
       { path: Routes.suppliers, element: Pages.adminSuppliersPage },
       { path: Routes.purchase, element: Pages.adminPurchasePage },
       { path: Routes.projects, element: Pages.adminProjectsPage },
+      {
+        path: `${Routes.projects}/${Routes.new}/${Routes.project}`,
+        element: Pages.adminCreateNewProject,
+      },
+      {
+        path: `${Routes.projects}/${Routes.edit}/${Routes.project}/:id`,
+        element: Pages.adminEditProject,
+      },
       { path: Routes.leads, element: Pages.adminLeadsPage },
       { path: Routes.sms, element: Pages.adminSMSPage },
       { path: Routes.support, element: Pages.adminSupportPage },

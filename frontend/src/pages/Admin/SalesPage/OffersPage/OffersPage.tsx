@@ -13,6 +13,7 @@ import { PagesList } from '../../../../features/Client/CatalogPage/TalentsList/P
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { deleteOffer } from '../../../../shared/utils/api/Admin/Sales/Offers/DeleteOffer'
 import { getDocumentsOffers } from '../../../../shared/utils/api/Admin/Sales/Offers/GetDocumentsOffers'
 import { getListOffers } from '../../../../shared/utils/api/Admin/Sales/Offers/GetListOffers'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
@@ -106,6 +107,25 @@ export const AdminOffersPage: FC = () => {
     },
     [page, search, sortName, sortType],
   )
+
+  const deleteSelectedOffer = async (idOffer: number) => {
+    const deleteResponse = await deleteOffer(idOffer)
+
+    if (deleteResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully deleted Invoice',
+        status: 'success',
+      })
+      getListOffer()
+    } else {
+      showToast({
+        title: 'Error',
+        description: deleteResponse.message,
+        status: 'error',
+      })
+    }
+  }
 
   const navigateToViewOffer = (idOffer: number) => {
     navigate(
@@ -210,6 +230,7 @@ export const AdminOffersPage: FC = () => {
               navigateToViewOffer={navigateToViewOffer}
               navigateToSelectAccount={navigateToSelectAccount}
               navigateToEditOffer={navigateToEditOffer}
+              deleteOffer={deleteSelectedOffer}
             />
           </RecentCard>
         ) : (

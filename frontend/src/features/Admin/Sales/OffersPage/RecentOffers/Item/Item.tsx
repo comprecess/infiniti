@@ -17,6 +17,7 @@ export interface ItemProps {
   navigateToViewOffer: (idOffer: number) => void
   navigateToEditOffer: (idOffer: number) => void
   navigateToSelectAccount: (idAccount: number) => void
+  deleteOffer: (idOffer: number) => void
 }
 
 export const Item: FC<ItemProps> = ({
@@ -32,6 +33,7 @@ export const Item: FC<ItemProps> = ({
   navigateToViewOffer,
   navigateToEditOffer,
   navigateToSelectAccount,
+  deleteOffer,
 }) => {
   const handleNavigateToViewOffer = () => {
     navigateToViewOffer(id)
@@ -43,6 +45,10 @@ export const Item: FC<ItemProps> = ({
 
   const handleNavigateToSelectAccount = () => {
     navigateToSelectAccount(idAccount)
+  }
+
+  const handleDeleteOffer = () => {
+    deleteOffer(id)
   }
 
   return (
@@ -91,7 +97,7 @@ export const Item: FC<ItemProps> = ({
         >
           <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
         </button>
-        <button className={styles.buttonTrash}>
+        <button className={styles.buttonTrash} onClick={handleDeleteOffer}>
           <img
             src='/icons/trash.svg'
             alt='Trash'

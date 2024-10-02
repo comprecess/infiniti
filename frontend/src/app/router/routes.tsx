@@ -38,6 +38,8 @@ import { AdminLeadsPage } from '../../pages/Admin/LeadsPage/LeadsPage'
 import { AdminOrdersPage } from '../../pages/Admin/OrdersPage/OrdersPage'
 import { AdminPluginsPage } from '../../pages/Admin/PluginsPage/PluginsPage'
 import { AdminProductsServicesPage } from '../../pages/Admin/ProductsServicesPage/ProductsServicesPage'
+import { AdminCreateNewProject } from '../../pages/Admin/ProjectsPage/CreateNewProject/CreateNewProject'
+import { AdminEditProject } from '../../pages/Admin/ProjectsPage/EditProject/EditProject'
 import { AdminProjectsPage } from '../../pages/Admin/ProjectsPage/ProjectsPage'
 import { AdminPurchasePage } from '../../pages/Admin/PurchasePage/PurchasePage'
 import { AdminReportsPage } from '../../pages/Admin/ReportsPage/ReportsPage'
@@ -86,6 +88,7 @@ export const Routes = {
   customers: 'customers',
   view: 'view',
   new: 'new',
+  project: 'project',
   summary: 'summary',
   businessPlan: 'businessplan',
   catalog: 'catalog',
@@ -240,6 +243,8 @@ export const Pages = {
   adminNewOfferPage: <AdminNewOfferPage />,
   adminEditOfferPage: <AdminEditOfferPage />,
   adminViewOfferPage: <AdminViewOfferPage />,
+  adminCreateNewProject: <AdminCreateNewProject />,
+  adminEditProject: <AdminEditProject />,
 
   /* Public  pages */
   publicViewInvoice: <InvoiceViewPage />,

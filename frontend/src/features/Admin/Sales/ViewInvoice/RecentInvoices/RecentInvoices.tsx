@@ -17,7 +17,7 @@ export const RecentInvoices: FC<RecentInvoicesProps> = ({ blankList }) => {
         <Title title='#' style={styles.codeColumn} />
         <Title title='Item' style={styles.itemColumn} />
         <Title title='Price' style={styles.priceColumn} />
-        <Title title='Qty' style={styles.qtyColumn} />
+        <Title title='Quantity' style={styles.qtyColumn} />
         <Title title='Discount' style={styles.discountColumn} />
         <Title title='Total' style={styles.totalColumn} />
       </div>
