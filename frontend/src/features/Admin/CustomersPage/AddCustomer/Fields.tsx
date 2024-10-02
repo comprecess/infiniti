@@ -35,6 +35,7 @@ export interface PartialFieldsPostData extends Partial<FieldsPostData> {
 export const Fields: FC<FieldsProps> = ({ data }) => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({
     code: data.code,
+    type: Array(data.type[0]),
   })
 
   const showToast = useCustomToast()
@@ -204,10 +205,11 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
           />
           <div className={styles.containerTitle}>
             <span className={styles.title}>Type</span>
-            {data.type.map(item => {
+            {data.type.map((item, index) => {
               return (
                 <CustomCheckBox
                   key={item}
+                  defaultChecked={index === 0}
                   titleOnChange={item}
                   title={item.charAt(0).toUpperCase() + item.slice(1)}
                   onInputChange={OnChangeCheckBox}

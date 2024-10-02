@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+}
+
+.section {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.recentFullScreen {
+  max-width: $maxContentSize;
+}
+
+.buttonSave {
+  height: 44px;
+}
+
+.buttonSaveIcon {
+  width: 22px;
+  height: 22px;
+}

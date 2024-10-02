@@ -743,3 +743,27 @@ export interface SalesNewOfferFormData {
   offerNum: string
   stage: string
 }
+
+export interface SalesViewOfferData {
+  id: number
+  client: FullInfoClient
+  blank: SalesEditInvoiceBlankData[]
+  blankCalc: BlankCalc
+  code: string
+  stage: string
+  listStage: string[]
+  dateCreated: string
+  notes: string
+  num: string
+  offerNum: string
+  pdf: string
+  proposal: string
+  subject: string
+  token: string
+  validUntil: string
+  company: {
+    companyAddress: string
+    companyName: string
+  }
+  checkPublic: number
+}

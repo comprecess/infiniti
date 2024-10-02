@@ -24,13 +24,29 @@
 }
 
 .codeColumn,
-.itemColumn,
+.descriptionColumn,
 .priceColumn,
 .quantityColumn,
+.discountColumn,
 .totalColumn {
   width: 100%;
 }
 
+.codeColumn {
+  max-width: 100px;
+}
+
+.descriptionColumn {
+  max-width: 800px;
+}
+
+.priceColumn,
+.quantityColumn,
+.totalColumn,
+.discountColumn {
+  max-width: 150px;
+}
+
 .totalColumn {
-  text-align: right;
+  text-align: end;
 }

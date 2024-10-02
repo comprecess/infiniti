@@ -66,6 +66,7 @@ export const AdminNewOfferPage: FC = () => {
             style={styles.recentFullScreen}
             Component={ButtonBlue}
             componentProps={{
+              titleNone: true,
               title: 'Save',
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,

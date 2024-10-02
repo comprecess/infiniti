@@ -6,32 +6,42 @@ import { Status } from '../../ViewInvoice/Status/Status'
 import styles from './Header.module.scss'
 
 interface HeaderProps {
-  title: string
-  invoiceCode: string
-  invoiceDate: string
-  dueDate: string
-  status: string
+  subject: string
+  offerCode: string
+  dateCreated: string
+  validUntil: string
+  stage: string
   company: {
     companyAddress: string
     companyName: string
   }
-  totalInvoice: string
+  totalOffer: string
+  proposal: string
+  notes: string
   client: FullInfoClient
 }
 
 export const Header: FC<HeaderProps> = ({
-  title,
-  invoiceCode,
-  status,
-  totalInvoice,
+  subject,
+  offerCode,
+  stage,
+  company,
+  client,
+  dateCreated,
+  validUntil,
+  totalOffer,
+  proposal,
+  notes,
 }) => {
   return (
     <div className={styles.wrapper}>
       <section className={styles.sectionFirst}>
-        <div className={styles.invoiceTitle}>
-          {title && <h4 className={styles.titleInvoice}>{`${title}`}</h4>}
-          <h4 className={styles.invoiceCode}>{`#${invoiceCode}`}</h4>
-          <Status status={status} />
+        <div className={styles.offerTitle}>
+          {subject && (
+            <h4 className={styles.titleOffer}>{`${subject}`}</h4>
+          )}
+          <h4 className={styles.offerCode}>{`#${offerCode}`}</h4>
+          <Status status={stage} />
         </div>
         <div className={styles.infiniti}>
           <img
@@ -41,11 +51,11 @@ export const Header: FC<HeaderProps> = ({
           />
           <div className={styles.infinitiDescription}>
             <span className={styles.infinitiCompanyName}>
-              company.companyName
+              {company.companyName}
             </span>
             <span
               dangerouslySetInnerHTML={{
-                __html: 'company.companyAddress',
+                __html: company.companyAddress,
               }}
               className={styles.infinitiCompanyAddress}
             />
@@ -53,60 +63,81 @@ export const Header: FC<HeaderProps> = ({
         </div>
       </section>
       <section className={styles.sectionSecond}>
-        <div className={styles.invoicedTo}>
-          <span className={styles.invoicedToTitle}>Recipient:</span>
-          <div className={styles.invoicedToList}>
-            {'client.company' && (
-              <span className={styles.invoicedToItem}>client.company</span>
+        <div className={styles.offerTo}>
+          <span className={styles.offerToTitle}>Recipient:</span>
+          <div className={styles.offerToList}>
+            {client.company && (
+              <span className={styles.offerToItem}>{client.company}</span>
             )}
-            {'client.account ' && (
-              <span className={styles.invoicedToItem}>
-                ATTN: client.account
+            {client.account && (
+              <span className={styles.offerToItem}>
+                {`ATTN: ${client.account}`}
               </span>
             )}
-            {'client.address' && (
-              <span className={styles.invoicedToItem}>client.address</span>
+            {client.address && (
+              <span className={styles.offerToItem}>{client.address}</span>
             )}
-            {'client.city' && (
-              <span className={styles.invoicedToItem}>client.city</span>
+            {client.city && (
+              <span className={styles.offerToItem}>{client.city}</span>
             )}
           </div>
           <div className={styles.contactInfo}>
-            {'client.phone' && (
-              <ContactItem title='Phone' value={'client.phone'} />
+            {client.phone && (
+              <ContactItem title='Phone' value={client.phone} />
             )}
-            {'client.email' && (
-              <ContactItem title='Email' value={'client.email'} />
+            {client.email && (
+              <ContactItem title='Email' value={client.email} />
             )}
-            {/* eslint-disable @typescript-eslint/no-unused-vars */}
-            {[].map(_field => {
+            {client.customFields.map(field => {
               return (
                 <ContactItem
-                  key={'field.id'}
-                  title={'field.name'}
-                  value={'field.value'}
+                  key={field.id}
+                  title={field.name}
+                  value={field.value}
                 />
               )
             })}
           </div>
         </div>
-        <div className={styles.invoiceTotal}>
-          <div className={styles.invoiceDate}>
-            {'invoiceDate' && (
-              <ContactItem title='Date Created' value={'invoiceDate'} />
+        <div className={styles.offerTotal}>
+          <div className={styles.offerDate}>
+            {dateCreated && (
+              <ContactItem title='Date Created' value={dateCreated} />
             )}
-            {'dueDate' && (
-              <ContactItem title='Expiry Date' value={'dueDate'} />
+            {validUntil && (
+              <ContactItem title='Expiry Date' value={validUntil} />
             )}
           </div>
           <div className={styles.totalWrapper}>
             <span className={styles.totalTitle}>Total:</span>
             <span className={styles.totalValue} contentEditable={false}>
-              {totalInvoice}
+              {totalOffer}
             </span>
           </div>
         </div>
       </section>
+      {proposal && (
+        <div className={styles.offerTo}>
+          <span className={styles.offerToTitle}>Proposal Text:</span>
+          <span
+            dangerouslySetInnerHTML={{
+              __html: proposal,
+            }}
+            className={styles.infinitiCompanyAddress}
+          />
+        </div>
+      )}
+      {notes && (
+        <div className={styles.offerTo}>
+          <span className={styles.offerToTitle}>Customer Notes:</span>
+          <span
+            dangerouslySetInnerHTML={{
+              __html: notes,
+            }}
+            className={styles.infinitiCompanyAddress}
+          />
+        </div>
+      )}
     </div>
   )
 }

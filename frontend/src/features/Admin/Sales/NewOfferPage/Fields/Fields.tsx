@@ -27,12 +27,12 @@ export interface FieldsProps {
 export interface PartialFieldsPostData
   extends Partial<SalesNewOfferFormData> {
   [key: string]:
-    | string
-    | number
-    | SalesBlankData[]
-    | boolean
-    | undefined
-    | null
+  | string
+  | number
+  | SalesBlankData[]
+  | boolean
+  | undefined
+  | null
 }
 
 export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
@@ -281,10 +281,10 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
         formData.blankList.length > 0 &&
         priceCalc?.data && (
           <section className={styles.blank}>
-            <CustomDivider />
-            {formData.blankList.map(blank => (
+          <CustomDivider />
+          {formData.blankList.map(blank => (
               <React.Fragment key={blank.index}>
-                <Blank
+              <Blank
                   id={blank.index}
                   amount={blank.amount}
                   price={blank.price}
@@ -292,21 +292,21 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
                   discountAmount={blank.discount}
                   taxInput={data.tax}
                   totalPrice={
-                    priceCalc.data &&
+                  priceCalc.data &&
                     priceCalc.data[blank.index]?.total !== undefined
-                      ? priceCalc.data[blank.index].total
-                      : 0
-                  }
+                    ? priceCalc.data[blank.index].total
+                    : 0
+                }
                   onRemove={() => handleRemoveBlank(blank.index)}
                   onChange={(field, value) =>
-                    handleBlankChange(blank.index, field, value)
-                  }
+                  handleBlankChange(blank.index, field, value)
+                }
                 />
-                <CustomDivider />
-              </React.Fragment>
-            ))}
-          </section>
-        )}
+              <CustomDivider />
+            </React.Fragment>
+          ))}
+        </section>
+      )}
       <section className={styles.buttonsBlank}>
         <ButtonBlue
           titleNone

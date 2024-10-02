@@ -14,13 +14,15 @@ import { PDFIcon } from '../../../../../shared/icons/PDFIcon'
 import styles from './Buttons.module.scss'
 
 interface ButtonsProps {
-  statusList: string[]
+  stageList: string[]
   blockEditButton: boolean
+  previewOffer: () => void
 }
 
 export const Buttons: FC<ButtonsProps> = ({
-  statusList,
+  stageList,
   blockEditButton,
+  previewOffer,
 }) => {
   return (
     <div className={styles.wrapper}>
@@ -96,17 +98,17 @@ export const Buttons: FC<ButtonsProps> = ({
           icon={<FlagIcon style={styles.flagIcon} />}
         />
         <MenuList>
-          {statusList &&
-            statusList.map((status, index) => {
+          {stageList &&
+            stageList.map((stage, index) => {
               return (
-                <MenuItem key={`${status}-${index}`} onClick={() => {}}>
-                  {status}
+                <MenuItem key={`${stage}-${index}`} onClick={() => {}}>
+                  {stage}
                 </MenuItem>
               )
             })}
         </MenuList>
       </Menu>
-      <button className={styles.buttonPreview}>
+      <button className={styles.buttonPreview} onClick={previewOffer}>
         <img
           src='/icons/fileWhite.svg'
           alt='Preview'
@@ -121,7 +123,7 @@ export const Buttons: FC<ButtonsProps> = ({
       <button className={styles.buttonConvert}>
         <img
           src='/icons/fileMove.svg'
-          alt='Preview'
+          alt='Convert'
           className={styles.icon}
         />
       </button>

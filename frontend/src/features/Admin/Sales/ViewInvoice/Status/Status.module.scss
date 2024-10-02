@@ -34,3 +34,28 @@
   background-color: $gray-600;
   color: $gray-100;
 }
+
+.statusAccepted {
+  background-color: $mint-transparent;
+  color: $mint-500;
+}
+
+.statusDead {
+  background-color: $cherry-transparent;
+  color: $cherry-500;
+}
+
+.statusDelivered {
+  background-color: $amber-transparent;
+  color: $amber-500;
+}
+
+.statusDraft {
+  background-color: $gray-600;
+  color: $gray-100;
+}
+
+.statusLost {
+  background-color: $gray-600;
+  color: $gray-100;
+}

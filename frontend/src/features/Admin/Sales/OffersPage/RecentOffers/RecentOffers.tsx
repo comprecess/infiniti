@@ -12,6 +12,7 @@ interface RecentOffersProps {
   navigateToViewOffer: (idOffer: number) => void
   navigateToEditOffer: (idOffer: number) => void
   navigateToSelectAccount: (idAccount: number) => void
+  deleteOffer: (idOffer: number) => void
 }
 
 export const RecentOffers: FC<RecentOffersProps> = ({
@@ -20,6 +21,7 @@ export const RecentOffers: FC<RecentOffersProps> = ({
   navigateToViewOffer,
   navigateToEditOffer,
   navigateToSelectAccount,
+  deleteOffer,
 }) => {
   const [sortNumbers, setSortNumbers] = useState<number[]>([
     1, 1, 1, 1, 1, 1, 1,
@@ -131,6 +133,7 @@ export const RecentOffers: FC<RecentOffersProps> = ({
                 navigateToViewOffer={navigateToViewOffer}
                 navigateToEditOffer={navigateToEditOffer}
                 navigateToSelectAccount={navigateToSelectAccount}
+                deleteOffer={deleteOffer}
               />
               {index !== offersList.length - 1 && <CustomDivider />}
             </React.Fragment>
