@@ -15,6 +15,8 @@ $transactions = $model->transaction;
 
 $colSpan = 2;
 
+$dateFormat = $config::get('df');
+
 ?>
 <html>
 <head>
@@ -91,7 +93,7 @@ $colSpan = 2;
     <table width="100%">
         <tr>
             <td style="border: 0;  text-align: left" >
-                <span style="font-size: 18px; color: #2f4f4f"><strong>{{__('pdf.invoice.Invoice')}} # {{$model->getCode()}}</strong></span>
+                <span style="font-size: 18px; color: #2f4f4f"><strong>{{__('pdf.offer.Offer')}} # {{$model->getCode()}}</strong></span>
             </td>
             <td style="border: 0;  text-align: right">
                     <br> <br>
@@ -120,7 +122,6 @@ $colSpan = 2;
                     @endif
 
                     <strong>{{__('pdf.invoice.invoiceTo')}}</strong> <br>
-
                     @if($company)
                         {{$company->company_name}}
                         @if($config::get('show_business_number') == 1 && $company->business_number)
@@ -147,28 +148,27 @@ $colSpan = 2;
                     <td style="border: 1px solid white; text-align: left;" width="{{$model->check_public ? '285px' : '685px'}}">
                         <table width="100%">
                             <tr>
-                                <td class="meta-head">{{__('pdf.invoice.Invoice')}} #</td>
+                                <td class="meta-head">{{__('pdf.offer.Offer')}} #</td>
                                 <td style="text-align: right">{{$model->getCode()}}</td>
                             </tr>
                             <tr>
 
                                 <td class="meta-head">{{__('pdf.invoice.status')}}</td>
-                                <td style="text-align: right">{{__('pdf.invoice.statusVar.' . $model->status)}}</td>
+                                <td style="text-align: right">{{__('pdf.offer.stageVar.' . $model->stage)}}</td>
                             </tr>
                             <tr>
 
-                                <td class="meta-head">{{__('pdf.invoice.Invoice Date')}}</td>
-                                <td style="text-align: right">{{$model->date?->format('d/m/Y')}}</td>
+                                <td class="meta-head">{{__('pdf.offer.Date Created')}}</td>
+                                <td style="text-align: right">{{$model->datecreated?->format($dateFormat)}}</td>
                             </tr>
                             <tr>
-                                <td class="meta-head">{{__('pdf.invoice.Due Date')}}</td>
-                                <td style="text-align: right">{{$model->duedate?->format('d/m/Y')}}</td>
+                                <td class="meta-head">{{__('pdf.offer.Expiry Date')}}</td>
+                                <td style="text-align: right">{{$model->validuntil?->format($dateFormat)}}</td>
                             </tr>
 
                             <tr>
-
-                                <td class="meta-head">{{__('pdf.invoice.Amount Due')}}</td>
-                                <td style="text-align: right"><div class="due">{{$model->printPrice($model->duty())}}</div></td>
+                                <td class="meta-head">{{__('pdf.invoice.Total')}}</td>
+                                <td style="text-align: right"><div class="due">{{$model->total}}</div></td>
                             </tr>
                         </table>
                     </td>
@@ -179,12 +179,12 @@ $colSpan = 2;
 
     <hr>
 
-    @if($offer)
+    <strong>{{$model->subject}}</strong>
+
+    @if($model->proposal)
+        <hr>
         <div>
-
-            <h4>{{__('pdf.invoice.Offer')}}: {{$offer->id}}</h4>
-
-            {!! $offer->proposal !!}
+            {!! $model->proposal !!}
         </div>
         <hr>
     @endif
@@ -193,7 +193,7 @@ $colSpan = 2;
     <table id="items">
 
         <tr>
-            <th>{{__('pdf.invoice.Item')}}</th>
+            <th >{{__('pdf.invoice.Item')}}</th>
 
             <th align="right">{{__('pdf.invoice.Price')}}</th>
 
@@ -213,9 +213,9 @@ $colSpan = 2;
         @foreach($items as $item)
             <tr class="item-row">
                 <td class="description">{!! $item->description !!}</td>
-                <td align="right">{{$model->printPrice($item->amount)}}</td>
+                <td align="right">{{$item->amount}}</td>
                 <td align="right">{{$item->qty}}</td>
-                <td align="right"><span class="price">{{$model->printPrice($item->getSumm())}}</span></td>
+                <td align="right"><span class="price">{{$item->getSumm()}}</span></td>
             </tr>
         @endforeach
 
@@ -223,86 +223,54 @@ $colSpan = 2;
         <tr>
             <td class="blank"> </td>
             <td colspan="{{$colSpan}}" class="total-line">{{__('pdf.invoice.Sub Total')}}</td>
-            <td class="total-value"><div id="subtotal">{{$model->printPrice($items->summPrice())}}</div></td>
+            <td class="total-value"><div id="subtotal">{{$items->summPrice()}}</div></td>
         </tr>
 
         <tr>
             <td class="blank"> </td>
             <td colspan="{{$colSpan}}" class="total-line">{{__('pdf.invoice.Discount')}}
             </td>
-            <td class="total-value"><div id="subtotal">{{$model->printPrice($items->summDiscount())}}</div></td>
+            <td class="total-value"><div id="subtotal">{{$items->summDiscount()}}</div></td>
         </tr>
         <tr>
 
             <td class="blank"> </td>
             <td colspan="{{$colSpan}}" class="total-line">{{__('pdf.invoice.TAX')}}</td>
-            <td class="total-value"><div id="total">{{$model->printPrice($items->summTax())}}</div></td>
+            <td class="total-value"><div id="total">{{$items->summTax()}}</div></td>
         </tr>
 
         @if($model->credit)
             <tr>
                 <td class="blank"> </td>
                 <td colspan="{{$colSpan}}" class="total-line">{{__('pdf.invoice.Invoice Total')}}</td>
-                <td class="total-value"><div class="due">{{$model->printPrice('total')}}</div></td>
+                <td class="total-value"><div class="due">{{$model->total}}</div></td>
             </tr>
             <tr>
                 <td class="blank"> </td>
                 <td colspan="{{$colSpan}}" class="total-line">{{__('pdf.invoice.Total Paid')}}</td>
-                <td class="total-value"><div class="due">{{$model->printPrice('credit')}}</div></td>
+                <td class="total-value"><div class="due">{{$model->credit}}</div></td>
             </tr>
             <tr>
                 <td class="blank"> </td>
                 <td colspan="{{$colSpan}}" class="total-line balance">{{__('pdf.invoice.Amount Due')}}</td>
-                <td class="total-value balance"><div class="due">{{$model->printPrice($model->duty())}}</div></td>
+                <td class="total-value balance"><div class="due">{{$model->duty()}}</div></td>
             </tr>
         @else
 
             <tr>
                 <td class="blank"> </td>
                 <td colspan="{{$colSpan}}" class="total-line balance">{{__('pdf.invoice.Grand Total')}}</td>
-                <td class="total-value balance"><div class="due">{{$model->printPrice('total')}}</div></td>
+                <td class="total-value balance"><div class="due">{{$model->total}}</div></td>
             </tr>
 
         @endif
 
     </table>
 
-    <!--    related transactions -->
-
-    @if($transactions->count())
-        <br>
-        <h4>{{__('pdf.invoice.Related Transactions')}}: </h4>
-        <table id="related_transactions" style="width: 100%">
-
-            <tr>
-                <th align="left" width="20%">{{__('pdf.invoice.Date')}}</th>
-                <th align="left">{{__('pdf.invoice.Account')}}</th>
-                <th width="50%" align="left">{{__('pdf.invoice.Description')}}</th>
-                <th align="right">{{__('pdf.invoice.Amount')}}</th>
-
-            </tr>
-
-            @foreach($transactions as $transaction)
-                <tr class="item-row">
-
-
-                    <td align="left">{{$transaction->date?->format('d/m/Y')}}</td>
-                    <td align="left">{{$transaction->account}}</td>
-                    <td align="left">{{$transaction->description}}</td>
-                    <td align="right"><span class="price">{{$transaction->printPrice('amount')}}</span></td>
-                </tr>
-            @endforeach
-
-        </table>
-    @endif
-
-
-<!--    end related transactions -->
-
-    @if($model->notes)
-        <div id="terms">
-            <h5>{{__('pdf.invoice.Terms')}}</h5>
-            {!! $model->notes !!}
+    @if($model->customernotes)
+        <hr>
+        <div>
+            {!! $model->customernotes !!}
         </div>
     @endif
 

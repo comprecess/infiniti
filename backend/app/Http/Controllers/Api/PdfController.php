@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Resident\Invoices\Invoice;
-use App\Models\Users\Client;
+use App\Models\Resident\Invoices\Offer;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -13,7 +13,8 @@ use Illuminate\Support\Arr;
 class PdfController extends Controller
 {
     const PDF_DATA = [
-        'invoice' => [Invoice::class, 'vtoken']
+        'invoice' => [Invoice::class, 'vtoken'],
+        'offer' => [Offer::class, 'vtoken'],
     ];
 
     public function index(Request $request)

@@ -17,6 +17,7 @@ use App\Models\Config;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Invoices\InvoiceItem;
 use App\Models\Resident\Invoices\Offer;
+use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\Tax;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
@@ -124,6 +125,10 @@ class OfferController extends ResidentController
                 $model->customernotes = $request->notes ? $request->notes : '';
                 $model->lastmodified = now();
                 $model->datesent = now();
+
+                #currency
+                $currency = Currency::getDefault();
+                $model->currency = $currency->id;
 
 
                 if($isNew) {

@@ -32,7 +32,6 @@ class InvoiceItemResource extends JsonResource implements ListInterface
         $this->setList($resorce);
 
         $items = $this->items;
-        $listStatus = array_flip(InvoiceRequest::STATUS);
 
 
         $resorce = array_merge($resorce, [
@@ -58,15 +57,16 @@ class InvoiceItemResource extends JsonResource implements ListInterface
             ]
         ]);
 
-        if($this->getPublicToken && $this->checkPublic) {
-            $resorce['client'] = null;
-        }
 
         foreach($resorce['blankCalc'] as &$value) {
             $value = $this->printPrice($value);
         }
 
         $this->typeContent($resorce, $request);
+
+        if($this->getPublicToken && $this->checkPublic) {
+            $resorce['client'] = null;
+        }
 
         return $resorce;
     }

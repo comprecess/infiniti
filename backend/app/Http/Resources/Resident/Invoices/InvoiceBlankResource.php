@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Resident\Invoices;
 
 use App\Http\Resources\Resident\Settings\TaxResorce;
+use App\Models\Resident\Invoices\Offer;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -35,11 +36,17 @@ class InvoiceBlankResource extends JsonResource
 
     public function typeContent(&$resorce, $request)
     {
-        $invoice = $this->document;
+        $document = $this->document;
         if($request->type == 'view') {
-            $resorce['price'] = $invoice->printPrice((float) $resorce['price']);
-            $resorce['total'] = $invoice->printPrice((float) $resorce['total']);
+            if($document instanceof Offer) {
+                $resorce['price'] = (float) $resorce['price'];
+                $resorce['total'] = (float) $resorce['total'];
+            } else {
+                $resorce['price'] = $document->printPrice((float) $resorce['price']);
+                $resorce['total'] = $document->printPrice((float) $resorce['total']);
+            }
         }
+
     }
 
 }

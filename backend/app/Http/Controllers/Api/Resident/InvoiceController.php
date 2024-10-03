@@ -16,12 +16,14 @@ use App\Http\Resources\Resident\Invoices\InvoiceItemResource;
 use App\Http\Resources\Resident\Invoices\InvoiceListResource;
 use App\Http\Resources\Resident\Invoices\InvoicePdfResource;
 use App\Http\Resources\Resident\Invoices\InvoiceResource;
+use App\Http\Resources\Resident\Invoices\OfferItemResource;
 use App\Http\Resources\Resident\Settings\CurrencyResorce;
 use App\Http\Resources\Resident\Settings\TaxResorce;
 use App\Models\Config;
 use App\Models\Contracts\ModelServiceInterface;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Invoices\InvoiceItem;
+use App\Models\Resident\Invoices\Offer;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\Tax;
 use App\Models\Users\Client;
@@ -37,6 +39,17 @@ class InvoiceController extends ResidentController
         createOrUpdate as createOrUpdateCRUD;
         delete as deleteCRUD;
     }
+
+    const PUBLIC_TOKEN = [
+        'invoice' => [
+          'model' => Invoice::class,
+          'resource' => InvoiceItemResource::class
+        ],
+        'offer' => [
+            'model' => Offer::class,
+            'resource' => OfferItemResource::class
+        ],
+    ];
 
     public function stat()
     {
@@ -267,20 +280,30 @@ class InvoiceController extends ResidentController
         return $this->deleteCRUD($invoice);
     }
 
-    public function publicToken($token)
+    public function publicToken($type, $token)
     {
-        $invoice = Invoice::where('vtoken', $token)
-            ->with(['items', 'items.service', 'items.invoice'])
-            ->orderBy('id', 'desc')
-            ->first();
 
-        if(!$invoice) {
+        $type = Arr::get(self::PUBLIC_TOKEN, $type);
+        if(!$type) {
             abort(404);
         }
 
-        $invoice->getPublicToken = true;
+        $class = $type['model'];
 
-        return new InvoiceItemResource($invoice/*->load(['items', 'items.service'])*/);
+        $model = $class::where('vtoken', $token)
+            ->with(['items', 'items.service', 'items.document'])
+            ->orderBy('id', 'desc')
+            ->first();
+
+        if(!$model) {
+            abort(404);
+        }
+
+        $model->getPublicToken = true;
+
+        return new $type['resource']($model);
+
+//        return new InvoiceItemResource($invoice/*->load(['items', 'items.service'])*/);
 
     }
 

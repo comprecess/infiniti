@@ -49,7 +49,7 @@ class Offer extends Model implements InsertDefaultValueInterface
             'taxrate' => [0],
             'tax1' => [0],
             'tax2' => [0],
-            'adminnotes' => [0],
+            'adminnotes' => [''],
             'lastmodified' => [now()],
             'dateaccepted' => [now()],
 
