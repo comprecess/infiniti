@@ -23,3 +23,8 @@
 .amountItem {
   color: $white;
 }
+
+.statusItem {
+  display: flex;
+  justify-content: end;
+}

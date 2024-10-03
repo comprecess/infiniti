@@ -35,8 +35,10 @@ export const Item: FC<ItemProps> = ({
       <span className={`${styleItem.createdColumn} ${styles.createdItem}`}>
         {created}
       </span>
-      <span className={`${styleItem.dueColumn} ${styles.dueItem}`}>{due}</span>
-      <div className={styleItem.statusColumn}>
+      <span className={`${styleItem.dueColumn} ${styles.dueItem}`}>
+        {due}
+      </span>
+      <div className={`${styleItem.statusColumn} ${styles.statusItem}`}>
         <Status title={status} status={status} />
       </div>
     </div>
