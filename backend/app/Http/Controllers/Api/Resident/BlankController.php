@@ -15,6 +15,7 @@ use App\Models\Resident\Invoices\Offer;
 use App\Models\Resident\Settings\Tax;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class BlankController extends ResidentController
 {
@@ -60,7 +61,8 @@ class BlankController extends ResidentController
 
     public function blankCreateOrUpdate(InvoiceBlankRequest $request)
     {
-        $item = InvoiceItem::findOrFail($request->route('item'));
+
+        $item = InvoiceItem::find($request->route('item')) ?? new InvoiceItem();
         $document = $this->getModel();
         if($item->id) {
             if(!$document->items()->where('id', $item->id)->count()) {
@@ -116,7 +118,7 @@ class BlankController extends ResidentController
         );
     }
 
-    public function blankDelete(Request $request, InvoiceItem $invoiceItem)
+    public function blankDelete(Request $request)
     {
         $item = InvoiceItem::findOrFail($request->route('item'));
         $model = $this->getModel();
