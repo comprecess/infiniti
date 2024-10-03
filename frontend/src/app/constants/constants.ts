@@ -765,6 +765,7 @@ export interface SalesViewOfferData {
     companyAddress: string
     companyName: string
   }
+  checkPublic: number
 }
 
 export interface SalesEditOfferData {

@@ -7,37 +7,41 @@ import styles from './Header.module.scss'
 
 interface HeaderProps {
   title: string
-  invoiceCode: string
-  invoiceDate: string
-  dueDate: string
-  status: string
+  code: string
+  dateCreated: string
+  expiryDate: string
+  stage: string
   checkPublic: boolean
   company: {
     companyAddress: string
     companyName: string
   }
-  totalInvoice: string
+  total: string
+  proposal: string
+  notes: string
   client: FullInfoClient
 }
 
 export const Header: FC<HeaderProps> = ({
   title,
-  invoiceCode,
-  invoiceDate,
-  dueDate,
-  status,
+  code,
+  dateCreated,
+  expiryDate,
+  stage,
   checkPublic,
   company,
-  totalInvoice,
+  total,
+  proposal,
+  notes,
   client,
 }) => {
   return (
     <div className={styles.wrapper}>
       <section className={styles.sectionFirst}>
-        <div className={styles.invoiceTitle}>
-          {title && <h4 className={styles.titleInvoice}>{`${title}`}</h4>}
-          <h4 className={styles.invoiceCode}>{`#${invoiceCode}`}</h4>
-          <Status status={status} />
+        <div className={styles.offerTitle}>
+          {title && <h4 className={styles.titleOffer}>{`${title}`}</h4>}
+          <h4 className={styles.offerCode}>{`#${code}`}</h4>
+          <Status status={stage} />
         </div>
         <div className={styles.infiniti}>
           <img
@@ -59,30 +63,28 @@ export const Header: FC<HeaderProps> = ({
         </div>
       </section>
       <section className={styles.sectionSecond}>
-        <div className={styles.invoicedTo}>
-          <span className={styles.invoicedToTitle}>Recipient:</span>
+        <div className={styles.offerTo}>
+          <span className={styles.offerToTitle}>Recipient:</span>
           {!checkPublic ? (
             <>
-              <div className={styles.invoicedToList}>
+              <div className={styles.offerToList}>
                 {client.company && (
-                  <span className={styles.invoicedToItem}>
+                  <span className={styles.offerToItem}>
                     {client.company}
                   </span>
                 )}
                 {client.account && (
-                  <span className={styles.invoicedToItem}>
+                  <span className={styles.offerToItem}>
                     {`ATTN: ${client.account}`}
                   </span>
                 )}
                 {client.address && (
-                  <span className={styles.invoicedToItem}>
+                  <span className={styles.offerToItem}>
                     {client.address}
                   </span>
                 )}
                 {client.city && (
-                  <span className={styles.invoicedToItem}>
-                    {client.city}
-                  </span>
+                  <span className={styles.offerToItem}>{client.city}</span>
                 )}
               </div>
               <div className={styles.contactInfo}>
@@ -107,23 +109,45 @@ export const Header: FC<HeaderProps> = ({
             <span className={styles.hiddenInfo}>Hidden</span>
           )}
         </div>
-        <div className={styles.invoiceTotal}>
-          <div className={styles.invoiceDate}>
-            {invoiceDate && (
-              <ContactItem title='Date Created' value={invoiceDate} />
+        <div className={styles.offerTotal}>
+          <div className={styles.offerDate}>
+            {dateCreated && (
+              <ContactItem title='Date Created' value={dateCreated} />
             )}
-            {dueDate && (
-              <ContactItem title='Expiry Date' value={dueDate} />
+            {expiryDate && (
+              <ContactItem title='Expiry Date' value={expiryDate} />
             )}
           </div>
           <div className={styles.totalWrapper}>
             <span className={styles.totalTitle}>Total:</span>
             <span className={styles.totalValue} contentEditable={false}>
-              {totalInvoice}
+              {total}
             </span>
           </div>
         </div>
       </section>
+      {proposal && (
+        <div className={styles.offerTo}>
+          <span className={styles.offerToTitle}>Proposal Text:</span>
+          <span
+            dangerouslySetInnerHTML={{
+              __html: proposal,
+            }}
+            className={styles.infinitiCompanyAddress}
+          />
+        </div>
+      )}
+      {notes && (
+        <div className={styles.offerTo}>
+          <span className={styles.offerToTitle}>Customer Notes:</span>
+          <span
+            dangerouslySetInnerHTML={{
+              __html: notes,
+            }}
+            className={styles.infinitiCompanyAddress}
+          />
+        </div>
+      )}
     </div>
   )
 }
