@@ -3,7 +3,6 @@
   flex-direction: column;
   gap: 24px;
   width: 100%;
-  color: $white;
 }
 
 .sectionFirst,
@@ -18,17 +17,17 @@
   }
 }
 
-.invoiceTitle,
+.offerTitle,
 .infiniti,
-.invoiceTotal,
-.invoicedTo {
+.offerTotal,
+.offerTo {
   display: flex;
   flex-direction: column;
   gap: 8px;
   width: 100%;
 }
 
-.invoiceTotal {
+.offerTotal {
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -41,7 +40,7 @@
   }
 }
 
-.titleInvoice {
+.titleOffer {
   font-family: $fontSpaceGrotesk;
   font-size: 24px;
   font-weight: 700;
@@ -49,7 +48,7 @@
   letter-spacing: -0.03em;
 }
 
-.invoiceCode {
+.offerCode {
   font-family: $fontSpaceGrotesk;
   font-size: 19px;
   font-weight: 600;
@@ -57,20 +56,20 @@
   letter-spacing: -0.03em;
 }
 
-.invoicedToList {
+.offerToList {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-.invoicedToTitle {
+.offerToTitle {
   font-size: 17px;
   font-weight: 600;
   line-height: 23px;
   letter-spacing: -0.03em;
 }
 
-.invoicedToItem {
+.offerToItem {
   font-size: 16px;
   font-weight: 500;
   line-height: 22px;
@@ -104,7 +103,7 @@
   width: 170px;
 }
 
-.invoiceDate {
+.offerDate {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -151,15 +150,6 @@
 }
 
 .infinitiCompanyAddress {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 20px;
-  letter-spacing: -0.03em;
-}
-
-.hiddenInfo {
-  font-family: $fontSpaceGrotesk;
-  font-style: italic;
   font-size: 16px;
   font-weight: 400;
   line-height: 20px;
