@@ -17,12 +17,14 @@ interface ButtonsProps {
   stageList: string[]
   blockEditButton: boolean
   previewOffer: () => void
+  editOffer: () => void
 }
 
 export const Buttons: FC<ButtonsProps> = ({
   stageList,
   blockEditButton,
   previewOffer,
+  editOffer,
 }) => {
   return (
     <div className={styles.wrapper}>
@@ -116,7 +118,7 @@ export const Buttons: FC<ButtonsProps> = ({
         />
       </button>
       {!blockEditButton && (
-        <button className={styles.buttonEdit}>
+        <button className={styles.buttonEdit} onClick={editOffer}>
           <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
         </button>
       )}

@@ -129,59 +129,25 @@ export const AdminOffersPage: FC = () => {
 
   const navigateToViewOffer = (idOffer: number) => {
     navigate(
-      '/' +
-        Routes.adminPages +
-        '/' +
-        Routes.sales +
-        '/' +
-        Routes.offer +
-        '/' +
-        Routes.view +
-        '/' +
-        idOffer,
+      `/${Routes.adminPages}/${Routes.sales}/${Routes.offer}/${Routes.view}/${idOffer}`,
     )
   }
 
   const navigateToSelectAccount = (idAccount: number) => {
     navigate(
-      '/' +
-        Routes.adminPages +
-        '/' +
-        Routes.customers +
-        '/' +
-        Routes.view +
-        '/' +
-        idAccount +
-        '/' +
-        Routes.summary,
+      `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${idAccount}/${Routes.summary}`,
     )
   }
 
   const navigateToEditOffer = (idOffer: number) => {
     navigate(
-      '/' +
-        Routes.adminPages +
-        '/' +
-        Routes.sales +
-        '/' +
-        Routes.edit +
-        '/' +
-        Routes.offer +
-        '/' +
-        idOffer,
+      `/${Routes.adminPages}/${Routes.sales}/${Routes.edit}/${Routes.offer}/${idOffer}`,
     )
   }
 
   const navigateToAddOffer = () => {
     navigate(
-      '/' +
-        Routes.adminPages +
-        '/' +
-        Routes.sales +
-        '/' +
-        Routes.new +
-        '/' +
-        Routes.offer,
+      `/${Routes.adminPages}/${Routes.sales}/${Routes.new}/${Routes.offer}`,
     )
   }
 

@@ -34,8 +34,16 @@ export const adminSidebarPages = [
     name: 'Customers',
     icon: <ProfileIcon />,
     openPaths: [
-      { id: 0, title: 'Add Customer', path: Routes.addCustomer },
-      { id: 1, title: 'List Customer', path: Routes.listCustomer },
+      {
+        id: 0,
+        title: 'Add Customer',
+        path: `${Routes.add}/${Routes.customer}`,
+      },
+      {
+        id: 1,
+        title: 'List Customer',
+        path: `${Routes.list}/${Routes.customer}`,
+      },
       { id: 2, title: 'Companies', path: Routes.companies },
       { id: 3, title: 'Groups', path: Routes.groups },
       { id: 4, title: 'Files', path: Routes.files },
@@ -94,7 +102,7 @@ export const adminSidebarPages = [
       { id: 5, title: 'Offers', path: Routes.offers },
       {
         id: 6,
-        title: 'Create New Offer',
+        title: 'New Offer',
         path: `${Routes.new}/${Routes.offer}`,
       },
       { id: 7, title: 'Payments', path: '' },
@@ -106,8 +114,16 @@ export const adminSidebarPages = [
     name: 'Suppliers',
     icon: <CatalogIcon />,
     openPaths: [
-      { id: 0, title: 'Add Supplier', path: '' },
-      { id: 1, title: 'List Suppliers', path: '' },
+      {
+        id: 0,
+        title: 'Add Supplier',
+        path: `${Routes.add}/${Routes.supplier}`,
+      },
+      {
+        id: 1,
+        title: 'List Suppliers',
+        path: `${Routes.list}/${Routes.suppliers}`,
+      },
     ],
     path: Routes.suppliers,
   },
@@ -303,7 +319,7 @@ export const adminSidebarPages = [
       {
         id: 15,
         title: 'Custom Contact Fields',
-        path: Routes.customFields,
+        path: `${Routes.custom}/${Routes.contact}/${Routes.fields}`,
       },
       { id: 16, title: 'Automation Settings', path: '' },
       { id: 17, title: 'API Access', path: '' },

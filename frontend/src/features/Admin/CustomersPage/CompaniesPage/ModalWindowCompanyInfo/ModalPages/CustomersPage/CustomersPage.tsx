@@ -16,9 +16,9 @@ interface CustomersPageProps {
 }
 
 export const CustomersPage: FC<CustomersPageProps> = ({ id }) => {
-  const [customers, setCustomers] = useState<CustomersViewCompany[] | null>(
-    null,
-  )
+  const [customers, setCustomers] = useState<
+  CustomersViewCompany[] | null
+  >(null)
 
   const navigate = useNavigate()
 
@@ -30,16 +30,7 @@ export const CustomersPage: FC<CustomersPageProps> = ({ id }) => {
 
   const handleNavigate = (id: number) => {
     navigate(
-      '/' +
-        Routes.adminPages +
-        '/' +
-        Routes.customers +
-        '/' +
-        Routes.view +
-        '/' +
-        id +
-        '/' +
-        Routes.summary,
+      `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${id}/${Routes.summary}`,
     )
   }
 

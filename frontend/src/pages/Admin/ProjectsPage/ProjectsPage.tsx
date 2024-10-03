@@ -11,14 +11,7 @@ export const AdminProjectsPage: FC = () => {
 
   const navigateToCreateProject = () => {
     navigate(
-      '/' +
-        Routes.adminPages +
-        '/' +
-        Routes.projects +
-        '/' +
-        Routes.new +
-        '/' +
-        Routes.project,
+      `/${Routes.adminPages}/${Routes.projects}/${Routes.new}/${Routes.project}`,
     )
   }
 

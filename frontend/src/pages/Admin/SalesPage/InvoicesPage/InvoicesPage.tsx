@@ -94,46 +94,25 @@ export const AdminInvoicesPage: FC = () => {
 
   const navigateToSelectInvoice = (idInvoice: number) => {
     navigate(
-      '/' +
-        Routes.adminPages +
-        '/' +
-        Routes.sales +
-        '/' +
-        Routes.edit +
-        '/' +
-        Routes.invoice +
-        '/' +
-        idInvoice,
+      `/${Routes.adminPages}/${Routes.sales}/${Routes.edit}/${Routes.invoice}/${idInvoice}`,
     )
   }
 
   const navigateToSelectAccount = (idAccount: number) => {
     navigate(
-      '/' +
-        Routes.adminPages +
-        '/' +
-        Routes.customers +
-        '/' +
-        Routes.view +
-        '/' +
-        idAccount +
-        '/' +
-        Routes.summary,
+      `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${idAccount}/${Routes.summary}`,
     )
   }
 
   const navigateToViewInvoice = (idInvoice: number) => {
     navigate(
-      '/' +
-        Routes.adminPages +
-        '/' +
-        Routes.sales +
-        '/' +
-        Routes.invoice +
-        '/' +
-        Routes.view +
-        '/' +
-        idInvoice,
+      `/${Routes.adminPages}/${Routes.sales}/${Routes.invoice}/${Routes.view}/${idInvoice}`,
+    )
+  }
+
+  const navigateToAddInvoice = () => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.sales}/${Routes.new}/${Routes.invoice}`,
     )
   }
 
@@ -212,19 +191,6 @@ export const AdminInvoicesPage: FC = () => {
     },
     [],
   )
-
-  const navigateToAddInvoice = () => {
-    navigate(
-      '/' +
-        Routes.adminPages +
-        '/' +
-        Routes.sales +
-        '/' +
-        Routes.new +
-        '/' +
-        Routes.invoice,
-    )
-  }
 
   useEffect(() => {
     document.title = 'infiniti | Invoices'

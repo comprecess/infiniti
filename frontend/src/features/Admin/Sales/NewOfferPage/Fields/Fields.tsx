@@ -8,6 +8,7 @@ import {
   SalesOfferInputData,
 } from '../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
+import { CustomCheckBox } from '../../../../../shared/ui/CustomCheckBox/CustomCheckBox'
 import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
@@ -39,6 +40,7 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({
     offerNum: data.offerNum,
     num: data.num,
+    checkPublic: true,
     stage: data.stage[0],
     blankList: [
       {
@@ -160,21 +162,10 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
   ) => {
     if (field === 'stage' && typeof value === 'number') {
       value = data.stage[value]
-    } else if (
-      (field === 'dueDate' || field === 'repeat') &&
-      typeof value === 'number'
-    ) {
-      if (value === 0) {
-        value = null
-      } else {
-        value = value - 1
-      }
     } else if (field === 'clientId' && typeof value === 'number') {
-      if (value === 0) {
-        value = null
-      } else {
-        value = data.client[value - 1].id
-      }
+      value = value === 0 ? null : data.client[value - 1].id
+    } else if (field === 'checkPublic' && typeof value === 'boolean') {
+      value = value === true ? 1 : 0
     }
 
     setFormData(prevFormData => ({
@@ -275,6 +266,15 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
             titleOnChange='validUntil'
             onChange={handleChangeInput}
           />
+          <div className={styles.containerItems}>
+            <span className={styles.containerItemsTitle}>Hide Info</span>
+            <CustomCheckBox
+              defaultChecked
+              titleOnChange='checkPublic'
+              title='Hide Personal Info'
+              onInputChange={handleChangeInput}
+            />
+          </div>
         </section>
       </div>
       {formData.blankList &&

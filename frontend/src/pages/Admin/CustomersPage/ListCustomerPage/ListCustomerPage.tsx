@@ -109,12 +109,7 @@ export const AdminListCustomerPage: FC = () => {
 
   const navigateToAddCustomer = () => {
     navigate(
-      '/' +
-        Routes.adminPages +
-        '/' +
-        Routes.customers +
-        '/' +
-        Routes.addCustomer,
+      `/${Routes.adminPages}/${Routes.customers}/${Routes.add}/${Routes.customer}`,
     )
   }
 

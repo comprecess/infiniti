@@ -1,6 +1,7 @@
 import { FC, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { Routes } from '../../../app/router/routes'
 import { SignInForm } from '../../../features/Auth/SignInForm/SignInForm'
 import { CustomDivider } from '../../../shared/ui/CustomDivider/CustomDivider'
 import { IconText } from '../../../shared/ui/IconText/IconText'
@@ -9,6 +10,14 @@ import styles from './SignInPage.module.scss'
 
 export const SignInPage: FC = () => {
   const navigate = useNavigate()
+
+  const handleNavigateRegister = () => {
+    navigate(`/${Routes.auth}/${Routes.register}`)
+  }
+
+  const handleNavigateLoginResident = () => {
+    navigate(`/${Routes.auth}/${Routes.login}/${Routes.resident}`)
+  }
 
   useEffect(() => {
     document.title = 'infiniti | Sign In'
@@ -23,7 +32,7 @@ export const SignInPage: FC = () => {
           styleText={styles.userText}
           icon='/icons/userPlusBlue.svg'
           text='Startup? Register'
-          onClick={() => navigate('/auth/register')}
+          onClick={handleNavigateRegister}
         />
         <CustomDivider color='#c5c6d4' />
         <IconText
@@ -31,7 +40,7 @@ export const SignInPage: FC = () => {
           styleText={styles.loginText}
           icon='/icons/logInGray.svg'
           text='Login as a resident'
-          onClick={() => navigate('/auth/loginresident')}
+          onClick={handleNavigateLoginResident}
         />
       </div>
     </AuthForm>

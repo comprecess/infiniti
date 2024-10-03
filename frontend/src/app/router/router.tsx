@@ -97,11 +97,11 @@ export const router = createBrowserRouter([
             ],
           },
           {
-            path: Routes.addCustomer,
+            path: `${Routes.add}/${Routes.customer}`,
             element: Pages.adminAddCustomerPage,
           },
           {
-            path: Routes.listCustomer,
+            path: `${Routes.list}/${Routes.customer}`,
             element: Pages.adminListCustomerPage,
           },
           {
@@ -113,7 +113,7 @@ export const router = createBrowserRouter([
             element: Pages.adminGroupsPage,
           },
           {
-            path: `${Routes.groups}/${Routes.contactsList}/:id`,
+            path: `${Routes.groups}/${Routes.contacts}/${Routes.list}/:id`,
             element: Pages.adminContactsListPage,
           },
           {
@@ -253,7 +253,28 @@ export const router = createBrowserRouter([
           },
         ],
       },
-      { path: Routes.suppliers, element: Pages.adminSuppliersPage },
+      {
+        path: Routes.suppliers,
+        children: [
+          {
+            path: `${Routes.add}/${Routes.supplier}`,
+            element: Pages.adminAddSupplierPage,
+          },
+          {
+            path: `${Routes.list}/${Routes.suppliers}`,
+            element: Pages.adminListSuppliersPage,
+          },
+          {
+            index: true,
+            element: (
+              <Navigate
+                replace
+                to={`/${Routes.adminPages}/${Routes.dashboard}`}
+              />
+            ),
+          },
+        ],
+      },
       { path: Routes.purchase, element: Pages.adminPurchasePage },
       { path: Routes.projects, element: Pages.adminProjectsPage },
       {
@@ -285,8 +306,17 @@ export const router = createBrowserRouter([
         children: [
           { path: Routes.currencies, element: Pages.adminCurrenciesPage },
           {
-            path: Routes.customFields,
+            path: `${Routes.custom}/${Routes.contact}/${Routes.fields}`,
             element: Pages.adminCustomContactFields,
+          },
+          {
+            index: true,
+            element: (
+              <Navigate
+                replace
+                to={`/${Routes.adminPages}/${Routes.dashboard}`}
+              />
+            ),
           },
         ],
       },
@@ -352,14 +382,28 @@ export const router = createBrowserRouter([
       </ExaminationAuth>
     ),
     children: [
-      { path: Routes.signIn, element: Pages.signInPage },
-      { path: Routes.loginResident, element: Pages.loginResidentPage },
+      {
+        path: `${Routes.sign}/${Routes.in}`,
+        element: Pages.signInPage,
+      },
+      {
+        path: `${Routes.login}/${Routes.resident}`,
+        element: Pages.loginResidentPage,
+      },
       { path: Routes.register, element: Pages.registerPage },
-      { path: Routes.resetPassword, element: Pages.resetPasswordPage },
+      {
+        path: `${Routes.reset}/${Routes.password}`,
+        element: Pages.resetPasswordPage,
+      },
       {
         path: '*',
         index: true,
-        element: <Navigate replace to={To.signIn()} />,
+        element: (
+          <Navigate
+            replace
+            to={`/${Routes.auth}/${Routes.sign}/${Routes.in}`}
+          />
+        ),
       },
     ],
   },

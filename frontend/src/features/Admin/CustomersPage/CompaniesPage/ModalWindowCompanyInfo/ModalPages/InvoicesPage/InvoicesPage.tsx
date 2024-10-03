@@ -15,7 +15,9 @@ interface InvoicesPageProps {
 }
 
 export const InvoicesPage: FC<InvoicesPageProps> = ({ id }) => {
-  const [invoices, setInvoices] = useState<InvoicesViewCompany[] | null>(null)
+  const [invoices, setInvoices] = useState<InvoicesViewCompany[] | null>(
+    null,
+  )
 
   const navigate = useNavigate()
 
@@ -27,16 +29,7 @@ export const InvoicesPage: FC<InvoicesPageProps> = ({ id }) => {
 
   const handleNavigate = (id: number) => {
     navigate(
-      '/' +
-        Routes.adminPages +
-        '/' +
-        Routes.customers +
-        '/' +
-        Routes.view +
-        '/' +
-        id +
-        '/' +
-        Routes.summary,
+      `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${id}/${Routes.summary}`,
     )
   }
 
@@ -53,7 +46,10 @@ export const InvoicesPage: FC<InvoicesPageProps> = ({ id }) => {
               <Title title='#' style={styles.hashTagColumn} />
               <Title title='Customer' style={styles.customerColumn} />
               <Title title='Amount' style={styles.amountColumn} />
-              <Title title='Invoice Date' style={styles.invoiceDateColumn} />
+              <Title
+                title='Invoice Date'
+                style={styles.invoiceDateColumn}
+              />
               <Title title='Due Date' style={styles.dueDateColumn} />
               <Title title='Status' style={styles.statusColumn} />
               <Title title='Manage' style={styles.manageColumn} />

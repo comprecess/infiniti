@@ -21,7 +21,7 @@ export const Item: FC<ItemProps> = ({
   const navigate = useNavigate()
 
   const handleNavigateToListContacts = () => {
-    navigate(Routes.contactsList + '/' + id)
+    navigate(`${Routes.contacts}/${Routes.list}/${id}`)
   }
 
   const handleDeleteGroup = () => {
@@ -34,7 +34,9 @@ export const Item: FC<ItemProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <span className={`${styleItem.groupNameColumn} ${styles.groupNameItem}`}>
+      <span
+        className={`${styleItem.groupNameColumn} ${styles.groupNameItem}`}
+      >
         {groupName}
       </span>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
@@ -45,10 +47,18 @@ export const Item: FC<ItemProps> = ({
           className={styles.buttonList}
           onClick={handleNavigateToListContacts}
         >
-          <img src='/icons/users.svg' alt='Users' className={styles.icon} />
+          <img
+            src='/icons/users.svg'
+            alt='Users'
+            className={styles.icon}
+          />
         </button>
         <button className={styles.buttonTrash} onClick={handleDeleteGroup}>
-          <img src='/icons/trash.svg' alt='Trash' className={styles.icon} />
+          <img
+            src='/icons/trash.svg'
+            alt='Trash'
+            className={styles.icon}
+          />
         </button>
       </div>
     </div>

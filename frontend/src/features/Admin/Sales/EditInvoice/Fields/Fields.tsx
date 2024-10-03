@@ -182,6 +182,10 @@ export const Fields: FC<FieldsProps> = ({
     }))
   }
 
+  const clientAddress =
+    inputData.client.find(client => client.id === formData.clientId)
+      ?.address || ''
+
   useEffect(() => {
     onFormDataChange(formData)
   }, [formData, onFormDataChange])
@@ -189,10 +193,6 @@ export const Fields: FC<FieldsProps> = ({
   useEffect(() => {
     updateBlankList()
   }, [blanks])
-
-  const clientAddress =
-    inputData.client.find(client => client.id === formData.clientId)
-      ?.address || ''
 
   return (
     <div className={styles.wrapper}>

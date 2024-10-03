@@ -54,7 +54,8 @@ import { AdminViewOfferPage } from '../../pages/Admin/SalesPage/ViewOfferPage/Vi
 import { AdminCurrenciesPage } from '../../pages/Admin/SettingsPage/CurrenciesPage/CurrenciesPage'
 import { AdminCustomContactFields } from '../../pages/Admin/SettingsPage/CustomContactFieldsPage/CustomContactFieldsPage'
 import { AdminSMSPage } from '../../pages/Admin/SMSPage/SMSPage'
-import { AdminSuppliersPage } from '../../pages/Admin/SuppliersPage/SuppliersPage'
+import { AdminAddSupplierPage } from '../../pages/Admin/SuppliersPage/AddSupplierPage/AddSupplierPage'
+import { AdminListSuppliersPage } from '../../pages/Admin/SuppliersPage/ListSuppliersPage/ListSuppliersPage'
 import { AdminSupportPage } from '../../pages/Admin/SupportPage/SupportPage'
 import { AdminTasksPage } from '../../pages/Admin/TasksPage/TasksPage'
 import { AdminUtilitiesPage } from '../../pages/Admin/UtilitiesPage/UtilitiesPage'
@@ -101,7 +102,7 @@ export const Routes = {
   hrm: 'hrm',
   tasks: 'tasks',
   calendar: 'calendar',
-  addCustomer: 'addcustomer',
+  customer: 'customer',
   reports: 'reports',
   utilities: 'utilities',
   invoice: 'invoice',
@@ -109,7 +110,9 @@ export const Routes = {
   plugins: 'plugins',
   offer: 'offer',
   settings: 'settings',
-  customFields: 'customfields',
+  custom: 'custom',
+  contact: 'contact',
+  fields: 'fields',
   productsServices: 'productsservices',
   support: 'support',
   purchase: 'purchase',
@@ -120,8 +123,10 @@ export const Routes = {
   documents: 'documents',
   invoices: 'invoices',
   offers: 'offers',
+  add: 'add',
   projects: 'projects',
   companies: 'companies',
+  supplier: 'supplier',
   knowledgeBase: 'knowledgebase',
   tickets: 'tickets',
   groups: 'groups',
@@ -135,7 +140,7 @@ export const Routes = {
   more: 'more',
   passwordManager: 'passwordmanager',
   activity: 'activity',
-  contactsList: 'contactslist',
+  contacts: 'contacts',
   viewTransactions: 'viewtransactions',
   unclearedTransactions: 'unclearedtransactions',
   accounts: 'accounts',
@@ -144,21 +149,23 @@ export const Routes = {
   openNewTicket: 'opennewticket',
   profile: 'profile',
   basket: 'cart',
+  list: 'list',
   auth: 'auth',
   makeBusinessPlan: 'makebusinessplan',
   files: 'files',
-  listCustomer: 'listcustomer',
-  signIn: 'signin',
-  loginResident: 'loginresident',
+  sign: 'sign',
+  in: 'in',
+  login: 'login',
+  resident: 'resident',
   register: 'register',
-  resetPassword: 'resetpassword',
+  reset: 'reset',
+  password: 'password',
   notFound: '404',
 }
 
 export const To = {
   dashboard: () => Routes.dashboard,
   summary: () => Routes.summary,
-  signIn: () => Routes.signIn,
   notFound: () => Routes.notFound,
 }
 
@@ -204,7 +211,6 @@ export const Pages = {
   adminTransferPage: <AdminTransferPage />,
   adminUnclearedTransactionsPage: <AdminUnclearedTransactionsPage />,
   adminViewTransactionsPage: <AdminViewTransactionsPage />,
-  adminSuppliersPage: <AdminSuppliersPage />,
   adminPurchasePage: <AdminPurchasePage />,
   adminProjectsPage: <AdminProjectsPage />,
   adminLeadsPage: <AdminLeadsPage />,
@@ -245,6 +251,8 @@ export const Pages = {
   adminViewOfferPage: <AdminViewOfferPage />,
   adminCreateNewProject: <AdminCreateNewProject />,
   adminEditProject: <AdminEditProject />,
+  adminListSuppliersPage: <AdminListSuppliersPage />,
+  adminAddSupplierPage: <AdminAddSupplierPage />,
 
   /* Public  pages */
   publicViewInvoice: <InvoiceViewPage />,

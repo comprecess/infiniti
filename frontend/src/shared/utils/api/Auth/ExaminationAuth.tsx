@@ -25,8 +25,7 @@ export const ExaminationAuth: FC<PropsWithChildren> = ({ children }) => {
           setIsAuthenticated(isAuth)
         }
       } catch (error: any) {
-        console.error(error)
-        navigate('/' + Routes.auth + '/' + Routes.signIn)
+        navigate(`$/${Routes.auth}/${Routes.sign}/${Routes.in}`)
       } finally {
         setIsLoading(false)
       }
@@ -38,12 +37,12 @@ export const ExaminationAuth: FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
       if (isUserRole === roles.client) {
-        navigate('/' + Routes.clientPages + '/' + Routes.dashboard)
+        navigate(`/${Routes.clientPages}/${Routes.dashboard}`)
       } else if (isUserRole === roles.admin) {
-        navigate('/' + Routes.adminPages + '/' + Routes.dashboard)
+        navigate(`/${Routes.adminPages}/${Routes.dashboard}`)
       }
     } else if (!isLoading && !isAuthenticated) {
-      navigate('/' + Routes.auth + '/' + Routes.signIn)
+      navigate(`$/${Routes.auth}/${Routes.sign}/${Routes.in}`)
     }
   }, [isLoading, isAuthenticated, isUserRole])
 

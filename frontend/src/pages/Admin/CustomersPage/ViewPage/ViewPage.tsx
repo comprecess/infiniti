@@ -49,7 +49,7 @@ export const AdminViewPage: FC = () => {
       setPagesAndInfo(getResponse)
 
       if (!getResponse.status) {
-        navigate('/' + Routes.notFound)
+        navigate(`/${Routes.notFound}`)
       }
     }
   }, [id])

@@ -1,5 +1,5 @@
 import { FC, useEffect, useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { SalesViewOfferData } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
@@ -33,6 +33,7 @@ export const AdminViewOfferPage: FC = () => {
   const [info, setInfo] = useState<SalesViewOfferData | null>(null)
 
   const id = useIdFromUrl()
+  const navigate = useNavigate()
 
   const getOfferInfo = async () => {
     if (id === null) return
@@ -42,16 +43,14 @@ export const AdminViewOfferPage: FC = () => {
     setInfo(getResponse)
   }
 
+  const navigateToEditOffer = () => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.sales}/${Routes.edit}/${Routes.offer}/${info?.id}`,
+    )
+  }
+
   const navigateToPreviewOffer = () => {
-    const url =
-      '/' +
-      Routes.public +
-      '/' +
-      Routes.offer +
-      '/' +
-      Routes.view +
-      '/' +
-      info?.token
+    const url = `/${Routes.public}/${Routes.offer}/${Routes.view}/${info?.token}`
 
     window.open(url, '_blank')
   }
@@ -86,6 +85,7 @@ export const AdminViewOfferPage: FC = () => {
                 stage => stage !== info.stage,
               ),
               previewOffer: navigateToPreviewOffer,
+              editOffer: navigateToEditOffer,
             }}
             pagesProps={{
               subtotal: info.blankCalc.price,

@@ -75,29 +75,12 @@ export const AdminViewInvoice: FC = () => {
 
   const navigateToEditInvoice = () => {
     navigate(
-      '/' +
-        Routes.adminPages +
-        '/' +
-        Routes.sales +
-        '/' +
-        Routes.edit +
-        '/' +
-        Routes.invoice +
-        '/' +
-        info?.id,
+      `/${Routes.adminPages}/${Routes.sales}/${Routes.edit}/${Routes.invoice}/${info?.id}`,
     )
   }
 
   const navigateToPreviewInvoice = () => {
-    const url =
-      '/' +
-      Routes.public +
-      '/' +
-      Routes.invoice +
-      '/' +
-      Routes.view +
-      '/' +
-      info?.token
+    const url = `/${Routes.public}/${Routes.invoice}/${Routes.view}/${info?.token}`
 
     window.open(url, '_blank')
   }

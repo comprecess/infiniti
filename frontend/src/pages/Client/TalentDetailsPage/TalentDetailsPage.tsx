@@ -49,7 +49,7 @@ export const TalentPage: FC = () => {
   const navigate = useNavigate()
 
   const handleNavigateBack = useCallback(() => {
-    navigate('/' + Routes.clientPages + '/' + Routes.catalog)
+    navigate(`/${Routes.clientPages}/'${Routes.catalog}`)
   }, [navigate])
 
   const scrollToTop = useCallback(() => {

@@ -1,6 +1,7 @@
 import { FC, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { Routes } from '../../../app/router/routes'
 import { RegisterForm } from '../../../features/Auth/RegisterForm/RegisterForm'
 import { IconText } from '../../../shared/ui/IconText/IconText'
 import { AuthForm } from '../AuthForm/AuthForm'
@@ -8,6 +9,10 @@ import styles from './RegisterPage.module.scss'
 
 export const RegisterPage: FC = () => {
   const navigate = useNavigate()
+
+  const handleNavigateSignIn = () => {
+    navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
+  }
 
   useEffect(() => {
     document.title = 'infiniti | Register'
@@ -19,7 +24,7 @@ export const RegisterPage: FC = () => {
         styleText={styles.goBackText}
         icon='/icons/chevronLeftGray.svg'
         text='Go back to Sign in'
-        onClick={() => navigate('/auth/signin')}
+        onClick={handleNavigateSignIn}
       />
       <AuthForm title='Register'>
         <RegisterForm />
@@ -27,7 +32,7 @@ export const RegisterPage: FC = () => {
           styleText={styles.alreadyRegisteredText}
           icon='/icons/logInBlue.svg'
           text='Already registered? Sign in'
-          onClick={() => navigate('/auth/signin')}
+          onClick={handleNavigateSignIn}
         />
       </AuthForm>
     </div>

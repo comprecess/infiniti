@@ -1,0 +1,117 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+
+  @include mobileBreakpoint('max', $bpL) {
+    flex-direction: column;
+
+    .sectionFirst {
+      order: 2;
+    }
+
+    .sectionSecond {
+      order: 1;
+    }
+  }
+}
+
+.sectionFirst,
+.sectionSecond {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0 1px 0 1px;
+  max-width: 750px;
+}
+
+.containerItems {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+}
+
+.containerItemsTitle {
+  font-family: $fontSpaceGrotesk;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.buttonRemove {
+  display: flex;
+  justify-content: end;
+
+  @include mobileBreakpoint('max', $bpL) {
+    justify-content: start;
+  }
+}
+
+.buttonDeleteBlank {
+  max-width: 150px;
+  height: 44px;
+  background-color: $cherry-500;
+
+  @include mobileBreakpoint('max', $bpS) {
+    width: 60px;
+  }
+
+  @include hover() {
+    background-color: $cherry-400;
+  }
+}
+
+.buttonIcon {
+  height: 20px;
+  width: 20px;
+}
+
+.discountContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  align-items: center;
+  width: 100%;
+}
+
+.wrapperTotalPrice {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.containerTotalPrice {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 48px;
+  background-color: $brand-800;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.valueTotalPrice {
+  display: flex;
+  width: 100%;
+  color: $gray-400;
+  white-space: nowrap;
+}
+
+.titleTotalPrice {
+  font-family: $fontSpaceGrotesk;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
