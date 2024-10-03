@@ -42,6 +42,7 @@ class OfferRequest extends FormRequest implements ConvertingPropertiesInterface
             'num' => 'cn',
             'proposal',
             'notes' => 'customernotes',
+            'checkPublic' => 'check_public'
         ];
     }
 }

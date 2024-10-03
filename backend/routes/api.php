@@ -29,7 +29,8 @@ Route::get('/client/autologin/{autologin}', [AuthController::class, 'autologin']
     ->name('autologin');
 
 #invoice
-Route::get('/invoice/token/{token}', [\App\Http\Controllers\Api\Resident\InvoiceController::class, 'publicToken'])
+Route::get('/{type}/token/{token}', [\App\Http\Controllers\Api\Resident\InvoiceController::class, 'publicToken'])
+    ->whereIn('type', array_keys(\App\Http\Controllers\Api\Resident\InvoiceController::PUBLIC_TOKEN))
     ->name('invoicePublic');
 
 Route::group(

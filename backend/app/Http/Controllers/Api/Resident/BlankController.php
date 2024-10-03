@@ -58,8 +58,9 @@ class BlankController extends ResidentController
         ]);
     }
 
-    public function blankCreateOrUpdate(InvoiceBlankRequest $request, InvoiceItem $item)
+    public function blankCreateOrUpdate(InvoiceBlankRequest $request)
     {
+        $item = InvoiceItem::findOrFail($request->route('item'));
         $document = $this->getModel();
         if($item->id) {
             if(!$document->items()->where('id', $item->id)->count()) {
@@ -115,8 +116,9 @@ class BlankController extends ResidentController
         );
     }
 
-    public function blankDelete(Invoice $invoice, InvoiceItem $item)
+    public function blankDelete(Request $request, InvoiceItem $invoiceItem)
     {
+        $item = InvoiceItem::findOrFail($request->route('item'));
         $model = $this->getModel();
         $document = $item->document;
         if($document::class == $model::class && $model->id == $document->id) {

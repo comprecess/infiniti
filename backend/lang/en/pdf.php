@@ -36,5 +36,18 @@ return [
         'Description' => 'Description',
         'Amount' => 'Amount',
         'Terms' => 'Terms',
+    ],
+    'offer' => [
+        'Offer' => 'Offer',
+        'stageVar' => [
+            'Accepted'=>'Accepted',
+            'Dead'=>'Dead',
+            'Delivered'=>'Delivered',
+            'Draft'=>'Draft',
+            'Lost'=>'Lost',
+            'On Hold' => 'On Hold'
+        ],
+        'Date Created' => 'Date Created',
+        'Expiry Date' => 'Expiry Date',
     ]
 ];

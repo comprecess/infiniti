@@ -1,0 +1,6 @@
+@font-face {
+	font-family: 'DejaVu Sans Condensed';
+	src: url('DejaVuSansCondensed.woff2') format('woff2'), url('DejaVuSansCondensed.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+}

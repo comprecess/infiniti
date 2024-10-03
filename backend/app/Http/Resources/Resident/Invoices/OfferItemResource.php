@@ -41,6 +41,7 @@ class OfferItemResource extends JsonResource implements ListInterface
             'validUntil' => $this->validuntil?->format('Y-m-d'),
             'blank' => InvoiceBlankResource::collection($items),
             'pdf' => route('pdf', ['name' => 'offer', 'token' => $this->vtoken]),
+            'checkPublic' => $this->check_public,
             'blankCalc' => [
                 'price' => $items->summPrice(),
                 'discount' => $items->summDiscount(),
@@ -50,6 +51,10 @@ class OfferItemResource extends JsonResource implements ListInterface
         ]);
 
         $this->typeContent($resorce, $request);
+
+        if($this->getPublicToken && $this->checkPublic) {
+            $resorce['client'] = null;
+        }
 
         return $resorce;
     }
