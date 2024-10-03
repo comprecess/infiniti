@@ -29,15 +29,15 @@
 .emailItem,
 .createdItem {
   font-weight: 400;
+  color: $gray-300;
+}
+
+.createdItem {
+  text-align: right;
 }
 
 .nameItem {
   color: $white;
-}
-
-.emailItem,
-.createdItem {
-  color: $gray-300;
 }
 
 .items {

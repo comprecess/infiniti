@@ -27,7 +27,7 @@ export const ExaminationUser: FC<PropsWithChildren> = ({ children }) => {
           setIsAuthenticated(isAuth)
         }
       } catch (error: any) {
-        navigate(`$/${Routes.auth}/${Routes.sign}/${Routes.in}`)
+        navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
       } finally {
         setIsLoading(false)
       }
@@ -38,7 +38,7 @@ export const ExaminationUser: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      navigate(`$/${Routes.auth}/${Routes.sign}/${Routes.in}`)
+      navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
     } else if (!isLoading && isAuthenticated) {
       if (isUserRole === roles.client) {
         if (location.pathname.includes(`/${Routes.clientPages}`)) {

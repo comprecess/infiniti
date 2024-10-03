@@ -30,3 +30,8 @@
   font-weight: 400;
   color: $gray-300;
 }
+
+.statusItem {
+  display: flex;
+  justify-content: end;
+}

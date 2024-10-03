@@ -25,7 +25,7 @@ export const ExaminationAuth: FC<PropsWithChildren> = ({ children }) => {
           setIsAuthenticated(isAuth)
         }
       } catch (error: any) {
-        navigate(`$/${Routes.auth}/${Routes.sign}/${Routes.in}`)
+        navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
       } finally {
         setIsLoading(false)
       }
@@ -42,7 +42,7 @@ export const ExaminationAuth: FC<PropsWithChildren> = ({ children }) => {
         navigate(`/${Routes.adminPages}/${Routes.dashboard}`)
       }
     } else if (!isLoading && !isAuthenticated) {
-      navigate(`$/${Routes.auth}/${Routes.sign}/${Routes.in}`)
+      navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
     }
   }, [isLoading, isAuthenticated, isUserRole])
 

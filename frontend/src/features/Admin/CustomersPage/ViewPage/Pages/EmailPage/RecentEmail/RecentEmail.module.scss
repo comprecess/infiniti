@@ -29,13 +29,10 @@
 }
 
 .dateColumn {
-  text-align: right;
+  max-width: 350px;
+  justify-content: end;
 }
 
 .subjectColumn {
   max-width: 850px;
-}
-
-.dateColumn {
-  max-width: 350px;
 }
