@@ -39,10 +39,9 @@ export const SignInForm: FC<SignInFormProps> = ({ resident }) => {
       })
 
       navigate(
-        '/' +
-          (resident ? Routes.adminPages : Routes.clientPages) +
-          '/' +
-          Routes.dashboard,
+        `/${resident ? Routes.adminPages : Routes.clientPages}/${
+          Routes.dashboard
+        }`,
       )
     } else {
       showToast({
@@ -51,6 +50,10 @@ export const SignInForm: FC<SignInFormProps> = ({ resident }) => {
         status: 'error',
       })
     }
+  }
+
+  const handleNavigateResetPassword = () => {
+    navigate(`/${Routes.auth}/${Routes.reset}/${Routes.password}`)
   }
 
   return (
@@ -80,7 +83,7 @@ export const SignInForm: FC<SignInFormProps> = ({ resident }) => {
                 icon='/icons/infoBlue.svg'
                 text='Forgot password?'
                 styleText={styles.forgotText}
-                onClick={() => navigate('/auth/resetpassword')}
+                onClick={handleNavigateResetPassword}
               />
             </div>
           </div>

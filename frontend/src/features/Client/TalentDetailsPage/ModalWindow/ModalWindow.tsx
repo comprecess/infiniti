@@ -58,7 +58,7 @@ export const ModalWindow: FC<ModalWindowProps> = ({
   }
 
   const handleContinueSearch = useCallback(() => {
-    navigate('/' + Routes.clientPages + '/' + Routes.catalog)
+    navigate(`/${Routes.clientPages}/${Routes.catalog}`)
   }, [navigate])
 
   const handleSetAmount = useCallback(() => {

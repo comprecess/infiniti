@@ -1,16 +1,17 @@
 import { authTokenString } from '../../../../../../app/constants/constants'
 import { getCookies } from '../../../../Saving/Cookies/GetCookies'
 
-export const getInfoSelectedOffer = async (id: number, type?: string) => {
+export const getBlanksListOffer = async (id: number) => {
   const authToken = getCookies(authTokenString)
 
   if (authToken) {
     try {
       const url =
         import.meta.env.VITE_MAIN_DOMAIN +
-        import.meta.env.VITE_SALES_VIEW_OFFER +
+        import.meta.env.VITE_SALES_CREATE_NEW_OFFER +
+        '/' +
         id +
-        type
+        '/blank'
 
       const response = await fetch(url, {
         method: 'GET',
@@ -21,7 +22,7 @@ export const getInfoSelectedOffer = async (id: number, type?: string) => {
 
       const data = await response.json()
 
-      return data.data
+      return data
     } catch (error) {
       return false
     }

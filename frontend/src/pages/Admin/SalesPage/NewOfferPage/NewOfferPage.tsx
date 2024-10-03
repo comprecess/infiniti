@@ -62,7 +62,7 @@ export const AdminNewOfferPage: FC = () => {
       <section className={styles.section}>
         {inputData ? (
           <RecentCard
-            title='Create New Offer'
+            title={`${inputData.offerNum}${inputData.num}`}
             style={styles.recentFullScreen}
             Component={ButtonBlue}
             componentProps={{

@@ -37,7 +37,7 @@ export const RegisterForm: FC = () => {
         status: 'success',
       })
 
-      navigate('/' + Routes.clientPages + '/' + Routes.dashboard)
+      navigate(`/${Routes.clientPages}/${Routes.dashboard}`)
     } else {
       showToast({
         title: 'Error',

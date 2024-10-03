@@ -27,16 +27,7 @@ export const OffersPage: FC<OffersPageProps> = ({ id }) => {
 
   const handleNavigate = (id: number) => {
     navigate(
-      '/' +
-        Routes.adminPages +
-        '/' +
-        Routes.customers +
-        '/' +
-        Routes.view +
-        '/' +
-        id +
-        '/' +
-        Routes.summary,
+      `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${id}/${Routes.summary}`,
     )
   }
 
@@ -54,7 +45,10 @@ export const OffersPage: FC<OffersPageProps> = ({ id }) => {
               <Title title='Customer' style={styles.customerColumn} />
               <Title title='Subject' style={styles.subjectColumn} />
               <Title title='Amount' style={styles.amountColumn} />
-              <Title title='Date Created' style={styles.dateCreatedColumn} />
+              <Title
+                title='Date Created'
+                style={styles.dateCreatedColumn}
+              />
               <Title title='Expiry Date' style={styles.expiryDateColumn} />
               <Title title='Stage' style={styles.stageColumn} />
               <Title title='Manage' style={styles.manageColumn} />

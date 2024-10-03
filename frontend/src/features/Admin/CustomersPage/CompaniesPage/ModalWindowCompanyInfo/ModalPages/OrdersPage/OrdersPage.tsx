@@ -27,16 +27,7 @@ export const OrdersPage: FC<OrdersPageProps> = ({ id }) => {
 
   const handleNavigate = (id: number) => {
     navigate(
-      '/' +
-        Routes.adminPages +
-        '/' +
-        Routes.customers +
-        '/' +
-        Routes.view +
-        '/' +
-        id +
-        '/' +
-        Routes.summary,
+      `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${id}/${Routes.summary}`,
     )
   }
 

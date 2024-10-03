@@ -42,8 +42,8 @@ const useIdFromUrl = () => {
 }
 
 export const AdminEditInvoicePage: FC = () => {
-  const [data, setData] = useState<SalesEditInvoiceData | null>(null)
   const [formData, setFormData] = useState<PartialFieldsData>({})
+  const [data, setData] = useState<SalesEditInvoiceData | null>(null)
   const [inputData, setInputData] =
     useState<SalesNewInvoiceInputData | null>(null)
   const [blanks, setBlanks] = useState<SalesBlanks | null>(null)

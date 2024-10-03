@@ -30,16 +30,7 @@ export const Item: FC<ItemProps> = ({
 
   const handleNavigate = (name: string) => {
     navigate(
-      '/' +
-        Routes.adminPages +
-        '/' +
-        Routes.customers +
-        '/' +
-        Routes.view +
-        '/' +
-        id +
-        '/' +
-        name,
+      `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${id}/${name}`,
     )
   }
 

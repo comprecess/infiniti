@@ -27,8 +27,7 @@ export const ExaminationUser: FC<PropsWithChildren> = ({ children }) => {
           setIsAuthenticated(isAuth)
         }
       } catch (error: any) {
-        console.error(error)
-        navigate('/' + Routes.auth + '/' + Routes.signIn)
+        navigate(`$/${Routes.auth}/${Routes.sign}/${Routes.in}`)
       } finally {
         setIsLoading(false)
       }
@@ -39,19 +38,19 @@ export const ExaminationUser: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      navigate('/' + Routes.auth + '/' + Routes.signIn)
+      navigate(`$/${Routes.auth}/${Routes.sign}/${Routes.in}`)
     } else if (!isLoading && isAuthenticated) {
       if (isUserRole === roles.client) {
-        if (location.pathname.includes('/' + Routes.clientPages)) {
+        if (location.pathname.includes(`/${Routes.clientPages}`)) {
           navigate(location.pathname)
         } else {
-          navigate('/' + Routes.clientPages + '/' + Routes.dashboard)
+          navigate(`/${Routes.clientPages}/${Routes.dashboard}`)
         }
       } else if (isUserRole === roles.admin) {
-        if (location.pathname.includes('/' + Routes.adminPages)) {
+        if (location.pathname.includes(`/${Routes.adminPages}`)) {
           navigate(location.pathname)
         } else {
-          navigate('/' + Routes.adminPages + '/' + Routes.dashboard)
+          navigate(`/${Routes.adminPages}/${Routes.dashboard}`)
         }
       }
     }
