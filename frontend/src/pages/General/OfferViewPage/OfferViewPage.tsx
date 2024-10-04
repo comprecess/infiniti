@@ -39,6 +39,33 @@ export const OfferViewPage: FC = () => {
     setInfo(getResponse)
   }
 
+  const viewPDF = async () => {
+    if (!info?.pdf) return
+
+    const response = await fetch(info.pdf)
+
+    if (response.ok) {
+      const blob = await response.blob()
+      const url = URL.createObjectURL(blob)
+
+      window.open(url, '_blank')
+
+      URL.revokeObjectURL(url)
+    }
+  }
+
+  const downloadPDF = () => {
+    if (!info?.pdf) return
+
+    const a = document.createElement('a')
+
+    a.href = info.pdf
+    a.download = 'Offer.pdf'
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+  }
+
   useEffect(() => {
     getOfferInfo()
   }, [token])
@@ -48,8 +75,16 @@ export const OfferViewPage: FC = () => {
       {info ? (
         <div className={styles.container}>
           <div className={styles.pdfButtons}>
-            <ButtonBlue title='Download PDF' style={styles.downloadPDF} />
-            <ButtonBlue title='View PDF' style={styles.viewPDF} />
+            <ButtonBlue
+              title='Download PDF'
+              style={styles.downloadPDF}
+              onClick={downloadPDF}
+            />
+            <ButtonBlue
+              title='View PDF'
+              style={styles.viewPDF}
+              onClick={viewPDF}
+            />
             <ButtonBlue title='Accept' style={styles.acceptPDF} />
             <ButtonBlue title='Decline' style={styles.declinePDF} />
           </div>

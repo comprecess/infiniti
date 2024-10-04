@@ -18,6 +18,10 @@ interface ButtonsProps {
   blockEditButton: boolean
   previewOffer: () => void
   editOffer: () => void
+  email: (template: string) => void
+  selectPDF: (name: string) => void
+  convertToInvoice: () => void
+  selectStage: (stage: string) => void
 }
 
 export const Buttons: FC<ButtonsProps> = ({
@@ -25,6 +29,10 @@ export const Buttons: FC<ButtonsProps> = ({
   blockEditButton,
   previewOffer,
   editOffer,
+  email,
+  selectPDF,
+  convertToInvoice,
+  selectStage,
 }) => {
   return (
     <div className={styles.wrapper}>
@@ -43,7 +51,9 @@ export const Buttons: FC<ButtonsProps> = ({
           icon={<EmailIcon style={styles.flagIcon} />}
         />
         <MenuList>
-          <MenuItem onClick={() => {}}>Offer Created</MenuItem>
+          <MenuItem onClick={() => email('offer-create')}>
+            Offer Created
+          </MenuItem>
         </MenuList>
       </Menu>
       <Menu isLazy>
@@ -81,8 +91,12 @@ export const Buttons: FC<ButtonsProps> = ({
           icon={<PDFIcon style={styles.flagIcon} />}
         />
         <MenuList>
-          <MenuItem onClick={() => {}}>View PDF</MenuItem>
-          <MenuItem onClick={() => {}}>Download PDF</MenuItem>
+          <MenuItem onClick={() => selectPDF('View PDF')}>
+            View PDF
+          </MenuItem>
+          <MenuItem onClick={() => selectPDF('Download PDF')}>
+            Download PDF
+          </MenuItem>
         </MenuList>
       </Menu>
       <Menu isLazy>
@@ -103,7 +117,10 @@ export const Buttons: FC<ButtonsProps> = ({
           {stageList &&
             stageList.map((stage, index) => {
               return (
-                <MenuItem key={`${stage}-${index}`} onClick={() => {}}>
+                <MenuItem
+                  key={`${stage}-${index}`}
+                  onClick={() => selectStage(stage)}
+                >
                   {stage}
                 </MenuItem>
               )
@@ -122,7 +139,7 @@ export const Buttons: FC<ButtonsProps> = ({
           <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
         </button>
       )}
-      <button className={styles.buttonConvert}>
+      <button className={styles.buttonConvert} onClick={convertToInvoice}>
         <img
           src='/icons/fileMove.svg'
           alt='Convert'

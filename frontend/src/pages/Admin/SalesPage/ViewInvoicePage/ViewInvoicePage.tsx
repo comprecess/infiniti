@@ -12,11 +12,13 @@ import { Footer } from '../../../../features/Admin/Sales/ViewInvoice/Footer/Foot
 import { Header } from '../../../../features/Admin/Sales/ViewInvoice/Header/Header'
 import { RecentInvoices } from '../../../../features/Admin/Sales/ViewInvoice/RecentInvoices/RecentInvoices'
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
+import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getInfoSelectedInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/GetInfoSelectedInvoice'
 import { getInvoiceEmailTemplate } from '../../../../shared/utils/api/Admin/Sales/Invoices/GetEmailTemplate'
+import { changeInvoiceStatus } from '../../../../shared/utils/api/Admin/Sales/Invoices/InvoiceChangeStage'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './ViewInvoice.module.scss'
+import styles from './ViewInvoicePage.module.scss'
 
 const extractIdFromUrl = (url: string): number | null => {
   const regex = /\/view\/(\d+)$/
@@ -34,7 +36,7 @@ const useIdFromUrl = () => {
   )
 }
 
-export const AdminViewInvoice: FC = () => {
+export const AdminViewInvoicePage: FC = () => {
   const [info, setInfo] = useState<SalesViewInvoiceData | null>(null)
 
   const [emailInfo, setEmailInfo] =
@@ -43,6 +45,7 @@ export const AdminViewInvoice: FC = () => {
   const [emailPanel, setEmailPanel] = useState<boolean>(false)
 
   const id = useIdFromUrl()
+  const showToast = useCustomToast()
   const navigate = useNavigate()
 
   const openCloseEmailPanel = () => {
@@ -51,11 +54,11 @@ export const AdminViewInvoice: FC = () => {
 
   const setTemplateEmail = async (
     template:
-    | 'invoice-create'
-    | 'reminder'
-    | 'overdue'
-    | 'confirm'
-    | 'refund',
+      | 'invoice-create'
+      | 'reminder'
+      | 'overdue'
+      | 'confirm'
+      | 'refund',
   ) => {
     if (template === null || id === null) return
 
@@ -110,8 +113,29 @@ export const AdminViewInvoice: FC = () => {
     }
   }
 
+  const handleChangeStatus = async (stage: string) => {
+    if (id === null) return
+
+    const changeResponse = await changeInvoiceStatus(id, stage)
+
+    if (changeResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully changed your Invoice status',
+        status: 'success',
+      })
+      getInvoiceInfo()
+    } else {
+      showToast({
+        title: 'Error',
+        description: changeResponse.message,
+        status: 'error',
+      })
+    }
+  }
+
   useEffect(() => {
-    document.title = 'infiniti | View Invoice '
+    document.title = 'infiniti | View Invoice'
   }, [])
 
   useEffect(() => {
@@ -160,6 +184,7 @@ export const AdminViewInvoice: FC = () => {
               editInvoice: navigateToEditInvoice,
               previewInvoice: navigateToPreviewInvoice,
               selectPDF: interactPDF,
+              selectStatus: handleChangeStatus,
               email: setTemplateEmail,
             }}
             headerProps={{
@@ -171,6 +196,7 @@ export const AdminViewInvoice: FC = () => {
               company: info.company,
               totalInvoice: info.blankCalc.total,
               client: info.client,
+              offer: info.offer,
             }}
           >
             <RecentInvoices blankList={info.blank} />

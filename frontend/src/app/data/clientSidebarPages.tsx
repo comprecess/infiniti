@@ -20,9 +20,9 @@ export const clientSidebarPages = [
   },
   {
     id: 1,
-    name: 'Catalog',
+    name: 'Talents',
     icon: <CatalogIcon />,
-    path: Routes.catalog,
+    path: Routes.talents,
   },
   {
     id: 2,

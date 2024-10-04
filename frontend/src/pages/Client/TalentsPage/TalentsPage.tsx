@@ -6,9 +6,9 @@ import { CategoriesItem } from '../../../features/Client/CatalogPage/CategoriesI
 import { Filters } from '../../../features/Client/CatalogPage/Filters/Filters'
 import { TalentsList } from '../../../features/Client/CatalogPage/TalentsList/TalentsList'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
-import styles from './CatalogPage.module.scss'
+import styles from './TalentsPage.module.scss'
 
-export const ClientCatalogPage: FC = () => {
+export const ClientTalentsPage: FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('All')
   const [selectedFilters, setSelectedFilters] = useState<FiltersState>({})
 
@@ -17,13 +17,13 @@ export const ClientCatalogPage: FC = () => {
   }
 
   useEffect(() => {
-    document.title = 'infiniti | Catalog'
+    document.title = 'infiniti | Talents'
   }, [])
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>
-        <TitlePage title='Catalog' />
+        <TitlePage title='Talents' />
       </div>
       <section className={styles.sectionFirst}>
         <div className={styles.itemsFirst}>
