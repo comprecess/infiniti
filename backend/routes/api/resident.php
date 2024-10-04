@@ -52,6 +52,7 @@ Route::controller(Resident\InvoiceController::class)->prefix('invoice')
         Route::post('/price-calc', 'priceCalc');
         Route::post('/', 'createOrUpdate');
         Route::put('/{invoice}', 'createOrUpdate');
+        Route::put('/{invoice}/update', 'update');
         Route::get('/{invoice}/clone', 'invoiceClone');
         Route::get('/{invoice}/stopRecurring', 'stopRecurring');
 //        Route::get('/{invoice}/blank', 'blankList');

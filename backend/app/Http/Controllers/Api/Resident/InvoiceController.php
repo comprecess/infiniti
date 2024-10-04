@@ -9,6 +9,7 @@ use App\Http\Requests\Resident\Invoices\InvoiceBlankRequest;
 use App\Http\Requests\Resident\Invoices\InvoiceListRequest;
 use App\Http\Requests\Resident\Invoices\InvoicePriceCalcRequest;
 use App\Http\Requests\Resident\Invoices\InvoiceRequest;
+use App\Http\Requests\Resident\Invoices\InvoiceUpdateRequest;
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\Invoices\InvoiceBlankResource;
 use App\Http\Resources\Resident\Invoices\InvoiceExcelResource;
@@ -306,6 +307,13 @@ class InvoiceController extends ResidentController
 
 //        return new InvoiceItemResource($invoice/*->load(['items', 'items.service'])*/);
 
+    }
+
+    public function update(InvoiceUpdateRequest $request, Invoice $invoice)
+    {
+        $request->setModel($invoice, true);
+        $invoice->save();
+        return response()->json(['success' => true]);
     }
 
 
