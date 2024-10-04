@@ -7,8 +7,8 @@ interface Response {
   message: string
 }
 
-export const sendEmailInvoice = async (
-  idInvoice: number,
+export const sendEmailOffer = async (
+  idOffer: number,
   template: string,
   formData: PartialFormData,
 ): Promise<Response> => {
@@ -20,8 +20,8 @@ export const sendEmailInvoice = async (
         import.meta.env.VITE_MAIN_DOMAIN +
         import.meta.env.VITE_SALES_EMAIL_TEMPLATE +
         template +
-        '/invoice/' +
-        idInvoice
+        '/offer/' +
+        idOffer
 
       const response = await fetch(url, {
         method: 'POST',

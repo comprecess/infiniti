@@ -1,6 +1,9 @@
 import { FC } from 'react'
 
-import { FullInfoClient } from '../../../../app/constants/constants'
+import {
+  FullInfoClient,
+  SalesViewOfferData,
+} from '../../../../app/constants/constants'
 import { ContactItem } from '../../../Admin/Sales/ViewInvoice/Header/ContactItem/ContactItem'
 import { Status } from '../../../Admin/Sales/ViewInvoice/Status/Status'
 import styles from './Header.module.scss'
@@ -18,6 +21,7 @@ interface HeaderProps {
   }
   totalInvoice: string
   client: FullInfoClient
+  offer: SalesViewOfferData
 }
 
 export const Header: FC<HeaderProps> = ({
@@ -30,6 +34,7 @@ export const Header: FC<HeaderProps> = ({
   company,
   totalInvoice,
   client,
+  offer,
 }) => {
   return (
     <div className={styles.wrapper}>
@@ -122,6 +127,26 @@ export const Header: FC<HeaderProps> = ({
           </div>
         </div>
       </section>
+      {offer && (
+        <div className={styles.invoicedTo}>
+          <span className={styles.invoicedToTitle}>
+            {`Offer: 
+            ${offer.id}`}
+          </span>
+          {offer.proposal && (
+            <span
+              dangerouslySetInnerHTML={{ __html: offer.proposal }}
+              className={styles.offerProposal}
+            />
+          )}
+          {offer.notes && (
+            <span
+              dangerouslySetInnerHTML={{ __html: offer.notes }}
+              className={styles.offerNotes}
+            />
+          )}
+        </div>
+      )}
     </div>
   )
 }

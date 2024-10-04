@@ -667,6 +667,7 @@ export interface SalesViewInvoiceData {
     companyAddress: string
     companyName: string
   }
+  offer: SalesViewOfferData
   checkPublic: number
   currency: CurrencyProps
   date: string
@@ -785,4 +786,12 @@ export interface SalesEditOfferData {
   token: string
   validUntil: string
   checkPublic: number
+}
+
+export interface SalesOfferEmailTemplateData {
+  subject: string
+  message: string
+  file: string
+  adminEmail: string
+  variable: { code: string; client_email: string }
 }

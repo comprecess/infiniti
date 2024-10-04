@@ -17,7 +17,7 @@ export const Footer: FC<FooterProps> = ({ id, dailyRate, hourlyRate }) => {
 
   const handleNavigateToTalent = () => {
     navigate(
-      `/${Routes.clientPages}/${Routes.catalog}/${Routes.talent}/id${id}`,
+      `/${Routes.clientPages}/${Routes.talents}/${Routes.talent}/id${id}`,
     )
   }
 

@@ -11,7 +11,7 @@ export const getInvoiceEmailTemplate = async (
     try {
       const url =
         import.meta.env.VITE_MAIN_DOMAIN +
-        import.meta.env.VITE_SALES_INVOICE_EMAIL_TEMPLATE +
+        import.meta.env.VITE_SALES_EMAIL_TEMPLATE +
         template +
         '/invoice/' +
         idInvoice

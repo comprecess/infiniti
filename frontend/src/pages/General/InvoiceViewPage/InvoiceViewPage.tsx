@@ -101,6 +101,7 @@ export const InvoiceViewPage: FC = () => {
               totalInvoice={info.blankCalc.total}
               client={info.client}
               company={info.company}
+              offer={info.offer}
             />
           </div>
           <div className={styles.table}>

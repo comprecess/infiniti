@@ -49,7 +49,7 @@ import { AdminInvoicesPage } from '../../pages/Admin/SalesPage/InvoicesPage/Invo
 import { AdminNewInvoicePage } from '../../pages/Admin/SalesPage/NewInvoicePage/NewInvoicePage'
 import { AdminNewOfferPage } from '../../pages/Admin/SalesPage/NewOfferPage/NewOfferPage'
 import { AdminOffersPage } from '../../pages/Admin/SalesPage/OffersPage/OffersPage'
-import { AdminViewInvoice } from '../../pages/Admin/SalesPage/ViewInvoice/ViewInvoice'
+import { AdminViewInvoicePage } from '../../pages/Admin/SalesPage/ViewInvoicePage/ViewInvoicePage'
 import { AdminViewOfferPage } from '../../pages/Admin/SalesPage/ViewOfferPage/ViewOfferPage'
 import { AdminCurrenciesPage } from '../../pages/Admin/SettingsPage/CurrenciesPage/CurrenciesPage'
 import { AdminCustomContactFields } from '../../pages/Admin/SettingsPage/CustomContactFieldsPage/CustomContactFieldsPage'
@@ -64,7 +64,6 @@ import { RegisterPage } from '../../pages/Auth/RegisterPage/RegisterPage'
 import { ResetPasswordPage } from '../../pages/Auth/ResetPasswordPage/ResetPasswordPage'
 import { SignInPage } from '../../pages/Auth/SignInPage/SignInPage'
 import { ClientBasketPage } from '../../pages/Client/BasketPage/BasketPage'
-import { ClientCatalogPage } from '../../pages/Client/CatalogPage/CatalogPage'
 import { ClientDashboardPage } from '../../pages/Client/DashboardPage/DashboardPage'
 import { ClientDocumentsPage } from '../../pages/Client/DocumentsPage/DocumentsPage'
 import { ClientInvoicesPage } from '../../pages/Client/InvoicesPage/InvoicesPage'
@@ -73,6 +72,7 @@ import { ClientMyOrdersPage } from '../../pages/Client/MyOrdersPage/MyOrdersPage
 import { ClientOffersPage } from '../../pages/Client/OffersPage/OffersPage'
 import { ClientProfilePage } from '../../pages/Client/ProfilePage/ProfilePage'
 import { ClientProjectsPage } from '../../pages/Client/ProjectsPage/ProjectsPage'
+import { ClientTalentsPage } from '../../pages/Client/TalentsPage/TalentsPage'
 import { ClientOpenNewTicketPage } from '../../pages/Client/TicketsPage/OpenNewTicketPage/OpenNewTicketPage'
 import { ClientTicketsPage } from '../../pages/Client/TicketsPage/TicketsPage/TicketsPage'
 import { ClientTransactionsPage } from '../../pages/Client/TransactionsPage/TransactionsPage'
@@ -86,13 +86,13 @@ export const Routes = {
   clientPages: 'client',
   dashboard: 'dashboard',
   public: 'public',
+  talents: 'talents',
   customers: 'customers',
   view: 'view',
   new: 'new',
   project: 'project',
   summary: 'summary',
   businessPlan: 'businessplan',
-  catalog: 'catalog',
   reorder: 'reorder',
   accounting: 'accounting',
   sales: 'sales',
@@ -178,7 +178,7 @@ export const Pages = {
 
   /* Client Dashboard pages */
   clientDashboardPage: <ClientDashboardPage />,
-  clientCatalogPage: <ClientCatalogPage />,
+  clientTalentsPage: <ClientTalentsPage />,
   clientMyOrdersPage: <ClientMyOrdersPage />,
   clientTransactionsPage: <ClientTransactionsPage />,
   clientDocumentsPage: <ClientDocumentsPage />,
@@ -244,7 +244,7 @@ export const Pages = {
   adminInvoicesPage: <AdminInvoicesPage />,
   adminNewInvoicePage: <AdminNewInvoicePage />,
   adminEditInvoicePage: <AdminEditInvoicePage />,
-  adminViewInvoice: <AdminViewInvoice />,
+  adminViewInvoicePage: <AdminViewInvoicePage />,
   adminOffersPage: <AdminOffersPage />,
   adminNewOfferPage: <AdminNewOfferPage />,
   adminEditOfferPage: <AdminEditOfferPage />,

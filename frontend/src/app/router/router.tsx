@@ -224,7 +224,7 @@ export const router = createBrowserRouter([
           },
           {
             path: `${Routes.invoice}/${Routes.view}/:id`,
-            element: Pages.adminViewInvoice,
+            element: Pages.adminViewInvoicePage,
           },
           {
             path: Routes.offers,
@@ -340,9 +340,9 @@ export const router = createBrowserRouter([
     ),
     children: [
       { path: Routes.dashboard, element: Pages.clientDashboardPage },
-      { path: Routes.catalog, element: Pages.clientCatalogPage },
+      { path: Routes.talents, element: Pages.clientTalentsPage },
       {
-        path: `${Routes.catalog}/${Routes.talent}/:id`,
+        path: `${Routes.talents}/${Routes.talent}/:id`,
         element: <TalentPage />,
       },
       { path: Routes.myOrders, element: Pages.clientMyOrdersPage },

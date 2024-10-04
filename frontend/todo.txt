@@ -10,14 +10,14 @@ Admin Dashboard Page:
 		• Сделать все графики в админ части
 
 
+Admin Contact Page:
+		• Доделать страницу More
+		• На странице Email сделать Templates
+
+
 Client Invoices Page:
 		• Доделать страницу (график)
 
 
-PWA:
+PWA Application:
 		• Белая линия внизу страниц
-
-
-Admin Contact Page:
-		• Доделать страницу More
-		• На странице Email сделать Templates

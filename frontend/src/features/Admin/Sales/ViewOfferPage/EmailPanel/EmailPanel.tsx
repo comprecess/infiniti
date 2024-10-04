@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 
-import { SalesInvoiceEmailTemplateData } from '../../../../../app/constants/constants'
+import { SalesOfferEmailTemplateData } from '../../../../../app/constants/constants'
 import { CrossIcon } from '../../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomCheckBox } from '../../../../../shared/ui/CustomCheckBox/CustomCheckBox'
@@ -9,13 +9,13 @@ import { CustomModalWindow } from '../../../../../shared/ui/CustomModalWindow/Cu
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
-import { sendEmailInvoice } from '../../../../../shared/utils/api/Admin/Sales/Invoices/SendEmailInvoice'
+import { sendEmailOffer } from '../../../../../shared/utils/api/Admin/Sales/Offers/SendEmailOffer'
 import styles from './EmailPanel.module.scss'
 
 interface EmailPanelProps {
-  idInvoice: number | null
+  idOffer: number | null
   template: string
-  info: SalesInvoiceEmailTemplateData
+  info: SalesOfferEmailTemplateData
   modalEmailPanel: boolean
   handleOpenCloseModal: () => void
 }
@@ -34,7 +34,7 @@ export interface PartialFormData extends Partial<FormData> {
 }
 
 export const EmailPanel: FC<EmailPanelProps> = ({
-  idInvoice,
+  idOffer,
   template,
   info,
   modalEmailPanel,
@@ -88,13 +88,9 @@ export const EmailPanel: FC<EmailPanelProps> = ({
   }
 
   const sendEmail = async () => {
-    if (idInvoice === null) return
+    if (idOffer === null) return
 
-    const sendResponse = await sendEmailInvoice(
-      idInvoice,
-      template,
-      formData,
-    )
+    const sendResponse = await sendEmailOffer(idOffer, template, formData)
 
     if (sendResponse.status) {
       showToast({

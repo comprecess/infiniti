@@ -7,12 +7,14 @@ import { CustomModalWindow } from '../CustomModalWindow/CustomModalWindow'
 import styles from './ConfirmationModal.module.scss'
 
 interface ConfirmationModalProps {
+  title?: string
   isOpened: boolean
   handleOpenCloseModal: () => void
   agree: () => void
 }
 
 export const ConfirmationModal: FC<ConfirmationModalProps> = ({
+  title,
   isOpened,
   handleOpenCloseModal,
   agree,
@@ -25,7 +27,9 @@ export const ConfirmationModal: FC<ConfirmationModalProps> = ({
     >
       <div className={styles.wrapper}>
         <div className={styles.header}>
-          <h4 className={styles.title}>Are You Sure?</h4>
+          <h4 className={styles.title}>
+            {title ? title : `Are You Sure?`}
+          </h4>
           <div className={styles.cross} onClick={handleOpenCloseModal}>
             <CrossIcon />
           </div>

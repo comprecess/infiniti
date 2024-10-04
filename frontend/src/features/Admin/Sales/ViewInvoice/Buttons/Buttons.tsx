@@ -19,6 +19,7 @@ interface ButtonsProps {
   editInvoice: () => void
   previewInvoice: () => void
   selectPDF: (name: string) => void
+  selectStatus: (status: string) => void
   email: (template: string) => void
 }
 
@@ -28,6 +29,7 @@ export const Buttons: FC<ButtonsProps> = ({
   editInvoice,
   previewInvoice,
   selectPDF,
+  selectStatus,
   email,
 }) => {
   return (
@@ -130,7 +132,10 @@ export const Buttons: FC<ButtonsProps> = ({
         <MenuList>
           {statusList.map((status, index) => {
             return (
-              <MenuItem key={`${status}-${index}`} onClick={() => {}}>
+              <MenuItem
+                key={`${status}-${index}`}
+                onClick={() => selectStatus(status)}
+              >
                 {status}
               </MenuItem>
             )
