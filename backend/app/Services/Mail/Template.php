@@ -6,6 +6,7 @@ namespace App\Services\Mail;
 
 use App\Models\Resident\Settings\EmailTemplate;
 use App\Services\Mail\Templates\InvoiceCreate;
+use App\Services\Mail\Templates\OfferCreate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
@@ -18,6 +19,7 @@ abstract class Template
         'overdue' => [InvoiceCreate::class, 'Invoice:Invoice Overdue Notice'],
         'confirm' => [InvoiceCreate::class, 'Invoice:Invoice Payment Confirmation'],
         'refund' => [InvoiceCreate::class, 'Invoice:Invoice Refund Confirmation'],
+        'offer-create' => [OfferCreate::class, 'Quote:Quote Created']
     ];
 
     protected $varibles = [];

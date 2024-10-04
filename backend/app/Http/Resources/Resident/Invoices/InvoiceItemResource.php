@@ -93,6 +93,7 @@ class InvoiceItemResource extends JsonResource implements ListInterface
             $resorce['client'] = new SummaryResource($this->user->load(['group', 'companyClient', 'transactionPayer', 'transactionPayee']));
             $resorce['company'] = ['companyName' => Config::get('CompanyName'), 'companyAddress' => Config::get('caddress')];
             $resorce['listStatus'] = Invoice::STATUS;
+            $resorce['offer'] = new OfferItemResource($this->offer);
         }
     }
 }

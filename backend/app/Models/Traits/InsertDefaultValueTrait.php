@@ -32,4 +32,11 @@ trait InsertDefaultValueTrait
 
         }
     }
+
+    public static function newDefault()
+    {
+        $model = new self();
+        $model->insertDefaultValue();
+        return $model;
+    }
 }

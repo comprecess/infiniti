@@ -70,6 +70,8 @@ Route::controller(Resident\OfferController::class)->prefix('offer')
         Route::get('/input-data', 'inputData');
         Route::post('/', 'createOrUpdate');
         Route::put('/{offer}', 'createOrUpdate');
+        Route::put('/{offer}/update', 'update');
+        Route::put('/{offer}/convert', 'convert');
         Route::get('/{offer}', 'item');
         Route::delete('/{offer}', 'delete');
     });
