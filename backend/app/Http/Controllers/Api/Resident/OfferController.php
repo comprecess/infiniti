@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Invoices\InvoicePriceCalcRequest;
 use App\Http\Requests\Resident\Invoices\OfferListRequest;
 use App\Http\Requests\Resident\Invoices\OfferRequest;
+use App\Http\Requests\Resident\Invoices\OfferUpdateRequest;
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\Invoices\OfferExcelResource;
 use App\Http\Resources\Resident\Invoices\OfferItemResource;
@@ -143,6 +144,13 @@ class OfferController extends ResidentController
         );
     }
 
+    public function update(OfferUpdateRequest $request, Offer $offer)
+    {
+        $request->setModel($offer, true);
+        $offer->save();
+        return response()->json(['success' => true]);
+    }
+
     public function item(Offer $offer)
     {
         return new OfferItemResource($offer->load(['items', 'items.invoice']));
@@ -153,5 +161,35 @@ class OfferController extends ResidentController
         return $this->deleteCRUD($offer);
     }
 
+    public function convert(Offer $offer)
+    {
+        $converColumn = [
+            'userid', 'account', 'subtotal', 'discount_type', 'discount_value', 'discount', 'total', 'tax1' => 'tax', 'taxname', 'taxrate'
+        ];
+
+        $date = now();
+
+        $invoice = Invoice::newDefault();
+        foreach ($converColumn as $key => $val) {
+            $value = is_int($key) ? $offer->{$val} : $offer->{$key};
+            $invoice->{$val} = $value;
+        }
+
+        $invoice->getCurrencyIso()->associate(Currency::getDefault());
+        $invoice->date = $date;
+        $invoice->duedate = $date;
+        $invoice->nd = $date;
+        $invoice->quote_id = $offer->id;
+        $invoice->invoicenum = Config::get('invoice_code_prefix', 'INV-');
+        $invoice->save();
+
+        $offer->items->each(function ($item) use($invoice){
+            $newItem = $item->replicate();
+            $newItem->document()->associate($invoice);
+            $newItem->invoiceid = $invoice->id;
+            $newItem->save();
+        });
+        return response()->json(['success' => true]);
+    }
 
 }

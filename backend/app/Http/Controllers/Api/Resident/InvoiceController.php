@@ -262,6 +262,7 @@ class InvoiceController extends ResidentController
         $invoice->items->each(function($item) use($new){
             $newItem = $item->replicate();
             $newItem->invoiceid = $new->id;
+            $newItem->document_id = $new->id;
             $newItem->save();
         });
 

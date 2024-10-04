@@ -123,6 +123,10 @@ class Invoice extends Model implements InsertDefaultValueInterface
 
     public function getDefault(): array
     {
+        foreach(['vtoken', 'ptoken'] as $name) {
+            $this->setRandomNum($name, 10, true);
+        }
+
         return [
             'notes' => ['', 'notes'],
             'account' => [''],
@@ -131,6 +135,8 @@ class Invoice extends Model implements InsertDefaultValueInterface
             'taxrate' => [0.0],
             'taxrate2' => [0.0],
             'paymentmethod' => [''],
+            'status' => [self::STATUS[0]],
+            'r' => ['0']
         ];
     }
 
