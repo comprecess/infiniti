@@ -72,7 +72,9 @@ class Role extends Model
         $query = $this->access()->whereIn('shortname', array_keys($onlyController));
 
         if(method_exists($class, 'roleAccess')) {
-            return $class->roleAccess($request, $getList);
+            if(($result = $class->roleAccess($request, $getList)) !== null) {
+                return $result;
+            }
         }
 
         if($getList) {
