@@ -20,7 +20,7 @@ use App\Http\Resources\Resident\Client\CompanyResource;
 use App\Http\Resources\Resident\Client\CompanyView\TransactionResource;
 use App\Http\Resources\Resident\Client\GroupResource;
 use App\Http\Resources\Resident\DocumentResource;
-use App\Http\Resources\Resident\Settings\CurrencyResorce;
+use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Http\Resources\Resident\Settings\CustomFieldsResource;
 use App\Http\Resources\UserResource;
 use App\Mail\EmailTemplateMail;
@@ -43,7 +43,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
-class ClientController extends ResidentController
+class ClientController extends MainClientController
 {
     use CRUD {
        createOrUpdate as createOrUpdateCRUD;
@@ -126,8 +126,6 @@ class ClientController extends ResidentController
 
     public function item(Client $client)
     {
-//        dd($client->setTag(['test', '123']));
-//        dd(Tag::getForSelect(Client::class));
         return new ClientAllResource($client);
     }
 
@@ -138,7 +136,7 @@ class ClientController extends ResidentController
             'type' => Client::TYPE,
             'company' => CompanyResource::collection(Company::getForSelect()),
             'group' => GroupResource::collection(Group::getForSelect()),
-            'currency' => CurrencyResorce::collection(Currency::getForSelect()),
+            'currency' => CurrencyResource::collection(Currency::getForSelect()),
             'owner' => UserResource::collection(Admin::getForSelect()),
             'country' => Countries::list(),
             'customFields' => CustomFieldsResource::collection(CustomFields::getForSelect()),

@@ -44,7 +44,7 @@ Route::group(['prefix' => 'client',], function(){
 });
 
 #invoce
-Route::controller(Resident\InvoiceController::class)->prefix('invoice')
+Route::controller(Resident\Sale\InvoiceController::class)->prefix('invoice')
     ->group(function(){
         Route::get('/stat', 'stat');
         Route::get('/list', 'list');
@@ -64,7 +64,7 @@ Route::controller(Resident\InvoiceController::class)->prefix('invoice')
 //        Route::get('/service/{service}', 'listService');
     });
 #offer
-Route::controller(Resident\OfferController::class)->prefix('offer')
+Route::controller(Resident\Sale\OfferController::class)->prefix('offer')
     ->group(function(){
 //        Route::get('/stat', 'stat');
         Route::get('/list', 'list');
@@ -77,7 +77,7 @@ Route::controller(Resident\OfferController::class)->prefix('offer')
         Route::delete('/{offer}', 'delete');
     });
 #blank
-Route::controller(Resident\BlankController::class)->prefix('{typeBlank}')->whereIn('typeBlank', array_keys(Resident\BlankController::TYPE_BLANK))
+Route::controller(Resident\Sale\BlankController::class)->prefix('{typeBlank}')->whereIn('typeBlank', array_keys(Resident\Sale\BlankController::TYPE_BLANK))
     ->group(function(){
         Route::get('/{idType}/blank', 'blankList');
         Route::post('/{idType}/blank', 'blankCreateOrUpdate');
@@ -97,12 +97,6 @@ Route::group(['prefix' => 'settings'], function(){
             Route::put('/{currency}/base', 'updateBase');
             Route::delete('/{currency}', 'delete');
         });
-//    #Currency
-//    Route::get('/currency', [Settings\CurrencyController::class, 'currency']);
-//    Route::post('/currency', [Settings\CurrencyController::class, 'create']);
-//    Route::put('/currency/{currency}', [Settings\CurrencyController::class, 'update']);
-//    Route::put('/currency/{currency}/base', [Settings\CurrencyController::class, 'updateBase']);
-//    Route::delete('/currency/{currency}', [Settings\CurrencyController::class, 'delete']);
     #custom fields
     Route::controller(Resident\Settings\CustomFieldsController::class)->prefix('custom_fields')
         ->group(function(){
@@ -111,6 +105,16 @@ Route::group(['prefix' => 'settings'], function(){
             Route::put('/{customFields}', 'createOrUpdate');
             Route::get('/{customFields}', 'item');
             Route::delete('/{customFields}', 'delete');
+        });
+    #Roles
+    Route::controller(Resident\Settings\RoleController::class)->prefix('role')
+        ->group(function(){
+            Route::get('/', 'list');
+            Route::get('/input-data', 'inputData');
+            Route::post('/', 'createOrUpdate');
+            Route::put('/{role}', 'createOrUpdate');
+            Route::get('/{role}', 'item');
+            Route::delete('/{role}', 'delete');
         });
 });
 

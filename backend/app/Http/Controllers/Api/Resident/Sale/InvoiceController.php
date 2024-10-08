@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\Api\Resident;
+namespace App\Http\Controllers\Api\Resident\Sale;
 
 
 use App\Http\Controllers\Api\Traits\CRUD;
@@ -18,7 +18,7 @@ use App\Http\Resources\Resident\Invoices\InvoiceListResource;
 use App\Http\Resources\Resident\Invoices\InvoicePdfResource;
 use App\Http\Resources\Resident\Invoices\InvoiceResource;
 use App\Http\Resources\Resident\Invoices\OfferItemResource;
-use App\Http\Resources\Resident\Settings\CurrencyResorce;
+use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Http\Resources\Resident\Settings\TaxResorce;
 use App\Models\Config;
 use App\Models\Contracts\ModelServiceInterface;
@@ -34,7 +34,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
-class InvoiceController extends ResidentController
+class InvoiceController extends SaleController
 {
     use CRUD{
         createOrUpdate as createOrUpdateCRUD;
@@ -140,7 +140,7 @@ class InvoiceController extends ResidentController
         return response()->json([
             'client' => ClientResource::collection(Client::getForSelect()),
             'status' => array_keys(InvoiceRequest::STATUS),
-            'currency' => CurrencyResorce::collection(Currency::getForSelect()),
+            'currency' => CurrencyResource::collection(Currency::getForSelect()),
             'num' => Invoice::getNextNum(),
             'invoiceNum' => Config::get('invoice_code_prefix', 'INV-'),
             'repeat' => Invoice::getRepeatName(),

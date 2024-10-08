@@ -5,7 +5,7 @@ namespace App\Http\Resources\Resident\Invoices;
 use App\Http\Requests\Resident\Invoices\InvoiceRequest;
 use App\Http\Resources\Contracts\ListInterface;
 use App\Http\Resources\Resident\Client\ClientView\SummaryResource;
-use App\Http\Resources\Resident\Settings\CurrencyResorce;
+use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Http\Resources\Traits\ListTrait;
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Models\Config;
@@ -39,7 +39,7 @@ class InvoiceItemResource extends JsonResource implements ListInterface
             'code' => $this->getCode(),
             'token' => $this->vtoken,
             'client' => new ClientResource($this->user),
-            'currency' => new CurrencyResorce($this->getCurrencyIso),
+            'currency' => new CurrencyResource($this->getCurrencyIso),
             'repeat' => $this->getKeyRepeat(),
             'date' => $this->date?->format('Y-m-d'),
             'dueDate' => $this->getDueDate(),

@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Resident\Client;
 
 use App\Http\Resources\Resident\Client\ClientView\CustomFieldsResource;
-use App\Http\Resources\Resident\Settings\CurrencyResorce;
+use App\Http\Resources\Resident\Settings\CurrencyResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -31,7 +31,7 @@ class ClientAllResource extends JsonResource
             'state' => $this->state,
             'zip' => $this->zip,
             'country' => $this->country,
-            'currency' => new CurrencyResorce($this->getCurrencyIso),
+            'currency' => new CurrencyResource($this->getCurrencyIso),
             'email' => $this->email,
             'phone' => $this->phone,
             'displayName' => $this->display_name,
