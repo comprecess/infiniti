@@ -51,6 +51,7 @@ class Role extends Model
         });
 
         $method = $request->method();
+        $class = $request->route()->getController();
 
         $type = collect(self::ACCESS_METHOD)->search(function($value) use($method){
             return array_search($method, $value) !== false;
@@ -58,7 +59,7 @@ class Role extends Model
 
 
         $list = [$request->route()->getControllerClass()];
-        $this->getParentClass($request->route()->getController(), $list);
+        $this->getParentClass($class, $list);
 
         $onlyController = Arr::where($controllerList, function($value) use($list){
            foreach($value as $classAccess) {
@@ -70,18 +71,24 @@ class Role extends Model
 
         $query = $this->access()->whereIn('shortname', array_keys($onlyController));
 
+        if(method_exists($class, 'roleAccess')) {
+            if(($result = $class->roleAccess($request, $getList)) !== null) {
+                return $result;
+            }
+        }
+
         if($getList) {
             return $query->with(['permission'])->first();
         }
 
         $status = false;
 
+        $query->each(function($item) use(&$status, $type){
+            if($item->all || $item->{$type}) {
+                $status = true;
+            }
+        });
 
-            $query->each(function($item) use(&$status, $type){
-                if($item->all || $item->{$type}) {
-                    $status = true;
-                }
-            });
 
 
         return $status;
