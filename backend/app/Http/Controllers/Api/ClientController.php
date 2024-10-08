@@ -13,6 +13,14 @@ use Illuminate\Http\Request;
 
 class ClientController extends UserController
 {
+
+    public function roleAccess(Request $request)
+    {
+        if(in_array($request->route()->getActionMethod(), ['index'])) {
+            return true;
+        }
+    }
+
     public function index()
     {
         $this->isAuth(false);
