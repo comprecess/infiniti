@@ -3,6 +3,7 @@
 namespace App\Models\Users;
 
 use App\Models\Log;
+use App\Models\Resident\Settings\Role;
 use App\Models\User;
 use App\Models\Users\Interfaces\LoginIntarface;
 
@@ -23,6 +24,10 @@ class Admin extends User implements LoginIntarface
         return 'last_login';
     }
 
+    public function myRole()
+    {
+        return $this->belongsTo(Role::class, 'roleid');
+    }
 
     public function login($username, $password)
     {
@@ -56,6 +61,16 @@ class Admin extends User implements LoginIntarface
     public static function getForSelect()
     {
         return self::orderBy('fullname')->get();
+    }
+
+    public function hasAccess($request, $getList = false)
+    {
+        $role = $this->myRole;
+
+        if($role) {
+            return $role->hasAccess($request, $getList);
+        }
+        return true;
     }
 
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Resident\Settings;
 
 
 use App\Http\Requests\Resident\Settings\CurrencyRequest;
-use App\Http\Resources\Resident\Settings\CurrencyResorce;
+use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Models\Config;
 use App\Models\Resident\Settings\Currency;
 use Illuminate\Http\Request;
@@ -19,7 +19,7 @@ class CurrencyController extends SettingsController
         $currencyData = Currency::all();
         $paginate = $currencyData->paginate($this->amount ?? 6);
 
-        return CurrencyResorce::collection($paginate);
+        return CurrencyResource::collection($paginate);
     }
 
     public function create(CurrencyRequest $request)

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\Api\Resident;
+namespace App\Http\Controllers\Api\Resident\Sale;
 
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Invoices\InvoicePriceCalcRequest;
@@ -25,7 +25,7 @@ use App\Services\Document\DocumentVariables;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
-class OfferController extends ResidentController
+class OfferController extends SaleController
 {
     use CRUD{
         createOrUpdate as createOrUpdateCRUD;

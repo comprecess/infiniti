@@ -11,7 +11,7 @@ use App\Http\Requests\Resident\Client\GroupSortRequest;
 use App\Http\Resources\Resident\Client\GroupResource;
 use App\Models\Resident\Client\Group;
 
-class GroupController extends Controller
+class GroupController extends MainClientController
 {
     use CRUD {
         index as myIndex;

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\Api\Resident;
+namespace App\Http\Controllers\Api\Resident\Sale;
 
 
 use App\Http\Controllers\Api\Traits\CRUD;
@@ -15,9 +15,8 @@ use App\Models\Resident\Invoices\Offer;
 use App\Models\Resident\Settings\Tax;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
-class BlankController extends ResidentController
+class BlankController extends SaleController
 {
 
     const TYPE_BLANK = ['invoice' => Invoice::class, 'offer' => Offer::class];

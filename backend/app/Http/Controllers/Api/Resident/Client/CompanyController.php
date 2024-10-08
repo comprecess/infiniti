@@ -15,7 +15,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 use App\Http\Resources\Resident\Client\CompanyView;
 
-class CompanyController extends Controller
+class CompanyController extends MainClientController
 {
     use CRUD {
         index as myIndex;

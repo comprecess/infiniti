@@ -5,7 +5,7 @@ namespace App\Http\Resources\Resident\Invoices;
 use App\Http\Requests\Resident\Invoices\InvoiceRequest;
 use App\Http\Resources\Contracts\ListInterface;
 use App\Http\Resources\Resident\Client\ClientView\SummaryResource;
-use App\Http\Resources\Resident\Settings\CurrencyResorce;
+use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Http\Resources\Traits\ListTrait;
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Models\Config;

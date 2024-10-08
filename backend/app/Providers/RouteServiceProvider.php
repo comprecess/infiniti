@@ -40,7 +40,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/api/client.php'));
 
             #resident
-            Route::middleware(['api', 'statusResponse', 'authtime:api_admin'])
+            Route::middleware(['api', 'statusResponse', 'authtime:api_admin', 'haveAccess', 'accessResponse'])
                 ->prefix('api/v1/resident')
                 ->group(base_path('routes/api/resident.php'));
 

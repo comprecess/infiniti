@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\Access\AccessResponse;
+use App\Http\Middleware\Access\HaveAccess;
 use App\Http\Middleware\StatusResponse;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -65,6 +67,8 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'statusResponse' => StatusResponse::class
+        'statusResponse' => StatusResponse::class,
+        'haveAccess' => HaveAccess::class,
+        'accessResponse' => AccessResponse::class,
     ];
 }
