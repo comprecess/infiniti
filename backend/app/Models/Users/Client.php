@@ -39,7 +39,7 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
     protected $nameClass = 'Client';
 
     const TYPE = [
-        'customer', 'supplier'
+        'Customer', 'Supplier'
     ];
 
     protected $casts = [
