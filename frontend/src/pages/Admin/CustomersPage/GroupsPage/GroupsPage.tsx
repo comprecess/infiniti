@@ -1,7 +1,10 @@
 import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { GroupsListProps } from '../../../../app/constants/constants'
+import {
+  GroupsListProps,
+  RolesAccess,
+} from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { EditGroup } from '../../../../features/Admin/CustomersPage/GroupsPage/EditGroup/EditGroup'
 import { NewGroup } from '../../../../features/Admin/CustomersPage/GroupsPage/NewGroup/NewGroup'
@@ -20,6 +23,8 @@ import styles from './GroupsPage.module.scss'
 export const AdminGroupsPage: FC = () => {
   const [groups, setGroups] = useState<GroupsListProps[] | null>(null)
 
+  const [access, setAccess] = useState<RolesAccess | null>(null)
+
   const [newGroup, setNewGroup] = useState<boolean>(false)
   const [modalEditGroups, setModalEditGroups] = useState<boolean>(false)
 
@@ -35,9 +40,13 @@ export const AdminGroupsPage: FC = () => {
   const showToast = useCustomToast()
 
   const getGroups = async () => {
-    const groupsResponse: GroupsListProps[] = await getListGroups()
+    const getResponse: {
+      access: RolesAccess
+      data: GroupsListProps[]
+    } = await getListGroups()
 
-    setGroups(groupsResponse)
+    setAccess(getResponse.access)
+    setGroups(getResponse.data)
   }
 
   const openNewGroupModal = () => {
@@ -151,17 +160,19 @@ export const AdminGroupsPage: FC = () => {
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        {groups ? (
+        {groups && access ? (
           <RecentCard
             title='Groups'
             style={styles.recentFullScreen}
             Component={RecentButtons}
             componentProps={{
+              isCanCreate: access.create,
               firstButtonClick: openNewGroupModal,
               secondButtonClick: handleNavigateToOrder,
             }}
           >
             <RecentGroups
+              access={access}
               groupsList={groups}
               deleteGroup={confirmDeleteGroup}
               editGroup={setIdEditGroup}

@@ -1,12 +1,14 @@
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { RolesAccess } from '../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../app/router/routes'
 import styleItem from '../RecentCustomers.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
   id: number
+  access: RolesAccess
   image: string
   name: string
   code: string
@@ -18,6 +20,7 @@ interface ItemProps {
 
 export const Item: FC<ItemProps> = ({
   id,
+  access,
   image,
   name,
   code,
@@ -71,19 +74,27 @@ export const Item: FC<ItemProps> = ({
         >
           <img src='/icons/view.svg' alt='View' className={styles.icon} />
         </button>
-        <button
-          className={styles.buttonEdit}
-          onClick={() => handleNavigate(Routes.edit)}
-        >
-          <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
-        </button>
-        <button className={styles.buttonTrash}>
-          <img
-            src='/icons/trash.svg'
-            alt='Trash'
-            className={styles.icon}
-          />
-        </button>
+        {access.edit && (
+          <button
+            className={styles.buttonEdit}
+            onClick={() => handleNavigate(Routes.edit)}
+          >
+            <img
+              src='/icons/edit.svg'
+              alt='Edit'
+              className={styles.icon}
+            />
+          </button>
+        )}
+        {access.delete && (
+          <button className={styles.buttonTrash}>
+            <img
+              src='/icons/trash.svg'
+              alt='Trash'
+              className={styles.icon}
+            />
+          </button>
+        )}
       </div>
     </div>
   )

@@ -5,24 +5,28 @@ import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
 import styles from './HeaderButtons.module.scss'
 
 interface HeaderButtonsProps {
+  isCanCreate: boolean
   firstButtonClick: () => void
   secondButtonClick: () => void
 }
 
 export const HeaderButtons: FC<HeaderButtonsProps> = ({
+  isCanCreate,
   firstButtonClick,
   secondButtonClick,
 }) => {
   return (
     <div className={styles.wrapper}>
-      <ButtonBlue
-        titleNone
-        title='Add Customer'
-        icon='/icons/plus.svg'
-        style={styles.buttonPlus}
-        iconProps={styles.iconPlus}
-        onClick={firstButtonClick}
-      />
+      {isCanCreate && (
+        <ButtonBlue
+          titleNone
+          title='Add Customer'
+          icon='/icons/plus.svg'
+          style={styles.buttonPlus}
+          iconProps={styles.iconPlus}
+          onClick={firstButtonClick}
+        />
+      )}
       <ButtonBrand
         titleNone
         title='Import'

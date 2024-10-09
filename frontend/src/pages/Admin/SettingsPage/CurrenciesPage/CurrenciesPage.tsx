@@ -1,6 +1,9 @@
 import { FC, useEffect, useState } from 'react'
 
-import { CurrencyProps } from '../../../../app/constants/constants'
+import {
+  CurrencyProps,
+  RolesAccess,
+} from '../../../../app/constants/constants'
 import { EditCurrency } from '../../../../features/Admin/CurrenciesPage/EditCurrency/EditCurrency'
 import { NewCurrency } from '../../../../features/Admin/CurrenciesPage/NewCurrency/NewCurrency'
 import { RecentCurrencies } from '../../../../features/Admin/CurrenciesPage/RecentCurrencies/RecentCurrencies'
@@ -18,11 +21,13 @@ import styles from './CurrenciesPage.module.scss'
 
 export const AdminCurrenciesPage: FC = () => {
   const [currenciesList, setCurrenciesList] = useState<
-  CurrencyProps[] | null
+    CurrencyProps[] | null
   >(null)
   const [modalNewCurrency, setModalNewCurrency] = useState<boolean>(false)
   const [modalEditCurrency, setModalEditCurrency] =
     useState<boolean>(false)
+
+  const [access, setAccess] = useState<RolesAccess | null>(null)
 
   const [id, setId] = useState<number>(0)
   const [inputValueName, setInputValueName] = useState<string>('')
@@ -65,9 +70,13 @@ export const AdminCurrenciesPage: FC = () => {
   }
 
   const getCurrencyList = async () => {
-    const currencyResponse: CurrencyProps[] = await getListOfActive()
+    const currencyResponse: {
+      access: RolesAccess
+      data: CurrencyProps[]
+    } = await getListOfActive()
 
-    setCurrenciesList(currencyResponse)
+    setAccess(currencyResponse.access)
+    setCurrenciesList(currencyResponse.data)
   }
 
   const loadEditModalWindow = (
@@ -180,20 +189,25 @@ export const AdminCurrenciesPage: FC = () => {
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        {currenciesList ? (
+        {currenciesList && access ? (
           <RecentCard
             title='Currencies'
             style={styles.recentFullScreen}
-            Component={ButtonBlue}
-            componentProps={{
-              title: 'New Currency',
-              icon: '/icons/plus.svg',
-              iconProps: styles.icon,
-              onClick: handleOpenCloseModalNewCurrency,
-              style: styles.blueButton,
-            }}
+            Component={access.create ? ButtonBlue : undefined}
+            componentProps={
+              access.create
+                ? {
+                    title: 'New Currency',
+                    icon: '/icons/plus.svg',
+                    iconProps: styles.icon,
+                    onClick: handleOpenCloseModalNewCurrency,
+                    style: styles.blueButton,
+                  }
+                : undefined
+            }
           >
             <RecentCurrencies
+              access={access}
               currencyList={currenciesList}
               deleteCurrency={confirmDeleteGroup}
               changeBaseCurrency={changeSelectedBaseCurrency}

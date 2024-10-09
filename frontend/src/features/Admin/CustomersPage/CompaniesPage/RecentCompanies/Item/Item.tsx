@@ -1,10 +1,12 @@
 import { FC } from 'react'
 
+import { RolesAccess } from '../../../../../../app/constants/constants'
 import styleItem from '../RecentCompanies.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
   id: number
+  access: RolesAccess
   logo: string
   code: string
   name: string
@@ -17,6 +19,7 @@ interface ItemProps {
 
 export const Item: FC<ItemProps> = ({
   id,
+  access,
   logo,
   code,
   name,
@@ -63,19 +66,30 @@ export const Item: FC<ItemProps> = ({
         <button className={styles.viewButton} onClick={handleInfoCompany}>
           <img src='/icons/view.svg' alt='View' className={styles.icon} />
         </button>
-        <button className={styles.buttonEdit} onClick={handleEditCompany}>
-          <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
-        </button>
-        <button
-          className={styles.buttonTrash}
-          onClick={handleDeleteCompany}
-        >
-          <img
-            src='/icons/trash.svg'
-            alt='Trash'
-            className={styles.icon}
-          />
-        </button>
+        {access.edit && (
+          <button
+            className={styles.buttonEdit}
+            onClick={handleEditCompany}
+          >
+            <img
+              src='/icons/edit.svg'
+              alt='Edit'
+              className={styles.icon}
+            />
+          </button>
+        )}
+        {access.delete && (
+          <button
+            className={styles.buttonTrash}
+            onClick={handleDeleteCompany}
+          >
+            <img
+              src='/icons/trash.svg'
+              alt='Trash'
+              className={styles.icon}
+            />
+          </button>
+        )}
       </div>
     </div>
   )

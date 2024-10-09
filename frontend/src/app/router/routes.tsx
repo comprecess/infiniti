@@ -53,6 +53,9 @@ import { AdminViewInvoicePage } from '../../pages/Admin/SalesPage/ViewInvoicePag
 import { AdminViewOfferPage } from '../../pages/Admin/SalesPage/ViewOfferPage/ViewOfferPage'
 import { AdminCurrenciesPage } from '../../pages/Admin/SettingsPage/CurrenciesPage/CurrenciesPage'
 import { AdminCustomContactFields } from '../../pages/Admin/SettingsPage/CustomContactFieldsPage/CustomContactFieldsPage'
+import { AdminEditRolePage } from '../../pages/Admin/SettingsPage/RolesPage/EditRolePage/EditRolePage'
+import { AdminNewRolePage } from '../../pages/Admin/SettingsPage/RolesPage/NewRolePage/NewRolePage'
+import { AdminRolesPage } from '../../pages/Admin/SettingsPage/RolesPage/RolesPage'
 import { AdminSMSPage } from '../../pages/Admin/SMSPage/SMSPage'
 import { AdminAddSupplierPage } from '../../pages/Admin/SuppliersPage/AddSupplierPage/AddSupplierPage'
 import { AdminListSuppliersPage } from '../../pages/Admin/SuppliersPage/ListSuppliersPage/ListSuppliersPage'
@@ -91,9 +94,11 @@ export const Routes = {
   view: 'view',
   new: 'new',
   project: 'project',
+  roles: 'roles',
   summary: 'summary',
   businessPlan: 'businessplan',
   reorder: 'reorder',
+  role: 'role',
   accounting: 'accounting',
   sales: 'sales',
   currencies: 'currencies',
@@ -253,6 +258,9 @@ export const Pages = {
   adminEditProject: <AdminEditProject />,
   adminListSuppliersPage: <AdminListSuppliersPage />,
   adminAddSupplierPage: <AdminAddSupplierPage />,
+  adminRolesPage: <AdminRolesPage />,
+  adminEditRolePage: <AdminEditRolePage />,
+  adminNewRolePage: <AdminNewRolePage />,
 
   /* Public  pages */
   publicViewInvoice: <InvoiceViewPage />,

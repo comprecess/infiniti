@@ -1,18 +1,23 @@
 import React, { FC } from 'react'
 
-import { GroupsListProps } from '../../../../../app/constants/constants'
+import {
+  GroupsListProps,
+  RolesAccess,
+} from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentGroups.module.scss'
 
 interface RecentTableProps {
+  access: RolesAccess
   groupsList: GroupsListProps[]
   deleteGroup: (id: number) => void
   editGroup: (id: number, name: string) => void
 }
 
 export const RecentGroups: FC<RecentTableProps> = ({
+  access,
   groupsList,
   deleteGroup,
   editGroup,
@@ -29,6 +34,7 @@ export const RecentGroups: FC<RecentTableProps> = ({
             <React.Fragment key={item.id}>
               <Item
                 id={item.id}
+                access={access}
                 groupName={item.name}
                 deleteGroup={deleteGroup}
                 editGroup={editGroup}

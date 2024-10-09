@@ -27,13 +27,13 @@ interface FieldsPostData {
 
 export interface PartialFieldsPostData extends Partial<FieldsPostData> {
   [key: string]:
-  | string
-  | number
-  | boolean
-  | undefined
-  | string[]
-  | { [id: number]: string }
-  | null
+    | string
+    | number
+    | boolean
+    | undefined
+    | string[]
+    | { [id: number]: string }
+    | null
 }
 
 export const Fields: FC<FieldsProps> = ({ idClient, data, inputs }) => {
@@ -57,6 +57,10 @@ export const Fields: FC<FieldsProps> = ({ idClient, data, inputs }) => {
         } else {
           updatedFormData[name] = inputs.group[value - 1].id
         }
+      } else if (name === 'currency' && typeof value === 'number') {
+        updatedFormData[name] = inputs.currency?.find(
+          currency => currency.id === value,
+        )?.code
       } else if (name === 'companyId' && typeof value === 'number') {
         if (value === 0) {
           updatedFormData[name] = null
@@ -236,7 +240,7 @@ export const Fields: FC<FieldsProps> = ({ idClient, data, inputs }) => {
                   key={item}
                   titleOnChange={item}
                   defaultChecked={data.type.includes(item)}
-                  title={item.charAt(0).toUpperCase() + item.slice(1)}
+                  title={item}
                   onInputChange={OnChangeCheckBox}
                 />
               )
@@ -301,10 +305,10 @@ export const Fields: FC<FieldsProps> = ({ idClient, data, inputs }) => {
             title='Company'
             titleOnChange='companyId'
             placeholder='None'
-            idList={inputs.company.map((_item, index) => index + 1)}
-            nameList={inputs.company.map(item => item.name)}
+            idList={inputs.company?.map((_item, index) => index + 1)}
+            nameList={inputs.company?.map(item => item.name)}
             value={
-              inputs.company.findIndex(
+              inputs.company?.findIndex(
                 value => value.id === data.company?.id,
               ) + 1
             }
@@ -324,19 +328,19 @@ export const Fields: FC<FieldsProps> = ({ idClient, data, inputs }) => {
           <CustomSelect
             title='Currency'
             titleOnChange='currency'
-            value={data.currency.id}
-            idList={inputs.currency.map(item => item.id)}
-            nameList={inputs.currency.map(item => item.code)}
+            value={data.currency?.id}
+            idList={inputs.currency?.map(item => item.id)}
+            nameList={inputs.currency?.map(item => item.code)}
             onChange={onChangeInput}
           />
           <CustomSelect
             title='Group'
             titleOnChange='groupId'
             placeholder='None'
-            idList={inputs.group.map((_item, index) => index + 1)}
-            nameList={inputs.group.map(item => item.name)}
+            idList={inputs.group?.map((_item, index) => index + 1)}
+            nameList={inputs.group?.map(item => item.name)}
             value={
-              inputs.group.findIndex(
+              inputs.group?.findIndex(
                 value => value.id === data.group?.id,
               ) + 1
             }
@@ -345,9 +349,11 @@ export const Fields: FC<FieldsProps> = ({ idClient, data, inputs }) => {
           <CustomSelect
             title='Owner'
             titleOnChange='ownerId'
-            idList={inputs.owner.map(item => item.id)}
-            nameList={inputs.owner.map(item => item.account)}
-            value={inputs.owner.find(item => item.id === data.ownerId)?.id}
+            idList={inputs.owner?.map(item => item.id)}
+            nameList={inputs.owner?.map(item => item.account)}
+            value={
+              inputs.owner?.find(item => item.id === data.ownerId)?.id
+            }
             onChange={onChangeInput}
           />
           <div className={styles.passwordContainer}>

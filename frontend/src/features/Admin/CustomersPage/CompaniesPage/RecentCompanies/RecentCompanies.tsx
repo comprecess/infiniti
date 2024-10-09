@@ -1,12 +1,16 @@
 import React, { FC } from 'react'
 
-import { CompaniesListProps } from '../../../../../app/constants/constants'
+import {
+  CompaniesListProps,
+  RolesAccess,
+} from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentCompanies.module.scss'
 
 interface RecentCompaniesProps {
+  access: RolesAccess
   companiesList: CompaniesListProps[]
   deleteCompany: (id: number) => void
   editCompany: (id: number) => void
@@ -14,6 +18,7 @@ interface RecentCompaniesProps {
 }
 
 export const RecentCompanies: FC<RecentCompaniesProps> = ({
+  access,
   companiesList,
   deleteCompany,
   editCompany,
@@ -34,6 +39,7 @@ export const RecentCompanies: FC<RecentCompaniesProps> = ({
             <React.Fragment key={item.id}>
               <Item
                 id={item.id}
+                access={access}
                 logo={item.logo}
                 code={item.code}
                 name={item.name}

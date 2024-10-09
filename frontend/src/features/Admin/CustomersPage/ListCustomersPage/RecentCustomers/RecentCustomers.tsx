@@ -1,17 +1,22 @@
 import React, { FC, useCallback, useState } from 'react'
 
-import { ListCustomersData } from '../../../../../app/constants/constants'
+import {
+  ListCustomersData,
+  RolesAccess,
+} from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentCustomers.module.scss'
 
 interface RecentCustomersProps {
+  access: RolesAccess
   customersList: ListCustomersData[]
   changeSortName: (sortNameItem: string, sortTypeItem: number) => void
 }
 
 export const RecentCustomers: FC<RecentCustomersProps> = ({
+  access,
   customersList,
   changeSortName,
 }) => {
@@ -104,6 +109,7 @@ export const RecentCustomers: FC<RecentCustomersProps> = ({
             <React.Fragment key={item.id}>
               <Item
                 id={item.id}
+                access={access}
                 image={item.img}
                 name={item.account}
                 code={item.code}

@@ -1,10 +1,12 @@
 import { FC } from 'react'
 
+import { RolesAccess } from '../../../../../app/constants/constants'
 import styleItem from '../RecentCurrencies.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
   id: number
+  access: RolesAccess
   currencyCode: string
   baseConversionRate: string
   baseCurrency: number
@@ -19,6 +21,7 @@ interface ItemProps {
 
 export const Item: FC<ItemProps> = ({
   id,
+  access,
   currencyCode,
   baseConversionRate,
   baseCurrency,
@@ -52,9 +55,18 @@ export const Item: FC<ItemProps> = ({
         {baseConversionRate}
       </span>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <button className={styles.buttonEdit} onClick={handleEditCurrency}>
-          <img src='/icons/edit.svg' alt='Star' className={styles.icon} />
-        </button>
+        {access.edit && (
+          <button
+            className={styles.buttonEdit}
+            onClick={handleEditCurrency}
+          >
+            <img
+              src='/icons/edit.svg'
+              alt='Star'
+              className={styles.icon}
+            />
+          </button>
+        )}
         {baseCurrency === 0 ? (
           <button
             className={styles.buttonStar}
@@ -67,9 +79,18 @@ export const Item: FC<ItemProps> = ({
             />
           </button>
         ) : null}
-        <button className={styles.buttonTrash} onClick={handleDeleteClick}>
-          <img src='/icons/trash.svg' alt='Star' className={styles.icon} />
-        </button>
+        {access.delete && (
+          <button
+            className={styles.buttonTrash}
+            onClick={handleDeleteClick}
+          >
+            <img
+              src='/icons/trash.svg'
+              alt='Star'
+              className={styles.icon}
+            />
+          </button>
+        )}
       </div>
     </div>
   )

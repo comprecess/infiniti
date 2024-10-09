@@ -309,6 +309,15 @@ export const router = createBrowserRouter([
             path: `${Routes.custom}/${Routes.contact}/${Routes.fields}`,
             element: Pages.adminCustomContactFields,
           },
+          { path: Routes.roles, element: Pages.adminRolesPage },
+          {
+            path: `${Routes.roles}/${Routes.new}/${Routes.role}`,
+            element: Pages.adminNewRolePage,
+          },
+          {
+            path: `${Routes.roles}/${Routes.edit}/${Routes.role}/:id`,
+            element: Pages.adminEditRolePage,
+          },
           {
             index: true,
             element: (
