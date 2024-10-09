@@ -31,7 +31,9 @@ class AccessResponse
                     $responseAccess[$value] = 0;
                 }
                 if($access === true) {
-                    $responseAccess['all'] = 1;
+                    foreach($responseAccess as $key => &$value) {
+                        $value = 1;
+                    }
                 } elseif ($access instanceof Model) {
                     foreach($responseAccess as $key => &$value) {
                         $value = (int) $access->{$key};
