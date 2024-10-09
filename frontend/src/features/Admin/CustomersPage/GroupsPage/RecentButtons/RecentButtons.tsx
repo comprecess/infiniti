@@ -5,24 +5,28 @@ import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
 import styles from './RecentButtons.module.scss'
 
 interface RecentButtonsProps {
+  isCanCreate: boolean
   firstButtonClick: () => void
   secondButtonClick: () => void
 }
 
 export const RecentButtons: FC<RecentButtonsProps> = ({
+  isCanCreate,
   firstButtonClick,
   secondButtonClick,
 }) => {
   return (
     <div className={styles.wrapper}>
-      <ButtonBlue
-        titleNone
-        title='New Group'
-        icon='/icons/plus.svg'
-        style={styles.buttonPlus}
-        iconProps={styles.iconPlus}
-        onClick={firstButtonClick}
-      />
+      {isCanCreate && (
+        <ButtonBlue
+          titleNone
+          title='New Group'
+          icon='/icons/plus.svg'
+          style={styles.buttonPlus}
+          iconProps={styles.iconPlus}
+          onClick={firstButtonClick}
+        />
+      )}
       <ButtonBrand
         titleNone
         title='Reorder'

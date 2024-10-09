@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import {
   ListCustomersData,
   PagesMetaData,
+  RolesAccess,
 } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { SearchAndButtons } from '../../../../features/Admin/CustomersPage/CompaniesPage/RecentCompanies/SearchAndButtons/SearchAndButtons'
@@ -29,6 +30,8 @@ export const AdminListCustomerPage: FC = () => {
     data: ListCustomersData[]
     meta: PagesMetaData
   } | null>(null)
+
+  const [access, setAccess] = useState<RolesAccess | null>(null)
 
   const navigate = useNavigate()
   const showToast = useCustomToast()
@@ -98,13 +101,18 @@ export const AdminListCustomerPage: FC = () => {
   const getCustomers = async () => {
     if (!options) return
 
-    const getResponse = await getCustomersList(options)
+    const getResponse: {
+      access: RolesAccess
+      data: ListCustomersData[]
+      meta: PagesMetaData
+    } = await getCustomersList(options)
 
     if (page > getResponse.meta.last_page) {
       setPage(1)
     }
 
-    setCustomers(getResponse)
+    setAccess(getResponse.access)
+    setCustomers({ data: getResponse.data, meta: getResponse.meta })
   }
 
   const navigateToAddCustomer = () => {
@@ -128,14 +136,17 @@ export const AdminListCustomerPage: FC = () => {
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        {customers ? (
+        {customers && access ? (
           <RecentCard
             title='List Customers'
             style={styles.recentFullScreen}
             HeaderComponent={SearchAndButtons}
             Component={HeaderButtons}
-            componentProps={{ firstButtonClick: navigateToAddCustomer }}
             PagesComponent={PagesList}
+            componentProps={{
+              isCanCreate: access.create,
+              firstButtonClick: navigateToAddCustomer,
+            }}
             headerProps={{
               searchChange: searchOnChange,
               rightButtons: documentOnChange,
@@ -147,6 +158,7 @@ export const AdminListCustomerPage: FC = () => {
             }}
           >
             <RecentCustomers
+              access={access}
               customersList={customers.data}
               changeSortName={changeSort}
             />

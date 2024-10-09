@@ -41,7 +41,7 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'List Customer',
+        title: 'List Customers',
         path: `${Routes.list}/${Routes.customer}`,
       },
       { id: 2, title: 'Companies', path: Routes.companies },
@@ -303,7 +303,7 @@ export const adminSidebarPages = [
     openPaths: [
       { id: 0, title: 'General Settings', path: '' },
       { id: 1, title: 'Staff', path: '' },
-      { id: 2, title: 'Roles', path: '' },
+      { id: 2, title: 'Roles', path: Routes.roles },
       { id: 3, title: 'Localization', path: '' },
       { id: 4, title: 'Currencies', path: Routes.currencies },
       { id: 5, title: 'Payment Gateways', path: '' },

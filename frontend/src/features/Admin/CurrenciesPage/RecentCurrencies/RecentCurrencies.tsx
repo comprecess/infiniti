@@ -1,12 +1,16 @@
 import React, { FC } from 'react'
 
-import { CurrencyProps } from '../../../../app/constants/constants'
+import {
+  CurrencyProps,
+  RolesAccess,
+} from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentCurrencies.module.scss'
 
 interface RecentCurrenciesProps {
+  access: RolesAccess
   currencyList: CurrencyProps[]
   deleteCurrency: (id: number) => void
   changeBaseCurrency: (id: number) => void
@@ -18,6 +22,7 @@ interface RecentCurrenciesProps {
 }
 
 export const RecentCurrencies: FC<RecentCurrenciesProps> = ({
+  access,
   currencyList,
   deleteCurrency,
   changeBaseCurrency,
@@ -39,6 +44,7 @@ export const RecentCurrencies: FC<RecentCurrenciesProps> = ({
             <React.Fragment key={order.id}>
               <Item
                 id={order.id}
+                access={access}
                 currencyCode={order.code}
                 baseConversionRate={order.rate}
                 baseCurrency={order.isdefault}

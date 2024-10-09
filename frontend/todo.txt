@@ -21,3 +21,34 @@ Client Invoices Page:
 
 PWA Application:
 		• Белая линия внизу страниц
+
+
+COMPLETE PAGES ROLES:
+		• Customers
+				• List Customers ✔
+				• Companies ✔
+				• Groups ✔
+		• Sales
+		• Bank & Cash
+		• Products & Services
+		• Reports
+		• Utilities
+		• Appearance
+		• Calendar
+		• Leads
+		• Tasks
+		• Contracts
+		• Orders
+		• Settings
+				• Roles ✔
+				• Currencies ✔
+				• Custom Contact Fields ✔
+		• Documents
+		• Purchase
+		• Suppliers
+		• SMS
+		• Support
+		• Knowledgebase
+		• Password Manager
+		• HRM
+		• Projects

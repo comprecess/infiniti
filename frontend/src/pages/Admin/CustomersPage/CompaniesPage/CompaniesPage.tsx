@@ -3,6 +3,7 @@ import { FC, useEffect, useState } from 'react'
 import {
   CompaniesListProps,
   CompanyData,
+  RolesAccess,
 } from '../../../../app/constants/constants'
 import { ModalWindowCompany } from '../../../../features/Admin/CustomersPage/CompaniesPage/ModalWindowCompany/ModalWindowCompany'
 import { ModalWindowCompanyInfo } from '../../../../features/Admin/CustomersPage/CompaniesPage/ModalWindowCompanyInfo/ModalWindowCompanyInfo'
@@ -21,13 +22,15 @@ import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CompaniesPage.module.scss'
 
 export const AdminCompaniesPage: FC = () => {
-  const [companies, setCompanies] = useState<CompaniesListProps[]>([])
+  const [companies, setCompanies] = useState<CompaniesListProps[] | null>(
+    null,
+  )
   const [filteredCompanies, setFilteredCompanies] = useState<
-  CompaniesListProps[] | null
+    CompaniesListProps[] | null
   >(null)
 
   const [selectedCompanyId, setSelectedCompanyId] = useState<
-  number | null
+    number | null
   >(null)
 
   const [modalNewCompany, setModalNewCompany] = useState<boolean>(false)
@@ -35,6 +38,8 @@ export const AdminCompaniesPage: FC = () => {
   const [modalCompanyInfo, setModalCompanyInfo] = useState<boolean>(false)
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
     useState<boolean>(false)
+
+  const [access, setAccess] = useState<RolesAccess | null>(null)
 
   const [companyData, setCompanyData] = useState<CompanyData>({
     name: '',
@@ -62,6 +67,10 @@ export const AdminCompaniesPage: FC = () => {
   }
 
   const handleOpenCloseModalCompanyInfo = () => {
+    if (modalCompanyInfo) {
+      setSelectedCompanyId(null)
+    }
+
     setModalCompanyInfo(!modalCompanyInfo)
   }
 
@@ -82,6 +91,8 @@ export const AdminCompaniesPage: FC = () => {
   }
 
   const handleSearchChange = (searchItem: string) => {
+    if (companies === null) return
+
     const filtered = companies.filter(company =>
       company.name.toLowerCase().includes(searchItem.toLowerCase()),
     )
@@ -92,16 +103,20 @@ export const AdminCompaniesPage: FC = () => {
     setFilteredCompanies(prevFilteredCompanies =>
       prevFilteredCompanies
         ? prevFilteredCompanies.filter(
-          company => company.id !== selectedCompanyId,
-        )
+            company => company.id !== selectedCompanyId,
+          )
         : [],
     )
   }
 
   const getCompanies = async () => {
-    const companiesResponse = await getCompaniesList()
+    const companiesResponse: {
+      access: RolesAccess
+      data: CompaniesListProps[]
+    } = await getCompaniesList()
 
-    setCompanies(companiesResponse)
+    setAccess(companiesResponse.access)
+    setCompanies(companiesResponse.data)
   }
 
   const filterEmptyFields = (data: CompanyData): Partial<CompanyData> => {
@@ -134,8 +149,8 @@ export const AdminCompaniesPage: FC = () => {
     handleOpenCloseModalEditCompany()
   }
 
-  const handleOpenEditInView = (id: number) => {
-    loadCompanyInfoEdit(id)
+  const handleOpenEditInView = async (id: number) => {
+    await loadCompanyInfoEdit(id)
   }
 
   const loadViewCompany = (id: number) => {
@@ -221,23 +236,28 @@ export const AdminCompaniesPage: FC = () => {
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        {companies ? (
+        {companies && access ? (
           <RecentCard
             title='Companies'
             style={styles.recentFullScreen}
             HeaderComponent={SearchAndButtons}
             headerProps={{ searchChange: handleSearchChange }}
-            Component={ButtonBlue}
-            componentProps={{
-              title: 'New Company',
-              titleNone: true,
-              icon: '/icons/plus.svg',
-              iconProps: styles.icon,
-              style: styles.blueButton,
-              onClick: handleOpenCloseModalNewCompany,
-            }}
+            Component={access.create ? ButtonBlue : undefined}
+            componentProps={
+              access.create
+                ? {
+                    title: 'New Company',
+                    titleNone: true,
+                    icon: '/icons/plus.svg',
+                    iconProps: styles.icon,
+                    style: styles.blueButton,
+                    onClick: handleOpenCloseModalNewCompany,
+                  }
+                : undefined
+            }
           >
             <RecentCompanies
+              access={access}
               deleteCompany={confirmDeleteCompany}
               editCompany={loadCompanyInfoEdit}
               infoCompany={loadViewCompany}
@@ -267,12 +287,14 @@ export const AdminCompaniesPage: FC = () => {
         functionCompany={editSelectedCompany}
         handleInputChange={handleInputChange}
       />
-      <ModalWindowCompanyInfo
-        id={selectedCompanyId}
-        modalOpen={modalCompanyInfo}
-        handleOpenCloseModal={handleOpenCloseModalCompanyInfo}
-        openEditModal={handleOpenEditInView}
-      />
+      {selectedCompanyId && (
+        <ModalWindowCompanyInfo
+          id={selectedCompanyId}
+          modalOpen={modalCompanyInfo}
+          handleOpenCloseModal={handleOpenCloseModalCompanyInfo}
+          openEditModal={handleOpenEditInView}
+        />
+      )}
       <ConfirmationModal
         isOpened={isConfirmationModalOpen}
         handleOpenCloseModal={handleOpenConfirmationModal}

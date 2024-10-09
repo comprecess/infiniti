@@ -9,6 +9,31 @@ export const roles = {
   admin: 'Admin',
 }
 
+export interface RolesAccess {
+  all: number
+  create: number
+  delete: number
+  edit: number
+  view: number
+}
+
+export interface RolesAccessObject {
+  id: number
+  shortname: string
+  permission: RolesAccessObjectPermission
+  all: number
+  create: number
+  delete: number
+  edit: number
+  view: number
+}
+
+export interface RolesAccessObjectPermission {
+  id: number
+  shortname: string
+  name: string
+}
+
 export interface FiltersState {
   [key: string]: (number | null)[]
 }
@@ -794,4 +819,18 @@ export interface SalesOfferEmailTemplateData {
   file: string
   adminEmail: string
   variable: { code: string; client_email: string }
+}
+
+export interface SettingsRolesData {
+  id: number
+  name: string
+}
+
+export interface SettingsRoleFormData {
+  permissionId: number
+  view: number
+  edit: number
+  create: number
+  delete: number
+  all: number
 }

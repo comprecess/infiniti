@@ -1,6 +1,9 @@
 import { FC, useEffect, useState } from 'react'
 
-import { SettingsCustomFieldsProps } from '../../../../app/constants/constants'
+import {
+  RolesAccess,
+  SettingsCustomFieldsProps,
+} from '../../../../app/constants/constants'
 import { FieldModal } from '../../../../features/Admin/CustomContactFields/FieldModal/FieldModal'
 import { Item } from '../../../../features/Admin/CustomContactFields/Item/Item'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -28,6 +31,8 @@ export const AdminCustomContactFields: FC = () => {
   const [fields, setFields] = useState<SettingsCustomFieldsProps[] | null>(
     null,
   )
+
+  const [access, setAccess] = useState<RolesAccess | null>(null)
 
   const [selectedId, setSelectedId] = useState<number>(0)
 
@@ -65,9 +70,13 @@ export const AdminCustomContactFields: FC = () => {
   }
 
   const getFieldsData = async () => {
-    const fieldsResponse = await getFields()
+    const fieldsResponse: {
+      access: RolesAccess
+      data: SettingsCustomFieldsProps[]
+    } = await getFields()
 
-    setFields(fieldsResponse)
+    setAccess(fieldsResponse.access)
+    setFields(fieldsResponse.data)
   }
 
   const getInfoSelectedField = async (id: number) => {
@@ -161,18 +170,22 @@ export const AdminCustomContactFields: FC = () => {
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        {fields ? (
+        {fields && access ? (
           <RecentCard
             title='Custom Fields'
             style={styles.recentFullScreen}
-            Component={ButtonBlue}
-            componentProps={{
-              title: 'Add Custom Field',
-              icon: '/icons/plus.svg',
-              titleNone: true,
-              onClick: handleAddNewFieldModal,
-              style: styles.blueButton,
-            }}
+            Component={access.create ? ButtonBlue : undefined}
+            componentProps={
+              access.create
+                ? {
+                    title: 'Add Custom Field',
+                    icon: '/icons/plus.svg',
+                    titleNone: true,
+                    onClick: handleAddNewFieldModal,
+                    style: styles.blueButton,
+                  }
+                : undefined
+            }
           >
             <div className={styles.list}>
               {fields.map(item => {
@@ -180,6 +193,7 @@ export const AdminCustomContactFields: FC = () => {
                   <Item
                     key={item.id}
                     id={item.id}
+                    access={access}
                     title={item.name}
                     description={item.description}
                     editField={getInfoSelectedField}
