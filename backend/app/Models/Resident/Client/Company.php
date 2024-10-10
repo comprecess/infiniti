@@ -6,15 +6,18 @@ use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Traits\BootTrait;
 use App\Models\Traits\FileStorageTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
+use App\Models\Traits\UserTrait;
 use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {
-    use HasFactory, FileStorageTrait, BootTrait;
+    use HasFactory, FileStorageTrait, BootTrait, UserTrait;
 
     protected $table = "sys_companies";
+
+    protected $adminColumn = "aid";
 
     public function users()
     {

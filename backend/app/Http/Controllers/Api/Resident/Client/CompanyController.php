@@ -24,7 +24,11 @@ class CompanyController extends MainClientController
 
     public function list()
     {
-        return $this->myIndex(Company::with(['files'])->orderBy('id', 'desc'), CompanyResource::class);
+        $companies = Company::with(['files'])
+            ->orderBy('id', 'desc')
+            ->checkAccess();
+
+        return $this->myIndex($companies, CompanyResource::class);
     }
 
     public function create(CompanyRequest $request, Company $company)
@@ -53,7 +57,7 @@ class CompanyController extends MainClientController
 
     public function index(Company $company)
     {
-        return new CompanyResource($company);
+        return new CompanyResource($company->checkAccessAbort());
     }
 
     public function delete(Company $company)

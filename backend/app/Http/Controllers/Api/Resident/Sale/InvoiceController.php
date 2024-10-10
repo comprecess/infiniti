@@ -125,6 +125,7 @@ class InvoiceController extends SaleController
                     ->orWhere(DB::raw("DATE_FORMAT(`sys_invoices`.`duedate`, '%d/%m/%Y')"), 'like', $search);
             });
         }
+        $invoice->checkAccess();
 
         $request->sortModel($invoice);
 
@@ -247,7 +248,7 @@ class InvoiceController extends SaleController
 
     public function item(Invoice $invoice)
     {
-        return new InvoiceItemResource($invoice->load(['items', 'items.service', 'items.document']));
+        return new InvoiceItemResource($invoice->checkAccessAbort()->load(['items', 'items.service', 'items.document']));
     }
 
     public function invoiceClone(Invoice $invoice)

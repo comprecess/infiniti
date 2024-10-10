@@ -4,7 +4,6 @@
 namespace App\Http\Controllers\Api\Resident\Client;
 
 
-use App\Http\Controllers\Api\Resident\ResidentController;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Client\ClientCreateRequest;
 use App\Http\Requests\Resident\Client\ClientListRequest;
@@ -32,12 +31,10 @@ use App\Models\Resident\Document;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\CustomFields;
-use App\Models\Resident\Settings\EmailLog;
 use App\Models\Resident\Settings\Tag;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
-use App\Services\Template\Template;
 use App\Services\Tools\Countries;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
@@ -119,6 +116,17 @@ class ClientController extends MainClientController
             });
         }
 
+        if($type = Arr::get($requestAll, 'type', Client::TYPE[0])) {
+            $clients->where('crm_accounts.type', 'like', '%' . $type . '%');
+        }
+
+//        $user = auth()->user();
+//        if($user->checkAccess() === 0) {
+//            $clients->where('crm_accounts.o', $user->id);
+//        }
+
+        $clients->checkAccess();
+
         $request->sortModel($clients);
 
         return $this->index($clients, ClientResource::class, true);
@@ -126,13 +134,17 @@ class ClientController extends MainClientController
 
     public function item(Client $client)
     {
-        return new ClientAllResource($client);
+        return new ClientAllResource($client->checkAccessAbort());
     }
 
     public function inputData()
     {
+        $name = 'CUS';
+        if(in_array(request()->type, Client::TYPE)) {
+            $name = strtoupper(mb_substr(request()->type, 0, 3));
+        }
         $data = [
-            'code' => Client::getNextCode('CUS'),
+            'code' => Client::getNextCode($name),
             'type' => Client::TYPE,
             'company' => CompanyResource::collection(Company::getForSelect()),
             'group' => GroupResource::collection(Group::getForSelect()),

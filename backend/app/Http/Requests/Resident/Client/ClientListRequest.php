@@ -4,6 +4,7 @@ namespace App\Http\Requests\Resident\Client;
 
 use App\Http\Requests\Interfaces\ConvertingPropertiesInterface;
 use App\Http\Requests\Traits\ConvertingPropertiesTrait;
+use App\Models\Users\Client;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -34,6 +35,7 @@ class ClientListRequest extends FormRequest
             'filter.search' => "nullable|string",
             'sort.name' => "nullable|in:" . implode(",", array_keys(self::SORT)),
             'document' => "nullable|in:" . implode(",", self::DOCUMENT),
+            'type' => "nullable|in:" . implode(",", Client::TYPE)
         ];
     }
 

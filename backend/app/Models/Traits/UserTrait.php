@@ -9,6 +9,11 @@ use App\Models\Users\Client;
 
 trait UserTrait
 {
+    public function getAdminColumn()
+    {
+        return $this->adminColumn ?? 'o';
+    }
+
     public function client()
     {
         return $this->belongsTo(Client::class, $this->clientColumn ??'cid');
@@ -16,6 +21,32 @@ trait UserTrait
 
     public function admin()
     {
-        return $this->belongsTo(Admin::class, $this->adminColumn ?? 'o');
+        return $this->belongsTo(Admin::class, $this->getAdminColumn());
+    }
+
+    public function checkAccessAbort()
+    {
+        $admin = auth()->user();
+        if(!($admin instanceof Admin)) {
+            return $this;
+        }
+
+        if($admin->checkAccess() === 0 && $admin->id != $this->{$this->getAdminColumn()}) {
+            abort(403);
+        }
+
+        return $this;
+    }
+
+    public function scopeCheckAccess($query) :void
+    {
+        $admin = auth()->user();
+        if(!($admin instanceof Admin)) {
+            return;
+        }
+
+        if($admin->checkAccess() === 0) {
+            $query->where($this->getTable() .'.' . $this->getAdminColumn(), $admin->id);
+        }
     }
 }

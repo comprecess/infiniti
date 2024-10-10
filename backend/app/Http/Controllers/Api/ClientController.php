@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\User\Client\AvatarRequest;
 use App\Http\Requests\User\Client\UpdateRequest;
 use App\Http\Resources\UserResource;
-use App\Models\Users\Client;
 use App\Services\Tools\Countries;
 use Illuminate\Http\Request;
 
