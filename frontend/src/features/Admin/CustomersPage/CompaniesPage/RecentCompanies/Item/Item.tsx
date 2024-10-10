@@ -66,7 +66,7 @@ export const Item: FC<ItemProps> = ({
         <button className={styles.viewButton} onClick={handleInfoCompany}>
           <img src='/icons/view.svg' alt='View' className={styles.icon} />
         </button>
-        {access.edit && (
+        {access.edit === 1 && (
           <button
             className={styles.buttonEdit}
             onClick={handleEditCompany}
@@ -78,7 +78,7 @@ export const Item: FC<ItemProps> = ({
             />
           </button>
         )}
-        {access.delete && (
+        {access.delete === 1 && (
           <button
             className={styles.buttonTrash}
             onClick={handleDeleteCompany}

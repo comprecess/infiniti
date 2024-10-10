@@ -88,12 +88,12 @@ export const AdminRolesPage: FC = () => {
             componentProps={
               access.create
                 ? {
-                    titleNone: true,
-                    title: 'New Role',
-                    icon: '/icons/plus.svg',
-                    onClick: navigateToCreateNewRole,
-                    style: styles.buttonAddNewRole,
-                  }
+                  titleNone: true,
+                  title: 'New Role',
+                  icon: '/icons/plus.svg',
+                  onClick: navigateToCreateNewRole,
+                  style: styles.buttonAddNewRole,
+                }
                 : undefined
             }
           >

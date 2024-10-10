@@ -1,0 +1,31 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.buttonImport,
+.buttonPlus {
+  height: 42px;
+}
+
+.buttonPlus {
+  max-width: 250px;
+}
+
+.buttonImport {
+  max-width: 250px;
+}
+
+.iconPlus {
+  width: 14px;
+  height: 14px;
+}
+
+.iconImport {
+  width: 22px;
+  height: 22px;
+}

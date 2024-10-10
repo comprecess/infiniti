@@ -55,7 +55,7 @@ export const Item: FC<ItemProps> = ({
         {baseConversionRate}
       </span>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        {access.edit && (
+        {access.edit === 1 && (
           <button
             className={styles.buttonEdit}
             onClick={handleEditCurrency}
@@ -79,7 +79,7 @@ export const Item: FC<ItemProps> = ({
             />
           </button>
         ) : null}
-        {access.delete && (
+        {access.delete === 1 && (
           <button
             className={styles.buttonTrash}
             onClick={handleDeleteClick}

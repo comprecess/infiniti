@@ -8,9 +8,17 @@ import { Header } from '../Header/Header'
 import { Sidebar } from '../Sidebar/Sidebar'
 import styles from './MainOutlet.module.scss'
 
+interface MainOutletProps {
+  roles?: {
+    [key: string]: {
+      view: number
+    }
+  }
+}
+
 const MemoizedHeader = memo(Header)
 
-export const MainOutlet: FC = () => {
+export const MainOutlet: FC<MainOutletProps> = ({ roles }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
   const [isMiniSidebar, setIsMiniSidebar] = useState(false)
@@ -68,6 +76,7 @@ export const MainOutlet: FC = () => {
             isMobile={isMobile}
             isOpen={isSidebarOpen}
             isAdmin={isAdmin}
+            roles={roles}
             onClose={toggleSidebar}
           />
           <div

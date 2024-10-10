@@ -27,12 +27,14 @@ export const adminSidebarPages = [
     id: 0,
     name: 'Dashboard',
     icon: <DashboardIcon />,
+    shortName: '',
     path: Routes.dashboard,
   },
   {
     id: 1,
     name: 'Customers',
     icon: <ProfileIcon />,
+    shortName: 'customers',
     openPaths: [
       {
         id: 0,
@@ -54,6 +56,7 @@ export const adminSidebarPages = [
     id: 2,
     name: 'Business Plan',
     icon: <DashboardIcon />,
+    shortName: '',
     openPaths: [
       {
         id: 0,
@@ -68,6 +71,7 @@ export const adminSidebarPages = [
     id: 3,
     name: 'Accounting',
     icon: <AccountingIcon />,
+    shortName: '',
     openPaths: [
       { id: 0, title: 'New Deposit', path: Routes.newDeposit },
       { id: 1, title: 'New Expense', path: Routes.newExpense },
@@ -89,6 +93,7 @@ export const adminSidebarPages = [
     id: 4,
     name: 'Sales',
     icon: <SalesIcon />,
+    shortName: 'sales',
     openPaths: [
       { id: 0, title: 'Invoices', path: Routes.invoices },
       {
@@ -113,6 +118,7 @@ export const adminSidebarPages = [
     id: 5,
     name: 'Suppliers',
     icon: <CatalogIcon />,
+    shortName: 'suppliers',
     openPaths: [
       {
         id: 0,
@@ -131,6 +137,7 @@ export const adminSidebarPages = [
     id: 6,
     name: 'Purchase',
     icon: <PurchaseIcon />,
+    shortName: '',
     openPaths: [
       { id: 0, title: 'Purchase Orders', path: '' },
       { id: 1, title: 'New Purchase Order', path: '' },
@@ -141,12 +148,14 @@ export const adminSidebarPages = [
     id: 7,
     name: 'Projects',
     icon: <ProjectsIcon />,
+    shortName: '',
     path: Routes.projects,
   },
   {
     id: 8,
     name: 'Leads',
     icon: <LeadsIcon />,
+    shortName: '',
     openPaths: [
       { id: 0, title: 'Leads', path: '' },
       { id: 1, title: 'Web to Lead', path: '' },
@@ -157,6 +166,7 @@ export const adminSidebarPages = [
     id: 9,
     name: 'SMS',
     icon: <TicketsIcon />,
+    shortName: '',
     openPaths: [
       { id: 0, title: 'Send Single SMS', path: '' },
       { id: 1, title: 'Send Bulk SMS', path: '' },
@@ -170,6 +180,7 @@ export const adminSidebarPages = [
     id: 10,
     name: 'Support',
     icon: <SupportIcon />,
+    shortName: '',
     openPaths: [
       { id: 0, title: 'Open New Ticket', path: '' },
       { id: 1, title: 'Tickets', path: '' },
@@ -182,6 +193,7 @@ export const adminSidebarPages = [
     id: 11,
     name: 'Knowledge Base',
     icon: <KnowledgeBaseIcon />,
+    shortName: '',
     openPaths: [
       { id: 0, title: 'New Article', path: '' },
       { id: 1, title: 'All Articles', path: '' },
@@ -192,6 +204,7 @@ export const adminSidebarPages = [
     id: 12,
     name: 'Orders',
     icon: <MyOrdersIcon />,
+    shortName: '',
     openPaths: [
       { id: 0, title: 'List All Orders', path: '' },
       { id: 1, title: 'Add New Order', path: '' },
@@ -202,6 +215,7 @@ export const adminSidebarPages = [
     id: 13,
     name: 'HRM',
     icon: <HRMIcon />,
+    shortName: '',
     openPaths: [
       { id: 0, title: 'Employees', path: '' },
       { id: 1, title: 'Attendance', path: '' },
@@ -213,24 +227,28 @@ export const adminSidebarPages = [
     id: 14,
     name: 'Documents',
     icon: <DocumentsIcon />,
+    shortName: '',
     path: Routes.documents,
   },
   {
     id: 15,
     name: 'Tasks',
     icon: <TasksIcon />,
+    shortName: '',
     path: Routes.tasks,
   },
   {
     id: 16,
     name: 'Calendar',
     icon: <CalendarIcon />,
+    shortName: '',
     path: Routes.calendar,
   },
   {
     id: 17,
     name: 'Products & Services',
     icon: <ProductsServicesIcon />,
+    shortName: '',
     openPaths: [
       { id: 0, title: 'Products', path: '' },
       { id: 1, title: 'New Product', path: '' },
@@ -243,6 +261,7 @@ export const adminSidebarPages = [
     id: 18,
     name: 'Reports',
     icon: <ReportsIcon />,
+    shortName: '',
     openPaths: [
       { id: 0, title: 'Transactions', path: '' },
       { id: 1, title: 'Invoices', path: '' },
@@ -264,6 +283,7 @@ export const adminSidebarPages = [
     id: 19,
     name: 'Utilities',
     icon: <UtilitiesIcon />,
+    shortName: '',
     openPaths: [
       { id: 0, title: 'Activity Log', path: '' },
       { id: 1, title: 'Email Message Log', path: '' },
@@ -282,6 +302,7 @@ export const adminSidebarPages = [
     id: 20,
     name: 'Appearance',
     icon: <AppearanceIcon />,
+    shortName: '',
     openPaths: [
       { id: 0, title: 'User Interface', path: '' },
       { id: 1, title: 'Customize', path: '' },
@@ -294,12 +315,14 @@ export const adminSidebarPages = [
     id: 21,
     name: 'Plugins',
     icon: <PluginsIcon />,
+    shortName: '',
     path: Routes.plugins,
   },
   {
     id: 22,
     name: 'Settings',
     icon: <SettingsIcon />,
+    shortName: 'settings',
     openPaths: [
       { id: 0, title: 'General Settings', path: '' },
       { id: 1, title: 'Staff', path: '' },

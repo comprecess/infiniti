@@ -13,6 +13,7 @@ interface SidebarPage {
   id: number
   name: string
   icon: JSX.Element
+  shortName: string
   openPaths?: openPathsProps[]
   path: string
 }
@@ -23,6 +24,11 @@ interface SidebarProps {
   isMobile: boolean
   isOpen: boolean
   isAdmin: boolean
+  roles?: {
+    [key: string]: {
+      view: number
+    }
+  }
   onClose: () => void
 }
 
@@ -32,6 +38,7 @@ export const Sidebar: FC<SidebarProps> = ({
   isOpen,
   isMobile,
   isAdmin,
+  roles,
   onClose,
 }) => {
   const location = useLocation()
@@ -78,6 +85,14 @@ export const Sidebar: FC<SidebarProps> = ({
     setTouchEndX(null)
   }
 
+  const newPages = roles
+    ? pages.filter(item => {
+        const role = roles[item.shortName]
+
+        return role && role.view === 1
+      })
+    : pages
+
   return (
     <>
       {isMobile && isOpen && (
@@ -116,7 +131,7 @@ export const Sidebar: FC<SidebarProps> = ({
               : styles.items
           }
         >
-          {pages.map(item => {
+          {newPages.map(item => {
             return (
               <React.Fragment key={item.id}>
                 {item.openPaths ? (
