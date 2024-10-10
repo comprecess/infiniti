@@ -12,8 +12,8 @@ class HaveAccess
     public function handle(Request $request, Closure $next): Response
     {
 
-        if(!$request->user()->hasAccess($request)) {
-            return \response()->json(["message" => "No access"], 403);
+        if(!$request->user()->hasAccessByRequest($request)) {
+            abort(403);
         }
 
         return $next($request);

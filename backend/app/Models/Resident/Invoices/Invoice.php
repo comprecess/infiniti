@@ -11,6 +11,7 @@ use App\Models\Traits\CollectionTrait;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\HelperTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
+use App\Models\Traits\UserTrait;
 use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\DB;
 
 class Invoice extends Model implements InsertDefaultValueInterface
 {
-    use HasFactory, CurrencyTrait, CollectionTrait, HelperTrait, InsertDefaultValueTrait, SoftDeletes;
+    use HasFactory, CurrencyTrait, CollectionTrait, HelperTrait, InsertDefaultValueTrait, SoftDeletes, UserTrait;
 
     const STATUS = [
         'Unpaid', 'Paid', 'Partially Paid', 'Cancelled'
@@ -43,6 +44,8 @@ class Invoice extends Model implements InsertDefaultValueInterface
     ];
 
     protected $table = "sys_invoices";
+
+    protected $adminColumn = 'aid';
 
     public $collection = InvoiceCollection::class;
 
@@ -91,7 +94,7 @@ class Invoice extends Model implements InsertDefaultValueInterface
         $result = [];
 
         foreach(self::STATUS as $key => $status) {
-            $invoice = self::where('status', $status);
+            $invoice = self::where('status', $status)->checkAccess();
             if(is_callable($where)) {
                 $where($invoice);
             }
@@ -136,7 +139,8 @@ class Invoice extends Model implements InsertDefaultValueInterface
             'taxrate2' => [0.0],
             'paymentmethod' => [''],
             'status' => [self::STATUS[0]],
-            'r' => ['0']
+            'r' => ['0'],
+            'aid' =>[auth()->id()]
         ];
     }
 

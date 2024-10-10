@@ -2,8 +2,6 @@
 
 namespace App\Http\Middleware\Access;
 
-use App\Http\Resources\Resident\Settings\RoleAccessResource;
-use App\Models\Resident\Settings\Role;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -24,7 +22,7 @@ class AccessResponse
 
             if($request->expectsJson() && $response->headers->get('content-type') == 'application/json') {
                 $json = json_decode($response->getContent(), true);
-                $access = $request->user()->hasAccess($request, true);
+                $access = $request->user()->hasAccessByRequest($request, true);
                 $responseAccess = [];
 
                 foreach(self::RESPONSE as $value) {

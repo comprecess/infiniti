@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -36,6 +37,7 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception)
     {
+
         if($request->expectsJson()
             && (
                 $exception instanceof NotFoundHttpException
@@ -46,6 +48,13 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'message' => 'Not Found',
             ], 404);
+        }
+
+        if($exception instanceof HttpException && $exception->getStatusCode() === 403) {
+            $message = [403 => 'No access'];
+            return response()->json([
+                'message' => $message[$exception->getStatusCode()] ?? 'Error',
+            ], $exception->getStatusCode());
         }
 
         if ($request->expectsJson()

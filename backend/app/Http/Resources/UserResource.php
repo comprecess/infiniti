@@ -3,7 +3,9 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\Contracts\ListInterface;
+use App\Http\Resources\Resident\Settings\RoleResource;
 use App\Http\Resources\Traits\ListTrait;
+use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -31,7 +33,9 @@ class UserResource extends JsonResource implements ListInterface
             $resource['company'] = $this->companyClient?->company_name;
         }
 
-
+        if($this->resource instanceof Admin){
+            $resource['role'] = $this->myRole?->getRoleAccess();
+        }
 
         return $resource;
     }

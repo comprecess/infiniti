@@ -6,6 +6,8 @@ use App\Models\Log;
 use App\Models\Resident\Settings\Role;
 use App\Models\User;
 use App\Models\Users\Interfaces\LoginIntarface;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 
 class Admin extends User implements LoginIntarface
@@ -63,14 +65,42 @@ class Admin extends User implements LoginIntarface
         return self::orderBy('fullname')->get();
     }
 
-    public function hasAccess($request, $getList = false)
+    public function hasAccessByRequest(Request $request, $getList = false)
+    {
+        $cacheName = $request->url() . $this->id . $this->updated_at . ($getList ? 1 : 0);
+        $role = $this->myRole;
+        $cacheName .= $role?->summAccess();
+
+        return Cache::remember($cacheName, config('cache.time.1week'), function() use($role, $request, $getList){
+            if($role) {
+                return $role->hasAccessByRequest($request, $getList);
+            }
+            return true;
+        });
+
+    }
+
+
+    public function checkAccess($access = 'all', mixed $shortNameOrClass = null)
     {
         $role = $this->myRole;
 
-        if($role) {
-            return $role->hasAccess($request, $getList);
+        if(!$role) {
+            return true;
         }
-        return true;
+
+        if($shortNameOrClass === null) {
+            $shortNameOrClass = \request()->route()->getController();
+        }
+
+        $roleAccess = $role->checkAccess($shortNameOrClass);
+
+        if($access) {
+            return $roleAccess->{$access};
+        }
+
+        return $roleAccess;
+
     }
 
 
