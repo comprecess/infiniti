@@ -1,9 +1,13 @@
-.wrapper {
+.wrapperAll,
+.wrapperNotFound {
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-width: 1460px;
   overflow-y: hidden;
+}
+
+.wrapperAll {
+  min-width: 1470px;
 }
 
 .columns {
@@ -35,8 +39,8 @@
 }
 
 .manageColumn {
-  max-width: 310px;
-  min-width: 300px;
+  max-width: 315px;
+  min-width: 315px;
   justify-content: end;
 }
 
