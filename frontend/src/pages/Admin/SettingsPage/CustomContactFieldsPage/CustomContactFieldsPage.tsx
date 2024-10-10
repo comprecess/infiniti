@@ -178,12 +178,12 @@ export const AdminCustomContactFields: FC = () => {
             componentProps={
               access.create
                 ? {
-                    title: 'Add Custom Field',
-                    icon: '/icons/plus.svg',
-                    titleNone: true,
-                    onClick: handleAddNewFieldModal,
-                    style: styles.blueButton,
-                  }
+                  title: 'Add Custom Field',
+                  icon: '/icons/plus.svg',
+                  titleNone: true,
+                  onClick: handleAddNewFieldModal,
+                  style: styles.blueButton,
+                }
                 : undefined
             }
           >

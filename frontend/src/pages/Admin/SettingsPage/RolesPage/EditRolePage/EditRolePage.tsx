@@ -40,7 +40,7 @@ export const AdminEditRolePage: FC = () => {
   } | null>(null)
 
   const [permission, setPermission] = useState<
-    RolesAccessObjectPermission[] | null
+  RolesAccessObjectPermission[] | null
   >(null)
 
   const id = useIdFromUrl()

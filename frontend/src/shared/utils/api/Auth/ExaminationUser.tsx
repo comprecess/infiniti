@@ -1,12 +1,31 @@
-import { FC, PropsWithChildren, useEffect, useState } from 'react'
+import {
+  cloneElement,
+  FC,
+  PropsWithChildren,
+  useEffect,
+  useState,
+} from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { roles } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { getProfileInfo } from '../GetProfileInfo'
 
+interface ChildProps {
+  listRoles?: {
+    [key: string]: {
+      view: number
+    }
+  }
+}
+
+interface WithRoles {
+  roles?: ChildProps
+}
+
 export const ExaminationUser: FC<PropsWithChildren> = ({ children }) => {
-  const [isUserRole, setIsUserRole] = useState<string>('')
+  const [userRole, setUserRole] = useState<string>('')
+  const [listRoles, setListRoles] = useState<ChildProps>()
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
@@ -23,7 +42,8 @@ export const ExaminationUser: FC<PropsWithChildren> = ({ children }) => {
           const isAuth = !!user
           const userRole = user?.userType
 
-          setIsUserRole(userRole)
+          setListRoles(user.role)
+          setUserRole(userRole)
           setIsAuthenticated(isAuth)
         }
       } catch (error: any) {
@@ -40,13 +60,13 @@ export const ExaminationUser: FC<PropsWithChildren> = ({ children }) => {
     if (!isLoading && !isAuthenticated) {
       navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
     } else if (!isLoading && isAuthenticated) {
-      if (isUserRole === roles.client) {
+      if (userRole === roles.client) {
         if (location.pathname.includes(`/${Routes.clientPages}`)) {
           navigate(location.pathname)
         } else {
           navigate(`/${Routes.clientPages}/${Routes.dashboard}`)
         }
-      } else if (isUserRole === roles.admin) {
+      } else if (userRole === roles.admin) {
         if (location.pathname.includes(`/${Routes.adminPages}`)) {
           navigate(location.pathname)
         } else {
@@ -54,7 +74,17 @@ export const ExaminationUser: FC<PropsWithChildren> = ({ children }) => {
         }
       }
     }
-  }, [isLoading, isAuthenticated, isUserRole])
+  }, [isLoading, isAuthenticated, userRole])
 
-  return isAuthenticated && !isLoading ? <>{children}</> : null
+  if (isAuthenticated && !isLoading && userRole === roles.admin) {
+    return cloneElement(children as React.ReactElement<WithRoles>, {
+      roles: listRoles,
+    })
+  }
+
+  if (isAuthenticated && !isLoading && userRole === roles.client) {
+    return <>{children}</>
+  }
+
+  return null
 }

@@ -1,14 +1,15 @@
 import { authTokenString } from '../../../../../app/constants/constants'
 import { getCookies } from '../../../Saving/Cookies/GetCookies'
 
-export const getCustomerInputsData = async () => {
+export const getCustomerInputsData = async (type?: string) => {
   const authToken = getCookies(authTokenString)
 
   if (authToken) {
     try {
       const url =
         import.meta.env.VITE_MAIN_DOMAIN +
-        import.meta.env.VITE_CUSTOMERS_GET_INPUTS_CUSTOMER
+        import.meta.env.VITE_CUSTOMERS_GET_INPUTS_CUSTOMER +
+        `${type ? type : ''}`
 
       const response = await fetch(url, {
         method: 'GET',

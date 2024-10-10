@@ -16,10 +16,10 @@ interface RecentNewRoleProps {
     access: SettingsRoleFormData[]
   } | null
   setFormData: Dispatch<
-    SetStateAction<{
-      name: string
-      access: SettingsRoleFormData[]
-    } | null>
+  SetStateAction<{
+    name: string
+    access: SettingsRoleFormData[]
+  } | null>
   >
 }
 

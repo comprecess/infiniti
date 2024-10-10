@@ -68,6 +68,12 @@ export interface UserInfo {
   country: string
   email: string
   img: string
+  roleId: number
+  role: {
+    [key: string]: {
+      view: number
+    }
+  }
   lastLogin: string
   notes: string
   phone: string

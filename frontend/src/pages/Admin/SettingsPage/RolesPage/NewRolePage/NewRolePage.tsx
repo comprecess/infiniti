@@ -22,7 +22,7 @@ export const AdminNewRolePage: FC = () => {
   } | null>(null)
 
   const [permission, setPermission] = useState<
-    RolesAccessObjectPermission[] | null
+  RolesAccessObjectPermission[] | null
   >(null)
 
   const showToast = useCustomToast()

@@ -122,7 +122,7 @@ export const AdminListCustomerPage: FC = () => {
   }
 
   useEffect(() => {
-    document.title = 'infiniti | List Customer'
+    document.title = 'infiniti | List Customers'
   }, [])
 
   useEffect(() => {

@@ -74,7 +74,7 @@ export const Item: FC<ItemProps> = ({
         >
           <img src='/icons/view.svg' alt='View' className={styles.icon} />
         </button>
-        {access.edit && (
+        {access.edit === 1 && (
           <button
             className={styles.buttonEdit}
             onClick={() => handleNavigate(Routes.edit)}
@@ -86,7 +86,7 @@ export const Item: FC<ItemProps> = ({
             />
           </button>
         )}
-        {access.delete && (
+        {access.delete === 1 && (
           <button className={styles.buttonTrash}>
             <img
               src='/icons/trash.svg'

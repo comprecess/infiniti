@@ -8,7 +8,7 @@ import { CustomSelect } from '../../../../shared/ui/CustomSelect/CustomSelect'
 import { CustomSwitch } from '../../../../shared/ui/CustomSwitch/CustomSwitch'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { addNewCustomer } from '../../../../shared/utils/api/Admin/AddCustomer/AddNewCustomer'
-import { CustomField } from './CustomField/CustomField'
+import { CustomField } from '../../CustomersPage/AddCustomer/CustomField/CustomField'
 import styles from './Fields.module.scss'
 
 interface FieldsProps {
@@ -35,7 +35,7 @@ export interface PartialFieldsPostData extends Partial<FieldsPostData> {
 export const Fields: FC<FieldsProps> = ({ data }) => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({
     code: data.code,
-    type: Array(data.type[0]),
+    type: Array(data.type[1]),
   })
 
   const showToast = useCustomToast()
@@ -148,7 +148,7 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
     })
   }
 
-  const addCustomer = async () => {
+  const addSupplier = async () => {
     const addResponse = await addNewCustomer(formData)
 
     if (addResponse.status) {
@@ -213,7 +213,7 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
               return (
                 <CustomCheckBox
                   key={item}
-                  defaultChecked={index === 0}
+                  defaultChecked={index === 1}
                   titleOnChange={item}
                   title={item.charAt(0).toUpperCase() + item.slice(1)}
                   onInputChange={OnChangeCheckBox}
@@ -351,7 +351,7 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
       <ButtonBlue
         title='Add Contact'
         style={styles.buttonBlue}
-        onClick={addCustomer}
+        onClick={addSupplier}
       />
     </div>
   )
