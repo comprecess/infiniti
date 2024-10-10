@@ -47,7 +47,13 @@ export const RecentInvoices: FC<RecentInvoicesProps> = ({
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={
+        invoicesList.length > 0
+          ? styles.wrapperAll
+          : styles.wrapperNotFound
+      }
+    >
       {invoicesList.length > 0 ? (
         <>
           <div className={styles.columns}>
