@@ -1,5 +1,6 @@
 import { FC } from 'react'
 
+import { sanitizeMessage } from '../../../../../../shared/utils/TextEditor/sanitizeMessage'
 import styleItem from '../RecentInvoices.module.scss'
 import styles from './Item.module.scss'
 
@@ -20,13 +21,15 @@ export const Item: FC<ItemProps> = ({
   discount,
   total,
 }) => {
+  const safeHTML = sanitizeMessage(item)
+
   return (
     <div className={styles.wrapper}>
       <span className={`${styleItem.codeColumn} ${styles.codeItem}`}>
         {code}
       </span>
       <span
-        dangerouslySetInnerHTML={{ __html: item }}
+        dangerouslySetInnerHTML={{ __html: safeHTML }}
         className={`${styleItem.itemColumn} ${styles.itemItem}`}
       />
       <span className={`${styleItem.priceColumn} ${styles.priceItem}`}>

@@ -41,6 +41,6 @@
 
 .buttonBlue {
   @include mobileBreakpoint('min', $bpL) {
-    max-width: 200px;
+    max-width: 140px;
   }
 }

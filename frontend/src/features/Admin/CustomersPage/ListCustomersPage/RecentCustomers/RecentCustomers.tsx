@@ -12,12 +12,14 @@ import styles from './RecentCustomers.module.scss'
 interface RecentCustomersProps {
   access: RolesAccess
   customersList: ListCustomersData[]
+  deleteClient: (idSupplier: number) => void
   changeSortName: (sortNameItem: string, sortTypeItem: number) => void
 }
 
 export const RecentCustomers: FC<RecentCustomersProps> = ({
   access,
   customersList,
+  deleteClient,
   changeSortName,
 }) => {
   const [sortNumbers, setSortNumbers] = useState<number[]>([
@@ -117,6 +119,7 @@ export const RecentCustomers: FC<RecentCustomersProps> = ({
                 group={item.group?.name}
                 email={item.email}
                 phone={item.phone}
+                deleteClient={deleteClient}
               />
               {index !== customersList.length - 1 && <CustomDivider />}
             </React.Fragment>

@@ -3,6 +3,7 @@ import './ThemeEditor.scss'
 import { FC } from 'react'
 import ReactQuill from 'react-quill'
 
+import { sanitizeMessage } from '../../utils/TextEditor/sanitizeMessage'
 import styles from './TextEditor.module.scss'
 
 const modules = {
@@ -16,6 +17,7 @@ const modules = {
       { indent: '+1' },
     ],
     ['link'],
+    ['video'],
   ],
 }
 
@@ -31,6 +33,7 @@ const formats = [
   'ordered',
   'indent',
   'link',
+  'video',
 ]
 
 interface TextEditorProps {
@@ -44,15 +47,21 @@ export const TextEditor: FC<TextEditorProps> = ({
   placeholder = '',
   setValue,
 }) => {
+  const handleOnChange = (value: string) => {
+    const safeMessage = sanitizeMessage(value)
+
+    setValue(safeMessage)
+  }
+
   return (
     <div className={styles.wrapper}>
       <ReactQuill
         placeholder={placeholder}
         defaultValue={defaultValue}
         className={styles.editor}
-        modules={modules}
         formats={formats}
-        onChange={setValue}
+        modules={modules}
+        onChange={handleOnChange}
       />
     </div>
   )

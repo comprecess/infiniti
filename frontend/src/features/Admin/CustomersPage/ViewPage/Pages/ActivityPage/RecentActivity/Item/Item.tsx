@@ -1,6 +1,6 @@
-import DOMPurify from 'dompurify'
 import { FC } from 'react'
 
+import { sanitizeMessage } from '../../../../../../../../shared/utils/TextEditor/sanitizeMessage'
 import { IconItem } from '../IconItem/IconItem'
 import styles from './Item.module.scss'
 
@@ -25,7 +25,9 @@ export const Item: FC<ItemProps> = ({
   editActivity,
   deleteSelectedActivity,
 }) => {
-  const safeHTML = DOMPurify.sanitize(message)
+  const safeHTML = sanitizeMessage(message)
+
+  console.log(safeHTML)
 
   const handleClickEdit = () => {
     editActivity(id, icon, message)
