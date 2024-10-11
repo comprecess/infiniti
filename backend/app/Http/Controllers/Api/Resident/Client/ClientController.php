@@ -63,6 +63,10 @@ class ClientController extends MainClientController
 
         $varibles->nameDocument = "Customers";
         $varibles->header = "Customers - Infiniti";
+        if(request()->type == Client::TYPE[1]) {
+            $varibles->nameDocument = "Suppliers";
+            $varibles->header = "Suppliers - Infiniti";
+        }
         $varibles->columns = $columns;
         $varibles->excelView = 'document.excel.resident-client';
         $varibles->excelFilesCollable = function ($query){

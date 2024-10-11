@@ -94,6 +94,7 @@ $colSpan = 2;
                 <span style="font-size: 18px; color: #2f4f4f"><strong>{{__('pdf.invoice.Invoice')}} # {{$model->getCode()}}</strong></span>
             </td>
             <td style="border: 0;  text-align: right">
+                <img id="image" style="width: 200px;" src="{{public_path('style/img/logo.jpg')}}" alt="logo" />
                     <br> <br>
                     {{$config::get('CompanyName')}} <br>
                     {!! $config::get('caddress') !!}
