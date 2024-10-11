@@ -44,6 +44,7 @@ class ClientController extends MainClientController
 {
     use CRUD {
        createOrUpdate as createOrUpdateCRUD;
+       delete as deleteCRUD;
     }
 
     protected $client = null;
@@ -208,6 +209,11 @@ class ClientController extends MainClientController
                 }
             }
         );
+    }
+
+    public function delete(Client $client)
+    {
+        return $this->deleteCRUD($client);
     }
 
     public function getAllType(Client $client)

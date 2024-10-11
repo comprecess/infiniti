@@ -25,13 +25,14 @@ use App\Models\Traits\UserTrait;
 use App\Models\User;
 use App\Models\Users\Interfaces\LoginIntarface;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Catalog\Cart as CatalogCart;
 
 class Client extends User implements LoginIntarface, InsertDefaultValueInterface
 {
-    use InsertDefaultValueTrait, HelperTrait, CurrencyTrait, TagsTrait, UserTrait;
+    use InsertDefaultValueTrait, HelperTrait, CurrencyTrait, TagsTrait, UserTrait, SoftDeletes;
 
     public $table = 'crm_accounts';
 
