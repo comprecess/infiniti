@@ -61,7 +61,7 @@ class Invoice extends Model implements InsertDefaultValueInterface
 
     public function user()
     {
-        return $this->belongsTo(Client::class, 'userid');
+        return $this->belongsTo(Client::class, 'userid')->withTrashed();
     }
 
 //    public function items()

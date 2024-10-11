@@ -15,6 +15,7 @@ Route::group(['prefix' => 'client',], function(){
     Route::post('/', [Resident\Client\ClientController::class, 'createOrUpdate']);
     Route::get('/{client}', [Resident\Client\ClientController::class, 'item'])->where('client', '[0-9]+');
     Route::put('/{client}', [Resident\Client\ClientController::class, 'createOrUpdate']);
+    Route::delete('/{client}', [Resident\Client\ClientController::class, 'delete']);
     Route::get('/{client}/view/', [Resident\Client\ClientController::class, 'getAllType']);
     Route::match(['get', 'put', 'post', 'delete'], '/{client}/view/{type}/{id?}', [Resident\Client\ClientController::class, 'type']);
 //    Route::get('/{client}/view/{type}', [Client\ClientController::class, 'type']);

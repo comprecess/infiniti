@@ -44,6 +44,7 @@ class ClientController extends MainClientController
 {
     use CRUD {
        createOrUpdate as createOrUpdateCRUD;
+       delete as deleteCRUD;
     }
 
     protected $client = null;
@@ -63,6 +64,10 @@ class ClientController extends MainClientController
 
         $varibles->nameDocument = "Customers";
         $varibles->header = "Customers - Infiniti";
+        if(request()->type == Client::TYPE[1]) {
+            $varibles->nameDocument = "Suppliers";
+            $varibles->header = "Suppliers - Infiniti";
+        }
         $varibles->columns = $columns;
         $varibles->excelView = 'document.excel.resident-client';
         $varibles->excelFilesCollable = function ($query){
@@ -204,6 +209,11 @@ class ClientController extends MainClientController
                 }
             }
         );
+    }
+
+    public function delete(Client $client)
+    {
+        return $this->deleteCRUD($client);
     }
 
     public function getAllType(Client $client)
