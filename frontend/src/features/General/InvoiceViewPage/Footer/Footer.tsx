@@ -1,5 +1,6 @@
 import { FC } from 'react'
 
+import { sanitizeMessage } from '../../../../shared/utils/TextEditor/sanitizeMessage'
 import { TotalItem } from '../../../Admin/Sales/ViewInvoice/Footer/TotalItem/TotalItem'
 import styles from './Footer.module.scss'
 
@@ -18,6 +19,8 @@ export const Footer: FC<FooterProps> = ({
   grandTotal,
   note,
 }) => {
+  const safeHTML = sanitizeMessage(note)
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.totalList}>
@@ -30,7 +33,7 @@ export const Footer: FC<FooterProps> = ({
         <div className={styles.noteWrapper}>
           <span className={styles.titleNote}>Note:</span>
           <span
-            dangerouslySetInnerHTML={{ __html: note }}
+            dangerouslySetInnerHTML={{ __html: safeHTML }}
             className={styles.note}
           />
         </div>

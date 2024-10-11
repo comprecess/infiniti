@@ -14,6 +14,7 @@ import { RecentCustomers } from '../../../../features/Admin/CustomersPage/ListCu
 import { PagesList } from '../../../../features/Client/CatalogPage/TalentsList/PagesList/PagesList'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { deleteClient } from '../../../../shared/utils/api/Admin/ListCustomers/DeleteClient'
 import { getDocumentFileCustomers } from '../../../../shared/utils/api/Admin/ListCustomers/GetDocumentFileCustomers'
 import { getCustomersList } from '../../../../shared/utils/api/Admin/ListCustomers/GetListCustomers'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
@@ -115,6 +116,25 @@ export const AdminListCustomerPage: FC = () => {
     setCustomers({ data: getResponse.data, meta: getResponse.meta })
   }
 
+  const deleteCustomer = async (idCustomer: number) => {
+    const deleteResponse = await deleteClient(idCustomer)
+
+    if (deleteResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully deleted Customer',
+        status: 'success',
+      })
+      getCustomers()
+    } else {
+      showToast({
+        title: 'Error',
+        description: deleteResponse.message,
+        status: 'error',
+      })
+    }
+  }
+
   const navigateToAddCustomer = () => {
     navigate(
       `/${Routes.adminPages}/${Routes.customers}/${Routes.add}/${Routes.customer}`,
@@ -161,6 +181,7 @@ export const AdminListCustomerPage: FC = () => {
               access={access}
               customersList={customers.data}
               changeSortName={changeSort}
+              deleteClient={deleteCustomer}
             />
           </RecentCard>
         ) : (

@@ -1,4 +1,3 @@
-import DOMPurify from 'dompurify'
 import { FC, useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
@@ -32,7 +31,7 @@ export const AdminContactActivityPage: FC = () => {
   const [selectedIdType, setSelectedIdType] = useState<number>(0)
 
   const [editActiveData, setEditActiveData] = useState<
-  EditActiveModalData | undefined
+    EditActiveModalData | undefined
   >()
 
   const [isEditActivityModal, setIsEditActivityModal] =
@@ -61,13 +60,11 @@ export const AdminContactActivityPage: FC = () => {
   }
 
   const addNewActivity = async () => {
-    const safeMessage = DOMPurify.sanitize(message)
-
     const addResponse = await addActivity(
       context.idClient,
       'activity',
       selectedIcon,
-      safeMessage,
+      message,
     )
 
     if (addResponse.status) {

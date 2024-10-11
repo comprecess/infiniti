@@ -4,6 +4,7 @@ import {
   FullInfoClient,
   SalesViewOfferData,
 } from '../../../../../app/constants/constants'
+import { sanitizeMessage } from '../../../../../shared/utils/TextEditor/sanitizeMessage'
 import { Status } from '../Status/Status'
 import { ContactItem } from './ContactItem/ContactItem'
 import styles from './Header.module.scss'
@@ -34,6 +35,10 @@ export const Header: FC<HeaderProps> = ({
   client,
   offer,
 }) => {
+  const safeHTMLCompanyAddress = sanitizeMessage(company.companyAddress)
+  const safeHTMLProposal = sanitizeMessage(offer.proposal)
+  const safeHTMLNotes = sanitizeMessage(offer.notes)
+
   return (
     <div className={styles.wrapper}>
       <section className={styles.sectionFirst}>
@@ -53,7 +58,7 @@ export const Header: FC<HeaderProps> = ({
               {company.companyName}
             </span>
             <span
-              dangerouslySetInnerHTML={{ __html: company.companyAddress }}
+              dangerouslySetInnerHTML={{ __html: safeHTMLCompanyAddress }}
               className={styles.infinitiCompanyAddress}
             />
           </div>
@@ -123,13 +128,13 @@ export const Header: FC<HeaderProps> = ({
           </span>
           {offer.proposal && (
             <span
-              dangerouslySetInnerHTML={{ __html: offer.proposal }}
+              dangerouslySetInnerHTML={{ __html: safeHTMLProposal }}
               className={styles.offerProposal}
             />
           )}
           {offer.notes && (
             <span
-              dangerouslySetInnerHTML={{ __html: offer.notes }}
+              dangerouslySetInnerHTML={{ __html: safeHTMLNotes }}
               className={styles.offerNotes}
             />
           )}

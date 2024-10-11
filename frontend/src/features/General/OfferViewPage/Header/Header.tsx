@@ -1,6 +1,7 @@
 import { FC } from 'react'
 
 import { FullInfoClient } from '../../../../app/constants/constants'
+import { sanitizeMessage } from '../../../../shared/utils/TextEditor/sanitizeMessage'
 import { ContactItem } from '../../../Admin/Sales/ViewInvoice/Header/ContactItem/ContactItem'
 import { Status } from '../../../Admin/Sales/ViewInvoice/Status/Status'
 import styles from './Header.module.scss'
@@ -35,6 +36,10 @@ export const Header: FC<HeaderProps> = ({
   notes,
   client,
 }) => {
+  const safeHTMLCompanyAddress = sanitizeMessage(company.companyAddress)
+  const safeHTMLProposal = sanitizeMessage(proposal)
+  const safeHTMLNotes = sanitizeMessage(notes)
+
   return (
     <div className={styles.wrapper}>
       <section className={styles.sectionFirst}>
@@ -55,7 +60,7 @@ export const Header: FC<HeaderProps> = ({
             </span>
             <span
               dangerouslySetInnerHTML={{
-                __html: company.companyAddress,
+                __html: safeHTMLCompanyAddress,
               }}
               className={styles.infinitiCompanyAddress}
             />
@@ -131,7 +136,7 @@ export const Header: FC<HeaderProps> = ({
           <span className={styles.offerToTitle}>Proposal Text:</span>
           <span
             dangerouslySetInnerHTML={{
-              __html: proposal,
+              __html: safeHTMLProposal,
             }}
             className={styles.infinitiCompanyAddress}
           />
@@ -142,7 +147,7 @@ export const Header: FC<HeaderProps> = ({
           <span className={styles.offerToTitle}>Customer Notes:</span>
           <span
             dangerouslySetInnerHTML={{
-              __html: notes,
+              __html: safeHTMLNotes,
             }}
             className={styles.infinitiCompanyAddress}
           />

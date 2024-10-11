@@ -16,6 +16,7 @@ interface ItemProps {
   group: string
   email: string
   phone: string
+  deleteClient: (idSupplier: number) => void
 }
 
 export const Item: FC<ItemProps> = ({
@@ -28,6 +29,7 @@ export const Item: FC<ItemProps> = ({
   group,
   email,
   phone,
+  deleteClient,
 }) => {
   const navigate = useNavigate()
 
@@ -35,6 +37,10 @@ export const Item: FC<ItemProps> = ({
     navigate(
       `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${id}/${name}`,
     )
+  }
+
+  const handleDeleteSupplier = () => {
+    deleteClient(id)
   }
 
   return (
@@ -87,7 +93,10 @@ export const Item: FC<ItemProps> = ({
           </button>
         )}
         {access.delete === 1 && (
-          <button className={styles.buttonTrash}>
+          <button
+            className={styles.buttonTrash}
+            onClick={handleDeleteSupplier}
+          >
             <img
               src='/icons/trash.svg'
               alt='Trash'

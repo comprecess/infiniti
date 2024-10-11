@@ -14,6 +14,7 @@ import { HeaderButtons } from '../../../../features/Admin/ListSuppliersPage/Head
 import { PagesList } from '../../../../features/Client/CatalogPage/TalentsList/PagesList/PagesList'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { deleteClient } from '../../../../shared/utils/api/Admin/ListCustomers/DeleteClient'
 import { getDocumentFileCustomers } from '../../../../shared/utils/api/Admin/ListCustomers/GetDocumentFileCustomers'
 import { getCustomersList } from '../../../../shared/utils/api/Admin/ListCustomers/GetListCustomers'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
@@ -115,6 +116,25 @@ export const AdminListSuppliersPage: FC = () => {
     setSuppliers({ data: getResponse.data, meta: getResponse.meta })
   }
 
+  const deleteSupplier = async (idSupplier: number) => {
+    const deleteResponse = await deleteClient(idSupplier)
+
+    if (deleteResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully deleted Supplier',
+        status: 'success',
+      })
+      getSuppliers()
+    } else {
+      showToast({
+        title: 'Error',
+        description: deleteResponse.message,
+        status: 'error',
+      })
+    }
+  }
+
   const navigateToAddSupplier = () => {
     navigate(
       `/${Routes.adminPages}/${Routes.suppliers}/${Routes.add}/${Routes.supplier}`,
@@ -160,6 +180,7 @@ export const AdminListSuppliersPage: FC = () => {
             <RecentCustomers
               access={access}
               customersList={suppliers.data}
+              deleteClient={deleteSupplier}
               changeSortName={changeSort}
             />
           </RecentCard>
