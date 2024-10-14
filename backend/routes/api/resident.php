@@ -8,6 +8,12 @@ use App\Http\Controllers\Api\Resident;
 #resident
 Route::get('/', [ClientController::class, 'index']);
 
+#dashboard
+Route::controller(Resident\DashboardController::class)->prefix('dashboard')
+    ->group(function(){
+        Route::get('/', 'index');
+    });
+
 #client
 Route::group(['prefix' => 'client',], function(){
     Route::get('/list', [Resident\Client\ClientController::class, 'list']);

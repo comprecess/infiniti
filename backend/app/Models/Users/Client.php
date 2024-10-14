@@ -167,6 +167,11 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
         return $this->hasMany(Transaction::class, 'payeeid');
     }
 
+    public function scopeHasType($query, $type = self::TYPE[0])
+    {
+        $query->where('type', 'like', "%{$type}%");
+    }
+
     public function login($username, $password)
     {
         $account = self::where('email', $username)
@@ -262,34 +267,14 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
 
     public function getFullAddress($line = PHP_EOL)
     {
-//        $format = '%2$s%1$s%3$s%1$s%4$s %5$s%1$s%6$s';
         $format = '';
-        $data = [$line];
-        if($this->address) {
-            $format.='%2$s%1$s';
-            $data[] = $this->address;
+        foreach(['address', 'city', 'state', 'zip', 'country'] as $key => $prop) {
+            $eol = $prop == 'state' || $key > 3 ? ' ' : $line;
+            if($this->{$prop}) {
+                $format .= $this->{$prop} . $eol;
+            }
         }
 
-        if($this->city) {
-            $format.='%3$s%1$s';
-            $data[] = $this->city;
-        }
-
-        if($this->state) {
-            $format.='%4$s ';
-            $data[] = $this->state;
-        }
-
-        if($this->zip) {
-            $format.='%5$s%1$s';
-            $data[] = $this->zip;
-        }
-
-        if($this->country) {
-            $format.='%6$s';
-            $data[] = $this->country;
-        }
-
-        return sprintf($format, ...$data);
+        return $format;
     }
 }

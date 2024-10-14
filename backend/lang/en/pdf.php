@@ -3,6 +3,7 @@
 return [
     'invoice' => [
         'Invoice' => 'Invoice',
+        'INVOICE' => 'INVOICE',
         'number' => 'Receipt Number',
         'invoiceTo' => 'Invoiced To',
         'attn' => 'ATTN',
@@ -39,6 +40,7 @@ return [
     ],
     'offer' => [
         'Offer' => 'Offer',
+        'OFFER' => 'OFFER',
         'stageVar' => [
             'Accepted'=>'Accepted',
             'Dead'=>'Dead',

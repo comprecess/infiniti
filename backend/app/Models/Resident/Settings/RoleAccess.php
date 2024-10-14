@@ -12,6 +12,12 @@ class RoleAccess extends Model
 
     const TYPE_ACCESS = ['view', 'edit', 'create', 'delete', 'all'];
 
+    const ALL = 'all';
+    const EDIT = 'edit';
+    const CREATE = 'create';
+    const VIEW = 'view';
+    const DELETE = 'delete';
+
     protected $table = 'sys_staffpermissions';
 
     public $timestamps = false;
@@ -23,7 +29,7 @@ class RoleAccess extends Model
 
     public static function systemName()
     {
-        return '_system';
+        return '_global_admin';
     }
 
     public function setViewAttribute($value)
@@ -102,6 +108,13 @@ class RoleAccess extends Model
         }
 
         return $access;
+    }
+
+    public function abort($typeAccess = self::ALL)
+    {
+        if($this->{$typeAccess} == 0) {
+            abort(403, $this->shortname);
+        }
     }
 
 }

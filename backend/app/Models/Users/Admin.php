@@ -4,6 +4,7 @@ namespace App\Models\Users;
 
 use App\Models\Log;
 use App\Models\Resident\Settings\Role;
+use App\Models\Resident\Transactions\Transaction;
 use App\Models\User;
 use App\Models\Users\Interfaces\LoginIntarface;
 use Illuminate\Http\Request;
@@ -29,6 +30,11 @@ class Admin extends User implements LoginIntarface
     public function myRole()
     {
         return $this->belongsTo(Role::class, 'roleid');
+    }
+
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class, 'aid');
     }
 
     public function login($username, $password)

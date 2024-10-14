@@ -25,4 +25,11 @@ class TransactionCollection extends Collection
         });
     }
 
+    public function amount()
+    {
+        return $this->sum(function($item){
+            return $item->amount;
+        });
+    }
+
 }
