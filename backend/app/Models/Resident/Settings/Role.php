@@ -126,7 +126,7 @@ class Role extends Model
         return $list;
     }
 
-    public function checkAccess($nameOrClass) :?RoleAccess
+    public function checkAccess($nameOrClass) :RoleAccess
     {
         $query = $this->access();
         if(is_object($nameOrClass)) {
@@ -145,8 +145,6 @@ class Role extends Model
         } else {
             $query->where('shortname', $nameOrClass);
         }
-
-
 
         return $query->first();
 

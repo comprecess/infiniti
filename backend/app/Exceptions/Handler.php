@@ -52,9 +52,13 @@ class Handler extends ExceptionHandler
 
         if($exception instanceof HttpException && $exception->getStatusCode() === 403) {
             $message = [403 => 'No access'];
-            return response()->json([
-                'message' => $message[$exception->getStatusCode()] ?? 'Error',
-            ], $exception->getStatusCode());
+            $data = [
+                'message' => $message[$exception->getStatusCode()] ?? 'Error'
+            ];
+            if($exception->getMessage()) {
+                $data['shortname'] = $exception->getMessage();
+            }
+            return response()->json($data, $exception->getStatusCode());
         }
 
         if ($request->expectsJson()

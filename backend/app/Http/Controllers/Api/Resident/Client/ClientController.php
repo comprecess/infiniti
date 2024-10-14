@@ -369,7 +369,6 @@ class ClientController extends MainClientController
     private function activityPut($request)
     {
         $requestData = app(ActivityRequest::class);
-        \Illuminate\Support\Facades\Log::alert('activityPut', $requestData->all());
         $activity = Activity::findOrFail($request->route('id'));
         $requestData->setModel($activity);
         $activity->save();
