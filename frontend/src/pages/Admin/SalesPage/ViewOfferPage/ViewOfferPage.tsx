@@ -208,7 +208,7 @@ export const AdminViewOfferPage: FC = () => {
               tax: info.blankCalc.tax,
               discount: info.blankCalc.discount,
               grandTotal: info.blankCalc.total,
-              note: info.notes,
+              notes: info.notes,
             }}
             headerProps={{
               subject: info.subject,

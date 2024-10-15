@@ -1,5 +1,6 @@
 import { FC } from 'react'
 
+import { sanitizeMessage } from '../../../../shared/utils/TextEditor/sanitizeMessage'
 import { TotalItem } from '../../../Admin/Sales/ViewInvoice/Footer/TotalItem/TotalItem'
 import styles from './Footer.module.scss'
 
@@ -8,6 +9,7 @@ interface FooterProps {
   tax: string
   discount: string
   grandTotal: string
+  notes: string
 }
 
 export const Footer: FC<FooterProps> = ({
@@ -15,7 +17,10 @@ export const Footer: FC<FooterProps> = ({
   tax,
   discount,
   grandTotal,
+  notes,
 }) => {
+  const safeHTMLNotes = sanitizeMessage(notes)
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.totalList}>
@@ -24,6 +29,17 @@ export const Footer: FC<FooterProps> = ({
         <TotalItem title='Tax' value={tax} />
         <TotalItem title='Grand Total' value={grandTotal} />
       </div>
+      {notes && (
+        <div className={styles.offerTo}>
+          <span className={styles.offerToTitle}>Customer Notes:</span>
+          <span
+            dangerouslySetInnerHTML={{
+              __html: safeHTMLNotes,
+            }}
+            className={styles.message}
+          />
+        </div>
+      )}
     </div>
   )
 }

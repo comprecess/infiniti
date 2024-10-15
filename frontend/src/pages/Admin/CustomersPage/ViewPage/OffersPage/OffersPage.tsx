@@ -1,10 +1,11 @@
 import { FC, useEffect, useState } from 'react'
-import { useOutletContext } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 
 import {
   ViewOffersTypeData,
   ViewPageContext,
 } from '../../../../../app/constants/constants'
+import { Routes } from '../../../../../app/router/routes'
 import { RecentOffers } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/OffersPage/RecentOffers/RecentOffers'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
@@ -16,6 +17,7 @@ export const AdminContactOffersPage: FC = () => {
   const [data, setData] = useState<ViewOffersTypeData[] | null>(null)
 
   const context = useOutletContext<ViewPageContext>()
+  const navigate = useNavigate()
 
   const getInfo = async () => {
     const getResponse = await getSelectedTypeInfo(
@@ -24,6 +26,12 @@ export const AdminContactOffersPage: FC = () => {
     )
 
     setData(getResponse.data)
+  }
+
+  const navigateToCreateNewOffer = () => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.sales}/${Routes.new}/${Routes.offer}`,
+    )
   }
 
   useEffect(() => {
@@ -40,8 +48,9 @@ export const AdminContactOffersPage: FC = () => {
         <RecentCard
           HeaderComponent={ButtonBlue}
           headerProps={{
-            title: 'Create New Offer',
+            title: 'New Offer',
             style: styles.headerButton,
+            onClick: navigateToCreateNewOffer,
           }}
         >
           <RecentOffers list={data} />

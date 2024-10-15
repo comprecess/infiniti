@@ -27,8 +27,6 @@ export const Item: FC<ItemProps> = ({
 }) => {
   const safeHTML = sanitizeMessage(message)
 
-  console.log(safeHTML)
-
   const handleClickEdit = () => {
     editActivity(id, icon, message)
   }

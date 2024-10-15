@@ -1,10 +1,11 @@
 import { FC, useEffect, useState } from 'react'
-import { useOutletContext } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 
 import {
   ViewInvoicesTypeData,
   ViewPageContext,
 } from '../../../../../app/constants/constants'
+import { Routes } from '../../../../../app/router/routes'
 import { Header } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/InvoicesPage/Header/Header'
 import { RecentInvoices } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/InvoicesPage/RecentInvoices/RecentInvoices'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
@@ -16,11 +17,21 @@ export const AdminContactInvoicesPage: FC = () => {
   const [data, setData] = useState<ViewInvoicesTypeData | null>(null)
 
   const context = useOutletContext<ViewPageContext>()
+  const navigate = useNavigate()
 
   const getInfo = async () => {
-    const getResponse = await getSelectedTypeInfo(context.idClient, 'invoices')
+    const getResponse = await getSelectedTypeInfo(
+      context.idClient,
+      'invoices',
+    )
 
     setData(getResponse)
+  }
+
+  const navigateToCreateNewInvoice = () => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.sales}/${Routes.new}/${Routes.invoice}`,
+    )
   }
 
   useEffect(() => {
@@ -40,6 +51,7 @@ export const AdminContactInvoicesPage: FC = () => {
             invoiceAmount: data.invoiceAmount,
             paidAmount: data.paidAmount,
             unPaidAmount: data.unpaidAmount,
+            onClickButton: navigateToCreateNewInvoice,
           }}
         >
           <RecentInvoices list={data.invoice} />

@@ -58,9 +58,11 @@ export const RecentCard: FC<PropsWithChildren<RecentCardProps>> = ({
           <HeaderComponent {...headerProps} />
         </div>
       ) : null}
-      <div className={!openContent ? styles.content : styles.childNone}>
-        {children}
-      </div>
+      {children && (
+        <div className={!openContent ? styles.content : styles.childNone}>
+          {children}
+        </div>
+      )}
       {PagesComponent ? (
         <div className={styles.pages}>
           <PagesComponent {...pagesProps} />

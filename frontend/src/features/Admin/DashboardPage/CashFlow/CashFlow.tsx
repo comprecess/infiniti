@@ -1,16 +1,38 @@
 import { FC } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import {
-  IncomeExpenseData,
-  TotalInfoData,
-} from '../../../../app/data/admin/cashFlow'
+import { DashboardData } from '../../../../app/constants/constants'
+import { Routes } from '../../../../app/router/routes'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { BigCard } from './BigCard/BigCard'
 import styles from './CashFlow.module.scss'
+import { DashboardChart } from './Chart/DashboardChart/DashboardChart'
 import { NetWorth } from './Chart/NetWorth/NetWorth'
 import { MiniCard } from './MiniCard/MiniCard'
 
-export const CashFlow: FC = () => {
+interface CashFlowProps {
+  data: DashboardData
+}
+
+export const CashFlow: FC<CashFlowProps> = ({ data }) => {
+  const navigate = useNavigate()
+
+  const navigateToListCustomers = () => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.customers}/${Routes.list}/${Routes.customer}`,
+    )
+  }
+
+  const navigateToListCompanies = () => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.customers}/${Routes.companies}`,
+    )
+  }
+
+  const navigateToLeads = () => {
+    navigate(`/`)
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.leftItem}>
@@ -18,41 +40,44 @@ export const CashFlow: FC = () => {
           <BigCard
             title='Customers'
             icon='/icons/user.svg'
-            amount={TotalInfoData.customers}
+            amount={data.client.toString()}
+            onClick={navigateToListCustomers}
           />
           <BigCard
             title='Companies'
             icon='/icons/elements.svg'
-            amount={TotalInfoData.companies}
+            amount={data.company.toString()}
+            onClick={navigateToListCompanies}
           />
           <BigCard
             title='Leads'
             icon='/icons/userPlusPurple.svg'
-            amount={TotalInfoData.leads}
+            amount={data.leads.toString()}
+            onClick={navigateToLeads}
           />
         </div>
         <div className={styles.chart}>
-          <NetWorth amount={TotalInfoData.netWorth} />
-          <div>Chart</div>
+          <NetWorth amount={'-'} />
+          <DashboardChart data={data.graph} />
         </div>
       </div>
       <div className={styles.rightItem}>
         <MiniCard
           title='Today'
-          income={IncomeExpenseData.today.income}
-          expense={IncomeExpenseData.today.expense}
+          income={data.Income.today.toString()}
+          expense={data.Expense.today.toString()}
         />
         <CustomDivider />
         <MiniCard
           title='Last Month'
-          income={IncomeExpenseData.lastMonth.income}
-          expense={IncomeExpenseData.lastMonth.expense}
+          income={data.Income.thisMonth.toString()}
+          expense={data.Expense.thisMonth.toString()}
         />
         <CustomDivider />
         <MiniCard
           title='Total'
-          income={IncomeExpenseData.total.income}
-          expense={IncomeExpenseData.total.expense}
+          income={data.Income.total.toString()}
+          expense={data.Expense.total.toString()}
         />
       </div>
     </div>

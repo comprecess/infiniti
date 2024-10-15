@@ -840,3 +840,29 @@ export interface SettingsRoleFormData {
   delete: number
   all: number
 }
+
+export interface DashboardData {
+  Expense: {
+    thisMonth: string
+    today: string
+    total: string
+  }
+  Income: {
+    thisMonth: string
+    today: string
+    total: string
+  }
+  graph: DashboardDataJson
+  client: 36
+  company: 11
+  leads: 18
+}
+
+interface DashboardDataEntry {
+  Income: number
+  Expense: number
+}
+
+interface DashboardDataJson {
+  [key: string]: DashboardDataEntry
+}
