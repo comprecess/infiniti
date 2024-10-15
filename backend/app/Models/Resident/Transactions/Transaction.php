@@ -17,6 +17,8 @@ class Transaction extends Model
 
     const TYPE = ['Income', 'Expense', 'Out', 'In', 'Equity'];
 
+    const TYPE_NON = 'Uncleared';
+
     protected $table = "sys_transactions";
 
     protected $adminColumn = 'aid';
@@ -42,5 +44,23 @@ class Transaction extends Model
     public function invoice()
     {
         return $this->belongsTo(Invoice::class, 'iid');
+    }
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class, 'account_id');
+    }
+
+    public static function byAdmin(callable $callable = null)
+    {
+        $transactionQuery = self::checkAccess('all', 'bank_n_cash')
+            ->where('type', '!=', self::TYPE_NON)
+            ->with(['account', 'getCurrencyIso']);
+
+        if(is_callable($callable)) {
+            $callable($transactionQuery);
+        }
+
+        return $transactionQuery->get();
     }
 }
