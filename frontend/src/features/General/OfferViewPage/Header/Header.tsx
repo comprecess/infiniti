@@ -19,7 +19,6 @@ interface HeaderProps {
   }
   total: string
   proposal: string
-  notes: string
   client: FullInfoClient
 }
 
@@ -33,7 +32,6 @@ export const Header: FC<HeaderProps> = ({
   company,
   total,
   proposal,
-  notes,
   client,
 }) => {
   const safeHTMLCompanyAddress = sanitizeMessage(company.companyAddress)
