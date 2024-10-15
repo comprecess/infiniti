@@ -38,8 +38,8 @@ export const Header: FC<HeaderProps> = ({
   offer,
 }) => {
   const safeHTMLCompanyAddress = sanitizeMessage(company.companyAddress)
-  const safeHTMLProposal = sanitizeMessage(offer.proposal)
-  const safeHTMLNotes = sanitizeMessage(offer.notes)
+  const safeHTMLProposal = sanitizeMessage(offer?.proposal)
+  const safeHTMLNotes = sanitizeMessage(offer?.notes)
 
   return (
     <div className={styles.wrapper}>
@@ -56,9 +56,6 @@ export const Header: FC<HeaderProps> = ({
             className={styles.logo}
           />
           <div className={styles.infinitiDescription}>
-            <span className={styles.infinitiCompanyName}>
-              {company.companyName}
-            </span>
             <span
               dangerouslySetInnerHTML={{
                 __html: safeHTMLCompanyAddress,

@@ -117,6 +117,7 @@ export const OfferViewPage: FC = () => {
               tax={info.blankCalc.tax}
               discount={info.blankCalc.discount}
               grandTotal={info.blankCalc.total}
+              notes={info.notes}
             />
           </div>
         </div>

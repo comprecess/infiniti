@@ -178,11 +178,13 @@ export const AdminContactActivityPage: FC = () => {
             addNewActivity,
           }}
         >
-          <RecentActivity
-            deleteSelectedActivity={confirmDelete}
-            editActivity={openEditModal}
-            list={data}
-          />
+          {data.length > 0 && (
+            <RecentActivity
+              deleteSelectedActivity={confirmDelete}
+              editActivity={openEditModal}
+              list={data}
+            />
+          )}
         </RecentCard>
       ) : (
         <LoadingSpinner size='xl' />

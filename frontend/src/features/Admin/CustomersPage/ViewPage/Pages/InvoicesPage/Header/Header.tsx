@@ -8,16 +8,22 @@ interface HeaderProps {
   invoiceAmount: string
   paidAmount: string
   unPaidAmount: string
+  onClickButton: () => void
 }
 
 export const Header: FC<HeaderProps> = ({
   invoiceAmount,
   paidAmount,
   unPaidAmount,
+  onClickButton,
 }) => {
   return (
     <div className={styles.wrapper}>
-      <ButtonBlue title='New Invoice' style={styles.buttonNewInvoices} />
+      <ButtonBlue
+        title='New Invoice'
+        style={styles.buttonNewInvoices}
+        onClick={onClickButton}
+      />
       <div className={styles.totalInfoList}>
         <TotalItem
           title='Invoice Amount'
