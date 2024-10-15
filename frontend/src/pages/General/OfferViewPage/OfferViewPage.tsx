@@ -99,7 +99,6 @@ export const OfferViewPage: FC = () => {
               client={info.client}
               checkPublic={info.checkPublic === 1 ? true : false}
               proposal={info.proposal}
-              notes={info.notes}
               company={{
                 companyAddress: info.company.companyAddress,
                 companyName: info.company.companyName,
