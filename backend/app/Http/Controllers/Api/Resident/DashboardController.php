@@ -35,6 +35,8 @@ class DashboardController extends ResidentController
             $cashFlow['client'] = Client::hasType()->checkAccess(...self::ACCESS)->count();
             $cashFlow['company'] = Company::checkAccess(...self::ACCESS)->count();
             $cashFlow['leads'] = Leads::checkAccess(...self::ACCESS)->count();
+            $transactions = Transaction::byAdmin();
+            $cashFlow['newWorth'] = (new Transaction)->printPrice($transactions->getNetWorth());
 
             $transaction = Transaction::checkAccess(...self::ACCESS);
             $firstDayMount = Carbon::create(null,null,1);
