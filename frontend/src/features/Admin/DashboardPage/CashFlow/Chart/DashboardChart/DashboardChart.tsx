@@ -85,7 +85,7 @@ export const DashboardChart: FC<DashboardChartProps> = ({ data }) => {
               fontWeight: 500,
               lineHeight: '21px',
               letterSpacing: '-0.03em',
-              color: '#666984',
+              colors: '#666984',
             },
           },
           tickPlacement: 'on',
@@ -94,7 +94,7 @@ export const DashboardChart: FC<DashboardChartProps> = ({ data }) => {
           axisTicks: {
             show: true,
             borderType: 'solid',
-            color: '#35353f',
+            colors: '#666984',
             height: 12, // Увеличиваем высоту вертикальных полосок
           },
         },
@@ -105,7 +105,7 @@ export const DashboardChart: FC<DashboardChartProps> = ({ data }) => {
               fontWeight: 400,
               lineHeight: '21px',
               letterSpacing: '-0.03em',
-              color: '#666984',
+              colors: '#666984',
             },
           },
         },
@@ -134,7 +134,7 @@ export const DashboardChart: FC<DashboardChartProps> = ({ data }) => {
           yaxis: {
             lines: {
               show: true,
-              color: '#666984',
+              colors: '#666984',
             },
           },
         },
