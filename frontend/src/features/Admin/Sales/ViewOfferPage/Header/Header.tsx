@@ -39,15 +39,13 @@ export const Header: FC<HeaderProps> = ({
     <div className={styles.wrapper}>
       <section className={styles.sectionFirst}>
         <div className={styles.offerTitle}>
-          {subject && (
-            <h4 className={styles.titleOffer}>{`${subject}`}</h4>
-          )}
+          {subject && <h4 className={styles.titleOffer}>{`${subject}`}</h4>}
           <h4 className={styles.offerCode}>{`#${offerCode}`}</h4>
           <Status status={stage} />
         </div>
         <div className={styles.infiniti}>
           <img
-            src='/logoInfiniti.svg'
+            src='/logoInfinitiWhite.svg'
             alt='Logo'
             className={styles.logo}
           />
@@ -81,12 +79,8 @@ export const Header: FC<HeaderProps> = ({
             )}
           </div>
           <div className={styles.contactInfo}>
-            {client.phone && (
-              <ContactItem title='Phone' value={client.phone} />
-            )}
-            {client.email && (
-              <ContactItem title='Email' value={client.email} />
-            )}
+            {client.phone && <ContactItem title='Phone' value={client.phone} />}
+            {client.email && <ContactItem title='Email' value={client.email} />}
             {client.customFields.map(field => {
               return (
                 <ContactItem

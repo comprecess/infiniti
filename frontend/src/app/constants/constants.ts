@@ -104,6 +104,7 @@ export interface AdminInfo {
   summary: string
   userName: string
   userType: string
+  email: string
   zip: string
 }
 
@@ -852,6 +853,7 @@ export interface DashboardData {
     today: string
     total: string
   }
+  newWorth: string
   graph: DashboardDataJson
   client: 36
   company: 11

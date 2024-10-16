@@ -1,9 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 
-import {
-  DashboardData,
-  RolesAccess,
-} from '../../../app/constants/constants'
+import { DashboardData, RolesAccess } from '../../../app/constants/constants'
 import { Calendar } from '../../../features/Admin/DashboardPage/Calendar/Calendar'
 import { CashFlow } from '../../../features/Admin/DashboardPage/CashFlow/CashFlow'
 import { ExpensesCategory } from '../../../features/Admin/DashboardPage/ExpensesCategory/ExpensesCategory'
@@ -20,9 +17,7 @@ import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './DashboardPage.module.scss'
 
 export const AdminDashboardPage: FC = () => {
-  const [dataCashFlow, setDataCashFlow] = useState<DashboardData | null>(
-    null,
-  )
+  const [dataCashFlow, setDataCashFlow] = useState<DashboardData | null>(null)
 
   const getCashFlowData = async () => {
     const getResponse: {
@@ -47,7 +42,7 @@ export const AdminDashboardPage: FC = () => {
           <RecentCard
             refreshIcon
             title='Cash Flow'
-            style={styles.recentFullScreen}
+            style={`${styles.recentFullScreen} ${styles.zIndex}`}
           >
             <CashFlow data={dataCashFlow} />
           </RecentCard>
@@ -79,11 +74,7 @@ export const AdminDashboardPage: FC = () => {
         >
           <RecentInvoices />
         </RecentCard>
-        <RecentCard
-          ordinaryIcons
-          title='Calendar'
-          style={styles.recentHalf}
-        >
+        <RecentCard ordinaryIcons title='Calendar' style={styles.recentHalf}>
           <Calendar />
         </RecentCard>
       </section>

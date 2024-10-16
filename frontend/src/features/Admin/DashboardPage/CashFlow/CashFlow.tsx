@@ -6,7 +6,7 @@ import { Routes } from '../../../../app/router/routes'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { BigCard } from './BigCard/BigCard'
 import styles from './CashFlow.module.scss'
-import { DashboardChart } from './Chart/DashboardChart/DashboardChart'
+import { BarChart } from './Chart/DashboardChart/BarChart'
 import { NetWorth } from './Chart/NetWorth/NetWorth'
 import { MiniCard } from './MiniCard/MiniCard'
 
@@ -24,9 +24,7 @@ export const CashFlow: FC<CashFlowProps> = ({ data }) => {
   }
 
   const navigateToListCompanies = () => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.customers}/${Routes.companies}`,
-    )
+    navigate(`/${Routes.adminPages}/${Routes.customers}/${Routes.companies}`)
   }
 
   const navigateToLeads = () => {
@@ -57,8 +55,8 @@ export const CashFlow: FC<CashFlowProps> = ({ data }) => {
           />
         </div>
         <div className={styles.chart}>
-          <NetWorth amount={'-'} />
-          <DashboardChart data={data.graph} />
+          <NetWorth amount={data.newWorth} />
+          <BarChart data={data.graph} />
         </div>
       </div>
       <div className={styles.rightItem}>

@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react'
 import Chart from 'react-apexcharts'
 
-import styles from './DashboardChart.module.scss'
+import styles from './BarChart.module.scss'
 
 interface DataEntry {
   Income: number
@@ -16,13 +16,11 @@ interface DashboardChartProps {
   data: DataJson
 }
 
-export const DashboardChart: FC<DashboardChartProps> = ({ data }) => {
+export const BarChart: FC<DashboardChartProps> = ({ data }) => {
   const [chartData, setChartData] = useState<any>(null)
 
   useEffect(() => {
-    const typedDataJson = Object.fromEntries(
-      Object.entries(data).reverse(),
-    )
+    const typedDataJson = Object.fromEntries(Object.entries(data).reverse())
 
     const labels = Object.keys(typedDataJson)
 
@@ -94,7 +92,7 @@ export const DashboardChart: FC<DashboardChartProps> = ({ data }) => {
           axisTicks: {
             show: true,
             borderType: 'solid',
-            colors: '#666984',
+            color: '#666984',
             height: 12, // Увеличиваем высоту вертикальных полосок
           },
         },

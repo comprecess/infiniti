@@ -51,7 +51,7 @@ export const Header: FC<HeaderProps> = ({
         </div>
         <div className={styles.infiniti}>
           <img
-            src='/logoInfiniti.svg'
+            src='/logoInfinitiWhite.svg'
             alt='Logo'
             className={styles.logo}
           />
@@ -87,9 +87,7 @@ export const Header: FC<HeaderProps> = ({
                   </span>
                 )}
                 {client.city && (
-                  <span className={styles.invoicedToItem}>
-                    {client.city}
-                  </span>
+                  <span className={styles.invoicedToItem}>{client.city}</span>
                 )}
               </div>
               <div className={styles.contactInfo}>
