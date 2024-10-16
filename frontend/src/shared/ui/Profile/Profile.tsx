@@ -1,10 +1,21 @@
+import {
+  Popover,
+  PopoverBody,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
+  useDisclosure,
+} from '@chakra-ui/react'
 import { FC, useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import {
   AdminInfo,
   profileInfoString,
   UserInfo,
 } from '../../../app/constants/constants'
+import { Routes } from '../../../app/router/routes'
+import { removeCookies } from '../../utils/Saving/Cookies/RemoveCookies'
 import { getSession } from '../../utils/Saving/Session/GetSession'
 import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner'
 import styles from './Profile.module.scss'
@@ -18,6 +29,10 @@ type ProfileData = UserInfo | AdminInfo
 export const Profile: FC<ProfileProps> = ({ isAdmin }) => {
   const [profileData, setProfileData] = useState<ProfileData | null>(null)
 
+  const { isOpen, onToggle, onClose } = useDisclosure()
+
+  const navigate = useNavigate()
+
   const fetchProfileData = useCallback(() => {
     const profileData = getSession(profileInfoString) as ProfileData
     if (isAdmin) {
@@ -27,26 +42,104 @@ export const Profile: FC<ProfileProps> = ({ isAdmin }) => {
     }
   }, [isAdmin])
 
+  const logout = () => {
+    removeCookies('authToken')
+    navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
+  }
+
   useEffect(() => {
     fetchProfileData()
   }, [fetchProfileData])
 
   return (
-    <div className={styles.wrapper}>
-      {profileData ? (
-        <>
-          <span className={styles.name}>
-            {profileData.account ? profileData.account : '-'}
-          </span>
-          <img
-            className={styles.avatar}
-            alt='Profile Avatar'
-            src={profileData.img || '/profileWithoutAvatar.svg'}
-          />
-        </>
-      ) : (
-        <LoadingSpinner />
+    <Popover
+      closeOnBlur
+      isOpen={isOpen}
+      placement='bottom-start'
+      returnFocusOnClose={false}
+      onClose={onClose}
+    >
+      <PopoverTrigger>
+        <div className={styles.wrapper} onClick={onToggle}>
+          {profileData ? (
+            <>
+              <span className={styles.name}>
+                {profileData.account ? profileData.account : '-'}
+              </span>
+              <img
+                className={styles.avatar}
+                alt='Profile Avatar'
+                src={profileData.img || '/profileWithoutAvatar.svg'}
+              />
+            </>
+          ) : (
+            <LoadingSpinner />
+          )}
+        </div>
+      </PopoverTrigger>
+      {profileData && (
+        <PopoverContent
+          zIndex={9999}
+          _focus={{
+            outline: 'none',
+            boxShadow: '1px 1px 8px #acb2f3',
+            border: 'none',
+          }}
+          _active={{
+            outline: 'none',
+            boxShadow: '1px 1px 8px #acb2f3',
+            border: 'none',
+          }}
+          style={{
+            borderRadius: 8,
+            background: 'transparent',
+            outline: 'none',
+            boxShadow: '1px 1px 7px #838ced',
+            border: 'none',
+          }}
+        >
+          <PopoverHeader
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: 12,
+              alignItems: 'center',
+              borderTopLeftRadius: 8,
+              borderTopRightRadius: 8,
+              background:
+                'linear-gradient(to right, #838ced, #5965e7, #303fe1)',
+              borderBottom: 'none',
+              padding: '18px 24px',
+            }}
+          >
+            <img
+              className={styles.modalAvatar}
+              alt='Profile Avatar'
+              src={profileData.img || '/profileWithoutAvatar.svg'}
+            />
+            <div className=''>
+              <p className={styles.modalName}>{profileData.account}</p>
+              <p className={styles.modalEmail}>{profileData.email}</p>
+            </div>
+          </PopoverHeader>
+          <PopoverBody
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 4,
+              borderBottomLeftRadius: 8,
+              borderBottomRightRadius: 8,
+              backgroundColor: '#1b1e29',
+            }}
+          >
+            <span className={styles.modalItem}>Edit Profile</span>
+            <span className={styles.modalItem}>Change Password</span>
+            <span className={styles.modalItem} onClick={logout}>
+              Logout
+            </span>
+          </PopoverBody>
+        </PopoverContent>
       )}
-    </div>
+    </Popover>
   )
 }

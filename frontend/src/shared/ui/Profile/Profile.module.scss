@@ -6,6 +6,8 @@
   max-width: 200px;
   text-align: right;
   align-items: center;
+  user-select: none;
+  cursor: pointer;
 }
 
 .avatar {
@@ -20,4 +22,43 @@
   font-weight: 400;
   line-height: 21px;
   letter-spacing: -0.03em;
+}
+
+.modalAvatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+.modalName {
+  font-family: $fontSpaceGrotesk;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+  letter-spacing: -0.03em;
+}
+
+.modalEmail {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.03em;
+}
+
+.modalItem {
+  font-family: $fontSpaceGrotesk;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 23px;
+  letter-spacing: -0.03em;
+  user-select: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  transition: all 0.1s ease;
+  cursor: pointer;
+
+  @include hover() {
+    color: $gray-100;
+    background-color: lighten($color: $brand-800, $amount: 8%);
+  }
 }

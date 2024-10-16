@@ -30,13 +30,13 @@
   height: 100%;
   margin-left: 0;
   transition: all 0.3s ease;
-  z-index: 1;
 }
 
 .headerStandard,
 .headerMini,
 .headerFull {
   padding: 20px 40px 20px 40px;
+  z-index: 10;
 
   @include mobileBreakpoint('max', $bpXL) {
     padding: 20px;
@@ -47,6 +47,7 @@
 .mainMini,
 .mainFull {
   padding: 20px 40px 40px 40px;
+  z-index: 5;
 
   @include mobileBreakpoint('max', $bpXL) {
     padding: 20px;

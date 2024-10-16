@@ -49,8 +49,8 @@ export const Header: FC<HeaderProps> = ({
         </div>
         <div className={styles.infiniti}>
           <img
-            src='/logoInfiniti.svg'
-            alt='Logo'
+            src='/logoInfinitiWhite.svg'
+            alt='infiniti'
             className={styles.logo}
           />
           <div className={styles.infinitiDescription}>
@@ -66,9 +66,7 @@ export const Header: FC<HeaderProps> = ({
           <span className={styles.invoicedToTitle}>Invoiced To:</span>
           <div className={styles.invoicedToList}>
             {client.company && (
-              <span className={styles.invoicedToItem}>
-                {client.company}
-              </span>
+              <span className={styles.invoicedToItem}>{client.company}</span>
             )}
             {client.account && (
               <span className={styles.invoicedToItem}>
@@ -76,21 +74,15 @@ export const Header: FC<HeaderProps> = ({
               </span>
             )}
             {client.address && (
-              <span className={styles.invoicedToItem}>
-                {client.address}
-              </span>
+              <span className={styles.invoicedToItem}>{client.address}</span>
             )}
             {client.city && (
               <span className={styles.invoicedToItem}>{client.city}</span>
             )}
           </div>
           <div className={styles.contactInfo}>
-            {client.phone && (
-              <ContactItem title='Phone' value={client.phone} />
-            )}
-            {client.email && (
-              <ContactItem title='Email' value={client.email} />
-            )}
+            {client.phone && <ContactItem title='Phone' value={client.phone} />}
+            {client.email && <ContactItem title='Email' value={client.email} />}
             {client.customFields.map(field => {
               return (
                 <ContactItem
