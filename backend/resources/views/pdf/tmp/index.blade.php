@@ -13,24 +13,24 @@
 
         @font-face {
             font-family: 'dejavusanscondensed';
-            src: url({{public_path('/style/font/DejaVuSerifCondensed/DejaVuSerifCondensed.ttf')}}) format('truetype');
+            src: url({{public_path('/style/font/dejavu/DejaVuSerifCondensed.woff')}}) format('woff');
         }
 
         @font-face {
             font-family: 'dejavusanscondensed';
-            src: url({{public_path('/style/font/DejaVuSerifCondensed/DejaVuSerifCondensed-Bold.ttf')}}) format('truetype');
+            src: url({{public_path('/style/font/dejavu/DejaVuSerifCondensed-Bold.woff')}}) format('woff');
             font-weight: bold;
         }
 
         @font-face {
             font-family: 'dejavusanscondensed';
-            src: url({{public_path('/style/font/DejaVuSerifCondensed/DejaVuSerifCondensed-Italic.ttf')}}) format('truetype');
+            src: url({{public_path('/style/font/dejavu/DejaVuSerifCondensed-Italic.woff')}}) format('woff');
             font-style: italic;
         }
 
         @font-face {
             font-family: 'dejavusanscondensed';
-            src: url({{public_path('/style/font/DejaVuSerifCondensed/DejaVuSerifCondensed-BoldItalic.ttf')}}) format('truetype');
+            src: url({{public_path('/style/font/dejavu/DejaVuSerifCondensed-BoldItalic.woff')}}) format('woff');
             font-style: bold, italic;
         }
         * {
