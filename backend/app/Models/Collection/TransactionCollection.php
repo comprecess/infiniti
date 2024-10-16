@@ -45,7 +45,7 @@ class TransactionCollection extends Collection
 
     public function getNetWorth()
     {
-        return $this->amountByType([Transaction::TYPE[4], Transaction::TYPE[0]], true) - $this->amount(true);
+        return $this->amountByType([Transaction::TYPE[4], Transaction::TYPE[0]], true) - $this->amountByType([Transaction::TYPE[1]], true);
     }
 
 }
