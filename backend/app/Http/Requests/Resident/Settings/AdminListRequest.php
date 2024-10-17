@@ -17,7 +17,7 @@ class AdminListRequest extends FormRequest implements SortModelInterface
         return [
             'id' => 'sys_users.id',
             'avatar' => 'sys_users.id',
-            'details' => 'sys_user.fullname',
+            'details' => 'sys_users.fullname',
             'type' => 'sys_roles.rname',
             'control' => 'sys_users.id',
         ];
