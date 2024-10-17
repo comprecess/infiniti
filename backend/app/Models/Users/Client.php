@@ -43,6 +43,9 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
     const TYPE = [
         'Customer', 'Supplier'
     ];
+    protected $fillable = [
+        'lastlogin'
+    ];
 
     protected $casts = [
         'lastlogin' => 'datetime',

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Catalog\Prop;
 use App\Models\FileStorage;
 use App\Models\Resident\Client\Company;
+use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,8 +22,9 @@ class TransferringFiles extends Seeder
     public function run(): void
     {
         $list = [
-            Company::class => ['companies', 'logo_url', 1],
-//            Client::class => [null, 'img', 0]
+//            Company::class => ['companies', 'logo_url', 1],
+//            Client::class => ['contacts', 'img', 0],
+            Admin::class => ['pics', 'img', 0]
         ];
 
         foreach($list as $class => $data) {
