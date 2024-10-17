@@ -95,6 +95,16 @@ Route::controller(Resident\Sale\BlankController::class)->prefix('{typeBlank}')->
 
 #settings
 Route::group(['prefix' => 'settings'], function(){
+    #admin
+    Route::controller(Resident\Settings\AdminController::class)->prefix('admin')
+        ->group(function(){
+            Route::get('/list', 'list');
+            Route::get('/input-data', 'inputData');
+            Route::post('/', 'createOrUpdate');
+            Route::put('/{resident}', 'createOrUpdate');
+//            Route::get('/{resident}', 'item');
+//            Route::delete('/{resident}', 'delete');
+        });
     #currency
     Route::controller(Resident\Settings\CurrencyController::class)->prefix('currency')
         ->group(function(){

@@ -3,6 +3,7 @@
 namespace App\Models\Users;
 
 use App\Models\Log;
+use App\Models\Resident\Settings\Department;
 use App\Models\Resident\Settings\Role;
 use App\Models\Resident\Transactions\Transaction;
 use App\Models\User;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Cache;
 
 class Admin extends User implements LoginIntarface
 {
+    const NAME_DEPARTMENT = 'staff_departments';
 
     public $table = 'sys_users';
 
@@ -21,6 +23,8 @@ class Admin extends User implements LoginIntarface
     protected $casts = [
         'last_login' => 'datetime',
     ];
+
+    protected $fillable = ['last_login'];
 
     public function getColumnLastTime()
     {
@@ -35,6 +39,12 @@ class Admin extends User implements LoginIntarface
     public function transaction()
     {
         return $this->hasMany(Transaction::class, 'aid');
+    }
+
+    public function departments()
+    {
+        return $this->belongsToMany(Department::class, 'relations', 'source_id', 'target_id')
+            ->wherePivot('type', self::NAME_DEPARTMENT);
     }
 
     public function login($username, $password)

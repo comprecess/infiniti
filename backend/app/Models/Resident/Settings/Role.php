@@ -164,4 +164,18 @@ class Role extends Model
         return $data;
     }
 
+    public static function getForSelect()
+    {
+        $collect = collect([]);
+        $admin = new self();
+        $admin->rname = __('resident.fullAdministrator');
+        $admin->id = 0;
+        $collect->push($admin);
+        self::orderBy('rname')->get()->each(function($item) use($collect){
+            $collect->push($item);
+        });
+
+        return $collect;
+    }
+
 }
