@@ -23,6 +23,8 @@ class AdminListResource extends JsonResource
             'address' => $this->address,
             'city' => $this->city,
             'state' => $this->state,
+            'jobTitle' => $this->job_title,
+            'payFrequency' => $this->pay_frequency,
             'zip' => $this->zip,
             'country' => $this->country,
             'dateHired' => $this->date_hired?->format('Y-m-d'),
