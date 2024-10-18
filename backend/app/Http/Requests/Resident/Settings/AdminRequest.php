@@ -53,7 +53,6 @@ class AdminRequest extends FormRequest implements ConvertingPropertiesInterface
             'fullName' => 'fullname',
             'phoneNumber' => 'phonenumber',
             'jobTitle' => 'job_title',
-            'address',
             'city',
             'state',
             'zip',

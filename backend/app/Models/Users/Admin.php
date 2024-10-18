@@ -50,6 +50,7 @@ class Admin extends User implements LoginIntarface, InsertDefaultValueInterface
           'api' => ['No'],
           'pwresetkey' => [''],
           'keyexpire' => [''],
+          'address' => [''],
           'status' => ['Active'],
         ];
     }
