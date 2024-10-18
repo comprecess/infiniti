@@ -6,17 +6,24 @@ namespace App\Http\Controllers\Api\Resident\Settings;
 
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Settings\AdminListRequest;
+use App\Http\Requests\Resident\Settings\AdminRequest;
 use App\Http\Resources\Resident\Settings\Admin\AdminListResource;
+use App\Http\Resources\Resident\Settings\DepartmentResource;
 use App\Http\Resources\Resident\Settings\RoleResource;
+use App\Models\Resident\Settings\Department;
 use App\Models\Resident\Settings\Role;
 use App\Models\Users\Admin;
+use App\Services\Tools\Countries;
 use Illuminate\Support\Arr;
 
 class AdminController extends SettingsController
 {
     use CRUD {
         createOrUpdate as createOrUpdateCRUD;
+        delete as deleteCRUD;
     }
+
+    const PAY_FREQUENCY = ['Hourly', 'Monthly'];
 
     public function list(AdminListRequest $request)
     {
@@ -50,13 +57,52 @@ class AdminController extends SettingsController
     public function inputData()
     {
         return response()->json([
-            'role' => RoleResource::collection(Role::getForSelect())
+            'role' => RoleResource::collection(Role::getForSelect()),
+            'country' => Countries::list(),
+            'payFrequency' => self::PAY_FREQUENCY,
+            'department' => DepartmentResource::collection(Department::all()),
+            'localization' => config('data.localization'),
         ]);
     }
 
-    public function createOrUpdate(Admin $resident)
+    public function createOrUpdate(Admin $resident, AdminRequest $request)
     {
-        dd($resident);
+
+        return $this->createOrUpdateCRUD(
+            $request,
+            $resident,
+            function($model, $request, $isNew){
+                $role = Role::getForSelect()->where('id', $request->role)->first();
+                $model->setNewPassword($request->password);
+                $model->roleid = $role->id;
+                $model->role = $role->rname;
+
+                if(!$isNew) {
+                    $putList = [
+                        'address',
+                        'amount',
+                    ];
+                    $request->setModel($model, true, $putList);
+                }
+
+            },
+            function ($model, $request, $isNew) {
+                if($request->img && !$isNew) {
+                    $model->uploads($request->img);
+                }
+            }
+        );
     }
+
+    public function item(Admin $resident)
+    {
+        return new AdminListResource($resident);
+    }
+
+    public function delete(Admin $resident)
+    {
+        return $this->deleteCRUD($resident);
+    }
+
 
 }

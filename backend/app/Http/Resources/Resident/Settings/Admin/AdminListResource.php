@@ -19,12 +19,19 @@ class AdminListResource extends JsonResource
             'fullName' => $this->fullname,
             'email' => $this->username,
             'phoneNumber' => $this->phonenumber,
+            'language' => $this->language,
+            'address' => $this->address,
             'city' => $this->city,
             'state' => $this->state,
             'zip' => $this->zip,
             'country' => $this->country,
+            'dateHired' => $this->date_hired?->format('Y-m-d'),
+            'amount' => $this->amount,
+            'summary' => $this->summary,
             'role' => new RoleResource($this->myRole),
-            'departments' => DepartmentResource::collection($this->departments)
+            'departments' => DepartmentResource::collection($this->departments),
+            'emailNotify' => $this->email_notify,
+            'smsNotify' => $this->sms_notify,
         ];
     }
 }
