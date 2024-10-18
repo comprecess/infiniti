@@ -32,8 +32,8 @@ class AdminListResource extends JsonResource
             'summary' => $this->summary,
             'role' => new RoleResource($this->myRole ?? Role::getForSelect()->first()),
             'departments' => DepartmentResource::collection($this->departments),
-            'emailNotify' => $this->email_notify,
-            'smsNotify' => $this->sms_notify,
+            'emailNotify' => $this->email_notify ? 1: 0,
+            'smsNotify' => $this->sms_notify ? 1: 0,
         ];
     }
 }

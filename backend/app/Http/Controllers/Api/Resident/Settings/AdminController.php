@@ -132,6 +132,8 @@ class AdminController extends SettingsController
            $resident->getLastFile()->delete();
         }
 
+        $resident->save();
+
         return $this->defResponse();
     }
 
