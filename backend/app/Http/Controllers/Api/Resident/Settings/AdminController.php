@@ -73,7 +73,9 @@ class AdminController extends SettingsController
             $resident,
             function($model, $request, $isNew){
                 $role = Role::getForSelect()->where('id', $request->role)->first();
-                $model->setNewPassword($request->password);
+                if($request->password) {
+                    $model->setNewPassword($request->password);
+                }
                 $model->roleid = $role->id;
                 $model->role = $role->rname;
 
