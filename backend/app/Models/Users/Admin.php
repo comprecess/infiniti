@@ -10,13 +10,14 @@ use App\Models\Resident\Transactions\Transaction;
 use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\User;
 use App\Models\Users\Interfaces\LoginIntarface;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 
 class Admin extends User implements LoginIntarface, InsertDefaultValueInterface
 {
-    use InsertDefaultValueTrait;
+    use InsertDefaultValueTrait, SoftDeletes;
 
     const NAME_DEPARTMENT = 'staff_departments';
 
