@@ -79,7 +79,7 @@ class AdminController extends SettingsController
                 }
                 $model->roleid = $role->id;
                 $model->role = $role->rname;
-                if($model->country) {
+                if($request->country) {
                     $model->country = Countries::list()[$request->country] ?? null;
                 }
 
