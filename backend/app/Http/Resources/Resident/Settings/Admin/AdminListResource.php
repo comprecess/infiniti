@@ -4,6 +4,7 @@ namespace App\Http\Resources\Resident\Settings\Admin;
 
 use App\Http\Resources\Resident\Settings\DepartmentResource;
 use App\Http\Resources\Resident\Settings\RoleResource;
+use App\Models\Resident\Settings\Role;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -12,7 +13,6 @@ class AdminListResource extends JsonResource
 
     public function toArray(Request $request): array
     {
-
         return [
             'id' => $this->id,
             'img' => $this->getAvatar(true) ?? "",
@@ -30,7 +30,7 @@ class AdminListResource extends JsonResource
             'dateHired' => $this->date_hired?->format('Y-m-d'),
             'amount' => $this->amount,
             'summary' => $this->summary,
-            'role' => new RoleResource($this->myRole),
+            'role' => new RoleResource($this->myRole ?? Role::getForSelect()->first()),
             'departments' => DepartmentResource::collection($this->departments),
             'emailNotify' => $this->email_notify,
             'smsNotify' => $this->sms_notify,
