@@ -82,7 +82,7 @@ class AdminController extends SettingsController
 
                 if(!$isNew) {
                     $putList = [
-                        'address',
+                        'address' => 'address_line_1',
                         'amount',
                     ];
                     $request->setModel($model, true, $putList);
