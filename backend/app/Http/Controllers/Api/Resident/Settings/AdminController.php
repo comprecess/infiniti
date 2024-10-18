@@ -79,6 +79,7 @@ class AdminController extends SettingsController
                 }
                 $model->roleid = $role->id;
                 $model->role = $role->rname;
+                $model->country = Countries::list()[$request->country] ?? null;
 
                 if(!$isNew) {
                     $putList = [
