@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Resident\Settings;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Settings\AdminListRequest;
 use App\Http\Requests\Resident\Settings\AdminRequest;
+use App\Http\Requests\Resident\Settings\AdminUpdateRequest;
 use App\Http\Resources\Resident\Settings\Admin\AdminListResource;
 use App\Http\Resources\Resident\Settings\DepartmentResource;
 use App\Http\Resources\Resident\Settings\RoleResource;
@@ -104,6 +105,27 @@ class AdminController extends SettingsController
     public function delete(Admin $resident)
     {
         return $this->deleteCRUD($resident);
+    }
+
+    public function update(Admin $resident, AdminUpdateRequest $request)
+    {
+        $request->setModel($resident, true);
+        if($request->department) {
+            if($resident->departments()->where('sys_ticketdepartments.id', $request->department)->count()){
+                $resident->departments()->detach($request->department);
+            }else{
+                $resident->departments()->attach([
+                    $request->department => [
+                        'type' => Admin::NAME_DEPARTMENT,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                ]);
+            }
+
+        }
+
+        return $this->defResponse();
     }
 
 
