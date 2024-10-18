@@ -2,18 +2,22 @@
 
 namespace App\Models\Users;
 
+use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Log;
 use App\Models\Resident\Settings\Department;
 use App\Models\Resident\Settings\Role;
 use App\Models\Resident\Transactions\Transaction;
+use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\User;
 use App\Models\Users\Interfaces\LoginIntarface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 
-class Admin extends User implements LoginIntarface
+class Admin extends User implements LoginIntarface, InsertDefaultValueInterface
 {
+    use InsertDefaultValueTrait;
+
     const NAME_DEPARTMENT = 'staff_departments';
 
     public $table = 'sys_users';
@@ -22,6 +26,7 @@ class Admin extends User implements LoginIntarface
 
     protected $casts = [
         'last_login' => 'datetime',
+        'date_hired' => 'date'
     ];
 
     protected $fillable = ['last_login'];
@@ -29,6 +34,23 @@ class Admin extends User implements LoginIntarface
     public function getColumnLastTime()
     {
         return 'last_login';
+    }
+
+    public function getDefault() :array
+    {
+        return [
+          'phonenumber' => [''],
+          'last_login' => [now()],
+          'creationdate' => [now()],
+          'pin' => [''],
+          'img' => [''],
+          'otp' => ['No'],
+          'pin_enabled' => ['No'],
+          'api' => ['No'],
+          'pwresetkey' => [''],
+          'keyexpire' => [''],
+          'status' => ['Active'],
+        ];
     }
 
     public function myRole()

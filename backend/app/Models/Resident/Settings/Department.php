@@ -11,4 +11,9 @@ class Department extends Model
     use HasFactory;
 
     protected $table = 'sys_ticketdepartments';
+
+    public static function getForSelect()
+    {
+        return self::orderBy('id', 'desc')->get()->pluck('dname', 'id');
+    }
 }
