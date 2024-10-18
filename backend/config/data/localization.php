@@ -164,9 +164,5 @@ return [
     [
         'name' => '中文（台湾）',
         'iso_code' => 'zh_tw',
-    ],
-    [
-        'name' => 'CLX Test (For Dev Test Only)',
-        'iso_code' => 'test',
-    ],
+    ]
 ];
