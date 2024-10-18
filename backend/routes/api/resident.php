@@ -103,7 +103,7 @@ Route::group(['prefix' => 'settings'], function(){
             Route::post('/', 'createOrUpdate');
             Route::put('/{resident}', 'createOrUpdate');
             Route::get('/{resident}', 'item');
-            Route::post('/{resident}/update', 'update');
+            Route::put('/{resident}/update', 'update');
             Route::delete('/{resident}', 'delete');
         });
     #currency
