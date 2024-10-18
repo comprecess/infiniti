@@ -20,7 +20,7 @@ class AdminListResource extends JsonResource
             'email' => $this->username,
             'phoneNumber' => $this->phonenumber,
             'language' => $this->language,
-            'address' => $this->address,
+            'address' => $this->address_line_1,
             'city' => $this->city,
             'state' => $this->state,
             'jobTitle' => $this->job_title,
