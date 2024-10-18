@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Resident\Settings\AdminController;
 use App\Http\Requests\Interfaces\ConvertingPropertiesInterface;
 use App\Http\Requests\Traits\ConvertingPropertiesTrait;
 use App\Models\Resident\Settings\Role;
+use App\Services\Tools\Countries;
 use Illuminate\Foundation\Http\FormRequest;
 
 
@@ -32,7 +33,8 @@ class AdminRequest extends FormRequest implements ConvertingPropertiesInterface
             'confirmationPassword' => 'min:6|nullable|required_with:confirmationPassword|same:confirmationPassword',
             'dateHired' => 'nullable|date_format:Y-m-d',
             'payFrequency' => 'in:' . implode(',', AdminController::PAY_FREQUENCY),
-            'language' => 'nullable|in:' . $listCode
+            'language' => 'nullable|in:' . $listCode,
+            'country' => 'nullable|in:' . implode(',', array_keys(Countries::list())),
         ];
 
         if(!$this->password && $user) {
@@ -55,7 +57,6 @@ class AdminRequest extends FormRequest implements ConvertingPropertiesInterface
             'city',
             'state',
             'zip',
-            'country',
             'dateHired' => 'date_hired',
             'payFrequency' => 'pay_frequency',
             'summary',
