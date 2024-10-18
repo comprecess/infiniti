@@ -30,7 +30,7 @@ class AdminRequest extends FormRequest implements ConvertingPropertiesInterface
             'role' => 'required|in:'. Role::getForSelect()->pluck('id')->implode(',') ,
             'password' => 'required|min:6|nullable|required_with:confirmationPassword|same:confirmationPassword',
             'confirmationPassword' => 'min:6|nullable|required_with:confirmationPassword|same:confirmationPassword',
-            'dateHired' => 'date_format:Y-m-d',
+            'dateHired' => 'nullable|date_format:Y-m-d',
             'payFrequency' => 'in:' . implode(',', AdminController::PAY_FREQUENCY),
             'img' => 'nullable|image',
             'language' => 'nullable|in:' . $listCode
