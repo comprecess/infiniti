@@ -32,8 +32,8 @@ class AdminRequest extends FormRequest implements ConvertingPropertiesInterface
             'confirmationPassword' => 'min:6|nullable|required_with:confirmationPassword|same:confirmationPassword',
             'dateHired' => 'date_format:Y-m-d',
             'payFrequency' => 'in:' . implode(',', AdminController::PAY_FREQUENCY),
-            'img' => 'image',
-            'language' => 'in:' . $listCode
+            'img' => 'nullable|image',
+            'language' => 'nullable|in:' . $listCode
         ];
 
         if(!$this->password && $user) {
