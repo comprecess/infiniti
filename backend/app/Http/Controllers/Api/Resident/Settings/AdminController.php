@@ -88,11 +88,6 @@ class AdminController extends SettingsController
                     $request->setModel($model, true, $putList);
                 }
 
-            },
-            function ($model, $request, $isNew) {
-                if($request->img && !$isNew) {
-                    $model->uploads($request->img);
-                }
             }
         );
     }
@@ -123,6 +118,14 @@ class AdminController extends SettingsController
                 ]);
             }
 
+        }
+
+        if($request->img) {
+            $resident->uploads($request->img);
+        }
+
+        if($request->deleteImg) {
+           $resident->getLastFile()->delete();
         }
 
         return $this->defResponse();
