@@ -4,12 +4,14 @@ import { TagItem } from './Tag/TagItem'
 import styles from './TagSelector.module.scss'
 
 interface TagSelectorProps {
+  title?: string
   list: string[]
   selectedTags: string[]
   onTagsChange: (tags: string[]) => void
 }
 
 export const TagSelector: FC<TagSelectorProps> = ({
+  title = 'Tags',
   list,
   selectedTags,
   onTagsChange,
@@ -95,7 +97,7 @@ export const TagSelector: FC<TagSelectorProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <span className={styles.title}>Tags</span>
+      <span className={styles.title}>{title}</span>
       <div ref={selectRef} className={styles.inputWrapper}>
         <input
           ref={inputRef}

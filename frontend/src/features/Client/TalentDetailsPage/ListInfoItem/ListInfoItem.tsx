@@ -15,7 +15,9 @@ export const ListInfoItem: FC<InfoItemProps> = ({ title, list }) => {
       <span className={styles.title}>{title}</span>
       <div className={styles.list}>
         {list.map(item => {
-          return <Item key={item.id} title={item.value} />
+          const updatedValue = item.value.replace(/&amp;/g, '&')
+
+          return <Item key={item.id} title={updatedValue} />
         })}
       </div>
     </div>

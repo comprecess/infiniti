@@ -30,8 +30,7 @@
   align-items: center;
 }
 
-.uploadPicture,
-.buttonRemove {
+.uploadPicture {
   width: 100%;
 
   @include mobileBreakpoint('min', $bpS) {
@@ -39,11 +38,21 @@
   }
 }
 
+.buttonUpload,
 .buttonRemove {
+  height: 44px;
+}
+
+.buttonRemove {
+  width: 100%;
   background-color: $cherry-500;
 
   @include hover() {
     background-color: $cherry-400;
+  }
+
+  @include mobileBreakpoint('min', $bpS) {
+    max-width: 175px;
   }
 }
 

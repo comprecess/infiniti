@@ -20,7 +20,9 @@ export const Item: FC<ItemProps> = ({ title, tags }) => {
       <span className={styles.title}>{title}</span>
       <div className={styles.list}>
         {tags.map(tag => {
-          return <TalentsTag key={tag.id} title={tag.value} />
+          const updatedValue = tag.value.replace(/&amp;/g, '&')
+
+          return <TalentsTag key={tag.id} title={updatedValue} />
         })}
       </div>
     </div>

@@ -15,6 +15,13 @@
   align-items: center;
 }
 
+.typesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
 .detailsContainer {
   display: flex;
   flex-direction: column;
@@ -37,6 +44,15 @@
   letter-spacing: -0.03em;
   text-align: left;
   color: $brand-300;
+}
+
+.extTypeItem {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $brand-200;
 }
 
 .avatarItem {

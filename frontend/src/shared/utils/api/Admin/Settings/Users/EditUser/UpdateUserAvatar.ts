@@ -21,7 +21,7 @@ export const updateAvatarUser = async (
         '/update'
 
       const response = await fetch(url, {
-        method: 'PUT',
+        method: 'POST',
         headers: {
           Accept: 'application/json',
           Authorization: `Bearer ${authToken.cookie}`,

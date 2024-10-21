@@ -84,6 +84,7 @@ export const RecentUsers: FC<RecentUsersProps> = ({
                 avatar={item.img}
                 name={item.fullName}
                 email={item.email}
+                departments={item.departments}
                 phone={item.phoneNumber}
                 city={item.city}
                 state={item.state}

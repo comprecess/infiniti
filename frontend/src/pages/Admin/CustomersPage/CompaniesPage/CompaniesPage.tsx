@@ -24,7 +24,7 @@ import styles from './CompaniesPage.module.scss'
 export const AdminCompaniesPage: FC = () => {
   const [companies, setCompanies] = useState<CompaniesListProps[] | null>(null)
   const [filteredCompanies, setFilteredCompanies] = useState<
-    CompaniesListProps[] | null
+  CompaniesListProps[] | null
   >(null)
 
   const [selectedCompanyId, setSelectedCompanyId] = useState<number | null>(
@@ -101,8 +101,8 @@ export const AdminCompaniesPage: FC = () => {
     setFilteredCompanies(prevFilteredCompanies =>
       prevFilteredCompanies
         ? prevFilteredCompanies.filter(
-            company => company.id !== selectedCompanyId,
-          )
+          company => company.id !== selectedCompanyId,
+        )
         : [],
     )
   }
@@ -237,13 +237,13 @@ export const AdminCompaniesPage: FC = () => {
             componentProps={
               access.create
                 ? {
-                    title: 'New Company',
-                    titleNone: true,
-                    icon: '/icons/plus.svg',
-                    iconProps: styles.icon,
-                    style: styles.blueButton,
-                    onClick: handleOpenCloseModalNewCompany,
-                  }
+                  title: 'New Company',
+                  titleNone: true,
+                  icon: '/icons/plus.svg',
+                  iconProps: styles.icon,
+                  style: styles.blueButton,
+                  onClick: handleOpenCloseModalNewCompany,
+                }
                 : undefined
             }
           >

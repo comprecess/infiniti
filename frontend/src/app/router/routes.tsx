@@ -78,6 +78,8 @@ import { ClientMyOrdersPage } from '../../pages/Client/MyOrdersPage/MyOrdersPage
 import { ClientOffersPage } from '../../pages/Client/OffersPage/OffersPage'
 import { ClientProfilePage } from '../../pages/Client/ProfilePage/ProfilePage'
 import { ClientProjectsPage } from '../../pages/Client/ProjectsPage/ProjectsPage'
+import { ClientEditTalentPage } from '../../pages/Client/TalentDetailsPage/EditTalentPage/EditTalentPage'
+import { ClientTalentDetailsPage } from '../../pages/Client/TalentDetailsPage/TalentDetailsPage'
 import { ClientTalentsPage } from '../../pages/Client/TalentsPage/TalentsPage'
 import { ClientOpenNewTicketPage } from '../../pages/Client/TicketsPage/OpenNewTicketPage/OpenNewTicketPage'
 import { ClientTicketsPage } from '../../pages/Client/TicketsPage/TicketsPage/TicketsPage'
@@ -189,6 +191,8 @@ export const Pages = {
   /* Client Dashboard pages */
   clientDashboardPage: <ClientDashboardPage />,
   clientTalentsPage: <ClientTalentsPage />,
+  clientTalentDetailsPage: <ClientTalentDetailsPage />,
+  clientEditTalentPage: <ClientEditTalentPage />,
   clientMyOrdersPage: <ClientMyOrdersPage />,
   clientTransactionsPage: <ClientTransactionsPage />,
   clientDocumentsPage: <ClientDocumentsPage />,
