@@ -32,16 +32,22 @@ const extractIdFromUrl = (url: string): number | null => {
 const useIdFromUrl = () => {
   const location = useLocation()
 
-  return useMemo(() => extractIdFromUrl(location.pathname), [location.pathname])
+  return useMemo(
+    () => extractIdFromUrl(location.pathname),
+    [location.pathname],
+  )
 }
 
 export const AdminEditUserPage: FC = () => {
-  const [formData, setFormData] = useState<PartialFieldsEditUserData | null>(
+  const [formData, setFormData] =
+    useState<PartialFieldsEditUserData | null>(null)
+
+  const [userInfo, setUserInfo] = useState<SettingsEditUserData | null>(
     null,
   )
-
-  const [userInfo, setUserInfo] = useState<SettingsEditUserData | null>(null)
-  const [inputData, setInputData] = useState<SettingsUserInputData | null>(null)
+  const [inputData, setInputData] = useState<SettingsUserInputData | null>(
+    null,
+  )
 
   const id = useIdFromUrl()
   const showToast = useCustomToast()
@@ -91,6 +97,7 @@ export const AdminEditUserPage: FC = () => {
         description: "You have successfully updated the user's avatar",
         status: 'success',
       })
+      getUserData()
     } else {
       showToast({
         title: 'Error',
@@ -110,9 +117,10 @@ export const AdminEditUserPage: FC = () => {
     if (updateResponse.status) {
       showToast({
         title: 'Successfully',
-        description: 'You have successfully updated your User information',
+        description: 'You have successfully updated User information',
         status: 'success',
       })
+      getUserData()
     } else {
       showToast({
         title: 'Error',
@@ -152,10 +160,14 @@ export const AdminEditUserPage: FC = () => {
               userInfo={userInfo}
               inputData={inputData}
               updateUserAvatar={updateUserAvatar}
+              updateAdditionallyInfoUser={updateAdditionallyInfoUser}
               onFormDataChange={setFormData}
             />
           </RecentCard>
-          <RecentCard title='Notifications' style={styles.recentFullScreen}>
+          <RecentCard
+            title='Notifications'
+            style={styles.recentFullScreen}
+          >
             <div className={styles.itemsContainer}>
               <CustomCheckBox
                 title='Email'
@@ -181,7 +193,10 @@ export const AdminEditUserPage: FC = () => {
             <div className={styles.itemsContainer}>
               {inputData.department.map(department => {
                 return (
-                  <div key={department.id} className={styles.switchContainer}>
+                  <div
+                    key={department.id}
+                    className={styles.switchContainer}
+                  >
                     <CustomSwitch
                       isChecked={
                         !!userInfo.departments.find(

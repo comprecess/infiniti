@@ -19,6 +19,7 @@ interface FieldsProps {
   userInfo: SettingsEditUserData
   inputData: SettingsUserInputData
   onFormDataChange: (data: PartialFieldsEditUserData | null) => void
+  updateAdditionallyInfoUser: (data: { [key: string]: number }) => void
   updateUserAvatar: (file: FormData) => void
 }
 
@@ -50,6 +51,7 @@ export const Fields: FC<FieldsProps> = ({
   inputData,
   onFormDataChange,
   updateUserAvatar,
+  updateAdditionallyInfoUser,
 }) => {
   const [formData, setFormData] = useState<PartialFieldsEditUserData>({
     email: userInfo.email,
@@ -82,7 +84,9 @@ export const Fields: FC<FieldsProps> = ({
     const files = event.target.files
 
     if (files && files.length > 0) {
-      if (!['image/jpeg', 'image/jpg', 'image/png'].includes(files[0].type)) {
+      if (
+        !['image/jpeg', 'image/jpg', 'image/png'].includes(files[0].type)
+      ) {
         showToast({
           title: 'Error',
           description: 'Only JPEG and PNG images are allowed',
@@ -118,7 +122,8 @@ export const Fields: FC<FieldsProps> = ({
         if (value === 0) {
           delete updatedFormData[field]
         } else {
-          updatedFormData[field] = inputData.localization[value - 1].iso_code
+          updatedFormData[field] =
+            inputData.localization[value - 1].iso_code
         }
       } else if (field === 'payFrequency' && typeof value === 'number') {
         if (value === 0) {
@@ -197,8 +202,10 @@ export const Fields: FC<FieldsProps> = ({
         title='Language'
         titleOnChange='language'
         placeholder='None'
-        idList={inputData.localization.map((_language, index) => index + 1)}
         nameList={inputData.localization.map(language => language.name)}
+        idList={inputData.localization.map(
+          (_language, index) => index + 1,
+        )}
         value={
           formData.language
             ? inputData.localization.findIndex(
@@ -216,7 +223,11 @@ export const Fields: FC<FieldsProps> = ({
         />
         <div className={styles.buttonsContainer}>
           <div className={styles.uploadPicture}>
-            <ButtonBlue title='Upload picture' onClick={handleButtonClick} />
+            <ButtonBlue
+              title='Upload picture'
+              style={styles.buttonUpload}
+              onClick={handleButtonClick}
+            />
             <input
               ref={inputRef}
               type='file'
@@ -224,7 +235,11 @@ export const Fields: FC<FieldsProps> = ({
               onChange={handleAvatarChange}
             />
           </div>
-          <ButtonBlue title='Remove picture' style={styles.buttonRemove} />
+          <ButtonBlue
+            title='Remove picture'
+            style={styles.buttonRemove}
+            onClick={() => updateAdditionallyInfoUser({ deleteImg: 1 })}
+          />
         </div>
       </div>
       <div className={styles.containerItems}>

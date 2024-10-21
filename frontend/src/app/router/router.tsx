@@ -2,7 +2,6 @@ import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 import { MainOutlet } from '../../features/Main/MainOutlet/MainOutlet'
 import { AuthOutlet } from '../../pages/Auth/AuthOutlet/AuthOutlet'
-import { TalentPage } from '../../pages/Client/TalentDetailsPage/TalentDetailsPage'
 import { RootPage } from '../../pages/General/RootPage/RootPage'
 import { ExaminationAuth } from '../../shared/utils/api/Auth/ExaminationAuth'
 import { ExaminationUser } from '../../shared/utils/api/Auth/ExaminationUser'
@@ -361,7 +360,11 @@ export const router = createBrowserRouter([
       { path: Routes.talents, element: Pages.clientTalentsPage },
       {
         path: `${Routes.talents}/${Routes.talent}/:id`,
-        element: <TalentPage />,
+        element: Pages.clientTalentDetailsPage,
+      },
+      {
+        path: `${Routes.talents}/${Routes.edit}/${Routes.talent}/:id`,
+        element: Pages.clientEditTalentPage,
       },
       { path: Routes.myOrders, element: Pages.clientMyOrdersPage },
       { path: Routes.transactions, element: Pages.clientTransactionsPage },

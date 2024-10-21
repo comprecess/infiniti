@@ -126,3 +126,11 @@
   text-align: left;
   color: $gray-300;
 }
+
+.editTalentButton {
+  background-color: $brand-transparent;
+
+  @include hover() {
+    background-color: $brand-600;
+  }
+}

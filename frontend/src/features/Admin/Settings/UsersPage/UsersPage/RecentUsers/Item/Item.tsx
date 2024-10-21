@@ -12,6 +12,7 @@ interface ItemProps {
   email: string
   phone: string
   city: string
+  departments: { id: number; name: string }[]
   state: string
   zip: string
   country: string
@@ -27,6 +28,7 @@ export const Item: FC<ItemProps> = ({
   name,
   email,
   phone,
+  departments,
   city,
   state,
   zip,
@@ -65,23 +67,42 @@ export const Item: FC<ItemProps> = ({
           {phone && <span className={styles.detailsItem}>{phone}</span>}
           {city && <span className={styles.detailsItem}>{city}</span>}
           {state && zip && (
-            <span className={styles.detailsItem}>{`${state} - ${zip}`}</span>
+            <span className={styles.detailsItem}>
+              {`${state} - ${zip}`}
+            </span>
           )}
-          {country && <span className={styles.detailsItem}>{country}</span>}
+          {country && (
+            <span className={styles.detailsItem}>{country}</span>
+          )}
         </div>
       </div>
-      <span className={`${styleItem.typeColumn} ${styles.typeItem}`}>
-        {type}
-      </span>
+      <div className={`${styleItem.typeColumn} ${styles.typesContainer}`}>
+        <span className={styles.typeItem}>{type}</span>
+        {departments.map(item => {
+          return (
+            <span key={item.id} className={styles.extTypeItem}>
+              {item.name}
+            </span>
+          )
+        })}
+      </div>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
         {access.edit && (
           <button className={styles.buttonEdit} onClick={handleEditUser}>
-            <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
+            <img
+              src='/icons/edit.svg'
+              alt='Edit'
+              className={styles.icon}
+            />
           </button>
         )}
         {access.delete && (
           <button className={styles.buttonTrash} onClick={handleSetModal}>
-            <img src='/icons/trash.svg' alt='Trash' className={styles.icon} />
+            <img
+              src='/icons/trash.svg'
+              alt='Trash'
+              className={styles.icon}
+            />
           </button>
         )}
       </div>

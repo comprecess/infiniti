@@ -22,7 +22,7 @@ import { getUserInfo } from '../../../shared/utils/api/Client/Catalog/User/GetUs
 import styles from './TalentDetailsPage.module.scss'
 
 const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/id(\d+)/
+  const regex = /\/talent\/(\d+)/
   const match = url.match(regex)
 
   return match ? parseInt(match[1], 10) : null
@@ -39,7 +39,7 @@ const useIdFromUrl = () => {
   return id
 }
 
-export const TalentPage: FC = () => {
+export const ClientTalentDetailsPage: FC = () => {
   const [talentInfo, setTalentInfo] = useState<TalentData | null>(null)
 
   const similarTalentsRef = useRef<HTMLDivElement>(null)
@@ -48,9 +48,9 @@ export const TalentPage: FC = () => {
 
   const navigate = useNavigate()
 
-  const handleNavigateBack = useCallback(() => {
-    navigate(`/${Routes.clientPages}/'${Routes.talents}`)
-  }, [navigate])
+  const handleNavigateBack = () => {
+    navigate(`/${Routes.clientPages}/${Routes.talents}`)
+  }
 
   const scrollToTop = useCallback(() => {
     setTimeout(() => {

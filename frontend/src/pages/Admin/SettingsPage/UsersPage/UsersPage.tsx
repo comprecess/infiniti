@@ -131,8 +131,12 @@ export const AdminUsersPage: FC = () => {
             style={styles.recentFullScreen}
             HeaderComponent={Search}
             PagesComponent={PagesList}
-            pagesProps={{ meta: data.meta, nextPage: pageOnChange, size: 'sm' }}
             Component={access.create ? ButtonBlue : undefined}
+            pagesProps={{
+              meta: data.meta,
+              nextPage: pageOnChange,
+              size: 'sm',
+            }}
             headerProps={{
               style: styles.search,
               onSearchChange: searchOnChange,
@@ -140,13 +144,13 @@ export const AdminUsersPage: FC = () => {
             componentProps={
               access.create
                 ? {
-                    title: 'New User',
-                    titleNone: true,
-                    icon: '/icons/plus.svg',
-                    iconProps: styles.icon,
-                    onClick: handleNewUser,
-                    style: styles.blueButton,
-                  }
+                  title: 'New User',
+                  titleNone: true,
+                  icon: '/icons/plus.svg',
+                  iconProps: styles.icon,
+                  onClick: handleNewUser,
+                  style: styles.blueButton,
+                }
                 : undefined
             }
           >

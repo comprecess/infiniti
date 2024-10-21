@@ -41,10 +41,12 @@ export const Item: FC<SearchItemProps> = ({
         const isChecked =
           filters[category.propId]?.includes(category.id) || false
 
+        const updatedValue = category.value.replace(/&amp;/g, '&')
+
         return (
           <CustomCheckBox
             key={category.id}
-            title={category.value}
+            title={updatedValue}
             isChecked={isChecked}
             onChange={e =>
               onCheckboxChange(

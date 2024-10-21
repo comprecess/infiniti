@@ -876,6 +876,7 @@ export interface SettingsUsersData {
   email: string
   fullName: string
   img: string
+  departments: { id: number; name: string }[]
   phoneNumber: string
   role: { name: string }
   state: string
@@ -911,4 +912,16 @@ export interface SettingsEditUserData {
   state: string
   summary: string
   zip: string
+}
+
+export interface TalentEditFormData {
+  projectsExperience: TalentProjectsExperience[]
+}
+
+export interface TalentProjectsExperience {
+  id: number
+  index: number
+  position: string
+  period: string
+  responsibilities: string
 }
