@@ -10,5 +10,8 @@ use \App\Http\Controllers\Api\Resident;
         ],
         'customers' => [
             Resident\Client\MainClientController::class
+        ],
+        'documents' => [
+            Resident\DocumentController::class
         ]
     ];

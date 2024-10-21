@@ -79,9 +79,7 @@ class AdminController extends SettingsController
                 }
                 $model->roleid = $role->id;
                 $model->role = $role->rname;
-                if($request->country) {
-                    $model->country = Countries::list()[$request->country] ?? null;
-                }
+                $model->country = $request->country ? (Countries::list()[$request->country] ?? null) : null;
 
 
                 if(!$isNew) {
@@ -124,8 +122,8 @@ class AdminController extends SettingsController
 
         }
 
-        if($request->img) {
-            $resident->uploads($request->img);
+        if($request->file) {
+            $resident->uploads($request->file);
         }
 
         if($request->deleteImg) {

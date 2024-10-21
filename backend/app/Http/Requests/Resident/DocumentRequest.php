@@ -3,12 +3,18 @@
 namespace App\Http\Requests\Resident;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
 
 
 class DocumentRequest extends FormRequest
 {
 
     const DOCUMENT = ['json', 'pdf', 'excel', 'csv', 'copy'];
+
+    public function isDocument()
+    {
+        return true;
+    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -24,6 +30,10 @@ class DocumentRequest extends FormRequest
 
     public function rules(): array
     {
+        if(!$this->isDocument() && request()->get('document')) {
+            throw ValidationException::withMessages(["serviceId" => __('validation.declined', ['attribute' => "document"])]);
+        }
+
         return [
             'filter.search' => "nullable|string",
             'sort.name' => "nullable|in:" . implode(",", array_keys($this->sort())),

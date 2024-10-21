@@ -19,6 +19,7 @@ class DocumentResource extends JsonResource
             'title' => $this->title,
             'type' => $this->file_mime_type,
             'global' => $this->is_global,
+            'link' => $this->getLink(),
         ];
     }
 
