@@ -92,6 +92,15 @@ Route::controller(Resident\Sale\BlankController::class)->prefix('{typeBlank}')->
         Route::delete('/{idType}/blank/{item}', 'blankDelete');
         Route::get('/service/{service}', 'listService');
     });
+#document
+Route::controller(Resident\DocumentController::class)->prefix('document')
+    ->group(function(){
+        Route::get('/list', 'list');
+        Route::post('/', 'createOrUpdate');
+        Route::get('/{document}', 'item');
+        Route::put('/{document}/update', 'update');
+        Route::delete('/{document}', 'delete');
+    });
 
 #settings
 Route::group(['prefix' => 'settings'], function(){
@@ -103,7 +112,7 @@ Route::group(['prefix' => 'settings'], function(){
             Route::post('/', 'createOrUpdate');
             Route::put('/{resident}', 'createOrUpdate');
             Route::get('/{resident}', 'item');
-            Route::put('/{resident}/update', 'update');
+            Route::match(['put', 'post'],'/{resident}/update', 'update');
             Route::delete('/{resident}', 'delete');
         });
     #currency

@@ -65,6 +65,9 @@ Route::get('/file/{file_storage}', [\App\Http\Controllers\Api\FileController::cl
 #pdf
 Route::get('/pdf/{name}/token/{token}', [\App\Http\Controllers\Api\PdfController::class, 'index'])
     ->name('pdf');
+#document
+Route::get('/document/{token}', [\App\Http\Controllers\Api\Resident\DocumentController::class, 'load'])
+    ->name('document_load');
 
 
 #test

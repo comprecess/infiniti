@@ -28,6 +28,12 @@ class UserController extends Controller
 
     }
 
+    public function getUserModel($hasExcept = true)
+    {
+        $this->isAuth($hasExcept);
+        return $this->user;
+    }
+
     public function getUser()
     {
         $this->isAuth();

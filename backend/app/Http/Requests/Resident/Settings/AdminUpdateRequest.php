@@ -18,7 +18,7 @@ class AdminUpdateRequest extends FormRequest implements ConvertingPropertiesInte
             'department' => "nullable|exists:sys_ticketdepartments,id",
             'emailNotify' => "nullable|boolean",
             'smsNotify' => "nullable|boolean",
-            'img' => 'nullable|image',
+            'file' => 'nullable|image',
             'deleteImg' => 'nullable|boolean',
         ];
     }
