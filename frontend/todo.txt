@@ -40,6 +40,7 @@ COMPLETE PAGES ROLES:
 		• Contracts
 		• Orders
 		• Settings
+				• Users ✔
 				• Roles ✔
 				• Currencies ✔
 				• Custom Contact Fields ✔

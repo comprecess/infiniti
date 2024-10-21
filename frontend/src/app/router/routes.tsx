@@ -56,6 +56,9 @@ import { AdminCustomContactFields } from '../../pages/Admin/SettingsPage/CustomC
 import { AdminEditRolePage } from '../../pages/Admin/SettingsPage/RolesPage/EditRolePage/EditRolePage'
 import { AdminNewRolePage } from '../../pages/Admin/SettingsPage/RolesPage/NewRolePage/NewRolePage'
 import { AdminRolesPage } from '../../pages/Admin/SettingsPage/RolesPage/RolesPage'
+import { AdminEditUserPage } from '../../pages/Admin/SettingsPage/UsersPage/EditUserPage/EditUserPage'
+import { AdminNewUserPage } from '../../pages/Admin/SettingsPage/UsersPage/NewUserPage/NewUserPage'
+import { AdminUsersPage } from '../../pages/Admin/SettingsPage/UsersPage/UsersPage'
 import { AdminSMSPage } from '../../pages/Admin/SMSPage/SMSPage'
 import { AdminAddSupplierPage } from '../../pages/Admin/SuppliersPage/AddSupplierPage/AddSupplierPage'
 import { AdminListSuppliersPage } from '../../pages/Admin/SuppliersPage/ListSuppliersPage/ListSuppliersPage'
@@ -105,6 +108,8 @@ export const Routes = {
   suppliers: 'suppliers',
   sms: 'sms',
   hrm: 'hrm',
+  user: 'user',
+  users: 'users',
   tasks: 'tasks',
   calendar: 'calendar',
   customer: 'customer',
@@ -261,6 +266,9 @@ export const Pages = {
   adminRolesPage: <AdminRolesPage />,
   adminEditRolePage: <AdminEditRolePage />,
   adminNewRolePage: <AdminNewRolePage />,
+  adminUsersPage: <AdminUsersPage />,
+  adminNewUserPage: <AdminNewUserPage />,
+  adminEditUserPage: <AdminEditUserPage />,
 
   /* Public  pages */
   publicViewInvoice: <InvoiceViewPage />,

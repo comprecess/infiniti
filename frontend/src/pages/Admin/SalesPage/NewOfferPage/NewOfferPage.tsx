@@ -14,12 +14,8 @@ import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './NewOfferPage.module.scss'
 
 export const AdminNewOfferPage: FC = () => {
-  const [formData, setFormData] = useState<Partial<PartialFieldsPostData>>(
-    {},
-  )
-  const [inputData, setInputData] = useState<SalesOfferInputData | null>(
-    null,
-  )
+  const [formData, setFormData] = useState<Partial<PartialFieldsPostData>>({})
+  const [inputData, setInputData] = useState<SalesOfferInputData | null>(null)
 
   const showToast = useCustomToast()
 

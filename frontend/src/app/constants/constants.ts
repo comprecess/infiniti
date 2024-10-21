@@ -868,3 +868,47 @@ interface DashboardDataEntry {
 interface DashboardDataJson {
   [key: string]: DashboardDataEntry
 }
+
+export interface SettingsUsersData {
+  id: 8
+  city: string
+  country: string
+  email: string
+  fullName: string
+  img: string
+  phoneNumber: string
+  role: { name: string }
+  state: string
+  zip: string
+}
+
+export interface SettingsUserInputData {
+  role: { id: number; name: string }[]
+  country: { [key: string]: string }
+  department: { id: number; name: string }[]
+  localization: { name: string; iso_code: string }[]
+  payFrequency: string[]
+}
+
+export interface SettingsEditUserData {
+  id: number
+  address: string
+  amount: string
+  city: string
+  country: string
+  dateHired: string
+  departments: { id: number; name: string }[]
+  email: string
+  emailNotify: number
+  fullName: string
+  img: string
+  jobTitle: string
+  language: string
+  payFrequency: string
+  phoneNumber: string
+  role: { id: number; name: string }
+  smsNotify: number
+  state: string
+  summary: string
+  zip: string
+}
