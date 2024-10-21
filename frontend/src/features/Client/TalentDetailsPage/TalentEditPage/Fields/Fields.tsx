@@ -24,7 +24,8 @@ export interface PartialFieldsPostData
 }
 
 export const Fields: FC = () => {
-  const [formData, setFormData] = useState<TalentEditFormData>({
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+  const [formData, _setFormData] = useState<TalentEditFormData>({
     projectsExperience: [
       {
         id: 0,
