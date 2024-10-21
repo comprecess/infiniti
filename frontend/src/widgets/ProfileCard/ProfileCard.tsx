@@ -13,12 +13,8 @@ interface ProfileCardProps {
   onChangeInfo: () => void
 }
 
-export const ProfileCard: FC<ProfileCardProps> = ({
-  talent,
-  onChangeInfo,
-}) => {
+export const ProfileCard: FC<ProfileCardProps> = ({ talent, onChangeInfo }) => {
   const showToast = useCustomToast()
-
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleButtonClick = () => {
@@ -31,9 +27,7 @@ export const ProfileCard: FC<ProfileCardProps> = ({
     const files = event.target.files
 
     if (files && files.length > 0) {
-      if (
-        !['image/jpeg', 'image/jpg', 'image/png'].includes(files[0].type)
-      ) {
+      if (!['image/jpeg', 'image/jpg', 'image/png'].includes(files[0].type)) {
         showToast({
           title: 'Error',
           description: 'Only JPEG and PNG images are allowed',
@@ -104,15 +98,12 @@ export const ProfileCard: FC<ProfileCardProps> = ({
           title='Address:'
           description={talent.address ? talent.address : '-'}
         />
-        <InfoItem
-          title='City:'
-          description={talent.city ? talent.city : '-'}
-        />
+        <InfoItem title='City:' description={talent.city ? talent.city : '-'} />
         <InfoItem
           title='State/Region:'
-          description={`${
-            talent.state ? talent.state : 'Not Indicate'
-          } — ${talent.zip ? talent.zip : 'Not Indicate'}`}
+          description={`${talent.state ? talent.state : 'Not Indicate'} — ${
+            talent.zip ? talent.zip : 'Not Indicate'
+          }`}
         />
       </div>
       <div className={styles.uploadPicture}>

@@ -6,52 +6,6 @@
   padding: 10px 12px 10px 12px;
 }
 
-.logoWrapper {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: start;
-}
-
-.logoItem {
-  max-width: 230px;
-  max-height: 42px;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-}
-
-.companyNameItem {
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 26px;
-  letter-spacing: -0.03em;
-  text-align: left;
-  color: $white;
-}
-
-.companyCodeItem {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 22px;
-  letter-spacing: -0.03em;
-  text-align: left;
-  color: $gray-300;
-}
-
-.emailItem,
-.phoneItem {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 22px;
-  letter-spacing: -0.03em;
-  text-align: left;
-  color: $white;
-}
-
 .manageItem {
   display: flex;
   flex-direction: row;
@@ -61,7 +15,36 @@
   align-items: center;
 }
 
-.viewButton,
+.detailsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.detailsItem {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $white;
+}
+
+.typeItem {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $brand-300;
+}
+
+.avatarItem {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
 .buttonEdit,
 .buttonTrash {
   display: flex;
@@ -72,14 +55,6 @@
   justify-content: center;
   border-radius: 8px;
   transition: all 0.2s ease;
-}
-
-.viewButton {
-  background-color: $mint-500;
-
-  @include hover() {
-    background-color: $mint-400;
-  }
 }
 
 .buttonEdit {

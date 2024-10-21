@@ -304,6 +304,15 @@ export const router = createBrowserRouter([
       {
         path: Routes.settings,
         children: [
+          { path: Routes.users, element: Pages.adminUsersPage },
+          {
+            path: `${Routes.users}/${Routes.edit}/${Routes.user}/:id`,
+            element: Pages.adminEditUserPage,
+          },
+          {
+            path: `${Routes.users}/${Routes.new}/${Routes.user}`,
+            element: Pages.adminNewUserPage,
+          },
           { path: Routes.currencies, element: Pages.adminCurrenciesPage },
           {
             path: `${Routes.custom}/${Routes.contact}/${Routes.fields}`,

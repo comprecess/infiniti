@@ -22,16 +22,14 @@ import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CompaniesPage.module.scss'
 
 export const AdminCompaniesPage: FC = () => {
-  const [companies, setCompanies] = useState<CompaniesListProps[] | null>(
-    null,
-  )
+  const [companies, setCompanies] = useState<CompaniesListProps[] | null>(null)
   const [filteredCompanies, setFilteredCompanies] = useState<
-  CompaniesListProps[] | null
+    CompaniesListProps[] | null
   >(null)
 
-  const [selectedCompanyId, setSelectedCompanyId] = useState<
-  number | null
-  >(null)
+  const [selectedCompanyId, setSelectedCompanyId] = useState<number | null>(
+    null,
+  )
 
   const [modalNewCompany, setModalNewCompany] = useState<boolean>(false)
   const [modalEditCompany, setModalEditCompany] = useState<boolean>(false)
@@ -103,8 +101,8 @@ export const AdminCompaniesPage: FC = () => {
     setFilteredCompanies(prevFilteredCompanies =>
       prevFilteredCompanies
         ? prevFilteredCompanies.filter(
-          company => company.id !== selectedCompanyId,
-        )
+            company => company.id !== selectedCompanyId,
+          )
         : [],
     )
   }
@@ -121,12 +119,7 @@ export const AdminCompaniesPage: FC = () => {
 
   const filterEmptyFields = (data: CompanyData): Partial<CompanyData> => {
     return Object.entries(data).reduce((acc, [key, value]) => {
-      if (
-        key !== 'id' &&
-        value !== '' &&
-        value !== false &&
-        value !== null
-      ) {
+      if (key !== 'id' && value !== '' && value !== false && value !== null) {
         acc[key as keyof CompanyData] = value
       }
 
@@ -227,9 +220,7 @@ export const AdminCompaniesPage: FC = () => {
 
   useEffect(() => {
     document.title = 'infiniti | Companies'
-  }, [])
 
-  useEffect(() => {
     getCompanies()
   }, [])
 
@@ -246,13 +237,13 @@ export const AdminCompaniesPage: FC = () => {
             componentProps={
               access.create
                 ? {
-                  title: 'New Company',
-                  titleNone: true,
-                  icon: '/icons/plus.svg',
-                  iconProps: styles.icon,
-                  style: styles.blueButton,
-                  onClick: handleOpenCloseModalNewCompany,
-                }
+                    title: 'New Company',
+                    titleNone: true,
+                    icon: '/icons/plus.svg',
+                    iconProps: styles.icon,
+                    style: styles.blueButton,
+                    onClick: handleOpenCloseModalNewCompany,
+                  }
                 : undefined
             }
           >

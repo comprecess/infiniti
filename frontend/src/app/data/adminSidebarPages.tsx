@@ -325,7 +325,7 @@ export const adminSidebarPages = [
     shortName: 'settings',
     openPaths: [
       { id: 0, title: 'General Settings', path: '' },
-      { id: 1, title: 'Staff', path: '' },
+      { id: 1, title: 'Users', path: Routes.users },
       { id: 2, title: 'Roles', path: Routes.roles },
       { id: 3, title: 'Localization', path: '' },
       { id: 4, title: 'Currencies', path: Routes.currencies },

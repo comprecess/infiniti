@@ -1,7 +1,7 @@
+import './BarChart.scss'
+
 import { FC, useEffect, useState } from 'react'
 import Chart from 'react-apexcharts'
-
-import styles from './BarChart.module.scss'
 
 interface DataEntry {
   Income: number
@@ -80,7 +80,7 @@ export const BarChart: FC<DashboardChartProps> = ({ data }) => {
           labels: {
             style: {
               fontSize: '14px',
-              fontWeight: 500,
+              fontWeight: 400,
               lineHeight: '21px',
               letterSpacing: '-0.03em',
               colors: '#666984',
@@ -159,7 +159,7 @@ export const BarChart: FC<DashboardChartProps> = ({ data }) => {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className='wrapper'>
       <Chart
         options={chartData.options}
         series={chartData.series}
