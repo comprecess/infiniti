@@ -43,6 +43,10 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware(['api', 'statusResponse', 'authtime:api_admin', 'haveAccess', 'accessResponse'])
                 ->prefix('api/v1/resident')
                 ->group(base_path('routes/api/resident.php'));
+            #client and resident
+            Route::middleware(['api', 'statusResponse', 'my_auth'])
+                ->prefix('api/v1/')
+                ->group(base_path('routes/api/all.php'));
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));

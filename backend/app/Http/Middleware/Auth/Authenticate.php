@@ -15,7 +15,7 @@ class Authenticate
     {
         $user = User::getAuth();
         if($user === null) {
-            return response(view('pages.auth.login'));
+            abort(401);
         }
 
         return $next($request);

@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\Access\AccessResponse;
 use App\Http\Middleware\Access\HaveAccess;
+use App\Http\Middleware\Auth\Authenticate;
 use App\Http\Middleware\StatusResponse;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -70,5 +71,6 @@ class Kernel extends HttpKernel
         'statusResponse' => StatusResponse::class,
         'haveAccess' => HaveAccess::class,
         'accessResponse' => AccessResponse::class,
+        'my_auth' => Authenticate::class
     ];
 }

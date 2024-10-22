@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\CatalogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,31 +32,15 @@ Route::get('/{type}/token/{token}', [\App\Http\Controllers\Api\Resident\Sale\Inv
     ->whereIn('type', array_keys(\App\Http\Controllers\Api\Resident\Sale\InvoiceController::PUBLIC_TOKEN))
     ->name('invoicePublic');
 
-Route::group(
-    [
-        'prefix' => 'user',
-    ], function(){
+Route::group(['prefix' => 'user'], function(){
     Route::get('/', [UserController::class, 'getUser']);
-}
-);
+});
 
 #tools
 Route::group(['prefix' => 'tools'], function(){
     Route::get('countries', [\App\Http\Controllers\Api\ToolsController::class, 'countries']);
 }
 );
-
-#catalog
-Route::group(['prefix' => 'catalog', 'middleware' => ['auth:api_client']], function(){
-    Route::get('filters', [CatalogController::class, 'filters']);
-    Route::get('properties', [CatalogController::class, 'properties']);
-    Route::get('property/{id}', [CatalogController::class, 'property']);
-    Route::post('list', [CatalogController::class, 'list']);
-    Route::get('item/{catalogUser}', [CatalogController::class, 'item']);
-    Route::get('cart', [CatalogController::class, 'getCart']);
-    Route::post('cart', [CatalogController::class, 'addCart']);
-    Route::delete('cart/item/{id}', [CatalogController::class, 'deleteItemCart']);
-});
 
 #fileStorage
 Route::get('/file/{file_storage}', [\App\Http\Controllers\Api\FileController::class, 'load'])
