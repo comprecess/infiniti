@@ -3,19 +3,23 @@
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\FilterContract;
+use App\Http\Controllers\Api\Traits\IsAuthTrait;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Catalog\CartRequest;
 use App\Http\Requests\Catalog\ListRequest;
 use App\Http\Resources\Catalog\CartResorce;
 use App\Http\Resources\Catalog\PropertyResorce;
 use App\Http\Resources\Catalog\UsersResorce;
+use App\Http\Resources\Catalog\ValueResorce;
 use App\Models\Catalog\Cart;
 use App\Models\Catalog\CartItem;
 use App\Models\Catalog\Prop;
 use App\Models\Catalog\User;
 use App\Models\Catalog\UserValue;
 use App\Models\Catalog\Value;
+use App\Models\Users\Admin;
 use Illuminate\Http\Request;
+use App\Models\User as MainUser;
 
 
 class CatalogController extends Controller
@@ -144,5 +148,27 @@ class CatalogController extends Controller
         } else {
             return response()->json(['success' => false]);
         }
+    }
+
+    public function edit(User $catalogUser)
+    {
+        $user = MainUser::getAuth();
+
+        if(!($user instanceof Admin)) {
+            abort(404);
+        }
+    }
+
+    public function inputData()
+    {
+        $all = ['key_skills', 'specialization', 'industries', 'all_skills', 'timezone', 'lvl'];
+        $data = [];
+
+        foreach($all as $value) {
+            $prop = Prop::where('id_name', $value)->first();
+            $data[snakeCaseToPascalCase($value)] = ValueResorce::collection($prop->values);
+        }
+
+        return response()->json($data);
     }
 }
