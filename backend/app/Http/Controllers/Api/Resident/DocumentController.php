@@ -38,6 +38,14 @@ class DocumentController extends ResidentController
             });
         }
 
+        if(($type = Arr::get($requestAll, 'filter.type')) !== null) {
+
+            if($type == 'client') {
+                $query->where('cid', '!=', 0);
+            }
+
+        }
+
         $request->sortModel($query);
 
 

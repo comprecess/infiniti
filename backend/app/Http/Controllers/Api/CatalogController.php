@@ -161,7 +161,7 @@ class CatalogController extends Controller
 
     public function inputData()
     {
-        $all = ['key_skills', 'specialization', 'industries', 'all_skills', 'timezone', 'lvl'];
+        $all = ['key_skills', 'specialization', 'industries', 'all_skills', 'timezone', 'lvl', 'gender'];
         $data = [];
 
         foreach($all as $value) {
