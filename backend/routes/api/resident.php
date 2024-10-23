@@ -102,6 +102,16 @@ Route::controller(Resident\DocumentController::class)->prefix('document')
         Route::delete('/{document}', 'delete');
     });
 
+#talents
+Route::controller(Resident\Talents\TalentController::class)->prefix('talents')
+    ->group(function(){
+        Route::get('/list', 'list');
+        Route::post('/', 'createOrUpdate');
+        Route::get('/{document}', 'item');
+        Route::put('/{document}/update', 'update');
+        Route::delete('/{document}', 'delete');
+    });
+
 #settings
 Route::group(['prefix' => 'settings'], function(){
     #admin
