@@ -13,5 +13,8 @@ use \App\Http\Controllers\Api\Resident;
         ],
         'documents' => [
             Resident\DocumentController::class
+        ],
+        'talents' => [
+            Resident\Talents\TalentsController::class
         ]
     ];

@@ -47,7 +47,10 @@ class DocumentRequest extends FormRequest
         $desc = isset($this->sort['type']) ? (bool) $this->sort['type'] : true;
         if(method_exists($this, $sort[$this->sort['name'] ?? 'id'])) {
             $method = $sort[$this->sort['name'] ?? 'id'];
-            $model->orderBy($this->{$method}(), $desc ? "desc" : 'asc');
+            $sortResult = $this->{$method}($model);
+            if($sortResult !== null) {
+                $model->orderBy($sortResult, $desc ? "desc" : 'asc');
+            }
         } else {
             $model->orderBy($sort[$this->sort['name'] ?? 'id'], $desc ? "desc" : 'asc');
         }
