@@ -15,12 +15,14 @@ class TalentListResource extends JsonResource
 
     public function toArray(Request $request): array
     {
+        $hour = (float) $this->getPropValues('priceHour');
+        $day = (float) $this->getPropValues('priceDay');
         return [
             'id' => $this->id,
             'client' => new ClientResource($this->user),
             'lvl' => $this->getPropValues('lvl'),
-            'priceHour' => $this->user->printPrice((float) $this->getPropValues('priceHour')),
-            'priceDay' => $this->user->printPrice((float) $this->getPropValues('priceDay')),
+            'priceHour' => $this->user?->printPrice($hour) ?? $hour,
+            'priceDay' => $this->user?->printPrice($day) ?? $day,
         ];
     }
 
