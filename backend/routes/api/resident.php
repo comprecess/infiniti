@@ -103,7 +103,7 @@ Route::controller(Resident\DocumentController::class)->prefix('document')
     });
 
 #talents
-Route::controller(Resident\Talents\TalentController::class)->prefix('talents')
+Route::controller(Resident\Talents\TalentController::class)->prefix('talent')
     ->group(function(){
         Route::get('/list', 'list');
         Route::post('/', 'createOrUpdate');
