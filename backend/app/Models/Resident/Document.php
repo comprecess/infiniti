@@ -20,6 +20,9 @@ class Document extends Model implements InsertDefaultValueInterface
 
     public $adminColumn = 'aid';
 
+    protected $casts = [
+        'updated_at' => 'datetime',
+    ];
 
     public function getDefault() :array
     {
