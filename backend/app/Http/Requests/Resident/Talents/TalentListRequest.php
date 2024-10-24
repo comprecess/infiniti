@@ -14,6 +14,7 @@ class TalentListRequest extends DocumentRequest
         return [
             'id' => 'catalog_user.id',
             'name' => 'crm_accounts.account',
+            'specialization' => 'sortProp',
             'lvl' => 'sortProp',
             'priceHour' => 'sortProp',
             'priceDay' => 'sortProp',

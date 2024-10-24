@@ -30,15 +30,12 @@ class UsersResorce extends JsonResource
         $resorce = [
             'id' => $this->id,
             'name' => $this->getNested('user.account'),
-//            'img' => $this->getNested('user.files')->first()?->getLink(),
             'img' => $this->getNested('user')?->getAvatar(true) ?? "",
             'specialization' => $this->getPropValues('specialization'),
             'timezone' => $this->getPropValues('timezone'),
             'level' => $this->getPropValues('lvl'),
             'industries' => ValueResorce::collection(self::$isCollection ? $industries->chunk(3)->first() : $industries),
             'keySkills' => ValueResorce::collection(self::$isCollection ? $keySkills->chunk(3)->first() : $keySkills),
-//            'priceDay' => $this->getPropValues('priceDay'),
-//            'priceHour' => $this->getPropValues('priceHour'),
             'priceDay' => $this->getCurrency((int) $this->getPropValues('priceDay')),
             'priceHour' => $this->getCurrency((int) $this->getPropValues('priceHour')),
         ];
