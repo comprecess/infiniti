@@ -46,7 +46,7 @@ class InvoiceRequest extends FormRequest implements ConvertingPropertiesInterfac
         if($invoice) {
             unset($rules['status']);
             if($invoice->blockEdit()) {
-                throw throw ValidationException::withMessages(["invoice.status" => __('resident.invoice.blockStatus')]);
+                throw ValidationException::withMessages(["invoice.status" => __('resident.invoice.blockStatus')]);
             }
         }
 

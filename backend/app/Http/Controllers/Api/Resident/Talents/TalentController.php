@@ -15,10 +15,12 @@ use App\Http\Resources\Resident\Talents\TalentPdfResource;
 use App\Http\Resources\UserResource;
 use App\Models\Catalog\Prop;
 use App\Models\Catalog\User;
+use App\Models\Catalog\UserValue;
 use App\Models\Catalog\Value;
 use App\Models\Users\Admin;
 use App\Services\Document\DocumentVariables;
 use Illuminate\Support\Arr;
+use Illuminate\Validation\ValidationException;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class TalentController extends TalentsController
@@ -122,12 +124,34 @@ class TalentController extends TalentsController
             $user,
             null,
             function($model, $request, $isNew){
-                $data = $request->all();
-                foreach($data as $nameProp => $value){
-                    $prop = Prop::where('id_name', $nameProp);
-                    if(is_array($value)) {
 
+                if(!$isNew) {
+                    UserValue::where('id_catalog_user', $model->id)->delete();
+                }
+
+                $data = $request->all();
+                foreach($data as $nameProp => $values){
+                    if(in_array($nameProp, ['active','ownerId','clientId','birthDay', 'taxesIncluded'])) {
+                        continue;
                     }
+                    if(!in_array($nameProp, ['priceHour','priceDay'])) {
+                        $nameProp = pascalCaseToSnakeCase($nameProp);
+                    }
+
+                    if(!is_array($values)) {
+                        $values = [$values];
+                    }
+                    foreach($values as $value) {
+                        try {
+                            $model->setPropData($value, $nameProp);
+                        }catch (\Exception $e) {
+                            throw ValidationException::withMessages([$nameProp => $e->getMessage()]);
+                        }
+                    }
+                }
+
+                if($data['taxesIncluded']) {
+                    Prop::where('id_name', 'rate')->first()?->values?->first()?->users()->sync([$model->id]);
                 }
             });
     }
