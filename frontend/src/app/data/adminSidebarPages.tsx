@@ -32,6 +32,25 @@ export const adminSidebarPages = [
   },
   {
     id: 1,
+    name: 'Talents',
+    icon: <ProfileIcon />,
+    shortName: 'talents',
+    openPaths: [
+      {
+        id: 0,
+        title: 'Add Talent',
+        path: `${Routes.add}/${Routes.talent}`,
+      },
+      {
+        id: 1,
+        title: 'List Talents',
+        path: `${Routes.list}/${Routes.talent}`,
+      },
+    ],
+    path: Routes.talents,
+  },
+  {
+    id: 2,
     name: 'Customers',
     icon: <ProfileIcon />,
     shortName: 'customers',
@@ -53,7 +72,7 @@ export const adminSidebarPages = [
     path: Routes.customers,
   },
   {
-    id: 2,
+    id: 3,
     name: 'Business Plan',
     icon: <DashboardIcon />,
     shortName: '',
@@ -68,7 +87,7 @@ export const adminSidebarPages = [
     path: Routes.businessPlan,
   },
   {
-    id: 3,
+    id: 4,
     name: 'Accounting',
     icon: <AccountingIcon />,
     shortName: '',
@@ -90,7 +109,7 @@ export const adminSidebarPages = [
     path: Routes.accounting,
   },
   {
-    id: 4,
+    id: 5,
     name: 'Sales',
     icon: <SalesIcon />,
     shortName: 'sales',
@@ -115,7 +134,7 @@ export const adminSidebarPages = [
     path: Routes.sales,
   },
   {
-    id: 5,
+    id: 6,
     name: 'Suppliers',
     icon: <CatalogIcon />,
     shortName: 'suppliers',
@@ -134,7 +153,7 @@ export const adminSidebarPages = [
     path: Routes.suppliers,
   },
   {
-    id: 6,
+    id: 7,
     name: 'Purchase',
     icon: <PurchaseIcon />,
     shortName: '',
@@ -145,14 +164,14 @@ export const adminSidebarPages = [
     path: Routes.purchase,
   },
   {
-    id: 7,
+    id: 8,
     name: 'Projects',
     icon: <ProjectsIcon />,
     shortName: '',
     path: Routes.projects,
   },
   {
-    id: 8,
+    id: 9,
     name: 'Leads',
     icon: <LeadsIcon />,
     shortName: '',
@@ -163,7 +182,7 @@ export const adminSidebarPages = [
     path: Routes.leads,
   },
   {
-    id: 9,
+    id: 10,
     name: 'SMS',
     icon: <TicketsIcon />,
     shortName: '',
@@ -177,7 +196,7 @@ export const adminSidebarPages = [
     path: Routes.sms,
   },
   {
-    id: 10,
+    id: 11,
     name: 'Support',
     icon: <SupportIcon />,
     shortName: '',
@@ -190,7 +209,7 @@ export const adminSidebarPages = [
     path: Routes.support,
   },
   {
-    id: 11,
+    id: 12,
     name: 'Knowledge Base',
     icon: <KnowledgeBaseIcon />,
     shortName: '',
@@ -201,7 +220,7 @@ export const adminSidebarPages = [
     path: Routes.knowledgeBase,
   },
   {
-    id: 12,
+    id: 13,
     name: 'Orders',
     icon: <MyOrdersIcon />,
     shortName: '',
@@ -212,7 +231,7 @@ export const adminSidebarPages = [
     path: Routes.myOrders,
   },
   {
-    id: 13,
+    id: 14,
     name: 'HRM',
     icon: <HRMIcon />,
     shortName: '',
@@ -224,28 +243,28 @@ export const adminSidebarPages = [
     path: Routes.hrm,
   },
   {
-    id: 14,
+    id: 15,
     name: 'Documents',
     icon: <DocumentsIcon />,
     shortName: '',
     path: Routes.documents,
   },
   {
-    id: 15,
+    id: 16,
     name: 'Tasks',
     icon: <TasksIcon />,
     shortName: '',
     path: Routes.tasks,
   },
   {
-    id: 16,
+    id: 17,
     name: 'Calendar',
     icon: <CalendarIcon />,
     shortName: '',
     path: Routes.calendar,
   },
   {
-    id: 17,
+    id: 18,
     name: 'Products & Services',
     icon: <ProductsServicesIcon />,
     shortName: '',
@@ -258,7 +277,7 @@ export const adminSidebarPages = [
     path: Routes.productsServices,
   },
   {
-    id: 18,
+    id: 19,
     name: 'Reports',
     icon: <ReportsIcon />,
     shortName: '',
@@ -280,7 +299,7 @@ export const adminSidebarPages = [
     path: Routes.reports,
   },
   {
-    id: 19,
+    id: 20,
     name: 'Utilities',
     icon: <UtilitiesIcon />,
     shortName: '',
@@ -299,7 +318,7 @@ export const adminSidebarPages = [
     path: Routes.utilities,
   },
   {
-    id: 20,
+    id: 21,
     name: 'Appearance',
     icon: <AppearanceIcon />,
     shortName: '',
@@ -312,14 +331,14 @@ export const adminSidebarPages = [
     path: Routes.appearance,
   },
   {
-    id: 21,
+    id: 22,
     name: 'Plugins',
     icon: <PluginsIcon />,
     shortName: '',
     path: Routes.plugins,
   },
   {
-    id: 22,
+    id: 23,
     name: 'Settings',
     icon: <SettingsIcon />,
     shortName: 'settings',

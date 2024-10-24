@@ -1,8 +1,6 @@
 import { FC, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import { TalentData } from '../../../../app/constants/constants'
-import { Routes } from '../../../../app/router/routes'
 import { InfoIcon } from '../../../../shared/icons/InfoIcon'
 import { PhoneCallIcon } from '../../../../shared/icons/PhoneCallIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -29,16 +27,8 @@ export const TalentCard: FC<TalentCardProps> = ({
   const [dividerOrientation, setDividerOrientation] =
     useState<OrientationDivider>('vertical')
 
-  const navigate = useNavigate()
-
   const handleOpenCloseModal = () => {
     setIsOpen(!isOpen)
-  }
-
-  const handleNavigateEditTalent = () => {
-    navigate(
-      `/${Routes.clientPages}/${Routes.talents}/${Routes.edit}/${Routes.talent}/${talent.id}`,
-    )
   }
 
   useEffect(() => {
@@ -91,11 +81,6 @@ export const TalentCard: FC<TalentCardProps> = ({
           <Item title={talent.priceHour} description='Hourly rate' />
         </div>
         <ButtonBlue title='Add to Order' onClick={handleOpenCloseModal} />
-        <ButtonBlue
-          title='Edit Talent'
-          style={styles.editTalentButton}
-          onClick={handleNavigateEditTalent}
-        />
         <div className={styles.taxes}>
           <img src='/icons/info.svg' alt='Info' />
           <span className={styles.taxesText}>Taxes included</span>

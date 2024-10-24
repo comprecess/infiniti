@@ -1,33 +1,10 @@
-Admin Sidebar:
-		• Доделать вложенные страницы (Sales, Suppliers, Purchase, Leads, SMS, Support, Knowledge Base, Orders, HRM, Products & Services, Reports, Utilities, Appearance, Settings)
-
-
-Admin Document Title:
-		• Сделать название URL для страниц (Sales, Suppliers, Purchase, Leads, SMS, Support, Knowledge Base, Orders, HRM, Products & Services, Reports, Utilities, Appearance, Settings)
-
-
-Admin Dashboard Page:
-		• Сделать все графики в админ части
-
-
-Admin Contact Page:
-		• Доделать страницу More
-		• На странице Email сделать Templates
-
-
-Client Invoices Page:
-		• Доделать страницу (график)
-
-
-PWA Application:
-		• Белая линия внизу страниц
-
-
 COMPLETE PAGES ROLES:
 		• Customers
 				• List Customers ✔
 				• Companies ✔
 				• Groups ✔
+		• Talents
+				• List Talents ✔
 		• Sales
 		• Bank & Cash
 		• Products & Services
