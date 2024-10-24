@@ -63,6 +63,9 @@ import { AdminSMSPage } from '../../pages/Admin/SMSPage/SMSPage'
 import { AdminAddSupplierPage } from '../../pages/Admin/SuppliersPage/AddSupplierPage/AddSupplierPage'
 import { AdminListSuppliersPage } from '../../pages/Admin/SuppliersPage/ListSuppliersPage/ListSuppliersPage'
 import { AdminSupportPage } from '../../pages/Admin/SupportPage/SupportPage'
+import { AdminAddTalentPage } from '../../pages/Admin/TanlentsPage/AddTalentPage/AddTalentPage'
+import { AdminEditTalentPage } from '../../pages/Admin/TanlentsPage/EditTalentPage/EditTalentPage'
+import { AdminListTalentsPage } from '../../pages/Admin/TanlentsPage/ListTalentsPage/ListTalentsPage'
 import { AdminTasksPage } from '../../pages/Admin/TasksPage/TasksPage'
 import { AdminUtilitiesPage } from '../../pages/Admin/UtilitiesPage/UtilitiesPage'
 import { LoginResidentPage } from '../../pages/Auth/LoginResidentPage/LoginResidentPage'
@@ -78,7 +81,6 @@ import { ClientMyOrdersPage } from '../../pages/Client/MyOrdersPage/MyOrdersPage
 import { ClientOffersPage } from '../../pages/Client/OffersPage/OffersPage'
 import { ClientProfilePage } from '../../pages/Client/ProfilePage/ProfilePage'
 import { ClientProjectsPage } from '../../pages/Client/ProjectsPage/ProjectsPage'
-import { ClientEditTalentPage } from '../../pages/Client/TalentDetailsPage/EditTalentPage/EditTalentPage'
 import { ClientTalentDetailsPage } from '../../pages/Client/TalentDetailsPage/TalentDetailsPage'
 import { ClientTalentsPage } from '../../pages/Client/TalentsPage/TalentsPage'
 import { ClientOpenNewTicketPage } from '../../pages/Client/TicketsPage/OpenNewTicketPage/OpenNewTicketPage'
@@ -192,7 +194,6 @@ export const Pages = {
   clientDashboardPage: <ClientDashboardPage />,
   clientTalentsPage: <ClientTalentsPage />,
   clientTalentDetailsPage: <ClientTalentDetailsPage />,
-  clientEditTalentPage: <ClientEditTalentPage />,
   clientMyOrdersPage: <ClientMyOrdersPage />,
   clientTransactionsPage: <ClientTransactionsPage />,
   clientDocumentsPage: <ClientDocumentsPage />,
@@ -208,6 +209,9 @@ export const Pages = {
   /* Admin Dashboard pages */
   adminDashboardPage: <AdminDashboardPage />,
   adminAddCustomerPage: <AdminAddCustomerPage />,
+  adminListTalentsPage: <AdminListTalentsPage />,
+  adminEditTalentPage: <AdminEditTalentPage />,
+  adminAddTalentPage: <AdminAddTalentPage />,
   adminListCustomerPage: <AdminListCustomerPage />,
   adminCompaniesPage: <AdminCompaniesPage />,
   adminGroupsPage: <AdminGroupsPage />,

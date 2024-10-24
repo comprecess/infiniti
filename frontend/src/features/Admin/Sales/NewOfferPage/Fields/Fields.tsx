@@ -186,6 +186,9 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
     onFormDataChange(formData)
   }, [formData, onFormDataChange])
 
+  const isLoadBlank =
+    formData.blankList && formData.blankList.length > 0 && priceCalc?.data
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -277,31 +280,29 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
           </div>
         </section>
       </div>
-      {formData.blankList &&
-        formData.blankList.length > 0 &&
-        priceCalc?.data && (
-          <section className={styles.blank}>
+      {formData.blankList && isLoadBlank && (
+        <section className={styles.blank}>
           <CustomDivider />
           {formData.blankList.map(blank => (
-              <React.Fragment key={blank.index}>
+            <React.Fragment key={blank.index}>
               <Blank
-                  id={blank.index}
-                  amount={blank.amount}
-                  price={blank.price}
-                  itemName={blank.description}
-                  discountAmount={blank.discount}
-                  taxInput={data.tax}
-                  totalPrice={
+                id={blank.index}
+                amount={blank.amount}
+                price={blank.price}
+                itemName={blank.description}
+                discountAmount={blank.discount}
+                taxInput={data.tax}
+                totalPrice={
                   priceCalc.data &&
-                    priceCalc.data[blank.index]?.total !== undefined
+                  priceCalc.data[blank.index]?.total !== undefined
                     ? priceCalc.data[blank.index].total
                     : 0
                 }
-                  onRemove={() => handleRemoveBlank(blank.index)}
-                  onChange={(field, value) =>
+                onRemove={() => handleRemoveBlank(blank.index)}
+                onChange={(field, value) =>
                   handleBlankChange(blank.index, field, value)
                 }
-                />
+              />
               <CustomDivider />
             </React.Fragment>
           ))}

@@ -1,10 +1,8 @@
 import React, { FC, useState } from 'react'
 
-import {
-  TalentEditFormData,
-  TalentProjectsExperience,
-} from '../../../../../app/constants/constants'
+import { TalentFormData } from '../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
+import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
@@ -12,20 +10,9 @@ import { TagSelector } from '../../../../../shared/ui/TagSelector/TagSelector'
 import styles from './Fields.module.scss'
 import { ProjectsExperienceItem } from './ProjectsExperienceItem/ProjectsExperienceItem'
 
-export interface PartialFieldsPostData
-  extends Partial<TalentEditFormData> {
-  [key: string]:
-    | string
-    | TalentProjectsExperience[]
-    | number
-    | boolean
-    | undefined
-    | null
-}
-
 export const Fields: FC = () => {
   /* eslint-disable @typescript-eslint/no-unused-vars */
-  const [formData, _setFormData] = useState<TalentEditFormData>({
+  const [formData, _setFormData] = useState<TalentFormData>({
     projectsExperience: [
       {
         id: 0,
@@ -53,6 +40,11 @@ export const Fields: FC = () => {
         name='fullName'
         onChange={() => {}}
       />
+      <CustomDataPicker
+        title='Date of Birth'
+        titleOnChange='dateBirth'
+        onChange={() => {}}
+      />
       <CustomInput
         title='Daily Rate'
         type='number'
@@ -65,6 +57,27 @@ export const Fields: FC = () => {
         type='number'
         id='hourlyRate'
         name='hourlyRate'
+        onChange={() => {}}
+      />
+      <CustomSelect
+        title='Gender'
+        titleOnChange='gender'
+        idList={[]}
+        nameList={[]}
+        onChange={() => {}}
+      />
+      <CustomSelect
+        title='Level'
+        titleOnChange='level'
+        idList={[]}
+        nameList={[]}
+        onChange={() => {}}
+      />
+      <CustomSelect
+        title='Customer'
+        titleOnChange='customer'
+        idList={[]}
+        nameList={[]}
         onChange={() => {}}
       />
       <section className={styles.section}>
@@ -101,13 +114,6 @@ export const Fields: FC = () => {
             nameList={[]}
             onChange={() => {}}
           />
-          <CustomInput
-            title='Experience'
-            type='number'
-            id='experience'
-            name='experience'
-            onChange={() => {}}
-          />
           <CustomSelect
             title='Timezone'
             titleOnChange='timezone'
@@ -123,9 +129,6 @@ export const Fields: FC = () => {
             Projects and experience
           </span>
           <div className={styles.sectionItems}>
-            <div className={styles.divider}>
-              <CustomDivider />
-            </div>
             {formData.projectsExperience.map(item => {
               return (
                 <React.Fragment key={item.id}>

@@ -1,6 +1,7 @@
 import { Textarea } from '@chakra-ui/react'
 import { FC } from 'react'
 
+import { ButtonBlue } from '../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../../../../../shared/ui/CustomInput/CustomInput'
 import styles from './ProjectsExperienceItem.module.scss'
 
@@ -44,6 +45,16 @@ export const ProjectsExperienceItem: FC = () => {
           fontSize='16px'
           fontWeight='400'
           lineHeight='24px'
+        />
+      </div>
+      <div className={styles.buttonRemove}>
+        <ButtonBlue
+          titleNone
+          title='Delete Experience'
+          icon='/icons/trash.svg'
+          iconProps={styles.buttonIcon}
+          style={styles.buttonDeleteBlank}
+          onClick={() => {}}
         />
       </div>
     </div>

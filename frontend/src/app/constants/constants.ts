@@ -914,7 +914,16 @@ export interface SettingsEditUserData {
   zip: string
 }
 
-export interface TalentEditFormData {
+export interface TalentsData {
+  id: number
+  client: { id: number; account: string; img: string }
+  specialization: string
+  lvl: string
+  priceHour: string
+  priceDay: string
+}
+
+export interface TalentFormData {
   projectsExperience: TalentProjectsExperience[]
 }
 
@@ -924,4 +933,14 @@ export interface TalentProjectsExperience {
   position: string
   period: string
   responsibilities: string
+}
+
+export interface CustomersFilesData {
+  id: number
+  global: number
+  link: string
+  title: string
+  type: string
+  client: { id: number; account: string }
+  update: string
 }

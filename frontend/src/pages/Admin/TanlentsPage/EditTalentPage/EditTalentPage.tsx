@@ -1,7 +1,7 @@
-import { FC, useMemo } from 'react'
+import { FC, useEffect, useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
 
-import { Fields } from '../../../../features/Client/TalentDetailsPage/TalentEditPage/Fields/Fields'
+import { Fields } from '../../../../features/Admin/TalentsPage/EditTalentPage/Fields/Fields'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditTalentPage.module.scss'
 
@@ -23,10 +23,14 @@ const useIdFromUrl = () => {
   return id
 }
 
-export const ClientEditTalentPage: FC = () => {
+export const AdminEditTalentPage: FC = () => {
   const id = useIdFromUrl()
 
   console.log(id)
+
+  useEffect(() => {
+    document.title = 'infiniti | Edit Talent'
+  }, [])
 
   return (
     <div className={styles.wrapper}>

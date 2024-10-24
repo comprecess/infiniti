@@ -34,6 +34,23 @@ export const router = createBrowserRouter([
     children: [
       { path: Routes.dashboard, element: Pages.adminDashboardPage },
       {
+        path: Routes.talents,
+        children: [
+          {
+            path: `${Routes.list}/${Routes.talent}`,
+            element: Pages.adminListTalentsPage,
+          },
+          {
+            path: `${Routes.add}/${Routes.talent}`,
+            element: Pages.adminAddTalentPage,
+          },
+          {
+            path: `${Routes.edit}/${Routes.talent}/:id`,
+            element: Pages.adminEditTalentPage,
+          },
+        ],
+      },
+      {
         path: Routes.customers,
         children: [
           {
@@ -361,10 +378,6 @@ export const router = createBrowserRouter([
       {
         path: `${Routes.talents}/${Routes.talent}/:id`,
         element: Pages.clientTalentDetailsPage,
-      },
-      {
-        path: `${Routes.talents}/${Routes.edit}/${Routes.talent}/:id`,
-        element: Pages.clientEditTalentPage,
       },
       { path: Routes.myOrders, element: Pages.clientMyOrdersPage },
       { path: Routes.transactions, element: Pages.clientTransactionsPage },

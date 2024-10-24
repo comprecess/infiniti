@@ -20,7 +20,9 @@ export const BarChart: FC<DashboardChartProps> = ({ data }) => {
   const [chartData, setChartData] = useState<any>(null)
 
   useEffect(() => {
-    const typedDataJson = Object.fromEntries(Object.entries(data).reverse())
+    const typedDataJson = Object.fromEntries(
+      Object.entries(data).reverse(),
+    )
 
     const labels = Object.keys(typedDataJson)
 
@@ -121,7 +123,8 @@ export const BarChart: FC<DashboardChartProps> = ({ data }) => {
           background: '#1b1e29', // Устанавливаем цвет фона подсказок
           theme: 'dark', // Устанавливаем темную тему для подсказок
           x: {
-            formatter: (val: string) => `Category: ${val}`, // Форматируем значение по оси X
+            show: false,
+            formatter: undefined,
           },
           y: {
             formatter: (val: number) => `Value: ${val}`, // Форматируем значение по оси Y

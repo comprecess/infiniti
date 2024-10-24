@@ -49,10 +49,7 @@ export const RecentEditRole: FC<RecentEditRoleProps> = ({
         <Title title='Edit' style={styles.editColumn} />
         <Title title='Create' style={styles.createColumn} />
         <Title title='Delete' style={styles.deleteColumn} />
-        <Title
-          title='All Information'
-          style={styles.allInformationColumn}
-        />
+        <Title title='Only My Data' style={styles.allInformationColumn} />
       </div>
       <div className={styles.items}>
         {permission.map((item, index) => {
