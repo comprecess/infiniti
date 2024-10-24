@@ -89,7 +89,7 @@ class DocumentController extends ResidentController
     public function load($token)
     {
         $document = Document::where('file_dl_token', $token)->orderBy('id', 'desc')->first();
-        $file_storage = $document->files()->first();
+        $file_storage = $document?->files()?->first();
 
         if(!$document || !$file_storage) {
             abort(404);
