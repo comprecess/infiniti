@@ -185,4 +185,9 @@ class User extends Model
         return app(FilterContract::class)->similar($this);
     }
 
+    public function setPropData($value, $idNameProp)
+    {
+
+    }
+
 }

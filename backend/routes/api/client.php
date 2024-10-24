@@ -22,8 +22,6 @@ Route::group(['prefix' => 'catalog'], function(){
     Route::get('property/{id}', [CatalogController::class, 'property']);
     Route::post('list', [CatalogController::class, 'list']);
     Route::get('item/{catalogUser}', [CatalogController::class, 'item']);
-    Route::put('item/{catalogUser}', [CatalogController::class, 'edit']);
-    Route::get('input-data', [CatalogController::class, 'inputData']);
     Route::get('cart', [CatalogController::class, 'getCart']);
     Route::post('cart', [CatalogController::class, 'addCart']);
     Route::delete('cart/item/{id}', [CatalogController::class, 'deleteItemCart']);

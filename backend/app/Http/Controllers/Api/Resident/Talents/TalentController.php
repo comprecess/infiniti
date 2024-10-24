@@ -5,11 +5,21 @@ namespace App\Http\Controllers\Api\Resident\Talents;
 
 
 use App\Http\Controllers\Api\Traits\CRUD;
+use App\Http\Requests\Resident\Talents\TalentCreateRequest;
 use App\Http\Requests\Resident\Talents\TalentListRequest;
+use App\Http\Resources\Catalog\PropertyResorce;
+use App\Http\Resources\Catalog\ValueResorce;
+use App\Http\Resources\Resident\Talents\TalentExcelResource;
 use App\Http\Resources\Resident\Talents\TalentListResource;
+use App\Http\Resources\Resident\Talents\TalentPdfResource;
+use App\Http\Resources\UserResource;
+use App\Models\Catalog\Prop;
 use App\Models\Catalog\User;
 use App\Models\Catalog\Value;
+use App\Models\Users\Admin;
+use App\Services\Document\DocumentVariables;
 use Illuminate\Support\Arr;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class TalentController extends TalentsController
 {
@@ -18,11 +28,49 @@ class TalentController extends TalentsController
        delete as deleteCRUD;
     }
 
+    public function getDocumentVariables(): DocumentVariables
+    {
+        $columns = [
+            'img' => 'Image',
+            'account' => 'Name',
+            'specialization' => 'Specialization',
+            'lvl' => 'Level',
+            'priceHour' => 'Price per hour',
+            'priceDay' => 'Price per day',
+        ];
+
+        $varibles = new DocumentVariables();
+
+        $varibles->nameDocument = "Talents";
+        $varibles->header = "Talents - Infiniti";
+        $varibles->columns = $columns;
+        $varibles->excelView = 'document.excel.resident-talent';
+        $varibles->excelFilesCollable = function ($query){
+            $images = [];
+
+            foreach($query as $key => $value) {
+                if($path = $value->user?->getLastFile()?->getFile()?->getRealPath()) {
+                    $drawing = new Drawing();
+                    $drawing->setPath($path);
+                    $drawing->setHeight(50);
+                    $drawing->setCoordinates("A" . ($key + 2));
+                    $images[] = $drawing;
+                }
+            }
+
+            return $images;
+        };
+        $varibles->resource = request()->input('document') == 'pdf' ? TalentPdfResource::class : TalentExcelResource::class;
+
+
+        return $varibles;
+    }
+
     public function list(TalentListRequest $request)
     {
 
         $query = User::query()
-            ->distinct()
+            ->distinct(['catalog_user.id'])
             ->select('catalog_user.*')
             ->leftJoin('crm_accounts', 'crm_accounts.id', '=', 'catalog_user.id_client')
             ->leftJoin('catalog_user_value', 'catalog_user_value.id_catalog_user', '=', 'catalog_user.id')
@@ -44,8 +92,44 @@ class TalentController extends TalentsController
 //        $query->checkAccess();
 
         $request->sortModel($query);
+//        $t = $query->first()->getPropsByNameId();
+//        dd($t->where('id_name', 'specialization')?->first()->values->first()->value);
+
 
         return $this->index($query, TalentListResource::class, true);
+    }
+
+    public function inputData()
+    {
+        $all = ['key_skills', 'specialization', 'industries', 'all_skills', 'timezone', 'lvl', 'gender'];
+        $data = [];
+
+        foreach($all as $value) {
+            $prop = Prop::where('id_name', $value)->first();
+            $data[snakeCaseToPascalCase($value)] = ValueResorce::collection($prop->values);
+        }
+
+        $data['owner'] = UserResource::collection(Admin::getForSelect());
+        $data['language'] = PropertyResorce::collection(Prop::where('id_name', 'language')->get());
+
+        return response()->json($data);
+    }
+
+    public function createOrUpdate(User $user, TalentCreateRequest $request)
+    {
+        return $this->createOrUpdateCRUD(
+            $request,
+            $user,
+            null,
+            function($model, $request, $isNew){
+                $data = $request->all();
+                foreach($data as $nameProp => $value){
+                    $prop = Prop::where('id_name', $nameProp);
+                    if(is_array($value)) {
+
+                    }
+                }
+            });
     }
 
 }

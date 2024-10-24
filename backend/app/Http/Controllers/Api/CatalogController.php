@@ -150,25 +150,4 @@ class CatalogController extends Controller
         }
     }
 
-    public function edit(User $catalogUser)
-    {
-        $user = MainUser::getAuth();
-
-        if(!($user instanceof Admin)) {
-            abort(404);
-        }
-    }
-
-    public function inputData()
-    {
-        $all = ['key_skills', 'specialization', 'industries', 'all_skills', 'timezone', 'lvl', 'gender'];
-        $data = [];
-
-        foreach($all as $value) {
-            $prop = Prop::where('id_name', $value)->first();
-            $data[snakeCaseToPascalCase($value)] = ValueResorce::collection($prop->values);
-        }
-
-        return response()->json($data);
-    }
 }

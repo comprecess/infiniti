@@ -106,10 +106,12 @@ Route::controller(Resident\DocumentController::class)->prefix('document')
 Route::controller(Resident\Talents\TalentController::class)->prefix('talent')
     ->group(function(){
         Route::get('/list', 'list');
+        Route::get('/input-data', 'inputData');
         Route::post('/', 'createOrUpdate');
-        Route::get('/{document}', 'item');
-        Route::put('/{document}/update', 'update');
-        Route::delete('/{document}', 'delete');
+        Route::put('/{user}', 'createOrUpdate');
+        Route::get('/{user}', 'item');
+        Route::put('/{user}/update', 'update');
+        Route::delete('/{user}', 'delete');
     });
 
 #settings
