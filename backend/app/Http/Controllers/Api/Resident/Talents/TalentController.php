@@ -8,7 +8,9 @@ use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Talents\TalentCreateRequest;
 use App\Http\Requests\Resident\Talents\TalentListRequest;
 use App\Http\Resources\Catalog\PropertyResorce;
+use App\Http\Resources\Catalog\UsersResorce;
 use App\Http\Resources\Catalog\ValueResorce;
+use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\Talents\TalentExcelResource;
 use App\Http\Resources\Resident\Talents\TalentListResource;
 use App\Http\Resources\Resident\Talents\TalentPdfResource;
@@ -18,6 +20,7 @@ use App\Models\Catalog\User;
 use App\Models\Catalog\UserValue;
 use App\Models\Catalog\Value;
 use App\Models\Users\Admin;
+use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
@@ -112,6 +115,7 @@ class TalentController extends TalentsController
         }
 
         $data['owner'] = UserResource::collection(Admin::getForSelect());
+        $data['client'] = ClientResource::collection(Client::getForSelect());
         $data['language'] = PropertyResorce::collection(Prop::where('id_name', 'language')->get());
 
         return response()->json($data);
@@ -154,6 +158,11 @@ class TalentController extends TalentsController
                     Prop::where('id_name', 'rate')->first()?->values?->first()?->users()->sync([$model->id]);
                 }
             });
+    }
+
+    public function item(User $user)
+    {
+        return new UsersResorce($user);
     }
 
 }

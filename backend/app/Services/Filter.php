@@ -131,8 +131,11 @@ class Filter implements FilterContract
         }
         unset($result[$user->id]);
         arsort($result);
-
-        return User::whereIn('id', collect($result)->keys()->chunk(3)->first())->get();
+        if($result) {
+            return User::whereIn('id', collect($result)->keys()->chunk(3)->first())->get();
+        }else{
+            return User::inRandomOrder(3)->get();
+        }
 
     }
 }

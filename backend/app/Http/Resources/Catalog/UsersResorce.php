@@ -34,8 +34,8 @@ class UsersResorce extends JsonResource
             'specialization' => $this->getPropValues('specialization'),
             'timezone' => $this->getPropValues('timezone'),
             'level' => $this->getPropValues('lvl'),
-            'industries' => ValueResorce::collection(self::$isCollection ? $industries->chunk(3)->first() : $industries),
-            'keySkills' => ValueResorce::collection(self::$isCollection ? $keySkills->chunk(3)->first() : $keySkills),
+            'industries' => ValueResorce::collection(self::$isCollection ? ($industries->count() ? $industries?->chunk(3)?->first() : collect([])) : $industries),
+            'keySkills' => ValueResorce::collection(self::$isCollection ? ( $keySkills->count() ? $keySkills?->chunk(3)?->first() : collect([]) ) : $keySkills),
             'priceDay' => $this->getCurrency((int) $this->getPropValues('priceDay')),
             'priceHour' => $this->getCurrency((int) $this->getPropValues('priceHour')),
         ];
