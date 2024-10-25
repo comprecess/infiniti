@@ -78,4 +78,17 @@ class Prop extends Model
         }
         $this->valueTree->put($value->id, $value);
     }
+
+    public function childrenList(&$data = [])
+    {
+        if(is_array($data)) {
+            $data[] = $this;
+        }else{
+            $data->push($this);
+        }
+        $childrens = $this->children;
+        foreach($childrens as $children){
+            $children->childrenList($data);
+        }
+    }
 }

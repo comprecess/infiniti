@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class User extends Model
 {
@@ -24,7 +25,6 @@ class User extends Model
     ];
 
     protected $table = 'catalog_user';
-    public $timestamps = false;
 
     protected $casts = [
         'availabilityEnd' => 'datetime',
@@ -187,6 +187,35 @@ class User extends Model
 
     public function setPropData($value, $idNameProp)
     {
+        $ids = collect([]);
+        $prop = Prop::where(intval($idNameProp) == $idNameProp ? 'id' : 'id_name', $idNameProp)->first();
+        if(!$prop) {
+            throw new \Exception("Properties [{$idNameProp}] not found");
+        }
+
+        $prop->childrenList($ids);
+
+        $isInt = intval($value) == $value;
+
+        $valueQuery = Value::whereIn('id_prop', $ids->pluck('id'));
+
+        if($isInt) {
+            $valueQuery->where('id', $value);
+        }else{
+            $valueQuery->where('value', $value);
+        }
+
+        $val = $valueQuery->first();
+
+        if($val) {
+            $this->values()->sync([$val->id]);
+        } else {
+            if(!$prop->has_add) {
+                throw new \Exception("Properties [{$prop->id_name}] are not allowed to be added");
+            }
+
+            $prop->values()->create(['value' => $value])->users()->sync([$this->id]);
+        }
 
     }
 

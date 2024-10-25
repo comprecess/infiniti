@@ -31,8 +31,8 @@ class Catalog extends Seeder
         $type = Prop::TYPE;
         $skills = ['*nix', '.NET', '.NET 4.0', '.NET 4.5', '.NET 5', '.NET 5, 6', '.NET 6', '.NET 7', '.NET API', '.NET Core', '.NET Core 3', '.NET Core 5', '.NET Forge CMS', '.NET Framework', '.NET Framework 4.7', '.NET Framework 4.8', '.NET Framework core', '.NET MVC', '.Net Remoting', '.NET 6 (NET Core)', '1C: 8+', '1C: 7.7', '1C: 8.2', '1C: 8.3', '1C: Bit.Construction', '1C: Enterprise 8.3', '1C: BP 3.0', '1C: ZUP 2.5', '1C: ZUP 3.1', '1C: BP 2.0', '1C: BP 3.0', '1C: Accounting 2.0', '1C: Accounting 3.0', '1C: ZUP 2.5', '1C: ZUP 3.1', '1C: Integrated automation 2.4', '1C: Trade Management 10.3', 'ActionScript 2.0', 'ActionScript 3.0', 'AdminLTE 2+', 'ADO.NET', 'Akka.Net', 'Alpine.js', 'Angular 1.6', 'Angular 1.7', 'Angular 2+', 'Angular 6'];
         $prop = [
-            ['name' => 'Industries', 'id_name' => 'industries', 'type' => 'checkbox', 'filter' => 1, 'sort' => 100, 'required' => 1],
-            ['name' => 'Key skills', 'id_name' => 'key_skills', 'type' => 'checkbox', 'filter' => 1, 'sort' => 200, 'required' => 1],
+            ['name' => 'Industries', 'id_name' => 'industries', 'type' => 'checkbox', 'filter' => 1, 'sort' => 100, 'required' => 1, 'has_add' => 1],
+            ['name' => 'Key skills', 'id_name' => 'key_skills', 'type' => 'checkbox', 'filter' => 1, 'sort' => 200, 'required' => 1, 'has_add' => 1],
             ['name' => 'Rate', 'id_name' => 'rate', 'filter' => 1, 'type' => $type[4], 'sort' => 300, 'child' => [
                 ['name' => 'Hourly', 'id_name' => 'priceHour', 'type' => 'integer', 'filter' => 1, 'has_add' => 1, 'options' => '{"placeholder": {"from": 1, "to": 250}}', 'sort' => 10, 'required' => 1],
                 ['name' => 'Daily (8h)', 'id_name' => 'priceDay', 'type' => 'integer', 'filter' => 1, 'has_add' => 1, 'options' => '{"placeholder": {"from": 1, "to": 1500}}', 'sort' => 20, 'required' => 1],
@@ -57,12 +57,12 @@ class Catalog extends Seeder
             ['name' => 'Level', 'id_name' => 'lvl', 'type' => $type[0], 'required' => 1],
             ['name' => 'Specialization', 'id_name' => 'specialization', 'type' => $type[0]],
             ['name' => 'Education', 'id_name' => 'education',  'required' => 1,  'child' => [
-                ['name' => 'Name', 'id_name' => 'education_name', 'type' => $type[3]],
-                ['name' => 'Specialization', 'id_name' => 'education_specialization', 'type' => $type[3]],
-                ['name' => 'Degree', 'id_name' => 'education_degree', 'type' => $type[3]],
-                ['name' => 'Graduation', 'id_name' => 'education_graduation', 'type' => $type[3]],
+                ['name' => 'Name', 'id_name' => 'education_name', 'type' => $type[3], 'has_add' => 1],
+                ['name' => 'Specialization', 'id_name' => 'education_specialization', 'type' => $type[3], 'has_add' => 1],
+                ['name' => 'Degree', 'id_name' => 'education_degree', 'type' => $type[3], 'has_add' => 1],
+                ['name' => 'Graduation', 'id_name' => 'education_graduation', 'type' => $type[3], 'has_add' => 1],
             ]],
-            ['name' => 'All skills', 'id_name' => 'all_skills', 'type' => $type[0]],
+            ['name' => 'All skills', 'id_name' => 'all_skills', 'type' => $type[0], 'has_add' => 1],
         ];
 
         $value = [

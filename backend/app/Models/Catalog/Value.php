@@ -12,6 +12,10 @@ class Value extends Model
     protected $table = 'catalog_prop_value';
     public $timestamps = false;
 
+    protected $fillable = [
+        'value'
+    ];
+
     public function users()
     {
         return $this->morphToMany(related: User::class, name: 'cataloggable', table:'catalog_user_value', relatedPivotKey: 'id_catalog_user');

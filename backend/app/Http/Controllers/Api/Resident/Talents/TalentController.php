@@ -8,17 +8,22 @@ use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Talents\TalentCreateRequest;
 use App\Http\Requests\Resident\Talents\TalentListRequest;
 use App\Http\Resources\Catalog\PropertyResorce;
+use App\Http\Resources\Catalog\UsersResorce;
 use App\Http\Resources\Catalog\ValueResorce;
+use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\Talents\TalentExcelResource;
 use App\Http\Resources\Resident\Talents\TalentListResource;
 use App\Http\Resources\Resident\Talents\TalentPdfResource;
 use App\Http\Resources\UserResource;
 use App\Models\Catalog\Prop;
 use App\Models\Catalog\User;
+use App\Models\Catalog\UserValue;
 use App\Models\Catalog\Value;
 use App\Models\Users\Admin;
+use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
 use Illuminate\Support\Arr;
+use Illuminate\Validation\ValidationException;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class TalentController extends TalentsController
@@ -110,6 +115,7 @@ class TalentController extends TalentsController
         }
 
         $data['owner'] = UserResource::collection(Admin::getForSelect());
+        $data['client'] = ClientResource::collection(Client::getForSelect());
         $data['language'] = PropertyResorce::collection(Prop::where('id_name', 'language')->get());
 
         return response()->json($data);
@@ -122,14 +128,41 @@ class TalentController extends TalentsController
             $user,
             null,
             function($model, $request, $isNew){
-                $data = $request->all();
-                foreach($data as $nameProp => $value){
-                    $prop = Prop::where('id_name', $nameProp);
-                    if(is_array($value)) {
 
+                if(!$isNew) {
+                    UserValue::where('id_catalog_user', $model->id)->delete();
+                }
+
+                $data = $request->all();
+                foreach($data as $nameProp => $values){
+                    if(in_array($nameProp, ['active','ownerId','clientId','birthDay', 'taxesIncluded'])) {
+                        continue;
+                    }
+                    if(!in_array($nameProp, ['priceHour','priceDay'])) {
+                        $nameProp = pascalCaseToSnakeCase($nameProp);
+                    }
+
+                    if(!is_array($values)) {
+                        $values = [$values];
+                    }
+                    foreach($values as $value) {
+                        try {
+                            $model->setPropData($value, $nameProp);
+                        }catch (\Exception $e) {
+                            throw ValidationException::withMessages([$nameProp => $e->getMessage()]);
+                        }
                     }
                 }
+
+                if($data['taxesIncluded']) {
+                    Prop::where('id_name', 'rate')->first()?->values?->first()?->users()->sync([$model->id]);
+                }
             });
+    }
+
+    public function item(User $user)
+    {
+        return new UsersResorce($user);
     }
 
 }
