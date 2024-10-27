@@ -29,7 +29,7 @@ class TalentCreateRequest extends FormRequest implements ConvertingPropertiesInt
 
         $rules = [
             'clientId' => 'required|integer|exists:crm_accounts,id',
-            'ownerId' => 'required|integer|exists:sys_users,id',
+//            'ownerId' => 'required|integer|exists:sys_users,id',
             'specialization' => "required",
             'timezone' => "required|in:" . $props->where('id_name', 'timezone')->first()->values->pluck('id')->implode(','),
             'lvl' => "required|in:" . $props->where('id_name', 'lvl')->first()->values->pluck('id')->implode(','),
