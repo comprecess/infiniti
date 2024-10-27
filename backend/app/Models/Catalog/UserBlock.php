@@ -2,6 +2,8 @@
 
 namespace App\Models\Catalog;
 
+use App\Http\Requests\Resident\Talents\BlockExperienceRequest;
+use App\Http\Requests\Resident\Talents\BlockExperienceTalentRequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +15,23 @@ class UserBlock extends Model
     public $timestamps = false;
 
     protected $casts = [
-        'from' => 'datetime',
-        'to' => 'datetime',
+        'from' => 'date',
+        'to' => 'date',
     ];
+    protected $fillable = [
+        'name',
+        'position',
+        'from',
+        'to',
+        'responsibilities',
+    ];
+
+    public static function createByUser(User $user, BlockExperienceTalentRequest $request)
+    {
+        $blockDatas = $request->getBlock();
+        foreach($blockDatas as $block) {
+            $user->blockExperience()->create($block);
+        }
+
+    }
 }

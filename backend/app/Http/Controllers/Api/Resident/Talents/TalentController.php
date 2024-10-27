@@ -5,18 +5,21 @@ namespace App\Http\Controllers\Api\Resident\Talents;
 
 
 use App\Http\Controllers\Api\Traits\CRUD;
+use App\Http\Requests\Resident\Talents\BlockExperienceRequest;
+use App\Http\Requests\Resident\Talents\BlockExperienceTalentRequest;
 use App\Http\Requests\Resident\Talents\TalentCreateRequest;
 use App\Http\Requests\Resident\Talents\TalentListRequest;
 use App\Http\Resources\Catalog\PropertyResorce;
-use App\Http\Resources\Catalog\UsersResorce;
 use App\Http\Resources\Catalog\ValueResorce;
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\Talents\TalentExcelResource;
 use App\Http\Resources\Resident\Talents\TalentListResource;
 use App\Http\Resources\Resident\Talents\TalentPdfResource;
+use App\Http\Resources\Resident\Talents\TalentResource;
 use App\Http\Resources\UserResource;
 use App\Models\Catalog\Prop;
 use App\Models\Catalog\User;
+use App\Models\Catalog\UserBlock;
 use App\Models\Catalog\UserValue;
 use App\Models\Catalog\Value;
 use App\Models\Users\Admin;
@@ -94,7 +97,7 @@ class TalentController extends TalentsController
                     ->orWhere('crm_accounts.account', 'like', $search);
             });
         }
-//        $query->checkAccess();
+        $query->checkAccess();
 
         $request->sortModel($query);
 //        $t = $query->first()->getPropsByNameId();
@@ -157,12 +160,45 @@ class TalentController extends TalentsController
                 if($data['taxesIncluded']) {
                     Prop::where('id_name', 'rate')->first()?->values?->first()?->users()->sync([$model->id]);
                 }
+
+                #block
+                $blockRequest = app(BlockExperienceTalentRequest::class);
+                UserBlock::createByUser($model, $blockRequest);
+                if($blockRequest->getBlock()) {
+                    $model->setExpirence();
+                }
             });
     }
 
     public function item(User $user)
     {
-        return new UsersResorce($user);
+        $user->load(['values', 'values.prop', 'user']);
+        return new TalentResource($user);
+    }
+
+    public function delete(User $user)
+    {
+        return $this->deleteCRUD($user);
+    }
+
+    public function experienceCreateOrUpdate(User $user, UserBlock $experience, BlockExperienceRequest $request)
+    {
+        if($experience->id) {
+            $experience->update($request->all());
+        }else{
+            $user->blockExperience()->create($request->all());
+        }
+        $user->setExpirence();
+
+        return $this->defResponse();
+    }
+
+    public function experienceDelete(UserBlock $experience, User $user)
+    {
+        $experience->delete();
+        $user->setExpirence();
+
+        return $this->defResponse();
     }
 
 }
