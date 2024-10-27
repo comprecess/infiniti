@@ -20,8 +20,8 @@ class BlockExperienceTalentRequest extends FormRequest
             $this->getBlock(false) => "nullable|array",
             $this->getBlock('name') => "required",
             $this->getBlock('position') => "required",
-            $this->getBlock('from') => "required|date|date_format:Y-m-d",
-            $this->getBlock('to') => "nullable|date|date_format:Y-m-d|after:from",
+            $this->getBlock('periodFrom') => "required|date|date_format:Y-m-d",
+            $this->getBlock('periodTo') => "nullable|date|date_format:Y-m-d|after:from",
             $this->getBlock('responsibilities') => "nullable",
         ];
 
