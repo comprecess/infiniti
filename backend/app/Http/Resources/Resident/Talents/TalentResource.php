@@ -33,7 +33,6 @@ class TalentResource extends JsonResource
         return [
             'id' => $this->id,
             'client' => new ClientResource($this->user),
-            'specialization' => $this->getPropValues('specialization'),
             'birthDay' => $this->birth_day?->format('Y-m-d'),
             'active' => $this->active ? 1 : 0,
             'property' => TalentPropResource::collection($prop),
