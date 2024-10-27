@@ -110,8 +110,10 @@ Route::controller(Resident\Talents\TalentController::class)->prefix('talent')
         Route::post('/', 'createOrUpdate');
         Route::put('/{user}', 'createOrUpdate');
         Route::get('/{user}', 'item');
-        Route::put('/{user}/update', 'update');
         Route::delete('/{user}', 'delete');
+        Route::post('/{user}/experience', 'experienceCreateOrUpdate');
+        Route::put('/{user}/experience/{experience}', 'experienceCreateOrUpdate');
+        Route::delete('/{user}/experience/{experience}', 'experienceDelete');
     });
 
 #settings
