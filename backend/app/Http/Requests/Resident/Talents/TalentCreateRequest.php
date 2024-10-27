@@ -19,6 +19,7 @@ class TalentCreateRequest extends FormRequest implements ConvertingPropertiesInt
 
     public function rules(): array
     {
+        \Illuminate\Support\Facades\Log::alert('*****TalentCreateRequest*******', $this->all());
         $props = Prop::whereIn('id_name',['lvl', 'gender', 'timezone'])->get();
         $lang = [];
         Prop::where('id_name', 'language')->first()->children->each(function($propItem) use(&$lang){
@@ -40,7 +41,8 @@ class TalentCreateRequest extends FormRequest implements ConvertingPropertiesInt
             'allSkills' => "required",
             'gender' => "required|in:" . $props->where('id_name', 'gender')->first()->values->pluck('id')->implode(','),
             'taxesIncluded' => "required|boolean",
-            'language' => "required|in:" . implode(',', $lang),
+//            'language' => "required|in:" . implode(',', $lang),
+            'language' => "required",
 //            'blockExperience' => "required",
             'educationName' => "required",
             'educationSpecialization' => "required",
