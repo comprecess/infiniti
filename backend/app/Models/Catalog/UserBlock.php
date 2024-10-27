@@ -30,6 +30,9 @@ class UserBlock extends Model
     {
         $blockDatas = $request->getBlock();
         foreach($blockDatas as $block) {
+            $block['from'] = $block['periodFrom'];
+            $block['to'] = $block['periodTo'];
+            unset($block['periodFrom'], $block['periodTo']);
             $user->blockExperience()->create($block);
         }
 

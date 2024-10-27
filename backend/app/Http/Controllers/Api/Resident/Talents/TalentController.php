@@ -183,6 +183,10 @@ class TalentController extends TalentsController
 
     public function experienceCreateOrUpdate(User $user, UserBlock $experience, BlockExperienceRequest $request)
     {
+        $data = $request->all();
+        $data['from'] = $data['periodFrom'];
+        $data['to'] = $data['periodTo'];
+        unset($data['periodFrom'], $data['periodTo']);
         if($experience->id) {
             $experience->update($request->all());
         }else{

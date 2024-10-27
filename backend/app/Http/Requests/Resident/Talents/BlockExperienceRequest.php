@@ -15,8 +15,8 @@ class BlockExperienceRequest extends FormRequest
         $data =  [
             'name' => "required",
             'position' => "required",
-            'from' => "required|date|date_format:Y-m-d",
-            'to' => "nullable|date|date_format:Y-m-d|after:from",
+            'periodFrom' => "required|date|date_format:Y-m-d",
+            'periodTo' => "nullable|date|date_format:Y-m-d|after:from",
             'responsibilities' => "nullable",
         ];
 
