@@ -190,7 +190,7 @@ class User extends Model
         $ids = collect([]);
         $prop = Prop::where(intval($idNameProp) == $idNameProp ? 'id' : 'id_name', $idNameProp)->first();
         if(!$prop) {
-            throw new \Exception("Properties [{$idNameProp}] not found");
+            return false;
         }
 
         $prop->childrenList($ids);

@@ -138,7 +138,7 @@ class TalentController extends TalentsController
 
                 $data = $request->all();
                 foreach($data as $nameProp => $values){
-                    if(in_array($nameProp, ['active','ownerId','clientId','birthDay', 'taxesIncluded'])) {
+                    if(in_array($nameProp, ['active','ownerId','clientId','birthDay', 'taxesIncluded', 'blockExperience'])) {
                         continue;
                     }
                     if(!in_array($nameProp, ['priceHour','priceDay'])) {
