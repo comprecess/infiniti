@@ -97,7 +97,7 @@ class TalentController extends TalentsController
                     ->orWhere('crm_accounts.account', 'like', $search);
             });
         }
-        $query->checkAccess();
+//        $query->checkAccess();
 
         $request->sortModel($query);
 //        $t = $query->first()->getPropsByNameId();
