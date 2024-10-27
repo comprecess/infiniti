@@ -17,6 +17,7 @@ class BlockExperienceResorce extends JsonResource
     {
         $resorce = [
             'id' => $this->id,
+            'idTalent' => $this->id_catalog_user,
             'position' => $this->position,
             'name' => $this->name,
             'periodFrom' => $this->from->format('Y-m-d'),
