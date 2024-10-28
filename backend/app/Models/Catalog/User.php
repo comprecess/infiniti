@@ -5,12 +5,10 @@ namespace App\Models\Catalog;
 use App\Contracts\FilterContract;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Users\Client;
-use App\Services\Filter;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 
 class User extends Model
 {
@@ -28,6 +26,7 @@ class User extends Model
 
     protected $casts = [
         'availabilityEnd' => 'datetime',
+        'birth_day' => 'date',
         'experience' => 'json',
     ];
 
