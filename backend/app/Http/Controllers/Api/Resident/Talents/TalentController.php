@@ -158,7 +158,7 @@ class TalentController extends TalentsController
                 }
 
                 if($data['taxesIncluded']) {
-                    Prop::where('id_name', 'rate')->first()?->values?->first()?->users()->sync([$model->id]);
+                    Prop::where('id_name', 'rate')->first()?->values?->first()?->users()->attach([$model->id]);
                 }
 
                 #block

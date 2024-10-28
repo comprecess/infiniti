@@ -208,13 +208,12 @@ class User extends Model
         $val = $valueQuery->first();
 
         if($val) {
-            $this->values()->sync([$val->id]);
+            $this->values()->attach([$val->id]);
         } else {
             if(!$prop->has_add) {
                 throw new \Exception("Properties [{$prop->id_name}] are not allowed to be added");
             }
-
-            $prop->values()->create(['value' => $value])->users()->sync([$this->id]);
+            $prop->values()->create(['value' => $value])->users()->attach([$this->id]);
         }
 
     }
