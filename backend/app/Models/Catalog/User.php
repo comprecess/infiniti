@@ -199,7 +199,7 @@ class User extends Model
 
         $valueQuery = Value::whereIn('id_prop', $ids->pluck('id'));
 
-        if($isInt) {
+        if($isInt && !in_array($prop->type, ['integer'])) {
             $valueQuery->where('id', $value);
         }else{
             $valueQuery->where('value', $value);

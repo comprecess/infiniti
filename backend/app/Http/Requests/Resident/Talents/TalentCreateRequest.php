@@ -19,6 +19,7 @@ class TalentCreateRequest extends FormRequest implements ConvertingPropertiesInt
 
     public function rules(): array
     {
+        \Illuminate\Support\Facades\Log::alert('*****TalentCreateRequest*******', $this->all());
         $props = Prop::whereIn('id_name',['lvl', 'gender', 'timezone'])->get();
         $lang = [];
         Prop::where('id_name', 'language')->first()->children->each(function($propItem) use(&$lang){
