@@ -29,6 +29,10 @@ class UserBlock extends Model
     public static function createByUser(User $user, BlockExperienceTalentRequest $request)
     {
         $blockDatas = $request->getBlock();
+        if(!$blockDatas) {
+            return;
+        }
+
         foreach($blockDatas as $block) {
             $block['from'] = $block['periodFrom'];
             $block['to'] = $block['periodTo'];
