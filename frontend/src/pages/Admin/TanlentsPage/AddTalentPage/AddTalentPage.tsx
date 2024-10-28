@@ -1,43 +1,77 @@
-import { FC, useEffect, useMemo } from 'react'
-import { useLocation } from 'react-router-dom'
+import { FC, useEffect, useState } from 'react'
 
+import {
+  TalentFormData,
+  TalentsInputData,
+} from '../../../../app/constants/constants'
 import { Fields } from '../../../../features/Admin/TalentsPage/AddTalentPage/Fields/Fields'
+import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
+import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
+import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { postAddTalent } from '../../../../shared/utils/api/Admin/Talents/AddTalent/PostAddTalent'
+import { getTalentsInputData } from '../../../../shared/utils/api/Admin/Talents/GetTalentsInputData'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './AddTalentPage.module.scss'
 
-const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/talent\/(\d+)/
-  const match = url.match(regex)
-
-  return match ? parseInt(match[1], 10) : null
-}
-
-const useIdFromUrl = () => {
-  const location = useLocation()
-
-  const id = useMemo(
-    () => extractIdFromUrl(location.pathname),
-    [location.pathname],
-  )
-
-  return id
-}
-
 export const AdminAddTalentPage: FC = () => {
-  const id = useIdFromUrl()
+  const [formData, setFormData] = useState<Partial<TalentFormData>>({})
+  const [inputData, setInputData] = useState<TalentsInputData | null>(null)
 
-  console.log(id)
+  const showToast = useCustomToast()
+
+  const getInputData = async () => {
+    const getResponse = await getTalentsInputData()
+
+    setInputData(getResponse)
+  }
+
+  const createNewTalent = async () => {
+    if (!formData) return
+
+    const createResponse = await postAddTalent(formData)
+
+    if (createResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully created a Talent',
+        status: 'success',
+      })
+    } else {
+      showToast({
+        title: 'Error',
+        description: createResponse.message,
+        status: 'error',
+      })
+    }
+  }
 
   useEffect(() => {
     document.title = 'infiniti | Add Talent'
+    getInputData()
   }, [])
 
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        <RecentCard title='Add Talent' style={styles.recentFullScreen}>
-          <Fields />
-        </RecentCard>
+        {inputData ? (
+          <RecentCard
+            title='Add Talent'
+            Component={ButtonBlue}
+            style={styles.recentFullScreen}
+            componentProps={{
+              titleNone: true,
+              title: 'Save',
+              icon: '/icons/fileWhite.svg',
+              iconProps: styles.buttonSaveIcon,
+              onClick: createNewTalent,
+              style: styles.buttonSave,
+            }}
+          >
+            <Fields inputData={inputData} onFormDataChange={setFormData} />
+          </RecentCard>
+        ) : (
+          <LoadingSpinner size='xl' />
+        )}
       </section>
     </div>
   )

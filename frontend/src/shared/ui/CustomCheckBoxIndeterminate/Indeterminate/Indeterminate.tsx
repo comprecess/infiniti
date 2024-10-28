@@ -1,15 +1,17 @@
 import { FC, useEffect, useState } from 'react'
 
-import { FiltersState } from '../../../../app/constants/constants'
+import {
+  FiltersState,
+  ValuesProps,
+} from '../../../../app/constants/constants'
 import { CustomCheckBox } from '../../CustomCheckBox/CustomCheckBox'
-import { LevelsList } from '../CustomCheckBoxIndeterminate'
 import styles from './Indeterminate.module.scss'
 
 interface ParentChildrenProps {
   languageTitle: string
   isChecked: boolean
   filters: FiltersState
-  languageLevels?: LevelsList[]
+  languageLevels?: ValuesProps[]
   onCheckboxChange: (
     propId: string,
     value: number,

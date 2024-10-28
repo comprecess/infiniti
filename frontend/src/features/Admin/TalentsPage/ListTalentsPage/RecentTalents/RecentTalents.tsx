@@ -114,7 +114,8 @@ export const RecentTalents: FC<RecentTalentsProps> = ({
           return (
             <React.Fragment key={item.id}>
               <Item
-                id={item.client?.id}
+                idClient={item.client?.id}
+                idTalent={item.id}
                 access={access}
                 image={item.client?.img}
                 name={item.client?.account}

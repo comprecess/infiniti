@@ -6,7 +6,8 @@ import styleItem from '../RecentTalents.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
-  id: number
+  idClient: number
+  idTalent: number
   access: RolesAccess
   image: string
   name: string
@@ -20,7 +21,8 @@ interface ItemProps {
 }
 
 export const Item: FC<ItemProps> = ({
-  id,
+  idClient,
+  idTalent,
   access,
   image,
   name,
@@ -33,15 +35,15 @@ export const Item: FC<ItemProps> = ({
   deleteClient,
 }) => {
   const handleNavigateToCustomer = () => {
-    navigateToCustomer('summary', id)
+    navigateToCustomer('summary', idClient)
   }
 
   const handleEditTalent = () => {
-    navigateEditTalent(id)
+    navigateEditTalent(idTalent)
   }
 
   const handleDeleteTalent = () => {
-    deleteClient(id)
+    deleteClient(idTalent)
   }
 
   return (

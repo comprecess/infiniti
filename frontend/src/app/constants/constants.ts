@@ -9,6 +9,13 @@ export const roles = {
   admin: 'Admin',
 }
 
+export interface LanguagesList {
+  id: number
+  name: string
+  nameId: string
+  values: ValuesProps[]
+}
+
 export interface RolesAccess {
   all: number
   create: number
@@ -924,14 +931,35 @@ export interface TalentsData {
 }
 
 export interface TalentFormData {
-  projectsExperience: TalentProjectsExperience[]
+  name: string
+  clientId: number
+  birthDay: string
+  priceDay: number
+  priceHour: number
+  language: number[]
+  gender: number
+  lvl: number
+  timezone: number
+  specialization: string[]
+  industries: string[]
+  keySkills: string[]
+  allSkills: string[]
+  educationName: string
+  rate: number
+  active: number
+  educationSpecialization: string
+  educationDegree: string
+  educationGraduation: string
+  blockExperience: TalentProjectsExperience[]
 }
 
 export interface TalentProjectsExperience {
-  id: number
+  id?: number
   index: number
+  name: string
   position: string
-  period: string
+  periodFrom: string
+  periodTo: string
   responsibilities: string
 }
 
@@ -943,4 +971,49 @@ export interface CustomersFilesData {
   type: string
   client: { id: number; account: string }
   update: string
+}
+
+export interface TalentsInputData {
+  allSkills: ValuesProps[]
+  gender: ValuesProps[]
+  industries: ValuesProps[]
+  language: {
+    id: number
+    children: LanguagesList[]
+  }[]
+  owner: { id: number; account: string; email: string }[]
+  client: { id: number; account: string; email: string }[]
+  keySkills: ValuesProps[]
+  lvl: ValuesProps[]
+  specialization: ValuesProps[]
+  timezone: ValuesProps[]
+}
+
+export interface TalentEditInfoData {
+  id: number
+  active: number
+  blockExperience: TalentProjectsExperience[]
+  birthDay: string
+  client: { id: number; account: string }
+  property: PropertyArray
+}
+
+type PropertyArray = Array<Partial<Property>>
+
+interface Property {
+  industries?: ValuesProps[]
+  keySkills?: ValuesProps[]
+  allSkills?: ValuesProps[]
+  priceHour?: ValuesProps[]
+  priceDay?: ValuesProps[]
+  timezone?: ValuesProps[]
+  gender?: ValuesProps[]
+  lvl?: ValuesProps[]
+  specialization?: ValuesProps[]
+  educationName?: ValuesProps[]
+  educationSpecialization?: ValuesProps[]
+  educationDegree?: ValuesProps[]
+  educationGraduation?: ValuesProps[]
+  rate?: ValuesProps[]
+  [key: string]: ValuesProps[] | undefined
 }
