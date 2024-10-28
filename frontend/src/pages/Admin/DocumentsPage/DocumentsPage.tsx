@@ -126,12 +126,12 @@ export const AdminDocumentsPage: FC = () => {
             componentProps={
               access.create
                 ? {
-                    title: 'Add Document',
-                    icon: '/icons/plus.svg',
-                    titleNone: true,
-                    style: styles.buttonPlus,
-                    iconProps: styles.iconPlus,
-                  }
+                  title: 'Add Document',
+                  icon: '/icons/plus.svg',
+                  titleNone: true,
+                  style: styles.buttonPlus,
+                  iconProps: styles.iconPlus,
+                }
                 : undefined
             }
           >

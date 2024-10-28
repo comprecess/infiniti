@@ -1,20 +1,11 @@
 import { FC } from 'react'
 
-import { FiltersState } from '../../../app/constants/constants'
+import {
+  FiltersState,
+  LanguagesList,
+} from '../../../app/constants/constants'
 import styles from './CustomCheckBoxIndeterminate.module.scss'
 import { Indeterminate } from './Indeterminate/Indeterminate'
-
-export interface LevelsList {
-  id: number
-  propId: number
-  value: string
-}
-
-interface LanguagesList {
-  id: number
-  name: string
-  values: LevelsList[]
-}
 
 interface CheckBoxListProps {
   languages: LanguagesList[]

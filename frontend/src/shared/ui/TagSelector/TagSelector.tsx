@@ -84,7 +84,9 @@ export const TagSelector: FC<TagSelectorProps> = ({
   }, [inputValue, list, tags])
 
   useEffect(() => {
-    onTagsChange(tags)
+    if (onTagsChange) {
+      onTagsChange(tags)
+    }
   }, [tags])
 
   useEffect(() => {
@@ -110,9 +112,9 @@ export const TagSelector: FC<TagSelectorProps> = ({
         />
         {showSelect && filteredTags.length > 0 && (
           <div className={styles.selectDropdown}>
-            {filteredTags.map(tag => (
+            {filteredTags.map((tag, index) => (
               <div
-                key={tag}
+                key={`${tag}-${index}`}
                 className={styles.selectOption}
                 onClick={() => handleTagSelect(tag)}
               >
