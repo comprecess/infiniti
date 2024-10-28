@@ -138,7 +138,7 @@ class TalentController extends TalentsController
 
                 $data = $request->all();
                 foreach($data as $nameProp => $values){
-                    if(in_array($nameProp, ['active','ownerId','clientId','birthDay', 'taxesIncluded', 'blockExperience'])) {
+                    if(in_array($nameProp, ['active','ownerId','clientId','birthDay', 'rate', 'blockExperience'])) {
                         continue;
                     }
                     if(!in_array($nameProp, ['priceHour','priceDay'])) {
@@ -163,7 +163,7 @@ class TalentController extends TalentsController
 
                 #block
                 $blockRequest = app(BlockExperienceTalentRequest::class);
-                UserBlock::createByUser($model, $blockRequest);
+                UserBlock::createOrUpdate($model, $blockRequest);
                 if($blockRequest->getBlock()) {
                     $model->setExpirence();
                 }
@@ -178,6 +178,7 @@ class TalentController extends TalentsController
 
     public function delete(User $user)
     {
+        UserValue::where('id_catalog_user', $user->id)->delete();
         return $this->deleteCRUD($user);
     }
 
