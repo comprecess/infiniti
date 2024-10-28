@@ -20,14 +20,14 @@ import { ProjectsExperienceItem } from './ProjectsExperienceItem/ProjectsExperie
 
 export interface PartialFieldsPostData extends Partial<TalentFormData> {
   [key: string]:
-  | string
-  | TalentProjectsExperience[]
-  | number[]
-  | string[]
-  | number
-  | boolean
-  | undefined
-  | null
+    | string
+    | TalentProjectsExperience[]
+    | number[]
+    | string[]
+    | number
+    | boolean
+    | undefined
+    | null
 }
 
 interface FieldsProps {
@@ -143,13 +143,13 @@ export const Fields: FC<FieldsProps> = ({
   const handleChangeInput = (
     field: string,
     value:
-    | string
-    | number
-    | number[]
-    | string[]
-    | boolean
-    | undefined
-    | null,
+      | string
+      | number
+      | number[]
+      | string[]
+      | boolean
+      | undefined
+      | null,
   ) => {
     if (field === 'rate' && typeof value === 'boolean') {
       value = value === true ? 1 : 0
@@ -174,8 +174,8 @@ export const Fields: FC<FieldsProps> = ({
 
         data.property.forEach(prop => {
           if (prop[name]) {
-            const props = prop[name].map(item => item.id)
-            const propId = prop[name][0].propId
+            const props = prop[name]?.map(item => item.id) || []
+            const propId = prop[name]?.[0]?.propId ?? ''
 
             if (!newSelectedFilters[propId]) {
               newSelectedFilters[propId] = []
