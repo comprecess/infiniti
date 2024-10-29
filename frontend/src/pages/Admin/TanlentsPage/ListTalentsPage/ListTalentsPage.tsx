@@ -14,6 +14,7 @@ import { PagesList } from '../../../../features/Client/CatalogPage/TalentsList/P
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { deleteSelectedTalent } from '../../../../shared/utils/api/Admin/Talents/DeleteTalent'
 import { getDocumentFileTalents } from '../../../../shared/utils/api/Admin/Talents/GetDocumentFileTalents'
 import { getTalentsList } from '../../../../shared/utils/api/Admin/Talents/GetTalentsList'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
@@ -115,8 +116,24 @@ export const AdminListTalentsPage: FC = () => {
     setTalents({ data: getResponse.data, meta: getResponse.meta })
   }
 
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-  const deleteTalent = async (_idTalent: number) => {}
+  const deleteTalent = async (idTalent: number) => {
+    const deleteResponse = await deleteSelectedTalent(idTalent)
+
+    if (deleteResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully removed the Talent',
+        status: 'success',
+      })
+      getTalents()
+    } else {
+      showToast({
+        title: 'Error',
+        description: deleteResponse.message,
+        status: 'error',
+      })
+    }
+  }
 
   const navigateToCustomer = (name: string, idTalent: number) => {
     navigate(
