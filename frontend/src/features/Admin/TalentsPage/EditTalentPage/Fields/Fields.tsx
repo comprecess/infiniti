@@ -47,10 +47,8 @@ export const Fields: FC<FieldsProps> = ({
     clientId: data.client?.id,
     rate:
       data.property
-        .map(item =>
-          item.rate?.[0]?.value != null ? +item.rate[0].value : undefined,
-        )
-        .find(value => value !== undefined) || 0,
+        .map(item => (item.rate?.[0]?.value != null ? 1 : 0))
+        .find(value => value !== 0) || 0,
     educationSpecialization:
       data.property
         .map(item =>
@@ -325,7 +323,7 @@ export const Fields: FC<FieldsProps> = ({
       <CustomCheckBox
         title='Taxes Included'
         titleOnChange='rate'
-        defaultChecked={formData.taxesIncluded === 1 ? true : false}
+        defaultChecked={formData.rate === 1 ? true : false}
         onInputChange={handleChangeInput}
       />
       <CustomCheckBox

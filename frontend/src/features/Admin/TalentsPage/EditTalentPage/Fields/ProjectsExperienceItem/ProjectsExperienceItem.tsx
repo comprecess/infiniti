@@ -40,8 +40,8 @@ export const ProjectsExperienceItem: FC<ProjectsExperienceItemProps> = ({
       <CustomInput
         title='Company'
         type='text'
-        id='company'
-        name='company'
+        id='name'
+        name='name'
         value={company}
         onChange={handleOnInputChange}
       />
