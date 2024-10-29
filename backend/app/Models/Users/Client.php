@@ -238,11 +238,11 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
         ];
     }
 
-    public function myCart()
-    {
-        $time = Carbon::now()->subSeconds(CatalogCart::$timeForCart);
-        return $this->hasOne(CatalogCart::class, 'id_client')->where('updated_at', '>', $time)->orderBy('id', 'DESC');
-    }
+//    public function myCart()
+//    {
+//        $time = Carbon::now()->subSeconds(CatalogCart::$timeForCart);
+//        return $this->hasOne(CatalogCart::class, 'id_client')->where('updated_at', '>', $time)->orderBy('id', 'DESC');
+//    }
 
     public function carts()
     {

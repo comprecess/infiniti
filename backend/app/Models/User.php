@@ -4,9 +4,11 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Events\UserIsAuthorized;
+use App\Models\Catalog\Cart as CatalogCart;
 use App\Models\Traits\AuthPasswordTrait;
 use App\Models\Traits\FileStorageTrait;
 use App\Models\Users\Interfaces\LoginIntarface;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -57,6 +59,12 @@ class User extends Authenticatable
     public function getNameClass()
     {
         return $this->nameClass;
+    }
+
+    public function myCart()
+    {
+        $time = Carbon::now()->subSeconds(CatalogCart::$timeForCart);
+        return $this->morphOne(CatalogCart::class, 'user')->where('updated_at', '>', $time)->orderBy('id', 'DESC');
     }
 
     public function userCheckPassword($password)
