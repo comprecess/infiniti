@@ -126,7 +126,7 @@ class TalentController extends TalentsController
 
     public function createOrUpdate(User $user, TalentCreateRequest $request)
     {
-        return $this->createOrUpdateCRUD(
+        $result =  $this->createOrUpdateCRUD(
             $request,
             $user,
             null,
@@ -164,10 +164,10 @@ class TalentController extends TalentsController
                 #block
                 $blockRequest = app(BlockExperienceTalentRequest::class);
                 UserBlock::createOrUpdate($model, $blockRequest);
-                if($blockRequest->getBlock()) {
-                    $model->setExpirence();
-                }
             });
+
+        $user->setExpirence();
+        return $result;
     }
 
     public function item(User $user)
