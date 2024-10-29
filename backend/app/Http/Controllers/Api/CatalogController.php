@@ -95,34 +95,8 @@ class CatalogController extends Controller
     public function addCart(CartRequest $request)
     {
         try{
-            $user = auth()->user();
-            $cart = $user->myCart;
-            if(!$cart) {
-                $cart = new Cart();
-                $cart->setSecret();
-                $cart->id_client = $user->id;
-                $cart->save();
-            }
-
-            $item = $cart->items()->where('id_catalog_user', $request->catalogUser)->first();
-
-            if($item) {
-                if($item->name_id_type == $request->type) {
-                    $item->amount = $request->amount;
-                } else {
-                    $item->name_id_type = $request->type;
-                    $item->amount = $request->amount;
-                }
-            } else {
-                $item = new CartItem();
-                $item->id_catalog_cart = $cart->id;
-                $item->id_catalog_user = $request->catalogUser;
-                $item->name_id_type = $request->type;
-                $item->amount = $request->amount;
-            }
-            $item->save();
-
-            $cart->calculation();
+            $userCatalog = User::findOrFail($request->catalogUser);
+            Cart::add($userCatalog, $request->type, $request->amount);
         }catch (\Exception $e) {
             return response()->json(['success' => false]);
         }
