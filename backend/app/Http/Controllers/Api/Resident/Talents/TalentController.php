@@ -178,32 +178,7 @@ class TalentController extends TalentsController
 
     public function delete(User $user)
     {
-        UserValue::where('id_catalog_user', $user->id)->delete();
         return $this->deleteCRUD($user);
-    }
-
-    public function experienceCreateOrUpdate(User $user, UserBlock $experience, BlockExperienceRequest $request)
-    {
-        $data = $request->all();
-        $data['from'] = $data['periodFrom'];
-        $data['to'] = $data['periodTo'];
-        unset($data['periodFrom'], $data['periodTo']);
-        if($experience->id) {
-            $experience->update($request->all());
-        }else{
-            $user->blockExperience()->create($request->all());
-        }
-        $user->setExpirence();
-
-        return $this->defResponse();
-    }
-
-    public function experienceDelete(UserBlock $experience, User $user)
-    {
-        $experience->delete();
-        $user->setExpirence();
-
-        return $this->defResponse();
     }
 
 }
