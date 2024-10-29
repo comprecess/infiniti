@@ -8,11 +8,12 @@ use App\Models\Users\Client;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
 class User extends Model
 {
-    use HasFactory, CurrencyTrait;
+    use HasFactory, CurrencyTrait, SoftDeletes;
 
     const AVAILABLE_STATUS = [
         'now',
