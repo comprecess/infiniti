@@ -34,7 +34,7 @@ class UserBlock extends Model
         $ids = $user->blockExperience->pluck('id', 'id');
 
         foreach($blockDatas as $block) {
-            if($block['id']) {
+            if(isset($block['id'])) {
                 $userBlock = UserBlock::find($block['id']);
                 if(!$block) {
                     continue;
