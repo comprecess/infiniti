@@ -94,13 +94,12 @@ class CatalogController extends Controller
 
     public function addCart(CartRequest $request)
     {
-//        try{
+        try{
             $userCatalog = User::findOrFail($request->catalogUser);
             Cart::add($userCatalog, $request->type, $request->amount);
-//        }catch (\Exception $e) {
-//            dd($e);
-//            return response()->json(['success' => false]);
-//        }
+        }catch (\Exception $e) {
+            return response()->json(['success' => false]);
+        }
 
         return response()->json(['success' => true]);
     }
