@@ -48,6 +48,7 @@ class UserBlock extends Model
             $userBlock->position = $block['position'];
             $userBlock->from = $block['periodFrom'];
             $userBlock->to = $block['periodTo'];
+            $userBlock->responsibilities = $block['responsibilities'];
             $userBlock->save();
         }
 
