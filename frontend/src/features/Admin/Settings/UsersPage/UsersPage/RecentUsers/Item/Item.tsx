@@ -53,58 +53,66 @@ export const Item: FC<ItemProps> = ({
   }
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styleItem.avatarColumn}>
-        <img
-          src={avatar ? avatar : '/profileWithoutAvatar.svg'}
-          className={styles.avatarItem}
-        />
-      </div>
-      <div className={styleItem.detailsColumn}>
-        <div className={styles.detailsContainer}>
-          {name && <span className={styles.detailsItem}>{name}</span>}
-          {email && <span className={styles.detailsItem}>{email}</span>}
-          {phone && <span className={styles.detailsItem}>{phone}</span>}
-          {city && <span className={styles.detailsItem}>{city}</span>}
-          {state && zip && (
-            <span className={styles.detailsItem}>
-              {`${state} - ${zip}`}
-            </span>
+    <>
+      {' '}
+      <div className={styles.wrapper}>
+        <div className={styleItem.avatarColumn}>
+          <img
+            src={avatar ? avatar : '/profileWithoutAvatar.svg'}
+            className={styles.avatarItem}
+          />
+        </div>
+        <div className={styleItem.detailsColumn}>
+          <div className={styles.detailsContainer}>
+            {name && <span className={styles.detailsItem}>{name}</span>}
+            {email && <span className={styles.detailsItem}>{email}</span>}
+            {phone && <span className={styles.detailsItem}>{phone}</span>}
+            {city && <span className={styles.detailsItem}>{city}</span>}
+            {state && zip && (
+              <span className={styles.detailsItem}>
+                {`${state} - ${zip}`}
+              </span>
+            )}
+            {country && (
+              <span className={styles.detailsItem}>{country}</span>
+            )}
+          </div>
+        </div>
+        <div
+          className={`${styleItem.typeColumn} ${styles.typesContainer}`}
+        >
+          <span className={styles.typeItem}>{type}</span>
+          {departments.map(item => {
+            return (
+              <span key={item.id} className={styles.extTypeItem}>
+                {item.name}
+              </span>
+            )
+          })}
+        </div>
+        <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
+          {access.edit && (
+            <button className={styles.buttonEdit} onClick={handleEditUser}>
+              <img
+                src='/icons/edit.svg'
+                alt='Edit'
+                className={styles.icon}
+              />
+            </button>
           )}
-          {country && (
-            <span className={styles.detailsItem}>{country}</span>
+          {access.delete && (
+            <button
+              className={styles.buttonTrash}
+              onClick={handleSetModal}
+            >
+              <img
+                src='/icons/trash.svg'
+                alt='Trash'
+                className={styles.icon}
+              />
+            </button>
           )}
         </div>
-      </div>
-      <div className={`${styleItem.typeColumn} ${styles.typesContainer}`}>
-        <span className={styles.typeItem}>{type}</span>
-        {departments.map(item => {
-          return (
-            <span key={item.id} className={styles.extTypeItem}>
-              {item.name}
-            </span>
-          )
-        })}
-      </div>
-      <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        {access.edit && (
-          <button className={styles.buttonEdit} onClick={handleEditUser}>
-            <img
-              src='/icons/edit.svg'
-              alt='Edit'
-              className={styles.icon}
-            />
-          </button>
-        )}
-        {access.delete && (
-          <button className={styles.buttonTrash} onClick={handleSetModal}>
-            <img
-              src='/icons/trash.svg'
-              alt='Trash'
-              className={styles.icon}
-            />
-          </button>
-        )}
       </div>
       {modal && (
         <ConfirmationModal
@@ -113,6 +121,6 @@ export const Item: FC<ItemProps> = ({
           agree={handleDeleteUser}
         />
       )}
-    </div>
+    </>
   )
 }

@@ -28,6 +28,7 @@ export interface PartialFieldsPostData extends Partial<TalentFormData> {
   | number
   | number[]
   | string[]
+  | FormData
   | TalentProjectsExperience[]
   | boolean
   | undefined
@@ -40,7 +41,6 @@ export const Fields: FC<FieldsProps> = ({
 }) => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({
     timezone: inputData.timezone[0].id,
-    clientId: inputData.client[0].id,
     gender: inputData.gender[0].id,
     lvl: inputData.lvl[0].id,
     taxesIncluded: 0,
@@ -220,17 +220,6 @@ export const Fields: FC<FieldsProps> = ({
         titleOnChange='lvl'
         idList={inputData.lvl.map(lvl => lvl.id)}
         nameList={inputData.lvl.map(lvl => lvl.value)}
-        onChange={handleChangeInput}
-      />
-      <CustomSelect
-        title='Customer'
-        titleOnChange='clientId'
-        idList={inputData.client.map(client => client.id)}
-        nameList={inputData.client.map(client =>
-          `${client.account}${
-            client.email ? ` - ${client.email}` : ''
-          }`.trim(),
-        )}
         onChange={handleChangeInput}
       />
       <section className={styles.section}>

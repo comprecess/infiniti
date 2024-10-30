@@ -14,6 +14,8 @@ import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getTalentInfo } from '../../../../shared/utils/api/Admin/Talents/EditTalent/GetTalentInfo'
 import { putUpdateTalentInfo } from '../../../../shared/utils/api/Admin/Talents/EditTalent/PutUpdateTalentInfo'
+import { updateAdditionallyTalentInfo } from '../../../../shared/utils/api/Admin/Talents/EditTalent/UpdateAdditionallyTalentInfo'
+import { updateTalentAvatar } from '../../../../shared/utils/api/Admin/Talents/EditTalent/UpdateTalentAvatar'
 import { getTalentsInputData } from '../../../../shared/utils/api/Admin/Talents/GetTalentsInputData'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditTalentPage.module.scss'
@@ -80,6 +82,50 @@ export const AdminEditTalentPage: FC = () => {
     }
   }
 
+  const updateAvatar = async (file: FormData) => {
+    if (id === null) return
+
+    const updateResponse = await updateTalentAvatar(id, file)
+
+    if (updateResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: "You have successfully changed Talent's avatar",
+        status: 'success',
+      })
+      getInfoTalent()
+    } else {
+      showToast({
+        title: 'Error',
+        description: updateResponse.message,
+        status: 'error',
+      })
+    }
+  }
+
+  const updateAdditionallyInfoTalent = async (data: {
+    [key: string]: number
+  }) => {
+    if (id === null) return
+
+    const updateResponse = await updateAdditionallyTalentInfo(id, data)
+
+    if (updateResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully updated User information',
+        status: 'success',
+      })
+      getInfoTalent()
+    } else {
+      showToast({
+        title: 'Error',
+        description: updateResponse.message,
+        status: 'error',
+      })
+    }
+  }
+
   useEffect(() => {
     document.title = 'infiniti | Edit Talent'
     getInputData()
@@ -106,6 +152,8 @@ export const AdminEditTalentPage: FC = () => {
             <Fields
               data={data}
               inputData={inputData}
+              updateAvatar={updateAvatar}
+              updateAdditionallyInfoTalent={updateAdditionallyInfoTalent}
               onFormDataChange={setFormData}
             />
           </RecentCard>

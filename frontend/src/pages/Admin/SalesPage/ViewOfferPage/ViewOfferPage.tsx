@@ -239,7 +239,7 @@ export const AdminViewOfferPage: FC = () => {
         />
       )}
       <ConfirmationModal
-        title='Are you sure you want to convert Invoice to Offer?'
+        title='Are you sure you want to convert Offer to Invoice?'
         isOpened={isConfirmationModalOpen}
         handleOpenCloseModal={openConfirmationModal}
         agree={convertToInvoice}

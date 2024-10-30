@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 
 import {
   FiltersState,
@@ -14,13 +14,16 @@ import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/Cust
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
+import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { TagSelector } from '../../../../../shared/ui/TagSelector/TagSelector'
+import { cropImageToSquare } from '../../../../../shared/utils/Avatar/CropImage'
 import styles from './Fields.module.scss'
 import { ProjectsExperienceItem } from './ProjectsExperienceItem/ProjectsExperienceItem'
 
 export interface PartialFieldsPostData extends Partial<TalentFormData> {
   [key: string]:
   | string
+  | FormData
   | TalentProjectsExperience[]
   | number[]
   | string[]
@@ -33,18 +36,21 @@ export interface PartialFieldsPostData extends Partial<TalentFormData> {
 interface FieldsProps {
   data: TalentEditInfoData
   inputData: TalentsInputData
+  updateAvatar: (file: FormData) => void
+  updateAdditionallyInfoTalent: (data: { [key: string]: number }) => void
   onFormDataChange: (data: PartialFieldsPostData) => void
 }
 
 export const Fields: FC<FieldsProps> = ({
   data,
   inputData,
+  updateAvatar,
+  updateAdditionallyInfoTalent,
   onFormDataChange,
 }) => {
   /* eslint-disable @typescript-eslint/no-unused-vars */
   const [formData, setFormData] = useState<PartialFieldsPostData>({
     active: data.active,
-    clientId: data.client?.id,
     rate:
       data.property
         .map(item => (item.rate?.[0]?.value != null ? 1 : 0))
@@ -134,9 +140,44 @@ export const Fields: FC<FieldsProps> = ({
       ...block,
       index,
     })),
+    name: data.name,
   })
 
   const [selectedFilters, setSelectedFilters] = useState<FiltersState>({})
+
+  const showToast = useCustomToast()
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const handleButtonClick = () => {
+    inputRef.current?.click()
+  }
+
+  const handleAvatarChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const files = event.target.files
+
+    if (files && files.length > 0) {
+      if (
+        !['image/jpeg', 'image/jpg', 'image/png'].includes(files[0].type)
+      ) {
+        showToast({
+          title: 'Error',
+          description: 'Only JPEG and PNG images are allowed',
+          status: 'error',
+        })
+
+        return
+      }
+
+      const croppedFile = await cropImageToSquare(files[0])
+
+      const file = new FormData()
+      file.append('file', croppedFile)
+
+      updateAvatar(file)
+    }
+  }
 
   const handleChangeInput = (
     field: string,
@@ -281,23 +322,41 @@ export const Fields: FC<FieldsProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <CustomSelect
-        title='Customer'
-        titleOnChange='clientId'
-        placeholder='None'
-        idList={inputData.client.map((_client, index) => index + 1)}
-        value={
-          inputData.client.findIndex(
-            client => client.id === formData.clientId,
-          ) + 1
-        }
-        nameList={inputData.client.map(client =>
-          `${client.account}${
-            client.email ? ` - ${client.email}` : ''
-          }`.trim(),
-        )}
+      <CustomInput
+        title='Full Name'
+        type='text'
+        id='name'
+        name='name'
+        value={formData.name}
         onChange={handleChangeInput}
       />
+      <div className={styles.avatarContainer}>
+        <img
+          src={data.img || '/profileWithoutAvatar.svg'}
+          alt='Avatar'
+          className={styles.avatar}
+        />
+        <div className={styles.buttonsContainer}>
+          <div className={styles.uploadPicture}>
+            <ButtonBlue
+              title='Upload picture'
+              style={styles.buttonUpload}
+              onClick={handleButtonClick}
+            />
+            <input
+              ref={inputRef}
+              type='file'
+              style={{ display: 'none' }}
+              onChange={handleAvatarChange}
+            />
+          </div>
+          <ButtonBlue
+            title='Remove picture'
+            style={styles.buttonRemove}
+            onClick={() => updateAdditionallyInfoTalent({ deleteImg: 1 })}
+          />
+        </div>
+      </div>
       <CustomDataPicker
         title='Date of Birth'
         titleOnChange='birthDay'
