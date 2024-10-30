@@ -175,7 +175,7 @@ class TalentController extends TalentsController
 
     public function item(User $user)
     {
-        $user->load(['values', 'values.prop', 'user']);
+        $user->load(['values', 'values.prop']);
         return new TalentResource($user);
     }
 
