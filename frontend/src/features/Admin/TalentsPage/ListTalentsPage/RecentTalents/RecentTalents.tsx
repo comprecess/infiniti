@@ -14,7 +14,6 @@ interface RecentTalentsProps {
   talentsList: TalentsData[]
   deleteClient: (idTalent: number) => void
   navigateEditTalent: (idTalent: number) => void
-  navigateToCustomer: (name: string, idTalent: number) => void
   changeSortName: (sortNameItem: string, sortTypeItem: number) => void
 }
 
@@ -23,7 +22,6 @@ export const RecentTalents: FC<RecentTalentsProps> = ({
   talentsList,
   deleteClient,
   navigateEditTalent,
-  navigateToCustomer,
   changeSortName,
 }) => {
   const [sortNumbers, setSortNumbers] = useState<number[]>([
@@ -114,17 +112,15 @@ export const RecentTalents: FC<RecentTalentsProps> = ({
           return (
             <React.Fragment key={item.id}>
               <Item
-                idClient={item.client?.id}
                 idTalent={item.id}
                 access={access}
-                image={item.client?.img}
-                name={item.client?.account}
+                image={item.img}
+                name={item.name}
                 specialization={item.specialization}
                 level={item.lvl}
                 priceDay={item.priceDay}
                 priceHour={item.priceHour}
                 navigateEditTalent={navigateEditTalent}
-                navigateToCustomer={navigateToCustomer}
                 deleteClient={deleteClient}
               />
               {index !== talentsList.length - 1 && <CustomDivider />}

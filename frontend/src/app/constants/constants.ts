@@ -923,7 +923,8 @@ export interface SettingsEditUserData {
 
 export interface TalentsData {
   id: number
-  client: { id: number; account: string; img: string }
+  name: string
+  img: string
   specialization: string
   lvl: string
   priceHour: string
@@ -932,7 +933,7 @@ export interface TalentsData {
 
 export interface TalentFormData {
   name: string
-  clientId: number
+  file: FormData | null
   birthDay: string
   priceDay: number
   priceHour: number
@@ -992,9 +993,10 @@ export interface TalentsInputData {
 export interface TalentEditInfoData {
   id: number
   active: number
+  img: string
+  name: string
   blockExperience: TalentProjectsExperience[]
   birthDay: string
-  client: { id: number; account: string }
   property: PropertyArray
 }
 

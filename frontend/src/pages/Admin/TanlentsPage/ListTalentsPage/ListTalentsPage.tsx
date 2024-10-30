@@ -135,12 +135,6 @@ export const AdminListTalentsPage: FC = () => {
     }
   }
 
-  const navigateToCustomer = (name: string, idTalent: number) => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${idTalent}/${name}`,
-    )
-  }
-
   const navigateEditTalent = (idTalent: number) => {
     navigate(
       `/${Routes.adminPages}/${Routes.talents}/${Routes.edit}/${Routes.talent}/${idTalent}`,
@@ -201,7 +195,6 @@ export const AdminListTalentsPage: FC = () => {
               access={access}
               talentsList={talents.data}
               changeSortName={changeSort}
-              navigateToCustomer={navigateToCustomer}
               navigateEditTalent={navigateEditTalent}
               deleteClient={deleteTalent}
             />
