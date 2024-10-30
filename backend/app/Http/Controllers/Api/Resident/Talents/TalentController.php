@@ -160,10 +160,6 @@ class TalentController extends TalentsController
                     Prop::where('id_name', 'rate')->first()?->values?->first()?->users()->attach([$model->id]);
                 }
 
-                if($request->file) {
-                    $model->uploads($request->file);
-                }
-
                 #block
                 $blockRequest = app(BlockExperienceTalentRequest::class);
                 UserBlock::createOrUpdate($model, $blockRequest);
@@ -187,11 +183,12 @@ class TalentController extends TalentsController
     public function update(TalentUpdateRequest $request, User $user)
     {
         if($request->file) {
+            $user->files()->whereNull('data')->delete();
             $user->uploads($request->file);
         }
 
         if($request->deleteImg) {
-            $user->files()->delete();
+            $user->files()->whereNull('data')->delete();
         }
 
         return $this->defResponse();
