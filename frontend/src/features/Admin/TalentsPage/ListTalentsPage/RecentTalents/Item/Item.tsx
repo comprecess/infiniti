@@ -77,7 +77,7 @@ export const Item: FC<ItemProps> = ({
           {priceHour}
         </span>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-          <button className={styles.buttonCart} onClick={handleSetModal}>
+          <button className={styles.buttonCart}>
             <img
               src='/icons/shoppingBasket.svg'
               alt='AddToCart'
