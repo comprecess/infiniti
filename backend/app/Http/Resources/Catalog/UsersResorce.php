@@ -29,8 +29,8 @@ class UsersResorce extends JsonResource
 
         $resorce = [
             'id' => $this->id,
-            'name' => $this->getNested('user.account'),
-            'img' => $this->getNested('user')?->getAvatar(true) ?? "",
+            'name' => $this->name,
+            'img' => $this->getLastFile(true) ?? "",
             'specialization' => $this->getPropValues('specialization'),
             'timezone' => $this->getPropValues('timezone'),
             'level' => $this->getPropValues('lvl'),

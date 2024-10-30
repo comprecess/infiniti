@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Resident\Talents;
 
 
-use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Traits\NestedParametersTrait;
 use App\Http\Resources\Traits\PropValuesTrait;
 use Illuminate\Http\Request;
@@ -32,7 +31,9 @@ class TalentResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'client' => new ClientResource($this->user),
+            'name' => $this->name,
+            'img' => $this->getLastFile(true) ?? "",
+//            'client' => new ClientResource($this->user),
             'birthDay' => $this->birth_day?->format('Y-m-d'),
             'active' => $this->active ? 1 : 0,
             'property' => TalentPropResource::collection($prop),

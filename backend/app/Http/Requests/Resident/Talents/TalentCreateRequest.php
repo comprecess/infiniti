@@ -29,7 +29,8 @@ class TalentCreateRequest extends FormRequest implements ConvertingPropertiesInt
         });
 
         $rules = [
-            'clientId' => 'required|integer|exists:crm_accounts,id',
+            'name' => 'required',
+//            'clientId' => 'required|integer|exists:crm_accounts,id',
 //            'ownerId' => 'required|integer|exists:sys_users,id',
             'specialization' => "required",
             'timezone' => "required|in:" . $props->where('id_name', 'timezone')->first()->values->pluck('id')->implode(','),
@@ -49,7 +50,8 @@ class TalentCreateRequest extends FormRequest implements ConvertingPropertiesInt
             'educationDegree' => "required",
             'educationGraduation' => "required",
             'active' => "required|boolean",
-            'birthDay' => "nullable|date_format:Y-m-d"
+            'birthDay' => "nullable|date_format:Y-m-d",
+            'file' => 'nullable|image',
         ];
 
         return $rules;
@@ -59,6 +61,7 @@ class TalentCreateRequest extends FormRequest implements ConvertingPropertiesInt
     public function getListProperties(): array
     {
         return [
+            'name',
             'active',
             'ownerId' => 'id_admin',
             'clientId' => 'id_client',

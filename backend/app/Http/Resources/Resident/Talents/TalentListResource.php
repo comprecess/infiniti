@@ -19,11 +19,13 @@ class TalentListResource extends JsonResource
         $day = (float) $this->getPropValues('priceDay');
         return [
             'id' => $this->id,
-            'client' => new ClientResource($this->user),
+            'name' => $this->name,
+            'img' => $this->getLastFile(true) ?? "",
+//            'client' => new ClientResource($this->user),
             'specialization' => $this->getPropValues('specialization'),
             'lvl' => $this->getPropValues('lvl'),
-            'priceHour' => $this->user?->printPrice($hour) ?? $hour,
-            'priceDay' => $this->user?->printPrice($day) ?? $day,
+            'priceHour' => $this->printPrice($hour) ?? $hour,
+            'priceDay' => $this->printPrice($day) ?? $day,
         ];
     }
 

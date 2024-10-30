@@ -17,13 +17,12 @@ class TalentExcelResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $user = $this->user;
         $hour = (float) $this->getPropValues('priceHour');
         $day = (float) $this->getPropValues('priceDay');
 
         return [
             'img' => '',
-            'account' => $user?->account . "\r\n" . $user?->code,
+            'account' => $this->name,
             'specialization' => $this->getPropValues('specialization'),
             'lvl' => $this->getPropValues('lvl'),
             'priceHour' => $this->user?->printPrice($hour) ?? $hour,

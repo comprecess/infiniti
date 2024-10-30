@@ -4,6 +4,7 @@ namespace App\Models\Catalog;
 
 use App\Contracts\FilterContract;
 use App\Models\Traits\CurrencyTrait;
+use App\Models\Traits\FileStorageTrait;
 use App\Models\Users\Client;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ use Illuminate\Support\Collection;
 
 class User extends Model
 {
-    use HasFactory, CurrencyTrait, SoftDeletes;
+    use HasFactory, CurrencyTrait, SoftDeletes, FileStorageTrait;
 
     const AVAILABLE_STATUS = [
         'now',
@@ -31,10 +32,11 @@ class User extends Model
         'experience' => 'json',
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(Client::class, 'id_client');
-    }
+    #отказ привязки к клиенту
+//    public function user()
+//    {
+//        return $this->belongsTo(Client::class, 'id_client');
+//    }
 
     public function values()
     {

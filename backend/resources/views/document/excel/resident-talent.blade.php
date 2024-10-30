@@ -15,12 +15,12 @@
         $priceDay = (float) $prop->where('id_name', 'priceDay')?->first()?->values->first()?->value;
         @endphp
         <tr>
-            @if($url = $user?->getLastFile(true))
+            @if($url = $d->getLastFile(true))
                 <td height="50" width="25"></td>
             @else
                 <td width="25"></td>
             @endif
-            <td width="40">{{$user?->account}} <br> {{$user?->code}}</td>
+            <td width="40">{{$d->name}}</td>
             <td width="40">{{$prop->where('id_name', 'specialization')?->first()?->values->first()?->value}}</td>
             <td width="25">{{$prop->where('id_name', 'lvl')?->first()?->values->first()?->value}}</td>
             <td width="40">{{$user ? $user->printPrice($priceHour) : $priceHour }}</td>
