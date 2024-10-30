@@ -111,6 +111,7 @@ Route::controller(Resident\Talents\TalentController::class)->prefix('talent')
         Route::put('/{user}', 'createOrUpdate');
         Route::get('/{user}', 'item');
         Route::delete('/{user}', 'delete');
+        Route::match(['put', 'post'],'/{user}/update', 'update');
     });
 
 #settings

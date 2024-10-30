@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Resident\Talents;
 
 
 use App\Http\Controllers\Api\Traits\CRUD;
-use App\Http\Requests\Resident\Talents\BlockExperienceRequest;
+use App\Http\Requests\Resident\Talents\TalentUpdateRequest;
 use App\Http\Requests\Resident\Talents\BlockExperienceTalentRequest;
 use App\Http\Requests\Resident\Talents\TalentCreateRequest;
 use App\Http\Requests\Resident\Talents\TalentListRequest;
@@ -57,7 +57,7 @@ class TalentController extends TalentsController
             $images = [];
 
             foreach($query as $key => $value) {
-                if($path = $value->user?->getLastFile()?->getFile()?->getRealPath()) {
+                if($path = $value->getLastFile()?->getFile()?->getRealPath()) {
                     $drawing = new Drawing();
                     $drawing->setPath($path);
                     $drawing->setHeight(50);
@@ -80,7 +80,6 @@ class TalentController extends TalentsController
         $query = User::query()
             ->distinct(['catalog_user.id'])
             ->select('catalog_user.*')
-            ->leftJoin('crm_accounts', 'crm_accounts.id', '=', 'catalog_user.id_client')
             ->leftJoin('catalog_user_value', 'catalog_user_value.id_catalog_user', '=', 'catalog_user.id')
             ->leftJoin('catalog_prop_value', function($join){
                 $join->on('catalog_prop_value.id', '=', 'catalog_user_value.cataloggable_id')
@@ -94,7 +93,7 @@ class TalentController extends TalentsController
             $query->where(function($q) use ($search){
                 $search = "%" . $search . "%";
                 $q->where('catalog_prop_value.value', 'like', $search)
-                    ->orWhere('crm_accounts.account', 'like', $search);
+                    ->orWhere('name', 'like', $search);
             });
         }
 //        $query->checkAccess();
@@ -161,6 +160,10 @@ class TalentController extends TalentsController
                     Prop::where('id_name', 'rate')->first()?->values?->first()?->users()->attach([$model->id]);
                 }
 
+                if($request->file) {
+                    $model->uploads($request->file);
+                }
+
                 #block
                 $blockRequest = app(BlockExperienceTalentRequest::class);
                 UserBlock::createOrUpdate($model, $blockRequest);
@@ -179,6 +182,19 @@ class TalentController extends TalentsController
     public function delete(User $user)
     {
         return $this->deleteCRUD($user);
+    }
+
+    public function update(TalentUpdateRequest $request, User $user)
+    {
+        if($request->file) {
+            $user->uploads($request->file);
+        }
+
+        if($request->deleteImg) {
+            $user->files()->delete();
+        }
+
+        return $this->defResponse();
     }
 
 }
