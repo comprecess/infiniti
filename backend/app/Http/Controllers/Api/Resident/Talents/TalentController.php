@@ -85,7 +85,7 @@ class TalentController extends TalentsController
                 $join->on('catalog_prop_value.id', '=', 'catalog_user_value.cataloggable_id')
                     ->where('catalog_user_value.cataloggable_type', Value::class);
             })
-            ->with(['user', 'values', 'values.prop']);
+            ->with(['values', 'values.prop']);
 
         $requestAll = $request->all();
 
