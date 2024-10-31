@@ -37,6 +37,10 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $exception)
     {
+        $message = [
+            403 => 'No access',
+            401 => 'Unauthenticated'
+        ];
 
         if($request->expectsJson()
             && (
@@ -50,8 +54,7 @@ class Handler extends ExceptionHandler
             ], 404);
         }
 
-        if($exception instanceof HttpException && $exception->getStatusCode() === 403) {
-            $message = [403 => 'No access'];
+        if($exception instanceof HttpException && in_array($exception->getStatusCode(), array_keys($message))) {
             $data = [
                 'message' => $message[$exception->getStatusCode()] ?? 'Error'
             ];
