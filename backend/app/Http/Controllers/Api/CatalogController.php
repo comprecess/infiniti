@@ -14,6 +14,7 @@ use App\Models\Catalog\Prop;
 use App\Models\Catalog\User;
 use App\Models\Catalog\Value;
 use Illuminate\Http\Request;
+use App\Models\User as UserCrm;
 
 
 class CatalogController extends Controller
@@ -100,14 +101,14 @@ class CatalogController extends Controller
 
     public function getCart()
     {
-        return new CartResorce(auth()->user()->myCart ?? new Cart());
+        return new CartResorce(UserCrm::getAuth()->myCart ?? new Cart());
     }
 
     public function deleteItemCart(Request $request)
     {
         $id = $request->route('id');
-        $cart = auth()->user()->myCart;
-        $cartItem = $cart->items->where('id', $id)->first();
+        $cart = UserCrm::getAuth()?->myCart;
+        $cartItem = $cart?->items?->where('id', $id)?->first();
         if($cartItem) {
             $cartItem->delete();
             $cart->calculation();
