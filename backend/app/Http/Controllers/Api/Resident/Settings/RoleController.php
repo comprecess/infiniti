@@ -64,6 +64,8 @@ class RoleController extends SettingsController
 
     public function item(Role $role)
     {
+        $role->setNew();
+        $role->load(['access']);
         return new RoleResource($role);
     }
 
