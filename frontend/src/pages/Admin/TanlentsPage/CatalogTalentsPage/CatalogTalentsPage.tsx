@@ -1,14 +1,14 @@
 import { FC, useCallback, useEffect, useState } from 'react'
 
-import { FiltersState } from '../../../app/constants/constants'
-import { CatalogCategories } from '../../../app/data/catalogCategories'
-import { CategoriesItem } from '../../../features/Client/CatalogPage/CategoriesItem/CategoriesItem'
-import { Filters } from '../../../features/Client/CatalogPage/Filters/Filters'
-import { TalentsList } from '../../../features/Client/CatalogPage/TalentsList/TalentsList'
-import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
-import styles from './TalentsPage.module.scss'
+import { FiltersState } from '../../../../app/constants/constants'
+import { CatalogCategories } from '../../../../app/data/catalogCategories'
+import { CategoriesItem } from '../../../../features/Admin/TalentsPage/CatalogTalents/CategoriesItem/CategoriesItem'
+import { Filters } from '../../../../features/Admin/TalentsPage/CatalogTalents/Filters/Filters'
+import { TalentsList } from '../../../../features/Admin/TalentsPage/CatalogTalents/TalentsList/TalentsList'
+import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
+import styles from './CatalogTalentsPage.module.scss'
 
-export const ClientTalentsPage: FC = () => {
+export const AdminCatalogTalentsPage: FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('All')
   const [sort, setSort] = useState<{
     sort: { name: string; type: string }

@@ -1,0 +1,92 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 16px;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  width: 100%;
+  gap: 32px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.name,
+.number {
+  font-family: $fontSpaceGrotesk;
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 48px;
+  letter-spacing: -0.03em;
+  text-align: left;
+}
+
+.name {
+  color: $white;
+}
+
+.number {
+  color: $gray-400;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  align-items: center;
+}
+
+.talentsList {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+  align-items: start;
+
+  @include mobileBreakpoint('max', $custom-bpXL) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.buttonBackToTopActive,
+.buttonBackToTopInactive {
+  width: 100%;
+}
+
+.buttonBackToTopInactive {
+  @include mobileBreakpoint('min', $bpL) {
+    display: none;
+  }
+}
+
+.nothingFound {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+
+.nothingFoundText {
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+  color: $gray-300;
+}

@@ -64,8 +64,9 @@ import { AdminAddSupplierPage } from '../../pages/Admin/SuppliersPage/AddSupplie
 import { AdminListSuppliersPage } from '../../pages/Admin/SuppliersPage/ListSuppliersPage/ListSuppliersPage'
 import { AdminSupportPage } from '../../pages/Admin/SupportPage/SupportPage'
 import { AdminAddTalentPage } from '../../pages/Admin/TanlentsPage/AddTalentPage/AddTalentPage'
+import { AdminCatalogTalentsPage } from '../../pages/Admin/TanlentsPage/CatalogTalentsPage/CatalogTalentsPage'
 import { AdminEditTalentPage } from '../../pages/Admin/TanlentsPage/EditTalentPage/EditTalentPage'
-import { AdminListTalentsPage } from '../../pages/Admin/TanlentsPage/ListTalentsPage/ListTalentsPage'
+import { AdminViewTalentPage } from '../../pages/Admin/TanlentsPage/ViewTalentPage/ViewTalentPage'
 import { AdminTasksPage } from '../../pages/Admin/TasksPage/TasksPage'
 import { AdminUtilitiesPage } from '../../pages/Admin/UtilitiesPage/UtilitiesPage'
 import { LoginResidentPage } from '../../pages/Auth/LoginResidentPage/LoginResidentPage'
@@ -96,6 +97,7 @@ export const Routes = {
   clientPages: 'client',
   dashboard: 'dashboard',
   public: 'public',
+  catalog: 'catalog',
   talents: 'talents',
   customers: 'customers',
   view: 'view',
@@ -209,8 +211,9 @@ export const Pages = {
   /* Admin Dashboard pages */
   adminDashboardPage: <AdminDashboardPage />,
   adminAddCustomerPage: <AdminAddCustomerPage />,
-  adminListTalentsPage: <AdminListTalentsPage />,
+  adminCatalogTalentsPage: <AdminCatalogTalentsPage />,
   adminEditTalentPage: <AdminEditTalentPage />,
+  adminViewTalentPage: <AdminViewTalentPage />,
   adminAddTalentPage: <AdminAddTalentPage />,
   adminListCustomerPage: <AdminListCustomerPage />,
   adminCompaniesPage: <AdminCompaniesPage />,

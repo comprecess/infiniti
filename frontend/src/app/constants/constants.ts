@@ -42,7 +42,7 @@ export interface RolesAccessObjectPermission {
 }
 
 export interface FiltersState {
-  [key: string]: (number | null)[]
+  [key: string]: (string | number | null)[]
 }
 
 export interface ViewPageContext {

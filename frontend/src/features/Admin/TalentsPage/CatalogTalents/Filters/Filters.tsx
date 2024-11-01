@@ -3,13 +3,13 @@ import React, { FC, useCallback, useEffect, useState } from 'react'
 import {
   FiltersData,
   FiltersState,
-} from '../../../../app/constants/constants'
-import { CustomCheckBox } from '../../../../shared/ui/CustomCheckBox/CustomCheckBox'
-import { CustomCheckBoxIndeterminate } from '../../../../shared/ui/CustomCheckBoxIndeterminate/CustomCheckBoxIndeterminate'
-import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
-import { FromTo } from '../../../../shared/ui/FromTo/FromTo'
-import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getPropertiesFiltering } from '../../../../shared/utils/api/Client/Catalog/Properties/GetPropertiesFiltering'
+} from '../../../../../app/constants/constants'
+import { CustomCheckBox } from '../../../../../shared/ui/CustomCheckBox/CustomCheckBox'
+import { CustomCheckBoxIndeterminate } from '../../../../../shared/ui/CustomCheckBoxIndeterminate/CustomCheckBoxIndeterminate'
+import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
+import { FromTo } from '../../../../../shared/ui/FromTo/FromTo'
+import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { getPropertiesFiltering } from '../../../../../shared/utils/api/Client/Catalog/Properties/GetPropertiesFiltering'
 import { CategoryItem } from './CategoryItem/CategoryItem'
 import { Item } from './CategoryItem/Item/Item'
 import styles from './Filters.module.scss'
@@ -22,8 +22,8 @@ interface FiltersProps {
 
 export const Filters: FC<FiltersProps> = ({
   selectedFilters,
-  setSort,
   setSelectedFilters,
+  setSort,
 }) => {
   const [searchItems, setSearchItems] = useState<string[]>([])
   const [filters, setFilters] = useState<FiltersData[] | null>(null)

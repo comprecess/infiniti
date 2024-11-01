@@ -1,0 +1,26 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 1166px;
+  padding: 24px 40px 24px 40px;
+  border-radius: 8px;
+  background-color: $brand-900;
+}
+
+.miniTitle {
+  font-family: $fontSpaceGrotesk;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $white;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}

@@ -5,18 +5,39 @@ import {
   MenuItem,
   MenuList,
 } from '@chakra-ui/react'
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { ChevronDownIcon } from '../../../../../shared/icons/ChevronDownIcon'
 import { LongArrowDownIcon } from '../../../../../shared/icons/LongArrowDownIcon'
 import styles from './SortList.module.scss'
 
-export const SortList: FC = () => {
+interface SortListProps {
+  sort: {
+    sort: { name: string; type: string }
+  }
+  setSort: React.Dispatch<
+  React.SetStateAction<{ sort: { name: string; type: string } }>
+  >
+}
+
+export const SortList: FC<SortListProps> = ({ sort, setSort }) => {
   const [item, setItem] = useState<string>('Daily rate (8h) Ascending')
 
-  const handleItemClick = (selectedItem: string) => {
+  const handleItemClick = (
+    selectedItem: string,
+    sortName: string,
+    sortTypeString: string,
+  ) => {
     setItem(selectedItem)
+
+    setSort({ sort: { name: sortName, type: sortTypeString } })
   }
+
+  useEffect(() => {
+    if (sort.sort.name === 'priceDay' && sort.sort.type === 'asc') {
+      setItem('Daily rate (8h) Ascending')
+    }
+  }, [sort])
 
   return (
     <Menu isLazy>
@@ -41,24 +62,38 @@ export const SortList: FC = () => {
         rightIcon={<ChevronDownIcon />}
         leftIcon={<LongArrowDownIcon />}
       >
-        {`Sort by: ${item}`}
+        {item}
       </MenuButton>
       <MenuList>
         <MenuItem
-          onClick={() => handleItemClick('Daily rate (8h) Ascending')}
+          onClick={() =>
+            handleItemClick('Daily rate (8h) Ascending', 'priceDay', 'asc')
+          }
         >
           Daily rate (8h) Ascending
         </MenuItem>
         <MenuItem
-          onClick={() => handleItemClick('Daily rate (8h) Descending')}
+          onClick={() =>
+            handleItemClick(
+              'Daily rate (8h) Descending',
+              'priceDay',
+              'desc',
+            )
+          }
         >
           Daily rate (8h) Descending
         </MenuItem>
-        <MenuItem onClick={() => handleItemClick('Hourly rate Ascending')}>
+        <MenuItem
+          onClick={() =>
+            handleItemClick('Hourly rate Ascending', 'priceHour', 'asc')
+          }
+        >
           Hourly rate Ascending
         </MenuItem>
         <MenuItem
-          onClick={() => handleItemClick('Hourly rate Descending')}
+          onClick={() =>
+            handleItemClick('Hourly rate Descending', 'priceHour', 'desc')
+          }
         >
           Hourly rate Descending
         </MenuItem>

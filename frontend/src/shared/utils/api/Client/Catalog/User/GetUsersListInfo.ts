@@ -1,7 +1,11 @@
 import { authTokenString } from '../../../../../../app/constants/constants'
 import { getCookies } from '../../../../Saving/Cookies/GetCookies'
 
-export const getUsersListInfo = async (page: string, sort?: object) => {
+export const getUsersListInfo = async (
+  page: string,
+  filters?: object,
+  sort?: object,
+) => {
   const authToken = getCookies(authTokenString)
 
   if (authToken) {
@@ -16,7 +20,7 @@ export const getUsersListInfo = async (page: string, sort?: object) => {
             Accept: 'application/json',
             Authorization: `Bearer ${authToken.cookie}`,
           },
-          body: JSON.stringify({ filter: sort }),
+          body: JSON.stringify({ filter: filters, ...sort }),
         },
       )
 
