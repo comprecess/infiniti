@@ -178,4 +178,16 @@ class Role extends Model
         return $collect;
     }
 
+    public function setNew()
+    {
+        $access = $this->access;
+        RolePermission::whereNotIn('id', $access->pluck('pid'))->each(function($item){
+            $roleAccess = new RoleAccess();
+            $roleAccess->rid = $this->id;
+            $roleAccess->pid = $item->id;
+            $roleAccess->shortname = $item->shortname;
+            $roleAccess->save();
+        });
+    }
+
 }
