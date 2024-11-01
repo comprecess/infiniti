@@ -8,10 +8,16 @@ import { Header } from './Header/Header'
 import styles from './TalentsCard.module.scss'
 
 interface TalentsCardProps {
+  isAdmin?: boolean
   talent: TalentsProps
+  deleteTalent?: (idTalent: number) => void
 }
 
-export const TalentsCard: FC<TalentsCardProps> = ({ talent }) => {
+export const TalentsCard: FC<TalentsCardProps> = ({
+  talent,
+  isAdmin = false,
+  deleteTalent,
+}) => {
   return (
     <div className={styles.wrapper}>
       <Header
@@ -26,8 +32,10 @@ export const TalentsCard: FC<TalentsCardProps> = ({ talent }) => {
       <CustomDivider />
       <Footer
         id={talent.id}
+        isAdmin={isAdmin}
         dailyRate={talent.priceDay}
         hourlyRate={talent.priceHour}
+        deleteTalent={deleteTalent}
       />
     </div>
   )

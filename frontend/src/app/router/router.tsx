@@ -37,8 +37,12 @@ export const router = createBrowserRouter([
         path: Routes.talents,
         children: [
           {
-            path: `${Routes.list}/${Routes.talent}`,
-            element: Pages.adminListTalentsPage,
+            path: Routes.catalog,
+            element: Pages.adminCatalogTalentsPage,
+          },
+          {
+            path: `${Routes.view}/${Routes.talent}/:id`,
+            element: Pages.adminViewTalentPage,
           },
           {
             path: `${Routes.add}/${Routes.talent}`,

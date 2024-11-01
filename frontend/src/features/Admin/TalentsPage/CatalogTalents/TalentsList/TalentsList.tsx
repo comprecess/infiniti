@@ -6,15 +6,17 @@ import {
   PagesMetaData,
   TalentData,
   userTalentsPageString,
-} from '../../../../app/constants/constants'
-import { ButtonBrand } from '../../../../shared/ui/ButtonBrand/ButtonBrand'
-import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getUsersListInfo } from '../../../../shared/utils/api/Client/Catalog/User/GetUsersListInfo'
-import { getSession } from '../../../../shared/utils/Saving/Session/GetSession'
-import { saveSession } from '../../../../shared/utils/Saving/Session/SaveSession'
-import { TalentsCard } from '../../../../widgets/TalentsCard/TalentsCard'
-import { PagesList } from './PagesList/PagesList'
-import { SortList } from './SortList/SortList'
+} from '../../../../../app/constants/constants'
+import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
+import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
+import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { deleteSelectedTalent } from '../../../../../shared/utils/api/Admin/Talents/DeleteTalent'
+import { getUsersListInfo } from '../../../../../shared/utils/api/Client/Catalog/User/GetUsersListInfo'
+import { getSession } from '../../../../../shared/utils/Saving/Session/GetSession'
+import { saveSession } from '../../../../../shared/utils/Saving/Session/SaveSession'
+import { TalentsCard } from '../../../../../widgets/TalentsCard/TalentsCard'
+import { PagesList } from '../../../../Client/CatalogPage/TalentsList/PagesList/PagesList'
+import { SortList } from '../../../../Client/CatalogPage/TalentsList/SortList/SortList'
 import styles from './TalentsList.module.scss'
 
 const SortListMemoized = memo(SortList)
@@ -43,6 +45,8 @@ export const TalentsList: FC<TalentsListProps> = ({
     meta: PagesMetaData
   } | null>(null)
 
+  const showToast = useCustomToast()
+
   const nextPage = useCallback((id: number) => {
     saveSession(userTalentsPageString, id)
 
@@ -68,6 +72,25 @@ export const TalentsList: FC<TalentsListProps> = ({
 
     setTalentsList(talentsData)
   }, [currentPage, selectedFilters, sort])
+
+  const deleteTalent = async (idTalent: number) => {
+    const deleteResponse = await deleteSelectedTalent(idTalent)
+
+    if (deleteResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully removed the Talent',
+        status: 'success',
+      })
+      getInfo()
+    } else {
+      showToast({
+        title: 'Error',
+        description: deleteResponse.message,
+        status: 'error',
+      })
+    }
+  }
 
   useEffect(() => {
     getInfo()
@@ -96,7 +119,14 @@ export const TalentsList: FC<TalentsListProps> = ({
             <>
               <div className={styles.talentsList}>
                 {talentsList.data?.map(talent => {
-                  return <TalentsCard key={talent.id} talent={talent} />
+                  return (
+                    <TalentsCard
+                      key={talent.id}
+                      isAdmin
+                      talent={talent}
+                      deleteTalent={deleteTalent}
+                    />
+                  )
                 })}
               </div>
               <PagesList meta={talentsList.meta} nextPage={nextPage} />

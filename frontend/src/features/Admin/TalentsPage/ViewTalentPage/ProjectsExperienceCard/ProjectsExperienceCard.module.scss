@@ -1,0 +1,15 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 1166px;
+  padding: 24px 40px 24px 40px;
+  border-radius: 8px;
+  background-color: $brand-900;
+}
+
+.divider {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}

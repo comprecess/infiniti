@@ -43,8 +43,8 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'List Talents',
-        path: `${Routes.list}/${Routes.talent}`,
+        title: 'Catalog Talents',
+        path: Routes.catalog,
       },
     ],
     path: Routes.talents,
