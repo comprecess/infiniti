@@ -49,7 +49,7 @@ export const AdminViewTalentPage: FC = () => {
   const navigate = useNavigate()
 
   const handleNavigateBack = () => {
-    navigate(`/${Routes.clientPages}/${Routes.talents}`)
+    navigate(`/${Routes.adminPages}/${Routes.talents}/${Routes.catalog}`)
   }
 
   const scrollToTop = useCallback(() => {
