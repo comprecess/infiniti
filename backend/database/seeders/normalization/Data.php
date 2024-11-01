@@ -4,9 +4,17 @@
 namespace Database\Seeders\normalization;
 
 
+use Symfony\Component\Console\Output\ConsoleOutput;
+
 class Data
 {
     public $value = [];
+    private $console;
+
+    public function __construct()
+    {
+        $this->console = new ConsoleOutput();
+    }
 
     public function __get(string $name)
     {
@@ -22,6 +30,7 @@ class Data
 
     public function set(string $name, mixed $value)
     {
+        $this->console->writeln("SET: {$name}");
         $this->value[$name] = $value;
         return $this;
     }
@@ -29,6 +38,7 @@ class Data
     public function is(string $name, callable $callable)
     {
         if(isset($this->value[$name]) && $this->value[$name]) {
+            $this->console->writeln("IS: {$name}");
             $callable();
         }
 
