@@ -25,7 +25,7 @@ export const FromTo: FC<FromToProps> = ({
     const numericValue = value ? parseFloat(value) : null
     setSelectedFilters(prevState => {
       const prevValues = prevState[propId] || [null, null]
-      const newValues: (number | null)[] = [...prevValues]
+      const newValues: (string | number | null)[] = [...prevValues]
       newValues[index] = numericValue
 
       const updatedState = { ...prevState }
