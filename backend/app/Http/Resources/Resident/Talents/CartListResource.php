@@ -25,8 +25,10 @@ class CartListResource extends JsonResource
 
         $specializations = collect([]);
         $this->items?->each(function($item) use($specializations){
-            $values = $item->userCatalog->values;
-            $specializations->push($values->where('id_prop', self::$prop->id)->first());
+            $values = $item->userCatalog?->values;
+            if($values) {
+                $specializations->push($values->where('id_prop', self::$prop->id)->first());
+            }
         });
 
         return [
@@ -35,6 +37,7 @@ class CartListResource extends JsonResource
             'specializations' => $specializations->pluck('value')->implode(', '),
             'total' => $this->total,
             'date' => $this->updated_at->format('d/m/Y'),
+//            'cartItems' => CartItemResource::collection($this->items)
         ];
     }
 
