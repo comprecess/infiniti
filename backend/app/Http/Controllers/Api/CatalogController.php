@@ -92,6 +92,11 @@ class CatalogController extends Controller
 
     public function item(User $catalogUser)
     {
+        $cart = \App\Models\User::getAuth()->myCart;
+        if($cart) {
+            $items = $cart->items;
+            $catalogUser->inCart = $items?->where('id_catalog_user', $catalogUser->id)->count();
+        }
         return new UsersResorce($catalogUser);
     }
 
