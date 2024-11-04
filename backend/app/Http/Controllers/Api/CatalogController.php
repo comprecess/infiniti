@@ -79,6 +79,14 @@ class CatalogController extends Controller
 
         $resultQuery = $queryBuild->paginate($request->getAmount());
 
+        $cart = \App\Models\User::getAuth()->myCart;
+        if($cart) {
+            $items = $cart->items;
+            $resultQuery->each(function ($item) use($items) {
+                $item->inCart = $items?->where('id_catalog_user', $item->id)->count();
+            });
+        }
+
         return UsersResorce::collection($resultQuery);
     }
 
