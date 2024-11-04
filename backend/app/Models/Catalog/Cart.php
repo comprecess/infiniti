@@ -34,6 +34,14 @@ class Cart extends Model
         return $this->hasMany(CartItem::class, 'id_catalog_cart');
     }
 
+    public function user()
+    {
+        if(!$this->user_type || !$this->user_id) {
+            return null;
+        }
+        return $this->morphTo('user');
+    }
+
     public function calculation()
     {
         $total = $subTax = $subTotal = 0;

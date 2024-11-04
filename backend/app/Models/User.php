@@ -64,7 +64,7 @@ class User extends Authenticatable
     public function myCart()
     {
         $time = Carbon::now()->subSeconds(CatalogCart::$timeForCart);
-        return $this->morphOne(CatalogCart::class, 'user')->where('updated_at', '>', $time)->orderBy('id', 'DESC');
+        return $this->morphOne(CatalogCart::class, 'user')->where('catalog_cart.updated_at', '>', $time)->orderBy('catalog_cart.id', 'DESC');
     }
 
     public function cart()
