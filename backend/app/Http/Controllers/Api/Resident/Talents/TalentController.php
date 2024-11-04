@@ -194,4 +194,35 @@ class TalentController extends TalentsController
         return $this->defResponse();
     }
 
+    public function cartList()
+    {
+        $query = User::query()
+            ->distinct(['catalog_user.id'])
+            ->select('catalog_user.*')
+            ->leftJoin('catalog_user_value', 'catalog_user_value.id_catalog_user', '=', 'catalog_user.id')
+            ->leftJoin('catalog_prop_value', function($join){
+                $join->on('catalog_prop_value.id', '=', 'catalog_user_value.cataloggable_id')
+                    ->where('catalog_user_value.cataloggable_type', Value::class);
+            })
+            ->with(['values', 'values.prop']);
+
+        $requestAll = $request->all();
+
+        if(($search = Arr::get($requestAll, 'filter.search')) !== null) {
+            $query->where(function($q) use ($search){
+                $search = "%" . $search . "%";
+                $q->where('catalog_prop_value.value', 'like', $search)
+                    ->orWhere('name', 'like', $search);
+            });
+        }
+//        $query->checkAccess();
+
+        $request->sortModel($query);
+//        $t = $query->first()->getPropsByNameId();
+//        dd($t->where('id_name', 'specialization')?->first()->values->first()->value);
+
+
+        return $this->index($query, TalentListResource::class, true);
+    }
+
 }

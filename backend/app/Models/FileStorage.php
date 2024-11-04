@@ -78,7 +78,7 @@ class FileStorage extends Model
         return $this->getType() == 'img';
     }
 
-    public function uploads(Model $model, UploadedFile|File $file, $data = null) :FileStorage
+    public function uploads(Model $model, UploadedFile|File $file, $data = null, mixed $sizeImage = [1028, 768]) :FileStorage
     {
         if($file instanceof UploadedFile && $file->getError()) {
             Log::error($file->getErrorMessage());
@@ -88,7 +88,9 @@ class FileStorage extends Model
         $this->setFile($file);
 
         #resize
-//        $this->correctionFile();
+        if($sizeImage) {
+            $this->correctionFile($sizeImage);
+        }
 
         if(!$this->getType()) {
             Log::error("Error uploads file. File: ".$this->getAttrFile('original'). " Type: " . strtolower($this->ext));
@@ -206,7 +208,7 @@ class FileStorage extends Model
         return route('file_storage', ['file_storage' => $this->hash ? $this->hash : $this->id]);
     }
 
-    public function correctionFile()
+    public function correctionFile(mixed $sizeImage)
     {
         if(!$this->isImage()) {
             return false;
@@ -214,7 +216,11 @@ class FileStorage extends Model
 
         $name = $this->getAttrFile('original');
 
-        $convert = Image::read($this->getFile()->getPathName())->scale(1280);
+        if(is_array($sizeImage)) {
+            $convert = Image::read($this->getFile()->getPathName())->scale(...$sizeImage);
+        }else{
+            $convert = Image::read($this->getFile()->getPathName())->scale(1280, 768);
+        }
 
         if(in_array($this->ext, $this->convertorByJpg)) {
             $name = explode('.', $name);

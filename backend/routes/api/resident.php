@@ -107,6 +107,7 @@ Route::controller(Resident\Talents\TalentController::class)->prefix('talent')
     ->group(function(){
         Route::get('/list', 'list');
         Route::get('/input-data', 'inputData');
+        Route::get('/cart/list', 'cartList');
         Route::post('/', 'createOrUpdate');
         Route::put('/{user}', 'createOrUpdate');
         Route::get('/{user}', 'item');
