@@ -33,7 +33,8 @@ class CartListResource extends JsonResource
             'id' => $this->id,
             'user' => new UserResource($this->user),
             'specializations' => $specializations->pluck('value')->implode(', '),
-            'total' => $this->total
+            'total' => $this->total,
+            'date' => $this->updated_at->format('d/m/Y'),
         ];
     }
 
