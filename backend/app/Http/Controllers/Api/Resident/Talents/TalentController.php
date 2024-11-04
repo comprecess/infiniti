@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Resident\Talents;
 
 
 use App\Http\Controllers\Api\Traits\CRUD;
+use App\Http\Requests\Resident\Talents\CartListRequest;
 use App\Http\Requests\Resident\Talents\TalentUpdateRequest;
 use App\Http\Requests\Resident\Talents\BlockExperienceTalentRequest;
 use App\Http\Requests\Resident\Talents\TalentCreateRequest;
@@ -12,11 +13,14 @@ use App\Http\Requests\Resident\Talents\TalentListRequest;
 use App\Http\Resources\Catalog\PropertyResorce;
 use App\Http\Resources\Catalog\ValueResorce;
 use App\Http\Resources\Resident\Client\ClientResource;
+use App\Http\Resources\Resident\Talents\CartListResource;
 use App\Http\Resources\Resident\Talents\TalentExcelResource;
 use App\Http\Resources\Resident\Talents\TalentListResource;
 use App\Http\Resources\Resident\Talents\TalentPdfResource;
 use App\Http\Resources\Resident\Talents\TalentResource;
 use App\Http\Resources\UserResource;
+use App\Models\Catalog\Cart;
+use App\Models\Catalog\CartItem;
 use App\Models\Catalog\Prop;
 use App\Models\Catalog\User;
 use App\Models\Catalog\UserBlock;
@@ -194,35 +198,67 @@ class TalentController extends TalentsController
         return $this->defResponse();
     }
 
-    public function cartList()
+    public function cartList(CartListRequest $request)
     {
-        $query = User::query()
-            ->distinct(['catalog_user.id'])
-            ->select('catalog_user.*')
-            ->leftJoin('catalog_user_value', 'catalog_user_value.id_catalog_user', '=', 'catalog_user.id')
-            ->leftJoin('catalog_prop_value', function($join){
-                $join->on('catalog_prop_value.id', '=', 'catalog_user_value.cataloggable_id')
-                    ->where('catalog_user_value.cataloggable_type', Value::class);
-            })
-            ->with(['values', 'values.prop']);
-
         $requestAll = $request->all();
+        $typeRequest = CartListRequest::TYPE;
+        $user = auth()->user();
+
+        $type = Arr::get($requestAll, 'filter.type', $typeRequest[0]);
+
+        switch ($type) {
+            case $typeRequest[0]: $query = $user->myCart()->reorder(); break;
+            case $typeRequest[1]: $query = $user->cart(); break;
+            case $typeRequest[2]:
+                if(!$user->checkAccess()) {
+                    abort(403);
+                }
+                $query = Cart::query();
+            break;
+        }
+
+        $query->select(['catalog_cart.*']);
+
+
+
+        $query->leftJoin('crm_accounts', function($join){
+            $join->on('crm_accounts.id', '=', 'catalog_cart.user_id')
+                ->where('catalog_cart.user_type', Client::class);
+        })->leftJoin('sys_users', function($join){
+            $join->on('sys_users.id', '=', 'catalog_cart.user_id')
+                ->where('catalog_cart.user_type', Admin::class);
+        });
 
         if(($search = Arr::get($requestAll, 'filter.search')) !== null) {
-            $query->where(function($q) use ($search){
-                $search = "%" . $search . "%";
-                $q->where('catalog_prop_value.value', 'like', $search)
-                    ->orWhere('name', 'like', $search);
+            $search = "%" . $search . "%";
+            $prop = Prop::where('id_name', 'specialization')->get();
+
+
+            $serchCatalog = CartItem::/*leftJoin('catalog_user', 'catalog_user.id', '=', 'catalog_cart_item.id_catalog_user')
+                ->*/leftJoin('catalog_user_value', 'catalog_user_value.id_catalog_user', '=', 'catalog_cart_item.id_catalog_user')
+                ->leftJoin('catalog_prop_value', function($join){
+                    $join->on('catalog_prop_value.id', '=', 'catalog_user_value.cataloggable_id')
+                        ->where('catalog_user_value.cataloggable_type', Value::class);
+                })
+            ->whereIn('catalog_prop_value.id_prop', $prop->pluck('id'))
+            ->where('catalog_prop_value.value', 'like', $search)
+            ->get();
+
+            $query->where(function($q) use ($search, $serchCatalog){
+                $q->where('crm_accounts.account', 'like', $search)
+                    ->orWhere('sys_users.fullname', 'like', $search);
+
+                if($serchCatalog->count()) {
+                    $q->orWhereIn('catalog_cart.id', $serchCatalog->pluck('id_catalog_cart'));
+                }
             });
         }
-//        $query->checkAccess();
 
         $request->sortModel($query);
-//        $t = $query->first()->getPropsByNameId();
-//        dd($t->where('id_name', 'specialization')?->first()->values->first()->value);
 
+        $query->with(['items', 'items.userCatalog', 'items.userCatalog.values']);
 
-        return $this->index($query, TalentListResource::class, true);
+        return $this->index($query, CartListResource::class, true);
     }
 
 }

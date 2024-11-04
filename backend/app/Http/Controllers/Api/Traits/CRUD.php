@@ -28,9 +28,9 @@ trait CRUD
         return new DocumentVariables();
     }
 
-    public function index(string|Builder $model, string $resorce, bool $paginate = false)
+    public function index(mixed $model, string $resorce, bool $paginate = false)
     {
-        if(!($model instanceof Builder)) {
+        if(is_string($model)) {
             $model = $model::query();
         }
 
