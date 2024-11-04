@@ -91,7 +91,7 @@ class CatalogController extends Controller
     {
         try{
             $userCatalog = User::findOrFail($request->catalogUser);
-            Cart::add($userCatalog, $request->type, $request->amount);
+            Cart::add($userCatalog, $request->type ?? Cart::TYPE[0], $request->amount ?? 1);
         }catch (\Exception $e) {
             return response()->json(['success' => false]);
         }

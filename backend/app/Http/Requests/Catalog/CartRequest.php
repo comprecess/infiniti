@@ -18,8 +18,8 @@ class CartRequest extends FormRequest
 
         return [
             'catalogUser' => 'required|integer|exists:catalog_user,id',
-            'amount' => 'required|integer',
-            'type' => 'required|in:'. implode(',', Cart::TYPE)
+            'amount' => 'nullable|integer',
+            'type' => 'nullable|in:'. implode(',', Cart::TYPE)
         ];
     }
 }
