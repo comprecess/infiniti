@@ -14,7 +14,7 @@ use \App\Http\Controllers\Api\Resident;
         'documents' => [
             Resident\DocumentController::class
         ],
-        'talents' => [
+        'talent' => [
             Resident\Talents\TalentsController::class
         ]
     ];

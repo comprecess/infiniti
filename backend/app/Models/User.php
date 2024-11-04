@@ -67,6 +67,11 @@ class User extends Authenticatable
         return $this->morphOne(CatalogCart::class, 'user')->where('updated_at', '>', $time)->orderBy('id', 'DESC');
     }
 
+    public function cart()
+    {
+        return $this->morphOne(CatalogCart::class, 'user');
+    }
+
     public function userCheckPassword($password)
     {
         if($this->checkPassword($password)) {
