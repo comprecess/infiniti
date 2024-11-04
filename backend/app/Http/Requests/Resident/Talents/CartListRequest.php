@@ -22,6 +22,7 @@ class CartListRequest extends DocumentRequest
             'id' => 'catalog_cart.id',
             'name' => 'sortName',
             'total' => 'catalog_cart.total',
+            'date' => 'catalog_cart.updated_at',
         ];
     }
 

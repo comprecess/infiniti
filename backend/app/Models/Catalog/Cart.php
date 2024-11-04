@@ -20,6 +20,11 @@ class Cart extends Model
 
     public static $taxes = 0.2;
 
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
     public function setSecret()
     {
         $str = random_bytes(32);
