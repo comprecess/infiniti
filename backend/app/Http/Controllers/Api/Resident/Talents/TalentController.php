@@ -30,6 +30,7 @@ use App\Models\Catalog\Value;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
