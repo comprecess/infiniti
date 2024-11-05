@@ -36,6 +36,8 @@ class CartListResource extends JsonResource
             'user' => new UserResource($this->user),
             'specializations' => $specializations->pluck('value')->implode(', '),
             'total' => $this->total,
+            'subTotal' => $this->sub_total,
+            'subTax' => $this->sub_tax,
             'date' => $this->updated_at->format('d/m/Y'),
             'secret' => $this->secret,
             'cartItems' => CartItemResource::collection($this->items)
