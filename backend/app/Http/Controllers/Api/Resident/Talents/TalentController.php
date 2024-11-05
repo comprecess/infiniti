@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\Resident\Talents;
 
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Talents\CartListRequest;
+use App\Http\Requests\Resident\Talents\CartRequest;
 use App\Http\Requests\Resident\Talents\TalentUpdateRequest;
 use App\Http\Requests\Resident\Talents\BlockExperienceTalentRequest;
 use App\Http\Requests\Resident\Talents\TalentCreateRequest;
@@ -271,9 +272,22 @@ class TalentController extends TalentsController
         return new CartListResource($cart);
     }
 
-    public function cartItemUpdate(Cart $cart, CartItem $item)
+    public function cartItemUpdate(Cart $cart, CartItem $item, CartRequest $request)
     {
+        $item->amount = $request->amount;
+        $item->name_id_type = $request->type;
+        $item->save();
 
+        $cart->calculation();
+        return $this->defResponse();
+    }
+
+    public function cartItemDelete(Cart $cart, CartItem $item)
+    {
+        $item->delete();
+
+        $cart->calculation();
+        return $this->defResponse();
     }
 
 }
