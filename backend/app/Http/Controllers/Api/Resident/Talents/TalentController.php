@@ -258,8 +258,6 @@ class TalentController extends TalentsController
 
         $query->with(['items', 'items.userCatalog', 'items.userCatalog.values']);
 
-        dd($query->toRawSql());
-
         return $this->index($query, CartListResource::class, true);
     }
 
