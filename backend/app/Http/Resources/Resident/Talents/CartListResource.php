@@ -37,6 +37,7 @@ class CartListResource extends JsonResource
             'specializations' => $specializations->pluck('value')->implode(', '),
             'total' => $this->total,
             'date' => $this->updated_at->format('d/m/Y'),
+            'secret' => $this->secret,
             'cartItems' => CartItemResource::collection($this->items)
         ];
     }
