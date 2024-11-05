@@ -18,6 +18,8 @@ class CartItemResource extends JsonResource
             'total' => $this->total,
             'nameType' => $this->name_id_type,
             'price' => $this->price,
+            'taxesInclude' => $this->taxes_include,
+            'tax' => $this->getTaxesTotalPrice()
         ];
     }
 
