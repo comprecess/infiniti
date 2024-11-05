@@ -45,8 +45,7 @@ class CartListRequest extends DocumentRequest
     {
         $name = $this->sort['name'];
         $desc = isset($this->sort['type']) ? (bool) $this->sort['type'] : true;
-        //$desc ? "desc" : 'asc'
-       $query->orderByRaw('IF (`crm_accounts`.`account` IS NULL, `sys_users`.`fullname` ,`crm_accounts`.`account`)');
+       $query->orderByRaw('IF (`crm_accounts`.`account` IS NULL, `sys_users`.`fullname` ,`crm_accounts`.`account`) ' . ($desc ? "desc" : 'asc'));
     }
 
 }
