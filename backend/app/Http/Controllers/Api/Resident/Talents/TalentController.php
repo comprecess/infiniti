@@ -261,4 +261,14 @@ class TalentController extends TalentsController
         return $this->index($query, CartListResource::class, true);
     }
 
+    public function cartItem(Cart $cart)
+    {
+        $user = auth()->user();
+        $userCart = $cart->user;
+        if($userCart->id != $user->id && !$user->checkAccess()) {
+            abort(403);
+        }
+        return new CartListResource($cart);
+    }
+
 }
