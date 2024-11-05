@@ -108,6 +108,8 @@ Route::controller(Resident\Talents\TalentController::class)->prefix('talent')
         Route::get('/list', 'list');
         Route::get('/input-data', 'inputData');
         Route::get('/cart/list', 'cartList');
+        Route::put('/cart/{cart}/item/{item}', 'cartItemUpdate');
+        Route::delete('/cart/{cart}/item/{item}', 'cartItemDelete');
         Route::post('/', 'createOrUpdate');
         Route::put('/{user}', 'createOrUpdate');
         Route::get('/{user}', 'item');

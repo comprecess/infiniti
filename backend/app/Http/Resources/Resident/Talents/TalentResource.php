@@ -29,7 +29,7 @@ class TalentResource extends JsonResource
             });
         }
 
-        return [
+        $data = [
             'id' => $this->id,
             'name' => $this->name,
             'img' => $this->getLastFile(true) ?? "",
@@ -39,6 +39,11 @@ class TalentResource extends JsonResource
             'property' => TalentPropResource::collection($prop),
             'blockExperience' => BlockExperienceResorce::collection($this->blockExperience)
         ];
+        foreach(['specialization', 'priceHour', 'priceDay'] as $idName) {
+            $data[$idName] = $this->getPropValues($idName);
+        }
+
+        return $data;
     }
 
 }
