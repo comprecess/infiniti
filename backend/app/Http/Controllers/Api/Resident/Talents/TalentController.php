@@ -275,8 +275,8 @@ class TalentController extends TalentsController
 
     public function cartItemUpdate(Cart $cart, CartItem $item, CartRequest $request)
     {
-        $item->amount = $request->amount;
-        $item->name_id_type = $request->type;
+
+        $request->setModel($item, true);
         $item->save();
 
         $cart->calculation();
