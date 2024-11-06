@@ -64,8 +64,11 @@ import { AdminAddSupplierPage } from '../../pages/Admin/SuppliersPage/AddSupplie
 import { AdminListSuppliersPage } from '../../pages/Admin/SuppliersPage/ListSuppliersPage/ListSuppliersPage'
 import { AdminSupportPage } from '../../pages/Admin/SupportPage/SupportPage'
 import { AdminAddTalentPage } from '../../pages/Admin/TanlentsPage/AddTalentPage/AddTalentPage'
+import { AdminCartPage } from '../../pages/Admin/TanlentsPage/CartPage/CartPage'
+import { AdminCartToOfferPage } from '../../pages/Admin/TanlentsPage/CartToOfferPage/CartToOfferPage'
 import { AdminCatalogTalentsPage } from '../../pages/Admin/TanlentsPage/CatalogTalentsPage/CatalogTalentsPage'
 import { AdminEditTalentPage } from '../../pages/Admin/TanlentsPage/EditTalentPage/EditTalentPage'
+import { AdminListCartsPage } from '../../pages/Admin/TanlentsPage/ListCartsPage/ListCartsPage'
 import { AdminViewTalentPage } from '../../pages/Admin/TanlentsPage/ViewTalentPage/ViewTalentPage'
 import { AdminTasksPage } from '../../pages/Admin/TasksPage/TasksPage'
 import { AdminUtilitiesPage } from '../../pages/Admin/UtilitiesPage/UtilitiesPage'
@@ -97,11 +100,14 @@ export const Routes = {
   clientPages: 'client',
   dashboard: 'dashboard',
   public: 'public',
+  to: 'to',
   catalog: 'catalog',
   talents: 'talents',
   customers: 'customers',
   view: 'view',
   new: 'new',
+  carts: 'carts',
+  cart: 'cart',
   project: 'project',
   roles: 'roles',
   summary: 'summary',
@@ -213,6 +219,9 @@ export const Pages = {
   adminAddCustomerPage: <AdminAddCustomerPage />,
   adminCatalogTalentsPage: <AdminCatalogTalentsPage />,
   adminEditTalentPage: <AdminEditTalentPage />,
+  adminListCartsPage: <AdminListCartsPage />,
+  adminCartPage: <AdminCartPage />,
+  adminCartToOfferPage: <AdminCartToOfferPage />,
   adminViewTalentPage: <AdminViewTalentPage />,
   adminAddTalentPage: <AdminAddTalentPage />,
   adminListCustomerPage: <AdminListCustomerPage />,

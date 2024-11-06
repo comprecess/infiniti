@@ -46,6 +46,11 @@ export const adminSidebarPages = [
         title: 'Catalog Talents',
         path: Routes.catalog,
       },
+      {
+        id: 2,
+        title: 'List of Carts',
+        path: `${Routes.list}/${Routes.carts}`,
+      },
     ],
     path: Routes.talents,
   },

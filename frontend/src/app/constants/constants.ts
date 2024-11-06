@@ -118,6 +118,7 @@ export interface AdminInfo {
 export interface TalentData {
   id: number
   img: string
+  inCart: number
   blockExperience: BlockExperienceProps[]
   experience: ExperienceProps
   educationDegree: string
@@ -140,6 +141,7 @@ export interface TalentData {
 export interface TalentsProps {
   id: number
   img: string
+  inCart: number
   industries: []
   keySkills: []
   level: string
@@ -1018,4 +1020,33 @@ interface Property {
   educationGraduation?: ValuesProps[]
   rate?: ValuesProps[]
   [key: string]: ValuesProps[] | undefined
+}
+
+export interface TalentsListCartsData {
+  id: number
+  date: string
+  specializations: string
+  total: string
+  subTotal: string
+  subTax: string
+  secret: string
+  cartItems: CartItem[]
+  user: { id: number; account: string; img: string }
+}
+
+export interface CartItem {
+  id: number
+  amount: number
+  nameType: NameIdType
+  price: string
+  total: string
+  tax: string
+  taxesInclude: number
+  talent: {
+    id: number
+    name: string
+    img: string
+    specialization: string
+    property: PropertyArray
+  }
 }

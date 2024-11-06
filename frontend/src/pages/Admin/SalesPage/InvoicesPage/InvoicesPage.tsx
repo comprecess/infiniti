@@ -265,11 +265,15 @@ export const AdminInvoicesPage: FC = () => {
               searchChange: searchOnChange,
               rightButtons: documentOnChange,
             }}
-            pagesProps={{
-              meta: list.meta,
-              nextPage: pageOnChange,
-              size: 'sm',
-            }}
+            pagesProps={
+              list.data.length > 0
+                ? {
+                  meta: list.meta,
+                  nextPage: pageOnChange,
+                  size: 'sm',
+                }
+                : undefined
+            }
           >
             {list ? (
               <RecentInvoices

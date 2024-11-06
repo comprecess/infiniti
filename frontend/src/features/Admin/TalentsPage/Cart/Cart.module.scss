@@ -1,0 +1,73 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 1000px;
+  overflow-y: hidden;
+}
+
+.columns {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  padding: 8px 12px 8px 12px;
+  border-radius: 8px;
+  align-items: center;
+  background-color: $brand-800;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.avatarColumn,
+.nameEmailColumn,
+.quantityColumn,
+.taxesColumn,
+.amountColumn,
+.crossColumn,
+.typeColumn {
+  width: 100%;
+}
+
+.avatarColumn {
+  max-width: 72px;
+}
+
+.typeColumn {
+  padding-right: 12px;
+  max-width: 175px;
+  min-width: 160px;
+}
+
+.crossColumn {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  max-width: 70px;
+}
+
+.quantityColumn {
+  padding-right: 12px;
+  max-width: 170px;
+}
+
+.nameEmailColumn {
+  max-width: 350px;
+  min-width: 300px;
+  text-align: left;
+  justify-content: start;
+}
+
+.taxesColumn {
+  max-width: 170px;
+}
+
+.amountColumn {
+  max-width: 229.5px;
+  text-align: right;
+  justify-content: end;
+}

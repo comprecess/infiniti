@@ -10,12 +10,14 @@ import styles from './TalentsCard.module.scss'
 interface TalentsCardProps {
   isAdmin?: boolean
   talent: TalentsProps
+  addTalentInCart?: () => void
   deleteTalent?: (idTalent: number) => void
 }
 
 export const TalentsCard: FC<TalentsCardProps> = ({
   talent,
   isAdmin = false,
+  addTalentInCart,
   deleteTalent,
 }) => {
   return (
@@ -35,6 +37,8 @@ export const TalentsCard: FC<TalentsCardProps> = ({
         isAdmin={isAdmin}
         dailyRate={talent.priceDay}
         hourlyRate={talent.priceHour}
+        inCart={talent.inCart}
+        addTalentInCart={addTalentInCart}
         deleteTalent={deleteTalent}
       />
     </div>

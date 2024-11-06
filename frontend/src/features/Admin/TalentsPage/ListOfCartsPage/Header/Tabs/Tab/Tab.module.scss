@@ -1,0 +1,40 @@
+.wrapperActive,
+.wrapperDisable {
+  display: flex;
+  text-align: center;
+  padding: 7px 12px;
+  border-radius: 8px;
+  transition: color 0.15s ease;
+  cursor: pointer;
+}
+
+.wrapperActive {
+  background-color: $brand-800;
+}
+
+.wrapperDisable {
+  @include hover() {
+    .titleDisable {
+      color: $gray-200;
+    }
+  }
+}
+
+.titleActive,
+.titleDisable {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 23px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  user-select: none;
+  transition: color 0.15s ease;
+}
+
+.titleActive {
+  color: $brand-500;
+}
+
+.titleDisable {
+  color: $gray-300;
+}

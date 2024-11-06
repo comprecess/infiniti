@@ -4,7 +4,7 @@ import { FC, useEffect } from 'react'
 import styles from './CustomSelect.module.scss'
 
 interface CustomSelectProps {
-  title: string
+  title?: string
   titleOnChange?: string
   idList: number[]
   nameList: string[]
@@ -33,7 +33,9 @@ export const CustomSelect: FC<CustomSelectProps> = ({
   }
 
   const camelCaseToTitleCase = (camelCaseString: string): string => {
-    const words = camelCaseString.replace(/([a-z])([A-Z])/g, '$1 $2').split(' ')
+    const words = camelCaseString
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .split(' ')
 
     const capitalizedWords = words.map(
       word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
@@ -54,7 +56,7 @@ export const CustomSelect: FC<CustomSelectProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <h3 className={styles.title}>{title}</h3>
+      {title && <h3 className={styles.title}>{title}</h3>}
       <Select
         defaultValue={value}
         fontSize='17px'
