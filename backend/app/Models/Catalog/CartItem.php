@@ -55,6 +55,6 @@ class CartItem extends Model
 
     public function getTaxesTotalPrice()
     {
-        return  !$this->taxes_include ? $this->total * Cart::$taxes : null ;
+        return  !$this->taxes_include ? Cart::getTax()?->getTaxPrice($this->total) ?? 0 : null ;
     }
 }

@@ -76,6 +76,7 @@ Route::controller(Resident\Sale\OfferController::class)->prefix('offer')
 //        Route::get('/stat', 'stat');
         Route::get('/list', 'list');
         Route::get('/input-data', 'inputData');
+        Route::get('/cart/{token}', 'fromCart');
         Route::post('/', 'createOrUpdate');
         Route::put('/{offer}', 'createOrUpdate');
         Route::put('/{offer}/update', 'update');

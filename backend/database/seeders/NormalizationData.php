@@ -24,12 +24,18 @@ class NormalizationData extends Normalization
         $this->has->set('invoiceItemDocumentOffer', DB::table('sys_quoteitems')->count() > InvoiceItem::where('document_type', Offer::class)->count());
 
         $this->has->set('roleTalents', DB::table('sys_permissions')->where('shortname', 'talent')->count() == 0);
+
+        $this->has->set('sysTaxCatalogDef', DB::table('sys_tax')->whereNotNull('catalog_default')->count() == 0);
     }
 
     protected function create()
     {
         $this->has->is('roleTalents', function(){
             DB::table('sys_permissions')->insert(['pname' => 'Talent', 'shortname' => 'talent', 'available' => 0, 'core' => 1]);
+        });
+
+        $this->has->is('sysTaxCatalogDef', function(){
+            DB::table('sys_tax')->where('rate', 6)->update(['catalog_default' => 1]);
         });
     }
 

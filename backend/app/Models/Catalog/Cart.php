@@ -2,6 +2,7 @@
 
 namespace App\Models\Catalog;
 
+use App\Models\Resident\Settings\Tax;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -18,12 +19,15 @@ class Cart extends Model
 
     const TYPE = ['priceHour', 'priceDay'];
 
-    public static $taxes = 0.2;
-
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public static function getTax()
+    {
+        return Tax::where('catalog_default', 1)->first();
+    }
 
     public function setSecret()
     {
@@ -55,7 +59,7 @@ class Cart extends Model
             $item->calculation();
             $subTax += (float) $item->getTaxesTotalPrice();
             $subTotal += $item->total;
-            $total += !$item->taxes_include ? $item->total + ($item->total * self::$taxes) : $item->total ;
+            $total += !$item->taxes_include ? $item->total + (self::getTax()?->getTaxPrice($item->total) ?? 0) : $item->total ;
         });
 
         $this->total = $total;
