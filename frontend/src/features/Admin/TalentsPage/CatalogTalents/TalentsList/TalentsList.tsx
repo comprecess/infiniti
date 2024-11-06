@@ -124,6 +124,7 @@ export const TalentsList: FC<TalentsListProps> = ({
                       key={talent.id}
                       isAdmin
                       talent={talent}
+                      addTalentInCart={getInfo}
                       deleteTalent={deleteTalent}
                     />
                   )

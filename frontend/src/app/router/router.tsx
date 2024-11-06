@@ -52,6 +52,18 @@ export const router = createBrowserRouter([
             path: `${Routes.edit}/${Routes.talent}/:id`,
             element: Pages.adminEditTalentPage,
           },
+          {
+            path: `${Routes.list}/${Routes.carts}`,
+            element: Pages.adminListCartsPage,
+          },
+          {
+            path: `${Routes.list}/${Routes.carts}/${Routes.cart}/:id`,
+            element: Pages.adminCartPage,
+          },
+          {
+            path: `${Routes.list}/${Routes.carts}/${Routes.cart}/:cartId/${Routes.to}/${Routes.offer}/:offerToken`,
+            element: Pages.adminCartToOfferPage,
+          },
         ],
       },
       {

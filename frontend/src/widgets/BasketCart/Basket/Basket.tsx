@@ -6,15 +6,19 @@ import { CustomDivider } from '../../../shared/ui/CustomDivider/CustomDivider'
 import styles from './Basket.module.scss'
 
 interface BasketProps {
+  isAdmin?: boolean
   subtotalCost: string
   taxesAmount: string
   totalPrice: string
+  buttonOnClick?: () => void
 }
 
 export const Basket: FC<BasketProps> = ({
+  isAdmin = false,
   subtotalCost,
   taxesAmount,
   totalPrice,
+  buttonOnClick,
 }) => {
   return (
     <div className={styles.wrapper}>
@@ -28,7 +32,10 @@ export const Basket: FC<BasketProps> = ({
         <h5 className={styles.totalPrice}>Total</h5>
         <h5 className={styles.totalPrice}>{totalPrice}</h5>
       </div>
-      <ButtonBlue title='Proceed to checkout' />
+      <ButtonBlue
+        title={isAdmin ? 'Convert to Offer' : 'Proceed to checkout'}
+        onClick={buttonOnClick}
+      />
     </div>
   )
 }
