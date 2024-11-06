@@ -14,6 +14,7 @@ use App\Http\Resources\Resident\Invoices\OfferItemResource;
 use App\Http\Resources\Resident\Invoices\OfferListResource;
 use App\Http\Resources\Resident\Invoices\OfferPdfResource;
 use App\Http\Resources\Resident\Settings\TaxResorce;
+use App\Models\Catalog\Cart;
 use App\Models\Config;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Invoices\InvoiceItem;
@@ -22,6 +23,7 @@ use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\Tax;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
@@ -190,6 +192,19 @@ class OfferController extends SaleController
             $newItem->save();
         });
         return response()->json(['success' => true]);
+    }
+
+    public function fromCart(Request $request)
+    {
+        $token = $request->route('token');
+
+        $cart = Cart::where('secret', $token)->orderByDesc('id')->first();
+        if(!$cart) {
+            abort(404);
+        }
+        $model = Offer::createCart($cart);
+
+        return new OfferItemResource($model);
     }
 
 }
