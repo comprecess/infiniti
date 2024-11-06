@@ -30,6 +30,7 @@ use App\Models\Catalog\Value;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
@@ -274,8 +275,8 @@ class TalentController extends TalentsController
 
     public function cartItemUpdate(Cart $cart, CartItem $item, CartRequest $request)
     {
-        $item->amount = $request->amount;
-        $item->name_id_type = $request->type;
+
+        $request->setModel($item, true);
         $item->save();
 
         $cart->calculation();
