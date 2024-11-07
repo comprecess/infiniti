@@ -1,0 +1,95 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+
+  @include mobileBreakpoint('max', $bpL) {
+    gap: 12px;
+    flex-direction: column;
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0 1px 0 1px;
+  max-width: 750px;
+}
+
+.containerItems {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+}
+
+.containerItemsTitle {
+  font-family: $fontSpaceGrotesk;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.blank {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+}
+
+.buttonsBlank {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  width: 100%;
+}
+
+.buttonAddNew,
+.buttonAddProduct {
+  height: 44px;
+
+  @include mobileBreakpoint('max', $bpS) {
+    width: 60px;
+  }
+}
+
+.buttonAddNew {
+  max-width: 135px;
+}
+
+.buttonAddProduct {
+  max-width: 235px;
+}
+
+.buttonAddIcon {
+  width: 17px;
+  height: 17px;
+}
+
+.buttonSearchIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.calculations {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.wrapperBlankLoadingSpinner {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}

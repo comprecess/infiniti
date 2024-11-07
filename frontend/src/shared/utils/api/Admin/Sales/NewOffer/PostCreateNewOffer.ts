@@ -1,5 +1,6 @@
 import { authTokenString } from '../../../../../../app/constants/constants'
-import { PartialFieldsPostData } from '../../../../../../features/Admin/Sales/NewOfferPage/Fields/Fields'
+import { PartialFieldsNewOfferData } from '../../../../../../features/Admin/Sales/NewOfferPage/Fields/Fields'
+import { PartialFieldsCartToOfferData } from '../../../../../../features/Admin/TalentsPage/CartToOfferPage/Fields/Fields'
 import { getCookies } from '../../../../Saving/Cookies/GetCookies'
 
 interface Response {
@@ -8,7 +9,7 @@ interface Response {
 }
 
 export const addNewOffer = async (
-  formData: PartialFieldsPostData,
+  formData: PartialFieldsNewOfferData | PartialFieldsCartToOfferData,
 ): Promise<Response> => {
   const authToken = getCookies(authTokenString)
 

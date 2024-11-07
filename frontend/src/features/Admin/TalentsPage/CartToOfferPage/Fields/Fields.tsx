@@ -2,9 +2,11 @@ import { Textarea } from '@chakra-ui/react'
 import React, { FC, useEffect, useState } from 'react'
 
 import {
+  BlankCalc,
   SalesBlankData,
+  SalesEditOfferData,
   SalesNewInvoicePriceCalcProps,
-  SalesNewOfferFormData,
+  SalesNewInvoiceTaxProps,
   SalesOfferInputData,
 } from '../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -15,45 +17,73 @@ import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 import { postOfferPriceCalc } from '../../../../../shared/utils/api/Admin/Sales/NewOffer/PostOfferPriceCalc'
-import { AddProductOrService } from '../../AddProductOrService/AddProductOrService'
-import { Blank } from './Blank/Blank'
+import { AddProductOrService } from '../../../Sales/AddProductOrService/AddProductOrService'
+import { Blank } from '../../../Sales/EditOffer/Blank/Blank'
+import { TotalItem } from '../../../Sales/NewOfferPage/Fields/TotalItem/TotalItem'
 import styles from './Fields.module.scss'
-import { TotalItem } from './TotalItem/TotalItem'
 
-export interface FieldsProps {
-  data: SalesOfferInputData
-  onFormDataChange: (data: Partial<SalesNewOfferFormData>) => void
+interface FieldsProps {
+  data: SalesEditOfferData
+  inputData: SalesOfferInputData
+  token?: string | null
+  onFormDataChange: (data: Partial<InfoData>) => void
 }
 
-export interface PartialFieldsNewOfferData
-  extends Partial<SalesNewOfferFormData> {
+interface InfoData {
+  id: number
+  blankList: SalesBlankData[]
+  blankCalc: BlankCalc
+  code: string
+  dateCreated: string
+  notes: string
+  num: string
+  offerNum: string
+  proposal: string
+  stage: string
+  subject: string
+  validUntil: string
+  checkPublic: number
+  token: string | null
+}
+
+export interface PartialFieldsCartToOfferData extends Partial<InfoData> {
   [key: string]:
   | string
   | number
   | SalesBlankData[]
+  | BlankCalc
   | boolean
   | undefined
   | null
 }
 
-export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
-  const [formData, setFormData] = useState<PartialFieldsNewOfferData>({
+export const Fields: FC<FieldsProps> = ({
+  data,
+  token,
+  inputData,
+  onFormDataChange,
+}) => {
+  const [formData, setFormData] = useState<PartialFieldsCartToOfferData>({
+    token,
+    subject: data.subject,
     offerNum: data.offerNum,
     num: data.num,
-    checkPublic: true,
-    stage: data.stage[0],
-    blankList: [
-      {
-        index: 0,
-        service: 'calc',
-        description: '',
-        amount: 0,
-        price: 0,
-        discount: 0,
-        discountType: 'percent',
-        tax: 1,
-      },
-    ],
+    clientId: data.client?.id,
+    stage: data.stage,
+    dateCreated: data.dateCreated,
+    validUntil: data.validUntil,
+    proposal: data.proposal,
+    notes: data.notes,
+    checkPublic: data.checkPublic,
+    blankCalc: data.blankCalc,
+    blankList: (data.blank || []).map((item, index) => ({
+      ...item,
+      index,
+      tax:
+        typeof item.tax === 'object'
+          ? (item.tax as SalesNewInvoiceTaxProps)?.id
+          : item.tax,
+    })),
   })
 
   const [priceCalc, setPriceCalc] =
@@ -63,7 +93,27 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
     useState<boolean>(false)
 
   const handleOpenCloseProductService = () => {
-    setModalProductService(!modalProductService)
+    setModalProductService(prev => !prev)
+  }
+
+  const handleChangeInput = (
+    field: string,
+    value: string | number | SalesBlankData[] | boolean | undefined | null,
+  ) => {
+    let updatedValue = value
+
+    if (field === 'stage' && typeof value === 'number') {
+      updatedValue = inputData.stage[value]
+    } else if (field === 'clientId' && typeof value === 'number') {
+      updatedValue = value === 0 ? null : inputData.client[value - 1].id
+    } else if (field === 'checkPublic' && typeof value === 'boolean') {
+      updatedValue = value === true ? 1 : 0
+    }
+
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [field]: updatedValue,
+    }))
   }
 
   const postPriceCalc = async () => {
@@ -156,23 +206,16 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
     }))
   }
 
-  const handleChangeInput = (
-    field: string,
-    value: string | number | SalesBlankData[] | boolean | undefined | null,
-  ) => {
-    if (field === 'stage' && typeof value === 'number') {
-      value = data.stage[value]
-    } else if (field === 'clientId' && typeof value === 'number') {
-      value = value === 0 ? null : data.client[value - 1].id
-    } else if (field === 'checkPublic' && typeof value === 'boolean') {
-      value = value === true ? 1 : 0
-    }
+  const clientAddress =
+    inputData.client?.find(client => client.id === formData.clientId)
+      ?.address || ''
 
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      [field]: value,
-    }))
-  }
+  const isLoadBlank =
+    formData.blankList && formData.blankList.length > 0 && priceCalc?.data
+
+  useEffect(() => {
+    onFormDataChange(formData)
+  }, [formData, onFormDataChange])
 
   useEffect(() => {
     if (!formData.blankList) return
@@ -181,13 +224,6 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
       postPriceCalc()
     }
   }, [formData.blankList])
-
-  useEffect(() => {
-    onFormDataChange(formData)
-  }, [formData, onFormDataChange])
-
-  const isLoadBlank =
-    formData.blankList && formData.blankList.length > 0 && priceCalc?.data
 
   return (
     <div className={styles.wrapper}>
@@ -198,6 +234,7 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
             type='text'
             id='subject'
             name='subject'
+            value={formData.subject}
             onChange={handleChangeInput}
           />
           <div className={styles.containerItems}>
@@ -215,10 +252,7 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
               fontSize='16px'
               fontWeight='400'
               lineHeight='24px'
-              value={
-                data.client.find(client => client.id === formData.clientId)
-                  ?.address
-              }
+              value={clientAddress}
             />
           </div>
           <CustomInput
@@ -226,7 +260,7 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
             type='text'
             id='offerNum'
             name='offerNum'
-            value={data.offerNum}
+            value={formData.offerNum}
             onChange={handleChangeInput}
           />
           <CustomInput
@@ -234,7 +268,7 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
             type='text'
             id='num'
             name='num'
-            value={data.num}
+            value={formData.num}
             onChange={handleChangeInput}
           />
         </section>
@@ -243,8 +277,13 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
             title='Customer'
             titleOnChange='clientId'
             placeholder='None'
-            idList={data.client.map((_client, index) => index + 1)}
-            nameList={data.client.map(client =>
+            idList={inputData.client.map((_client, index) => index + 1)}
+            value={
+              inputData.client.findIndex(
+                client => client.id === formData.clientId,
+              ) + 1
+            }
+            nameList={inputData.client.map(client =>
               `${client.account}${
                 client.email ? ` - ${client.email}` : ''
               }`.trim(),
@@ -254,25 +293,29 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
           <CustomSelect
             title='Stage'
             titleOnChange='stage'
-            value={0}
-            idList={data.stage.map((_stage, index) => index)}
-            nameList={data.stage.map(stage => stage)}
+            idList={inputData.stage.map((_stage, index) => index)}
+            nameList={inputData.stage}
+            value={inputData.stage.findIndex(
+              stage => stage === formData.stage,
+            )}
             onChange={handleChangeInput}
           />
           <CustomDataPicker
             title='Date Created'
             titleOnChange='dateCreated'
+            value={formData.dateCreated}
             onChange={handleChangeInput}
           />
           <CustomDataPicker
             title='Expiry Date'
             titleOnChange='validUntil'
+            value={formData.validUntil}
             onChange={handleChangeInput}
           />
           <div className={styles.containerItems}>
             <span className={styles.containerItemsTitle}>Hide Info</span>
             <CustomCheckBox
-              defaultChecked
+              defaultChecked={formData.checkPublic === 1 ? true : false}
               titleOnChange='checkPublic'
               title='Hide Personal Info'
               onInputChange={handleChangeInput}
@@ -290,8 +333,10 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
                 amount={blank.amount}
                 price={blank.price}
                 itemName={blank.description}
+                taxValue={blank.tax || 0}
                 discountAmount={blank.discount}
-                taxInput={data.tax}
+                allTaxes={inputData.tax}
+                discountType={blank.discountType}
                 totalPrice={
                   priceCalc.data &&
                   priceCalc.data[blank.index]?.total !== undefined
@@ -299,8 +344,8 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
                     : 0
                 }
                 onRemove={() => handleRemoveBlank(blank.index)}
-                onChange={(field, value) =>
-                  handleBlankChange(blank.index, field, value)
+                onChange={(name, value) =>
+                  handleBlankChange(blank.index, name, value)
                 }
               />
               <CustomDivider />
@@ -335,14 +380,10 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
       <section className={styles.footerTextEditor}>
         <div className={styles.containerItems}>
           <span className={styles.containerItemsTitle}>Proposal Text</span>
-          <div className={styles.containerEditorDesc}>
-            <TextEditor
-              setValue={message => handleChangeInput('proposal', message)}
-            />
-            <span className={styles.editorDesc}>
-              Displayed at the Top of the Offer
-            </span>
-          </div>
+          <TextEditor
+            defaultValue={formData.proposal}
+            setValue={message => handleChangeInput('proposal', message)}
+          />
         </div>
       </section>
       <section className={styles.footerTextEditor}>
@@ -350,19 +391,15 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
           <span className={styles.containerItemsTitle}>
             Customer Notes
           </span>
-          <div className={styles.containerEditorDesc}>
-            <TextEditor
-              setValue={message => handleChangeInput('notes', message)}
-            />
-            <span className={styles.editorDesc}>
-              Displayed as a Footer to the Offer
-            </span>
-          </div>
+          <TextEditor
+            defaultValue={formData.notes}
+            setValue={message => handleChangeInput('notes', message)}
+          />
         </div>
       </section>
       <AddProductOrService
         modalOpen={modalProductService}
-        serviceList={data.service}
+        serviceList={inputData.service}
         addNewServiceBlank={handleAddServiceBlank}
         handleOpenCloseModal={handleOpenCloseProductService}
       />
