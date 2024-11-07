@@ -81,7 +81,6 @@ class Offer extends Model implements InsertDefaultValueInterface
         list($invoicenum, $cn) = explode('-', $nextCode);
         $date = now();
         $user = $cart->user;
-        $accauntName = $user instanceof Admin ? $user->fullname : auth()->user()->fullname;
         #currency
         $currency = Currency::getDefault();
 
@@ -94,7 +93,12 @@ class Offer extends Model implements InsertDefaultValueInterface
         $t->userid = 0;
         $t->invoicenum = $invoicenum . "-";
         $t->cn = $cn;
-        $t->account = $accauntName;
+        if($user instanceof Admin) {
+            $t->account = $user->fullname ;
+        }else{
+            $t->account = auth()->user()->fullname;
+            $t->userid = $user->id;
+        }
         $t->currency = $currency->id;
 
         $t->subtotal = 0;
