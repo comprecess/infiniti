@@ -1,7 +1,133 @@
-import { FC } from 'react'
+import { FC, useEffect, useMemo, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
+import {
+  SalesEditOfferData,
+  SalesOfferInputData,
+} from '../../../../app/constants/constants'
+import { Routes } from '../../../../app/router/routes'
+import {
+  Fields,
+  PartialFieldsCartToOfferData,
+} from '../../../../features/Admin/TalentsPage/CartToOfferPage/Fields/Fields'
+import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
+import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
+import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { getOfferInputData } from '../../../../shared/utils/api/Admin/Sales/NewOffer/GetOfferInputData'
+import { addNewOffer } from '../../../../shared/utils/api/Admin/Sales/NewOffer/PostCreateNewOffer'
+import { getOfferCartInfo } from '../../../../shared/utils/api/Admin/Talents/Cart/GetOfferCartInfo'
+import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CartToOfferPage.module.scss'
 
+const extractParamsFromUrl = (
+  url: string,
+): { idCart: number | null; token: string | null } => {
+  const regex = /\/cart\/(\d+)\/to\/offer\/([a-fA-F0-9]+)$/
+  const match = url.match(regex)
+
+  return match
+    ? { idCart: parseInt(match[1], 10), token: match[2] }
+    : { idCart: null, token: null }
+}
+
+const useParamsFromUrl = () => {
+  const location = useLocation()
+
+  return useMemo(
+    () => extractParamsFromUrl(location.pathname),
+    [location.pathname],
+  )
+}
+
 export const AdminCartToOfferPage: FC = () => {
-  return <div className={styles.wrapper}>CartToOfferPage</div>
+  const [formData, setFormData] = useState<PartialFieldsCartToOfferData>(
+    {},
+  )
+  const [data, setData] = useState<SalesEditOfferData | null>(null)
+  const [inputData, setInputData] = useState<SalesOfferInputData | null>(
+    null,
+  )
+
+  const { idCart, token } = useParamsFromUrl()
+
+  const navigate = useNavigate()
+  const showToast = useCustomToast()
+
+  const getInfoOffer = async () => {
+    if (token === null) return
+
+    const getInfo = await getOfferCartInfo(token)
+
+    setData(getInfo.data)
+  }
+
+  const getNewOfferInputData = async () => {
+    const getResponse = await getOfferInputData()
+
+    setInputData(getResponse)
+  }
+
+  const createOffer = async () => {
+    if (idCart === null) return
+
+    const updateResponse = await addNewOffer(formData)
+
+    if (updateResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully created an offer',
+        status: 'success',
+      })
+      setTimeout(() => {
+        navigate(`/${Routes.adminPages}/${Routes.sales}/${Routes.offers}`)
+      }, 250)
+    } else {
+      showToast({
+        title: 'Error',
+        description: updateResponse.message,
+        status: 'error',
+      })
+    }
+  }
+
+  useEffect(() => {
+    document.title = 'infiniti | Create Offer'
+  }, [])
+
+  useEffect(() => {
+    if (idCart !== null) {
+      getNewOfferInputData()
+      getInfoOffer()
+    }
+  }, [idCart])
+
+  return (
+    <div className={styles.wrapper}>
+      <section className={styles.section}>
+        {inputData && data ? (
+          <RecentCard
+            title={`${inputData.offerNum}${inputData.num}`}
+            style={styles.recentFullScreen}
+            Component={ButtonBlue}
+            componentProps={{
+              title: 'Save',
+              icon: '/icons/fileWhite.svg',
+              iconProps: styles.buttonSaveIcon,
+              onClick: createOffer,
+              style: styles.buttonSave,
+            }}
+          >
+            <Fields
+              data={data}
+              token={token}
+              inputData={inputData}
+              onFormDataChange={setFormData}
+            />
+          </RecentCard>
+        ) : (
+          <LoadingSpinner size='xl' />
+        )}
+      </section>
+    </div>
+  )
 }
