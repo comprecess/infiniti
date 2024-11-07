@@ -200,6 +200,7 @@ class InvoiceItem extends Model implements InsertDefaultValueInterface
             $invoiceItem->invoiceid = $model->id;
             $invoiceItem->userid = $request->clientId;
             $invoiceItem->description = $value['description'] ?? '';
+            $invoiceItem->notes = $value['notes'] ?? '';
             $invoiceItem->qty = $value['amount'];
             $invoiceItem->amount = $value['price'];
             $invoiceItem->total = $value['total'];
