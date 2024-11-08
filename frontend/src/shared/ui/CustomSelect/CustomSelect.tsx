@@ -11,6 +11,7 @@ interface CustomSelectProps {
   placeholder?: string
   size?: 'xs' | 'sm' | 'md' | 'lg'
   value?: number
+  height?: string
   onInputChange?: boolean
   camelCase?: boolean
   onChange: (name: string, value: number) => void
@@ -24,6 +25,7 @@ export const CustomSelect: FC<CustomSelectProps> = ({
   placeholder,
   size = 'md',
   value,
+  height,
   onInputChange = true,
   camelCase = false,
   onChange,
@@ -65,6 +67,7 @@ export const CustomSelect: FC<CustomSelectProps> = ({
         color='gray.400'
         placeholder={placeholder}
         size={size}
+        height={height ? height : undefined}
         border='none'
         outline='none'
         tabIndex={-1}

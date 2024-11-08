@@ -1,14 +1,7 @@
 import { authTokenString } from '../../../../../../app/constants/constants'
 import { getCookies } from '../../../../Saving/Cookies/GetCookies'
 
-interface Response {
-  status: boolean
-  message: string
-}
-
-export const convertOfferToInvoice = async (
-  idOffer: number,
-): Promise<Response> => {
+export const convertOfferToInvoice = async (idOffer: number) => {
   const authToken = getCookies(authTokenString)
 
   if (authToken.status) {
@@ -27,7 +20,7 @@ export const convertOfferToInvoice = async (
         },
       )
 
-      const data: Response = await response.json()
+      const data = await response.json()
 
       return data
     } catch (error) {

@@ -71,7 +71,7 @@ export const AdminCartPage: FC = () => {
         <>
           <div className={styles.title}>
             <TitlePage
-              title='My orders'
+              title='Orders'
               secondTitle={data.data.cartItems.length.toString()}
             />
           </div>

@@ -70,7 +70,7 @@ export const Item: FC<ItemProps> = ({
       </span>
       <div className={`${styleItem.taxesColumn} ${styles.itemsRow}`}>
         {taxes === 0 ? (
-          <span className={styles.taxesItem}>Not included</span>
+          <span className={styles.taxesItem}>No TAX</span>
         ) : (
           <>
             <img src='/icons/info.svg' alt='Info' />

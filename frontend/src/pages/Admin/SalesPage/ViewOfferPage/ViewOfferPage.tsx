@@ -139,7 +139,11 @@ export const AdminViewOfferPage: FC = () => {
   const convertToInvoice = async () => {
     if (id === null) return
 
-    const convertResponse = await convertOfferToInvoice(id)
+    const convertResponse: {
+      invoiceId: number
+      status: boolean
+      message: string
+    } = await convertOfferToInvoice(id)
 
     if (convertResponse.status) {
       showToast({
@@ -148,6 +152,9 @@ export const AdminViewOfferPage: FC = () => {
         status: 'success',
       })
       openConfirmationModal()
+      navigate(
+        `/${Routes.adminPages}/${Routes.sales}/${Routes.invoice}/${Routes.view}/${convertResponse.invoiceId}`,
+      )
     } else {
       showToast({
         title: 'Error',

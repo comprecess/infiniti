@@ -87,7 +87,9 @@ export const Header: FC<HeaderProps> = ({
                   </span>
                 )}
                 {client.city && (
-                  <span className={styles.invoicedToItem}>{client.city}</span>
+                  <span className={styles.invoicedToItem}>
+                    {client.city}
+                  </span>
                 )}
               </div>
               <div className={styles.contactInfo}>
@@ -131,7 +133,7 @@ export const Header: FC<HeaderProps> = ({
         <div className={styles.invoicedTo}>
           <span className={styles.invoicedToTitle}>
             {`Offer: 
-            ${offer.id}`}
+            ${offer.code}`}
           </span>
           {offer.proposal && (
             <span

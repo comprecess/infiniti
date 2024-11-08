@@ -48,13 +48,13 @@ interface InfoData {
 
 export interface PartialFieldsCartToOfferData extends Partial<InfoData> {
   [key: string]:
-  | string
-  | number
-  | SalesBlankData[]
-  | BlankCalc
-  | boolean
-  | undefined
-  | null
+    | string
+    | number
+    | SalesBlankData[]
+    | BlankCalc
+    | boolean
+    | undefined
+    | null
 }
 
 export const Fields: FC<FieldsProps> = ({
@@ -372,10 +372,15 @@ export const Fields: FC<FieldsProps> = ({
         />
       </section>
       <section className={styles.calculations}>
-        <TotalItem title='Sub Total' value={priceCalc?.result?.price} />
-        <TotalItem title='Discount' value={priceCalc?.result?.discount} />
-        <TotalItem title='Tax' value={priceCalc?.result?.tax} />
-        <TotalItem title='Total' value={priceCalc?.result?.total} />
+        <div className={styles.totalList}>
+          <TotalItem title='Sub Total' value={priceCalc?.result?.price} />
+          <TotalItem
+            title='Discount'
+            value={priceCalc?.result?.discount}
+          />
+          <TotalItem title='Tax' value={priceCalc?.result?.tax} />
+          <TotalItem title='Total' value={priceCalc?.result?.total} />
+        </div>
       </section>
       <section className={styles.footerTextEditor}>
         <div className={styles.containerItems}>
