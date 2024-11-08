@@ -21,15 +21,6 @@
   color: $white;
 }
 
-.quantityItem {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 22px;
-  letter-spacing: -0.03em;
-  color: $white;
-  cursor: pointer;
-}
-
 .nameEmailItem,
 .professionItem {
   overflow: hidden;
@@ -59,6 +50,20 @@
   flex-direction: column;
 }
 
+.containerColumn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.editIcon * {
+  width: 22px;
+  height: 22px;
+  margin-left: 2px;
+
+  fill: lighten($color: $brand-800, $amount: 5);
+}
+
 .itemsRow {
   display: flex;
   flex-direction: row;
@@ -77,17 +82,15 @@
   }
 }
 
-.amountInput,
-.totalInput {
+.amountInput {
   width: 100%;
   padding-bottom: 3px;
   padding-top: 3px;
   background-color: $brand-800;
   padding-top: 2px;
   color: $white;
+  padding-left: 10px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   border-radius: 8px;
-}
-
-.totalInput {
-  text-align: end;
 }

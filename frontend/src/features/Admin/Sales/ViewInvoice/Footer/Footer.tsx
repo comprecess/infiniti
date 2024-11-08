@@ -23,11 +23,13 @@ export const Footer: FC<FooterProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.totalList}>
-        <TotalItem title='Subtotal' value={subtotal} />
-        <TotalItem title='Discount' value={discount} />
-        <TotalItem title='Tax' value={tax} />
-        <TotalItem title='Grand Total' value={grandTotal} />
+      <div className={styles.container}>
+        <div className={styles.totalList}>
+          <TotalItem title='Subtotal' value={subtotal} />
+          <TotalItem title='Discount' value={discount} />
+          <TotalItem title='Tax' value={tax} />
+          <TotalItem title='Grand Total' value={grandTotal} />
+        </div>
       </div>
       {note && (
         <div className={styles.noteWrapper}>

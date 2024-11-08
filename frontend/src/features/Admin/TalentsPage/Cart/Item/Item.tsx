@@ -1,7 +1,8 @@
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, useRef, useState } from 'react'
 
 import { NameIdType } from '../../../../../app/constants/constants'
 import { CrossIcon } from '../../../../../shared/icons/CrossIcon'
+import { EditPencilFill } from '../../../../../shared/icons/EditPencilFill'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
 import styleItem from '../Cart.module.scss'
 import styles from './Item.module.scss'
@@ -39,26 +40,23 @@ export const Item: FC<ItemProps> = ({
   onDelete,
   onChangeItem,
 }) => {
-  const [editingField, setEditingField] = useState<'amount' | null>(null)
-
-  const [editedAmount, setEditedAmount] = useState(amount)
+  const [editedAmount, setEditedAmount] = useState<number | ''>(amount)
 
   const amountInputRef = useRef<HTMLInputElement>(null)
 
-  const handleAmountClick = () => {
-    if (editingField === null) {
-      setEditingField('amount')
-    }
-  }
-
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditedAmount(Number(e.target.value))
+    const value = e.target.value
+    setEditedAmount(value === '' ? '' : Number(value))
   }
 
   const handleAmountBlur = async () => {
-    setEditingField(null)
     if (editedAmount !== amount) {
-      onChangeItem(idCart, idItem, { amount: editedAmount })
+      if (editedAmount === '') {
+        onChangeItem(idCart, idItem, { amount: 0 })
+        setEditedAmount(0)
+      } else {
+        onChangeItem(idCart, idItem, { amount: editedAmount })
+      }
     }
   }
 
@@ -69,19 +67,10 @@ export const Item: FC<ItemProps> = ({
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleAmountBlur()
-    } else if (e.key === 'Escape') {
-      setEditedAmount(amount)
-      setEditingField(null)
+    if (e.key === 'Enter' || e.key === 'Escape') {
+      amountInputRef.current?.blur()
     }
   }
-
-  useEffect(() => {
-    if (editingField === 'amount' && amountInputRef.current) {
-      amountInputRef.current.focus()
-    }
-  }, [editingField])
 
   return (
     <div className={styles.wrapper}>
@@ -98,29 +87,25 @@ export const Item: FC<ItemProps> = ({
         <span className={styles.nameEmailItem}>{nameEmail}</span>
         <span className={styles.professionItem}>{profession}</span>
       </div>
-      <div className={`${styleItem.quantityColumn} ${styles.itemsColumn}`}>
-        {editingField === 'amount' ? (
-          <input
-            ref={amountInputRef}
-            type='number'
-            value={editedAmount}
-            className={styles.amountInput}
-            onChange={handleAmountChange}
-            onBlur={handleAmountBlur}
-            onKeyDown={e => handleKeyDown(e)}
-          />
-        ) : (
-          <span
-            className={styles.quantityItem}
-            onClick={handleAmountClick}
-          >
-            {editedAmount}
-          </span>
-        )}
+      <div
+        className={`${styleItem.quantityColumn} ${styles.containerColumn}`}
+      >
+        <input
+          ref={amountInputRef}
+          type='number'
+          name='number'
+          value={editedAmount !== '' ? editedAmount : ''}
+          className={styles.amountInput}
+          onChange={handleAmountChange}
+          onBlur={handleAmountBlur}
+          onKeyDown={e => handleKeyDown(e)}
+        />
+        <EditPencilFill style={styles.editIcon} />
       </div>
       <div className={styleItem.typeColumn}>
         <CustomSelect
           idList={[0, 1]}
+          height='40px'
           nameList={['Hour', 'Day']}
           value={['priceHour', 'priceDay'].findIndex(
             item => item === nameIdType,
@@ -130,8 +115,8 @@ export const Item: FC<ItemProps> = ({
         />
       </div>
       <div className={`${styleItem.taxesColumn} ${styles.itemsRow}`}>
-        {taxes === 1 ? (
-          <span className={styles.taxesItem}>Not included</span>
+        {taxes === 0 ? (
+          <span className={styles.taxesItem}>No TAX</span>
         ) : (
           <>
             <img src='/icons/info.svg' alt='Info' />
@@ -141,7 +126,9 @@ export const Item: FC<ItemProps> = ({
       </div>
       <div className={`${styleItem.amountColumn} ${styles.itemsColumn}`}>
         <span className={styles.amountItem}>{total}</span>
-        <span className={styles.taxesAmountItem}>{taxesAmount}</span>
+        {taxes === 0 && (
+          <span className={styles.taxesAmountItem}>{taxesAmount}</span>
+        )}
       </div>
       <div className={styleItem.crossColumn}>
         <div className={styles.crossItem} onClick={onDelete}>

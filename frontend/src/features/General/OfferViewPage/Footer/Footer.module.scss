@@ -6,6 +6,15 @@
   color: $white;
 }
 
+.container {
+  display: flex;
+  justify-content: end;
+}
+
+.totalList {
+  max-width: 450px;
+}
+
 .totalList,
 .noteWrapper {
   display: flex;
