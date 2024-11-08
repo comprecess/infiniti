@@ -191,7 +191,7 @@ class OfferController extends SaleController
             $newItem->invoiceid = $invoice->id;
             $newItem->save();
         });
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'invoiceId' => $invoice->id]);
     }
 
     public function fromCart(Request $request)
