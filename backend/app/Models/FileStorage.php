@@ -215,27 +215,30 @@ class FileStorage extends Model
         }
 
         $name = $this->getAttrFile('original');
+        try {
 
-        if(is_array($sizeImage)) {
-            $convert = Image::read($this->getFile()->getPathName())->scale(...$sizeImage);
-        }else{
-            $convert = Image::read($this->getFile()->getPathName())->scale(1280, 768);
+            if (is_array($sizeImage)) {
+                $convert = Image::read($this->getFile()->getPathName())->scale(...$sizeImage);
+            } else {
+                $convert = Image::read($this->getFile()->getPathName())->scale(1280, 768);
+            }
+
+            if (in_array($this->ext, $this->convertorByJpg)) {
+                $name = explode('.', $name);
+                unset($name[count($name) - 1]);
+                $name = implode('.', $name) . ".jpg";
+
+                $convert = $convert->toJpeg();
+            }
+
+            $this->tmpFile = self::NAME . "/{$name}";
+            $path = storage_path("app/" . $this->tmpFile);
+
+            $convert->save($path);
+            $this->setFile(new File($path));
+        }catch (\Exception $e) {
+            Log::error('Convert file error!', ['file' => $name]);
         }
-
-        if(in_array($this->ext, $this->convertorByJpg)) {
-            $name = explode('.', $name);
-            unset($name[count($name) - 1]);
-            $name = implode('.', $name) . ".jpg";
-
-            $convert = $convert->toJpeg();
-        }
-
-        $this->tmpFile = self::NAME . "/{$name}";
-        $path = storage_path("app/" . $this->tmpFile);
-
-        $convert->save($path);
-        $this->setFile(new File($path));
-
     }
 
     public function dropTmpFile()
