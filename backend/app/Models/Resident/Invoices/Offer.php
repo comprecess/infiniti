@@ -9,6 +9,7 @@ use App\Models\Resident\Settings\Currency;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\HelperTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
+use App\Models\Traits\ModelToCartTrait;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Offer extends Model implements InsertDefaultValueInterface
 {
-    use HasFactory, CurrencyTrait, HelperTrait, InsertDefaultValueTrait;
+    use HasFactory, CurrencyTrait, HelperTrait, InsertDefaultValueTrait, ModelToCartTrait;
 
     const STAGE = ['Accepted', 'Dead', 'Delivered', 'Draft', 'Lost'];
 
@@ -89,7 +90,7 @@ class Offer extends Model implements InsertDefaultValueInterface
         $t->insertDefaultValue();
         $t->subject = __('resident.newCartOffer', ['id' => $nextCode]);
         $t->stage = self::STAGE[3];
-        $t->validuntil = $date;
+        $t->validuntil = $date->clone()->addDays(7);
         $t->userid = 0;
         $t->invoicenum = $invoicenum . "-";
         $t->cn = $cn;

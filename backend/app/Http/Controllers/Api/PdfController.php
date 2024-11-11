@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Config;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Invoices\Offer;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Mpdf\Mpdf;
 
 
 class PdfController extends Controller
@@ -17,11 +19,49 @@ class PdfController extends Controller
         'offer' => [Offer::class, 'vtoken'],
     ];
 
+//    public function index(Request $request)
+//    {
+//        $name = $request->route('name');
+//        $pdf = Pdf::loadView('pdf.' . $name, ['model' => $this->getModel($request)]);
+//        return $pdf->download($name . ".pdf");
+//    }
+
     public function index(Request $request)
     {
+        $model = $this->getModel($request);
         $name = $request->route('name');
-        $pdf = Pdf::loadView('pdf.' . $name, ['model' => $this->getModel($request)]);
-        return $pdf->download($name . ".pdf");
+        $companyName = Config::get('CompanyName');
+        $mpdf = new Mpdf();
+
+        $mpdf->SetTitle($companyName . ' ' . ucfirst($name));
+        $mpdf->SetAuthor($companyName);
+        $mpdf->SetWatermarkText(__("pdf.statusVar.{$model->status}"));
+        if(Config::get('invoice_show_watermark') == 1){
+            $font = Config::get('pdf_font') == 'default' ? 'Helvetica' : 'dejavusanscondensed';
+            $mpdf->showWatermarkText = true;
+            $mpdf->watermark_font = $font;
+            $mpdf->watermarkTextAlpha = 0.1;
+        }
+
+        $mpdf->SetDisplayMode('fullpage');
+
+        if(Config::get('rtl') == 1) {
+            $mpdf->SetDirectionality('rtl');
+        }
+
+        if(Config::get('pdf_font') == 'AdobeCJK') {
+            $mpdf->useAdobeCJK = true;
+            $mpdf->autoScriptToLang = true;
+            $mpdf->autoLangToFont = true;
+
+            $wf = Config::get('pdf_watermark_font');
+            if ($wf && file_exists(base_path('vendor/mpdf/mpdf/ttfonts/' . $wf))) {
+                $mpdf->watermark_font = $wf;
+            }
+        }
+
+        $mpdf->WriteHTML(view('pdf.' . $name, ['model' => $model])->render());
+        $mpdf->Output($model->getCode() . '.pdf', 'I');
     }
 
     private function getModel(Request $request)
