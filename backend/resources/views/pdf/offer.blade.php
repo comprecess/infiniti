@@ -1,4 +1,4 @@
-@extends('pdf.tmp.index')
+@extends('pdf.tmp.index-mpdf')
 
 @section('content')
 

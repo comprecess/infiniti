@@ -140,8 +140,13 @@ class OfferController extends SaleController
                     }
                 }
             },
-            function($model) use ($requestCalc){
+            function($model, $request) use ($requestCalc){
                 InvoiceItem::createOrUpdate($requestCalc, $model);
+
+                if($request->tokenCart) {
+                    $cart = Cart::where('secret', $request->tokenCart)->first();
+                    $cart->createOrder($model);
+                }
             }
         );
     }

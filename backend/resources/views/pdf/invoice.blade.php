@@ -1,4 +1,4 @@
-@extends('pdf.tmp.index')
+@extends('pdf.tmp.index-mpdf')
 
 @section('content')
 
@@ -106,7 +106,7 @@ $colSpan = 2;
     @if($offer)
         <div>
 
-            <h4>{{__('pdf.invoice.Offer')}}: {{$offer->id}}</h4>
+            <h4>{{__('pdf.invoice.Offer')}}: {{$offer->getCode()}}</h4>
 
             {!! $offer->proposal !!}
         </div>

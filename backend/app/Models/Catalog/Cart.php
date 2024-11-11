@@ -2,7 +2,9 @@
 
 namespace App\Models\Catalog;
 
+use App\Models\Resident\Invoices\Offer;
 use App\Models\Resident\Settings\Tax;
+use App\Models\Traits\ModelToCartTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -49,6 +51,16 @@ class Cart extends Model
             return null;
         }
         return $this->morphTo('user');
+    }
+
+    public function order()
+    {
+        return $this->hasMany(CartOrder::class, 'id_catalog_cart')->with(['model']);
+    }
+
+    public function offerOrder()
+    {
+        return $this->morphedByMany(Offer::class, 'model', CartOrder::class, 'id_catalog_cart');
     }
 
     public function calculation()
@@ -107,5 +119,30 @@ class Cart extends Model
         $cart->calculation();
 
         return $cart;
+    }
+
+    public function createOrder(Model $model, $duplicate = true)
+    {
+        if(!method_exists($model, 'order')) {
+            throw new \Exception('The class is missing a "order" method. Use a trait: '. ModelToCartTrait::class);
+        }
+        if($duplicate) {
+            $new = $this->replicate();
+            $new->setSecret();
+            $new->save();
+
+            $this->items->each(function($item) use($new){
+                $newItem = $item->replicate();
+                $newItem->id_catalog_cart = $new->id;
+                $newItem->save();
+            });
+        } else {
+            $new = $this;
+        }
+
+        $model->order()->create(['id_catalog_cart' => $new->id]);
+        $new->delete();
+
+        return $new;
     }
 }
