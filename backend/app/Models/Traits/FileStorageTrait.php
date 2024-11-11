@@ -20,12 +20,12 @@ trait FileStorageTrait
     public function uploads(UploadedFile|File $file, $data = null)
     {
         $fileStorage = new FileStorage();
-        try {
+//        try {
             return $fileStorage->uploads($this, $file, $data);
-        }catch (\Exception $e) {
-            Log::info(print_r($this, true), ['**FILE**' => print_r($file, true)]);
-            throw new \Exception("Error format file");
-        }
+//        }catch (\Exception $e) {
+//            Log::info(print_r($this, true), ['**FILE**' => print_r($file, true)]);
+//            throw new \Exception("Error format file");
+//        }
     }
 
     public function deleteAllFiles()
