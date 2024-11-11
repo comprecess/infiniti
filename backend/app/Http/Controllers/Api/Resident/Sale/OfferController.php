@@ -143,8 +143,8 @@ class OfferController extends SaleController
             function($model, $request) use ($requestCalc){
                 InvoiceItem::createOrUpdate($requestCalc, $model);
 
-                if($request->tokenCart) {
-                    $cart = Cart::where('secret', $request->tokenCart)->first();
+                if($request->token) {
+                    $cart = Cart::where('secret', $request->token)->first();
                     $cart->createOrder($model);
                 }
             }
