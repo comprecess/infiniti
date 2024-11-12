@@ -1,0 +1,44 @@
+.header {
+  display: flex;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+  color: $white;
+}
+
+.title {
+  font-family: $fontSpaceGrotesk;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 25px;
+  letter-spacing: -0.03em;
+}
+
+.titleDoc {
+  font-family: $fontSpaceGrotesk;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.cross {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  transition: 0.3s ease;
+  cursor: pointer;
+
+  &:hover * {
+    stroke: $gray-200;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
