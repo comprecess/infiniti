@@ -36,6 +36,12 @@ export const CustomCheckBox: FC<CheckBoxProps> = ({
       isChecked={isChecked}
       defaultChecked={defaultChecked}
       isIndeterminate={isIndeterminate}
+      tabIndex={-1}
+      sx={{
+        '&:focus': {
+          outline: 'none',
+        },
+      }}
       onChange={handleOnChange}
     >
       {title}

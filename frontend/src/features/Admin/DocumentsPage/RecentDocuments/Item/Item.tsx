@@ -1,7 +1,9 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
 import { RolesAccess } from '../../../../../app/constants/constants'
+import { ConfirmationModal } from '../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { TypeFiles } from '../../../../../shared/ui/TypeFiles/TypeFiles'
+import { EditDocumentModal } from '../../EditDocumentModal/EditDocumentModal'
 import styleItem from '../RecentDocuments.module.scss'
 import styles from './Item.module.scss'
 
@@ -22,64 +24,87 @@ export const Item: FC<ItemProps> = ({
   access,
   deleteFile,
 }) => {
-  const handleDownloadFile = async () => {
-    const response = await fetch(link)
+  const [modalEdit, setModalEdit] = useState<boolean>(false)
+  const [modalDelete, setModalDelete] = useState<boolean>(false)
 
-    if (response.ok) {
-      const blob = await response.blob()
-      const url = URL.createObjectURL(blob)
-
-      window.open(url, '_blank')
-
-      URL.revokeObjectURL(url)
-    }
+  const handleSetModalDelete = () => {
+    setModalDelete(state => !state)
   }
 
-  const handleDeleteFile = () => {
-    deleteFile(idFile)
+  const handleSetModalEdit = () => {
+    setModalEdit(state => !state)
+  }
+
+  const handleDownloadFile = async (url: string) => {
+    const fileUrl = url
+
+    const link = document.createElement('a')
+    link.href = fileUrl
+    link.download = ''
+
+    link.click()
   }
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styleItem.typeColumn}>
-        <TypeFiles type={type} />
-      </div>
-      <span className={`${styleItem.titleColumn} ${styles.titleItem}`}>
-        {title}
-      </span>
-      <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <button
-          className={styles.downloadButton}
-          onClick={handleDownloadFile}
-        >
-          <img
-            src='/icons/fileDownload.svg'
-            alt='Download'
-            className={styles.icon}
-          />
-        </button>
-        {access.edit === 1 && (
-          <button className={styles.buttonEdit}>
-            <img
-              src='/icons/edit.svg'
-              alt='Edit'
-              className={styles.icon}
-            />
-          </button>
-        )}
-        {access.delete === 1 && (
+    <>
+      <div className={styles.wrapper}>
+        <div className={styleItem.typeColumn}>
+          <TypeFiles type={type} />
+        </div>
+        <span className={`${styleItem.titleColumn} ${styles.titleItem}`}>
+          {title}
+        </span>
+        <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
           <button
-            className={styles.buttonTrash}
-            onClick={handleDeleteFile}
+            className={styles.downloadButton}
+            onClick={() => handleDownloadFile(link)}
           >
             <img
-              src='/icons/trash.svg'
-              alt='Trash'
+              src='/icons/fileDownload.svg'
+              alt='Download'
               className={styles.icon}
             />
           </button>
-        )}
+          {access.edit === 1 && (
+            <button
+              className={styles.buttonEdit}
+              onClick={handleSetModalEdit}
+            >
+              <img
+                src='/icons/edit.svg'
+                alt='Edit'
+                className={styles.icon}
+              />
+            </button>
+          )}
+          {access.delete === 1 && (
+            <button
+              className={styles.buttonTrash}
+              onClick={handleSetModalDelete}
+            >
+              <img
+                src='/icons/trash.svg'
+                alt='Trash'
+                className={styles.icon}
+              />
+            </button>
+          )}
+        </div>
       </div>
-    </div>
+      {modalEdit && (
+        <EditDocumentModal
+          idDocument={idFile}
+          modalEditDoc={modalEdit}
+          modalOpenClose={handleSetModalEdit}
+        />
+      )}
+      {modalDelete && (
+        <ConfirmationModal
+          isOpened={modalDelete}
+          handleOpenCloseModal={handleSetModalDelete}
+          agree={() => deleteFile(idFile)}
+        />
+      )}
+    </>
   )
 }
