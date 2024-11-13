@@ -11,12 +11,14 @@ import { useNavigate } from 'react-router-dom'
 
 import {
   AdminInfo,
+  authTokenString,
   profileInfoString,
   UserInfo,
 } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { removeCookies } from '../../utils/Saving/Cookies/RemoveCookies'
 import { getSession } from '../../utils/Saving/Session/GetSession'
+import { removeSession } from '../../utils/Saving/Session/RemoveSession'
 import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner'
 import styles from './Profile.module.scss'
 
@@ -43,7 +45,8 @@ export const Profile: FC<ProfileProps> = ({ isAdmin }) => {
   }, [isAdmin])
 
   const logout = () => {
-    removeCookies('authToken')
+    removeSession(authTokenString)
+    removeCookies(authTokenString)
     navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
   }
 
