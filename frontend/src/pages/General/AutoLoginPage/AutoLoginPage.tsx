@@ -38,9 +38,9 @@ export const AutoLoginPage = () => {
 
     if (sendResponse.status) {
       saveCookies(authTokenString, sendResponse.token, 30)
-      navigate(import.meta.env.VITE_MAIN_DOMAIN)
+      navigate('/')
     } else {
-      navigate(import.meta.env.VITE_MAIN_DOMAIN)
+      navigate('/')
     }
   }
 
