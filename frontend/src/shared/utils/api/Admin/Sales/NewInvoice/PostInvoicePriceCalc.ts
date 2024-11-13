@@ -1,8 +1,5 @@
-import {
-  authTokenString,
-  SalesNewInvoicePriceCalcProps,
-} from '../../../../../../app/constants/constants'
-import { getCookies } from '../../../../Saving/Cookies/GetCookies'
+import { SalesNewInvoicePriceCalcProps } from '../../../../../../app/constants/constants'
+import { getAuthToken } from '../../../GetAuthToke'
 
 export const postInvoicePriceCalc = async (blank: {
   blankList: {
@@ -17,9 +14,9 @@ export const postInvoicePriceCalc = async (blank: {
   }[]
   currency: string
 }): Promise<SalesNewInvoicePriceCalcProps> => {
-  const authToken = getCookies(authTokenString)
+  const authToken = getAuthToken()
 
-  if (authToken.status) {
+  if (authToken) {
     try {
       const response = await fetch(
         import.meta.env.VITE_MAIN_DOMAIN +
@@ -29,7 +26,7 @@ export const postInvoicePriceCalc = async (blank: {
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
-            Authorization: `Bearer ${authToken.cookie}`,
+            Authorization: `Bearer ${authToken}`,
           },
           body: JSON.stringify({ ...blank }),
         },

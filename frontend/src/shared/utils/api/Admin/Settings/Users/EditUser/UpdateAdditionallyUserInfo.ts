@@ -1,5 +1,4 @@
-import { authTokenString } from '../../../../../../../app/constants/constants'
-import { getCookies } from '../../../../../Saving/Cookies/GetCookies'
+import { getAuthToken } from '../../../../GetAuthToke'
 
 interface Response {
   status: boolean
@@ -12,7 +11,7 @@ export const updateAdditionallyUserInfo = async (
     [key: string]: number
   },
 ): Promise<Response> => {
-  const authToken = getCookies(authTokenString)
+  const authToken = getAuthToken()
 
   if (authToken) {
     try {
@@ -27,7 +26,7 @@ export const updateAdditionallyUserInfo = async (
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: `Bearer ${authToken.cookie}`,
+          Authorization: `Bearer ${authToken}`,
         },
         body: JSON.stringify({ ...updateData }),
       })

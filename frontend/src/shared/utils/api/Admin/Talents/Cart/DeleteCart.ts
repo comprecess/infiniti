@@ -1,5 +1,4 @@
-import { authTokenString } from '../../../../../../app/constants/constants'
-import { getCookies } from '../../../../Saving/Cookies/GetCookies'
+import { getAuthToken } from '../../../GetAuthToke'
 
 interface Response {
   status: boolean
@@ -10,7 +9,7 @@ export const deleteCart = async (
   idCart: number,
   idItem: number,
 ): Promise<Response> => {
-  const authToken = getCookies(authTokenString)
+  const authToken = getAuthToken()
 
   if (authToken) {
     try {
@@ -22,7 +21,7 @@ export const deleteCart = async (
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${authToken.cookie}`,
+          Authorization: `Bearer ${authToken}`,
         },
       })
 

@@ -1,11 +1,10 @@
-import { authTokenString } from '../../../../../../app/constants/constants'
-import { getCookies } from '../../../../Saving/Cookies/GetCookies'
+import { getAuthToken } from '../../../GetAuthToke'
 
 export const getInvoiceEmailTemplate = async (
   idInvoice: number,
   template: string,
 ) => {
-  const authToken = getCookies(authTokenString)
+  const authToken = getAuthToken()
 
   if (authToken) {
     try {
@@ -21,7 +20,7 @@ export const getInvoiceEmailTemplate = async (
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: `Bearer ${authToken.cookie}`,
+          Authorization: `Bearer ${authToken}`,
         },
       })
 

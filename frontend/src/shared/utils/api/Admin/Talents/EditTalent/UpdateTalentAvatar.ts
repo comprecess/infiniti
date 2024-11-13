@@ -1,5 +1,4 @@
-import { authTokenString } from '../../../../../../app/constants/constants'
-import { getCookies } from '../../../../Saving/Cookies/GetCookies'
+import { getAuthToken } from '../../../GetAuthToke'
 
 interface Response {
   status: boolean
@@ -10,7 +9,7 @@ export const updateTalentAvatar = async (
   idTalent: number,
   file: FormData,
 ): Promise<Response> => {
-  const authToken = getCookies(authTokenString)
+  const authToken = getAuthToken()
 
   if (authToken) {
     try {
@@ -24,7 +23,7 @@ export const updateTalentAvatar = async (
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${authToken.cookie}`,
+          Authorization: `Bearer ${authToken}`,
         },
         body: file,
       })

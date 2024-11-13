@@ -1,14 +1,13 @@
-import { authTokenString } from '../../../../../../app/constants/constants'
-import { getCookies } from '../../../../Saving/Cookies/GetCookies'
+import { getAuthToken } from '../../../GetAuthToke'
 
 export const addServiceBlankOffer = async (
   id: number,
   service: string,
   serviceId: string,
 ) => {
-  const authToken = getCookies(authTokenString)
+  const authToken = getAuthToken()
 
-  if (authToken.status) {
+  if (authToken) {
     try {
       const url =
         import.meta.env.VITE_MAIN_DOMAIN +
@@ -22,7 +21,7 @@ export const addServiceBlankOffer = async (
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: `Bearer ${authToken.cookie}`,
+          Authorization: `Bearer ${authToken}`,
         },
         body: JSON.stringify({ service, serviceId }),
       })

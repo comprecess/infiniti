@@ -1,6 +1,5 @@
-import { authTokenString } from '../../../../../../app/constants/constants'
 import { PartialFieldsPostData } from '../../../../../../pages/Admin/CustomersPage/ViewPage/SummaryPage/SummaryPage'
-import { getCookies } from '../../../../Saving/Cookies/GetCookies'
+import { getAuthToken } from '../../../GetAuthToke'
 
 interface Response {
   status: boolean
@@ -12,9 +11,9 @@ export const updateAllInfo = async (
   viewType: string,
   info: PartialFieldsPostData,
 ): Promise<Response> => {
-  const authToken = getCookies(authTokenString)
+  const authToken = getAuthToken()
 
-  if (authToken.status) {
+  if (authToken) {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_MAIN_DOMAIN}${
@@ -25,7 +24,7 @@ export const updateAllInfo = async (
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
-            Authorization: `Bearer ${authToken.cookie}`,
+            Authorization: `Bearer ${authToken}`,
           },
           body: JSON.stringify({ ...info }),
         },

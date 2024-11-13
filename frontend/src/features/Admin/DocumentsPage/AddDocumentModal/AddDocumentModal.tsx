@@ -27,7 +27,7 @@ export const AddDocumentModal: FC<AddDocumentModalProps> = ({
     title?: string
     file?: File
     global?: number
-  }>({})
+  }>({ global: 0 })
 
   const handleOpenCloseModal = () => {
     setFormData({})
@@ -59,7 +59,6 @@ export const AddDocumentModal: FC<AddDocumentModalProps> = ({
 
   const handleAddNewDocument = () => {
     handleButtonSave(formData)
-    setFormData({})
   }
 
   return (

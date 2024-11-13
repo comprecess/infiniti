@@ -1,8 +1,7 @@
-import { authTokenString } from '../../../../../app/constants/constants'
-import { getCookies } from '../../../Saving/Cookies/GetCookies'
+import { getAuthToken } from '../../GetAuthToke'
 
 export const getListGroups = async () => {
-  const authToken = getCookies(authTokenString)
+  const authToken = getAuthToken()
 
   if (authToken) {
     try {
@@ -15,7 +14,7 @@ export const getListGroups = async () => {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: `Bearer ${authToken.cookie}`,
+          Authorization: `Bearer ${authToken}`,
         },
       })
 

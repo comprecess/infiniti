@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { authTokenString } from '../../../app/constants/constants'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getAutoLogin } from '../../../shared/utils/api/GetAutoLogin'
-import { saveCookies } from '../../../shared/utils/Saving/Cookies/SaveCookies'
+import { saveSession } from '../../../shared/utils/Saving/Session/SaveSession'
 import styles from './AutoLoginPage.module.scss'
 
 const extractTokenFromUrl = (url: string): string | null => {
@@ -37,7 +37,7 @@ export const AutoLoginPage = () => {
     } = await getAutoLogin(token)
 
     if (sendResponse.status) {
-      saveCookies(authTokenString, sendResponse.token, 30)
+      saveSession(authTokenString, sendResponse.token)
       navigate('/')
     } else {
       navigate('/')

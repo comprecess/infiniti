@@ -1,8 +1,5 @@
-import {
-  authTokenString,
-  SalesEditInvoiceBlankData,
-} from '../../../../../../app/constants/constants'
-import { getCookies } from '../../../../Saving/Cookies/GetCookies'
+import { SalesEditInvoiceBlankData } from '../../../../../../app/constants/constants'
+import { getAuthToken } from '../../../GetAuthToke'
 
 interface Response {
   status: boolean
@@ -14,9 +11,9 @@ export const updateBlankOffer = async (
   idBlank: number,
   formData: SalesEditInvoiceBlankData,
 ): Promise<Response> => {
-  const authToken = getCookies(authTokenString)
+  const authToken = getAuthToken()
 
-  if (authToken.status) {
+  if (authToken) {
     try {
       const url =
         import.meta.env.VITE_MAIN_DOMAIN +
@@ -31,7 +28,7 @@ export const updateBlankOffer = async (
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: `Bearer ${authToken.cookie}`,
+          Authorization: `Bearer ${authToken}`,
         },
         body: JSON.stringify({ ...formData }),
       })

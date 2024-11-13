@@ -1,5 +1,4 @@
-import { authTokenString } from '../../../../../../app/constants/constants'
-import { getCookies } from '../../../../Saving/Cookies/GetCookies'
+import { getAuthToken } from '../../../GetAuthToke'
 
 interface Response {
   status: boolean
@@ -10,9 +9,9 @@ export const changeOfferStage = async (
   idOffer: number,
   stage: string,
 ): Promise<Response> => {
-  const authToken = getCookies(authTokenString)
+  const authToken = getAuthToken()
 
-  if (authToken.status) {
+  if (authToken) {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_MAIN_DOMAIN}${
@@ -23,7 +22,7 @@ export const changeOfferStage = async (
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
-            Authorization: `Bearer ${authToken.cookie}`,
+            Authorization: `Bearer ${authToken}`,
           },
           body: JSON.stringify({ stage }),
         },
