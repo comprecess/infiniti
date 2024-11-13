@@ -90,6 +90,7 @@ import { ClientTalentsPage } from '../../pages/Client/TalentsPage/TalentsPage'
 import { ClientOpenNewTicketPage } from '../../pages/Client/TicketsPage/OpenNewTicketPage/OpenNewTicketPage'
 import { ClientTicketsPage } from '../../pages/Client/TicketsPage/TicketsPage/TicketsPage'
 import { ClientTransactionsPage } from '../../pages/Client/TransactionsPage/TransactionsPage'
+import { AutoLoginPage } from '../../pages/General/AutoLoginPage/AutoLoginPage'
 import { InvoiceViewPage } from '../../pages/General/InvoiceViewPage/InvoiceViewPage'
 import { NotFoundPage } from '../../pages/General/NotFoundPage/NotFoundPage'
 import { OfferViewPage } from '../../pages/General/OfferViewPage/OfferViewPage'
@@ -109,6 +110,7 @@ export const Routes = {
   carts: 'carts',
   cart: 'cart',
   project: 'project',
+  auto: 'auto',
   roles: 'roles',
   summary: 'summary',
   businessPlan: 'businessplan',
@@ -293,5 +295,6 @@ export const Pages = {
   /* Public  pages */
   publicViewInvoice: <InvoiceViewPage />,
   publicViewOffer: <OfferViewPage />,
+  publicAutoLoginPage: <AutoLoginPage />,
   notFoundPage: <NotFoundPage />,
 }
