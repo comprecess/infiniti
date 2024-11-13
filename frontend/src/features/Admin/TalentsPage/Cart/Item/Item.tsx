@@ -115,7 +115,7 @@ export const Item: FC<ItemProps> = ({
         />
       </div>
       <div className={`${styleItem.taxesColumn} ${styles.itemsRow}`}>
-        {taxes === 0 ? (
+        {taxes === 1 ? (
           <span className={styles.taxesItem}>No TAX</span>
         ) : (
           <>
