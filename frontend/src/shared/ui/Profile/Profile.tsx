@@ -16,6 +16,7 @@ import {
   UserInfo,
 } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
+import { getCookies } from '../../utils/Saving/Cookies/GetCookies'
 import { removeCookies } from '../../utils/Saving/Cookies/RemoveCookies'
 import { getSession } from '../../utils/Saving/Session/GetSession'
 import { removeSession } from '../../utils/Saving/Session/RemoveSession'
@@ -45,8 +46,15 @@ export const Profile: FC<ProfileProps> = ({ isAdmin }) => {
   }, [isAdmin])
 
   const logout = () => {
-    removeSession(authTokenString)
-    removeCookies(authTokenString)
+    const sessionToken = getSession(authTokenString)
+    const authToken = getCookies(authTokenString)
+
+    if (sessionToken) {
+      removeSession(authTokenString)
+    } else if (authToken) {
+      removeCookies(authTokenString)
+    }
+
     navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
   }
 
