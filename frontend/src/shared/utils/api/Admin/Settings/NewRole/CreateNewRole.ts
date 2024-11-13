@@ -1,14 +1,11 @@
-import {
-  authTokenString,
-  SettingsRoleFormData,
-} from '../../../../../../app/constants/constants'
-import { getCookies } from '../../../../Saving/Cookies/GetCookies'
+import { SettingsRoleFormData } from '../../../../../../app/constants/constants'
+import { getAuthToken } from '../../../GetAuthToke'
 
 export const createNewRole = async (formData: {
   name: string
   access: SettingsRoleFormData[]
 }) => {
-  const authToken = getCookies(authTokenString)
+  const authToken = getAuthToken()
 
   if (authToken) {
     try {
@@ -21,7 +18,7 @@ export const createNewRole = async (formData: {
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: `Bearer ${authToken.cookie}`,
+          Authorization: `Bearer ${authToken}`,
         },
         body: JSON.stringify({ ...formData }),
       })

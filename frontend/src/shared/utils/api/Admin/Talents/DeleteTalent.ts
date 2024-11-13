@@ -1,5 +1,4 @@
-import { authTokenString } from '../../../../../app/constants/constants'
-import { getCookies } from '../../../Saving/Cookies/GetCookies'
+import { getAuthToken } from '../../GetAuthToke'
 
 interface Response {
   status: boolean
@@ -9,7 +8,7 @@ interface Response {
 export const deleteSelectedTalent = async (
   idTalent: number,
 ): Promise<Response> => {
-  const authToken = getCookies(authTokenString)
+  const authToken = getAuthToken()
 
   if (authToken) {
     try {
@@ -21,7 +20,7 @@ export const deleteSelectedTalent = async (
         method: 'DELETE',
         headers: {
           Accept: 'application/json',
-          Authorization: `Bearer ${authToken.cookie}`,
+          Authorization: `Bearer ${authToken}`,
         },
       })
 

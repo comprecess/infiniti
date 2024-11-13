@@ -1,7 +1,6 @@
-import { authTokenString } from '../../../../../../app/constants/constants'
 import { PartialFieldsNewOfferData } from '../../../../../../features/Admin/Sales/NewOfferPage/Fields/Fields'
 import { PartialFieldsCartToOfferData } from '../../../../../../features/Admin/TalentsPage/CartToOfferPage/Fields/Fields'
-import { getCookies } from '../../../../Saving/Cookies/GetCookies'
+import { getAuthToken } from '../../../GetAuthToke'
 
 interface Response {
   status: boolean
@@ -11,9 +10,9 @@ interface Response {
 export const addNewOffer = async (
   formData: PartialFieldsNewOfferData | PartialFieldsCartToOfferData,
 ): Promise<Response> => {
-  const authToken = getCookies(authTokenString)
+  const authToken = getAuthToken()
 
-  if (authToken.status) {
+  if (authToken) {
     try {
       const response = await fetch(
         import.meta.env.VITE_MAIN_DOMAIN +
@@ -23,7 +22,7 @@ export const addNewOffer = async (
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
-            Authorization: `Bearer ${authToken.cookie}`,
+            Authorization: `Bearer ${authToken}`,
           },
           body: JSON.stringify({ ...formData }),
         },

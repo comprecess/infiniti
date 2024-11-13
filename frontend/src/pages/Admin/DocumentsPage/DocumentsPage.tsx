@@ -75,7 +75,6 @@ export const AdminDocumentsPage: FC = () => {
     if (formData.title) form.append('title', formData.title)
     if (formData.global !== undefined)
       form.append('global', formData.global.toString())
-
     if (formData.file) form.append('file', formData.file)
 
     const addResponse = await postAddNewDocument(form)
@@ -167,13 +166,13 @@ export const AdminDocumentsPage: FC = () => {
               componentProps={
                 access.create
                   ? {
-                    title: 'Add Document',
-                    icon: '/icons/plus.svg',
-                    titleNone: true,
-                    style: styles.buttonPlus,
-                    iconProps: styles.iconPlus,
-                    onClick: handleSetAddDocModal,
-                  }
+                      title: 'Add Document',
+                      icon: '/icons/plus.svg',
+                      titleNone: true,
+                      style: styles.buttonPlus,
+                      iconProps: styles.iconPlus,
+                      onClick: handleSetAddDocModal,
+                    }
                   : undefined
               }
             >

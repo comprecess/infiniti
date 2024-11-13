@@ -1,6 +1,5 @@
-import { authTokenString } from '../../../../../../../app/constants/constants'
 import { PartialFieldsEditUserData } from '../../../../../../../features/Admin/Settings/UsersPage/EditUser/Fields/Fields'
-import { getCookies } from '../../../../../Saving/Cookies/GetCookies'
+import { getAuthToken } from '../../../../GetAuthToke'
 
 interface Response {
   status: boolean
@@ -11,7 +10,7 @@ export const updateSelectedUserInfo = async (
   idUser: number,
   formData: PartialFieldsEditUserData,
 ): Promise<Response> => {
-  const authToken = getCookies(authTokenString)
+  const authToken = getAuthToken()
 
   if (authToken) {
     try {
@@ -25,7 +24,7 @@ export const updateSelectedUserInfo = async (
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: `Bearer ${authToken.cookie}`,
+          Authorization: `Bearer ${authToken}`,
         },
         body: JSON.stringify({ ...formData }),
       })

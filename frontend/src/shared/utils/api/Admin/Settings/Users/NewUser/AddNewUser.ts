@@ -1,6 +1,5 @@
-import { authTokenString } from '../../../../../../../app/constants/constants'
 import { PartialFieldsNewUserData } from '../../../../../../../features/Admin/Settings/UsersPage/NewUser/Fields/Fields'
-import { getCookies } from '../../../../../Saving/Cookies/GetCookies'
+import { getAuthToken } from '../../../../GetAuthToke'
 
 interface Response {
   status: boolean
@@ -10,7 +9,7 @@ interface Response {
 export const addNewUser = async (
   formData: PartialFieldsNewUserData | null,
 ): Promise<Response> => {
-  const authToken = getCookies(authTokenString)
+  const authToken = getAuthToken()
 
   if (authToken) {
     try {
@@ -23,7 +22,7 @@ export const addNewUser = async (
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: `Bearer ${authToken.cookie}`,
+          Authorization: `Bearer ${authToken}`,
         },
         body: JSON.stringify({ ...formData }),
       })

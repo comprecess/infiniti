@@ -1,6 +1,5 @@
-import { authTokenString } from '../../../../../app/constants/constants'
 import { FieldProps } from '../../../../../pages/Admin/SettingsPage/CustomContactFieldsPage/CustomContactFieldsPage'
-import { getCookies } from '../../../Saving/Cookies/GetCookies'
+import { getAuthToken } from '../../GetAuthToke'
 
 interface Response {
   status: boolean
@@ -11,9 +10,9 @@ export const editField = async (
   id: number,
   fieldData: FieldProps,
 ): Promise<Response> => {
-  const authToken = getCookies(authTokenString)
+  const authToken = getAuthToken()
 
-  if (authToken.status) {
+  if (authToken) {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_MAIN_DOMAIN}${
@@ -24,7 +23,7 @@ export const editField = async (
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
-            Authorization: `Bearer ${authToken.cookie}`,
+            Authorization: `Bearer ${authToken}`,
           },
           body: JSON.stringify({ ...fieldData }),
         },

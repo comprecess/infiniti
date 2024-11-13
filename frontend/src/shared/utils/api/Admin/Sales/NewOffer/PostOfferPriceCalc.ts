@@ -1,8 +1,5 @@
-import {
-  authTokenString,
-  SalesNewInvoicePriceCalcProps,
-} from '../../../../../../app/constants/constants'
-import { getCookies } from '../../../../Saving/Cookies/GetCookies'
+import { SalesNewInvoicePriceCalcProps } from '../../../../../../app/constants/constants'
+import { getAuthToken } from '../../../GetAuthToke'
 
 export const postOfferPriceCalc = async (blank: {
   blankList: {
@@ -16,9 +13,9 @@ export const postOfferPriceCalc = async (blank: {
     discountType: 'percent' | 'fixed'
   }[]
 }): Promise<SalesNewInvoicePriceCalcProps> => {
-  const authToken = getCookies(authTokenString)
+  const authToken = getAuthToken()
 
-  if (authToken.status) {
+  if (authToken) {
     try {
       const response = await fetch(
         import.meta.env.VITE_MAIN_DOMAIN +
@@ -28,7 +25,7 @@ export const postOfferPriceCalc = async (blank: {
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
-            Authorization: `Bearer ${authToken.cookie}`,
+            Authorization: `Bearer ${authToken}`,
           },
           body: JSON.stringify({ ...blank }),
         },
