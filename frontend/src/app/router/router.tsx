@@ -17,6 +17,10 @@ export const router = createBrowserRouter([
     ),
   },
   {
+    path: `${Routes.public}/${Routes.auto}/${Routes.login}/:token`,
+    element: Pages.publicAutoLoginPage,
+  },
+  {
     path: `${Routes.public}/${Routes.invoice}/${Routes.view}/:id`,
     element: Pages.publicViewInvoice,
   },

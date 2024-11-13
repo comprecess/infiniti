@@ -1,5 +1,12 @@
 import { Textarea } from '@chakra-ui/react'
-import { FC, useCallback, useEffect, useRef, useState } from 'react'
+import {
+  FC,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import {
@@ -7,6 +14,7 @@ import {
   ViewPageContext,
   ViewSummaryTypeData,
 } from '../../../../../app/constants/constants'
+import { Routes } from '../../../../../app/router/routes'
 import { AccountingItem } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/SummaryPage/AccountingItem/AccountingItem'
 import { AddFundModal } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/SummaryPage/AddFundModal/AddFundModal'
 import { InfoItem } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/SummaryPage/InfoItem/InfoItem'
@@ -18,6 +26,17 @@ import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewC
 import { updateAllInfo } from '../../../../../shared/utils/api/Admin/ViewContact/Summary/UpdateAllInfo'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './SummaryPage.module.scss'
+
+const extractTokenFromUrl = (url: string): string | null => {
+  const regex = /\/autologin\/([^/]+)$/
+  const match = url.match(regex)
+
+  return match ? match[1] : null
+}
+
+const useTokenFromUrl = (url: string) => {
+  return useMemo(() => extractTokenFromUrl(url), [url])
+}
 
 export interface PartialFieldsPostData
   extends Partial<SummaryPageUpdateInfo> {
@@ -35,6 +54,12 @@ export const AdminContactSummaryPage: FC = () => {
   const context = useOutletContext<ViewPageContext>()
   const showToast = useCustomToast()
   const timerRef = useRef<number | null>(null)
+
+  const autoLoginUrl = `${import.meta.env.VITE_MAIN_DOMAIN}/${
+    Routes.public
+  }/${Routes.auto}/${Routes.login}/${useTokenFromUrl(
+    profileInfo?.autologin || '',
+  )}`
 
   const openCloseAddFundModal = () => {
     setAddFundModal(!addFundModal)
@@ -229,9 +254,7 @@ export const AdminContactSummaryPage: FC = () => {
             </div>
             <div className={styles.balanceContainer}>
               <h5 className={styles.balanceText}>
-                Balance:
-                {' '}
-                {profileInfo.balance}
+                Balance: {profileInfo.balance}
               </h5>
               <div className={styles.balanceButtons}>
                 <ButtonBlue
@@ -246,7 +269,7 @@ export const AdminContactSummaryPage: FC = () => {
                 />
               </div>
             </div>
-            {profileInfo.autologin ? (
+            {autoLoginUrl && profileInfo.autologin ? (
               <div className={styles.autoLoginWrapper}>
                 <div className={styles.autoLoginURL}>
                   <span className={styles.titleAutoLogin}>
@@ -254,7 +277,7 @@ export const AdminContactSummaryPage: FC = () => {
                   </span>
                   <div className={styles.wrapperAutoLoginLink}>
                     <span className={styles.autoLoginLink}>
-                      {profileInfo.autologin}
+                      {autoLoginUrl}
                     </span>
                   </div>
                 </div>
@@ -262,8 +285,8 @@ export const AdminContactSummaryPage: FC = () => {
                   <a
                     className={styles.loginCustomerText}
                     target='_blank'
-                    href={profileInfo.autologin}
                     rel='noreferrer'
+                    href={autoLoginUrl}
                   >
                     Login As Customer
                   </a>
