@@ -98,7 +98,7 @@ class DocumentController extends ResidentController
         $userController = new UserController();
 
 
-        if(!$document->is_global && !$userController->getUserModel()) {
+        if(!$document->is_global && !$userController->getUserModel(false)) {
             abort(403);
         }
 
