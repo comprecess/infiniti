@@ -21,8 +21,10 @@ class ActivityResource extends JsonResource
             'icon' => $this->icon,
             'time' => $this->created_at->diffForHumans(),
             'date' => $this->created_at->format('d/m/Y'),
+            'dateTime' => $this->created_at->format('H:i'),
             'client' => new UserResource($this->client),
             'admin' => new UserResource($this->admin),
+            'noDelete' => $this->no_delete
         ];
     }
 

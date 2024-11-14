@@ -38,6 +38,8 @@ class MailController extends ResidentController
                 }
             });
 
+            $template->send();
+
             return response()->json(['success' => true]);
         }
 

@@ -26,11 +26,12 @@ Route::post('/resident/login', [AuthController::class, 'residentLogin']);
 #autologin
 Route::get('/client/autologin/{autologin}', [AuthController::class, 'autologin'])
     ->name('autologin');
-
+/*
 #invoice
 Route::get('/{type}/token/{token}', [\App\Http\Controllers\Api\Resident\Sale\InvoiceController::class, 'publicToken'])
     ->whereIn('type', array_keys(\App\Http\Controllers\Api\Resident\Sale\InvoiceController::PUBLIC_TOKEN))
     ->name('invoicePublic');
+*/
 
 Route::group(['prefix' => 'user'], function(){
     Route::get('/', [UserController::class, 'getUser']);

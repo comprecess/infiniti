@@ -14,12 +14,13 @@ use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Resident\Invoices\Status\Offer as OfferStatus;
 
 class Offer extends Model implements InsertDefaultValueInterface
 {
     use HasFactory, CurrencyTrait, HelperTrait, InsertDefaultValueTrait, ModelToCartTrait;
 
-    const STAGE = ['Accepted', 'Dead', 'Delivered', 'Draft', 'Lost'];
+    const STAGE = ['Accepted', 'Dead', 'Delivered', 'Draft', 'Lost', 'Decline'];
 
     public $currencyId = true;
 
@@ -76,6 +77,11 @@ class Offer extends Model implements InsertDefaultValueInterface
         return $this->morphMany(InvoiceItem::class, 'document');
     }
 
+    public function status()
+    {
+        return new OfferStatus($this);
+    }
+
     public static function createCart(Cart $cart)
     {
         $nextCode = self::getNextCode('CART');
@@ -105,6 +111,7 @@ class Offer extends Model implements InsertDefaultValueInterface
         $t->subtotal = 0;
         $t->discount = 0;
         $t->total = 0;
+        $t->check_public = 1;
         $t->proposal = '';
         $t->customernotes = '';
         $t->adminnotes = '';

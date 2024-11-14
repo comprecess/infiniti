@@ -34,6 +34,13 @@ class OfferCreate extends  Template
         return [$pdf->output(), 'offer_'.$invoice->getCode().'.pdf'];
     }
 
+    public function send() :void
+    {
+        $offer = $this->varibles['offer'];
+        $offer->stage = Offer::STAGE[2];
+        $offer->save();
+    }
+
 
 
 }

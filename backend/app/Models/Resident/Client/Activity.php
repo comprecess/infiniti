@@ -15,5 +15,6 @@ class Activity extends Model
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'no_delete' => 'boolean'
     ];
 }
