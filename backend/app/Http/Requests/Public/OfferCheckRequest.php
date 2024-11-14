@@ -16,6 +16,8 @@ class OfferCheckRequest extends FormRequest
      */
     public function rules(): array
     {
+        \Illuminate\Support\Facades\Log::alert('***OfferCheckRequest***', $this->all());
+        \Illuminate\Support\Facades\Log::alert('***OfferCheckRequest***', ['url' => $this->fullUrl()]);
         $this->merge(['type' => $this->route('type')]);
 
         $stage = [Offer::STAGE['0'], Offer::STAGE['5']];

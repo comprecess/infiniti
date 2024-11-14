@@ -14,8 +14,13 @@ class Offer
     {
     }
 
-    public function actionPublic() :bool
+    public function actionPublicStage() :bool
     {
-        return !in_array($this->offer->stage, [OfferModel::STAGE[2], OfferModel::STAGE[3]]);
+        return in_array($this->offer->stage, [OfferModel::STAGE[2], OfferModel::STAGE[3]]);
+    }
+
+    public function actionPublic()
+    {
+        return $this->actionPublicStage() && $this->offer->orderCart()->withTrashed()->count();
     }
 }
