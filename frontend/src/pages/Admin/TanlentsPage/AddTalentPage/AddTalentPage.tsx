@@ -22,7 +22,22 @@ export const AdminAddTalentPage: FC = () => {
   const getInputData = async () => {
     const getResponse = await getTalentsInputData()
 
-    setInputData(getResponse)
+    const { allSkills, industries, keySkills, ...otherData } = getResponse
+
+    const updatedResponse = {
+      allSkills: allSkills.map((skill: any) => ({
+        value: skill.value.replace(/&amp;/g, '&'),
+      })),
+      industries: industries.map((industry: any) => ({
+        value: industry.value.replace(/&amp;/g, '&'),
+      })),
+      keySkills: keySkills.map((keySkill: any) => ({
+        value: keySkill.value.replace(/&amp;/g, '&'),
+      })),
+      ...otherData,
+    }
+
+    setInputData(updatedResponse)
   }
 
   const createNewTalent = async () => {

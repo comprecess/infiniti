@@ -5,6 +5,7 @@ import {
   RolesAccess,
 } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
+import { getAuthToken } from '../../../../shared/utils/api/GetAuthToke'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentDocuments.module.scss'
@@ -23,6 +24,8 @@ export const RecentDocuments: FC<RecentDocumentsProps> = ({
   changeSortName,
 }) => {
   const [sortNumbers, setSortNumbers] = useState<number[]>([1, 1])
+
+  const authToken = getAuthToken()
 
   const handleSortChange = useCallback(
     (index: number, sortNameItem: string, sortTypeItem: number) => {
@@ -69,6 +72,8 @@ export const RecentDocuments: FC<RecentDocumentsProps> = ({
             <React.Fragment key={file.id}>
               <Item
                 idFile={file.id}
+                authToken={authToken}
+                global={file.global}
                 title={file.title}
                 link={file.link}
                 type={file.type}

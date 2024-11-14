@@ -39,6 +39,22 @@
   letter-spacing: -0.03em;
 }
 
+.inputDescription {
+  display: flex;
+  flex-direction: column;
+}
+
+.description {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 14px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $brand-400;
+  user-select: none;
+  cursor: pointer;
+}
+
 .buttonBlue {
   @include mobileBreakpoint('min', $bpL) {
     max-width: 140px;

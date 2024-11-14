@@ -75,14 +75,25 @@ export const AddDocumentModal: FC<AddDocumentModalProps> = ({
           </div>
         </div>
         <div className={styles.container}>
-          <CustomInput
-            title='Title'
-            name='title'
-            id='title'
-            type='text'
-            value={formData.title}
-            onChange={onChangeInput}
-          />
+          {formData.file && (
+            <CustomInput
+              title='Title'
+              name='title'
+              id='title'
+              type='text'
+              value={formData.file.name}
+              onChange={onChangeInput}
+            />
+          )}
+          {!formData.file && (
+            <CustomInput
+              title='Title'
+              name='title'
+              id='title'
+              type='text'
+              onChange={onChangeInput}
+            />
+          )}
           <CustomDropZone onDrop={handleDrop} />
           <CustomCheckBox
             titleOnChange='global'

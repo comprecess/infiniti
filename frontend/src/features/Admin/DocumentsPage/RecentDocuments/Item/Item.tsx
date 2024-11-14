@@ -9,8 +9,10 @@ import styles from './Item.module.scss'
 
 interface ItemProps {
   idFile: number
+  global: number
   title: string
   type: string
+  authToken: string | undefined
   link: string
   access: RolesAccess
   deleteFile: (idFile: number) => void
@@ -18,8 +20,10 @@ interface ItemProps {
 
 export const Item: FC<ItemProps> = ({
   idFile,
+  global,
   title,
   type,
+  authToken,
   link,
   access,
   deleteFile,
@@ -35,14 +39,24 @@ export const Item: FC<ItemProps> = ({
     setModalEdit(state => !state)
   }
 
-  const handleDownloadFile = async (url: string) => {
-    const fileUrl = url
+  const handleDownloadFile = async (link: string) => {
+    const headers: HeadersInit =
+      global === 0
+        ? {
+            Authorization: `Bearer ${authToken}`,
+          }
+        : {}
 
-    const link = document.createElement('a')
-    link.href = fileUrl
-    link.download = ''
+    const response = await fetch(link, { headers })
 
-    link.click()
+    if (response.ok) {
+      const blob = await response.blob()
+      const url = URL.createObjectURL(blob)
+
+      window.open(url, '_blank')
+
+      URL.revokeObjectURL(url)
+    }
   }
 
   return (

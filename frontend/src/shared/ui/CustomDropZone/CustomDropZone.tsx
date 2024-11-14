@@ -10,7 +10,6 @@ export const CustomDropZone: FC<CustomDropZoneProps> = ({ onDrop }) => {
   const [isDragging, setIsDragging] = useState(false)
   const [fileInfo, setFileInfo] = useState<{
     name: string
-    type: string
   } | null>(null)
 
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -61,7 +60,6 @@ export const CustomDropZone: FC<CustomDropZoneProps> = ({ onDrop }) => {
 
         setFileInfo({
           name: file.name,
-          type: file.type,
         })
       }
 
@@ -76,7 +74,6 @@ export const CustomDropZone: FC<CustomDropZoneProps> = ({ onDrop }) => {
       onDrop(file)
       setFileInfo({
         name: file.name,
-        type: file.type,
       })
     }
   }
@@ -104,16 +101,7 @@ export const CustomDropZone: FC<CustomDropZoneProps> = ({ onDrop }) => {
         <div className={styles.fileInfo}>
           {fileInfo.name && (
             <p>
-              <strong>File Name:</strong>
-              {' '}
-              {fileInfo.name}
-            </p>
-          )}
-          {fileInfo.type && (
-            <p>
-              <strong>File Format:</strong>
-              {' '}
-              {fileInfo.type}
+              <strong>File Name:</strong> {fileInfo.name}
             </p>
           )}
         </div>
