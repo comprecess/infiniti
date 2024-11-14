@@ -45,6 +45,11 @@ abstract class Template
         return null;
     }
 
+    public function send() :void
+    {
+
+    }
+
     public function setVariables($name, $value)
     {
         $this->varibles[$name] = $value;
