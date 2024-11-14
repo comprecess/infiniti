@@ -17,4 +17,16 @@ class Activity extends Model
         'updated_at' => 'datetime',
         'no_delete' => 'boolean'
     ];
+
+    public function scopeActive($query, $active = true) :void
+    {
+        if($active) {
+            $query->where(function($q){
+                $q->where('no_delete', 0)
+                    ->orWhereNull('no_delete');
+            });
+        }else{
+            $query->where('no_delete', 1);
+        }
+    }
 }
