@@ -370,7 +370,7 @@ class ClientController extends MainClientController
     {
         $requestData = app(ActivityRequest::class);
         $activity = Activity::findOrFail($request->route('id'))->where('no_delete', '!=', 1);
-        if($activity){
+        if(!$activity){
             return response()->json(['success' => false]);
         }
         $requestData->setModel($activity);
@@ -417,7 +417,7 @@ class ClientController extends MainClientController
     private function activityDelete($request)
     {
         $activity = Activity::findOrFail($request->route('id'))->where('no_delete', '!=', 1);
-        if($activity){
+        if(!$activity){
             return response()->json(['success' => false]);
         }
         $activity->delete();
