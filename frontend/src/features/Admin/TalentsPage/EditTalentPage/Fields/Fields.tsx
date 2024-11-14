@@ -22,15 +22,15 @@ import { ProjectsExperienceItem } from './ProjectsExperienceItem/ProjectsExperie
 
 export interface PartialFieldsPostData extends Partial<TalentFormData> {
   [key: string]:
-  | string
-  | FormData
-  | TalentProjectsExperience[]
-  | number[]
-  | string[]
-  | number
-  | boolean
-  | undefined
-  | null
+    | string
+    | FormData
+    | TalentProjectsExperience[]
+    | number[]
+    | string[]
+    | number
+    | boolean
+    | undefined
+    | null
 }
 
 interface FieldsProps {
@@ -97,13 +97,17 @@ export const Fields: FC<FieldsProps> = ({
         )
         .find(value => value !== undefined) || 0,
     keySkills: data.property.flatMap(
-      spec => spec.keySkills?.map(val => val.value) || [],
+      spec =>
+        spec.keySkills?.map(val => val.value.replace(/&amp;/g, '&')) || [],
     ),
     allSkills: data.property.flatMap(
-      spec => spec.allSkills?.map(val => val.value) || [],
+      spec =>
+        spec.allSkills?.map(val => val.value.replace(/&amp;/g, '&')) || [],
     ),
     industries: data.property.flatMap(
-      spec => spec.industries?.map(val => val.value) || [],
+      spec =>
+        spec.industries?.map(val => val.value.replace(/&amp;/g, '&')) ||
+        [],
     ),
     specialization: data.property.flatMap(
       spec => spec.specialization?.map(val => val.value) || [],
@@ -182,13 +186,13 @@ export const Fields: FC<FieldsProps> = ({
   const handleChangeInput = (
     field: string,
     value:
-    | string
-    | number
-    | number[]
-    | string[]
-    | boolean
-    | undefined
-    | null,
+      | string
+      | number
+      | number[]
+      | string[]
+      | boolean
+      | undefined
+      | null,
   ) => {
     if (field === 'rate' && typeof value === 'boolean') {
       value = value === true ? 1 : 0

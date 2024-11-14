@@ -1,6 +1,8 @@
 import { FC, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { CustomerInputsData } from '../../../../app/constants/constants'
+import { Routes } from '../../../../app/router/routes'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomCheckBox } from '../../../../shared/ui/CustomCheckBox/CustomCheckBox'
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
@@ -23,13 +25,13 @@ interface FieldsPostData {
 
 export interface PartialFieldsPostData extends Partial<FieldsPostData> {
   [key: string]:
-  | string
-  | number
-  | boolean
-  | undefined
-  | string[]
-  | { [id: number]: string }
-  | null
+    | string
+    | number
+    | boolean
+    | undefined
+    | string[]
+    | { [id: number]: string }
+    | null
 }
 
 export const Fields: FC<FieldsProps> = ({ data }) => {
@@ -38,6 +40,7 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
     type: Array(data.type[0]),
   })
 
+  const navigate = useNavigate()
   const showToast = useCustomToast()
 
   const onChangeInput = (
@@ -166,6 +169,12 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
     }
   }
 
+  const handleNavigateToCreateCompany = () => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.customers}/${Routes.companies}`,
+    )
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -192,14 +201,24 @@ export const Fields: FC<FieldsProps> = ({ data }) => {
             name='displayName'
             onChange={onChangeInput}
           />
-          <CustomSelect
-            title='Company'
-            titleOnChange='companyId'
-            placeholder='None'
-            idList={data.company.map((_item, index) => index + 1)}
-            nameList={data.company.map(item => item.name)}
-            onChange={onChangeInput}
-          />
+          <div className={styles.inputDescription}>
+            <CustomSelect
+              title='Company'
+              titleOnChange='companyId'
+              placeholder='None'
+              idList={data.company.map((_item, index) => index + 1)}
+              nameList={data.company.map(item => item.name)}
+              onChange={onChangeInput}
+            />
+            <div>
+              <span
+                className={styles.description}
+                onClick={handleNavigateToCreateCompany}
+              >
+                Click to create a new Company
+              </span>
+            </div>
+          </div>
           <CustomInput
             title='Business Number'
             type='text'

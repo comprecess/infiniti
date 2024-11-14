@@ -7,9 +7,23 @@ import styles from './Item.module.scss'
 
 interface ItemProps {
   item: ViewInvoicesProps
+  navigateToViewInvoice: (id: number) => void
+  navigateToEditInvoice: (id: number) => void
 }
 
-export const Item: FC<ItemProps> = ({ item }) => {
+export const Item: FC<ItemProps> = ({
+  item,
+  navigateToViewInvoice,
+  navigateToEditInvoice,
+}) => {
+  const handleNavigateToViewInvoice = () => {
+    navigateToViewInvoice(item.id)
+  }
+
+  const handleNavigateToEditInvoice = () => {
+    navigateToEditInvoice(item.id)
+  }
+
   return (
     <div className={styles.wrapper}>
       <span className={`${styleItem.codeColumn} ${styles.codeItem}`}>
@@ -33,10 +47,16 @@ export const Item: FC<ItemProps> = ({ item }) => {
         <Status title={item.status} status={item.status} />
       </div>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <button className={styles.buttonView}>
+        <button
+          className={styles.buttonView}
+          onClick={handleNavigateToViewInvoice}
+        >
           <img src='/icons/view.svg' alt='View' className={styles.icon} />
         </button>
-        <button className={styles.buttonEdit}>
+        <button
+          className={styles.buttonEdit}
+          onClick={handleNavigateToEditInvoice}
+        >
           <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
         </button>
       </div>
