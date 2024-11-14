@@ -24,7 +24,7 @@ class ActivityResource extends JsonResource
             'dateTime' => $this->created_at->format('H:i'),
             'client' => new UserResource($this->client),
             'admin' => new UserResource($this->admin),
-            'noDelete' => $this->no_delete
+            'noDelete' => $this->no_delete ? 1 : 0
         ];
     }
 
