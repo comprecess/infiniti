@@ -85,7 +85,7 @@ class Admin extends User implements LoginIntarface, InsertDefaultValueInterface
         $this->last_login = now();
 
         if(request()->is('api/*')) {
-            if(!$this->isLastTime(false)) {
+            if(!$this->isLastTime(false) || !$this->api_token) {
                 $this->setApiToken();
             }
         }
