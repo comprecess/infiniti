@@ -73,7 +73,7 @@ class PetitionController extends Controller
     {
         list($type, $model) = $this->getDataByToken();
         $user = $this->isAuth(false);
-        if($model->status()->actionPublic()) {
+        if(!$model->status()->actionPublic()) {
             throw ValidationException::withMessages(["offer" => "It is not possible to change the status"]);
         }
 
@@ -105,6 +105,8 @@ class PetitionController extends Controller
         $message[] = "[stage:{$request->stage}]";
         $newMessage = array_diff($message, ['']);
         Log::send(implode("; ", $newMessage), $model->user);
+
+        return response()->json(['success' => true]);
     }
 
 

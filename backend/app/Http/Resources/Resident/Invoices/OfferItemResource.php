@@ -42,6 +42,9 @@ class OfferItemResource extends JsonResource implements ListInterface
             'blank' => InvoiceBlankResource::collection($items),
             'pdf' => route('pdf', ['name' => 'offer', 'token' => $this->vtoken]),
             'checkPublic' => $this->check_public,
+            'status' => [
+                "publicButton" => $this->status()->actionPublic()
+            ],
             'blankCalc' => [
                 'price' => $items->summPrice(),
                 'discount' => $items->summDiscount(),
