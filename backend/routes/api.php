@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\Public\PetitionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,13 @@ Route::get('/{type}/token/{token}', [\App\Http\Controllers\Api\Resident\Sale\Inv
     ->whereIn('type', array_keys(\App\Http\Controllers\Api\Resident\Sale\InvoiceController::PUBLIC_TOKEN))
     ->name('invoicePublic');
 */
+#invoice and offer by token
+Route::controller(PetitionController::class)->prefix('/{type}/token/{token}')
+    ->whereIn('type', array_keys(PetitionController::PUBLIC_TOKEN))
+    ->group(function(){
+        Route::get('/', 'publicToken');
+        Route::post('/', 'offerCheck');
+    });
 
 Route::group(['prefix' => 'user'], function(){
     Route::get('/', [UserController::class, 'getUser']);
