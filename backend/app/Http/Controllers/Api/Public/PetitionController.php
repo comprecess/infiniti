@@ -79,12 +79,15 @@ class PetitionController extends Controller
 
         $model->stage = $request->stage;
         $model->save();
+        $message = collect([]);
 
         if($request->stage == Offer::STAGE[5]) {
             $date = now();
             $activity = new Activity();
 //            $name = $user?->account ?? $request->name ?? $request->ip();
-            $message = collect([/*"[name:{$name}]", */"[ip:{$request->ip()}]", $request->message]);
+//            $message = collect([/*"[name:{$name}]", */"[ip:{$request->ip()}]", $request->message]);
+            $message->push("[ip:{$request->ip()}]");
+            $message->push($request->message);
 
             $resident = $model->orderCart()->withTrashed()->orderByDesc('id')->first()?->user;
             if(!$resident || !($resident instanceof Admin)) {
@@ -101,8 +104,8 @@ class PetitionController extends Controller
             $activity->o = $resident->id;
             $activity->save();
         }
-        $message->prepend("[Offer:{$model->id}]");
         $message->prepend("[stage:{$request->stage}]");
+        $message->prepend("[Offer:{$model->id}]");
         Log::send($message->implode("; "), $model->user);
 
         return response()->json(['success' => true]);
