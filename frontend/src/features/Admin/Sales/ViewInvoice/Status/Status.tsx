@@ -16,6 +16,7 @@ const statusColors = {
   Delivered: styles.statusDelivered,
   Draft: styles.statusDraft,
   Lost: styles.statusLost,
+  Decline: styles.statusDecline,
 }
 
 export const Status: FC<StatusProps> = ({ status }) => {
@@ -48,6 +49,9 @@ export const Status: FC<StatusProps> = ({ status }) => {
       break
     case 'Lost':
       statusStyle = statusColors.Lost
+      break
+    case 'Decline':
+      statusStyle = statusColors.Decline
       break
   }
 

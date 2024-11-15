@@ -8,6 +8,8 @@ interface ItemProps {
   id: number
   account: string
   date: string
+  dateTime: string
+  noDelete: number
   icon: string
   message: string
   time: string
@@ -19,6 +21,8 @@ export const Item: FC<ItemProps> = ({
   id,
   account,
   date,
+  dateTime,
+  noDelete,
   icon,
   message,
   time,
@@ -43,6 +47,7 @@ export const Item: FC<ItemProps> = ({
             <IconItem nameIcon={icon} />
             <div className={styles.dateTime}>
               <span className={styles.date}>{date}</span>
+              <span className={styles.time}>{dateTime}</span>
               <span className={styles.time}>{time}</span>
             </div>
           </div>
@@ -52,28 +57,30 @@ export const Item: FC<ItemProps> = ({
               dangerouslySetInnerHTML={{ __html: safeHTML }}
               className={styles.message}
             />
-            <div className={styles.buttonsList}>
-              <button
-                className={styles.buttonEdit}
-                onClick={handleClickEdit}
-              >
-                <img
-                  src='/icons/edit.svg'
-                  alt='Edit'
-                  className={styles.icon}
-                />
-              </button>
-              <button
-                className={styles.buttonTrash}
-                onClick={handleClickDelete}
-              >
-                <img
-                  src='/icons/trash.svg'
-                  alt='Trash'
-                  className={styles.icon}
-                />
-              </button>
-            </div>
+            {noDelete === 0 && (
+              <div className={styles.buttonsList}>
+                <button
+                  className={styles.buttonEdit}
+                  onClick={handleClickEdit}
+                >
+                  <img
+                    src='/icons/edit.svg'
+                    alt='Edit'
+                    className={styles.icon}
+                  />
+                </button>
+                <button
+                  className={styles.buttonTrash}
+                  onClick={handleClickDelete}
+                >
+                  <img
+                    src='/icons/trash.svg'
+                    alt='Trash'
+                    className={styles.icon}
+                  />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

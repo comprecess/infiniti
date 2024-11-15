@@ -48,8 +48,8 @@ export const NewCurrency: FC<NewCurrencyProps> = ({
           <CustomInput
             title='Base Conversion Rate'
             type='number'
-            id='baseConversionRate'
-            name='baseConversionRate'
+            id='rate'
+            name='rate'
             onChange={handleInputChange}
           />
           <span className={styles.description}>
