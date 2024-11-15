@@ -83,8 +83,8 @@ class PetitionController extends Controller
         if($request->stage == Offer::STAGE[5]) {
             $date = now();
             $activity = new Activity();
-            $name = $user?->account ?? $request->name ?? $request->ip();
-            $message = ["[name:{$name}]", "[ip:{$request->ip()}]", $request->message];
+//            $name = $user?->account ?? $request->name ?? $request->ip();
+            $message = collect([/*"[name:{$name}]", */"[ip:{$request->ip()}]", $request->message]);
 
             $resident = $model->orderCart()->withTrashed()->orderByDesc('id')->first()?->user;
             if(!$resident || !($resident instanceof Admin)) {
@@ -92,19 +92,18 @@ class PetitionController extends Controller
             }
 
             $activity->cid = $model->userid;
-            $activity->msg = '<p>' . implode('<br>', $message) . '</p>';
+            $activity->msg = '<p>' . $message->implode('<br>') . '</p>';
             $activity->icon = 'reply';
             $activity->stime = $date->timestamp;
             $activity->sdate = $date;
-            $activity->oname = $name;
+            $activity->oname = $resident->fullname;
             $activity->no_delete = 1;
             $activity->o = $resident->id;
             $activity->save();
         }
-        $message[] = "[Offer:{$model->id}]";
-        $message[] = "[stage:{$request->stage}]";
-        $newMessage = array_diff($message, ['']);
-        Log::send(implode("; ", $newMessage), $model->user);
+        $message->prepend("[Offer:{$model->id}]");
+        $message->prepend("[stage:{$request->stage}]");
+        Log::send($message->implode("; "), $model->user);
 
         return response()->json(['success' => true]);
     }
