@@ -1,6 +1,7 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
 import { RolesAccess } from '../../../../../app/constants/constants'
+import { ConfirmationModal } from '../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import styleItem from '../RecentCurrencies.module.scss'
 import styles from './Item.module.scss'
 
@@ -29,8 +30,15 @@ export const Item: FC<ItemProps> = ({
   changeBaseCurrency,
   editCurrency,
 }) => {
+  const [modalDelete, setModalDelete] = useState<boolean>(false)
+
+  const handleOpenConfirmationModal = () => {
+    setModalDelete(state => !state)
+  }
+
   const handleDeleteClick = () => {
     deleteCurrency(id)
+    handleOpenConfirmationModal()
   }
 
   const handleChangeBaseCurrency = () => {
@@ -42,56 +50,65 @@ export const Item: FC<ItemProps> = ({
   }
 
   return (
-    <div className={styles.wrapper}>
-      <span
-        className={`${styleItem.currencyCodeColumn} ${styles.currencyCodeItem}`}
-      >
-        {currencyCode}
-        {baseCurrency === 1 ? ' (Base Currency)' : null}
-      </span>
-      <span
-        className={`${styleItem.baseConversionRateColumn} ${styles.baseConversionRateItem}`}
-      >
-        {baseConversionRate}
-      </span>
-      <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        {access.edit === 1 && (
-          <button
-            className={styles.buttonEdit}
-            onClick={handleEditCurrency}
-          >
-            <img
-              src='/icons/edit.svg'
-              alt='Star'
-              className={styles.icon}
-            />
-          </button>
-        )}
-        {baseCurrency === 0 ? (
-          <button
-            className={styles.buttonStar}
-            onClick={handleChangeBaseCurrency}
-          >
-            <img
-              src='/icons/star.svg'
-              alt='Star'
-              className={styles.icon}
-            />
-          </button>
-        ) : null}
-        {access.delete === 1 && (
-          <button
-            className={styles.buttonTrash}
-            onClick={handleDeleteClick}
-          >
-            <img
-              src='/icons/trash.svg'
-              alt='Star'
-              className={styles.icon}
-            />
-          </button>
-        )}
+    <>
+      <div className={styles.wrapper}>
+        <span
+          className={`${styleItem.currencyCodeColumn} ${styles.currencyCodeItem}`}
+        >
+          {currencyCode}
+          {baseCurrency === 1 ? ' (Base Currency)' : null}
+        </span>
+        <span
+          className={`${styleItem.baseConversionRateColumn} ${styles.baseConversionRateItem}`}
+        >
+          {baseConversionRate}
+        </span>
+        <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
+          {access.edit === 1 && (
+            <button
+              className={styles.buttonEdit}
+              onClick={handleEditCurrency}
+            >
+              <img
+                src='/icons/edit.svg'
+                alt='Star'
+                className={styles.icon}
+              />
+            </button>
+          )}
+          {baseCurrency === 0 ? (
+            <button
+              className={styles.buttonStar}
+              onClick={handleChangeBaseCurrency}
+            >
+              <img
+                src='/icons/star.svg'
+                alt='Star'
+                className={styles.icon}
+              />
+            </button>
+          ) : null}
+          {access.delete === 1 && (
+            <button
+              className={styles.buttonTrash}
+              onClick={handleOpenConfirmationModal}
+            >
+              <img
+                src='/icons/trash.svg'
+                alt='Star'
+                className={styles.icon}
+              />
+            </button>
+          )}
+        </div>
       </div>
-    </div>
+      {modalDelete && (
+        <ConfirmationModal
+          isOpened={modalDelete}
+          handleOpenCloseModal={handleOpenConfirmationModal}
+          agree={handleDeleteClick}
+        />
+      )}
+    </>
   )
 }

@@ -1,0 +1,65 @@
+.header {
+  display: flex;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+  color: $white;
+}
+
+.title {
+  font-family: $fontSpaceGrotesk;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+.cross {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  transition: 0.3s ease;
+  cursor: pointer;
+
+  &:hover * {
+    stroke: $gray-200;
+  }
+}
+
+.containerButtons {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  width: 100%;
+}
+
+.containerInputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.declineButton {
+  background-color: $cherry-500;
+
+  @include hover() {
+    background-color: $cherry-400;
+  }
+}
+
+.textAreaWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.textAreaTitle {
+  font-family: $fontSpaceGrotesk;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}

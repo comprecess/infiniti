@@ -513,6 +513,8 @@ export interface ViewActivityTypeData {
   admin: AdminInfo
   client: UserInfo
   date: string
+  dateTime: string
+  noDelete: number
   icon: string
   message: string
   time: string
@@ -803,6 +805,7 @@ export interface SalesViewOfferData {
   subject: string
   token: string
   validUntil: string
+  status: { publicButton: boolean }
   company: {
     companyAddress: string
     companyName: string

@@ -8,7 +8,6 @@ import { EditCurrency } from '../../../../features/Admin/CurrenciesPage/EditCurr
 import { NewCurrency } from '../../../../features/Admin/CurrenciesPage/NewCurrency/NewCurrency'
 import { RecentCurrencies } from '../../../../features/Admin/CurrenciesPage/RecentCurrencies/RecentCurrencies'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
-import { ConfirmationModal } from '../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { addCurrency } from '../../../../shared/utils/api/Admin/Currency/AddCurrency'
@@ -21,7 +20,7 @@ import styles from './CurrenciesPage.module.scss'
 
 export const AdminCurrenciesPage: FC = () => {
   const [currenciesList, setCurrenciesList] = useState<
-  CurrencyProps[] | null
+    CurrencyProps[] | null
   >(null)
   const [modalNewCurrency, setModalNewCurrency] = useState<boolean>(false)
   const [modalEditCurrency, setModalEditCurrency] =
@@ -36,12 +35,6 @@ export const AdminCurrenciesPage: FC = () => {
   const [name, setName] = useState<string>('')
   const [rate, setRate] = useState<number>(0)
 
-  const [selectedGroupId, setSelectedGroupId] = useState<number | null>(
-    null,
-  )
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
-    useState<boolean>(false)
-
   const showToast = useCustomToast()
 
   const handleOpenCloseModalNewCurrency = () => {
@@ -52,19 +45,10 @@ export const AdminCurrenciesPage: FC = () => {
     setModalEditCurrency(!modalEditCurrency)
   }
 
-  const handleOpenConfirmationModal = () => {
-    setIsConfirmationModalOpen(!isConfirmationModalOpen)
-  }
-
-  const confirmDeleteGroup = (id: number) => {
-    setSelectedGroupId(id)
-    setIsConfirmationModalOpen(true)
-  }
-
   const handleInputChange = (name: string, value: string | number) => {
     if (name === 'currencyCode') {
       setName(value as string)
-    } else if (name === 'baseConversionRate') {
+    } else if (name === 'rate') {
       setRate(Number(value))
     }
   }
@@ -94,10 +78,8 @@ export const AdminCurrenciesPage: FC = () => {
     handleOpenCloseModalEditCurrency()
   }
 
-  const deleteSelectedCurrency = async () => {
-    if (selectedGroupId === null) return
-
-    const deleteResponse = await deleteCurrency(selectedGroupId)
+  const deleteSelectedCurrency = async (id: number) => {
+    const deleteResponse = await deleteCurrency(id)
 
     if (deleteResponse.status) {
       showToast({
@@ -113,8 +95,6 @@ export const AdminCurrenciesPage: FC = () => {
         status: 'error',
       })
     }
-
-    handleOpenConfirmationModal()
   }
 
   const changeSelectedBaseCurrency = async (id: number) => {
@@ -197,19 +177,19 @@ export const AdminCurrenciesPage: FC = () => {
             componentProps={
               access.create
                 ? {
-                  title: 'New Currency',
-                  icon: '/icons/plus.svg',
-                  iconProps: styles.icon,
-                  onClick: handleOpenCloseModalNewCurrency,
-                  style: styles.blueButton,
-                }
+                    title: 'New Currency',
+                    icon: '/icons/plus.svg',
+                    iconProps: styles.icon,
+                    onClick: handleOpenCloseModalNewCurrency,
+                    style: styles.blueButton,
+                  }
                 : undefined
             }
           >
             <RecentCurrencies
               access={access}
               currencyList={currenciesList}
-              deleteCurrency={confirmDeleteGroup}
+              deleteCurrency={deleteSelectedCurrency}
               changeBaseCurrency={changeSelectedBaseCurrency}
               editCurrency={loadEditModalWindow}
             />
@@ -232,11 +212,6 @@ export const AdminCurrenciesPage: FC = () => {
         handleOpenCloseModal={handleOpenCloseModalEditCurrency}
         editCurrency={editSelectedCurrency}
         handleInputChange={handleInputChange}
-      />
-      <ConfirmationModal
-        isOpened={isConfirmationModalOpen}
-        handleOpenCloseModal={handleOpenConfirmationModal}
-        agree={deleteSelectedCurrency}
       />
     </div>
   )
