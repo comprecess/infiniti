@@ -87,6 +87,7 @@ class PetitionController extends Controller
 //            $name = $user?->account ?? $request->name ?? $request->ip();
 //            $message = collect([/*"[name:{$name}]", */"[ip:{$request->ip()}]", $request->message]);
             $message->push("[ip:{$request->ip()}]");
+            $message->push("[<a href=\"{$model->getUrlFront()}\" target=\"_blank\">Offer: {$model->id}</a>]");
             $message->push($request->message);
 
             $resident = $model->orderCart()->withTrashed()->orderByDesc('id')->first()?->user;

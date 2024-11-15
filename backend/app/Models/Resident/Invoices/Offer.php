@@ -148,4 +148,9 @@ class Offer extends Model implements InsertDefaultValueInterface
         return $t;
     }
 
+    public function getUrlFront()
+    {
+        return frontLink('/admin/sales/offer/view/' . $this->id);
+    }
+
 }
