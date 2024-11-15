@@ -30,6 +30,7 @@ export const sanitizeMessage = (value: string): string => {
     ALLOWED_ATTR: [
       'src',
       'href',
+      'target',
       'width',
       'height',
       'frameborder',
