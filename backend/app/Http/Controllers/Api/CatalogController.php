@@ -23,7 +23,7 @@ class CatalogController extends Controller
 
     public function filters(Request $request)
     {
-        $dopFilter = ['categories'];
+        $dopFilter = ['specialization'];
         $prop = Prop::whereNull('id_parent')
             ->with(['children', 'values']);
 
