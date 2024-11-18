@@ -1,5 +1,5 @@
 import { PartialFieldsPostData } from '../../../../../../pages/Admin/CustomersPage/ViewPage/SummaryPage/SummaryPage'
-import { getAuthToken } from '../../../GetAuthToke'
+import { getAuthToken } from '../../../GetAuthToken'
 
 interface Response {
   status: boolean

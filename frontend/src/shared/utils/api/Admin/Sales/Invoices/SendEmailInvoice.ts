@@ -1,5 +1,5 @@
 import { PartialFormData } from '../../../../../../features/Admin/Sales/ViewInvoice/EmailPanel/EmailPanel'
-import { getAuthToken } from '../../../GetAuthToke'
+import { getAuthToken } from '../../../GetAuthToken'
 
 interface Response {
   status: boolean

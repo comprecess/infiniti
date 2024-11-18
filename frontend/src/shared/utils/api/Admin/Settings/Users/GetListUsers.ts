@@ -1,4 +1,4 @@
-import { getAuthToken } from '../../../GetAuthToke'
+import { getAuthToken } from '../../../GetAuthToken'
 
 export const getListUsers = async (options: string) => {
   const authToken = getAuthToken()

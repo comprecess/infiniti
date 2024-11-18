@@ -1,5 +1,5 @@
 import { PartialFieldsPostData } from '../../../../../../features/Admin/Sales/NewInvoice/Fields/Fields'
-import { getAuthToken } from '../../../GetAuthToke'
+import { getAuthToken } from '../../../GetAuthToken'
 
 interface Response {
   status: boolean

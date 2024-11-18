@@ -6,7 +6,7 @@ import {
 } from '../../../app/constants/constants'
 import { removeCookies } from '../Saving/Cookies/RemoveCookies'
 import { saveSession } from '../Saving/Session/SaveSession'
-import { getAuthToken } from './GetAuthToke'
+import { getAuthToken } from './GetAuthToken'
 
 export const getProfileInfo = async (): Promise<UserInfo | false> => {
   const authToken = getAuthToken()

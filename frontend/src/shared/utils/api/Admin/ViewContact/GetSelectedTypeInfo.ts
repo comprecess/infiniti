@@ -1,4 +1,4 @@
-import { getAuthToken } from '../../GetAuthToke'
+import { getAuthToken } from '../../GetAuthToken'
 
 export const getSelectedTypeInfo = async (id: number, type: string) => {
   const authToken = getAuthToken()

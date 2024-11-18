@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
 
-import { RecentInvoicesData } from '../../../../app/data/admin/recentInvoices'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Chart } from './Chart/Chart'
@@ -8,7 +7,7 @@ import { Item } from './Item/Item'
 import styles from './RecentInvoices.module.scss'
 
 export const RecentInvoices: FC = () => {
-  const data: string[] = RecentInvoicesData.map(item => item.status)
+  const data: string[] = []
 
   return (
     <div className={styles.wrapper}>
@@ -23,20 +22,18 @@ export const RecentInvoices: FC = () => {
             <Title title='Status' style={styles.statusColumn} />
           </div>
           <div className={styles.items}>
-            {RecentInvoicesData.map((order, index) => {
+            {[].map((_order, index) => {
               return (
-                <React.Fragment key={order.id}>
+                <React.Fragment key={'order.id'}>
                   <Item
-                    hashtag={order.hashtag}
-                    account={order.account}
-                    amount={order.amount}
-                    created={order.created}
-                    due={order.due}
-                    status={order.status}
+                    hashtag={'order.hashtag'}
+                    account={'order.account'}
+                    amount={'order.amount'}
+                    created={'order.created'}
+                    due={'order.due'}
+                    status={'order.status'}
                   />
-                  {index !== RecentInvoicesData.length - 1 && (
-                    <CustomDivider />
-                  )}
+                  {index !== [].length - 1 && <CustomDivider />}
                 </React.Fragment>
               )
             })}

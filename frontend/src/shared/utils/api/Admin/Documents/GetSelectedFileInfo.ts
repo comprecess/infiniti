@@ -1,4 +1,4 @@
-import { getAuthToken } from '../../GetAuthToke'
+import { getAuthToken } from '../../GetAuthToken'
 
 export const getSelectedFileInfo = async (idDoc: number) => {
   const authToken = getAuthToken()

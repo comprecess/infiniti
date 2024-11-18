@@ -1,13 +1,14 @@
-import { getAuthToken } from '../../../GetAuthToke'
+import { getAuthToken } from '../../../GetAuthToken'
 
-export const getPropertiesFiltering = async () => {
+export const getPropertiesFiltering = async (type?: string) => {
   const authToken = getAuthToken()
 
   if (authToken) {
     try {
       const response = await fetch(
         import.meta.env.VITE_MAIN_DOMAIN +
-          import.meta.env.VITE_CATALOG_API_PROPERTIES_FILTERING,
+          import.meta.env.VITE_CATALOG_API_PROPERTIES_FILTERING +
+          `${type ? type : ''}`,
         {
           method: 'GET',
           headers: {

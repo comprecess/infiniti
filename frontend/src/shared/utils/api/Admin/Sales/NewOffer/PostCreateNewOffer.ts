@@ -1,6 +1,6 @@
 import { PartialFieldsNewOfferData } from '../../../../../../features/Admin/Sales/NewOfferPage/Fields/Fields'
 import { PartialFieldsCartToOfferData } from '../../../../../../features/Admin/TalentsPage/CartToOfferPage/Fields/Fields'
-import { getAuthToken } from '../../../GetAuthToke'
+import { getAuthToken } from '../../../GetAuthToken'
 
 interface Response {
   status: boolean

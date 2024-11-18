@@ -1,5 +1,5 @@
 import { FieldProps } from '../../../../../pages/Admin/SettingsPage/CustomContactFieldsPage/CustomContactFieldsPage'
-import { getAuthToken } from '../../GetAuthToke'
+import { getAuthToken } from '../../GetAuthToken'
 
 interface Response {
   status: boolean
