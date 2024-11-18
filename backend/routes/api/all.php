@@ -13,6 +13,7 @@ Route::group(['prefix' => 'catalog'], function(){
     Route::get('cart', [CatalogController::class, 'getCart']);
     Route::post('cart', [CatalogController::class, 'addCart']);
     Route::delete('cart/item/{id}', [CatalogController::class, 'deleteItemCart']);
+    Route::get('cart/pay', [CatalogController::class, 'pay']);
 });
 
 

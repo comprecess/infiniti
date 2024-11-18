@@ -63,6 +63,7 @@ class Catalog extends Seeder
                 ['name' => 'Graduation', 'id_name' => 'education_graduation', 'type' => $type[3], 'has_add' => 1],
             ]],
             ['name' => 'All skills', 'id_name' => 'all_skills', 'type' => $type[0], 'has_add' => 1],
+            ['name' => 'Categories', 'id_name' => 'categories', 'type' => $type[0], 'has_add' => 1],
         ];
 
         $value = [
