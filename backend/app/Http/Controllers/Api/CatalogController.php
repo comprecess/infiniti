@@ -15,6 +15,7 @@ use App\Models\Catalog\User;
 use App\Models\Catalog\Value;
 use Illuminate\Http\Request;
 use App\Models\User as UserCrm;
+use Stripe\StripeClient;
 
 
 class CatalogController extends Controller
@@ -22,12 +23,17 @@ class CatalogController extends Controller
 
     public function filters(Request $request)
     {
+        $dopFilter = ['categories'];
         $prop = Prop::whereNull('id_parent')
-            ->where('filter', 1)
-            ->with(['children', 'values'])
-            ->get();
+            ->with(['children', 'values']);
 
-        return PropertyResorce::collection($prop);
+        if($request->prop && in_array($request->prop, $dopFilter)) {
+            $prop->where('id_name', $request->prop);
+        }else{
+            $prop->where('filter', 1);
+        }
+
+        return PropertyResorce::collection($prop->get());
     }
 
     public function properties(Request $request)
@@ -130,6 +136,28 @@ class CatalogController extends Controller
         } else {
             return response()->json(['success' => false]);
         }
+    }
+
+    public function pay()
+    {
+        $stripe = new StripeClient('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+
+//        $result = $stripe->paymentIntents->create([
+//            'amount' => 1099,
+//            'currency' => 'usd',
+//            'automatic_payment_methods' => ['enabled' => true]
+//        ]);
+//
+//        dd($result);
+
+//        dd($stripe->paymentIntents->all());
+
+        $result = $stripe->charges->create([
+            'amount' => 1099,
+            'currency' => 'usd',
+            'source' => 'tok_visa',
+        ]);
+        dd($result);
     }
 
 }
