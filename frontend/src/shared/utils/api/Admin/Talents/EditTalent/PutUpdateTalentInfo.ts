@@ -1,5 +1,5 @@
 import { PartialFieldsPostData } from '../../../../../../features/Admin/TalentsPage/EditTalentPage/Fields/Fields'
-import { getAuthToken } from '../../../GetAuthToke'
+import { getAuthToken } from '../../../GetAuthToken'
 
 interface Response {
   status: boolean

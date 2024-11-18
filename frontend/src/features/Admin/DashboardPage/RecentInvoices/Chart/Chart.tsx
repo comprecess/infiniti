@@ -41,6 +41,10 @@ export const Chart: FC<ChartProps> = ({ data }) => {
     return colorMap[label] || 'white'
   }
 
+  if (data.length === 0) {
+    return null
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.labels}>

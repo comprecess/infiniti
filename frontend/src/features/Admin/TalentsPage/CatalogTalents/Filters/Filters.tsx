@@ -17,12 +17,14 @@ import styles from './Filters.module.scss'
 interface FiltersProps {
   selectedFilters: FiltersState
   setSort: (name: string, type: string) => void
+  setActiveCategory: (value: number) => void
   setSelectedFilters: React.Dispatch<React.SetStateAction<FiltersState>>
 }
 
 export const Filters: FC<FiltersProps> = ({
   selectedFilters,
   setSelectedFilters,
+  setActiveCategory,
   setSort,
 }) => {
   const [searchItems, setSearchItems] = useState<string[]>([])
@@ -64,6 +66,7 @@ export const Filters: FC<FiltersProps> = ({
 
   const handleFiltersReset = () => {
     setSort('priceDay', 'asc')
+    setActiveCategory(0)
     setSelectedFilters({})
   }
 

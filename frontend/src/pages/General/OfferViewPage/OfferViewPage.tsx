@@ -11,7 +11,7 @@ import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getInfoPublicOffer } from '../../../shared/utils/api/Admin/Sales/PublicOffer/GetInfoPublicOffer'
 import { postAcceptOrDecline } from '../../../shared/utils/api/Admin/Sales/PublicOffer/PostAcceptOrDecline'
-import { getAuthToken } from '../../../shared/utils/api/GetAuthToke'
+import { getAuthToken } from '../../../shared/utils/api/GetAuthToken'
 import styles from './OfferViewPage.module.scss'
 
 const extractTokenFromUrl = (url: string): string | null => {

@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
 
-import { LatestExpenseData } from '../../../../app/data/admin/latestExpense'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
@@ -15,15 +14,15 @@ export const LatestExpense: FC = () => {
         <Title title='Amount' style={styles.amountColumn} />
       </div>
       <div className={styles.items}>
-        {LatestExpenseData.map((order, index) => {
+        {[].map((_order, index) => {
           return (
-            <React.Fragment key={order.id}>
+            <React.Fragment key={'order.id'}>
               <Item
-                date={order.date}
-                amount={order.amount}
-                description={order.description}
+                date={'order.date'}
+                amount={'order.amount'}
+                description={'order.description'}
               />
-              {index !== LatestExpenseData.length - 1 && <CustomDivider />}
+              {index !== [].length - 1 && <CustomDivider />}
             </React.Fragment>
           )
         })}

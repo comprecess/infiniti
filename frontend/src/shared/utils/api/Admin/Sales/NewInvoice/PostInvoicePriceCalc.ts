@@ -1,5 +1,5 @@
 import { SalesNewInvoicePriceCalcProps } from '../../../../../../app/constants/constants'
-import { getAuthToken } from '../../../GetAuthToke'
+import { getAuthToken } from '../../../GetAuthToken'
 
 export const postInvoicePriceCalc = async (blank: {
   blankList: {

@@ -1,5 +1,5 @@
 import { PartialFieldsNewUserData } from '../../../../../../../features/Admin/Settings/UsersPage/NewUser/Fields/Fields'
-import { getAuthToken } from '../../../../GetAuthToke'
+import { getAuthToken } from '../../../../GetAuthToken'
 
 interface Response {
   status: boolean

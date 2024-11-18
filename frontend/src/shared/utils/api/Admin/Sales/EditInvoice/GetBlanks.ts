@@ -1,4 +1,4 @@
-import { getAuthToken } from '../../../GetAuthToke'
+import { getAuthToken } from '../../../GetAuthToken'
 
 export const getBlanksListInvoice = async (id: number) => {
   const authToken = getAuthToken()
