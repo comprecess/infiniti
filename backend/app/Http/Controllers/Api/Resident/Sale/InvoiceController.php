@@ -19,7 +19,7 @@ use App\Http\Resources\Resident\Invoices\InvoicePdfResource;
 use App\Http\Resources\Resident\Invoices\InvoiceResource;
 use App\Http\Resources\Resident\Invoices\OfferItemResource;
 use App\Http\Resources\Resident\Settings\CurrencyResource;
-use App\Http\Resources\Resident\Settings\TaxResorce;
+use App\Http\Resources\Resident\Settings\TaxResource;
 use App\Models\Config;
 use App\Models\Contracts\ModelServiceInterface;
 use App\Models\Resident\Invoices\Invoice;
@@ -146,7 +146,7 @@ class InvoiceController extends SaleController
             'invoiceNum' => Config::get('invoice_code_prefix', 'INV-'),
             'repeat' => Invoice::getRepeatName(),
             'dueDate' => $dueDate,
-            'tax' => TaxResorce::collection(Tax::getForSelect()),
+            'tax' => TaxResource::collection(Tax::getForSelect()),
             'notes' => Config::get('invoice_terms'),
             'service' => InvoicePriceCalcRequest::getService()->keys()
         ]);

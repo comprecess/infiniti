@@ -14,6 +14,7 @@ use App\Models\Log;
 use App\Models\Resident\Client\Activity;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Invoices\Offer;
+use App\Models\Resident\Settings\PaymentGateway;
 use App\Models\Users\Admin;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
@@ -65,6 +66,10 @@ class PetitionController extends Controller
         list($type, $model) = $this->getDataByToken();
         $model->getPublicToken = true;
 
+        if($model instanceof Invoice) {
+            $model->payList = PaymentGateway::active()->get();
+        }
+
         return new $type['resource']($model);
 
     }
@@ -110,6 +115,11 @@ class PetitionController extends Controller
         Log::send($message->implode("; "), $model->user);
 
         return response()->json(['success' => true]);
+    }
+
+    public function pay()
+    {
+
     }
 
 

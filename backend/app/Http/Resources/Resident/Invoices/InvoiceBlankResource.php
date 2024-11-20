@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Resident\Invoices;
 
-use App\Http\Resources\Resident\Settings\TaxResorce;
+use App\Http\Resources\Resident\Settings\TaxResource;
 use App\Models\Resident\Invoices\Offer;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -22,7 +22,7 @@ class InvoiceBlankResource extends JsonResource
             'amount' => $this->qty,
             'discount' => $this->discount_amount,
             'discountType' => $this->getDiscountType(),
-            'tax' => new TaxResorce($this->getTax()->first()),
+            'tax' => new TaxResource($this->getTax()->first()),
             'description' => $this->description ? $this->description : $service?->getDescription(),
             'total' => $this->total,
             'serviceObject' => $service ? new $serviceObject($service) : null

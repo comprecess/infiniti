@@ -6,6 +6,7 @@ use App\Http\Requests\Resident\Invoices\InvoiceRequest;
 use App\Http\Resources\Contracts\ListInterface;
 use App\Http\Resources\Resident\Client\ClientView\SummaryResource;
 use App\Http\Resources\Resident\Settings\CurrencyResource;
+use App\Http\Resources\Resident\Settings\PaymentGatewayListResource;
 use App\Http\Resources\Traits\ListTrait;
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Models\Config;
@@ -48,6 +49,7 @@ class InvoiceItemResource extends JsonResource implements ListInterface
             'status' => $this->status,
             'blockEdit' => $this->blockEdit(),
             'checkPublic' => $this->check_public,
+            'transactions' => TransactionResource::collection($this->transaction),
             'pdf' => route('pdf', ['name' => 'invoice', 'token' => $this->vtoken]),
             'blankCalc' => [
                 'price' => $items->summPrice(),
@@ -66,6 +68,10 @@ class InvoiceItemResource extends JsonResource implements ListInterface
 
         if($this->getPublicToken && $this->checkPublic) {
             $resorce['client'] = null;
+        }
+
+        if($this->payList) {
+            $resorce['payList'] = PaymentGatewayListResource::collection($this->payList);
         }
 
         return $resorce;
