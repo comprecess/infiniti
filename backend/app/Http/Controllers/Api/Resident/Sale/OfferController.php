@@ -13,7 +13,7 @@ use App\Http\Resources\Resident\Invoices\OfferExcelResource;
 use App\Http\Resources\Resident\Invoices\OfferItemResource;
 use App\Http\Resources\Resident\Invoices\OfferListResource;
 use App\Http\Resources\Resident\Invoices\OfferPdfResource;
-use App\Http\Resources\Resident\Settings\TaxResorce;
+use App\Http\Resources\Resident\Settings\TaxResource;
 use App\Models\Catalog\Cart;
 use App\Models\Config;
 use App\Models\Resident\Invoices\Invoice;
@@ -98,7 +98,7 @@ class OfferController extends SaleController
             'stage' => Offer::STAGE,
             'num' => Offer::getNextNum(),
             'offerNum' => Config::get('quotation_code_prefix', 'OFFER-'),
-            'tax' => TaxResorce::collection(Tax::getForSelect()),
+            'tax' => TaxResource::collection(Tax::getForSelect()),
             'service' => InvoicePriceCalcRequest::getService()->keys()
         ]);
     }
@@ -187,6 +187,9 @@ class OfferController extends SaleController
         $invoice->duedate = $date;
         $invoice->nd = $date;
         $invoice->quote_id = $offer->id;
+        if($offer->status()->checkCart()) {
+            $invoice->notes = Config::get('invoice_terms');
+        }
         $invoice->invoicenum = Config::get('invoice_code_prefix', 'INV-');
         $invoice->save();
 

@@ -13,6 +13,11 @@ class Offer
     )
     {
     }
+    public function checkCart()
+    {
+        return $this->offer->orderCart()->withTrashed()->count();
+    }
+
 
     public function actionPublicStage() :bool
     {
@@ -21,6 +26,6 @@ class Offer
 
     public function actionPublic()
     {
-        return $this->actionPublicStage() && $this->offer->orderCart()->withTrashed()->count();
+        return $this->actionPublicStage() && $this->checkCart();
     }
 }
