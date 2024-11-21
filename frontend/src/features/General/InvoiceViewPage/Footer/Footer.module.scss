@@ -54,3 +54,26 @@
     font-size: 15px;
   }
 }
+
+.transactionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.transactionsContent {
+  overflow-x: auto;
+  flex-grow: 1;
+  height: auto;
+  opacity: 1;
+}
+
+.transactionsTitle {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 23px;
+  letter-spacing: -0.03em;
+}

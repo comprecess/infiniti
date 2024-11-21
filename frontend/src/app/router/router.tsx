@@ -25,6 +25,10 @@ export const router = createBrowserRouter([
     element: Pages.publicViewInvoice,
   },
   {
+    path: `${Routes.public}/${Routes.invoice}/${Routes.proof}/${Routes.transaction}/:id`,
+    element: Pages.publicInvoiceProofTransaction,
+  },
+  {
     path: `${Routes.public}/${Routes.offer}/${Routes.view}/:id`,
     element: Pages.publicViewOffer,
   },

@@ -31,7 +31,7 @@ export const AdminContactActivityPage: FC = () => {
   const [selectedIdType, setSelectedIdType] = useState<number>(0)
 
   const [editActiveData, setEditActiveData] = useState<
-    EditActiveModalData | undefined
+  EditActiveModalData | undefined
   >()
 
   const [isEditActivityModal, setIsEditActivityModal] =
@@ -55,8 +55,6 @@ export const AdminContactActivityPage: FC = () => {
       context.idClient,
       'activity',
     )
-
-    console.log(getResponse.data)
 
     setData(getResponse.data)
   }

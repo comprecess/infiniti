@@ -91,6 +91,7 @@ import { ClientOpenNewTicketPage } from '../../pages/Client/TicketsPage/OpenNewT
 import { ClientTicketsPage } from '../../pages/Client/TicketsPage/TicketsPage/TicketsPage'
 import { ClientTransactionsPage } from '../../pages/Client/TransactionsPage/TransactionsPage'
 import { AutoLoginPage } from '../../pages/General/AutoLoginPage/AutoLoginPage'
+import { InvoiceProofTransaction } from '../../pages/General/InvoiceProofTransaction/InvoiceProofTransaction'
 import { InvoiceViewPage } from '../../pages/General/InvoiceViewPage/InvoiceViewPage'
 import { NotFoundPage } from '../../pages/General/NotFoundPage/NotFoundPage'
 import { OfferViewPage } from '../../pages/General/OfferViewPage/OfferViewPage'
@@ -102,6 +103,8 @@ export const Routes = {
   dashboard: 'dashboard',
   public: 'public',
   to: 'to',
+  proof: 'proof',
+  transaction: 'transaction',
   catalog: 'catalog',
   talents: 'talents',
   customers: 'customers',
@@ -294,6 +297,7 @@ export const Pages = {
 
   /* Public  pages */
   publicViewInvoice: <InvoiceViewPage />,
+  publicInvoiceProofTransaction: <InvoiceProofTransaction />,
   publicViewOffer: <OfferViewPage />,
   publicAutoLoginPage: <AutoLoginPage />,
   notFoundPage: <NotFoundPage />,

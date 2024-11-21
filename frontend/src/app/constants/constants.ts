@@ -728,6 +728,31 @@ export interface SalesViewInvoiceData {
   token: string
   blockEdit: boolean
   pdf: string
+  transactions: SalesViewInvoiceTransactions[]
+  payList?: SalesViewInvoicePayList[]
+  documents: SalesViewInvoiceDocuments[]
+}
+
+export interface SalesViewInvoiceDocuments {
+  id: number
+  global: number
+  link: string
+  title: string
+  type: string
+}
+
+export interface SalesViewInvoiceTransactions {
+  account: string
+  amount: string
+  date: string
+  description: string
+}
+
+export interface SalesViewInvoicePayList {
+  id: number
+  idName: string
+  name: string
+  value: string
 }
 
 export interface FullInfoClient {
