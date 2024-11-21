@@ -2,6 +2,7 @@
 
 namespace App\Models\Resident\Settings;
 
+use App\Services\Pay\Pay;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,7 +16,7 @@ class PaymentGateway extends Model
 
     public function scopeActive($query) :void
     {
-        $query->where('status', self::STATUS[0]);
+        $query->where('status', self::STATUS[0])->whereIn('processor', array_keys(Pay::PAY_LIST));
     }
 
 }

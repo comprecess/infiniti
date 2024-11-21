@@ -7,7 +7,8 @@ namespace App\Http\Controllers\Api\Public;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Controllers\Api\Traits\IsAuthTrait;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Public\OfferCheckRequest;
+use App\Http\Requests\Public\Petition\OfferCheckRequest;
+use App\Http\Requests\Public\Petition\PayRequest;
 use App\Http\Resources\Resident\Invoices\InvoiceItemResource;
 use App\Http\Resources\Resident\Invoices\OfferItemResource;
 use App\Models\Log;
@@ -16,8 +17,10 @@ use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Invoices\Offer;
 use App\Models\Resident\Settings\PaymentGateway;
 use App\Models\Users\Admin;
+use App\Services\Pay\Contract\PayContract;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Request;
 
 class PetitionController extends Controller
 {
@@ -117,9 +120,14 @@ class PetitionController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function pay()
+    public function pay(PayContract $pay, PayRequest $request)
     {
+        list($type, $model) = $this->getDataByToken();
+        if(!($model instanceof Invoice)) {
+            abort(404);
+        }
 
+        return $pay->setPay($request->route('payType'), $model)->execute();
     }
 
 

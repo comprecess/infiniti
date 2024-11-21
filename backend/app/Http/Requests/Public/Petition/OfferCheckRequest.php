@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Requests\Public;
+namespace App\Http\Requests\Public\Petition;
 
-use App\Models\Catalog\Cart;
 use App\Models\Resident\Invoices\Offer;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -16,8 +15,6 @@ class OfferCheckRequest extends FormRequest
      */
     public function rules(): array
     {
-        \Illuminate\Support\Facades\Log::alert('***OfferCheckRequest***', $this->all());
-        \Illuminate\Support\Facades\Log::alert('***OfferCheckRequest***', ['url' => $this->fullUrl()]);
         $this->merge(['type' => $this->route('type')]);
 
         $stage = [Offer::STAGE['0'], Offer::STAGE['5']];

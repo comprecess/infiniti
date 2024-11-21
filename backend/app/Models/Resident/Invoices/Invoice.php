@@ -9,6 +9,7 @@ use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Resident\Transactions\Transaction;
 use App\Models\Traits\CollectionTrait;
 use App\Models\Traits\CurrencyTrait;
+use App\Models\Traits\DocumentTrait;
 use App\Models\Traits\HelperTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\Traits\UserTrait;
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\DB;
 
 class Invoice extends Model implements InsertDefaultValueInterface
 {
-    use HasFactory, CurrencyTrait, CollectionTrait, HelperTrait, InsertDefaultValueTrait, SoftDeletes, UserTrait;
+    use HasFactory, CurrencyTrait, CollectionTrait, HelperTrait, InsertDefaultValueTrait, SoftDeletes, UserTrait, DocumentTrait;
 
     const STATUS = [
         'Unpaid', 'Paid', 'Partially Paid', 'Cancelled'
