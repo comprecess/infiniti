@@ -9,7 +9,7 @@ export const LoadingScreen: FC = () => {
     <div className={styles.wrapper}>
       <div className={styles.header}>
         <LogoTextIcon style={styles.logoIcon} />
-        <span className={styles.description}>Career no limits</span>
+        <span className={styles.description}>Providing Lasting Value</span>
       </div>
       <div className={styles.footer}>
         <LoadingSpinner />

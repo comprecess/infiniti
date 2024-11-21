@@ -175,6 +175,8 @@ export const AdminViewInvoicePage: FC = () => {
               discount: info.blankCalc.discount,
               grandTotal: info.blankCalc.total,
               note: info.notes,
+              transactions: info.transactions,
+              documents: info.documents,
             }}
             componentProps={{
               statusList: info.listStatus.filter(

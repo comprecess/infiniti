@@ -20,7 +20,7 @@ import styles from './CurrenciesPage.module.scss'
 
 export const AdminCurrenciesPage: FC = () => {
   const [currenciesList, setCurrenciesList] = useState<
-    CurrencyProps[] | null
+  CurrencyProps[] | null
   >(null)
   const [modalNewCurrency, setModalNewCurrency] = useState<boolean>(false)
   const [modalEditCurrency, setModalEditCurrency] =
@@ -177,12 +177,12 @@ export const AdminCurrenciesPage: FC = () => {
             componentProps={
               access.create
                 ? {
-                    title: 'New Currency',
-                    icon: '/icons/plus.svg',
-                    iconProps: styles.icon,
-                    onClick: handleOpenCloseModalNewCurrency,
-                    style: styles.blueButton,
-                  }
+                  title: 'New Currency',
+                  icon: '/icons/plus.svg',
+                  iconProps: styles.icon,
+                  onClick: handleOpenCloseModalNewCurrency,
+                  style: styles.blueButton,
+                }
                 : undefined
             }
           >

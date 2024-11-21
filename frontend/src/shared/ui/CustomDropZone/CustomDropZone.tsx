@@ -101,7 +101,9 @@ export const CustomDropZone: FC<CustomDropZoneProps> = ({ onDrop }) => {
         <div className={styles.fileInfo}>
           {fileInfo.name && (
             <p>
-              <strong>File Name:</strong> {fileInfo.name}
+              <strong>File Name:</strong>
+              {' '}
+              {fileInfo.name}
             </p>
           )}
         </div>

@@ -1,15 +1,22 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import {
   FullInfoClient,
+  SalesViewInvoicePayList,
   SalesViewOfferData,
 } from '../../../../app/constants/constants'
+import { Routes } from '../../../../app/router/routes'
+import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
+import { CreditCardInput } from '../../../../shared/ui/CreditCardInput/CreditCardInput'
+import { CustomSelect } from '../../../../shared/ui/CustomSelect/CustomSelect'
 import { sanitizeMessage } from '../../../../shared/utils/TextEditor/sanitizeMessage'
 import { ContactItem } from '../../../Admin/Sales/ViewInvoice/Header/ContactItem/ContactItem'
 import { Status } from '../../../Admin/Sales/ViewInvoice/Status/Status'
 import styles from './Header.module.scss'
 
 interface HeaderProps {
+  token: string | null
   title: string
   invoiceCode: string
   invoiceDate: string
@@ -23,6 +30,7 @@ interface HeaderProps {
   totalInvoice: string
   client: FullInfoClient
   offer: SalesViewOfferData
+  payList?: SalesViewInvoicePayList[]
 }
 
 export const Header: FC<HeaderProps> = ({
@@ -36,10 +44,34 @@ export const Header: FC<HeaderProps> = ({
   totalInvoice,
   client,
   offer,
+  payList,
+  token,
 }) => {
+  const [creditCard, setCreditCard] = useState<boolean>(false)
+  const [payNow, setPayNow] = useState<
+  SalesViewInvoicePayList | undefined
+  >(undefined)
+
+  const navigate = useNavigate()
+
   const safeHTMLCompanyAddress = sanitizeMessage(company.companyAddress)
   const safeHTMLProposal = sanitizeMessage(offer?.proposal)
   const safeHTMLNotes = sanitizeMessage(offer?.notes)
+
+  const handleChangePayNow = (_name: string, value: number) => {
+    setPayNow(payList?.find(item => item.id === value))
+  }
+
+  const handlePayNow = () => {
+    if (payNow?.idName === 'stripe') {
+      setCreditCard(true)
+    } else {
+      navigate(
+        `/${Routes.public}/${Routes.invoice}/${Routes.proof}/${Routes.transaction}/${token}`,
+      )
+      setCreditCard(false)
+    }
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -114,19 +146,42 @@ export const Header: FC<HeaderProps> = ({
             <span className={styles.hiddenInfo}>Hidden</span>
           )}
         </div>
-        <div className={styles.invoiceTotal}>
-          <div className={styles.invoiceDate}>
-            {invoiceDate && (
-              <ContactItem title='Invoice Date' value={invoiceDate} />
+        <div className={styles.invoiceWrapper}>
+          <div className={styles.invoiceTotal}>
+            <div className={styles.invoiceDate}>
+              {invoiceDate && (
+                <ContactItem title='Invoice Date' value={invoiceDate} />
+              )}
+              {dueDate && <ContactItem title='Due Date' value={dueDate} />}
+            </div>
+            <div className={styles.totalWrapper}>
+              <span className={styles.totalTitle}>Invoice Total:</span>
+              <span className={styles.totalValue} contentEditable={false}>
+                {totalInvoice}
+              </span>
+            </div>
+          </div>
+          <div className={styles.payContainer}>
+            {payList && (
+              <div style={{ width: '100%' }}>
+                <CustomSelect
+                  idList={payList.map(item => item.id)}
+                  nameList={payList.map(item => item.name)}
+                  value={payList[0].id}
+                  onChange={handleChangePayNow}
+                />
+              </div>
             )}
-            {dueDate && <ContactItem title='Due Date' value={dueDate} />}
+            <ButtonBlue
+              titleNone
+              title='Pay Now'
+              icon='/icons/cardWhite.svg'
+              iconProps={styles.iconPay}
+              style={styles.buttonPay}
+              onClick={handlePayNow}
+            />
           </div>
-          <div className={styles.totalWrapper}>
-            <span className={styles.totalTitle}>Invoice Total:</span>
-            <span className={styles.totalValue} contentEditable={false}>
-              {totalInvoice}
-            </span>
-          </div>
+          {creditCard && <CreditCardInput />}
         </div>
       </section>
       {offer && (

@@ -1,6 +1,8 @@
 import { FC, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { CartProps } from '../../../app/constants/constants'
+import { Routes } from '../../../app/router/routes'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getOrdersInCart } from '../../../shared/utils/api/Client/Cart/GetOrdersInCart'
@@ -12,6 +14,8 @@ import styles from './BasketPage.module.scss'
 export const ClientBasketPage: FC = () => {
   const [orders, setOrder] = useState<CartProps | null>(null)
 
+  const navigate = useNavigate()
+
   const getOrders = async () => {
     const ordersResponse: CartProps = await getOrdersInCart()
 
@@ -20,6 +24,10 @@ export const ClientBasketPage: FC = () => {
 
   const handleDeleteOrder = () => {
     getOrders()
+  }
+
+  const handleNavigateToInvoice = () => {
+    navigate(`/${Routes.public}/${Routes.invoice}/${Routes.view}/id000`)
   }
 
   useEffect(() => {
@@ -48,6 +56,7 @@ export const ClientBasketPage: FC = () => {
               subtotalCost={orders.subTotal}
               taxesAmount={orders.subTax}
               totalPrice={orders.total}
+              buttonOnClick={handleNavigateToInvoice}
             />
           </section>
         </>

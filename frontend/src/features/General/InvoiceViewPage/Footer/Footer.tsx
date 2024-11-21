@@ -1,6 +1,12 @@
 import { FC } from 'react'
 
+import {
+  SalesViewInvoiceDocuments,
+  SalesViewInvoiceTransactions,
+} from '../../../../app/constants/constants'
 import { sanitizeMessage } from '../../../../shared/utils/TextEditor/sanitizeMessage'
+import { RecentFiles } from '../../../Admin/Sales/ViewInvoice/Footer/RecentFiles/RecentFiles'
+import { RecentTransactions } from '../../../Admin/Sales/ViewInvoice/Footer/RecentTransactions/RecentTransactions'
 import { TotalItem } from '../../../Admin/Sales/ViewInvoice/Footer/TotalItem/TotalItem'
 import styles from './Footer.module.scss'
 
@@ -10,6 +16,8 @@ interface FooterProps {
   discount: string
   grandTotal: string
   note: string
+  transactions: SalesViewInvoiceTransactions[]
+  documents: SalesViewInvoiceDocuments[]
 }
 
 export const Footer: FC<FooterProps> = ({
@@ -18,6 +26,8 @@ export const Footer: FC<FooterProps> = ({
   discount,
   grandTotal,
   note,
+  transactions,
+  documents,
 }) => {
   const safeHTML = sanitizeMessage(note)
 
@@ -29,6 +39,17 @@ export const Footer: FC<FooterProps> = ({
           <TotalItem title='Discount' value={discount} />
           <TotalItem title='Tax' value={tax} />
           <TotalItem title='Grand Total' value={grandTotal} />
+        </div>
+      </div>
+      <div className={styles.transactionsContainer}>
+        <span className={styles.transactionsTitle}>
+          Related Transactions
+        </span>
+        <div className={styles.transactionsContent}>
+          <RecentTransactions transactionsList={transactions} />
+        </div>
+        <div className={styles.transactionsContent}>
+          <RecentFiles filesList={documents} />
         </div>
       </div>
       {note && (
