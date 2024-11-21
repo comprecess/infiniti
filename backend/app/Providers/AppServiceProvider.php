@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Contracts\FilterContract;
 use App\Models\Users\Client;
 use App\Services\Filter;
+use App\Services\Pay\Contract\PayContract;
+use App\Services\Pay\Pay;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -15,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
 
     public $bindings = [
         FilterContract::class => Filter::class,
+        PayContract::class =>Pay::class
     ];
 
     /**

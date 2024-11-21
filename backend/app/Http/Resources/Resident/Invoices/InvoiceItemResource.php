@@ -5,6 +5,7 @@ namespace App\Http\Resources\Resident\Invoices;
 use App\Http\Requests\Resident\Invoices\InvoiceRequest;
 use App\Http\Resources\Contracts\ListInterface;
 use App\Http\Resources\Resident\Client\ClientView\SummaryResource;
+use App\Http\Resources\Resident\DocumentResource;
 use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Http\Resources\Resident\Settings\PaymentGatewayListResource;
 use App\Http\Resources\Traits\ListTrait;
@@ -58,6 +59,10 @@ class InvoiceItemResource extends JsonResource implements ListInterface
                 'total' => $items->summTotal()
             ]
         ]);
+
+        if(!self::$isCollection) {
+            $resorce['documents'] = DocumentResource::collection($this->documents()->wherePivot('rtype', 'invoice')->get());
+        }
 
 
         foreach($resorce['blankCalc'] as &$value) {
