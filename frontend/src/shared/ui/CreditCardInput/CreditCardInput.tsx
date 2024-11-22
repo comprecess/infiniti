@@ -5,7 +5,6 @@ import {
 } from '@stripe/react-stripe-js'
 import { FC, useEffect, useState } from 'react'
 
-import { postStripePayment } from '../../utils/api/Admin/Sales/PublicInvoice/PostStripePayment'
 import { ButtonBlue } from '../ButtonBlue/ButtonBlue'
 import styles from './CreditCardInput.module.scss'
 
@@ -22,24 +21,16 @@ const cardElementOptions = {
 }
 
 interface CreditCardInputProps {
-  tokenInvoice: string | null
+  postTokenStripeSend: (token: string) => void
 }
 
 export const CreditCardInput: FC<CreditCardInputProps> = ({
-  tokenInvoice,
+  postTokenStripeSend,
 }) => {
   const [isStripeReady, setIsStripeReady] = useState<boolean>(false)
 
   const stripe = useStripe()
   const elements = useElements()
-
-  const handleToken = async (token: string) => {
-    if (tokenInvoice === null || token === null) return
-
-    const tokenResponse = await postStripePayment(tokenInvoice, token)
-
-    console.log(tokenResponse)
-  }
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -56,7 +47,7 @@ export const CreditCardInput: FC<CreditCardInputProps> = ({
       if (error) {
         console.error('Error creating token:', error.message)
       } else {
-        await handleToken(token.id)
+        postTokenStripeSend(token.id)
       }
     } else {
       console.error('CardElement not found')

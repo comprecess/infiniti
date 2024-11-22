@@ -31,6 +31,7 @@ interface HeaderProps {
   client: FullInfoClient
   offer: SalesViewOfferData
   payList?: SalesViewInvoicePayList[]
+  postTokenStripeSend: (token: string) => void
 }
 
 export const Header: FC<HeaderProps> = ({
@@ -46,10 +47,11 @@ export const Header: FC<HeaderProps> = ({
   offer,
   payList,
   token,
+  postTokenStripeSend,
 }) => {
   const [creditCard, setCreditCard] = useState<boolean>(false)
   const [payNow, setPayNow] = useState<
-    SalesViewInvoicePayList | undefined
+  SalesViewInvoicePayList | undefined
   >(undefined)
 
   const navigate = useNavigate()
@@ -181,7 +183,9 @@ export const Header: FC<HeaderProps> = ({
               onClick={handlePayNow}
             />
           </div>
-          {creditCard && <CreditCardInput tokenInvoice={token} />}
+          {creditCard && (
+            <CreditCardInput postTokenStripeSend={postTokenStripeSend} />
+          )}
         </div>
       </section>
       {offer && (
