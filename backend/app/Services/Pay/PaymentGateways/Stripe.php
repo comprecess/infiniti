@@ -19,6 +19,8 @@ class Stripe extends PaymentGateways implements PaymentGatewaysContract
         'capture' => true,
     ];
 
+    private $status = false;
+
     public function execute() :PaymentGatewaysContract
     {
         $request = $this->pay->getDataRequest();
@@ -32,12 +34,19 @@ class Stripe extends PaymentGateways implements PaymentGatewaysContract
             throw new \Exception("Model not found");
         }
 
-        StripeLibrary\Stripe::setApiKey($info->c1);
-        $charge = StripeLibrary\Charge::create($data);
+        Log::alert('data', $data);
+
+        try {
+            StripeLibrary\Stripe::setApiKey($info->c1);
+            $charge = StripeLibrary\Charge::create($data);
+        }catch (\Exception $e) {
+            Log::error($e->getMessage(), $e->getTrace());
+        }
 
         Log::alert(var_export($charge));
 
         if (isset($charge->status) && $charge->status == 'succeeded') {
+            $this->status = true;
             $model->stripeSuccess();
         }
 
@@ -46,6 +55,6 @@ class Stripe extends PaymentGateways implements PaymentGatewaysContract
 
     public function response()
     {
-        return response()->json(['success' => true]);
+        return response()->json(['success' => $this->status]);
     }
 }
