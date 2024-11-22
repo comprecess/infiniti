@@ -43,7 +43,7 @@ class Stripe extends PaymentGateways implements PaymentGatewaysContract
             Log::error($e->getMessage(), $e->getTrace());
         }
 
-        Log::alert(var_export($charge));
+        Log::alert(var_export($charge, true));
 
         if (isset($charge->status) && $charge->status == 'succeeded') {
             $this->status = true;
