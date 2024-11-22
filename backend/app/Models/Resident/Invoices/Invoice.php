@@ -6,6 +6,7 @@ use App\Http\Requests\Resident\Invoices\InvoiceRequest;
 use App\Models\Collection\InvoiceCollection;
 use App\Models\Config;
 use App\Models\Contracts\InsertDefaultValueInterface;
+use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Transactions\Transaction;
 use App\Models\Traits\CollectionTrait;
 use App\Models\Traits\CurrencyTrait;
@@ -14,13 +15,14 @@ use App\Models\Traits\HelperTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\Traits\UserTrait;
 use App\Models\Users\Client;
+use App\Services\Pay\Contract\StripePayContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
-class Invoice extends Model implements InsertDefaultValueInterface
+class Invoice extends Model implements InsertDefaultValueInterface, StripePayContract
 {
     use HasFactory, CurrencyTrait, CollectionTrait, HelperTrait, InsertDefaultValueTrait, SoftDeletes, UserTrait, DocumentTrait;
 
@@ -53,6 +55,8 @@ class Invoice extends Model implements InsertDefaultValueInterface
     protected $casts = [
       'date' => 'date',
       'duedate' => 'date',
+      'credit' => 'float',
+      'total' => 'float',
     ];
 
     public function getCode()
@@ -180,4 +184,23 @@ class Invoice extends Model implements InsertDefaultValueInterface
         return $this->credit;
     }
 
+    public function getDueAmount()
+    {
+        return round($this->credit ? $this->total - $this->credit : $this->total);
+    }
+
+    public function stripeSetDate(array $data): array
+    {
+        $currency = $this->getCurrencyIso ?? Currency::getDefault();
+        $data['amount'] = $this->getDueAmount();
+        $data['currency'] = $currency->iso_code;
+        $data['description'] = $this->getCode();
+        return $data;
+    }
+
+    public function stripeSuccess(): void
+    {
+        $this->status = self::STATUS[1];
+        $this->save();
+    }
 }

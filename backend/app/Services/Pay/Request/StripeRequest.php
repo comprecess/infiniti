@@ -11,7 +11,7 @@ class StripeRequest extends FormRequest
     {
 
         return [
-
+            'token' => 'required'
         ];
     }
 }
