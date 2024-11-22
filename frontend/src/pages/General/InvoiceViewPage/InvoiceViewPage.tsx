@@ -8,8 +8,10 @@ import { RecentInvoices } from '../../../features/Admin/Sales/ViewInvoice/Recent
 import { Footer } from '../../../features/General/InvoiceViewPage/Footer/Footer'
 import { Header } from '../../../features/General/InvoiceViewPage/Header/Header'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
+import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getInfoPublicInvoice } from '../../../shared/utils/api/Admin/Sales/PublicInvoice/GetInfoPublicInvoice'
+import { postStripePayment } from '../../../shared/utils/api/Admin/Sales/PublicInvoice/PostStripePayment'
 import styles from './InvoiceViewPage.module.scss'
 
 const extractTokenFromUrl = (url: string): string | null => {
@@ -33,6 +35,7 @@ export const InvoiceViewPage: FC = () => {
 
   const [info, setInfo] = useState<SalesViewInvoiceData | null>(null)
 
+  const showToast = useCustomToast()
   const token = useTokenFromUrl()
 
   const getInvoiceInfo = async () => {
@@ -55,6 +58,27 @@ export const InvoiceViewPage: FC = () => {
     const stripe = await loadStripe(stripeValue)
 
     setStripePromise(stripe)
+  }
+
+  const postTokenStripeSend = async (tokenStripe: string) => {
+    if (token === null || tokenStripe === null) return
+
+    const tokenResponse = await postStripePayment(token, tokenStripe)
+
+    if (tokenResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully paid your Invoice',
+        status: 'success',
+      })
+      getInvoiceInfo()
+    } else {
+      showToast({
+        title: 'Error',
+        description: tokenResponse.message,
+        status: 'error',
+      })
+    }
   }
 
   const viewPDF = async () => {
@@ -127,6 +151,7 @@ export const InvoiceViewPage: FC = () => {
                 company={info.company}
                 offer={info.offer}
                 payList={info.payList}
+                postTokenStripeSend={postTokenStripeSend}
               />
             </div>
             <div className={styles.table}>
