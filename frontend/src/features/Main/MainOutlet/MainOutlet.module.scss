@@ -19,7 +19,8 @@
   width: 100%;
   height: 100%;
   color: $white;
-  overflow: auto;
+  overflow-y: auto;
+  flex-grow: 1;
 }
 
 .headerStandard,
@@ -49,6 +50,7 @@
 .mainFull {
   padding: 20px 40px 40px 40px;
   z-index: 5;
+  overflow-y: auto;
 
   @include mobileBreakpoint('max', $bpXL) {
     padding: 20px;
