@@ -161,6 +161,10 @@ export const AdminContactSummaryPage: FC = () => {
     onChangeInput('notes', event.target.value)
   }
 
+  const navigateToAutoLogin = () => {
+    window.open(autoLoginUrl, '_blank')
+  }
+
   useEffect(() => {
     document.title = 'infiniti | Contact | Summary'
   }, [])
@@ -282,14 +286,12 @@ export const AdminContactSummaryPage: FC = () => {
                   </div>
                 </div>
                 <div className={styles.interactURL}>
-                  <a
+                  <span
                     className={styles.loginCustomerText}
-                    target='_blank'
-                    rel='noreferrer'
-                    href={autoLoginUrl}
+                    onClick={navigateToAutoLogin}
                   >
                     Login As Customer
-                  </a>
+                  </span>
                   <span className={styles.miniDivider}>|</span>
                   <span
                     className={styles.revokeCustomerText}
