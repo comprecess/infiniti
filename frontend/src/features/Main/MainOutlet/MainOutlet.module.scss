@@ -57,6 +57,7 @@
   overflow-y: auto;
   flex-grow: 1;
   margin-top: 82px;
+  background-color: $brand-1000;
 
   @include mobileBreakpoint('max', $bpXL) {
     padding: 20px 20px 40px 20px;
