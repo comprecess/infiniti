@@ -1,5 +1,6 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
+import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { Status } from '../../../../../../shared/ui/Status/Status'
 import styleItem from '../RecentOffers.module.scss'
 import styles from './Item.module.scss'
@@ -35,6 +36,12 @@ export const Item: FC<ItemProps> = ({
   navigateToSelectAccount,
   deleteOffer,
 }) => {
+  const [modalDelete, setModalDelete] = useState<boolean>(false)
+
+  const handleOpenConfirmationModal = () => {
+    setModalDelete(state => !state)
+  }
+
   const handleNavigateToViewOffer = () => {
     navigateToViewOffer(id)
   }
@@ -49,62 +56,85 @@ export const Item: FC<ItemProps> = ({
 
   const handleDeleteOffer = () => {
     deleteOffer(id)
+    handleOpenConfirmationModal()
   }
 
   return (
-    <div className={styles.wrapper}>
-      <span
-        className={`${styleItem.codeColumn} ${styles.codeItem}`}
-        onClick={handleNavigateToViewOffer}
-      >
-        {code}
-      </span>
-      <span
-        className={`${styleItem.accountColumn} ${styles.accountItem}`}
-        onClick={handleNavigateToSelectAccount}
-      >
-        {account}
-      </span>
-      <span className={`${styleItem.subjectColumn} ${styles.subjectItem}`}>
-        {subject}
-      </span>
-      <span className={`${styleItem.amountColumn} ${styles.amountItem}`}>
-        {amount}
-      </span>
-      <span
-        className={`${styleItem.dateCreatedColumn} ${styles.dateCreatedItem}`}
-      >
-        {dateCreated}
-      </span>
-      <span
-        className={`${styleItem.expiryDateColumn} ${styles.expiryDateItem}`}
-      >
-        {expiryDate}
-      </span>
-      <div className={styleItem.stageColumn}>
-        <Status title={stage} status={stage} />
-      </div>
-      <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <button
-          className={styles.viewButton}
+    <>
+      <div className={styles.wrapper}>
+        <span
+          className={`${styleItem.codeColumn} ${styles.codeItem}`}
           onClick={handleNavigateToViewOffer}
         >
-          <img src='/icons/view.svg' alt='View' className={styles.icon} />
-        </button>
-        <button
-          className={styles.buttonEdit}
-          onClick={handleNavigateToEditOffer}
+          {code}
+        </span>
+        <span
+          className={`${styleItem.accountColumn} ${styles.accountItem}`}
+          onClick={handleNavigateToSelectAccount}
         >
-          <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
-        </button>
-        <button className={styles.buttonTrash} onClick={handleDeleteOffer}>
-          <img
-            src='/icons/trash.svg'
-            alt='Trash'
-            className={styles.icon}
-          />
-        </button>
+          {account}
+        </span>
+        <span
+          className={`${styleItem.subjectColumn} ${styles.subjectItem}`}
+        >
+          {subject}
+        </span>
+        <span className={`${styleItem.amountColumn} ${styles.amountItem}`}>
+          {amount}
+        </span>
+        <span
+          className={`${styleItem.dateCreatedColumn} ${styles.dateCreatedItem}`}
+        >
+          {dateCreated}
+        </span>
+        <span
+          className={`${styleItem.expiryDateColumn} ${styles.expiryDateItem}`}
+        >
+          {expiryDate}
+        </span>
+        <div className={styleItem.stageColumn}>
+          <Status title={stage} status={stage} />
+        </div>
+        <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
+          <button
+            className={styles.viewButton}
+            onClick={handleNavigateToViewOffer}
+          >
+            <img
+              src='/icons/view.svg'
+              alt='View'
+              className={styles.icon}
+            />
+          </button>
+          <button
+            className={styles.buttonEdit}
+            onClick={handleNavigateToEditOffer}
+          >
+            <img
+              src='/icons/edit.svg'
+              alt='Edit'
+              className={styles.icon}
+            />
+          </button>
+          <button
+            className={styles.buttonTrash}
+            onClick={handleOpenConfirmationModal}
+          >
+            <img
+              src='/icons/trash.svg'
+              alt='Trash'
+              className={styles.icon}
+            />
+          </button>
+        </div>
       </div>
-    </div>
+      {modalDelete && (
+        <ConfirmationModal
+          isOpened={modalDelete}
+          handleOpenCloseModal={handleOpenConfirmationModal}
+          agree={handleDeleteOffer}
+        />
+      )}
+    </>
   )
 }

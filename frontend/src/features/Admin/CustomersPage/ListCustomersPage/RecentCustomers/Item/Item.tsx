@@ -1,8 +1,9 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { RolesAccess } from '../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../app/router/routes'
+import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import styleItem from '../RecentCustomers.module.scss'
 import styles from './Item.module.scss'
 
@@ -31,7 +32,13 @@ export const Item: FC<ItemProps> = ({
   phone,
   deleteClient,
 }) => {
+  const [modalDelete, setModalDelete] = useState<boolean>(false)
+
   const navigate = useNavigate()
+
+  const handleOpenConfirmationModal = () => {
+    setModalDelete(state => !state)
+  }
 
   const handleNavigate = (name: string) => {
     navigate(
@@ -41,70 +48,84 @@ export const Item: FC<ItemProps> = ({
 
   const handleDeleteSupplier = () => {
     deleteClient(id)
+    handleOpenConfirmationModal()
   }
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styleItem.imageColumn}>
-        <img
-          src={image ? image : '/profileWithoutAvatar.svg'}
-          alt='Avatar'
-          className={styles.imageItem}
-        />
-      </div>
-      <div
-        className={`${styleItem.nameColumn} ${styles.nameCodeItem}`}
-        onClick={() => handleNavigate(Routes.summary)}
-      >
-        <span className={styles.nameItem}>{name}</span>
-        <span className={styles.codeItem}>{code}</span>
-      </div>
-      <span
-        className={`${styleItem.companyNameColumn} ${styles.companyNameItem}`}
-      >
-        {companyName}
-      </span>
-      <span className={`${styleItem.groupColumn} ${styles.groupItem}`}>
-        {group}
-      </span>
-      <span className={`${styleItem.emailColumn} ${styles.emailItem}`}>
-        {email}
-      </span>
-      <span className={`${styleItem.phoneColumn} ${styles.phoneItem}`}>
-        {phone}
-      </span>
-      <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <button
-          className={styles.viewButton}
+    <>
+      <div className={styles.wrapper}>
+        <div className={styleItem.imageColumn}>
+          <img
+            src={image ? image : '/profileWithoutAvatar.svg'}
+            alt='Avatar'
+            className={styles.imageItem}
+          />
+        </div>
+        <div
+          className={`${styleItem.nameColumn} ${styles.nameCodeItem}`}
           onClick={() => handleNavigate(Routes.summary)}
         >
-          <img src='/icons/view.svg' alt='View' className={styles.icon} />
-        </button>
-        {access.edit === 1 && (
+          <span className={styles.nameItem}>{name}</span>
+          <span className={styles.codeItem}>{code}</span>
+        </div>
+        <span
+          className={`${styleItem.companyNameColumn} ${styles.companyNameItem}`}
+        >
+          {companyName}
+        </span>
+        <span className={`${styleItem.groupColumn} ${styles.groupItem}`}>
+          {group}
+        </span>
+        <span className={`${styleItem.emailColumn} ${styles.emailItem}`}>
+          {email}
+        </span>
+        <span className={`${styleItem.phoneColumn} ${styles.phoneItem}`}>
+          {phone}
+        </span>
+        <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
           <button
-            className={styles.buttonEdit}
-            onClick={() => handleNavigate(Routes.edit)}
+            className={styles.viewButton}
+            onClick={() => handleNavigate(Routes.summary)}
           >
             <img
-              src='/icons/edit.svg'
-              alt='Edit'
+              src='/icons/view.svg'
+              alt='View'
               className={styles.icon}
             />
           </button>
-        )}
-        {access.delete === 1 && (
-          <button
-            className={styles.buttonTrash}
-            onClick={handleDeleteSupplier}
-          >
-            <img
-              src='/icons/trash.svg'
-              alt='Trash'
-              className={styles.icon}
-            />
-          </button>
-        )}
+          {access.edit === 1 && (
+            <button
+              className={styles.buttonEdit}
+              onClick={() => handleNavigate(Routes.edit)}
+            >
+              <img
+                src='/icons/edit.svg'
+                alt='Edit'
+                className={styles.icon}
+              />
+            </button>
+          )}
+          {access.delete === 1 && (
+            <button
+              className={styles.buttonTrash}
+              onClick={handleOpenConfirmationModal}
+            >
+              <img
+                src='/icons/trash.svg'
+                alt='Trash'
+                className={styles.icon}
+              />
+            </button>
+          )}
+        </div>
       </div>
-    </div>
+      {modalDelete && (
+        <ConfirmationModal
+          isOpened={modalDelete}
+          handleOpenCloseModal={handleOpenConfirmationModal}
+          agree={handleDeleteSupplier}
+        />
+      )}
+    </>
   )
 }

@@ -1,4 +1,11 @@
-export const postStripePayment = async (tokenInvoice: string) => {
+interface Response {
+  status: boolean
+  message: string
+}
+export const postStripePayment = async (
+  tokenInvoice: string,
+  tokenStripe: string,
+): Promise<Response> => {
   try {
     const response = await fetch(
       import.meta.env.VITE_MAIN_DOMAIN +
@@ -11,10 +18,11 @@ export const postStripePayment = async (tokenInvoice: string) => {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
+        body: JSON.stringify({ token: tokenStripe }),
       },
     )
 
-    const data = await response.json()
+    const data: Response = await response.json()
 
     return data
   } catch (error) {

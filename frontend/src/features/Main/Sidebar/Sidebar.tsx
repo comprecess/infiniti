@@ -118,7 +118,7 @@ export const Sidebar: FC<SidebarProps> = ({
             isMini ? (
               <LogoIcon fill={styles.miniLogoColor} />
             ) : (
-              <LogoTextIcon />
+              <LogoTextIcon style={styles.logoTextColor} />
             )
           }
         />

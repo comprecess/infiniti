@@ -61,7 +61,7 @@ export const FieldModal: FC<FieldModalProps> = ({
   }
 
   const changeSelect = (_name: string, index: number) => {
-    handleInputChange('type', types[index])
+    handleInputChange('type', types[index - 1])
   }
 
   return (
@@ -90,9 +90,13 @@ export const FieldModal: FC<FieldModalProps> = ({
             camelCase
             title='Field Type'
             size='lg'
-            idList={types.map((_item, index) => index)}
+            idList={types.map((_item, index) => index + 1)}
             nameList={types}
-            value={types.findIndex(value => value === filedValues?.type)}
+            value={
+              filedValues
+                ? types.findIndex(value => value === filedValues.type) + 1
+                : 1
+            }
             onChange={changeSelect}
           />
           <CustomInput

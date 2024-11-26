@@ -7,7 +7,6 @@ import {
 import { FieldModal } from '../../../../features/Admin/CustomContactFields/FieldModal/FieldModal'
 import { Item } from '../../../../features/Admin/CustomContactFields/Item/Item'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
-import { ConfirmationModal } from '../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { addField } from '../../../../shared/utils/api/Admin/CustomFields/AddField'
@@ -47,8 +46,6 @@ export const AdminCustomContactFields: FC = () => {
 
   const [modalNewFiled, setModalNewFiled] = useState<boolean>(false)
   const [modalEditFiled, setModalEditFiled] = useState<boolean>(false)
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
-    useState<boolean>(false)
 
   const showToast = useCustomToast()
 
@@ -58,15 +55,6 @@ export const AdminCustomContactFields: FC = () => {
 
   const handleEditSelectedField = () => {
     setModalEditFiled(!modalEditFiled)
-  }
-
-  const handleOpenConfirmationModal = () => {
-    setIsConfirmationModalOpen(!isConfirmationModalOpen)
-  }
-
-  const confirmDeleteField = (id: number) => {
-    setSelectedId(id)
-    setIsConfirmationModalOpen(true)
   }
 
   const getFieldsData = async () => {
@@ -138,8 +126,8 @@ export const AdminCustomContactFields: FC = () => {
     }))
   }
 
-  const deleteSelectedField = async () => {
-    const deleteResponse = await deleteField(selectedId)
+  const deleteSelectedField = async (id: number) => {
+    const deleteResponse = await deleteField(id)
 
     if (deleteResponse.status) {
       showToast({
@@ -155,8 +143,6 @@ export const AdminCustomContactFields: FC = () => {
         status: 'error',
       })
     }
-
-    handleOpenConfirmationModal()
   }
 
   useEffect(() => {
@@ -197,7 +183,7 @@ export const AdminCustomContactFields: FC = () => {
                     title={item.name}
                     description={item.description}
                     editField={getInfoSelectedField}
-                    deleteField={confirmDeleteField}
+                    deleteField={deleteSelectedField}
                   />
                 )
               })}
@@ -207,26 +193,25 @@ export const AdminCustomContactFields: FC = () => {
           <LoadingSpinner size='xl' />
         )}
       </section>
-      <FieldModal
-        title='Add Custom Field'
-        modalField={modalNewFiled}
-        handleOpenCloseModal={handleAddNewFieldModal}
-        functionModal={addNewField}
-        handleInputChange={handleInputChange}
-      />
-      <FieldModal
-        title='Edit Custom Field'
-        modalField={modalEditFiled}
-        filedValues={fieldData}
-        handleOpenCloseModal={handleEditSelectedField}
-        functionModal={editInfoSelectedField}
-        handleInputChange={handleInputChange}
-      />
-      <ConfirmationModal
-        isOpened={isConfirmationModalOpen}
-        handleOpenCloseModal={handleOpenConfirmationModal}
-        agree={deleteSelectedField}
-      />
+      {modalNewFiled && (
+        <FieldModal
+          title='Add Custom Field'
+          modalField={modalNewFiled}
+          handleOpenCloseModal={handleAddNewFieldModal}
+          functionModal={addNewField}
+          handleInputChange={handleInputChange}
+        />
+      )}
+      {modalEditFiled && (
+        <FieldModal
+          title='Edit Custom Field'
+          modalField={modalEditFiled}
+          filedValues={fieldData}
+          handleOpenCloseModal={handleEditSelectedField}
+          functionModal={editInfoSelectedField}
+          handleInputChange={handleInputChange}
+        />
+      )}
     </div>
   )
 }

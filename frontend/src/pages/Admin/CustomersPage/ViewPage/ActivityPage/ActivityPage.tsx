@@ -8,7 +8,6 @@ import {
 import { EditActivityModal } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/ActivityPage/EditActivityModal/EditActivityModal'
 import { RecentActivity } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/ActivityPage/RecentActivity/RecentActivity'
 import { TextEditorWrapper } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/ActivityPage/TextEditorWrapper/TextEditorWrapper'
-import { ConfirmationModal } from '../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { addActivity } from '../../../../../shared/utils/api/Admin/ViewContact/Activity/AddNewActivity'
@@ -36,18 +35,12 @@ export const AdminContactActivityPage: FC = () => {
 
   const [isEditActivityModal, setIsEditActivityModal] =
     useState<boolean>(false)
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
-    useState<boolean>(false)
 
   const context = useOutletContext<ViewPageContext>()
   const showToast = useCustomToast()
 
   const openEditActivityModal = () => {
     setIsEditActivityModal(prev => !prev)
-  }
-
-  const openConfirmationModal = () => {
-    setIsConfirmationModalOpen(prev => !prev)
   }
 
   const getInfo = async () => {
@@ -83,11 +76,6 @@ export const AdminContactActivityPage: FC = () => {
     }
   }
 
-  const confirmDelete = (idType: number) => {
-    setSelectedIdType(idType)
-    setIsConfirmationModalOpen(true)
-  }
-
   const openEditModal = (
     idType: number,
     icon: string,
@@ -97,21 +85,20 @@ export const AdminContactActivityPage: FC = () => {
     setEditActiveData({ icon, message })
   }
 
-  const deleteSelectedActivity = async () => {
+  const deleteSelectedActivity = async (id: number) => {
     const deleteResponse = await deleteObject(
       context.idClient,
       'activity',
-      selectedIdType,
+      id,
     )
 
     if (deleteResponse.status) {
       showToast({
         title: 'Successfully',
-        description: 'You have successfully deleted the activity',
+        description: 'You have successfully deleted the Activity',
         status: 'success',
       })
       getInfo()
-      openConfirmationModal()
     } else {
       showToast({
         title: 'Error',
@@ -180,7 +167,7 @@ export const AdminContactActivityPage: FC = () => {
         >
           {data.length > 0 && (
             <RecentActivity
-              deleteSelectedActivity={confirmDelete}
+              deleteSelectedActivity={deleteSelectedActivity}
               editActivity={openEditModal}
               list={data}
             />
@@ -195,11 +182,6 @@ export const AdminContactActivityPage: FC = () => {
         modalEditActivity={isEditActivityModal}
         handleOpenCloseModal={openEditActivityModal}
         saveInfo={updateSelectedActivityInfo}
-      />
-      <ConfirmationModal
-        isOpened={isConfirmationModalOpen}
-        handleOpenCloseModal={openConfirmationModal}
-        agree={deleteSelectedActivity}
       />
     </div>
   )

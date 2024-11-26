@@ -1,6 +1,7 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
 import { RolesAccess } from '../../../../../../app/constants/constants'
+import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import styleItem from '../RecentRoles.module.scss'
 import styles from './Item.module.scss'
 
@@ -19,42 +20,58 @@ export const Item: FC<ItemProps> = ({
   editRole,
   deleteSelectedRole,
 }) => {
+  const [modalDelete, setModalDelete] = useState<boolean>(false)
+
+  const handleOpenConfirmationModal = () => {
+    setModalDelete(state => !state)
+  }
+
   const handleEditRole = () => {
     editRole(id)
   }
 
   const handleDeleteRole = () => {
     deleteSelectedRole(id)
+    handleOpenConfirmationModal()
   }
 
   return (
-    <div className={styles.wrapper}>
-      <span className={`${styleItem.nameColumn} ${styles.nameItem}`}>
-        {name}
-      </span>
-      <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        {access.edit === 1 && (
-          <button className={styles.buttonEdit} onClick={handleEditRole}>
-            <img
-              src='/icons/edit.svg'
-              alt='Edit'
-              className={styles.icon}
-            />
-          </button>
-        )}
-        {access.delete === 1 && (
-          <button
-            className={styles.buttonTrash}
-            onClick={handleDeleteRole}
-          >
-            <img
-              src='/icons/trash.svg'
-              alt='Trash'
-              className={styles.icon}
-            />
-          </button>
-        )}
+    <>
+      <div className={styles.wrapper}>
+        <span className={`${styleItem.nameColumn} ${styles.nameItem}`}>
+          {name}
+        </span>
+        <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
+          {access.edit === 1 && (
+            <button className={styles.buttonEdit} onClick={handleEditRole}>
+              <img
+                src='/icons/edit.svg'
+                alt='Edit'
+                className={styles.icon}
+              />
+            </button>
+          )}
+          {access.delete === 1 && (
+            <button
+              className={styles.buttonTrash}
+              onClick={handleOpenConfirmationModal}
+            >
+              <img
+                src='/icons/trash.svg'
+                alt='Trash'
+                className={styles.icon}
+              />
+            </button>
+          )}
+        </div>
       </div>
-    </div>
+      {modalDelete && (
+        <ConfirmationModal
+          isOpened={modalDelete}
+          handleOpenCloseModal={handleOpenConfirmationModal}
+          agree={handleDeleteRole}
+        />
+      )}
+    </>
   )
 }

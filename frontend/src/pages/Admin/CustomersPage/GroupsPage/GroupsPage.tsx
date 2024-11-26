@@ -10,7 +10,6 @@ import { EditGroup } from '../../../../features/Admin/CustomersPage/GroupsPage/E
 import { NewGroup } from '../../../../features/Admin/CustomersPage/GroupsPage/NewGroup/NewGroup'
 import { RecentButtons } from '../../../../features/Admin/CustomersPage/GroupsPage/RecentButtons/RecentButtons'
 import { RecentGroups } from '../../../../features/Admin/CustomersPage/GroupsPage/RecentGroups/RecentGroups'
-import { ConfirmationModal } from '../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { addGroup } from '../../../../shared/utils/api/Admin/Groups/AddGroup'
@@ -31,8 +30,6 @@ export const AdminGroupsPage: FC = () => {
   const [selectedGroupId, setSelectedGroupId] = useState<number | null>(
     null,
   )
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
-    useState<boolean>(false)
 
   const [name, setName] = useState<string>('')
 
@@ -53,10 +50,6 @@ export const AdminGroupsPage: FC = () => {
     setNewGroup(!newGroup)
   }
 
-  const openConfirmationModal = () => {
-    setIsConfirmationModalOpen(!isConfirmationModalOpen)
-  }
-
   const openEditGroupModal = () => {
     setModalEditGroups(!modalEditGroups)
   }
@@ -69,11 +62,6 @@ export const AdminGroupsPage: FC = () => {
     setSelectedGroupId(id)
     setName(name)
     openEditGroupModal()
-  }
-
-  const confirmDeleteGroup = (id: number) => {
-    setSelectedGroupId(id)
-    setIsConfirmationModalOpen(true)
   }
 
   const createGroup = async () => {
@@ -97,10 +85,8 @@ export const AdminGroupsPage: FC = () => {
     openNewGroupModal()
   }
 
-  const deleteSelectedGroup = async () => {
-    if (selectedGroupId === null) return
-
-    const deleteResponse = await deleteGroup(selectedGroupId)
+  const deleteSelectedGroup = async (id: number) => {
+    const deleteResponse = await deleteGroup(id)
 
     if (deleteResponse.status) {
       showToast({
@@ -116,8 +102,6 @@ export const AdminGroupsPage: FC = () => {
         status: 'error',
       })
     }
-
-    openConfirmationModal()
   }
 
   const editSelectedGroup = async () => {
@@ -174,7 +158,7 @@ export const AdminGroupsPage: FC = () => {
             <RecentGroups
               access={access}
               groupsList={groups}
-              deleteGroup={confirmDeleteGroup}
+              deleteGroup={deleteSelectedGroup}
               editGroup={setIdEditGroup}
             />
           </RecentCard>
@@ -195,11 +179,6 @@ export const AdminGroupsPage: FC = () => {
         handleOpenCloseModal={openEditGroupModal}
         editGroup={editSelectedGroup}
         handleInputChange={handleInputChange}
-      />
-      <ConfirmationModal
-        isOpened={isConfirmationModalOpen}
-        handleOpenCloseModal={openConfirmationModal}
-        agree={deleteSelectedGroup}
       />
     </div>
   )
