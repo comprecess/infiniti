@@ -9,6 +9,7 @@ use App\Services\Pay\Contract\PayContract;
 use App\Services\Pay\Contract\PaymentGatewaysContract;
 use App\Services\Pay\PaymentGateways\ManualPayment;
 use App\Services\Pay\PaymentGateways\Stripe;
+use App\Services\Pay\PaymentGateways\StripeLink;
 use App\Services\Pay\Request\ManualPaymentRequest;
 use App\Services\Pay\Request\StripeRequest;
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +24,7 @@ class Pay implements PayContract
             'request' => ManualPaymentRequest::class
         ],
         'stripe' => [
-            'class' => Stripe::class,
+            'class' => StripeLink::class,
             'request' => StripeRequest::class
         ],
     ];
@@ -31,7 +32,7 @@ class Pay implements PayContract
     private $payMethod = null;
     private $model = null;
 
-    public function setPay(string $name, Model $model) :PayContract
+    public function setPay(string $name, ?Model $model = null) :PayContract
     {
         if(in_array($name, array_keys(self::PAY_LIST))) {
             $this->payMethod = $name;
