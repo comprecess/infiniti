@@ -9,9 +9,8 @@ class StripeRequest extends FormRequest
 
     public function rules(): array
     {
-        \Illuminate\Support\Facades\Log::alert('***StripeRequest***', $this->all());
         return [
-            'token' => 'required'
+//            'token' => 'required'
         ];
     }
 }

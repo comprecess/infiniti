@@ -23,4 +23,5 @@ Route::group(['middleware' => Authenticate::class], function(){
 #Авторизация регистрация
 Route::view('login', 'pages.auth.login');
 Route::post('login', [AuthController::class, 'login'])->name('login.post');
+Route::any('/api/v1/stripe', [\App\Http\Controllers\Service\StripeController::class, 'index'])->name('stripeEvent');
 

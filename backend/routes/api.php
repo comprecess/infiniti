@@ -40,6 +40,7 @@ Route::controller(PetitionController::class)->prefix('/{type}/token/{token}')
         Route::get('/', 'publicToken');
         Route::post('/', 'offerCheck');
         Route::post('/pay/{payType}', 'pay');
+        Route::get('/pay/{payType}', 'payGet');
     });
 
 Route::group(['prefix' => 'user'], function(){

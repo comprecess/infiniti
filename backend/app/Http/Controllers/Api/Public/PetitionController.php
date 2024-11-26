@@ -130,6 +130,11 @@ class PetitionController extends Controller
         return $pay->setPay($request->route('payType'), $model)->execute();
     }
 
+    public function payGet(Request $request)
+    {
+        dd($request->all());
+    }
+
 
 
 }
