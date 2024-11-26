@@ -49,7 +49,7 @@ class StripeLink extends PaymentGateways implements PaymentGatewaysContract
                 ],
                 'after_completion' => [
                     'type' => 'redirect',
-                    'redirect' => ['url' => $this->pay->getDataRequest()->fullUrl()],
+                    'redirect' => ['url' => frontLink("/public/invoice/view/{$model->vtoken}")  /*$this->pay->getDataRequest()->fullUrl()*/],
                 ],
             ]);
 
