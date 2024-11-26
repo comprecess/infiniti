@@ -8,7 +8,6 @@ import {
 } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
-import { CreditCardInput } from '../../../../shared/ui/CreditCardInput/CreditCardInput'
 import { CustomSelect } from '../../../../shared/ui/CustomSelect/CustomSelect'
 import { sanitizeMessage } from '../../../../shared/utils/TextEditor/sanitizeMessage'
 import { ContactItem } from '../../../Admin/Sales/ViewInvoice/Header/ContactItem/ContactItem'
@@ -31,7 +30,7 @@ interface HeaderProps {
   client: FullInfoClient
   offer: SalesViewOfferData
   payList?: SalesViewInvoicePayList[]
-  postTokenStripeSend: (token: string) => void
+  postNavigateToStripe: () => void
 }
 
 export const Header: FC<HeaderProps> = ({
@@ -47,9 +46,8 @@ export const Header: FC<HeaderProps> = ({
   offer,
   payList,
   token,
-  postTokenStripeSend,
+  postNavigateToStripe,
 }) => {
-  const [creditCard, setCreditCard] = useState<boolean>(false)
   const [payNow, setPayNow] = useState<
   SalesViewInvoicePayList | undefined
   >(undefined)
@@ -66,12 +64,11 @@ export const Header: FC<HeaderProps> = ({
 
   const handlePayNow = () => {
     if (payNow?.idName === 'stripe') {
-      setCreditCard(true)
+      postNavigateToStripe()
     } else {
       navigate(
         `/${Routes.public}/${Routes.invoice}/${Routes.proof}/${Routes.transaction}/${token}`,
       )
-      setCreditCard(false)
     }
   }
 
@@ -183,9 +180,6 @@ export const Header: FC<HeaderProps> = ({
               onClick={handlePayNow}
             />
           </div>
-          {creditCard && (
-            <CreditCardInput postTokenStripeSend={postTokenStripeSend} />
-          )}
         </div>
       </section>
       {offer && (
