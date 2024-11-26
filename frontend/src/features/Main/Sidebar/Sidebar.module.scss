@@ -62,5 +62,9 @@
 .miniLogoColor * {
   width: 40px;
   height: 40px;
-  fill: $brand-500;
+  fill: $white;
+}
+
+.logoTextColor * {
+  fill: $white;
 }

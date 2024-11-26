@@ -1,5 +1,6 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
+import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import styleItem from '../RecentContactsList.module.scss'
 import styles from './Item.module.scss'
 
@@ -18,37 +19,56 @@ export const Item: FC<ItemProps> = ({
   email,
   phone,
 }) => {
+  const [modalDelete, setModalDelete] = useState<boolean>(false)
+
+  const handleOpenConfirmationModal = () => {
+    setModalDelete(state => !state)
+  }
+
   return (
-    <div className={styles.wrapper}>
-      <span className={`${styleItem.hashtagColumn} ${styles.idItem}`}>
-        {id}
-      </span>
-      <span className={`${styleItem.nameColumn} ${styles.nameItem}`}>
-        {name}
-      </span>
-      <div
-        className={`${styleItem.companyNameColumn} ${styles.companyNameItem}`}
-      >
-        {companyName}
+    <>
+      <div className={styles.wrapper}>
+        <span className={`${styleItem.hashtagColumn} ${styles.idItem}`}>
+          {id}
+        </span>
+        <span className={`${styleItem.nameColumn} ${styles.nameItem}`}>
+          {name}
+        </span>
+        <div
+          className={`${styleItem.companyNameColumn} ${styles.companyNameItem}`}
+        >
+          {companyName}
+        </div>
+        <span className={`${styleItem.emailColumn} ${styles.emailItem}`}>
+          {email}
+        </span>
+        <span className={`${styleItem.phoneColumn} ${styles.phoneItem}`}>
+          {phone}
+        </span>
+        <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
+          <button className={styles.viewButton}>
+            <img
+              src='/icons/view.svg'
+              alt='View'
+              className={styles.icon}
+            />
+          </button>
+          <button className={styles.buttonTrash}>
+            <img
+              src='/icons/trash.svg'
+              alt='Trash'
+              className={styles.icon}
+            />
+          </button>
+        </div>
       </div>
-      <span className={`${styleItem.emailColumn} ${styles.emailItem}`}>
-        {email}
-      </span>
-      <span className={`${styleItem.phoneColumn} ${styles.phoneItem}`}>
-        {phone}
-      </span>
-      <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <button className={styles.viewButton}>
-          <img src='/icons/view.svg' alt='View' className={styles.icon} />
-        </button>
-        <button className={styles.buttonTrash}>
-          <img
-            src='/icons/trash.svg'
-            alt='Trash'
-            className={styles.icon}
-          />
-        </button>
-      </div>
-    </div>
+      {modalDelete && (
+        <ConfirmationModal
+          isOpened={modalDelete}
+          handleOpenCloseModal={handleOpenConfirmationModal}
+          agree={() => {}}
+        />
+      )}
+    </>
   )
 }

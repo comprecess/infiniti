@@ -10,7 +10,6 @@ import { ModalWindowCompanyInfo } from '../../../../features/Admin/CustomersPage
 import { RecentCompanies } from '../../../../features/Admin/CustomersPage/CompaniesPage/RecentCompanies/RecentCompanies'
 import { SearchAndButtons } from '../../../../features/Admin/CustomersPage/CompaniesPage/RecentCompanies/SearchAndButtons/SearchAndButtons'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
-import { ConfirmationModal } from '../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { createNewCompany } from '../../../../shared/utils/api/Admin/Companies/CreateNewCompany'
@@ -22,20 +21,20 @@ import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CompaniesPage.module.scss'
 
 export const AdminCompaniesPage: FC = () => {
-  const [companies, setCompanies] = useState<CompaniesListProps[] | null>(null)
+  const [companies, setCompanies] = useState<CompaniesListProps[] | null>(
+    null,
+  )
   const [filteredCompanies, setFilteredCompanies] = useState<
   CompaniesListProps[] | null
   >(null)
 
-  const [selectedCompanyId, setSelectedCompanyId] = useState<number | null>(
-    null,
-  )
+  const [selectedCompanyId, setSelectedCompanyId] = useState<
+  number | null
+  >(null)
 
   const [modalNewCompany, setModalNewCompany] = useState<boolean>(false)
   const [modalEditCompany, setModalEditCompany] = useState<boolean>(false)
   const [modalCompanyInfo, setModalCompanyInfo] = useState<boolean>(false)
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
-    useState<boolean>(false)
 
   const [access, setAccess] = useState<RolesAccess | null>(null)
 
@@ -70,15 +69,6 @@ export const AdminCompaniesPage: FC = () => {
     }
 
     setModalCompanyInfo(!modalCompanyInfo)
-  }
-
-  const handleOpenConfirmationModal = () => {
-    setIsConfirmationModalOpen(!isConfirmationModalOpen)
-  }
-
-  const confirmDeleteCompany = (id: number) => {
-    setSelectedCompanyId(id)
-    setIsConfirmationModalOpen(true)
   }
 
   const handleInputChange = (name: string, value: string | number) => {
@@ -119,7 +109,12 @@ export const AdminCompaniesPage: FC = () => {
 
   const filterEmptyFields = (data: CompanyData): Partial<CompanyData> => {
     return Object.entries(data).reduce((acc, [key, value]) => {
-      if (key !== 'id' && value !== '' && value !== false && value !== null) {
+      if (
+        key !== 'id' &&
+        value !== '' &&
+        value !== false &&
+        value !== null
+      ) {
         acc[key as keyof CompanyData] = value
       }
 
@@ -172,10 +167,8 @@ export const AdminCompaniesPage: FC = () => {
     }
   }
 
-  const deleteSelectedCompany = async () => {
-    if (selectedCompanyId === null) return
-
-    const deleteResponse = await deleteCompany(selectedCompanyId)
+  const deleteSelectedCompany = async (id: number) => {
+    const deleteResponse = await deleteCompany(id)
 
     if (deleteResponse.status) {
       showToast({
@@ -192,8 +185,6 @@ export const AdminCompaniesPage: FC = () => {
         status: 'error',
       })
     }
-
-    handleOpenConfirmationModal()
   }
 
   const editSelectedCompany = async () => {
@@ -249,7 +240,7 @@ export const AdminCompaniesPage: FC = () => {
           >
             <RecentCompanies
               access={access}
-              deleteCompany={confirmDeleteCompany}
+              deleteCompany={deleteSelectedCompany}
               editCompany={loadCompanyInfoEdit}
               infoCompany={loadViewCompany}
               companiesList={
@@ -286,11 +277,6 @@ export const AdminCompaniesPage: FC = () => {
           openEditModal={handleOpenEditInView}
         />
       )}
-      <ConfirmationModal
-        isOpened={isConfirmationModalOpen}
-        handleOpenCloseModal={handleOpenConfirmationModal}
-        agree={deleteSelectedCompany}
-      />
     </div>
   )
 }

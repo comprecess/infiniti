@@ -1,6 +1,7 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 
 import { RolesAccess } from '../../../../../../app/constants/constants'
+import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import styleItem from '../RecentCompanies.module.scss'
 import styles from './Item.module.scss'
 
@@ -29,6 +30,12 @@ export const Item: FC<ItemProps> = ({
   editCompany,
   infoCompany,
 }) => {
+  const [modalDelete, setModalDelete] = useState<boolean>(false)
+
+  const handleOpenConfirmationModal = () => {
+    setModalDelete(state => !state)
+  }
+
   const handleInfoCompany = () => {
     infoCompany(id)
   }
@@ -39,58 +46,75 @@ export const Item: FC<ItemProps> = ({
 
   const handleDeleteCompany = () => {
     deleteCompany(id)
+    handleOpenConfirmationModal()
   }
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styleItem.logoColumn}>
-        <div className={styles.logoWrapper}>
-          {logo ? (
-            <img src={logo} alt='Logo' className={styles.logoItem} />
-          ) : null}
+    <>
+      <div className={styles.wrapper}>
+        <div className={styleItem.logoColumn}>
+          <div className={styles.logoWrapper}>
+            {logo ? (
+              <img src={logo} alt='Logo' className={styles.logoItem} />
+            ) : null}
+          </div>
         </div>
-      </div>
-      <div className={styleItem.companyNameColumn}>
-        <div className={styles.container} onClick={handleInfoCompany}>
-          <span className={styles.companyNameItem}>{name}</span>
-          <span className={styles.companyCodeItem}>{code}</span>
+        <div className={styleItem.companyNameColumn}>
+          <div className={styles.container} onClick={handleInfoCompany}>
+            <span className={styles.companyNameItem}>{name}</span>
+            <span className={styles.companyCodeItem}>{code}</span>
+          </div>
         </div>
-      </div>
-      <span className={`${styleItem.emailColumn} ${styles.emailItem}`}>
-        {email}
-      </span>
-      <span className={`${styleItem.phoneColumn} ${styles.phoneItem}`}>
-        {phone}
-      </span>
-      <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <button className={styles.viewButton} onClick={handleInfoCompany}>
-          <img src='/icons/view.svg' alt='View' className={styles.icon} />
-        </button>
-        {access.edit === 1 && (
+        <span className={`${styleItem.emailColumn} ${styles.emailItem}`}>
+          {email}
+        </span>
+        <span className={`${styleItem.phoneColumn} ${styles.phoneItem}`}>
+          {phone}
+        </span>
+        <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
           <button
-            className={styles.buttonEdit}
-            onClick={handleEditCompany}
+            className={styles.viewButton}
+            onClick={handleInfoCompany}
           >
             <img
-              src='/icons/edit.svg'
-              alt='Edit'
+              src='/icons/view.svg'
+              alt='View'
               className={styles.icon}
             />
           </button>
-        )}
-        {access.delete === 1 && (
-          <button
-            className={styles.buttonTrash}
-            onClick={handleDeleteCompany}
-          >
-            <img
-              src='/icons/trash.svg'
-              alt='Trash'
-              className={styles.icon}
-            />
-          </button>
-        )}
+          {access.edit === 1 && (
+            <button
+              className={styles.buttonEdit}
+              onClick={handleEditCompany}
+            >
+              <img
+                src='/icons/edit.svg'
+                alt='Edit'
+                className={styles.icon}
+              />
+            </button>
+          )}
+          {access.delete === 1 && (
+            <button
+              className={styles.buttonTrash}
+              onClick={handleOpenConfirmationModal}
+            >
+              <img
+                src='/icons/trash.svg'
+                alt='Trash'
+                className={styles.icon}
+              />
+            </button>
+          )}
+        </div>
       </div>
-    </div>
+      {modalDelete && (
+        <ConfirmationModal
+          isOpened={modalDelete}
+          handleOpenCloseModal={handleOpenConfirmationModal}
+          agree={handleDeleteCompany}
+        />
+      )}
+    </>
   )
 }
