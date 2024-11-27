@@ -25,7 +25,7 @@ class Normalization extends Seeder
         $this->isHas();
         $this->create();
         $this->update();
-//        $this->delete();
+        $this->delete();
     }
 
     protected function isHas()
