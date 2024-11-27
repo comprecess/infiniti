@@ -1,6 +1,7 @@
 import { FC, useState } from 'react'
 
 import { ConfirmationModal } from '../../../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
+import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { TypeFiles } from '../../../../../../../../shared/ui/TypeFiles/TypeFiles'
 import styleItem from '../RecentFiles.module.scss'
 import styles from './Item.module.scss'
@@ -39,16 +40,13 @@ export const Item: FC<ItemProps> = ({
           {title}
         </span>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-          <button
-            className={styles.buttonTrash}
+          <CustomMiniButton
+            style='cherry'
+            icon='/icons/trash.svg'
+            alt='Delete'
+            tooltipTitle='Delete'
             onClick={handleOpenConfirmationModal}
-          >
-            <img
-              src='/icons/trash.svg'
-              alt='Trash'
-              className={styles.icon}
-            />
-          </button>
+          />
         </div>
       </div>
       {modalDelete && (

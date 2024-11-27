@@ -1,5 +1,6 @@
 import { FC } from 'react'
 
+import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../RecentTransactions.module.scss'
 import styles from './Item.module.scss'
 
@@ -41,12 +42,19 @@ export const Item: FC<ItemProps> = ({
       >
         {description}
       </span>
-      <span className={`${styleItem.drColumn} ${styles.drItem}`}>{dr}</span>
-      <span className={`${styleItem.crColumn} ${styles.crItem}`}>{cr}</span>
+      <span className={`${styleItem.drColumn} ${styles.drItem}`}>
+        {dr}
+      </span>
+      <span className={`${styleItem.crColumn} ${styles.crItem}`}>
+        {cr}
+      </span>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <button className={styles.buttonEdit}>
-          <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
-        </button>
+        <CustomMiniButton
+          style='amber'
+          icon='/icons/edit.svg'
+          alt='Edit'
+          tooltipTitle='Edit'
+        />
       </div>
     </div>
   )

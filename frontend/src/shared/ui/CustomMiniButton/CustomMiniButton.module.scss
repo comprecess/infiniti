@@ -1,0 +1,69 @@
+.cherryWrapper,
+.amberWrapper,
+.mintWrapper,
+.blueWrapper,
+.grayWrapper {
+  display: flex;
+  flex-direction: row;
+  padding-left: 19px;
+  padding-right: 19px;
+  height: 36px;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.cherryWrapper {
+  background-color: $cherry-500;
+
+  @include hover() {
+    background-color: $cherry-400;
+  }
+}
+
+.amberWrapper {
+  background-color: $amber-500;
+
+  @include hover() {
+    background-color: $amber-400;
+  }
+}
+
+.mintWrapper {
+  background-color: $mint-500;
+
+  @include hover() {
+    background-color: $mint-400;
+  }
+}
+
+.blueWrapper {
+  background-color: $brand-500;
+
+  @include hover() {
+    background-color: $brand-400;
+  }
+}
+
+.grayWrapper {
+  background-color: $gray-500;
+
+  @include hover() {
+    background-color: $gray-400;
+  }
+}
+
+.textButton {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: -0.03em;
+  color: $white;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+}

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { RolesAccess } from '../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../app/router/routes'
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
+import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../RecentCustomers.module.scss'
 import styles from './Item.module.scss'
 
@@ -83,39 +84,30 @@ export const Item: FC<ItemProps> = ({
           {phone}
         </span>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-          <button
-            className={styles.viewButton}
+          <CustomMiniButton
+            style='mint'
+            icon='/icons/view.svg'
+            alt='View'
+            tooltipTitle='View'
             onClick={() => handleNavigate(Routes.summary)}
-          >
-            <img
-              src='/icons/view.svg'
-              alt='View'
-              className={styles.icon}
-            />
-          </button>
+          />
           {access.edit === 1 && (
-            <button
-              className={styles.buttonEdit}
+            <CustomMiniButton
+              style='amber'
+              icon='/icons/edit.svg'
+              alt='Edit'
+              tooltipTitle='Edit'
               onClick={() => handleNavigate(Routes.edit)}
-            >
-              <img
-                src='/icons/edit.svg'
-                alt='Edit'
-                className={styles.icon}
-              />
-            </button>
+            />
           )}
           {access.delete === 1 && (
-            <button
-              className={styles.buttonTrash}
+            <CustomMiniButton
+              style='cherry'
+              icon='/icons/trash.svg'
+              alt='Delete'
+              tooltipTitle='Delete'
               onClick={handleOpenConfirmationModal}
-            >
-              <img
-                src='/icons/trash.svg'
-                alt='Trash'
-                className={styles.icon}
-              />
-            </button>
+            />
           )}
         </div>
       </div>

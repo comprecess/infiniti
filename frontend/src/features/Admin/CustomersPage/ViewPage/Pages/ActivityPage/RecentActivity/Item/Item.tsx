@@ -1,6 +1,7 @@
 import { FC, useState } from 'react'
 
 import { ConfirmationModal } from '../../../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
+import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { sanitizeMessage } from '../../../../../../../../shared/utils/TextEditor/sanitizeMessage'
 import { IconItem } from '../IconItem/IconItem'
 import styles from './Item.module.scss'
@@ -68,26 +69,20 @@ export const Item: FC<ItemProps> = ({
               />
               {noDelete === 0 && (
                 <div className={styles.buttonsList}>
-                  <button
-                    className={styles.buttonEdit}
+                  <CustomMiniButton
+                    style='mint'
+                    icon='/icons/edit.svg'
+                    alt='Edit'
+                    tooltipTitle='Edit'
                     onClick={handleClickEdit}
-                  >
-                    <img
-                      src='/icons/edit.svg'
-                      alt='Edit'
-                      className={styles.icon}
-                    />
-                  </button>
-                  <button
-                    className={styles.buttonTrash}
+                  />
+                  <CustomMiniButton
+                    style='cherry'
+                    icon='/icons/trash.svg'
+                    alt='Delete'
+                    tooltipTitle='Delete'
                     onClick={handleOpenConfirmationModal}
-                  >
-                    <img
-                      src='/icons/trash.svg'
-                      alt='Trash'
-                      className={styles.icon}
-                    />
-                  </button>
+                  />
                 </div>
               )}
             </div>

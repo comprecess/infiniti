@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { RolesAccess } from '../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../app/router/routes'
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
+import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../RecentGroups.module.scss'
 import styles from './Item.module.scss'
 
@@ -53,38 +54,29 @@ export const Item: FC<ItemProps> = ({
         </span>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
           {access.edit === 1 && (
-            <button
-              className={styles.buttonEdit}
+            <CustomMiniButton
+              style='mint'
+              icon='/icons/edit.svg'
+              alt='Edit'
+              tooltipTitle='Edit'
               onClick={handleEditGroup}
-            >
-              <img
-                src='/icons/edit.svg'
-                alt='Edit'
-                className={styles.icon}
-              />
-            </button>
-          )}
-          <button
-            className={styles.buttonList}
-            onClick={handleNavigateToListContacts}
-          >
-            <img
-              src='/icons/users.svg'
-              alt='Users'
-              className={styles.icon}
             />
-          </button>
+          )}
+          <CustomMiniButton
+            style='amber'
+            icon='/icons/users.svg'
+            alt='List Contacts'
+            tooltipTitle='List Contacts'
+            onClick={handleNavigateToListContacts}
+          />
           {access.delete === 1 && (
-            <button
-              className={styles.buttonTrash}
+            <CustomMiniButton
+              style='cherry'
+              icon='/icons/trash.svg'
+              alt='Delete'
+              tooltipTitle='Delete'
               onClick={handleOpenConfirmationModal}
-            >
-              <img
-                src='/icons/trash.svg'
-                alt='Trash'
-                className={styles.icon}
-              />
-            </button>
+            />
           )}
         </div>
       </div>

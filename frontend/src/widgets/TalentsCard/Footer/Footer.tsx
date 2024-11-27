@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Routes } from '../../../app/router/routes'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { ConfirmationModal } from '../../../shared/ui/ConfirmationModal/ConfirmationModal'
+import { CustomMiniButton } from '../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { addTalentToCart } from '../../../shared/utils/api/Admin/Talents/AddTalentToOrder'
 import styles from './Footer.module.scss'
@@ -33,7 +34,7 @@ export const Footer: FC<FooterProps> = ({
   const showToast = useCustomToast()
   const navigate = useNavigate()
 
-  const handleSetModal = () => {
+  const handleOpenConfirmationModal = () => {
     setModal(state => !state)
   }
 
@@ -88,47 +89,35 @@ export const Footer: FC<FooterProps> = ({
         {isAdmin ? (
           <div className={styles.buttonsContainer}>
             {inCart === 0 && (
-              <button
-                className={styles.buttonBasket}
+              <CustomMiniButton
+                style='blue'
+                icon='/icons/shoppingBasket.svg'
+                alt='Add to Order'
+                tooltipTitle='Add to Order'
                 onClick={handleAddTalentToOrder}
-              >
-                <img
-                  src='/icons/shoppingBasket.svg'
-                  alt='Basket'
-                  className={styles.icon}
-                />
-              </button>
+              />
             )}
-            <button
-              className={styles.buttonView}
+            <CustomMiniButton
+              style='mint'
+              icon='/icons/view.svg'
+              alt='View'
+              tooltipTitle='View'
               onClick={handleNavigateToViewTalent}
-            >
-              <img
-                src='/icons/view.svg'
-                alt='View'
-                className={styles.icon}
-              />
-            </button>
-            <button
-              className={styles.buttonEdit}
+            />
+            <CustomMiniButton
+              style='amber'
+              icon='/icons/edit.svg'
+              alt='Edit'
+              tooltipTitle='Edit'
               onClick={handleNavigateToEditTalent}
-            >
-              <img
-                src='/icons/edit.svg'
-                alt='Edit'
-                className={styles.icon}
-              />
-            </button>
-            <button
-              className={styles.buttonTrash}
-              onClick={handleSetModal}
-            >
-              <img
-                src='/icons/trash.svg'
-                alt='Trash'
-                className={styles.icon}
-              />
-            </button>
+            />
+            <CustomMiniButton
+              style='cherry'
+              icon='/icons/trash.svg'
+              alt='Delete'
+              tooltipTitle='Delete'
+              onClick={handleOpenConfirmationModal}
+            />
           </div>
         ) : (
           <ButtonBlue
@@ -140,7 +129,7 @@ export const Footer: FC<FooterProps> = ({
       {modal && isAdmin && (
         <ConfirmationModal
           isOpened={modal}
-          handleOpenCloseModal={handleSetModal}
+          handleOpenCloseModal={handleOpenConfirmationModal}
           agree={handleDeleteTalent}
         />
       )}

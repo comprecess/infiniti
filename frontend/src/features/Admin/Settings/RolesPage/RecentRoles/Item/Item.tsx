@@ -2,6 +2,7 @@ import { FC, useState } from 'react'
 
 import { RolesAccess } from '../../../../../../app/constants/constants'
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
+import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../RecentRoles.module.scss'
 import styles from './Item.module.scss'
 
@@ -43,25 +44,22 @@ export const Item: FC<ItemProps> = ({
         </span>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
           {access.edit === 1 && (
-            <button className={styles.buttonEdit} onClick={handleEditRole}>
-              <img
-                src='/icons/edit.svg'
-                alt='Edit'
-                className={styles.icon}
-              />
-            </button>
+            <CustomMiniButton
+              style='amber'
+              icon='/icons/edit.svg'
+              alt='Edit'
+              tooltipTitle='Edit'
+              onClick={handleEditRole}
+            />
           )}
           {access.delete === 1 && (
-            <button
-              className={styles.buttonTrash}
+            <CustomMiniButton
+              style='cherry'
+              icon='/icons/trash.svg'
+              alt='Delete'
+              tooltipTitle='Delete'
               onClick={handleOpenConfirmationModal}
-            >
-              <img
-                src='/icons/trash.svg'
-                alt='Trash'
-                className={styles.icon}
-              />
-            </button>
+            />
           )}
         </div>
       </div>
