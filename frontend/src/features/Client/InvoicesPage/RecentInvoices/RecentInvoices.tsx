@@ -1,11 +1,16 @@
 import React, { FC } from 'react'
 
+import { ClientInvoiceData } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentInvoices.module.scss'
 
-export const RecentInvoices: FC = () => {
+interface RecentInvoicesProps {
+  invoices: ClientInvoiceData[]
+}
+
+export const RecentInvoices: FC<RecentInvoicesProps> = ({ invoices }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -17,17 +22,17 @@ export const RecentInvoices: FC = () => {
         <Title title='Manage' style={styles.manageColumn} />
       </div>
       <div className={styles.items}>
-        {[].map((_order, index) => {
+        {invoices.map((invoice, index) => {
           return (
             <React.Fragment key={'order.id'}>
               <Item
-                hashtag={'order.hashtag'}
-                amount={'order.amount'}
-                invoiceDate={'order.invoiceDate'}
-                dueDate={'order.dueDate'}
-                status={'order.status'}
+                hashtag={invoice.code}
+                amount={invoice.amount}
+                invoiceDate={invoice.invoiceDate}
+                dueDate={invoice.dueDate}
+                status={invoice.status}
               />
-              {index !== [].length - 1 && <CustomDivider />}
+              {index !== invoices.length - 1 && <CustomDivider />}
             </React.Fragment>
           )
         })}

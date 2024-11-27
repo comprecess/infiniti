@@ -64,6 +64,26 @@ export interface UpdateProfileInfoProps {
   password?: string
 }
 
+export interface ClientInvoiceData {
+  id: number
+  amount: string
+  blockEdit: boolean
+  code: string
+  dueDate: string
+  invoiceDate: string
+  status: string
+  type: number
+}
+export interface ClientOfferData {
+  id: number
+  code: string
+  dateCreated: string
+  stage: string
+  subject: string
+  total: string
+  validUntil: string
+}
+
 export interface UserInfo {
   id: number
   account: string
