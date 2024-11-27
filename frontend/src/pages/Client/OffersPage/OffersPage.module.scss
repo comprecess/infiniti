@@ -17,3 +17,9 @@
 .recentFullScreen {
   max-width: $maxContentSize;
 }
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -44,8 +44,8 @@ export const Item: FC<ItemProps> = ({
     const headers: HeadersInit =
       global === 0
         ? {
-            Authorization: `Bearer ${authToken}`,
-          }
+          Authorization: `Bearer ${authToken}`,
+        }
         : {}
 
     const response = await fetch(link, { headers })

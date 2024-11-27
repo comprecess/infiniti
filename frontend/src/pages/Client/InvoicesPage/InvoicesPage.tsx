@@ -1,24 +1,48 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 
+import { ClientInvoiceData } from '../../../app/constants/constants'
 import { RecentInvoices } from '../../../features/Client/InvoicesPage/RecentInvoices/RecentInvoices'
+import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { getInvoiceOrOffer } from '../../../shared/utils/api/Client/GetInvoiceOrOffer'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './InvoicesPage.module.scss'
 
 export const ClientInvoicesPage: FC = () => {
+  const [invoices, setInvoices] = useState<ClientInvoiceData[] | null>(
+    null,
+  )
+
+  const getInvoiceList = async () => {
+    const getResponse = await getInvoiceOrOffer('invoice')
+
+    setInvoices(getResponse.data)
+  }
+
   useEffect(() => {
     document.title = 'infiniti | Invoices'
+
+    getInvoiceList()
   }, [])
 
   return (
     <div className={styles.wrapper}>
-      <section className={styles.section}>
+      {/* <section className={styles.section}>
         <div className={styles.item}>Chart</div>
-      </section>
-      <section className={styles.section}>
-        <RecentCard title='Total: 0' style={styles.recentFullScreen}>
-          <RecentInvoices />
-        </RecentCard>
-      </section>
+      </section> */}
+      {invoices ? (
+        <section className={styles.section}>
+          <RecentCard
+            title={`Total: ${invoices.length}`}
+            style={styles.recentFullScreen}
+          >
+            <RecentInvoices invoices={invoices} />
+          </RecentCard>
+        </section>
+      ) : (
+        <div className={styles.loading}>
+          <LoadingSpinner size='xl' />
+        </div>
+      )}
     </div>
   )
 }

@@ -1,11 +1,16 @@
 import React, { FC } from 'react'
 
+import { ClientOfferData } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentTotal.module.scss'
 
-export const RecentTotal: FC = () => {
+interface RecentTotalProps {
+  offers: ClientOfferData[]
+}
+
+export const RecentTotal: FC<RecentTotalProps> = ({ offers }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -16,16 +21,16 @@ export const RecentTotal: FC = () => {
         <Title title='Manage' style={styles.manageColumn} />
       </div>
       <div className={styles.items}>
-        {[].map((_order, index) => {
+        {offers.map((offer, index) => {
           return (
             <React.Fragment key={'order.id'}>
               <Item
-                subject={'order.subject'}
-                amount={'order.amount'}
-                dateCreated={'order.dateCreated'}
-                expiryDate={'order.expiryDate'}
+                subject={offer.subject}
+                amount={offer.total}
+                dateCreated={offer.dateCreated}
+                expiryDate={offer.validUntil}
               />
-              {index !== [].length - 1 && <CustomDivider />}
+              {index !== offers.length - 1 && <CustomDivider />}
             </React.Fragment>
           )
         })}
