@@ -1,5 +1,6 @@
 import { FC } from 'react'
 
+import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../RecentPasswordManager.module.scss'
 import styles from './Item.module.scss'
 
@@ -20,27 +21,32 @@ export const Item: FC<ItemProps> = ({ name, url, username }) => {
       <span className={`${styleItem.nameColumn} ${styles.nameItem}`}>
         {name}
       </span>
-      <span className={`${styleItem.urlColumn} ${styles.urlItem}`}>{url}</span>
-      <span className={`${styleItem.usernameColumn} ${styles.usernameItem}`}>
+      <span className={`${styleItem.urlColumn} ${styles.urlItem}`}>
+        {url}
+      </span>
+      <span
+        className={`${styleItem.usernameColumn} ${styles.usernameItem}`}
+      >
         {username}
       </span>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <button
-          className={styles.buttonGlobe}
+        <CustomMiniButton
+          style='blue'
+          icon='/icons/globe.svg'
+          alt='Open Link'
+          tooltipTitle='Open Link'
           onClick={() => openInNewTab(url)}
-        >
-          <img src='/icons/globe.svg' alt='Globe' className={styles.icon} />
-        </button>
-        <button className={styles.buttonClipBoard}>
-          <img
-            src='/icons/clipBoard.svg'
-            alt='ClipBoard'
-            className={styles.icon}
-          />
-        </button>
-        <button className={styles.buttonLock}>
-          <img src='/icons/lock.svg' alt='Lock' className={styles.icon} />
-        </button>
+        />
+        <CustomMiniButton
+          style='mint'
+          icon='/icons/clipBoard.svg'
+          alt='Clipboard'
+        />
+        <CustomMiniButton
+          style='cherry'
+          icon='/icons/lock.svg'
+          alt='Lock'
+        />
       </div>
     </div>
   )

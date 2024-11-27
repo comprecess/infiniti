@@ -1,6 +1,7 @@
 import { FC } from 'react'
 
 import { SalesViewInvoiceDocuments } from '../../../../../../../app/constants/constants'
+import { CustomMiniButton } from '../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { TypeFiles } from '../../../../../../../shared/ui/TypeFiles/TypeFiles'
 import styleItem from '../RecentFiles.module.scss'
 import styles from './Item.module.scss'
@@ -15,8 +16,8 @@ export const Item: FC<ItemProps> = ({ data, authToken }) => {
     const headers: HeadersInit =
       data.global === 0
         ? {
-          Authorization: `Bearer ${authToken}`,
-        }
+            Authorization: `Bearer ${authToken}`,
+          }
         : {}
 
     const response = await fetch(link, { headers })
@@ -40,16 +41,13 @@ export const Item: FC<ItemProps> = ({ data, authToken }) => {
         {data.title}
       </span>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <button
-          className={styles.downloadButton}
+        <CustomMiniButton
+          style='mint'
+          icon='/icons/fileDownload.svg'
+          alt='Download File'
+          tooltipTitle='Download File'
           onClick={() => handleDownloadFile(data.link)}
-        >
-          <img
-            src='/icons/fileDownload.svg'
-            alt='Download'
-            className={styles.icon}
-          />
-        </button>
+        />
       </div>
     </div>
   )

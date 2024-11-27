@@ -1,6 +1,7 @@
 import { FC, useState } from 'react'
 
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
+import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../../../../../shared/ui/Status/Status'
 import styleItem from '../RecentOffers.module.scss'
 import styles from './Item.module.scss'
@@ -96,36 +97,27 @@ export const Item: FC<ItemProps> = ({
           <Status title={stage} status={stage} />
         </div>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-          <button
-            className={styles.viewButton}
+          <CustomMiniButton
+            style='mint'
+            icon='/icons/view.svg'
+            alt='View'
+            tooltipTitle='View'
             onClick={handleNavigateToViewOffer}
-          >
-            <img
-              src='/icons/view.svg'
-              alt='View'
-              className={styles.icon}
-            />
-          </button>
-          <button
-            className={styles.buttonEdit}
+          />
+          <CustomMiniButton
+            style='amber'
+            icon='/icons/edit.svg'
+            alt='Edit'
+            tooltipTitle='Edit'
             onClick={handleNavigateToEditOffer}
-          >
-            <img
-              src='/icons/edit.svg'
-              alt='Edit'
-              className={styles.icon}
-            />
-          </button>
-          <button
-            className={styles.buttonTrash}
+          />
+          <CustomMiniButton
+            style='cherry'
+            icon='/icons/trash.svg'
+            alt='Delete'
+            tooltipTitle='Delete'
             onClick={handleOpenConfirmationModal}
-          >
-            <img
-              src='/icons/trash.svg'
-              alt='Trash'
-              className={styles.icon}
-            />
-          </button>
+          />
         </div>
       </div>
       {modalDelete && (

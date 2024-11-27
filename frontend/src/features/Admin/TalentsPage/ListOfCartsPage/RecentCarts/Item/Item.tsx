@@ -2,6 +2,7 @@ import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Routes } from '../../../../../../app/router/routes'
+import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../RecentCarts.module.scss'
 import styles from './Item.module.scss'
 
@@ -65,12 +66,13 @@ export const Item: FC<ItemProps> = ({
         {date}
       </span>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <button
-          className={styles.viewButton}
+        <CustomMiniButton
+          style='mint'
+          icon='/icons/view.svg'
+          alt='View'
+          tooltipTitle='View'
           onClick={handleNavigateToCart}
-        >
-          <img src='/icons/view.svg' alt='View' className={styles.icon} />
-        </button>
+        />
       </div>
     </div>
   )

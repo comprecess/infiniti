@@ -1,6 +1,7 @@
 import { FC, useState } from 'react'
 
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
+import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../RecentContactsList.module.scss'
 import styles from './Item.module.scss'
 
@@ -46,20 +47,18 @@ export const Item: FC<ItemProps> = ({
           {phone}
         </span>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-          <button className={styles.viewButton}>
-            <img
-              src='/icons/view.svg'
-              alt='View'
-              className={styles.icon}
-            />
-          </button>
-          <button className={styles.buttonTrash}>
-            <img
-              src='/icons/trash.svg'
-              alt='Trash'
-              className={styles.icon}
-            />
-          </button>
+          <CustomMiniButton
+            style='mint'
+            icon='/icons/view.svg'
+            alt='View'
+            tooltipTitle='View'
+          />
+          <CustomMiniButton
+            style='cherry'
+            icon='/icons/trash.svg'
+            alt='Delete'
+            tooltipTitle='Delete'
+          />
         </div>
       </div>
       {modalDelete && (

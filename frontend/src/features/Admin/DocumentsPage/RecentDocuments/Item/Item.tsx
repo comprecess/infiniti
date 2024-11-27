@@ -2,6 +2,7 @@ import { FC, useState } from 'react'
 
 import { RolesAccess } from '../../../../../app/constants/constants'
 import { ConfirmationModal } from '../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
+import { CustomMiniButton } from '../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { TypeFiles } from '../../../../../shared/ui/TypeFiles/TypeFiles'
 import { EditDocumentModal } from '../../EditDocumentModal/EditDocumentModal'
 import styleItem from '../RecentDocuments.module.scss'
@@ -43,8 +44,8 @@ export const Item: FC<ItemProps> = ({
     const headers: HeadersInit =
       global === 0
         ? {
-          Authorization: `Bearer ${authToken}`,
-        }
+            Authorization: `Bearer ${authToken}`,
+          }
         : {}
 
     const response = await fetch(link, { headers })
@@ -69,39 +70,30 @@ export const Item: FC<ItemProps> = ({
           {title}
         </span>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-          <button
-            className={styles.downloadButton}
+          <CustomMiniButton
+            style='mint'
+            icon='/icons/fileDownload.svg'
+            alt='View or Download file'
+            tooltipTitle='View or Download file'
             onClick={() => handleDownloadFile(link)}
-          >
-            <img
-              src='/icons/fileDownload.svg'
-              alt='Download'
-              className={styles.icon}
-            />
-          </button>
+          />
           {access.edit === 1 && (
-            <button
-              className={styles.buttonEdit}
+            <CustomMiniButton
+              style='amber'
+              icon='/icons/edit.svg'
+              alt='Edit'
+              tooltipTitle='Edit'
               onClick={handleSetModalEdit}
-            >
-              <img
-                src='/icons/edit.svg'
-                alt='Edit'
-                className={styles.icon}
-              />
-            </button>
+            />
           )}
           {access.delete === 1 && (
-            <button
-              className={styles.buttonTrash}
+            <CustomMiniButton
+              style='cherry'
+              icon='/icons/trash.svg'
+              alt='Delete'
+              tooltipTitle='Delete'
               onClick={handleSetModalDelete}
-            >
-              <img
-                src='/icons/trash.svg'
-                alt='Trash'
-                className={styles.icon}
-              />
-            </button>
+            />
           )}
         </div>
       </div>

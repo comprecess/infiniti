@@ -1,5 +1,6 @@
 import { FC } from 'react'
 
+import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../../../../../../../shared/ui/Status/Status'
 import styleItem from '../InvoicesPage.module.scss'
 import styles from './Item.module.scss'
@@ -55,12 +56,18 @@ export const Item: FC<ItemProps> = ({
         <Status title={status} status={status} />
       </div>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <button className={styles.viewButton}>
-          <img src='/icons/view.svg' alt='View' className={styles.icon} />
-        </button>
-        <button className={styles.buttonEdit}>
-          <img src='/icons/edit.svg' alt='Star' className={styles.icon} />
-        </button>
+        <CustomMiniButton
+          style='mint'
+          icon='/icons/view.svg'
+          alt='View'
+          tooltipTitle='View'
+        />
+        <CustomMiniButton
+          style='amber'
+          icon='/icons/edit.svg'
+          alt='Edit'
+          tooltipTitle='Edit'
+        />
       </div>
     </div>
   )

@@ -4,6 +4,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Tooltip,
 } from '@chakra-ui/react'
 import { FC } from 'react'
 
@@ -11,6 +12,7 @@ import { EmailIcon } from '../../../../../shared/icons/EmailIcon'
 import { FlagIcon } from '../../../../../shared/icons/FlagIcon'
 import { MessageIcon } from '../../../../../shared/icons/MessageIcon'
 import { PDFIcon } from '../../../../../shared/icons/PDFIcon'
+import { CustomMiniButton } from '../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styles from './Buttons.module.scss'
 
 interface ButtonsProps {
@@ -37,19 +39,26 @@ export const Buttons: FC<ButtonsProps> = ({
   return (
     <div className={styles.wrapper}>
       <Menu isLazy>
-        <MenuButton
-          className={styles.menuButton}
-          width='56px'
-          height='36px'
-          transition='all 0.2s'
-          _hover={{ bg: 'mint.400' }}
-          _expanded={{ bg: 'mint.400' }}
+        <Tooltip
+          label='Send Email'
+          openDelay={100}
+          closeDelay={100}
+          bg='#010102'
           borderRadius='8px'
-          padding='12px'
-          bg='mint.500'
-          as={IconButton}
-          icon={<EmailIcon style={styles.flagIcon} />}
-        />
+        >
+          <MenuButton
+            width='56px'
+            height='36px'
+            transition='all 0.2s'
+            _hover={{ bg: 'mint.400' }}
+            _expanded={{ bg: 'mint.400' }}
+            borderRadius='8px'
+            padding='12px'
+            bg='mint.500'
+            as={IconButton}
+            icon={<EmailIcon style={styles.flagIcon} />}
+          />
+        </Tooltip>
         <MenuList>
           <MenuItem onClick={() => email('offer-create')}>
             Offer Created
@@ -57,19 +66,26 @@ export const Buttons: FC<ButtonsProps> = ({
         </MenuList>
       </Menu>
       <Menu isLazy>
-        <MenuButton
-          className={styles.menuButton}
-          width='56px'
-          height='36px'
-          transition='all 0.2s'
-          _hover={{ bg: 'mint.400' }}
-          _expanded={{ bg: 'mint.400' }}
+        <Tooltip
+          label='Send SMS'
+          openDelay={100}
+          closeDelay={100}
+          bg='#010102'
           borderRadius='8px'
-          padding='12px'
-          bg='mint.500'
-          as={IconButton}
-          icon={<MessageIcon style={styles.flagIcon} />}
-        />
+        >
+          <MenuButton
+            width='56px'
+            height='36px'
+            transition='all 0.2s'
+            _hover={{ bg: 'mint.400' }}
+            _expanded={{ bg: 'mint.400' }}
+            borderRadius='8px'
+            padding='12px'
+            bg='mint.500'
+            as={IconButton}
+            icon={<MessageIcon style={styles.flagIcon} />}
+          />
+        </Tooltip>
         <MenuList>
           <MenuItem onClick={() => {}}>Offer Created</MenuItem>
           <MenuItem onClick={() => {}}>Offer Accepted</MenuItem>
@@ -77,19 +93,26 @@ export const Buttons: FC<ButtonsProps> = ({
         </MenuList>
       </Menu>
       <Menu isLazy>
-        <MenuButton
-          className={styles.menuButton}
-          width='56px'
-          height='36px'
-          transition='all 0.2s'
-          _hover={{ bg: 'cherry.400' }}
-          _expanded={{ bg: 'cherry.400' }}
+        <Tooltip
+          label='View or Download PDF'
+          openDelay={100}
+          closeDelay={100}
+          bg='#010102'
           borderRadius='8px'
-          padding='12px'
-          bg='cherry.500'
-          as={IconButton}
-          icon={<PDFIcon style={styles.flagIcon} />}
-        />
+        >
+          <MenuButton
+            width='56px'
+            height='36px'
+            transition='all 0.2s'
+            _hover={{ bg: 'cherry.400' }}
+            _expanded={{ bg: 'cherry.400' }}
+            borderRadius='8px'
+            padding='12px'
+            bg='cherry.500'
+            as={IconButton}
+            icon={<PDFIcon style={styles.flagIcon} />}
+          />
+        </Tooltip>
         <MenuList>
           <MenuItem onClick={() => selectPDF('View PDF')}>
             View PDF
@@ -100,19 +123,26 @@ export const Buttons: FC<ButtonsProps> = ({
         </MenuList>
       </Menu>
       <Menu isLazy>
-        <MenuButton
-          className={styles.menuButton}
-          width='56px'
-          height='36px'
-          transition='all 0.2s'
-          _hover={{ bg: 'brand.400' }}
-          _expanded={{ bg: 'brand.400' }}
+        <Tooltip
+          label='Change Status'
+          openDelay={100}
+          closeDelay={100}
+          bg='#010102'
           borderRadius='8px'
-          padding='12px'
-          bg='brand.500'
-          as={IconButton}
-          icon={<FlagIcon style={styles.flagIcon} />}
-        />
+        >
+          <MenuButton
+            width='56px'
+            height='36px'
+            transition='all 0.2s'
+            _hover={{ bg: 'brand.400' }}
+            _expanded={{ bg: 'brand.400' }}
+            borderRadius='8px'
+            padding='12px'
+            bg='brand.500'
+            as={IconButton}
+            icon={<FlagIcon style={styles.flagIcon} />}
+          />
+        </Tooltip>
         <MenuList>
           {stageList &&
             stageList.map((stage, index) => {
@@ -127,25 +157,29 @@ export const Buttons: FC<ButtonsProps> = ({
             })}
         </MenuList>
       </Menu>
-      <button className={styles.buttonPreview} onClick={previewOffer}>
-        <img
-          src='/icons/fileWhite.svg'
-          alt='Preview'
-          className={styles.icon}
-        />
-      </button>
+      <CustomMiniButton
+        style='cherry'
+        icon='/icons/fileWhite.svg'
+        alt='Preview'
+        tooltipTitle='Preview'
+        onClick={previewOffer}
+      />
       {!blockEditButton && (
-        <button className={styles.buttonEdit} onClick={editOffer}>
-          <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
-        </button>
-      )}
-      <button className={styles.buttonConvert} onClick={convertToInvoice}>
-        <img
-          src='/icons/fileMove.svg'
-          alt='Convert'
-          className={styles.icon}
+        <CustomMiniButton
+          style='amber'
+          icon='/icons/edit.svg'
+          alt='Edit'
+          tooltipTitle='Edit'
+          onClick={editOffer}
         />
-      </button>
+      )}
+      <CustomMiniButton
+        style='blue'
+        icon='/icons/fileMove.svg'
+        alt='Convert to Invoice'
+        tooltipTitle='Convert to Invoice'
+        onClick={convertToInvoice}
+      />
     </div>
   )
 }

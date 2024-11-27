@@ -2,6 +2,7 @@ import { FC, useState } from 'react'
 
 import { ViewInvoicesRecentData } from '../../../../../../app/constants/constants'
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
+import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../../../../../shared/ui/Status/Status'
 import styleItem from '../RecentInvoices.module.scss'
 import styles from './Item.module.scss'
@@ -105,60 +106,45 @@ export const Item: FC<ItemProps> = ({
           <Type type={type} />
         </div>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-          <button
-            className={styles.viewButton}
+          <CustomMiniButton
+            style='mint'
+            icon='/icons/view.svg'
+            alt='View'
+            tooltipTitle='View'
             onClick={handleNavigateViewInvoice}
-          >
-            <img
-              src='/icons/view.svg'
-              alt='View'
-              className={styles.icon}
-            />
-          </button>
-          <button
-            className={styles.buttonClone}
+          />
+          <CustomMiniButton
+            style='blue'
+            icon='/icons/clone.svg'
+            alt='Clone'
+            tooltipTitle='Clone'
             onClick={handleCloneInvoice}
-          >
-            <img
-              src='/icons/clone.svg'
-              alt='Clone'
-              className={styles.icon}
-            />
-          </button>
+          />
           {!blockEdit && (
-            <button
-              className={styles.buttonEdit}
+            <CustomMiniButton
+              style='amber'
+              icon='/icons/edit.svg'
+              alt='Edit'
+              tooltipTitle='Edit'
               onClick={handleNavigateInvoice}
-            >
-              <img
-                src='/icons/edit.svg'
-                alt='Edit'
-                className={styles.icon}
-              />
-            </button>
+            />
           )}
           {type === 1 && (
-            <button
-              className={styles.buttonStopRecurring}
+            <CustomMiniButton
+              style='cherry'
+              icon='/icons/stop.svg'
+              alt='Stop Recurring'
+              tooltipTitle='Stop Recurring'
               onClick={handleStopRecurring}
-            >
-              <img
-                src='/icons/stop.svg'
-                alt='StopRecurring'
-                className={styles.icon}
-              />
-            </button>
-          )}
-          <button
-            className={styles.buttonTrash}
-            onClick={handleOpenConfirmationModal}
-          >
-            <img
-              src='/icons/trash.svg'
-              alt='Trash'
-              className={styles.icon}
             />
-          </button>
+          )}
+          <CustomMiniButton
+            style='cherry'
+            icon='/icons/trash.svg'
+            alt='Delete'
+            tooltipTitle='Delete'
+            onClick={handleOpenConfirmationModal}
+          />
         </div>
       </div>
       {modalDelete && (

@@ -30,7 +30,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-width: 900px;
+  min-width: 920px;
   overflow-y: hidden;
 }
 
@@ -60,7 +60,7 @@
 }
 
 .customerColumn {
-  max-width: 150px;
+  max-width: 180px;
 }
 
 .subjectColumn,
@@ -75,6 +75,6 @@
 }
 
 .manageColumn {
-  max-width: 120px;
+  max-width: 140px;
   justify-content: end;
 }

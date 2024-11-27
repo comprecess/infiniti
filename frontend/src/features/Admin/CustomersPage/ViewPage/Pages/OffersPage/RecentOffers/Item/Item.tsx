@@ -1,6 +1,7 @@
 import { FC } from 'react'
 
 import { ViewOffersTypeData } from '../../../../../../../../app/constants/constants'
+import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../../../../../../../shared/ui/Status/Status'
 import styleItem from '../RecentOffers.module.scss'
 import styles from './Item.module.scss'
@@ -49,18 +50,20 @@ export const Item: FC<ItemProps> = ({
         <Status title={item.stage} status={item.stage} />
       </div>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <button
-          className={styles.buttonView}
+        <CustomMiniButton
+          style='mint'
+          icon='/icons/view.svg'
+          alt='View'
+          tooltipTitle='View'
           onClick={handleNavigateToViewOffer}
-        >
-          <img src='/icons/view.svg' alt='View' className={styles.icon} />
-        </button>
-        <button
-          className={styles.buttonEdit}
+        />
+        <CustomMiniButton
+          style='amber'
+          icon='/icons/edit.svg'
+          alt='Edit'
+          tooltipTitle='Edit'
           onClick={handleNavigateToEditOffer}
-        >
-          <img src='/icons/edit.svg' alt='Edit' className={styles.icon} />
-        </button>
+        />
       </div>
     </div>
   )

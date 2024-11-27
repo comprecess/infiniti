@@ -2,6 +2,7 @@ import { FC, useState } from 'react'
 
 import { RolesAccess } from '../../../../../../../app/constants/constants'
 import { ConfirmationModal } from '../../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
+import { CustomMiniButton } from '../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../RecentUsers.module.scss'
 import styles from './Item.module.scss'
 
@@ -40,7 +41,7 @@ export const Item: FC<ItemProps> = ({
 }) => {
   const [modal, setModal] = useState<boolean>(false)
 
-  const handleSetModal = () => {
+  const handleOpenConfirmationModal = () => {
     setModal(state => !state)
   }
 
@@ -92,32 +93,29 @@ export const Item: FC<ItemProps> = ({
         </div>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
           {access.edit && (
-            <button className={styles.buttonEdit} onClick={handleEditUser}>
-              <img
-                src='/icons/edit.svg'
-                alt='Edit'
-                className={styles.icon}
-              />
-            </button>
+            <CustomMiniButton
+              style='amber'
+              icon='/icons/edit.svg'
+              alt='Edit'
+              tooltipTitle='Edit'
+              onClick={handleEditUser}
+            />
           )}
           {access.delete && (
-            <button
-              className={styles.buttonTrash}
-              onClick={handleSetModal}
-            >
-              <img
-                src='/icons/trash.svg'
-                alt='Trash'
-                className={styles.icon}
-              />
-            </button>
+            <CustomMiniButton
+              style='cherry'
+              icon='/icons/trash.svg'
+              alt='Delete'
+              tooltipTitle='Delete'
+              onClick={handleOpenConfirmationModal}
+            />
           )}
         </div>
       </div>
       {modal && (
         <ConfirmationModal
           isOpened={modal}
-          handleOpenCloseModal={handleSetModal}
+          handleOpenCloseModal={handleOpenConfirmationModal}
           agree={handleDeleteUser}
         />
       )}
