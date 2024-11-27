@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Resident\Client\Activity;
+use App\Models\Resident\Settings\Currency;
+use App\Models\Users\Client;
 use Carbon\Carbon;
 use Database\Seeders\normalization\Data;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -23,12 +25,13 @@ class Normalization extends Seeder
         $this->isHas();
         $this->create();
         $this->update();
-//        $this->delete();
+        $this->delete();
     }
 
     protected function isHas()
     {
         $this->has->set('activityTime', !Schema::hasColumn('sys_activity', 'created_at'));
+        $this->has->set('clientCurrency', Schema::hasColumn('crm_accounts', 'currency'));
     }
 
     protected function create()
@@ -36,6 +39,12 @@ class Normalization extends Seeder
         $this->has->is('activityTime', function(){
             Schema::table('sys_activity', function(Blueprint $table){
                 $table->timestamps();
+            });
+        });
+
+        $this->has->is('clientCurrency', function(){
+            Schema::table('crm_accounts', function(Blueprint $table){
+                $table->string('currency_iso_code')->after('balance')->nullable();
             });
         });
     }
@@ -48,14 +57,30 @@ class Normalization extends Seeder
                 $item->save();
             });
         });
+
+        $this->has->is('clientCurrency', function(){
+            $currency = Currency::all();
+            $default = Currency::getDefault();
+            Client::withTrashed()->get()->each(function($item) use($currency, $default){
+                $findCur = $currency->where('id', $item->currency)->first();
+                $item->currency_iso_code = ($findCur ?? $default)->iso_code;
+                $item->save();
+            });
+        });
     }
 
     protected function delete()
     {
-        $this->has->isCreated('activityTime', function(){
+        $this->has->is('activityTime', function(){
             Schema::table('sys_activity', function(Blueprint $table){
                 $table->dropColumn('stime');
                 $table->dropColumn('sdate');
+            });
+        });
+
+        $this->has->is('clientCurrency', function(){
+            Schema::table('crm_accounts', function(Blueprint $table){
+                $table->dropColumn('currency');
             });
         });
     }

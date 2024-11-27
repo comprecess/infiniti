@@ -24,7 +24,7 @@ class Pay implements PayContract
             'request' => ManualPaymentRequest::class
         ],
         'stripe' => [
-            'class' => StripeLink::class,
+            'class' => Stripe::class,
             'request' => StripeRequest::class
         ],
     ];

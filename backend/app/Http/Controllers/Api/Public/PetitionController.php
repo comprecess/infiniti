@@ -10,7 +10,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Public\Petition\OfferCheckRequest;
 use App\Http\Requests\Public\Petition\PayRequest;
 use App\Http\Resources\Resident\Invoices\InvoiceItemResource;
+use App\Http\Resources\Resident\Invoices\InvoiceListResource;
 use App\Http\Resources\Resident\Invoices\OfferItemResource;
+use App\Http\Resources\Resident\Invoices\OfferListResource;
 use App\Models\Log;
 use App\Models\Resident\Client\Activity;
 use App\Models\Resident\Invoices\Invoice;
@@ -20,7 +22,6 @@ use App\Models\Users\Admin;
 use App\Services\Pay\Contract\PayContract;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Http\Request;
 
 class PetitionController extends Controller
 {
@@ -33,11 +34,15 @@ class PetitionController extends Controller
     const PUBLIC_TOKEN = [
         'invoice' => [
           'model' => Invoice::class,
-          'resource' => InvoiceItemResource::class
+          'resource' => InvoiceItemResource::class,
+          'my' => 'invoices',
+          'myResource' => InvoiceListResource::class
         ],
         'offer' => [
             'model' => Offer::class,
-            'resource' => OfferItemResource::class
+            'resource' => OfferItemResource::class,
+            'my' => 'offers',
+            'myResource' => OfferListResource::class,
         ],
     ];
 
@@ -130,11 +135,18 @@ class PetitionController extends Controller
         return $pay->setPay($request->route('payType'), $model)->execute();
     }
 
-    public function payGet(Request $request)
+    public function myData($type)
     {
-        dd($request->all());
-    }
 
+        if(!in_array($type, array_keys(self::PUBLIC_TOKEN))) {
+            abort(404);
+        }
+
+        $data = self::PUBLIC_TOKEN[$type];
+        $client = auth()->user();
+
+        return $data['myResource']::collection($client->{$data['my']});
+    }
 
 
 }

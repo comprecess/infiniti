@@ -69,10 +69,6 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
         }
     }
 
-    public function getCurrencyId()
-    {
-        return true;
-    }
 
     public function setTypeAttribute($value)
     {
