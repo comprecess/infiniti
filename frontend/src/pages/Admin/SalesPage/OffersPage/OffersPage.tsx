@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import {
   PagesMetaData,
+  RolesAccess,
   SalesOffersListData,
 } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
@@ -24,6 +25,7 @@ export const AdminOffersPage: FC = () => {
     data: SalesOffersListData[]
     meta: PagesMetaData
   } | null>(null)
+  const [access, setAccess] = useState<RolesAccess | null>(null)
 
   const [page, setPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
@@ -37,12 +39,17 @@ export const AdminOffersPage: FC = () => {
   const getListOffer = async () => {
     if (!options) return
 
-    const getResponse = await getListOffers(options)
+    const getResponse: {
+      access: RolesAccess
+      data: SalesOffersListData[]
+      meta: PagesMetaData
+    } = await getListOffers(options)
 
     if (page > getResponse.meta.last_page) {
       setPage(1)
     }
 
+    setAccess(getResponse.access)
     setOffers(getResponse)
   }
 
@@ -166,20 +173,24 @@ export const AdminOffersPage: FC = () => {
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        {offers ? (
+        {offers && access ? (
           <RecentCard
             title={`Total: ${offers.meta.total}`}
             style={styles.recentFullScreen}
-            Component={ButtonBlue}
+            Component={access.create ? ButtonBlue : undefined}
             HeaderComponent={SearchAndButtons}
             PagesComponent={PagesList}
-            componentProps={{
-              titleNone: true,
-              title: 'Add Offer',
-              icon: '/icons/plus.svg',
-              onClick: navigateToAddOffer,
-              style: styles.buttonAddNewOffer,
-            }}
+            componentProps={
+              access.create
+                ? {
+                    titleNone: true,
+                    title: 'Add Offer',
+                    icon: '/icons/plus.svg',
+                    onClick: navigateToAddOffer,
+                    style: styles.buttonAddNewOffer,
+                  }
+                : undefined
+            }
             headerProps={{
               searchChange: searchOnChange,
               rightButtons: documentOnChange,
