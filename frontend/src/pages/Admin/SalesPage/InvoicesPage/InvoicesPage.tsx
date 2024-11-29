@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import {
   PagesMetaData,
+  RolesAccess,
   SalesInvoicesStatData,
   ViewInvoicesRecentData,
 } from '../../../../app/constants/constants'
@@ -30,6 +31,7 @@ export const AdminInvoicesPage: FC = () => {
     data: ViewInvoicesRecentData[]
     meta: PagesMetaData
   } | null>(null)
+  const [access, setAccess] = useState<RolesAccess | null>(null)
 
   const [page, setPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
@@ -63,12 +65,17 @@ export const AdminInvoicesPage: FC = () => {
   const getListInvoice = async () => {
     if (!options) return
 
-    const getResponse = await getList(options)
+    const getResponse: {
+      access: RolesAccess
+      data: ViewInvoicesRecentData[]
+      meta: PagesMetaData
+    } = await getList(options)
 
     if (page > getResponse.meta.last_page) {
       setPage(1)
     }
 
+    setAccess(getResponse.access)
     setList(getResponse)
   }
 
@@ -251,14 +258,17 @@ export const AdminInvoicesPage: FC = () => {
         )}
       </section>
       <section className={styles.sectionSecond}>
-        {list ? (
+        {list && access ? (
           <RecentCard
             title='Invoices'
             style={styles.recentFullScreen}
             HeaderComponent={Header}
             Component={HeaderButtons}
             PagesComponent={list.data.length > 0 ? PagesList : undefined}
-            componentProps={{ firstButtonClick: navigateToAddInvoice }}
+            componentProps={{
+              access,
+              firstButtonClick: navigateToAddInvoice,
+            }}
             headerProps={{
               isActiveTab: filterStatus,
               setIsActiveTab,
@@ -268,10 +278,10 @@ export const AdminInvoicesPage: FC = () => {
             pagesProps={
               list.data.length > 0
                 ? {
-                  meta: list.meta,
-                  nextPage: pageOnChange,
-                  size: 'sm',
-                }
+                    meta: list.meta,
+                    nextPage: pageOnChange,
+                    size: 'sm',
+                  }
                 : undefined
             }
           >
