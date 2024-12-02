@@ -3,6 +3,7 @@ import { PartialFieldsCartToOfferData } from '../../../../../../features/Admin/T
 import { getAuthToken } from '../../../GetAuthToken'
 
 interface Response {
+  id: number
   status: boolean
   message: string
 }
@@ -32,9 +33,9 @@ export const addNewOffer = async (
 
       return data
     } catch (error) {
-      return { status: false, message: 'An error occurred' }
+      return { id: 0, status: false, message: 'An error occurred' }
     }
   } else {
-    return { status: false, message: 'Authentication failed' }
+    return { id: 0, status: false, message: 'Authentication failed' }
   }
 }

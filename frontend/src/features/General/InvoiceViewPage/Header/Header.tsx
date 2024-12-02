@@ -52,7 +52,7 @@ export const Header: FC<HeaderProps> = ({
   const [creditCard, setCreditCard] = useState<boolean>(false)
 
   const [payNow, setPayNow] = useState<
-  SalesViewInvoicePayList | undefined
+    SalesViewInvoicePayList | undefined
   >(undefined)
 
   const navigate = useNavigate()
