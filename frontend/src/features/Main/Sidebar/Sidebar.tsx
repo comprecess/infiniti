@@ -13,7 +13,7 @@ interface SidebarPage {
   id: number
   name: string
   icon: JSX.Element
-  shortName: string
+  shortName: string | undefined
   openPaths?: openPathsProps[]
   path: string
 }
