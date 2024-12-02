@@ -13,7 +13,7 @@ interface SidebarPage {
   id: number
   name: string
   icon: JSX.Element
-  shortName: string
+  shortName: string | undefined
   openPaths?: openPathsProps[]
   path: string
 }
@@ -87,14 +87,14 @@ export const Sidebar: FC<SidebarProps> = ({
 
   const newPages = roles
     ? pages.filter(item => {
-        if (item.shortName === undefined) {
-          return true
-        }
+      if (item.shortName === undefined) {
+        return true
+      }
 
-        const role = roles[item.shortName]
+      const role = roles[item.shortName]
 
-        return role && role.view === 1
-      })
+      return role && role.view === 1
+    })
     : pages
 
   return (

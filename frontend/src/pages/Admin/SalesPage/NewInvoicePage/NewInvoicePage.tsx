@@ -17,7 +17,7 @@ import styles from './NewInvoicePage.module.scss'
 
 export const AdminNewInvoicePage: FC = () => {
   const [formData, setFormData] = useState<
-    Partial<SalesNewInvoiceFormData>
+  Partial<SalesNewInvoiceFormData>
   >({})
   const [inputData, setInputData] =
     useState<SalesNewInvoiceInputData | null>(null)

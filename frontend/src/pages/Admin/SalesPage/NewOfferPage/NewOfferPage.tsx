@@ -17,7 +17,7 @@ import styles from './NewOfferPage.module.scss'
 
 export const AdminNewOfferPage: FC = () => {
   const [formData, setFormData] = useState<
-    Partial<PartialFieldsNewOfferData>
+  Partial<PartialFieldsNewOfferData>
   >({})
   const [inputData, setInputData] = useState<SalesOfferInputData | null>(
     null,
