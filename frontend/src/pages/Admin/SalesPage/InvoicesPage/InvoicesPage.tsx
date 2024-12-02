@@ -278,10 +278,10 @@ export const AdminInvoicesPage: FC = () => {
             pagesProps={
               list.data.length > 0
                 ? {
-                    meta: list.meta,
-                    nextPage: pageOnChange,
-                    size: 'sm',
-                  }
+                  meta: list.meta,
+                  nextPage: pageOnChange,
+                  size: 'sm',
+                }
                 : undefined
             }
           >

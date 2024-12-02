@@ -183,12 +183,12 @@ export const AdminOffersPage: FC = () => {
             componentProps={
               access.create
                 ? {
-                    titleNone: true,
-                    title: 'Add Offer',
-                    icon: '/icons/plus.svg',
-                    onClick: navigateToAddOffer,
-                    style: styles.buttonAddNewOffer,
-                  }
+                  titleNone: true,
+                  title: 'Add Offer',
+                  icon: '/icons/plus.svg',
+                  onClick: navigateToAddOffer,
+                  style: styles.buttonAddNewOffer,
+                }
                 : undefined
             }
             headerProps={{
