@@ -87,10 +87,14 @@ export const Sidebar: FC<SidebarProps> = ({
 
   const newPages = roles
     ? pages.filter(item => {
-      const role = roles[item.shortName]
+        if (item.shortName === undefined) {
+          return true
+        }
 
-      return role && role.view === 1
-    })
+        const role = roles[item.shortName]
+
+        return role && role.view === 1
+      })
     : pages
 
   return (

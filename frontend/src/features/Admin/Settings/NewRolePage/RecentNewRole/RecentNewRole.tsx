@@ -16,10 +16,10 @@ interface RecentNewRoleProps {
     access: SettingsRoleFormData[]
   } | null
   setFormData: Dispatch<
-  SetStateAction<{
-    name: string
-    access: SettingsRoleFormData[]
-  } | null>
+    SetStateAction<{
+      name: string
+      access: SettingsRoleFormData[]
+    } | null>
   >
 }
 
@@ -69,7 +69,7 @@ export const RecentNewRole: FC<RecentNewRoleProps> = ({
         <Title title='Edit' style={styles.editColumn} />
         <Title title='Create' style={styles.createColumn} />
         <Title title='Delete' style={styles.deleteColumn} />
-        <Title title='Only My Data' style={styles.allInformationColumn} />
+        <Title title='All Data' style={styles.allInformationColumn} />
       </div>
       <div className={styles.items}>
         {permission.map((item, index) => {

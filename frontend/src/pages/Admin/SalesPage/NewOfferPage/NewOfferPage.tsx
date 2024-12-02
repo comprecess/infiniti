@@ -1,11 +1,13 @@
 import { FC, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { SalesOfferInputData } from '../../../../app/constants/constants'
+import { Routes } from '../../../../app/router/routes'
 import {
   Fields,
   PartialFieldsNewOfferData,
 } from '../../../../features/Admin/Sales/NewOfferPage/Fields/Fields'
-import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
+import { HeaderButtons } from '../../../../features/Admin/Sales/NewOfferPage/HeadersButton/HeaderButtons'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getOfferInputData } from '../../../../shared/utils/api/Admin/Sales/NewOffer/GetOfferInputData'
@@ -15,13 +17,14 @@ import styles from './NewOfferPage.module.scss'
 
 export const AdminNewOfferPage: FC = () => {
   const [formData, setFormData] = useState<
-  Partial<PartialFieldsNewOfferData>
+    Partial<PartialFieldsNewOfferData>
   >({})
   const [inputData, setInputData] = useState<SalesOfferInputData | null>(
     null,
   )
 
   const showToast = useCustomToast()
+  const navigate = useNavigate()
 
   const getNewOfferInputData = async () => {
     const getResponse = await getOfferInputData()
@@ -29,7 +32,7 @@ export const AdminNewOfferPage: FC = () => {
     setInputData(getResponse)
   }
 
-  const postCreateNewInvoice = async () => {
+  const postCreateNewOffer = async (save: 'save' | 'save & invoice') => {
     if (!formData) return
 
     const createResponse = await addNewOffer(formData)
@@ -40,6 +43,13 @@ export const AdminNewOfferPage: FC = () => {
         description: 'You have successfully created an Invoice',
         status: 'success',
       })
+      if (save === 'save') {
+        navigate(`/${Routes.adminPages}/${Routes.sales}/${Routes.offers}`)
+      } else if (save === 'save & invoice') {
+        navigate(
+          `/${Routes.adminPages}/${Routes.sales}/${Routes.offer}/${Routes.view}/${createResponse.id}`,
+        )
+      }
     } else {
       showToast({
         title: 'Error',
@@ -64,14 +74,10 @@ export const AdminNewOfferPage: FC = () => {
           <RecentCard
             title={`${inputData.offerNum}${inputData.num}`}
             style={styles.recentFullScreen}
-            Component={ButtonBlue}
+            Component={HeaderButtons}
             componentProps={{
-              titleNone: true,
-              title: 'Save',
-              icon: '/icons/fileWhite.svg',
-              iconProps: styles.buttonSaveIcon,
-              onClick: postCreateNewInvoice,
-              style: styles.buttonSave,
+              firstButtonClick: postCreateNewOffer,
+              secondButtonClick: postCreateNewOffer,
             }}
           >
             <Fields data={inputData} onFormDataChange={setFormData} />
