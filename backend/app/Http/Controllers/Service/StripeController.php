@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Service;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Resident\Invoices\Invoice;
 use App\Services\Pay\Contract\PayContract;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -15,6 +16,15 @@ class StripeController extends Controller
 
     public function index(PayContract $pay, Request $request)
     {
+//        $test2 = new \stdClass();
+//        $test2->amount = 100;
+//        $test2->id = 'test';
+//        $test2->currency = 'rub';
+//        $test = Invoice::find(92);
+//        $new = $pay->setPay('stripe', $test);
+//        $test->paySuccess($new, $test2);
+//        exit;
+
         $stripe = $pay->setPay('stripe');
         $info = $stripe->getInfo();
 

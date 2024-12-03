@@ -50,6 +50,11 @@ class Pay implements PayContract
         return self::PAY_LIST[$this->payMethod];
     }
 
+    public function getMethod() :string
+    {
+        return $this->payMethod;
+    }
+
     public function getModel()
     {
         return $this->model;
