@@ -5,7 +5,7 @@ namespace App\Services\Pay\PaymentGateways;
 
 use App\Models\Resident\Settings\Currency;
 use App\Services\Pay\Contract\PaymentGatewaysContract;
-use App\Services\Pay\Contract\StripePayContract;
+use App\Services\Pay\Contract\PayModelContract;
 use App\Services\Pay\PaymentGateways;
 use Illuminate\Support\Facades\Log;
 use \Stripe as StripeLibrary;

@@ -15,14 +15,15 @@ use App\Models\Traits\HelperTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\Traits\UserTrait;
 use App\Models\Users\Client;
-use App\Services\Pay\Contract\StripePayContract;
+use App\Services\Pay\Contract\PayModelContract;
+use App\Services\Pay\Pay;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
-class Invoice extends Model implements InsertDefaultValueInterface, StripePayContract
+class Invoice extends Model implements InsertDefaultValueInterface, PayModelContract
 {
     use HasFactory, CurrencyTrait, CollectionTrait, HelperTrait, InsertDefaultValueTrait, SoftDeletes, UserTrait, DocumentTrait;
 
@@ -189,18 +190,32 @@ class Invoice extends Model implements InsertDefaultValueInterface, StripePayCon
         return round($this->credit ? $this->total - $this->credit : $this->total);
     }
 
-    public function stripeSetDate(array $data): array
+    public function paySetDate(array $data, Pay $pay): array
     {
         $currency = $this->getCurrencyIso ?? Currency::getDefault();
-        $data['amount'] = $this->getDueAmount();
+        $data['amount'] = round($this->getDueAmount() * 100);
         $data['currency'] = $currency->iso_code;
         $data['description'] = $this->getCode();
         return $data;
     }
 
-    public function stripeSuccess(): void
+    public function paySuccess(Pay $pay, mixed $result = null): void
     {
         $this->status = self::STATUS[1];
         $this->save();
+
+        if($pay->getMethod() == 'stripe') {
+            /**
+             * @var \Stripe\Charge $result
+             */
+
+            Transaction::create(
+                account: $pay->getMethod(),
+                invoice: $this,
+                amount: round($result->amount / 100, 2),
+                description: $result->id,
+                currency: $result->currency
+            );
+        }
     }
 }

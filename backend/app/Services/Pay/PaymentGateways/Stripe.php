@@ -4,7 +4,7 @@
 namespace App\Services\Pay\PaymentGateways;
 
 use App\Services\Pay\Contract\PaymentGatewaysContract;
-use App\Services\Pay\Contract\StripePayContract;
+use App\Services\Pay\Contract\PayModelContract;
 use App\Services\Pay\PaymentGateways;
 use Illuminate\Support\Facades\Log;
 use \Stripe as StripeLibrary;
@@ -28,8 +28,9 @@ class Stripe extends PaymentGateways implements PaymentGatewaysContract
         $info = $this->pay->getInfo();
         $data['source'] = $request->token;
         $model = $this->pay->getModel();
-        if($model instanceof StripePayContract) {
-            $data = $model->stripeSetDate($data);
+        $charge = null;
+        if($model instanceof PayModelContract) {
+            $data = $model->paySetDate($data, $this->pay);
         }else{
             throw new \Exception("Model not found");
         }
@@ -45,9 +46,9 @@ class Stripe extends PaymentGateways implements PaymentGatewaysContract
 
         Log::alert(var_export($charge, true));
 
-        if (isset($charge->status) && $charge->status == 'succeeded') {
+        if (isset($charge?->status) && $charge?->status == 'succeeded') {
             $this->status = true;
-            $model->stripeSuccess();
+            $model->paySuccess($this->pay, $charge);
         }
 
         return $this;
