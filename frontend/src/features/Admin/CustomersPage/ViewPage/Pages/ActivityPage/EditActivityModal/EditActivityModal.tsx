@@ -54,7 +54,11 @@ export const EditActivityModal: FC<EditActivityModalProps> = ({
           </div>
         </div>
         <div className={styles.container}>
-          <TextEditor defaultValue={value} setValue={setValue} />
+          <TextEditor
+            noFullScreen
+            defaultValue={value}
+            setValue={setValue}
+          />
           <div className={styles.iconListWrapper}>
             <div className={styles.iconsList}>
               {IconsListData.map(item => {
