@@ -3,6 +3,9 @@ import DOMPurify from 'dompurify'
 export const sanitizeMessage = (value: string): string => {
   return DOMPurify.sanitize(value, {
     ALLOWED_TAGS: [
+      'google-sheets-html-origin',
+      'colgroup',
+      'col',
       'iframe',
       'p',
       'br',
@@ -26,6 +29,7 @@ export const sanitizeMessage = (value: string): string => {
       'td',
       'caption',
       'hr',
+      'style',
     ],
     ALLOWED_ATTR: [
       'src',
@@ -35,6 +39,18 @@ export const sanitizeMessage = (value: string): string => {
       'height',
       'frameborder',
       'allowfullscreen',
+      'style',
+      'type',
+      'xmlns',
+      'cellspacing',
+      'cellpadding',
+      'data-sheets-baot',
+      'border',
+      'dir',
+      'rowspan',
+      'colspan',
+      'data-sheets-root',
+      'data-sheets-baot',
     ],
   })
 }

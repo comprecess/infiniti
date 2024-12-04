@@ -24,7 +24,7 @@ export const HeaderButtons: FC<HeaderButtonsProps> = ({
       />
       <ButtonBlue
         titleNone
-        title='Save & Invoice'
+        title='Save & Offer'
         icon='/icons/saveAndClose.svg'
         iconProps={styles.iconSaveAndClose}
         style={styles.buttonSaveAndClose}
