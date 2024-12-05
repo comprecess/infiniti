@@ -1,0 +1,164 @@
+import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
+import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
+import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
+import styles from './Fields.module.scss'
+
+export const Fields = () => {
+  return (
+    <div className={styles.wrapper}>
+      <CustomInput
+        title='Business/Company Name'
+        type='text'
+        id='companyName'
+        name='companyName'
+        onChange={() => {}}
+      />
+      <div className={styles.containerInputs}>
+        <div className={styles.inputsColumn}>
+          <CustomInput
+            title='Your Name'
+            type='text'
+            id='yourName'
+            name='yourName'
+            onChange={() => {}}
+          />
+          <CustomInput
+            title='Email'
+            type='text'
+            id='email'
+            name='email'
+            onChange={() => {}}
+          />
+        </div>
+        <div className={styles.inputsColumn}>
+          <CustomInput
+            title='Phone'
+            type='text'
+            id='phone'
+            name='phone'
+            onChange={() => {}}
+          />
+          <CustomDataPicker
+            title='Date'
+            titleOnChange='date'
+            onChange={() => {}}
+          />
+        </div>
+      </div>
+      <CustomInput
+        title='Website'
+        type='text'
+        id='website'
+        name='website'
+        onChange={() => {}}
+      />
+      <div className={styles.containerItems}>
+        <div className={styles.containerItemsTitleRow}>
+          <span className={styles.containerItemsTitle}>
+            Executive Summary
+          </span>
+          <span className={styles.containerItemsTitleBlue}>
+            (a snapshot of your business)
+          </span>
+        </div>
+        <TextEditor setValue={() => {}} />
+      </div>
+      <div className={styles.containerItems}>
+        <div className={styles.containerItemsTitleRow}>
+          <span className={styles.containerItemsTitle}>
+            Company description
+          </span>
+          <span className={styles.containerItemsTitleBlue}>
+            (describe what you do)
+          </span>
+        </div>
+        <TextEditor setValue={() => {}} />
+      </div>
+      <div className={styles.containerItems}>
+        <div className={styles.containerItemsTitleRow}>
+          <span className={styles.containerItemsTitle}>
+            Market Analysis
+          </span>
+          <span className={styles.containerItemsTitleBlue}>
+            (research on your industry, market and competitors)
+          </span>
+        </div>
+        <TextEditor setValue={() => {}} />
+      </div>
+      <div className={styles.containerItems}>
+        <div className={styles.containerItemsTitleRow}>
+          <span className={styles.containerItemsTitle}>
+            Organization & Management
+          </span>
+          <span className={styles.containerItemsTitleBlue}>
+            (your business and management structure)
+          </span>
+        </div>
+        <TextEditor setValue={() => {}} />
+      </div>
+      <div className={styles.containerItems}>
+        <div className={styles.containerItemsTitleRow}>
+          <span className={styles.containerItemsTitle}>
+            Service or product
+          </span>
+          <span className={styles.containerItemsTitleBlue}>
+            (the products or services you’re offering)
+          </span>
+        </div>
+        <TextEditor setValue={() => {}} />
+      </div>
+      <div className={styles.containerItems}>
+        <div className={styles.containerItemsTitleRow}>
+          <span className={styles.containerItemsTitle}>
+            Marketing and sales
+          </span>
+          <span className={styles.containerItemsTitleBlue}>
+            (how you’ll market your business and your sales strategy)
+          </span>
+        </div>
+        <TextEditor setValue={() => {}} />
+      </div>
+      <div className={styles.containerItems}>
+        <div className={styles.containerItemsTitleRow}>
+          <span className={styles.containerItemsTitle}>Budget</span>
+          <span className={styles.containerItemsTitleBlue}>
+            (budget of your company for next 2 years with source of the
+            money)
+          </span>
+        </div>
+        <TextEditor setValue={() => {}} />
+      </div>
+      <div className={styles.containerItems}>
+        <div className={styles.containerItemsTitleRow}>
+          <span className={styles.containerItemsTitle}>
+            Investment/Funding request
+          </span>
+          <span className={styles.containerItemsTitleBlue}>
+            (how much money you’ll need for next 3 to 5 years)
+          </span>
+        </div>
+        <TextEditor setValue={() => {}} />
+      </div>
+      <div className={styles.containerItems}>
+        <div className={styles.containerItemsTitleRow}>
+          <span className={styles.containerItemsTitle}>
+            Financial projections
+          </span>
+          <span className={styles.containerItemsTitleBlue}>
+            (supply information like balance sheets)
+          </span>
+        </div>
+        <TextEditor setValue={() => {}} />
+      </div>
+      <div className={styles.containerItems}>
+        <div className={styles.containerItemsTitleRow}>
+          <span className={styles.containerItemsTitle}>Appendix</span>
+          <span className={styles.containerItemsTitleBlue}>
+            (an optional section that includes résumés and permits)
+          </span>
+        </div>
+        <TextEditor setValue={() => {}} />
+      </div>
+    </div>
+  )
+}

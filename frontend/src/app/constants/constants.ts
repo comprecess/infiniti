@@ -1,6 +1,6 @@
-export const authTokenString = 'authToken'
-export const profileInfoString = 'profileInfo'
-export const userTalentsPageString = 'userTalentsPage'
+export const authTokenString = 'authToken/infiniti'
+export const profileInfoString = 'profileInfo/infiniti'
+export const userTalentsPageString = 'userTalentsPage/infiniti'
 
 export const page = '?page='
 

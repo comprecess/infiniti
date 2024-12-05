@@ -47,6 +47,7 @@ export const sanitizeMessage = (value: string): string => {
       'data-sheets-baot',
       'border',
       'dir',
+      'id',
       'rowspan',
       'colspan',
       'data-sheets-root',

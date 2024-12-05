@@ -4,6 +4,7 @@ import JoditEditor from 'jodit-react'
 import { FC, useMemo, useRef } from 'react'
 
 import { sanitizeMessage } from '../../utils/TextEditor/sanitizeMessage'
+import styles from './TextEditor.module.scss'
 
 interface TextEditorProps {
   placeholder?: string
@@ -32,7 +33,7 @@ export const TextEditor: FC<TextEditorProps> = ({
       spellcheck: true,
       askBeforePasteHTML: false,
       askBeforePasteFromWord: false,
-      minHeight: 150,
+      minHeight: 180,
       placeholder,
       buttons: tools,
       buttonsXS: tools,
@@ -49,11 +50,13 @@ export const TextEditor: FC<TextEditorProps> = ({
   }
 
   return (
-    <JoditEditor
-      ref={editor}
-      value={defaultValue}
-      config={config}
-      onChange={handleOnChange}
-    />
+    <div className={styles.wrapper}>
+      <JoditEditor
+        ref={editor}
+        value={defaultValue}
+        config={config}
+        onChange={handleOnChange}
+      />
+    </div>
   )
 }
