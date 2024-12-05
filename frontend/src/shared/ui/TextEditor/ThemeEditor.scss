@@ -27,7 +27,7 @@
 .jodit-toolbar__box:not(:empty):not(:empty) {
   background-color: $brand-900 !important;
   border-radius: 8px 8px 0px 0px !important;
-  border-bottom: solid 2px $brand-800 !important;
+  border-bottom: solid 2px transparent !important;
 }
 
 .jodit-icon {
@@ -60,6 +60,10 @@
   }
 }
 
+.jodit-toolbar-button_with-trigger_true:hover:not([disabled]) {
+  border-color: $brand-500 !important;
+}
+
 .jodit-toolbar__box:not(:empty) .jodit-toolbar-editor-collection:after {
   display: none !important;
 }
@@ -68,7 +72,29 @@
   border-radius: 0px !important;
   background-color: $brand-200 !important;
 
-  .jodit-icon {
+  .jodit-icon,
+  .jodit-toolbar-button__trigger {
     fill: $white !important;
   }
+}
+
+.jodit-toolbar-button__trigger {
+  fill: $white !important;
+}
+
+.jodit-toolbar-editor-collection_size_middle.jodit-toolbar-editor-collection_mode_horizontal {
+  background-image: repeating-linear-gradient(
+    transparent 0px,
+    transparent 37px,
+    $brand-800 40px
+  ) !important;
+  border-bottom: solid 2px $brand-800 !important;
+}
+
+.jodit-toolbar-editor-collection_mode_horizontal {
+  background-image: repeating-linear-gradient(
+    transparent 0px,
+    transparent 37px,
+    transparent 40px
+  ) !important;
 }
