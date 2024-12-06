@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Contracts\FilterContract;
 use App\Models\Users\Client;
+use App\Services\Currency\Contract\CurrencyServiceContract;
+use App\Services\Currency\CurrencyFreaks;
 use App\Services\Filter;
 use App\Services\Pay\Contract\PayContract;
 use App\Services\Pay\Pay;
@@ -17,7 +19,8 @@ class AppServiceProvider extends ServiceProvider
 
     public $bindings = [
         FilterContract::class => Filter::class,
-        PayContract::class =>Pay::class
+        PayContract::class => Pay::class,
+        CurrencyServiceContract::class => CurrencyFreaks::class
     ];
 
     /**
