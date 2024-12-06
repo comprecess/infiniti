@@ -82,12 +82,13 @@ export const adminSidebarPages = [
     icon: <DashboardIcon />,
     shortName: 'business_plan',
     openPaths: [
+      { id: 0, title: 'Business Plans', path: Routes.businessPlans },
       {
-        id: 0,
+        id: 1,
         title: 'Make Business Plan',
         path: Routes.makeBusinessPlan,
       },
-      { id: 1, title: 'Business Plan', path: Routes.businessPlan },
+      { id: 2, title: 'Business Models', path: Routes.businessModels },
     ],
     path: Routes.businessPlan,
   },

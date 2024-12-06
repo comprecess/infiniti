@@ -1,0 +1,31 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+  max-width: $maxContentSize;
+}
+
+.wrapperButtonBlue {
+  display: flex;
+  width: 100%;
+  justify-content: end;
+}
+
+.buttonBlue {
+  width: 200px;
+  height: 44px;
+}
+
+.plans {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}

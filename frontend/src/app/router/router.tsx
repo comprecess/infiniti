@@ -179,12 +179,24 @@ export const router = createBrowserRouter([
         path: Routes.businessPlan,
         children: [
           {
+            path: Routes.businessPlans,
+            element: Pages.adminBusinessPlanPage,
+          },
+          {
+            path: `${Routes.edit}/${Routes.businessPlan}/:id`,
+            element: Pages.adminEditBusinessPlanPage,
+          },
+          {
+            path: `${Routes.view}/${Routes.businessPlan}/:id`,
+            element: Pages.adminViewBusinessPlanPage,
+          },
+          {
             path: Routes.makeBusinessPlan,
             element: Pages.adminMakeBusinessPlanPage,
           },
           {
-            path: Routes.businessPlan,
-            element: Pages.adminBusinessPlanPage,
+            path: Routes.businessModels,
+            element: Pages.adminBusinessModelsPage,
           },
           {
             index: true,

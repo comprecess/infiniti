@@ -8,8 +8,11 @@ import { AdminTransferPage } from '../../pages/Admin/AccountingPage/TransferPage
 import { AdminUnclearedTransactionsPage } from '../../pages/Admin/AccountingPage/UnclearedTransactionsPage/UnclearedTransactionsPage'
 import { AdminViewTransactionsPage } from '../../pages/Admin/AccountingPage/ViewTransactionsPage/ViewTransactionsPage'
 import { AdminAppearancePage } from '../../pages/Admin/AppearancePage/AppearancePage'
+import { AdminBusinessModelsPage } from '../../pages/Admin/BusinessPlanPage/BusinessModelsPage/BusinessModelsPage'
 import { AdminBusinessPlanPage } from '../../pages/Admin/BusinessPlanPage/BusinessPlanPage/BusinessPlanPage'
+import { AdminEditBusinessPlanPage } from '../../pages/Admin/BusinessPlanPage/EditBusinessPlanPage/EditBusinessPlanPage'
 import { AdminMakeBusinessPlanPage } from '../../pages/Admin/BusinessPlanPage/MakeBusinessPlanPage/MakeBusinessPlanPage'
+import { AdminViewBusinessPlanPage } from '../../pages/Admin/BusinessPlanPage/ViewBusinessPlanPage/ViewBusinessPlanPage'
 import { AdminCalendarPage } from '../../pages/Admin/CalendarPage/CalendarPage'
 import { AdminAddCustomerPage } from '../../pages/Admin/CustomersPage/AddCustomerPage/AddCustomerPage'
 import { AdminCompaniesPage } from '../../pages/Admin/CustomersPage/CompaniesPage/CompaniesPage'
@@ -116,7 +119,8 @@ export const Routes = {
   auto: 'auto',
   roles: 'roles',
   summary: 'summary',
-  businessPlan: 'businessplan',
+  businessPlan: 'business-plan',
+  businessPlans: 'business-plans',
   reorder: 'reorder',
   role: 'role',
   accounting: 'accounting',
@@ -140,7 +144,7 @@ export const Routes = {
   custom: 'custom',
   contact: 'contact',
   fields: 'fields',
-  productsServices: 'productsservices',
+  productsServices: 'products-services',
   support: 'support',
   purchase: 'purchase',
   leads: 'leads',
@@ -154,22 +158,23 @@ export const Routes = {
   projects: 'projects',
   companies: 'companies',
   supplier: 'supplier',
-  knowledgeBase: 'knowledgebase',
+  knowledgeBase: 'knowledge-base',
   tickets: 'tickets',
   groups: 'groups',
   newDeposit: 'newdeposit',
   newExpense: 'newexpense',
+  businessModels: 'business-models',
   transfer: 'transfer',
   bills: 'bills',
   email: 'email',
   log: 'log',
   edit: 'edit',
   more: 'more',
-  passwordManager: 'passwordmanager',
+  passwordManager: 'password-manager',
   activity: 'activity',
   contacts: 'contacts',
   viewTransactions: 'viewtransactions',
-  unclearedTransactions: 'unclearedtransactions',
+  unclearedTransactions: 'uncleared-transactions',
   accounts: 'accounts',
   newAccount: 'newaccount',
   assets: 'assets',
@@ -178,7 +183,7 @@ export const Routes = {
   basket: 'cart',
   list: 'list',
   auth: 'auth',
-  makeBusinessPlan: 'makebusinessplan',
+  makeBusinessPlan: 'make-business-plan',
   files: 'files',
   sign: 'sign',
   in: 'in',
@@ -235,6 +240,9 @@ export const Pages = {
   adminFilesPage: <AdminFilesPage />,
   adminMakeBusinessPlanPage: <AdminMakeBusinessPlanPage />,
   adminBusinessPlanPage: <AdminBusinessPlanPage />,
+  adminBusinessModelsPage: <AdminBusinessModelsPage />,
+  adminEditBusinessPlanPage: <AdminEditBusinessPlanPage />,
+  adminViewBusinessPlanPage: <AdminViewBusinessPlanPage />,
   adminAccountsPage: <AdminAccountsPage />,
   adminAssetsPage: <AdminAssetsPage />,
   adminBillsPage: <AdminBillsPage />,

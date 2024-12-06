@@ -1,0 +1,54 @@
+.wrapper,
+.inputsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.containerInputs {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  width: 100%;
+
+  @include mobileBreakpoint('max', $bpL) {
+    flex-direction: column;
+  }
+}
+
+.containerItemsTitleRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+
+  @include mobileBreakpoint('max', $bpL) {
+    align-items: start;
+    flex-direction: column;
+  }
+}
+
+.containerItems {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+}
+
+.containerItemsTitle {
+  font-family: $fontSpaceGrotesk;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.containerItemsTitleBlue {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 14px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $brand-400;
+}
