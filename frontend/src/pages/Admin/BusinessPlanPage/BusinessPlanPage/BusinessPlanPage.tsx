@@ -15,8 +15,20 @@ export const AdminBusinessPlanPage: FC = () => {
     )
   }
 
+  const handleNavigateViewBusinessPlan = (id: number) => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.view}/${Routes.businessPlan}/${id}`,
+    )
+  }
+
+  const handleNavigateEditBusinessPlan = (id: number) => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.edit}/${Routes.businessPlan}/${id}`,
+    )
+  }
+
   useEffect(() => {
-    document.title = 'infiniti | Business Plan'
+    document.title = 'infiniti | Business Plans'
   }, [])
 
   return (
@@ -30,9 +42,18 @@ export const AdminBusinessPlanPage: FC = () => {
           />
         </div>
         <div className={styles.plans}>
-          <CardPlan />
-          <CardPlan />
-          <CardPlan />
+          <CardPlan
+            viewBusinessPlan={handleNavigateViewBusinessPlan}
+            editBusinessPlan={handleNavigateEditBusinessPlan}
+          />
+          <CardPlan
+            viewBusinessPlan={handleNavigateViewBusinessPlan}
+            editBusinessPlan={handleNavigateEditBusinessPlan}
+          />
+          <CardPlan
+            viewBusinessPlan={handleNavigateViewBusinessPlan}
+            editBusinessPlan={handleNavigateEditBusinessPlan}
+          />
         </div>
       </section>
     </div>
