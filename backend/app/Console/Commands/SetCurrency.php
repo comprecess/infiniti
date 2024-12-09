@@ -21,7 +21,7 @@ class SetCurrency extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Currency Service. Setting up a currency rate';
 
     /**
      * Execute the console command.

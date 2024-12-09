@@ -2,10 +2,12 @@
 
 namespace App\Models\Resident\Settings;
 
+use App\Console\Commands\SetCurrency;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 
 class Currency extends Model
@@ -62,6 +64,9 @@ class Currency extends Model
             $currency->iso_code = $isoCode;
             $currency->deleted_at = now();
             $currency->save();
+
+            Artisan::command(SetCurrency::class);
+
             return $currency;
         }
 
