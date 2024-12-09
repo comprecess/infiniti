@@ -1,0 +1,134 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+  max-width: $maxContentSize;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 48px 16px 48px 16px;
+  border-radius: 8px;
+  background: linear-gradient(to right, $gray-600, $gray-500);
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.contentCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.contentTitle {
+  width: 100%;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 26px;
+  letter-spacing: -0.03em;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
+
+  p {
+    font-size: 15px;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    font-size: 15px;
+    color: $brand-500;
+    text-decoration: underline;
+  }
+
+  ol,
+  li {
+    margin-left: 14px;
+    list-style-position: inside;
+    font-size: 15px;
+  }
+}
+.preparedBy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo {
+  width: 190px;
+
+  @include mobileBreakpoint('max', $bpL) {
+    width: 170px;
+  }
+}
+
+.title {
+  font-family: $fontSpaceGrotesk;
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 44px;
+  letter-spacing: 0.5px;
+
+  @include mobileBreakpoint('max', $bpL) {
+    font-size: 34px;
+    line-height: 40px;
+  }
+}
+
+.name {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: -0.03em;
+}
+
+.email,
+.website,
+.phone {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 23px;
+  letter-spacing: -0.03em;
+}
+
+.dateTitle {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.03em;
+
+  @include mobileBreakpoint('max', $bpL) {
+    font-size: 14px;
+    line-height: 20px;
+  }
+}

@@ -4,7 +4,23 @@ import { CustomMiniButton } from '../../../../../shared/ui/CustomMiniButton/Cust
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './CardPlan.module.scss'
 
-export const CardPlan: FC = () => {
+interface CardPlanProps {
+  viewBusinessPlan: (id: number) => void
+  editBusinessPlan: (id: number) => void
+}
+
+export const CardPlan: FC<CardPlanProps> = ({
+  viewBusinessPlan,
+  editBusinessPlan,
+}) => {
+  const handleNavigateViewBusinessPlan = () => {
+    viewBusinessPlan(1)
+  }
+
+  const handleNavigateEditBusinessPlan = () => {
+    editBusinessPlan(1)
+  }
+
   return (
     <RecentCard style={styles.recentCard}>
       <div className={styles.wrapper}>
@@ -20,14 +36,14 @@ export const CardPlan: FC = () => {
               icon='/icons/view.svg'
               alt='View'
               tooltipTitle='View'
-              onClick={() => {}}
+              onClick={handleNavigateViewBusinessPlan}
             />
             <CustomMiniButton
               style='amber'
               icon='/icons/edit.svg'
               alt='Edit'
               tooltipTitle='Edit'
-              onClick={() => {}}
+              onClick={handleNavigateEditBusinessPlan}
             />
             <CustomMiniButton
               style='cherry'
