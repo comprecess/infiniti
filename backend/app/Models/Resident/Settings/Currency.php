@@ -2,15 +2,19 @@
 
 namespace App\Models\Resident\Settings;
 
+use App\Console\Commands\SetCurrency;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 
 class Currency extends Model
 {
     use HasFactory, SoftDeletes;
+
+    const BASE = "USD";
 
     protected $table = 'sys_currencies';
 
@@ -41,7 +45,31 @@ class Currency extends Model
     public static function getDefault()
     {
         return Cache::remember('Currency.Default', config('cache.time.1month'), function(){
-            return self::where('isdefault', 1)->first();
+            return self::withTrashed()->where('isdefault', 1)->first();
         });
+    }
+
+    public static function getAndCreate(string $isoCode)
+    {
+        $isoCode = strtoupper($isoCode);
+        $currency = self::where('iso_code', $isoCode)->first();
+        if($currency) {
+            return $currency;
+        }
+
+        $info = Arr::get(config('data.currency'), $isoCode, null);
+        if($info) {
+            $currency = new self();
+            $currency->cname = $isoCode;
+            $currency->iso_code = $isoCode;
+            $currency->deleted_at = now();
+            $currency->save();
+
+            Artisan::command(SetCurrency::class);
+
+            return $currency;
+        }
+
+        return $isoCode;
     }
 }

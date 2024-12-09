@@ -15,6 +15,7 @@ use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class Transaction extends Model implements InsertDefaultValueInterface
 {
@@ -139,11 +140,13 @@ class Transaction extends Model implements InsertDefaultValueInterface
 
         #invoice
         if($invoice) {
+            $currencyInvoice = $invoice->getCurrencyIso;
             $transaction->iid = $invoice->id;
             $transaction->project_id = $invoice->pid;
             $transaction->type = "Income";
             $transaction->tax = $invoice->tax;
-            $transaction->currency_iso_code = $invoice->getCurrencyIso?->iso_code;
+            $transaction->currency_iso_code = $currencyInvoice?->iso_code;
+            $transaction->currency_rate = $currencyInvoice?->rate;
             $transaction->aid = $invoice->aid;
             $transaction->code = $invoice->getCode();
 
@@ -195,8 +198,15 @@ class Transaction extends Model implements InsertDefaultValueInterface
 
         if($currency instanceof Currency) {
             $transaction->currency_iso_code = $currency->iso_code;
+            $transaction->currency_rate = $currency->rate;
         }elseif(is_string($currency) && strlen((string) $currency) == 3) {
-            $transaction->currency_iso_code = strtoupper($currency);
+            $cur = Currency::getAndCreate($currency);
+            if(!is_string($cur)) {
+                $transaction->currency_iso_code = $cur->iso_code;
+                $transaction->currency_rate = $cur->rate;
+            } else {
+                $transaction->currency_iso_code = $cur;
+            }
         }
 
         $transaction->company_id = $clientOnly->companyClient?->id ?? 0;
@@ -204,7 +214,13 @@ class Transaction extends Model implements InsertDefaultValueInterface
             $transaction->aid = $owner->id;
         }
 
+        try{
+            $transaction->save();
+        }catch (\Exception $e) {
+            Log::error($e->getMessage(), $e->getTrace());
+            throw new \Exception("Insufficient data to complete the transaction");
+        }
 
-        $transaction->save();
+        return $transaction;
     }
 }
