@@ -16,7 +16,8 @@ class BusinessPlanCreateRequest extends FormRequest implements ConvertingPropert
     public function rules(): array
     {
         return [
-            'company_name' => "required|string",
+            'companyName' => "required|string",
+            'exSummary' => "required|string",
             'date' => "nullable|date_format:Y-m-d",
         ];
     }
@@ -24,7 +25,6 @@ class BusinessPlanCreateRequest extends FormRequest implements ConvertingPropert
     public function getListProperties(): array
     {
         return [
-            'id',
             'companyName' =>'company_name',
             'name',
             'email',
