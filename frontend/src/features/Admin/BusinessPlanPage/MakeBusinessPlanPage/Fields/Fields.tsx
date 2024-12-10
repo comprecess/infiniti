@@ -1,9 +1,38 @@
+import { FC } from 'react'
+
+import { BusinessPlanNewPlanFormData } from '../../../../../app/constants/constants'
 import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 import styles from './Fields.module.scss'
 
-export const Fields = () => {
+interface FieldsProps {
+  setFormData: React.Dispatch<React.SetStateAction<PartialFieldsPostData>>
+}
+
+export interface PartialFieldsPostData
+  extends Partial<BusinessPlanNewPlanFormData> {
+  [key: string]: string | number | undefined | null
+}
+
+export const Fields: FC<FieldsProps> = ({ setFormData }) => {
+  const handleChangeInput = (
+    field: string,
+    value: string | number | undefined | null,
+  ) => {
+    setFormData(prevFormData => {
+      const updatedFormData = { ...prevFormData }
+
+      if (value === '' || value === null || value === undefined) {
+        delete updatedFormData[field]
+      } else {
+        updatedFormData[field] = value
+      }
+
+      return updatedFormData
+    })
+  }
+
   return (
     <div className={styles.wrapper}>
       <CustomInput
@@ -11,23 +40,23 @@ export const Fields = () => {
         type='text'
         id='companyName'
         name='companyName'
-        onChange={() => {}}
+        onChange={handleChangeInput}
       />
       <div className={styles.containerInputs}>
         <div className={styles.inputsColumn}>
           <CustomInput
             title='Your Name'
             type='text'
-            id='yourName'
-            name='yourName'
-            onChange={() => {}}
+            id='name'
+            name='name'
+            onChange={handleChangeInput}
           />
           <CustomInput
             title='Email'
             type='text'
             id='email'
             name='email'
-            onChange={() => {}}
+            onChange={handleChangeInput}
           />
         </div>
         <div className={styles.inputsColumn}>
@@ -36,12 +65,12 @@ export const Fields = () => {
             type='text'
             id='phone'
             name='phone'
-            onChange={() => {}}
+            onChange={handleChangeInput}
           />
           <CustomDataPicker
             title='Date'
             titleOnChange='date'
-            onChange={() => {}}
+            onChange={handleChangeInput}
           />
         </div>
       </div>
@@ -50,7 +79,7 @@ export const Fields = () => {
         type='text'
         id='website'
         name='website'
-        onChange={() => {}}
+        onChange={handleChangeInput}
       />
       <div className={styles.containerItems}>
         <div className={styles.containerItemsTitleRow}>
@@ -61,7 +90,9 @@ export const Fields = () => {
             (a snapshot of your business)
           </span>
         </div>
-        <TextEditor setValue={() => {}} />
+        <TextEditor
+          setValue={message => handleChangeInput('exSummary', message)}
+        />
       </div>
       <div className={styles.containerItems}>
         <div className={styles.containerItemsTitleRow}>
@@ -72,7 +103,9 @@ export const Fields = () => {
             (describe what you do)
           </span>
         </div>
-        <TextEditor setValue={() => {}} />
+        <TextEditor
+          setValue={message => handleChangeInput('description', message)}
+        />
       </div>
       <div className={styles.containerItems}>
         <div className={styles.containerItemsTitleRow}>
@@ -83,7 +116,9 @@ export const Fields = () => {
             (research on your industry, market and competitors)
           </span>
         </div>
-        <TextEditor setValue={() => {}} />
+        <TextEditor
+          setValue={message => handleChangeInput('mAnalysis', message)}
+        />
       </div>
       <div className={styles.containerItems}>
         <div className={styles.containerItemsTitleRow}>
@@ -94,7 +129,9 @@ export const Fields = () => {
             (your business and management structure)
           </span>
         </div>
-        <TextEditor setValue={() => {}} />
+        <TextEditor
+          setValue={message => handleChangeInput('management', message)}
+        />
       </div>
       <div className={styles.containerItems}>
         <div className={styles.containerItemsTitleRow}>
@@ -105,7 +142,9 @@ export const Fields = () => {
             (the products or services you’re offering)
           </span>
         </div>
-        <TextEditor setValue={() => {}} />
+        <TextEditor
+          setValue={message => handleChangeInput('product', message)}
+        />
       </div>
       <div className={styles.containerItems}>
         <div className={styles.containerItemsTitleRow}>
@@ -116,7 +155,9 @@ export const Fields = () => {
             (how you’ll market your business and your sales strategy)
           </span>
         </div>
-        <TextEditor setValue={() => {}} />
+        <TextEditor
+          setValue={message => handleChangeInput('marketing', message)}
+        />
       </div>
       <div className={styles.containerItems}>
         <div className={styles.containerItemsTitleRow}>
@@ -126,7 +167,9 @@ export const Fields = () => {
             money)
           </span>
         </div>
-        <TextEditor setValue={() => {}} />
+        <TextEditor
+          setValue={message => handleChangeInput('budget', message)}
+        />
       </div>
       <div className={styles.containerItems}>
         <div className={styles.containerItemsTitleRow}>
@@ -137,7 +180,9 @@ export const Fields = () => {
             (how much money you’ll need for next 3 to 5 years)
           </span>
         </div>
-        <TextEditor setValue={() => {}} />
+        <TextEditor
+          setValue={message => handleChangeInput('investment', message)}
+        />
       </div>
       <div className={styles.containerItems}>
         <div className={styles.containerItemsTitleRow}>
@@ -148,7 +193,9 @@ export const Fields = () => {
             (supply information like balance sheets)
           </span>
         </div>
-        <TextEditor setValue={() => {}} />
+        <TextEditor
+          setValue={message => handleChangeInput('finance', message)}
+        />
       </div>
       <div className={styles.containerItems}>
         <div className={styles.containerItemsTitleRow}>
@@ -157,7 +204,9 @@ export const Fields = () => {
             (an optional section that includes résumés and permits)
           </span>
         </div>
-        <TextEditor setValue={() => {}} />
+        <TextEditor
+          setValue={message => handleChangeInput('appendix', message)}
+        />
       </div>
     </div>
   )

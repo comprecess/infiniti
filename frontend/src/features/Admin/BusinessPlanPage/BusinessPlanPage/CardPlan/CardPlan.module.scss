@@ -3,15 +3,14 @@
   flex-direction: row;
   gap: 24px;
   width: 100%;
+  background-color: $brand-900;
+  padding: 32px 32px 32px 32px;
+  border-radius: 8px;
 
   @include mobileBreakpoint('max', $bpM) {
     align-items: center;
     flex-direction: column;
   }
-}
-
-.recentCard {
-  padding: 32px 32px 32px 32px;
 }
 
 .content {
@@ -33,7 +32,7 @@
   border-radius: 8px;
   object-fit: cover;
 
-  @include mobileBreakpoint('min', $bpM) {
+  @include mobileBreakpoint('min', $bpM + 1) {
     width: 220px;
     height: 220px;
   }
@@ -57,10 +56,29 @@
 }
 
 .description {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 22px;
-  letter-spacing: -0.03em;
-  text-align: left;
-  color: $white;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
+
+  p {
+    font-size: 15px;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    font-size: 15px;
+    color: $brand-500;
+    text-decoration: underline;
+  }
+
+  ol,
+  li {
+    margin-left: 14px;
+    list-style-position: inside;
+    font-size: 15px;
+  }
 }
