@@ -1098,3 +1098,28 @@ export interface CartItem {
     property: PropertyArray
   }
 }
+
+export interface BusinessPlanItemData {
+  id: number
+  companyName: string
+  exSummary: string
+}
+
+export interface BusinessPlanNewPlanFormData {
+  companyName: string
+  name: string
+  email: string
+  phone: string
+  date: string
+  website: string
+  description: string
+  exSummary: string
+  mAnalysis: string
+  management: string
+  product: string
+  marketing: string
+  budget: string
+  investment: string
+  finance: string
+  appendix: string
+}
