@@ -16,5 +16,8 @@ use \App\Http\Controllers\Api\Resident;
         ],
         'talent' => [
             Resident\Talents\TalentsController::class
+        ],
+        'business_plan' => [
+            Resident\BusinessPlan\BusinessPlanAccessController::class
         ]
     ];
