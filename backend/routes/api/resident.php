@@ -119,6 +119,16 @@ Route::controller(Resident\Talents\TalentController::class)->prefix('talent')
         Route::match(['put', 'post'],'/{user}/update', 'update');
     });
 
+#BusinessPlan
+Route::controller(Resident\BusinessPlan\BusinessPlanController::class)->prefix('business-plan')
+    ->group(function(){
+        Route::get('/list', 'list');
+        Route::get('/{plan}', 'item');
+        Route::post('/', 'createOrUpdate');
+        Route::put('/{plan}', 'createOrUpdate');
+        Route::delete('/{plan}', 'delete');
+    });
+
 #settings
 Route::group(['prefix' => 'settings'], function(){
     #admin
