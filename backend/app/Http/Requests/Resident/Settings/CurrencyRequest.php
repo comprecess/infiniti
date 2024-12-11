@@ -23,16 +23,16 @@ class CurrencyRequest extends FormRequest
     public function rules(): array
     {
         $cur = array_keys($this->currencyConf);
-        $rule = Rule::unique('sys_currencies', 'iso_code');
-        if($this->route('currency')) {
-            $rule->ignore($this->route('currency'));
-        }
+//        $rule = Rule::unique('sys_currencies', 'iso_code');
+//        if($this->route('currency')) {
+//            $rule->ignore($this->route('currency'));
+//        }
         return [
             'code' => [
                 'required',
                 'string',
                 Rule::in($cur),
-                $rule/*->ignore()*/
+//                $rule/*->ignore()*/
             ],
             'rate' => 'decimal:1,6'
         ];

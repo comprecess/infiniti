@@ -61,7 +61,6 @@ class ClientCreateRequest extends FormRequest implements ConvertingPropertiesInt
             'displayName' => 'display_name',
             'phone',
             'companyId' => 'cid',
-            'currency',
             'businessNumber' => 'business_number',
             'groupId' => 'gid',
             'type',

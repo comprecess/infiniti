@@ -26,11 +26,16 @@ class CurrencyController extends SettingsController
     {
         $curencyInfo = $request->getCurrency();
 
-        $currency = new Currency();
+        $currency = Currency::withTrashed()->where('iso_code', $request->code)->first();
+
+        if(!$currency) {
+            $currency = new Currency();
+        }
         $currency->cname = $request->code;
         $currency->iso_code = $request->code;
         $currency->symbol = $curencyInfo['symbol'];
         $currency->rate = floatval($request->rate);
+        $currency->deleted_at = null;
         $currency->save();
 
         return response()->json(['success' => true]);

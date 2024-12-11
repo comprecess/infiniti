@@ -182,7 +182,10 @@ class ClientController extends MainClientController
 
                 if($request->currency) {
                     $cur = Currency::where('iso_code', $request->currency)->first();
-                    $model->currency_iso_code = $cur->iso_code;
+                    if(!$isNew && $cur) {
+                        $model->balance = $model->transformPrice('balance', $cur);
+                        $model->currency_iso_code = $cur?->iso_code;
+                    }
                 }
 
                 if($request->country) {
