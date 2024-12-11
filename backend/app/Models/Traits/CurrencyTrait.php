@@ -33,12 +33,21 @@ trait CurrencyTrait
     public function getCurrencyIso()
     {
         if($this->getCurrencyId()) {
-            return $this->belongsTo(Currency::class, $this->getCurrencyId() === true ? 'currency' : $this->getCurrencyId());
+            return $this->belongsTo(Currency::class, $this->getCurrencyId() === true ? 'currency' : $this->getCurrencyId())->withTrashed();
         } else {
-            return $this->belongsTo(Currency::class, $this->getCurrencyColumnName(), 'iso_code');
+            return $this->belongsTo(Currency::class, $this->getCurrencyColumnName(), 'iso_code')->withTrashed();
         }
     }
-
+/*
+    public function getCurrencyDel()
+    {
+        if($this->getCurrencyId()) {
+            return $this->belongsTo(Currency::class, $this->getCurrencyId() === true ? 'currency' : $this->getCurrencyId())->withTrashed();
+        } else {
+            return $this->belongsTo(Currency::class, $this->getCurrencyColumnName(), 'iso_code')->withTrashed();
+        }
+    }
+*/
     public function getColumn()
     {
         if($this->getCurrencyId()) {
