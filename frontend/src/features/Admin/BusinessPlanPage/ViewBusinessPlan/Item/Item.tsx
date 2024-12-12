@@ -1,0 +1,23 @@
+import { FC } from 'react'
+
+import { sanitizeMessage } from '../../../../../shared/utils/TextEditor/sanitizeMessage'
+import styles from './Item.module.scss'
+
+interface ItemProps {
+  title: string
+  content: string
+}
+
+export const Item: FC<ItemProps> = ({ title, content }) => {
+  const safeHTML = sanitizeMessage(content)
+
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.title}>{title}</div>
+      <div
+        dangerouslySetInnerHTML={{ __html: safeHTML }}
+        className={styles.content}
+      />
+    </div>
+  )
+}

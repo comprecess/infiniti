@@ -8,7 +8,7 @@ interface CustomDividerProps {
 
 export const CustomDivider: FC<CustomDividerProps> = ({
   color = '#343543',
-  orientation,
+  orientation = 'horizontal',
 }) => {
   return (
     <Center maxHeight={orientation === 'vertical' ? '340px' : ''}>
