@@ -55,7 +55,7 @@ export const TextEditor: FC<TextEditorProps> = ({
         ref={editor}
         value={defaultValue}
         config={config}
-        onChange={handleOnChange}
+        onBlur={handleOnChange}
       />
     </div>
   )

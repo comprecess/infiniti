@@ -1,40 +1,122 @@
-import { useEffect } from 'react'
+import { Fragment, useEffect, useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
+import { BusinessPlanNewPlanFormData } from '../../../../app/constants/constants'
+import { Item } from '../../../../features/Admin/BusinessPlanPage/ViewBusinessPlan/Item/Item'
+import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
+import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { getBusinessPlanFullInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/GetBusinessPlanFullInfo'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './ViewBusinessPlanPage.module.scss'
 
+const extractIdFromUrl = (url: string): number | null => {
+  const regex = /\/business-plan\/(\d+)$/
+  const match = url.match(regex)
+
+  return match ? parseInt(match[1], 10) : null
+}
+
+const useIdFromUrl = () => {
+  const location = useLocation()
+
+  return useMemo(
+    () => extractIdFromUrl(location.pathname),
+    [location.pathname],
+  )
+}
+
+const sections = [
+  { key: 'exSummary', title: 'Executive Summary' },
+  { key: 'description', title: 'Company description' },
+  { key: 'mAnalysis', title: 'Market Analysis' },
+  { key: 'management', title: 'Organization & Management' },
+  { key: 'product', title: 'Service or product' },
+  { key: 'marketing', title: 'Marketing and sales' },
+  { key: 'budget', title: 'Budget' },
+  { key: 'investment', title: 'Investment/Funding request' },
+  { key: 'finance', title: 'Financial projections' },
+  { key: 'appendix', title: 'Appendix' },
+]
+
 export const AdminViewBusinessPlanPage = () => {
+  const [fullInfo, setFullInfo] =
+    useState<BusinessPlanNewPlanFormData | null>(null)
+
+  const id = useIdFromUrl()
+
+  const getFullInfoBusinessPlan = async () => {
+    if (!id) return
+
+    const response = await getBusinessPlanFullInfo(id)
+
+    setFullInfo(response.data)
+  }
+
   useEffect(() => {
     document.title = 'infiniti | View Business Plan'
   }, [])
 
+  useEffect(() => {
+    getFullInfoBusinessPlan()
+  }, [id])
+
+  const filteredSections = sections.filter(
+    ({ key }) =>
+      fullInfo && fullInfo[key as keyof BusinessPlanNewPlanFormData],
+  )
+
   return (
     <div className={styles.wrapper}>
-      <section className={styles.section}>
-        <div className={styles.header}>
-          <img
-            src='/logoInfinitiWhite.svg'
-            alt='Logo'
-            className={styles.logo}
-          />
-          <span className={styles.title}>BUSINESS PLAN</span>
-          <div className={styles.preparedBy}>
-            <span className={styles.name}>Pavel INFINITI</span>
-            <span className={styles.email}>ceo@infiniti.stream</span>
-            <span className={styles.website}>https://infiniti.stream</span>
-            <span className={styles.phone}>+79005131917</span>
-          </div>
-          <span className={styles.dateTitle}>2021-08-14</span>
-        </div>
-        <RecentCard>
-          <div className={styles.contentWrapper}>
-            <div className={styles.contentCard}>
-              <div className={styles.contentTitle}>Title</div>
-              <span className={styles.content}>content</span>
+      {fullInfo ? (
+        <section className={styles.section}>
+          <div className={styles.header}>
+            <img
+              src='/logoInfinitiWhite.svg'
+              alt='Logo'
+              className={styles.logo}
+            />
+            <span className={styles.title}>BUSINESS PLAN</span>
+            <div className={styles.preparedBy}>
+              {fullInfo.name && (
+                <span className={styles.name}>{fullInfo.name}</span>
+              )}
+              {fullInfo.email && (
+                <span className={styles.email}>{fullInfo.email}</span>
+              )}
+              {fullInfo.website && (
+                <span className={styles.website}>{fullInfo.website}</span>
+              )}
+              {fullInfo.phone && (
+                <span className={styles.phone}>{fullInfo.phone}</span>
+              )}
             </div>
+            {fullInfo.date && (
+              <span className={styles.dateTitle}>{fullInfo.date}</span>
+            )}
           </div>
-        </RecentCard>
-      </section>
+          <RecentCard>
+            <div className={styles.contentWrapper}>
+              {filteredSections.map(({ key, title }, index) => {
+                const content =
+                  fullInfo[key as keyof BusinessPlanNewPlanFormData]
+
+                return (
+                  <Fragment key={key}>
+                    <Item title={title} content={content} />
+                    {index < filteredSections.length - 1 && (
+                      <div className={styles.divider}>
+                        <CustomDivider />
+                      </div>
+                    )}
+                  </Fragment>
+                )
+              })}
+            </div>
+          </RecentCard>
+        </section>
+      ) : (
+        <LoadingSpinner size='xl' />
+      )}
     </div>
   )
 }
