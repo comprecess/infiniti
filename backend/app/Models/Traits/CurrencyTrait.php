@@ -38,6 +38,16 @@ trait CurrencyTrait
             return $this->belongsTo(Currency::class, $this->getCurrencyColumnName(), 'iso_code')->withTrashed();
         }
     }
+
+    public function getCurrencyOrCreate()
+    {
+        if($this->getCurrencyId()) {
+            $column = $this->getCurrencyId() === true ? 'currency' : $this->getCurrencyId();
+            return Currency::where('id', $this->{$column})->withTrashed()->first();
+        } else {
+            return Currency::getAndCreate($this->{$this->getCurrencyColumnName()});
+        }
+    }
 /*
     public function getCurrencyDel()
     {

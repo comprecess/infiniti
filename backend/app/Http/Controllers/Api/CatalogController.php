@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\FilterContract;
+use App\Events\User\CreateOrder;
+use App\Http\Controllers\Api\Resident\Sale\OfferController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Catalog\CartRequest;
 use App\Http\Requests\Catalog\ListRequest;
@@ -13,6 +15,11 @@ use App\Models\Catalog\Cart;
 use App\Models\Catalog\Prop;
 use App\Models\Catalog\User;
 use App\Models\Catalog\Value;
+use App\Models\Resident\Invoices\Invoice;
+use App\Models\Resident\Invoices\Offer;
+use App\Models\Users\Admin;
+use App\Models\Users\Client;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User as UserCrm;
 use Stripe\StripeClient;
@@ -136,6 +143,36 @@ class CatalogController extends Controller
         } else {
             return response()->json(['success' => false]);
         }
+    }
+
+    public function createPay()
+    {
+        $user = UserCrm::getAuth();
+        $cart = $user?->myCart;
+        if(!$cart && floatval($cart->total) == 0 && $user instanceof Admin) {
+            return response()->json(['message' => 'Cart not found'], 203);
+        }
+
+
+        $offer = Offer::createCart($cart);
+        $offerController = new OfferController();
+        /**
+         * @var JsonResponse  $response
+         */
+        $response = $offerController->convert($offer);
+        $invoiceId = $response->getData()->invoiceId;
+        $invoice = Invoice::find($invoiceId);
+
+        $invoice->subtotal = $cart->sub_total;
+        $invoice->tax = $cart->sub_tax;
+        $invoice->total = $cart->total;
+        $invoice->save();
+
+        $cart->createOrder($invoice, false);
+        event(new CreateOrder($invoice));
+
+
+        return response()->json(['success' => true, 'token' => $invoice->vtoken]);
     }
 
     public function pay()
