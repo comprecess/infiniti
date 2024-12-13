@@ -182,11 +182,11 @@ class OfferController extends SaleController
             $invoice->{$val} = $value;
         }
 
-        $invoice->getCurrencyIso()->associate(Currency::getDefault());
+        $invoice->getCurrencyIso()->associate($offer->getCurrencyIso ?? Currency::getDefault());
         $invoice->date = $date;
         $invoice->duedate = $date;
         $invoice->nd = $date;
-        $invoice->quote_id = $offer->id;
+        $invoice->quote_id = intval($offer->id);
         if($offer->status()->checkCart()) {
             $invoice->notes = Config::get('invoice_terms');
         }

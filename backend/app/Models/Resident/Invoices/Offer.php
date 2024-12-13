@@ -103,7 +103,7 @@ class Offer extends Model implements InsertDefaultValueInterface
         if($user instanceof Admin) {
             $t->account = $user->fullname ;
         }else{
-            $t->account = auth()->user()->fullname;
+            $t->account = $user->account;
             $t->userid = $user->id;
         }
         $t->currency = $currency->id;

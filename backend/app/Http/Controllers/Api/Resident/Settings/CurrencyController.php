@@ -9,8 +9,8 @@ use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Models\Config;
 use App\Models\Resident\Settings\Currency;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Validation\ValidationException;
 
 class CurrencyController extends SettingsController
 {
@@ -73,6 +73,9 @@ class CurrencyController extends SettingsController
 
     public function delete(Request $request, Currency $currency)
     {
+        if($currency->isdefault) {
+            throw ValidationException::withMessages(["isdefault" => 'Unable to delete current item']);
+        }
         $currency->delete();
         return response()->json(['success' => true]);
     }

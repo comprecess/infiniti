@@ -13,7 +13,9 @@ use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\DocumentTrait;
 use App\Models\Traits\HelperTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
+use App\Models\Traits\ModelToCartTrait;
 use App\Models\Traits\UserTrait;
+use App\Models\User;
 use App\Models\Users\Client;
 use App\Services\Pay\Contract\PayModelContract;
 use App\Services\Pay\Pay;
@@ -25,7 +27,7 @@ use Illuminate\Support\Facades\DB;
 
 class Invoice extends Model implements InsertDefaultValueInterface, PayModelContract
 {
-    use HasFactory, CurrencyTrait, CollectionTrait, HelperTrait, InsertDefaultValueTrait, SoftDeletes, UserTrait, DocumentTrait;
+    use HasFactory, CurrencyTrait, CollectionTrait, HelperTrait, InsertDefaultValueTrait, SoftDeletes, UserTrait, DocumentTrait, ModelToCartTrait;
 
     const STATUS = [
         'Unpaid', 'Paid', 'Partially Paid', 'Cancelled'
@@ -136,6 +138,8 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
             $this->setRandomNum($name, 10, true);
         }
 
+        $user = User::getAuth();
+
         return [
             'notes' => ['', 'notes'],
             'account' => [''],
@@ -146,7 +150,7 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
             'paymentmethod' => [''],
             'status' => [self::STATUS[0]],
             'r' => ['0'],
-            'aid' =>[auth()->id()]
+            'aid' =>[$user instanceof Client ? 0 : $user->id]
         ];
     }
 

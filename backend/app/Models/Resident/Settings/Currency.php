@@ -52,7 +52,7 @@ class Currency extends Model
     public static function getAndCreate(string $isoCode)
     {
         $isoCode = strtoupper($isoCode);
-        $currency = self::where('iso_code', $isoCode)->first();
+        $currency = self::where('iso_code', $isoCode)->withTrashed()->first();
         if($currency) {
             return $currency;
         }
