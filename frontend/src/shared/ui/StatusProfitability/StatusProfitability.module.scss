@@ -1,0 +1,51 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  height: 24px;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 100px;
+  width: fit-content;
+}
+
+.icon * {
+  width: 16px;
+  height: 16px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: -0.03em;
+  text-align: left;
+}
+
+.average {
+  color: $brand-300;
+  background-color: $brand-transparent;
+
+  .icon * {
+    fill: $brand-300;
+  }
+}
+
+.high {
+  color: $mint-500;
+  background-color: $mint-transparent;
+
+  .icon * {
+    fill: $mint-500;
+  }
+}
+
+.veryHigh {
+  color: $cherry-500;
+  background-color: $cherry-transparent;
+
+  .icon * {
+    fill: $cherry-500;
+  }
+}

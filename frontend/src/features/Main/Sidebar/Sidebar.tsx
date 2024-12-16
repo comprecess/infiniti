@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { Routes } from '../../../app/router/routes'
@@ -27,6 +27,7 @@ interface SidebarProps {
   roles?: {
     [key: string]: {
       view: number
+      create: number
     }
   }
   onClose: () => void
@@ -41,6 +42,8 @@ export const Sidebar: FC<SidebarProps> = ({
   roles,
   onClose,
 }) => {
+  const [newPages, setNewPages] = useState<SidebarPage[] | null>(null)
+
   const location = useLocation()
   const sidebarPages = isAdmin
     ? `/${Routes.adminPages}/`
@@ -85,17 +88,75 @@ export const Sidebar: FC<SidebarProps> = ({
     setTouchEndX(null)
   }
 
-  const newPages = roles
-    ? pages.filter(item => {
-      if (item.shortName === undefined) {
-        return true
-      }
+  const handleFilterPages = () => {
+    const newPages = roles
+      ? (pages
+        .map(item => {
+          const newItem: SidebarPage = { ...item }
 
-      const role = roles[item.shortName]
+          if (newItem.shortName !== undefined) {
+            if (
+              newItem.shortName === 'accounting' &&
+                newItem.openPaths
+            ) {
+              const roleTransactions = roles.transactions
+              const roleBankNCash = roles.bank_n_cash
+              const roleAssets = roles.assets
 
-      return role && role.view === 1
-    })
-    : pages
+              if (
+                roleTransactions.view ||
+                  roleBankNCash.view ||
+                  roleAssets.view
+              ) {
+                newItem.openPaths = newItem.openPaths.filter(page => {
+                  const role =
+                      page.shortName === 'transactions'
+                        ? roleTransactions
+                        : page.shortName === 'bank_n_cash'
+                          ? roleBankNCash
+                          : page.shortName === 'assets'
+                            ? roleAssets
+                            : null
+
+                  if (role) {
+                    return page.create ? role.create : role.view
+                  }
+
+                  return false
+                })
+              } else {
+                return null
+              }
+            } else {
+              const roleView = roles[newItem.shortName]
+
+              if (newItem.openPaths && roleView && roleView.view === 1) {
+                newItem.openPaths = newItem.openPaths.filter(page => {
+                  if (page.create === false) {
+                    return true
+                  }
+
+                  return page.create && roleView.create
+                })
+              }
+
+              if (!(roleView && roleView.view === 1)) {
+                return null
+              }
+            }
+          }
+
+          return newItem
+        })
+        .filter(item => item !== null) as SidebarPage[])
+      : pages
+
+    setNewPages(newPages)
+  }
+
+  useEffect(() => {
+    handleFilterPages()
+  }, [pages])
 
   return (
     <>
@@ -135,32 +196,33 @@ export const Sidebar: FC<SidebarProps> = ({
               : styles.items
           }
         >
-          {newPages.map(item => {
-            return (
-              <React.Fragment key={item.id}>
-                {item.openPaths ? (
-                  <OpenItem
-                    title={item.name}
-                    icon={item.icon}
-                    openPath={item.openPaths}
-                    path={item.path}
-                    isMini={isMini}
-                    isActive={isActivePage(item.path)}
-                    onItemClick={handleNavigate}
-                  />
-                ) : (
-                  <Item
-                    title={item.name}
-                    icon={item.icon}
-                    path={item.path}
-                    isMini={isMini}
-                    isActive={isActivePage(item.path)}
-                    onItemClick={handleNavigate}
-                  />
-                )}
-              </React.Fragment>
-            )
-          })}
+          {newPages &&
+            newPages.map(item => {
+              return (
+                <React.Fragment key={item.id}>
+                  {item.openPaths ? (
+                    <OpenItem
+                      title={item.name}
+                      icon={item.icon}
+                      openPath={item.openPaths}
+                      path={item.path}
+                      isMini={isMini}
+                      isActive={isActivePage(item.path)}
+                      onItemClick={handleNavigate}
+                    />
+                  ) : (
+                    <Item
+                      title={item.name}
+                      icon={item.icon}
+                      path={item.path}
+                      isMini={isMini}
+                      isActive={isActivePage(item.path)}
+                      onItemClick={handleNavigate}
+                    />
+                  )}
+                </React.Fragment>
+              )
+            })}
         </div>
       </aside>
     </>

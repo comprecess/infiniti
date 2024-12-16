@@ -1,0 +1,11 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 200px;
+  align-items: center;
+
+  @include mobileBreakpoint('min', $bpL) {
+    max-width: 357px;
+  }
+}

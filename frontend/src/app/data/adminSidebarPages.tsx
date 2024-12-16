@@ -27,352 +27,1053 @@ export const adminSidebarPages = [
     id: 0,
     name: 'Dashboard',
     icon: <DashboardIcon />,
-    shortName: undefined,
     path: Routes.dashboard,
+
+    // Access
+    shortName: undefined,
   },
   {
     id: 1,
     name: 'Talents',
     icon: <ProfileIcon />,
-    shortName: 'talents',
+    path: Routes.talents,
     openPaths: [
       {
         id: 0,
         title: 'Add Talent',
         path: `${Routes.add}/${Routes.talent}`,
+
+        // Access
+        create: true,
       },
       {
         id: 1,
         title: 'Catalog Talents',
         path: Routes.catalog,
+
+        // Access
+        create: false,
       },
       {
         id: 2,
         title: 'List of Carts',
         path: `${Routes.list}/${Routes.carts}`,
+
+        // Access
+        create: false,
       },
     ],
-    path: Routes.talents,
+
+    // Access
+    shortName: 'talents',
   },
   {
     id: 2,
     name: 'Customers',
     icon: <ProfileIcon />,
-    shortName: 'customers',
+    path: Routes.customers,
     openPaths: [
       {
         id: 0,
         title: 'Add Customer',
         path: `${Routes.add}/${Routes.customer}`,
+
+        // Access
+        create: true,
       },
       {
         id: 1,
         title: 'List Customers',
         path: `${Routes.list}/${Routes.customer}`,
+
+        // Access
+        create: false,
       },
-      { id: 2, title: 'Companies', path: Routes.companies },
-      { id: 3, title: 'Groups', path: Routes.groups },
-      { id: 4, title: 'Files', path: Routes.files },
+      {
+        id: 2,
+        title: 'Companies',
+        path: Routes.companies,
+
+        // Access
+        create: false,
+      },
+      {
+        id: 3,
+        title: 'Groups',
+        path: Routes.groups,
+
+        // Access
+        create: false,
+      },
+      {
+        id: 4,
+        title: 'Files',
+        path: Routes.files,
+
+        // Access
+        create: false,
+      },
     ],
-    path: Routes.customers,
+
+    // Access
+    shortName: 'customers',
   },
   {
     id: 3,
     name: 'Business Plan',
     icon: <DashboardIcon />,
-    shortName: 'business_plan',
+    path: Routes.businessPlan,
     openPaths: [
-      { id: 0, title: 'Business Plans', path: Routes.businessPlans },
+      {
+        id: 0,
+        title: 'Business Plans',
+        path: Routes.businessPlans,
+
+        // Access
+        create: false,
+      },
       {
         id: 1,
         title: 'Make Business Plan',
         path: Routes.makeBusinessPlan,
+
+        // Access
+        create: true,
       },
-      { id: 2, title: 'Business Models', path: Routes.businessModels },
+      {
+        id: 2,
+        title: 'Business Models',
+        path: Routes.businessModels,
+
+        // Access
+        create: false,
+      },
     ],
-    path: Routes.businessPlan,
+
+    // Access
+    shortName: 'business_plan',
   },
   {
     id: 4,
     name: 'Accounting',
     icon: <AccountingIcon />,
-    shortName: undefined,
+    path: Routes.accounting,
     openPaths: [
-      { id: 0, title: 'New Deposit', path: Routes.newDeposit },
-      { id: 1, title: 'New Expense', path: Routes.newExpense },
-      { id: 2, title: 'Transfer', path: Routes.transfer },
-      { id: 3, title: 'Bills', path: Routes.bills },
-      { id: 4, title: 'View Transactions', path: Routes.viewTransactions },
+      {
+        id: 0,
+        title: 'New Deposit',
+        path: Routes.newDeposit,
+
+        // Access
+        create: true,
+        shortName: 'transactions',
+      },
+      {
+        id: 1,
+        title: 'New Expense',
+        path: Routes.newExpense,
+
+        // Access
+        create: true,
+        shortName: 'transactions',
+      },
+      {
+        id: 2,
+        title: 'Transfer',
+        path: Routes.transfer,
+
+        // Access
+        create: false,
+        shortName: 'transactions',
+      },
+      {
+        id: 3,
+        title: 'Bills',
+        path: Routes.bills,
+
+        // Access
+        create: false,
+        shortName: 'transactions',
+      },
+      {
+        id: 4,
+        title: 'View Transactions',
+        path: Routes.viewTransactions,
+
+        // Access
+        create: false,
+        shortName: 'transactions',
+      },
       {
         id: 5,
         title: 'Uncleared Transactions',
         path: Routes.unclearedTransactions,
+
+        // Access
+        create: false,
+        shortName: 'transactions',
       },
-      { id: 6, title: 'Accounts', path: Routes.accounts },
-      { id: 7, title: 'New Account', path: Routes.newAccount },
-      { id: 8, title: 'Assets', path: Routes.assets },
+      {
+        id: 6,
+        title: 'Accounts',
+        path: Routes.accounts,
+
+        // Access
+        create: false,
+        shortName: 'bank_n_cash',
+      },
+      {
+        id: 7,
+        title: 'New Account',
+        path: Routes.newAccount,
+
+        // Access
+        create: true,
+        shortName: 'bank_n_cash',
+      },
+      {
+        id: 8,
+        title: 'Assets',
+        path: Routes.assets,
+
+        // Access
+        create: false,
+        shortName: 'assets',
+      },
     ],
-    path: Routes.accounting,
+
+    // Access
+    shortName: 'accounting',
   },
   {
     id: 5,
     name: 'Sales',
     icon: <SalesIcon />,
-    shortName: 'sales',
+    path: Routes.sales,
     openPaths: [
-      { id: 0, title: 'Invoices', path: Routes.invoices },
+      {
+        id: 0,
+        title: 'Invoices',
+        path: Routes.invoices,
+
+        // Access
+        create: false,
+      },
       {
         id: 1,
         title: 'New Invoice',
         path: `${Routes.new}/${Routes.invoice}`,
+
+        // Access
+        create: true,
       },
-      { id: 2, title: 'POS', path: '' },
-      { id: 3, title: 'Recurring Invoices', path: '' },
-      { id: 4, title: 'New Recurring Invoice', path: '' },
-      { id: 5, title: 'Offers', path: Routes.offers },
       {
-        id: 6,
+        id: 2,
+        title: 'POS',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 3,
+        title: 'Recurring Invoices',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 4,
+        title: 'Offers',
+        path: Routes.offers,
+
+        // Access
+        create: false,
+      },
+      {
+        id: 5,
         title: 'New Offer',
         path: `${Routes.new}/${Routes.offer}`,
+
+        // Access
+        create: true,
       },
-      { id: 7, title: 'Payments', path: '' },
+      {
+        id: 6,
+        title: 'Payments',
+        path: '',
+
+        // Access
+        create: false,
+      },
     ],
-    path: Routes.sales,
+
+    // Access
+    shortName: 'sales',
   },
   {
     id: 6,
     name: 'Suppliers',
     icon: <CatalogIcon />,
-    shortName: 'suppliers',
+    path: Routes.suppliers,
     openPaths: [
       {
         id: 0,
         title: 'Add Supplier',
         path: `${Routes.add}/${Routes.supplier}`,
+
+        // Access
+        create: true,
       },
       {
         id: 1,
         title: 'List Suppliers',
         path: `${Routes.list}/${Routes.suppliers}`,
+
+        // Access
+        create: false,
       },
     ],
-    path: Routes.suppliers,
+
+    // Access
+    shortName: 'suppliers',
   },
   {
     id: 7,
     name: 'Purchase',
     icon: <PurchaseIcon />,
-    shortName: 'purchase',
-    openPaths: [
-      { id: 0, title: 'Purchase Orders', path: '' },
-      { id: 1, title: 'New Purchase Order', path: '' },
-    ],
     path: Routes.purchase,
+    openPaths: [
+      {
+        id: 0,
+        title: 'Purchase Orders',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 1,
+        title: 'New Purchase Order',
+        path: '',
+
+        // Access
+        create: true,
+      },
+    ],
+
+    // Access
+    shortName: 'purchase',
   },
   {
     id: 8,
     name: 'Projects',
     icon: <ProjectsIcon />,
-    shortName: 'projects',
     path: Routes.projects,
+
+    // Access
+    shortName: 'projects',
   },
   {
     id: 9,
     name: 'Leads',
     icon: <LeadsIcon />,
-    shortName: 'leads',
-    openPaths: [
-      { id: 0, title: 'Leads', path: '' },
-      { id: 1, title: 'Web to Lead', path: '' },
-    ],
     path: Routes.leads,
+    openPaths: [
+      {
+        id: 0,
+        title: 'Leads',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 1,
+        title: 'Web to Lead',
+        path: '',
+
+        // Access
+        create: false,
+      },
+    ],
+
+    // Access
+    shortName: 'leads',
   },
   {
     id: 10,
     name: 'SMS',
     icon: <TicketsIcon />,
-    shortName: 'sms',
-    openPaths: [
-      { id: 0, title: 'Send Single SMS', path: '' },
-      { id: 1, title: 'Send Bulk SMS', path: '' },
-      { id: 2, title: 'Sent', path: '' },
-      { id: 3, title: 'SMS Templates', path: '' },
-      { id: 4, title: 'Settings', path: '' },
-    ],
     path: Routes.sms,
+    openPaths: [
+      {
+        id: 0,
+        title: 'Send Single SMS',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 1,
+        title: 'Send Bulk SMS',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 2,
+        title: 'Sent',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 3,
+        title: 'SMS Templates',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 4,
+        title: 'Settings',
+        path: '',
+
+        // Access
+        create: false,
+      },
+    ],
+
+    // Access
+    shortName: 'sms',
   },
   {
     id: 11,
     name: 'Support',
     icon: <SupportIcon />,
-    shortName: 'support',
-    openPaths: [
-      { id: 0, title: 'Open New Ticket', path: '' },
-      { id: 1, title: 'Tickets', path: '' },
-      { id: 2, title: 'Predefined Replies', path: '' },
-      { id: 3, title: 'Departments', path: '' },
-    ],
     path: Routes.support,
+    openPaths: [
+      {
+        id: 0,
+        title: 'New Ticket',
+        path: '',
+
+        // Access
+        create: true,
+      },
+      {
+        id: 1,
+        title: 'Tickets',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 2,
+        title: 'Predefined Replies',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 3,
+        title: 'Departments',
+        path: '',
+
+        // Access
+        create: false,
+      },
+    ],
+
+    // Access
+    shortName: 'support',
   },
   {
     id: 12,
     name: 'Knowledge Base',
     icon: <KnowledgeBaseIcon />,
-    shortName: 'kb',
-    openPaths: [
-      { id: 0, title: 'New Article', path: '' },
-      { id: 1, title: 'All Articles', path: '' },
-    ],
     path: Routes.knowledgeBase,
+    openPaths: [
+      {
+        id: 0,
+        title: 'New Article',
+        path: '',
+
+        // Access
+        create: true,
+      },
+      {
+        id: 1,
+        title: 'All Articles',
+        path: '',
+
+        // Access
+        create: false,
+      },
+    ],
+
+    // Access
+    shortName: 'kb',
   },
   {
     id: 13,
     name: 'Orders',
     icon: <MyOrdersIcon />,
-    shortName: 'orders',
-    openPaths: [
-      { id: 0, title: 'List All Orders', path: '' },
-      { id: 1, title: 'Add New Order', path: '' },
-    ],
     path: Routes.myOrders,
+    openPaths: [
+      {
+        id: 0,
+        title: 'List All Orders',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 1,
+        title: 'Add New Order',
+        path: '',
+
+        // Access
+        create: true,
+      },
+    ],
+
+    // Access
+    shortName: 'orders',
   },
   {
     id: 14,
     name: 'HRM',
     icon: <HRMIcon />,
-    shortName: 'hr',
-    openPaths: [
-      { id: 0, title: 'Employees', path: '' },
-      { id: 1, title: 'Attendance', path: '' },
-      { id: 2, title: 'Payroll', path: '' },
-    ],
     path: Routes.hrm,
+    openPaths: [
+      {
+        id: 0,
+        title: 'Employees',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 1,
+        title: 'Attendance',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 2,
+        title: 'Payroll',
+        path: '',
+
+        // Access
+        create: false,
+      },
+    ],
+
+    // Access
+    shortName: 'hr',
   },
   {
     id: 15,
     name: 'Documents',
     icon: <DocumentsIcon />,
-    shortName: 'documents',
     path: Routes.documents,
+
+    // Access
+    shortName: 'documents',
   },
   {
     id: 16,
     name: 'Tasks',
     icon: <TasksIcon />,
-    shortName: 'tasks',
     path: Routes.tasks,
+
+    // Access
+    shortName: 'tasks',
   },
   {
     id: 17,
     name: 'Calendar',
     icon: <CalendarIcon />,
-    shortName: 'calendar',
     path: Routes.calendar,
+
+    // Access
+    shortName: 'calendar',
   },
   {
     id: 18,
     name: 'Products & Services',
     icon: <ProductsServicesIcon />,
-    shortName: 'products_n_services',
-    openPaths: [
-      { id: 0, title: 'Products', path: '' },
-      { id: 1, title: 'New Product', path: '' },
-      { id: 2, title: 'Services', path: '' },
-      { id: 3, title: 'New Service', path: '' },
-    ],
     path: Routes.productsServices,
+    openPaths: [
+      {
+        id: 0,
+        title: 'Products',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 1,
+        title: 'New Product',
+        path: '',
+
+        // Access
+        create: true,
+      },
+      {
+        id: 2,
+        title: 'Services',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 3,
+        title: 'New Service',
+        path: '',
+
+        // Access
+        create: true,
+      },
+    ],
+
+    // Access
+    shortName: 'products_n_services',
   },
   {
     id: 19,
     name: 'Reports',
     icon: <ReportsIcon />,
-    shortName: 'reports',
-    openPaths: [
-      { id: 0, title: 'Transactions', path: '' },
-      { id: 1, title: 'Invoices', path: '' },
-      { id: 2, title: 'Purchases', path: '' },
-      { id: 3, title: 'Account Statement', path: '' },
-      { id: 4, title: 'Income Reports', path: '' },
-      { id: 5, title: 'Expense Reports', path: '' },
-      { id: 6, title: 'Income Vs Expense', path: '' },
-      { id: 7, title: 'Reports by Date', path: '' },
-      { id: 8, title: 'All Income', path: '' },
-      { id: 9, title: 'All Expense', path: '' },
-      { id: 10, title: 'Sales', path: '' },
-      { id: 11, title: 'Invoices Vs Expense', path: '' },
-      { id: 12, title: 'Export', path: '' },
-    ],
     path: Routes.reports,
+    openPaths: [
+      {
+        id: 0,
+        title: 'Transactions',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 1,
+        title: 'Invoices',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 2,
+        title: 'Purchases',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 3,
+        title: 'Account Statement',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 4,
+        title: 'Income Reports',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 5,
+        title: 'Expense Reports',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 6,
+        title: 'Income Vs Expense',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 7,
+        title: 'Reports by Date',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 8,
+        title: 'All Income',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 9,
+        title: 'All Expense',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 10,
+        title: 'Sales',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 11,
+        title: 'Invoices Vs Expense',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 12,
+        title: 'Export',
+        path: '',
+
+        // Access
+        create: false,
+      },
+    ],
+
+    // Access
+    shortName: 'reports',
   },
   {
     id: 20,
     name: 'Utilities',
     icon: <UtilitiesIcon />,
-    shortName: 'utilities',
-    openPaths: [
-      { id: 0, title: 'Activity Log', path: '' },
-      { id: 1, title: 'Email Message Log', path: '' },
-      { id: 2, title: 'Invoice Access Log', path: '' },
-      { id: 3, title: 'Backup', path: '' },
-      { id: 4, title: 'Database Status', path: '' },
-      { id: 5, title: 'CRON Log', path: '' },
-      { id: 6, title: 'Integration Code', path: '' },
-      { id: 7, title: 'System Status', path: '' },
-      { id: 8, title: 'Password Manager', path: '' },
-      { id: 9, title: 'Tools', path: '' },
-    ],
     path: Routes.utilities,
+    openPaths: [
+      {
+        id: 0,
+        title: 'Activity Log',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 1,
+        title: 'Email Message Log',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 2,
+        title: 'Invoice Access Log',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 3,
+        title: 'Backup',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 4,
+        title: 'Database Status',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 5,
+        title: 'CRON Log',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 6,
+        title: 'Integration Code',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 7,
+        title: 'System Status',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 8,
+        title: 'Password Manager',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 9,
+        title: 'Tools',
+        path: '',
+
+        // Access
+        create: false,
+      },
+    ],
+
+    // Access
+    shortName: 'utilities',
   },
   {
     id: 21,
     name: 'Appearance',
     icon: <AppearanceIcon />,
-    shortName: 'appearance',
-    openPaths: [
-      { id: 0, title: 'User Interface', path: '' },
-      { id: 1, title: 'Customize', path: '' },
-      { id: 2, title: 'Editor', path: '' },
-      { id: 3, title: 'Themes', path: '' },
-    ],
     path: Routes.appearance,
+    openPaths: [
+      {
+        id: 0,
+        title: 'User Interface',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 1,
+        title: 'Customize',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 2,
+        title: 'Editor',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 3,
+        title: 'Themes',
+        path: '',
+
+        // Access
+        create: false,
+      },
+    ],
+
+    // Access
+    shortName: 'appearance',
   },
   {
     id: 22,
     name: 'Plugins',
     icon: <PluginsIcon />,
-    shortName: 'plugins',
     path: Routes.plugins,
+
+    // Access
+    shortName: 'plugins',
   },
   {
     id: 23,
     name: 'Settings',
     icon: <SettingsIcon />,
-    shortName: 'settings',
+    path: Routes.settings,
     openPaths: [
-      { id: 0, title: 'General Settings', path: '' },
-      { id: 1, title: 'Users', path: Routes.users },
-      { id: 2, title: 'Roles', path: Routes.roles },
-      { id: 3, title: 'Localization', path: '' },
-      { id: 4, title: 'Currencies', path: Routes.currencies },
-      { id: 5, title: 'Payment Gateways', path: '' },
-      { id: 6, title: 'Expense Categories', path: '' },
-      { id: 7, title: 'Expense Types', path: '' },
-      { id: 8, title: 'Income Categories', path: '' },
-      { id: 9, title: 'Utils', path: '' },
-      { id: 10, title: 'Manage Tags', path: '' },
-      { id: 11, title: 'Payment Methods', path: '' },
-      { id: 12, title: 'Sales Taxes', path: '' },
-      { id: 13, title: 'Email Settings', path: '' },
-      { id: 14, title: 'Email Templates', path: '' },
+      {
+        id: 0,
+        title: 'General Settings',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 1,
+        title: 'Users',
+        path: Routes.users,
+
+        // Access
+        create: false,
+      },
+      {
+        id: 2,
+        title: 'Roles',
+        path: Routes.roles,
+
+        // Access
+        create: false,
+      },
+      {
+        id: 3,
+        title: 'Localization',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 4,
+        title: 'Currencies',
+        path: Routes.currencies,
+
+        // Access
+        create: false,
+      },
+      {
+        id: 5,
+        title: 'Payment Gateways',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 6,
+        title: 'Expense Categories',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 7,
+        title: 'Expense Types',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 8,
+        title: 'Income Categories',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 9,
+        title: 'Utils',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 10,
+        title: 'Manage Tags',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 11,
+        title: 'Payment Methods',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 12,
+        title: 'Sales Taxes',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 13,
+        title: 'Email Settings',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 14,
+        title: 'Email Templates',
+        path: '',
+
+        // Access
+        create: false,
+      },
       {
         id: 15,
         title: 'Custom Contact Fields',
         path: `${Routes.custom}/${Routes.contact}/${Routes.fields}`,
+
+        // Access
+        create: false,
       },
-      { id: 16, title: 'Automation Settings', path: '' },
-      { id: 17, title: 'API Access', path: '' },
-      { id: 18, title: 'Choose Features', path: '' },
+      {
+        id: 16,
+        title: 'Automation Settings',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 17,
+        title: 'API Access',
+        path: '',
+
+        // Access
+        create: false,
+      },
+      {
+        id: 18,
+        title: 'Choose Features',
+        path: '',
+
+        // Access
+        create: false,
+      },
     ],
-    path: Routes.settings,
+
+    // Access
+    shortName: 'settings',
   },
 ]

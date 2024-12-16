@@ -4,7 +4,9 @@ import { useNavigate } from 'react-router-dom'
 import { CartProps } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
+import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { getConvertToInvoice } from '../../../shared/utils/api/Client/Basket/GetConvertToInvoice'
 import { getOrdersInCart } from '../../../shared/utils/api/Client/Cart/GetOrdersInCart'
 import { Basket } from '../../../widgets/BasketCart/Basket/Basket'
 import { Cart } from '../../../widgets/BasketCart/Cart/Cart'
@@ -15,6 +17,11 @@ export const ClientBasketPage: FC = () => {
   const [orders, setOrder] = useState<CartProps | null>(null)
 
   const navigate = useNavigate()
+  const showToast = useCustomToast()
+
+  const handleNavigateToInvoice = (token: string) => {
+    navigate(`/${Routes.public}/${Routes.invoice}/${Routes.view}/${token}`)
+  }
 
   const getOrders = async () => {
     const ordersResponse: CartProps = await getOrdersInCart()
@@ -22,12 +29,22 @@ export const ClientBasketPage: FC = () => {
     setOrder(ordersResponse)
   }
 
-  const handleDeleteOrder = () => {
-    getOrders()
+  const convertBasketToInvoice = async () => {
+    const response = await getConvertToInvoice()
+
+    if (response.success) {
+      handleNavigateToInvoice(response.token)
+    } else {
+      showToast({
+        title: 'Error',
+        description: response.message,
+        status: 'error',
+      })
+    }
   }
 
-  const handleNavigateToInvoice = () => {
-    navigate(`/${Routes.public}/${Routes.invoice}/${Routes.view}/id000`)
+  const handleDeleteOrder = () => {
+    getOrders()
   }
 
   useEffect(() => {
@@ -56,7 +73,7 @@ export const ClientBasketPage: FC = () => {
               subtotalCost={orders.subTotal}
               taxesAmount={orders.subTax}
               totalPrice={orders.total}
-              buttonOnClick={handleNavigateToInvoice}
+              buttonOnClick={convertBasketToInvoice}
             />
           </section>
         </>

@@ -96,7 +96,9 @@ export const AdminCatalogTalentsPage: FC = () => {
           </div>
         </section>
       ) : (
-        <LoadingSpinner size='xl' />
+        <div className={styles.loading}>
+          <LoadingSpinner size='xl' />
+        </div>
       )}
       <section className={styles.sectionSecond}>
         <div className={styles.itemsSecond}>
