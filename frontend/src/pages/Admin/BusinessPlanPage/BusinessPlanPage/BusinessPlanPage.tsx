@@ -9,6 +9,7 @@ import { Routes } from '../../../../app/router/routes'
 import { CardPlan } from '../../../../features/Admin/BusinessPlanPage/BusinessPlanPage/CardPlan/CardPlan'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
+import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { deleteBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/DeleteBusinessPlan'
 import { getListBusinessPlans } from '../../../../shared/utils/api/Admin/BusinessPlan/GetListBusinessPlans'
 import styles from './BusinessPlanPage.module.scss'
@@ -73,17 +74,17 @@ export const AdminBusinessPlanPage: FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      <section className={styles.section}>
-        {access?.create && (
-          <div className={styles.wrapperButtonBlue}>
-            <ButtonBlue
-              title='Make Business Plan'
-              style={styles.buttonBlue}
-              onClick={handleNavigateToMakeBusinessPlan}
-            />
-          </div>
-        )}
-        {plans && access && (
+      {plans && access ? (
+        <section className={styles.section}>
+          {access.create === 1 && (
+            <div className={styles.wrapperButtonBlue}>
+              <ButtonBlue
+                title='Make Business Plan'
+                style={styles.buttonBlue}
+                onClick={handleNavigateToMakeBusinessPlan}
+              />
+            </div>
+          )}
           <div className={styles.plans}>
             {plans.map(plan => {
               return (
@@ -100,8 +101,10 @@ export const AdminBusinessPlanPage: FC = () => {
               )
             })}
           </div>
-        )}
-      </section>
+        </section>
+      ) : (
+        <LoadingSpinner size='xl' />
+      )}
     </div>
   )
 }

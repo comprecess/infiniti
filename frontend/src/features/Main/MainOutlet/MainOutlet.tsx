@@ -12,6 +12,7 @@ interface MainOutletProps {
   roles?: {
     [key: string]: {
       view: number
+      create: number
     }
   }
 }

@@ -8,6 +8,8 @@ export interface openPathsProps {
   id: number
   title: string
   path: string
+  create: boolean
+  shortName?: string
 }
 
 interface OpenItemProps {

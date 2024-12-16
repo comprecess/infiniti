@@ -16,82 +16,117 @@ export const clientSidebarPages = [
     id: 0,
     name: 'Dashboard',
     icon: <DashboardIcon />,
-    shortName: undefined,
     path: Routes.dashboard,
+
+    // Access
+    shortName: undefined,
   },
   {
     id: 1,
     name: 'Talents',
     icon: <CatalogIcon />,
-    shortName: undefined,
     path: Routes.talents,
+
+    // Access
+    shortName: undefined,
   },
   {
     id: 2,
     name: 'My orders',
     icon: <MyOrdersIcon />,
-    shortName: undefined,
     path: Routes.myOrders,
+
+    // Access
+    shortName: undefined,
   },
   {
     id: 3,
     name: 'Transactions',
     icon: <TransactionsIcon />,
-    shortName: undefined,
     path: Routes.transactions,
+
+    // Access
+    shortName: undefined,
   },
   {
     id: 4,
     name: 'Documents',
     icon: <DocumentsIcon />,
-    shortName: undefined,
     path: Routes.documents,
+
+    // Access
+    shortName: undefined,
   },
   {
     id: 5,
     name: 'Invoices',
     icon: <InvoicesIcon />,
-    shortName: undefined,
     path: Routes.invoices,
+
+    // Access
+    shortName: undefined,
   },
   {
     id: 6,
     name: 'Offers',
     icon: <OffersIcon />,
-    shortName: undefined,
     path: Routes.offers,
+
+    // Access
+    shortName: undefined,
   },
   {
     id: 7,
     name: 'Projects',
     icon: <ProjectsIcon />,
-    shortName: undefined,
     path: Routes.projects,
+
+    // Access
+    shortName: undefined,
   },
   {
     id: 8,
     name: 'Knowledge base',
     icon: <KnowledgeBaseIcon />,
-    shortName: undefined,
     path: Routes.knowledgeBase,
+
+    // Access
+    shortName: undefined,
   },
   {
     id: 9,
     name: 'Tickets',
     icon: <TicketsIcon />,
-    shortName: undefined,
-    openPaths: [
-      { id: 0, title: 'Open New Ticket', path: Routes.openNewTicket },
-      { id: 1, title: 'Tickets', path: Routes.tickets },
-    ],
     path: Routes.tickets,
+    openPaths: [
+      {
+        id: 0,
+        title: 'Open New Ticket',
+        path: Routes.openNewTicket,
+
+        // Access
+        create: false,
+      },
+      {
+        id: 1,
+        title: 'Tickets',
+        path: Routes.tickets,
+
+        // Access
+        create: false,
+      },
+    ],
+
+    // Access
+    shortName: undefined,
   },
   {
     id: 10,
     name: 'Profile',
     icon: <ProfileIcon />,
+    path: Routes.profile,
+
+    // Access
     shortName: undefined,
-    chevron: false,
-    path: 'profile',
   },
 ]

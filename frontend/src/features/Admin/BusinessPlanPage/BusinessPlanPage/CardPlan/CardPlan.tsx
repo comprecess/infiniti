@@ -49,7 +49,7 @@ export const CardPlan: FC<CardPlanProps> = ({
   return (
     <>
       <div className={styles.wrapper}>
-        <img src='/bp.jpeg' alt='Logo' className={styles.logo} />
+        <img src='/test_3.jpeg' alt='Logo' className={styles.logo} />
         <div className={styles.content}>
           <div className={styles.texts}>
             <span className={styles.title}>{title}</span>
@@ -59,7 +59,7 @@ export const CardPlan: FC<CardPlanProps> = ({
             />
           </div>
           <div className={styles.miniButtons}>
-            {access.view && (
+            {access.view === 1 && (
               <CustomMiniButton
                 style='mint'
                 icon='/icons/view.svg'
@@ -68,7 +68,7 @@ export const CardPlan: FC<CardPlanProps> = ({
                 onClick={handleNavigateViewBusinessPlan}
               />
             )}
-            {access.edit && (
+            {access.edit === 1 && (
               <CustomMiniButton
                 style='amber'
                 icon='/icons/edit.svg'
@@ -77,7 +77,7 @@ export const CardPlan: FC<CardPlanProps> = ({
                 onClick={handleNavigateEditBusinessPlan}
               />
             )}
-            {access.edit && (
+            {access.delete === 1 && (
               <CustomMiniButton
                 style='cherry'
                 icon='/icons/trash.svg'

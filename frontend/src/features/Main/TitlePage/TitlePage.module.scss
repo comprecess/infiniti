@@ -19,6 +19,16 @@
 
 .title {
   color: $white;
+
+  @include mobileBreakpoint('max', $bpL) {
+    font-size: 44px;
+    line-height: 50px;
+  }
+
+  @include mobileBreakpoint('max', $bpM) {
+    font-size: 40px;
+    line-height: 46px;
+  }
 }
 
 .secondTitle {

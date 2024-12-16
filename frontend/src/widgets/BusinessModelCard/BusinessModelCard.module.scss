@@ -1,0 +1,146 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-width: 300px;
+  max-height: 348px;
+  border-radius: 8px;
+  background-color: $brand-900;
+  overflow: hidden;
+
+  @include hover() {
+    .titleWrapper {
+      min-height: 100%;
+      background-color: $brand-800;
+    }
+
+    .otherInfo {
+      height: 100%;
+      opacity: 1;
+    }
+
+    .businessModelImg {
+      opacity: 0;
+    }
+  }
+}
+
+.businessModelImg {
+  width: 100%;
+  opacity: 1;
+  object-fit: cover;
+}
+
+.titleWrapper {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  min-height: 0px;
+  max-height: 100%;
+  padding: 24px 24px 12px 24px;
+  background-color: rgba($brand-800, 0.95);
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  scrollbar-width: none;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  height: auto;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 26px;
+  letter-spacing: -0.03em;
+  text-align: left;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.otherInfo {
+  height: 0px;
+  overflow: hidden;
+  opacity: 0;
+  margin-top: 8px;
+}
+
+.otherInfoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  height: 100%;
+}
+
+.description {
+  height: 72px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+  text-align: left;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.keyData {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: center;
+}
+
+.keyDataDescription {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $gray-200;
+}
+
+.tags {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.titleKeyData {
+  display: flex;
+  flex-direction: column;
+}
+
+.containerEllipse {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ellipse {
+  width: 4px;
+  height: 4px;
+  background-color: $gray-200;
+  border-radius: 50%;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  justify-content: end;
+}

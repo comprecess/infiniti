@@ -1,3 +1,4 @@
+import { useColorMode } from '@chakra-ui/react'
 import { FC, useEffect, useState } from 'react'
 import { RouterProvider } from 'react-router-dom'
 
@@ -9,11 +10,14 @@ export const App: FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [showLoadingScreen, setShowLoadingScreen] = useState(true)
 
+  const { setColorMode } = useColorMode()
+
   useEffect(() => {
     const loadProfileInfo = async () => {
       await getProfileInfo()
 
       setIsLoading(false)
+      setColorMode('light')
     }
 
     loadProfileInfo()
