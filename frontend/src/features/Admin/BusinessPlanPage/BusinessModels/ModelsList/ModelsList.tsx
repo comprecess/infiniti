@@ -1,10 +1,8 @@
-import { memo, useCallback } from 'react'
+import { useCallback } from 'react'
 
 import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
 import { BusinessModelCard } from '../../../../../widgets/BusinessModelCard/BusinessModelCard'
 import styles from './ModelsList.module.scss'
-
-const ButtonBrandMemoized = memo(ButtonBrand)
 
 export const ModelsList = () => {
   const scrollToTop = useCallback(() => {
@@ -48,10 +46,7 @@ export const ModelsList = () => {
                 : styles.buttonBackToTopInactive
             }
           >
-            <ButtonBrandMemoized
-              title='Back to top'
-              onClick={scrollToTop}
-            />
+            <ButtonBrand title='Back to top' onClick={scrollToTop} />
           </div>
         </div>
       </div>
