@@ -9,15 +9,26 @@ interface BusinessModelCardProps {
   title: string
   image: string
   profitability: 'average' | 'high' | 'veryHigh'
+  isMobile: boolean
+  isMobileOpen: boolean
+  onMobileCLick: () => void
 }
 
 export const BusinessModelCard: FC<BusinessModelCardProps> = ({
   title,
   image,
   profitability,
+  isMobile,
+  isMobileOpen,
+  onMobileCLick,
 }) => {
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={`${styles.wrapper} ${
+        isMobileOpen ? styles.wrapperOpen : ''
+      }`}
+      onClick={isMobile ? onMobileCLick : () => {}}
+    >
       <img
         src={image}
         alt='BusinessModelImg'
@@ -50,9 +61,7 @@ export const BusinessModelCard: FC<BusinessModelCardProps> = ({
             <div className={styles.otherInfoContainer}>
               <span className={styles.description}>
                 Платформа автоматизирует процесс выдачи займов для малых
-                компаний, основанная на данных об их операциях. test test
-                test test test test test test test test test test test test
-                test test test test test test test test test test test test
+                компаний, основанная на данных об их операциях.
               </span>
               <div className={styles.tags}>
                 <Item
