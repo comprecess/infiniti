@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\User\CreateOrder;
 use App\Events\UserIsAuthorized;
 use App\Listeners\CheckCart;
+use App\Listeners\Order\SendEmail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserIsAuthorized::class => [
             CheckCart::class
+        ],
+        CreateOrder::class => [
+            SendEmail::class
         ]
     ];
 
