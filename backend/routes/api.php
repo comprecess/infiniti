@@ -65,4 +65,4 @@ Route::get('/document/{token}', [\App\Http\Controllers\Api\Resident\DocumentCont
 
 
 #test
-Route::get('test/list', [\App\Http\Controllers\Api\Resident\Client\ClientController::class, 'list']);
+Route::get('test/list', [\App\Http\Controllers\Api\Resident\Client\ClientController::class, 'test']);

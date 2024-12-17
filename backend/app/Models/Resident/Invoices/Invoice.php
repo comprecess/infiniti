@@ -49,6 +49,8 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
         ['year', 3]
     ];
 
+    public $clientColumn = 'userid';
+
     protected $table = "sys_invoices";
 
     protected $adminColumn = 'aid';

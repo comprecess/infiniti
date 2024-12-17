@@ -37,4 +37,9 @@ class CreateOrder
             new PrivateChannel('channel-name'),
         ];
     }
+
+    public function getInvoice() :Invoice
+    {
+        return $this->invoice;
+    }
 }
