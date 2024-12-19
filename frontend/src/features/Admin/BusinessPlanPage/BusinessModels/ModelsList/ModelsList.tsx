@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
+import { Routes } from '../../../../../app/router/routes'
 import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
 import { BusinessModelCard } from '../../../../../widgets/BusinessModelCard/BusinessModelCard'
 import styles from './ModelsList.module.scss'
@@ -11,6 +13,14 @@ export const ModelsList = () => {
     false,
     false,
   ])
+
+  const navigate = useNavigate()
+
+  const handleNavigateToViewBusinessModel = (id: number) => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.view}/${Routes.businessModel}/${id}`,
+    )
+  }
 
   const handleModelOpenClose = (index: number) => {
     setModelsOpen(prevModelsOpen => {
@@ -61,6 +71,7 @@ export const ModelsList = () => {
               isMobile={isMobile}
               isMobileOpen={modelsOpen[0]}
               onMobileCLick={() => handleModelOpenClose(0)}
+              onNavigate={handleNavigateToViewBusinessModel}
             />
             <BusinessModelCard
               title='Финтех платформа для малого и среднего бизнеса'
@@ -69,6 +80,7 @@ export const ModelsList = () => {
               isMobile={isMobile}
               isMobileOpen={modelsOpen[1]}
               onMobileCLick={() => handleModelOpenClose(1)}
+              onNavigate={handleNavigateToViewBusinessModel}
             />
             <BusinessModelCard
               title='Перспективные бизнес модели для корпоративного роста и инноваций'
@@ -77,6 +89,7 @@ export const ModelsList = () => {
               isMobile={isMobile}
               isMobileOpen={modelsOpen[2]}
               onMobileCLick={() => handleModelOpenClose(2)}
+              onNavigate={handleNavigateToViewBusinessModel}
             />
           </div>
           <div

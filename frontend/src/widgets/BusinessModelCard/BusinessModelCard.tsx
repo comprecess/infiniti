@@ -12,6 +12,7 @@ interface BusinessModelCardProps {
   isMobile: boolean
   isMobileOpen: boolean
   onMobileCLick: () => void
+  onNavigate: (id: number) => void
 }
 
 export const BusinessModelCard: FC<BusinessModelCardProps> = ({
@@ -21,6 +22,7 @@ export const BusinessModelCard: FC<BusinessModelCardProps> = ({
   isMobile,
   isMobileOpen,
   onMobileCLick,
+  onNavigate,
 }) => {
   return (
     <div
@@ -87,6 +89,7 @@ export const BusinessModelCard: FC<BusinessModelCardProps> = ({
                   icon='/icons/view.svg'
                   tooltipTitle='View'
                   alt='View'
+                  onClick={() => onNavigate(1)}
                 />
               </div>
             </div>
