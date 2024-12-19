@@ -1,0 +1,71 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: $brand-900;
+  padding: 32px 32px 32px 32px;
+  border-radius: 8px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: $maxContentSize;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.businessModelImg {
+  width: 50%;
+  object-fit: cover;
+  border-radius: 8px;
+
+  @include mobileBreakpoint('max', $bpL) {
+    width: 100%;
+  }
+}
+
+.aboutModel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 50%;
+
+  @include mobileBreakpoint('max', $bpL) {
+    width: 100%;
+  }
+}
+
+.rowHalfContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+
+  @include mobileBreakpoint('max', $bpL) {
+    flex-direction: column;
+  }
+}
+
+.titleModel {
+  margin-bottom: 24px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}

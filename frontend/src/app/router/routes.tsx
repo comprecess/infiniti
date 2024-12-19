@@ -12,6 +12,7 @@ import { AdminBusinessModelsPage } from '../../pages/Admin/BusinessPlanPage/Busi
 import { AdminBusinessPlanPage } from '../../pages/Admin/BusinessPlanPage/BusinessPlanPage/BusinessPlanPage'
 import { AdminEditBusinessPlanPage } from '../../pages/Admin/BusinessPlanPage/EditBusinessPlanPage/EditBusinessPlanPage'
 import { AdminMakeBusinessPlanPage } from '../../pages/Admin/BusinessPlanPage/MakeBusinessPlanPage/MakeBusinessPlanPage'
+import { AdminViewBusinessModel } from '../../pages/Admin/BusinessPlanPage/ViewBusinessModel/ViewBusinessModel'
 import { AdminViewBusinessPlanPage } from '../../pages/Admin/BusinessPlanPage/ViewBusinessPlanPage/ViewBusinessPlanPage'
 import { AdminCalendarPage } from '../../pages/Admin/CalendarPage/CalendarPage'
 import { AdminAddCustomerPage } from '../../pages/Admin/CustomersPage/AddCustomerPage/AddCustomerPage'
@@ -164,6 +165,7 @@ export const Routes = {
   newDeposit: 'newdeposit',
   newExpense: 'newexpense',
   businessModels: 'business-models',
+  businessModel: 'business-model',
   transfer: 'transfer',
   bills: 'bills',
   email: 'email',
@@ -243,6 +245,7 @@ export const Pages = {
   adminBusinessModelsPage: <AdminBusinessModelsPage />,
   adminEditBusinessPlanPage: <AdminEditBusinessPlanPage />,
   adminViewBusinessPlanPage: <AdminViewBusinessPlanPage />,
+  adminViewBusinessModel: <AdminViewBusinessModel />,
   adminAccountsPage: <AdminAccountsPage />,
   adminAssetsPage: <AdminAssetsPage />,
   adminBillsPage: <AdminBillsPage />,
