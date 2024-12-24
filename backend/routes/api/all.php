@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CatalogController;
+use App\Http\Controllers\Api\BusinessModelController;
 
 #catalog
 Route::group(['prefix' => 'catalog'], function(){
@@ -15,5 +16,17 @@ Route::group(['prefix' => 'catalog'], function(){
     Route::delete('cart/item/{id}', [CatalogController::class, 'deleteItemCart']);
     Route::get('cart/create-pay', [CatalogController::class, 'createPay']);
 });
+
+#business_model
+Route::controller(BusinessModelController::class)
+    ->prefix('business-model')
+    ->group(function(){
+        Route::get('filters', 'filters');
+        Route::get('properties', 'properties');
+        Route::get('property/{id}', 'property');
+        Route::post('list', 'list');
+        Route::get('item/{catalogUser}', 'item');
+    });
+
 
 

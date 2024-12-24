@@ -19,7 +19,8 @@ class Prop extends Model
       'double',
       'string',
       'checkboxOnlyForValue',
-      'checkboxIndeterminate'
+      'checkboxIndeterminate',
+      'date'
     ];
 
     protected $fillable = [
@@ -43,12 +44,12 @@ class Prop extends Model
 
     public function children()
     {
-        return $this->hasMany(self::class, 'id_parent');
+        return $this->hasMany($this::class, 'id_parent');
     }
 
     public function parent()
     {
-        return $this->belongsTo(self::class, 'id_parent');
+        return $this->belongsTo($this::class, 'id_parent');
     }
 
     public function users()
@@ -56,12 +57,6 @@ class Prop extends Model
         return $this->morphToMany(related: User::class, name: 'cataloggable', table:'catalog_user_value', relatedPivotKey: 'id_catalog_user');
     }
 
-//    public static function tree($collect = null, callable $callable = null)
-//    {
-//        if(!$collect) {
-//            self::whereNull('id_parent')
-//        }
-//    }
 
     public function setChildTree(Prop $prop)
     {
