@@ -439,6 +439,8 @@ class ClientController extends MainClientController
     {
         $invoice = Invoice::find(69);
 //        return view('emails.create-pay', ['invoice' => $invoice]);
+        $redis = Redis::connections();
+        dd($redis);
         event(new \App\Events\User\CreateOrder($invoice));
     }
 }

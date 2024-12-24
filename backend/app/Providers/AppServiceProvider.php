@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Contracts\FilterBusinessModelContract;
 use App\Contracts\FilterContract;
 use App\Models\Users\Client;
 use App\Services\Currency\Contract\CurrencyServiceContract;
 use App\Services\Currency\CurrencyFreaks;
 use App\Services\Filter;
+use App\Services\FilterBusinessModel;
 use App\Services\Pay\Contract\PayContract;
 use App\Services\Pay\Pay;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -19,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
 
     public $bindings = [
         FilterContract::class => Filter::class,
+        FilterBusinessModelContract::class => FilterBusinessModel::class,
         PayContract::class => Pay::class,
         CurrencyServiceContract::class => CurrencyFreaks::class
     ];

@@ -105,7 +105,7 @@ class Catalog extends Seeder
         }
     }
 
-    private function setProp($data, $parentId = null)
+    protected function setProp($data, $model = Prop::class, $parentId = null)
     {
         foreach($data as $key => $val)
         {
@@ -113,10 +113,10 @@ class Catalog extends Seeder
             $val['id_parent'] = $parentId;
             unset($val['child']);
 
-            $prop = Prop::create($val);
+            $prop = $model::create($val);
 
             if($child) {
-                $this->setProp($child, $prop->id);
+                $this->setProp($child, $model, $prop->id);
             }
 
         }
