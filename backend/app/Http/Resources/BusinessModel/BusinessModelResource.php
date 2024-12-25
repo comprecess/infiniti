@@ -30,10 +30,10 @@ class BusinessModelResource extends JsonResource
             'start' => $this->start?->format('Y-m-d'),
             'description' => $this->description,
 //            'img' => $this->getLastFile(true) ?? "",
-            'category' => $this->getPropValues('category'),
+            'category' => ValueResource::collection($this->getPropValues('category', null)),
             'age' => $this->getPropValues('age'),
             'industries' => ValueResource::collection(self::$isCollection ? ($industries->count() ? $industries?->chunk(3)?->first() : collect([])) : $industries),
-            'technologies' => ValueResource::collection(self::$isCollection ? ( $technologies->count() ? $technologies?->chunk(3)?->first() : collect([]) ) : $keySkills),
+            'technologies' => ValueResource::collection(self::$isCollection ? ( $technologies->count() ? $technologies?->chunk(3)?->first() : collect([]) ) : $technologies),
             'price' => $this->getCurrency((int) $this->getPropValues('price')),
         ];
 
