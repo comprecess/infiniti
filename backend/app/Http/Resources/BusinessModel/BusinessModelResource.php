@@ -30,27 +30,27 @@ class BusinessModelResource extends JsonResource
             'start' => $this->start?->format('Y-m-d'),
             'description' => $this->description,
 //            'img' => $this->getLastFile(true) ?? "",
-            'category' => $this->getPropValues('category'),
+            'category' => ValueResource::collection($this->getPropValues('category', null)),
             'age' => $this->getPropValues('age'),
             'industries' => ValueResource::collection(self::$isCollection ? ($industries->count() ? $industries?->chunk(3)?->first() : collect([])) : $industries),
-            'technologies' => ValueResource::collection(self::$isCollection ? ( $technologies->count() ? $technologies?->chunk(3)?->first() : collect([]) ) : $keySkills),
+            'technologies' => ValueResource::collection(self::$isCollection ? ( $technologies->count() ? $technologies?->chunk(3)?->first() : collect([]) ) : $technologies),
             'price' => $this->getCurrency((int) $this->getPropValues('price')),
         ];
 
         if(!self::$isCollection) {
-            $resorce['available'] = User::AVAILABLE_STATUS[$this->getAvailableStatus()];
-            $resorce['allSkills'] = ValueResorce::collection($this->getPropValues('all_skills', null));
-            $resorce['userId'] = $this->getNested('user.id');
-            $resorce['taxesIncluded'] = (bool) $this->getPropValues('rate');
-            $resorce['language'] = $this->getLanguage();
-//            $resorce['experience'] = $this->getExpirence();
-            $resorce['experience'] = $this->experience;
-            $resorce['blockExperience'] = UserBlockResorce::collection($this->blockExperience);
-            $resorce['educationName'] = $this->getPropValues('education_name');
-            $resorce['educationSpecialization'] = $this->getPropValues('education_specialization');
-            $resorce['educationDegree'] = $this->getPropValues('education_degree');
-            $resorce['educationGraduation'] = $this->getPropValues('education_graduation');
-            $resorce['similar'] = self::collection($this->getSimilar());
+//            $resorce['available'] = User::AVAILABLE_STATUS[$this->getAvailableStatus()];
+//            $resorce['allSkills'] = ValueResorce::collection($this->getPropValues('all_skills', null));
+//            $resorce['userId'] = $this->getNested('user.id');
+//            $resorce['taxesIncluded'] = (bool) $this->getPropValues('rate');
+//            $resorce['language'] = $this->getLanguage();
+////            $resorce['experience'] = $this->getExpirence();
+//            $resorce['experience'] = $this->experience;
+//            $resorce['blockExperience'] = UserBlockResorce::collection($this->blockExperience);
+//            $resorce['educationName'] = $this->getPropValues('education_name');
+//            $resorce['educationSpecialization'] = $this->getPropValues('education_specialization');
+//            $resorce['educationDegree'] = $this->getPropValues('education_degree');
+//            $resorce['educationGraduation'] = $this->getPropValues('education_graduation');
+//            $resorce['similar'] = self::collection($this->getSimilar());
         }
 
         return $resorce;

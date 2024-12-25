@@ -3,27 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Contracts\FilterBusinessModelContract;
-use App\Events\User\CreateOrder;
-use App\Http\Controllers\Api\Resident\Sale\OfferController;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Catalog\CartRequest;
 use App\Http\Requests\BusinessModel\ListRequest;
 use App\Http\Resources\BusinessModel\BusinessModelResource;
-use App\Http\Resources\Catalog\CartResorce;
 use App\Http\Resources\Catalog\PropertyResorce;
 use App\Http\Resources\Catalog\UsersResorce;
 use App\Models\BusinessModel\BusinessModel;
-use App\Models\Catalog\Cart;
 use App\Models\BusinessModel\Prop;
 use App\Models\Catalog\User;
 use App\Models\BusinessModel\Value;
-use App\Models\Resident\Invoices\Invoice;
-use App\Models\Resident\Invoices\Offer;
-use App\Models\Users\Admin;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Models\User as UserCrm;
-use Stripe\StripeClient;
 
 
 class BusinessModelController extends Controller
