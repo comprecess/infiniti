@@ -14,7 +14,7 @@ import { Routes } from '../router/routes'
 export const clientSidebarPages = [
   {
     id: 0,
-    name: 'Dashboard',
+    name: 'client-sidebar-main-page-dashboard',
     icon: <DashboardIcon />,
     path: Routes.dashboard,
 
@@ -23,7 +23,7 @@ export const clientSidebarPages = [
   },
   {
     id: 1,
-    name: 'Talents',
+    name: 'client-sidebar-main-page-talents',
     icon: <CatalogIcon />,
     path: Routes.talents,
 
@@ -32,7 +32,16 @@ export const clientSidebarPages = [
   },
   {
     id: 2,
-    name: 'My orders',
+    name: 'client-sidebar-main-page-business-models',
+    icon: <DashboardIcon />,
+    path: Routes.businessModels,
+
+    // Access
+    shortName: undefined,
+  },
+  {
+    id: 3,
+    name: 'client-sidebar-main-page-my-orders',
     icon: <MyOrdersIcon />,
     path: Routes.myOrders,
 
@@ -40,8 +49,8 @@ export const clientSidebarPages = [
     shortName: undefined,
   },
   {
-    id: 3,
-    name: 'Transactions',
+    id: 4,
+    name: 'client-sidebar-main-page-transactions',
     icon: <TransactionsIcon />,
     path: Routes.transactions,
 
@@ -49,8 +58,8 @@ export const clientSidebarPages = [
     shortName: undefined,
   },
   {
-    id: 4,
-    name: 'Documents',
+    id: 5,
+    name: 'client-sidebar-main-page-documents',
     icon: <DocumentsIcon />,
     path: Routes.documents,
 
@@ -58,8 +67,8 @@ export const clientSidebarPages = [
     shortName: undefined,
   },
   {
-    id: 5,
-    name: 'Invoices',
+    id: 6,
+    name: 'client-sidebar-main-page-invoices',
     icon: <InvoicesIcon />,
     path: Routes.invoices,
 
@@ -67,8 +76,8 @@ export const clientSidebarPages = [
     shortName: undefined,
   },
   {
-    id: 6,
-    name: 'Offers',
+    id: 7,
+    name: 'client-sidebar-main-page-offers',
     icon: <OffersIcon />,
     path: Routes.offers,
 
@@ -76,8 +85,8 @@ export const clientSidebarPages = [
     shortName: undefined,
   },
   {
-    id: 7,
-    name: 'Projects',
+    id: 8,
+    name: 'client-sidebar-main-page-projects',
     icon: <ProjectsIcon />,
     path: Routes.projects,
 
@@ -85,8 +94,8 @@ export const clientSidebarPages = [
     shortName: undefined,
   },
   {
-    id: 8,
-    name: 'Knowledge base',
+    id: 9,
+    name: 'client-sidebar-main-page-knowledge-base',
     icon: <KnowledgeBaseIcon />,
     path: Routes.knowledgeBase,
 
@@ -94,14 +103,14 @@ export const clientSidebarPages = [
     shortName: undefined,
   },
   {
-    id: 9,
-    name: 'Tickets',
+    id: 10,
+    name: 'client-sidebar-main-page-tickets',
     icon: <TicketsIcon />,
     path: Routes.tickets,
     openPaths: [
       {
         id: 0,
-        title: 'Open New Ticket',
+        title: 'client-sidebar-subsidiary-page-new-ticket',
         path: Routes.openNewTicket,
 
         // Access
@@ -109,7 +118,7 @@ export const clientSidebarPages = [
       },
       {
         id: 1,
-        title: 'Tickets',
+        title: 'client-sidebar-subsidiary-page-tickets',
         path: Routes.tickets,
 
         // Access
@@ -121,8 +130,8 @@ export const clientSidebarPages = [
     shortName: undefined,
   },
   {
-    id: 10,
-    name: 'Profile',
+    id: 11,
+    name: 'client-sidebar-main-page-profile',
     icon: <ProfileIcon />,
     path: Routes.profile,
 

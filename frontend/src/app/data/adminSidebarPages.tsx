@@ -25,7 +25,7 @@ import { Routes } from '../router/routes'
 export const adminSidebarPages = [
   {
     id: 0,
-    name: 'Dashboard',
+    name: 'admin-sidebar-main-page-dashboard',
     icon: <DashboardIcon />,
     path: Routes.dashboard,
 
@@ -34,13 +34,13 @@ export const adminSidebarPages = [
   },
   {
     id: 1,
-    name: 'Talents',
+    name: 'admin-sidebar-main-page-talents',
     icon: <ProfileIcon />,
     path: Routes.talents,
     openPaths: [
       {
         id: 0,
-        title: 'Add Talent',
+        title: 'admin-sidebar-subsidiary-page-add-talent',
         path: `${Routes.add}/${Routes.talent}`,
 
         // Access
@@ -48,7 +48,7 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'Catalog Talents',
+        title: 'admin-sidebar-subsidiary-page-catalog-talents',
         path: Routes.catalog,
 
         // Access
@@ -56,7 +56,7 @@ export const adminSidebarPages = [
       },
       {
         id: 2,
-        title: 'List of Carts',
+        title: 'admin-sidebar-subsidiary-page-list-of-carts',
         path: `${Routes.list}/${Routes.carts}`,
 
         // Access
@@ -69,13 +69,13 @@ export const adminSidebarPages = [
   },
   {
     id: 2,
-    name: 'Customers',
+    name: 'admin-sidebar-main-page-customers',
     icon: <ProfileIcon />,
     path: Routes.customers,
     openPaths: [
       {
         id: 0,
-        title: 'Add Customer',
+        title: 'admin-sidebar-subsidiary-page-add-customer',
         path: `${Routes.add}/${Routes.customer}`,
 
         // Access
@@ -83,7 +83,7 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'List Customers',
+        title: 'admin-sidebar-subsidiary-page-list-customers',
         path: `${Routes.list}/${Routes.customer}`,
 
         // Access
@@ -91,7 +91,7 @@ export const adminSidebarPages = [
       },
       {
         id: 2,
-        title: 'Companies',
+        title: 'admin-sidebar-subsidiary-page-companies',
         path: Routes.companies,
 
         // Access
@@ -99,7 +99,7 @@ export const adminSidebarPages = [
       },
       {
         id: 3,
-        title: 'Groups',
+        title: 'admin-sidebar-subsidiary-page-groups',
         path: Routes.groups,
 
         // Access
@@ -107,7 +107,7 @@ export const adminSidebarPages = [
       },
       {
         id: 4,
-        title: 'Files',
+        title: 'admin-sidebar-subsidiary-page-files',
         path: Routes.files,
 
         // Access
@@ -120,13 +120,13 @@ export const adminSidebarPages = [
   },
   {
     id: 3,
-    name: 'Business Plan',
+    name: 'admin-sidebar-main-page-business-plan',
     icon: <DashboardIcon />,
     path: Routes.businessPlan,
     openPaths: [
       {
         id: 0,
-        title: 'Business Plans',
+        title: 'admin-sidebar-subsidiary-page-business-plans',
         path: Routes.businessPlans,
 
         // Access
@@ -134,7 +134,7 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'Make Business Plan',
+        title: 'admin-sidebar-subsidiary-page-make-business-plan',
         path: Routes.makeBusinessPlan,
 
         // Access
@@ -142,7 +142,7 @@ export const adminSidebarPages = [
       },
       {
         id: 2,
-        title: 'Business Models',
+        title: 'admin-sidebar-subsidiary-page-business-models',
         path: Routes.businessModels,
 
         // Access
@@ -155,13 +155,13 @@ export const adminSidebarPages = [
   },
   {
     id: 4,
-    name: 'Accounting',
+    name: 'admin-sidebar-main-page-accounting',
     icon: <AccountingIcon />,
     path: Routes.accounting,
     openPaths: [
       {
         id: 0,
-        title: 'New Deposit',
+        title: 'admin-sidebar-subsidiary-page-new-deposit',
         path: Routes.newDeposit,
 
         // Access
@@ -170,7 +170,7 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'New Expense',
+        title: 'admin-sidebar-subsidiary-page-new-expense',
         path: Routes.newExpense,
 
         // Access
@@ -179,7 +179,7 @@ export const adminSidebarPages = [
       },
       {
         id: 2,
-        title: 'Transfer',
+        title: 'admin-sidebar-subsidiary-page-transfer',
         path: Routes.transfer,
 
         // Access
@@ -188,7 +188,7 @@ export const adminSidebarPages = [
       },
       {
         id: 3,
-        title: 'Bills',
+        title: 'admin-sidebar-subsidiary-page-bills',
         path: Routes.bills,
 
         // Access
@@ -197,7 +197,7 @@ export const adminSidebarPages = [
       },
       {
         id: 4,
-        title: 'View Transactions',
+        title: 'admin-sidebar-subsidiary-page-view-transactions',
         path: Routes.viewTransactions,
 
         // Access
@@ -206,7 +206,7 @@ export const adminSidebarPages = [
       },
       {
         id: 5,
-        title: 'Uncleared Transactions',
+        title: 'admin-sidebar-subsidiary-page-uncleared-transactions',
         path: Routes.unclearedTransactions,
 
         // Access
@@ -215,7 +215,7 @@ export const adminSidebarPages = [
       },
       {
         id: 6,
-        title: 'Accounts',
+        title: 'admin-sidebar-subsidiary-page-accounts',
         path: Routes.accounts,
 
         // Access
@@ -224,7 +224,7 @@ export const adminSidebarPages = [
       },
       {
         id: 7,
-        title: 'New Account',
+        title: 'admin-sidebar-subsidiary-page-new-account',
         path: Routes.newAccount,
 
         // Access
@@ -233,7 +233,7 @@ export const adminSidebarPages = [
       },
       {
         id: 8,
-        title: 'Assets',
+        title: 'admin-sidebar-subsidiary-page-assets',
         path: Routes.assets,
 
         // Access
@@ -247,13 +247,13 @@ export const adminSidebarPages = [
   },
   {
     id: 5,
-    name: 'Sales',
+    name: 'admin-sidebar-main-page-sales',
     icon: <SalesIcon />,
     path: Routes.sales,
     openPaths: [
       {
         id: 0,
-        title: 'Invoices',
+        title: 'admin-sidebar-subsidiary-page-sales-invoices',
         path: Routes.invoices,
 
         // Access
@@ -261,7 +261,7 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'New Invoice',
+        title: 'admin-sidebar-subsidiary-page-new-invoice',
         path: `${Routes.new}/${Routes.invoice}`,
 
         // Access
@@ -269,7 +269,7 @@ export const adminSidebarPages = [
       },
       {
         id: 2,
-        title: 'POS',
+        title: 'admin-sidebar-subsidiary-page-pos',
         path: '',
 
         // Access
@@ -277,31 +277,23 @@ export const adminSidebarPages = [
       },
       {
         id: 3,
-        title: 'Recurring Invoices',
-        path: '',
-
-        // Access
-        create: false,
-      },
-      {
-        id: 4,
-        title: 'Offers',
+        title: 'admin-sidebar-subsidiary-page-offers',
         path: Routes.offers,
 
         // Access
         create: false,
       },
       {
-        id: 5,
-        title: 'New Offer',
+        id: 4,
+        title: 'admin-sidebar-subsidiary-page-new-offer',
         path: `${Routes.new}/${Routes.offer}`,
 
         // Access
         create: true,
       },
       {
-        id: 6,
-        title: 'Payments',
+        id: 5,
+        title: 'admin-sidebar-subsidiary-page-payments',
         path: '',
 
         // Access
@@ -314,13 +306,13 @@ export const adminSidebarPages = [
   },
   {
     id: 6,
-    name: 'Suppliers',
+    name: 'admin-sidebar-main-page-suppliers',
     icon: <CatalogIcon />,
     path: Routes.suppliers,
     openPaths: [
       {
         id: 0,
-        title: 'Add Supplier',
+        title: 'admin-sidebar-subsidiary-page-add-supplier',
         path: `${Routes.add}/${Routes.supplier}`,
 
         // Access
@@ -328,7 +320,7 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'List Suppliers',
+        title: 'admin-sidebar-subsidiary-page-list-suppliers',
         path: `${Routes.list}/${Routes.suppliers}`,
 
         // Access
@@ -341,13 +333,13 @@ export const adminSidebarPages = [
   },
   {
     id: 7,
-    name: 'Purchase',
+    name: 'admin-sidebar-main-page-purchase',
     icon: <PurchaseIcon />,
     path: Routes.purchase,
     openPaths: [
       {
         id: 0,
-        title: 'Purchase Orders',
+        title: 'admin-sidebar-subsidiary-page-purchase-orders',
         path: '',
 
         // Access
@@ -355,7 +347,7 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'New Purchase Order',
+        title: 'admin-sidebar-subsidiary-page-new-purchase-order',
         path: '',
 
         // Access
@@ -368,7 +360,7 @@ export const adminSidebarPages = [
   },
   {
     id: 8,
-    name: 'Projects',
+    name: 'admin-sidebar-main-page-projects',
     icon: <ProjectsIcon />,
     path: Routes.projects,
 
@@ -377,13 +369,13 @@ export const adminSidebarPages = [
   },
   {
     id: 9,
-    name: 'Leads',
+    name: 'admin-sidebar-main-page-leads',
     icon: <LeadsIcon />,
     path: Routes.leads,
     openPaths: [
       {
         id: 0,
-        title: 'Leads',
+        title: 'admin-sidebar-subsidiary-page-leads',
         path: '',
 
         // Access
@@ -391,7 +383,7 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'Web to Lead',
+        title: 'admin-sidebar-subsidiary-page-web-to-Lead',
         path: '',
 
         // Access
@@ -404,13 +396,13 @@ export const adminSidebarPages = [
   },
   {
     id: 10,
-    name: 'SMS',
+    name: 'admin-sidebar-main-page-sms',
     icon: <TicketsIcon />,
     path: Routes.sms,
     openPaths: [
       {
         id: 0,
-        title: 'Send Single SMS',
+        title: 'admin-sidebar-subsidiary-page-send-single-sms',
         path: '',
 
         // Access
@@ -418,7 +410,7 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'Send Bulk SMS',
+        title: 'admin-sidebar-subsidiary-page-send-bulk-sms',
         path: '',
 
         // Access
@@ -426,7 +418,7 @@ export const adminSidebarPages = [
       },
       {
         id: 2,
-        title: 'Sent',
+        title: 'admin-sidebar-subsidiary-page-sent',
         path: '',
 
         // Access
@@ -434,7 +426,7 @@ export const adminSidebarPages = [
       },
       {
         id: 3,
-        title: 'SMS Templates',
+        title: 'admin-sidebar-subsidiary-page-sms-templates',
         path: '',
 
         // Access
@@ -442,7 +434,7 @@ export const adminSidebarPages = [
       },
       {
         id: 4,
-        title: 'Settings',
+        title: 'admin-sidebar-subsidiary-page-settings',
         path: '',
 
         // Access
@@ -455,13 +447,13 @@ export const adminSidebarPages = [
   },
   {
     id: 11,
-    name: 'Support',
+    name: 'admin-sidebar-main-page-support',
     icon: <SupportIcon />,
     path: Routes.support,
     openPaths: [
       {
         id: 0,
-        title: 'New Ticket',
+        title: 'admin-sidebar-subsidiary-page-new-ticket',
         path: '',
 
         // Access
@@ -469,7 +461,7 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'Tickets',
+        title: 'admin-sidebar-subsidiary-page-tickets',
         path: '',
 
         // Access
@@ -477,7 +469,7 @@ export const adminSidebarPages = [
       },
       {
         id: 2,
-        title: 'Predefined Replies',
+        title: 'admin-sidebar-subsidiary-page-predefined-replies',
         path: '',
 
         // Access
@@ -485,7 +477,7 @@ export const adminSidebarPages = [
       },
       {
         id: 3,
-        title: 'Departments',
+        title: 'admin-sidebar-subsidiary-page-departments',
         path: '',
 
         // Access
@@ -498,13 +490,13 @@ export const adminSidebarPages = [
   },
   {
     id: 12,
-    name: 'Knowledge Base',
+    name: 'admin-sidebar-main-page-knowledge-base',
     icon: <KnowledgeBaseIcon />,
     path: Routes.knowledgeBase,
     openPaths: [
       {
         id: 0,
-        title: 'New Article',
+        title: 'admin-sidebar-subsidiary-page-new-article',
         path: '',
 
         // Access
@@ -512,7 +504,7 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'All Articles',
+        title: 'admin-sidebar-subsidiary-page-all-articles',
         path: '',
 
         // Access
@@ -525,13 +517,13 @@ export const adminSidebarPages = [
   },
   {
     id: 13,
-    name: 'Orders',
+    name: 'admin-sidebar-main-page-orders',
     icon: <MyOrdersIcon />,
     path: Routes.myOrders,
     openPaths: [
       {
         id: 0,
-        title: 'List All Orders',
+        title: 'admin-sidebar-subsidiary-page-list-all-orders',
         path: '',
 
         // Access
@@ -539,7 +531,7 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'Add New Order',
+        title: 'admin-sidebar-subsidiary-page-add-new-order',
         path: '',
 
         // Access
@@ -552,13 +544,13 @@ export const adminSidebarPages = [
   },
   {
     id: 14,
-    name: 'HRM',
+    name: 'admin-sidebar-main-page-hrm',
     icon: <HRMIcon />,
     path: Routes.hrm,
     openPaths: [
       {
         id: 0,
-        title: 'Employees',
+        title: 'admin-sidebar-subsidiary-page-employees',
         path: '',
 
         // Access
@@ -566,7 +558,7 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'Attendance',
+        title: 'admin-sidebar-subsidiary-page-attendance',
         path: '',
 
         // Access
@@ -574,7 +566,7 @@ export const adminSidebarPages = [
       },
       {
         id: 2,
-        title: 'Payroll',
+        title: 'admin-sidebar-subsidiary-page-payroll',
         path: '',
 
         // Access
@@ -587,7 +579,7 @@ export const adminSidebarPages = [
   },
   {
     id: 15,
-    name: 'Documents',
+    name: 'admin-sidebar-main-page-documents',
     icon: <DocumentsIcon />,
     path: Routes.documents,
 
@@ -596,7 +588,7 @@ export const adminSidebarPages = [
   },
   {
     id: 16,
-    name: 'Tasks',
+    name: 'admin-sidebar-main-page-tasks',
     icon: <TasksIcon />,
     path: Routes.tasks,
 
@@ -605,7 +597,7 @@ export const adminSidebarPages = [
   },
   {
     id: 17,
-    name: 'Calendar',
+    name: 'admin-sidebar-main-page-calendar',
     icon: <CalendarIcon />,
     path: Routes.calendar,
 
@@ -614,13 +606,13 @@ export const adminSidebarPages = [
   },
   {
     id: 18,
-    name: 'Products & Services',
+    name: 'admin-sidebar-main-page-products-and-services',
     icon: <ProductsServicesIcon />,
     path: Routes.productsServices,
     openPaths: [
       {
         id: 0,
-        title: 'Products',
+        title: 'admin-sidebar-subsidiary-page-products',
         path: '',
 
         // Access
@@ -628,7 +620,7 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'New Product',
+        title: 'admin-sidebar-subsidiary-page-new-product',
         path: '',
 
         // Access
@@ -636,7 +628,7 @@ export const adminSidebarPages = [
       },
       {
         id: 2,
-        title: 'Services',
+        title: 'admin-sidebar-subsidiary-page-services',
         path: '',
 
         // Access
@@ -644,7 +636,7 @@ export const adminSidebarPages = [
       },
       {
         id: 3,
-        title: 'New Service',
+        title: 'admin-sidebar-subsidiary-page-new-service',
         path: '',
 
         // Access
@@ -657,13 +649,13 @@ export const adminSidebarPages = [
   },
   {
     id: 19,
-    name: 'Reports',
+    name: 'admin-sidebar-main-page-reports',
     icon: <ReportsIcon />,
     path: Routes.reports,
     openPaths: [
       {
         id: 0,
-        title: 'Transactions',
+        title: 'admin-sidebar-subsidiary-page-transactions',
         path: '',
 
         // Access
@@ -671,7 +663,7 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'Invoices',
+        title: 'admin-sidebar-subsidiary-page-reports-invoices',
         path: '',
 
         // Access
@@ -679,7 +671,7 @@ export const adminSidebarPages = [
       },
       {
         id: 2,
-        title: 'Purchases',
+        title: 'admin-sidebar-subsidiary-page-purchases',
         path: '',
 
         // Access
@@ -687,7 +679,7 @@ export const adminSidebarPages = [
       },
       {
         id: 3,
-        title: 'Account Statement',
+        title: 'admin-sidebar-subsidiary-page-account-statement',
         path: '',
 
         // Access
@@ -695,7 +687,7 @@ export const adminSidebarPages = [
       },
       {
         id: 4,
-        title: 'Income Reports',
+        title: 'admin-sidebar-subsidiary-page-income-reports',
         path: '',
 
         // Access
@@ -703,7 +695,7 @@ export const adminSidebarPages = [
       },
       {
         id: 5,
-        title: 'Expense Reports',
+        title: 'admin-sidebar-subsidiary-page-expense-reports',
         path: '',
 
         // Access
@@ -711,7 +703,7 @@ export const adminSidebarPages = [
       },
       {
         id: 6,
-        title: 'Income Vs Expense',
+        title: 'admin-sidebar-subsidiary-page-income-vs-expense',
         path: '',
 
         // Access
@@ -719,7 +711,7 @@ export const adminSidebarPages = [
       },
       {
         id: 7,
-        title: 'Reports by Date',
+        title: 'admin-sidebar-subsidiary-page-reports-by-date',
         path: '',
 
         // Access
@@ -727,7 +719,7 @@ export const adminSidebarPages = [
       },
       {
         id: 8,
-        title: 'All Income',
+        title: 'admin-sidebar-subsidiary-page-all-income',
         path: '',
 
         // Access
@@ -735,7 +727,7 @@ export const adminSidebarPages = [
       },
       {
         id: 9,
-        title: 'All Expense',
+        title: 'admin-sidebar-subsidiary-page-all-expense',
         path: '',
 
         // Access
@@ -743,7 +735,7 @@ export const adminSidebarPages = [
       },
       {
         id: 10,
-        title: 'Sales',
+        title: 'admin-sidebar-subsidiary-page-sales',
         path: '',
 
         // Access
@@ -751,7 +743,7 @@ export const adminSidebarPages = [
       },
       {
         id: 11,
-        title: 'Invoices Vs Expense',
+        title: 'admin-sidebar-subsidiary-page-invoices-vs-expense',
         path: '',
 
         // Access
@@ -759,7 +751,7 @@ export const adminSidebarPages = [
       },
       {
         id: 12,
-        title: 'Export',
+        title: 'admin-sidebar-subsidiary-page-export',
         path: '',
 
         // Access
@@ -772,13 +764,13 @@ export const adminSidebarPages = [
   },
   {
     id: 20,
-    name: 'Utilities',
+    name: 'admin-sidebar-main-page-utilities',
     icon: <UtilitiesIcon />,
     path: Routes.utilities,
     openPaths: [
       {
         id: 0,
-        title: 'Activity Log',
+        title: 'admin-sidebar-subsidiary-page-activity-log',
         path: '',
 
         // Access
@@ -786,7 +778,7 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'Email Message Log',
+        title: 'admin-sidebar-subsidiary-page-email-message-log',
         path: '',
 
         // Access
@@ -794,7 +786,7 @@ export const adminSidebarPages = [
       },
       {
         id: 2,
-        title: 'Invoice Access Log',
+        title: 'admin-sidebar-subsidiary-page-invoice-access-log',
         path: '',
 
         // Access
@@ -802,7 +794,7 @@ export const adminSidebarPages = [
       },
       {
         id: 3,
-        title: 'Backup',
+        title: 'admin-sidebar-subsidiary-page-backup',
         path: '',
 
         // Access
@@ -810,7 +802,7 @@ export const adminSidebarPages = [
       },
       {
         id: 4,
-        title: 'Database Status',
+        title: 'admin-sidebar-subsidiary-page-database-status',
         path: '',
 
         // Access
@@ -818,7 +810,7 @@ export const adminSidebarPages = [
       },
       {
         id: 5,
-        title: 'CRON Log',
+        title: 'admin-sidebar-subsidiary-page-cron-log',
         path: '',
 
         // Access
@@ -826,7 +818,7 @@ export const adminSidebarPages = [
       },
       {
         id: 6,
-        title: 'Integration Code',
+        title: 'admin-sidebar-subsidiary-page-integration-code',
         path: '',
 
         // Access
@@ -834,7 +826,7 @@ export const adminSidebarPages = [
       },
       {
         id: 7,
-        title: 'System Status',
+        title: 'admin-sidebar-subsidiary-page-system-status',
         path: '',
 
         // Access
@@ -842,7 +834,7 @@ export const adminSidebarPages = [
       },
       {
         id: 8,
-        title: 'Password Manager',
+        title: 'admin-sidebar-subsidiary-page-password-manager',
         path: '',
 
         // Access
@@ -850,7 +842,7 @@ export const adminSidebarPages = [
       },
       {
         id: 9,
-        title: 'Tools',
+        title: 'admin-sidebar-subsidiary-page-tools',
         path: '',
 
         // Access
@@ -863,13 +855,13 @@ export const adminSidebarPages = [
   },
   {
     id: 21,
-    name: 'Appearance',
+    name: 'admin-sidebar-main-page-appearance',
     icon: <AppearanceIcon />,
     path: Routes.appearance,
     openPaths: [
       {
         id: 0,
-        title: 'User Interface',
+        title: 'admin-sidebar-subsidiary-page-user-interface',
         path: '',
 
         // Access
@@ -877,7 +869,7 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'Customize',
+        title: 'admin-sidebar-subsidiary-page-customize',
         path: '',
 
         // Access
@@ -885,7 +877,7 @@ export const adminSidebarPages = [
       },
       {
         id: 2,
-        title: 'Editor',
+        title: 'admin-sidebar-subsidiary-page-editor',
         path: '',
 
         // Access
@@ -893,7 +885,7 @@ export const adminSidebarPages = [
       },
       {
         id: 3,
-        title: 'Themes',
+        title: 'admin-sidebar-subsidiary-page-themes',
         path: '',
 
         // Access
@@ -906,7 +898,7 @@ export const adminSidebarPages = [
   },
   {
     id: 22,
-    name: 'Plugins',
+    name: 'admin-sidebar-main-page-plugins',
     icon: <PluginsIcon />,
     path: Routes.plugins,
 
@@ -915,13 +907,13 @@ export const adminSidebarPages = [
   },
   {
     id: 23,
-    name: 'Settings',
+    name: 'admin-sidebar-main-page-settings',
     icon: <SettingsIcon />,
     path: Routes.settings,
     openPaths: [
       {
         id: 0,
-        title: 'General Settings',
+        title: 'admin-sidebar-subsidiary-page-general-settings',
         path: '',
 
         // Access
@@ -929,7 +921,7 @@ export const adminSidebarPages = [
       },
       {
         id: 1,
-        title: 'Users',
+        title: 'admin-sidebar-subsidiary-page-users',
         path: Routes.users,
 
         // Access
@@ -937,7 +929,7 @@ export const adminSidebarPages = [
       },
       {
         id: 2,
-        title: 'Roles',
+        title: 'admin-sidebar-subsidiary-page-roles',
         path: Routes.roles,
 
         // Access
@@ -945,15 +937,15 @@ export const adminSidebarPages = [
       },
       {
         id: 3,
-        title: 'Localization',
-        path: '',
+        title: 'admin-sidebar-subsidiary-page-localization',
+        path: Routes.localization,
 
         // Access
         create: false,
       },
       {
         id: 4,
-        title: 'Currencies',
+        title: 'admin-sidebar-subsidiary-page-currencies',
         path: Routes.currencies,
 
         // Access
@@ -961,7 +953,7 @@ export const adminSidebarPages = [
       },
       {
         id: 5,
-        title: 'Payment Gateways',
+        title: 'admin-sidebar-subsidiary-page-payment-gateways',
         path: '',
 
         // Access
@@ -969,7 +961,7 @@ export const adminSidebarPages = [
       },
       {
         id: 6,
-        title: 'Expense Categories',
+        title: 'admin-sidebar-subsidiary-page-expense-categories',
         path: '',
 
         // Access
@@ -977,7 +969,7 @@ export const adminSidebarPages = [
       },
       {
         id: 7,
-        title: 'Expense Types',
+        title: 'admin-sidebar-subsidiary-page-expense-types',
         path: '',
 
         // Access
@@ -985,7 +977,7 @@ export const adminSidebarPages = [
       },
       {
         id: 8,
-        title: 'Income Categories',
+        title: 'admin-sidebar-subsidiary-page-income-categories',
         path: '',
 
         // Access
@@ -993,7 +985,7 @@ export const adminSidebarPages = [
       },
       {
         id: 9,
-        title: 'Utils',
+        title: 'admin-sidebar-subsidiary-page-units',
         path: '',
 
         // Access
@@ -1001,7 +993,7 @@ export const adminSidebarPages = [
       },
       {
         id: 10,
-        title: 'Manage Tags',
+        title: 'admin-sidebar-subsidiary-page-manage-tags',
         path: '',
 
         // Access
@@ -1009,7 +1001,7 @@ export const adminSidebarPages = [
       },
       {
         id: 11,
-        title: 'Payment Methods',
+        title: 'admin-sidebar-subsidiary-page-payment-methods',
         path: '',
 
         // Access
@@ -1017,7 +1009,7 @@ export const adminSidebarPages = [
       },
       {
         id: 12,
-        title: 'Sales Taxes',
+        title: 'admin-sidebar-subsidiary-page-sales-taxes',
         path: '',
 
         // Access
@@ -1025,7 +1017,7 @@ export const adminSidebarPages = [
       },
       {
         id: 13,
-        title: 'Email Settings',
+        title: 'admin-sidebar-subsidiary-page-email-settings',
         path: '',
 
         // Access
@@ -1033,7 +1025,7 @@ export const adminSidebarPages = [
       },
       {
         id: 14,
-        title: 'Email Templates',
+        title: 'admin-sidebar-subsidiary-page-email-templates',
         path: '',
 
         // Access
@@ -1041,7 +1033,7 @@ export const adminSidebarPages = [
       },
       {
         id: 15,
-        title: 'Custom Contact Fields',
+        title: 'admin-sidebar-subsidiary-page-custom-contact-fields',
         path: `${Routes.custom}/${Routes.contact}/${Routes.fields}`,
 
         // Access
@@ -1049,7 +1041,7 @@ export const adminSidebarPages = [
       },
       {
         id: 16,
-        title: 'Automation Settings',
+        title: 'admin-sidebar-subsidiary-page-automation-settings',
         path: '',
 
         // Access
@@ -1057,7 +1049,7 @@ export const adminSidebarPages = [
       },
       {
         id: 17,
-        title: 'API Access',
+        title: 'admin-sidebar-subsidiary-page-api-access',
         path: '',
 
         // Access
@@ -1065,7 +1057,7 @@ export const adminSidebarPages = [
       },
       {
         id: 18,
-        title: 'Choose Features',
+        title: 'admin-sidebar-subsidiary-page-choose-features',
         path: '',
 
         // Access

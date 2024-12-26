@@ -1,0 +1,32 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 0 1px 0 1px;
+}
+
+.containerRow,
+.containerRowFour {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  width: 100%;
+
+  @include mobileBreakpoint('max', $bpL) {
+    flex-direction: column;
+  }
+}
+
+.containerRowFour {
+  @include mobileBreakpoint('max', $bpXL) {
+    flex-direction: column;
+  }
+}
+
+.buttonSave {
+  margin-top: 12px;
+  @include mobileBreakpoint('min', $bpL) {
+    max-width: 100px;
+  }
+}

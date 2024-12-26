@@ -384,6 +384,10 @@ export const router = createBrowserRouter([
             element: Pages.adminEditRolePage,
           },
           {
+            path: Routes.localization,
+            element: Pages.adminLocalizationPage,
+          },
+          {
             index: true,
             element: (
               <Navigate
@@ -418,6 +422,14 @@ export const router = createBrowserRouter([
       {
         path: `${Routes.talents}/${Routes.talent}/:id`,
         element: Pages.clientTalentDetailsPage,
+      },
+      {
+        path: Routes.businessModels,
+        element: Pages.clientBusinessModelsPage,
+      },
+      {
+        path: `${Routes.businessModels}/${Routes.businessModel}/${Routes.view}/:id`,
+        element: Pages.clientViewBusinessModelsPage,
       },
       { path: Routes.myOrders, element: Pages.clientMyOrdersPage },
       { path: Routes.transactions, element: Pages.clientTransactionsPage },
