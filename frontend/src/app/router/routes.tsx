@@ -57,6 +57,7 @@ import { AdminViewInvoicePage } from '../../pages/Admin/SalesPage/ViewInvoicePag
 import { AdminViewOfferPage } from '../../pages/Admin/SalesPage/ViewOfferPage/ViewOfferPage'
 import { AdminCurrenciesPage } from '../../pages/Admin/SettingsPage/CurrenciesPage/CurrenciesPage'
 import { AdminCustomContactFields } from '../../pages/Admin/SettingsPage/CustomContactFieldsPage/CustomContactFieldsPage'
+import { AdminLocalizationPage } from '../../pages/Admin/SettingsPage/LocalizationPage/LocalizationPage'
 import { AdminEditRolePage } from '../../pages/Admin/SettingsPage/RolesPage/EditRolePage/EditRolePage'
 import { AdminNewRolePage } from '../../pages/Admin/SettingsPage/RolesPage/NewRolePage/NewRolePage'
 import { AdminRolesPage } from '../../pages/Admin/SettingsPage/RolesPage/RolesPage'
@@ -81,6 +82,7 @@ import { RegisterPage } from '../../pages/Auth/RegisterPage/RegisterPage'
 import { ResetPasswordPage } from '../../pages/Auth/ResetPasswordPage/ResetPasswordPage'
 import { SignInPage } from '../../pages/Auth/SignInPage/SignInPage'
 import { ClientBasketPage } from '../../pages/Client/BasketPage/BasketPage'
+import { ClientBusinessModelsPage } from '../../pages/Client/BusinessModelsPage/BusinessModelsPage'
 import { ClientDashboardPage } from '../../pages/Client/DashboardPage/DashboardPage'
 import { ClientDocumentsPage } from '../../pages/Client/DocumentsPage/DocumentsPage'
 import { ClientInvoicesPage } from '../../pages/Client/InvoicesPage/InvoicesPage'
@@ -94,6 +96,7 @@ import { ClientTalentsPage } from '../../pages/Client/TalentsPage/TalentsPage'
 import { ClientOpenNewTicketPage } from '../../pages/Client/TicketsPage/OpenNewTicketPage/OpenNewTicketPage'
 import { ClientTicketsPage } from '../../pages/Client/TicketsPage/TicketsPage/TicketsPage'
 import { ClientTransactionsPage } from '../../pages/Client/TransactionsPage/TransactionsPage'
+import { ClientViewBusinessModelsPage } from '../../pages/Client/ViewBusinessModelsPage/ViewBusinessModelsPage'
 import { AutoLoginPage } from '../../pages/General/AutoLoginPage/AutoLoginPage'
 import { InvoiceProofTransaction } from '../../pages/General/InvoiceProofTransaction/InvoiceProofTransaction'
 import { InvoiceViewPage } from '../../pages/General/InvoiceViewPage/InvoiceViewPage'
@@ -107,6 +110,7 @@ export const Routes = {
   dashboard: 'dashboard',
   public: 'public',
   to: 'to',
+  localization: 'localization',
   proof: 'proof',
   transaction: 'transaction',
   catalog: 'catalog',
@@ -213,6 +217,8 @@ export const Pages = {
   /* Client Dashboard pages */
   clientDashboardPage: <ClientDashboardPage />,
   clientTalentsPage: <ClientTalentsPage />,
+  clientBusinessModelsPage: <ClientBusinessModelsPage />,
+  clientViewBusinessModelsPage: <ClientViewBusinessModelsPage />,
   clientTalentDetailsPage: <ClientTalentDetailsPage />,
   clientMyOrdersPage: <ClientMyOrdersPage />,
   clientTransactionsPage: <ClientTransactionsPage />,
@@ -305,6 +311,7 @@ export const Pages = {
   adminUsersPage: <AdminUsersPage />,
   adminNewUserPage: <AdminNewUserPage />,
   adminEditUserPage: <AdminEditUserPage />,
+  adminLocalizationPage: <AdminLocalizationPage />,
 
   /* Public  pages */
   publicViewInvoice: <InvoiceViewPage />,

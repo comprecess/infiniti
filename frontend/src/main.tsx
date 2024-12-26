@@ -1,4 +1,5 @@
 import './app/styles/globals.scss'
+import './i18n'
 
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import React from 'react'

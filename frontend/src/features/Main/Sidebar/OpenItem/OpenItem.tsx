@@ -1,4 +1,5 @@
 import { FC, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { ChevronDownIcon } from '../../../../shared/icons/ChevronDownIcon'
 import { Item } from '../Item/Item'
@@ -33,6 +34,8 @@ export const OpenItem: FC<OpenItemProps> = ({
 }) => {
   const [isOpened, setIsOpened] = useState<boolean>(false)
 
+  const { t } = useTranslation()
+
   const openPathList = () => {
     if (!isMini) {
       setIsOpened(!isOpened)
@@ -50,7 +53,9 @@ export const OpenItem: FC<OpenItemProps> = ({
         <div className={isMini ? styles.itemsIsMini : styles.items}>
           <div className={styles.leftItems}>
             <div className={styles.icon}>{icon}</div>
-            {isMini || <span className={styles.title}>{title}</span>}
+            {isMini || (
+              <span className={styles.title}>{t(`${title}`)}</span>
+            )}
           </div>
           {isMini || (
             <ChevronDownIcon

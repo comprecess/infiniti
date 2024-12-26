@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Routes } from '../../../../../app/router/routes'
@@ -6,7 +6,11 @@ import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
 import { BusinessModelCard } from '../../../../../widgets/BusinessModelCard/BusinessModelCard'
 import styles from './ModelsList.module.scss'
 
-export const ModelsList = () => {
+interface ModelsListProps {
+  isAdmin: boolean
+}
+
+export const ModelsList: FC<ModelsListProps> = ({ isAdmin }) => {
   const [isMobile, setIsMobile] = useState(false)
   const [modelsOpen, setModelsOpen] = useState<boolean[]>([
     false,
@@ -17,9 +21,15 @@ export const ModelsList = () => {
   const navigate = useNavigate()
 
   const handleNavigateToViewBusinessModel = (id: number) => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.view}/${Routes.businessModel}/${id}`,
-    )
+    if (isAdmin) {
+      navigate(
+        `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.view}/${Routes.businessModel}/${id}`,
+      )
+    } else {
+      navigate(
+        `/${Routes.clientPages}/${Routes.businessModels}/${Routes.businessModel}/${Routes.view}/${id}`,
+      )
+    }
   }
 
   const handleModelOpenClose = (index: number) => {

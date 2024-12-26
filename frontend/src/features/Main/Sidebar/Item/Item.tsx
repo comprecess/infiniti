@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import styles from './Item.module.scss'
 
@@ -19,6 +20,8 @@ export const Item: FC<ItemProps> = ({
   isMini,
   onItemClick,
 }) => {
+  const { t } = useTranslation()
+
   return (
     <div
       className={isActive ? styles.wrapperActive : styles.wrapperNotActive}
@@ -27,7 +30,7 @@ export const Item: FC<ItemProps> = ({
       <div className={isMini ? styles.itemsIsMini : styles.items}>
         <div className={styles.leftItems}>
           <div className={styles.icon}>{icon}</div>
-          {isMini || <span className={styles.title}>{title}</span>}
+          {isMini || <span className={styles.title}>{t(`${title}`)}</span>}
         </div>
       </div>
     </div>

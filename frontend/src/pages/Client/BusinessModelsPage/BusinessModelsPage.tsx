@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 
-import { Filters } from '../../../../features/Admin/BusinessPlanPage/BusinessModels/Filters/Filters'
-import { ModelsList } from '../../../../features/Admin/BusinessPlanPage/BusinessModels/ModelsList/ModelsList'
-import { CategoriesItem } from '../../../../features/Admin/TalentsPage/CatalogTalents/CategoriesItem/CategoriesItem'
-import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
+import { Filters } from '../../../features/Admin/BusinessPlanPage/BusinessModels/Filters/Filters'
+import { ModelsList } from '../../../features/Admin/BusinessPlanPage/BusinessModels/ModelsList/ModelsList'
+import { CategoriesItem } from '../../../features/Admin/TalentsPage/CatalogTalents/CategoriesItem/CategoriesItem'
+import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import styles from './BusinessModelsPage.module.scss'
 
-export const AdminBusinessModelsPage = () => {
+export const ClientBusinessModelsPage = () => {
   const [activeCategory, setActiveCategory] = useState<number>(0)
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export const AdminBusinessModelsPage = () => {
       <section className={styles.sectionSecond}>
         <div className={styles.itemsSecond}>
           <Filters />
-          <ModelsList isAdmin />
+          <ModelsList isAdmin={false} />
         </div>
       </section>
     </div>
