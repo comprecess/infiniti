@@ -31,6 +31,7 @@ class TestBusinessModel extends Seeder
         for($i = 0; $i < $rand; $i++) {
             $businessModel = new \App\Models\BusinessModel\BusinessModel();
             $businessModel->start = now();
+            $businessModel->title = fake()->word();
             $businessModel->description = fake()->text();
             $businessModel->full_description = fake()->text();
             $businessModel->save();
