@@ -21,7 +21,7 @@ class BusinessModelController extends Controller
     public function filters(Request $request)
     {
 
-        $dopFilter = ['specialization'];
+        $dopFilter = ['category'];
         $prop = Prop::whereNull('id_parent')
             ->with(['children', 'values']);
 

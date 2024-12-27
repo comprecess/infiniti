@@ -28,6 +28,7 @@ class BusinessModelResource extends JsonResource
 
         $resorce = [
             'id' => $this->id,
+            'title' => $this->title,
             'start' => $this->start?->format('Y-m-d'),
             'description' => $this->description,
 //            'img' => $this->getLastFile(true) ?? "",
