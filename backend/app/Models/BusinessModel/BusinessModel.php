@@ -12,7 +12,11 @@ class BusinessModel extends Model
 {
     use HasFactory, CurrencyTrait, SoftDeletes, FileStorageTrait;
 
+    const TYPE_IMG = ['preview', 'content'];
+
     protected $table = 'business_model';
+
+    public $timestamps = false;
 
     protected $casts = [
         'start' => 'date',
@@ -74,6 +78,11 @@ class BusinessModel extends Model
             }
             $prop->values()->create(['value' => $value])->users()->attach([$this->id]);
         }
+
+    }
+
+    public function getImg($type = self::TYPE_IMG[0])
+    {
 
     }
 
