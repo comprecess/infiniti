@@ -30,12 +30,14 @@ class BusinessModel extends Catalog
             ['name' => 'Location', 'id_name' => 'location', 'type' => 'checkbox', 'filter' => 1, 'sort' => 400, 'required' => 1],
             ['name' => 'Age', 'id_name' => 'age', 'type' => 'integer',  'has_add' => '1', 'sort' => 900, 'filter' => 1, 'required' => 1, 'options' => '{"placeholder": {"from": 1, "to": 65}}'],
             ['name' => 'Category', 'id_name' => 'category', 'type' => $type[0]],
+            ['name' => 'Profitability', 'id_name' => 'profitability', 'type' => $type[0], 'filter' => 1, 'sort' => 1000],
         ];
 
         $value = [
             'industries' => ['AgroTech', 'AI &amp; Robotics', 'BioTech &amp; Pharmacy', 'Blockchain', 'Cloud Services', 'E-commerce', 'Digital Marketing &amp; Ads', 'EdTech', 'FinTech', 'FoodTech', 'GameDev', 'Government &amp; Public Sector', 'Hardware', 'Health care &amp; Sports', 'Horeca', 'HRTech', 'Information Security', 'Insurance', 'IoT', 'LifeStyle', 'Logistics &amp; Transport', 'Manufacturing', 'Media', 'Realty &amp; Constructoring', 'R&amp;D', 'Social Networking', 'Telecom', 'Travel', 'UrbanTech', 'VR/AR/XR'],
             'technologies' => $skills,
             'location' => ['US state kansas', 'RF Moscow City'],
+            'profitability' => ['Average', 'High', 'Very high'],
         ];
 
         $this->setProp($prop, Prop::class);
