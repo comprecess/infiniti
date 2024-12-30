@@ -1,97 +1,92 @@
 import { FC } from 'react'
 
+import { ValuesProps } from '../../app/constants/constants'
+import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomMiniButton } from '../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { StatusProfitability } from '../../shared/ui/StatusProfitability/StatusProfitability'
 import { Item } from '../TalentsCard/Body/Item/Item'
 import styles from './BusinessModelCard.module.scss'
 
 interface BusinessModelCardProps {
+  id: number
   title: string
   image: string
-  profitability: 'average' | 'high' | 'veryHigh'
-  isMobile: boolean
-  isMobileOpen: boolean
+  isAdmin: boolean
+  description: string
+  price: string
+  industries: ValuesProps[]
+  technologies: ValuesProps[]
+  profitability: string
+  location: ValuesProps[]
+  isOpen: boolean
   onMobileCLick: () => void
   onNavigate: (id: number) => void
 }
 
 export const BusinessModelCard: FC<BusinessModelCardProps> = ({
+  id,
   title,
   image,
+  isAdmin,
+  description,
+  industries,
+  technologies,
+  price,
+  location,
   profitability,
-  isMobile,
-  isMobileOpen,
+  isOpen,
   onMobileCLick,
   onNavigate,
 }) => {
   return (
     <div
-      className={`${styles.wrapper} ${
-        isMobileOpen ? styles.wrapperOpen : ''
-      }`}
-      onClick={isMobile ? onMobileCLick : () => {}}
+      className={`${styles.wrapper} ${isOpen ? styles.wrapperOpen : ''}`}
+      onClick={onMobileCLick}
     >
-      <img
-        src={image}
-        alt='BusinessModelImg'
-        className={styles.businessModelImg}
-      />
+      <div className={styles.businessModelImg}>
+        <img src={image} alt='BusinessModelImg' />
+      </div>
       <div className={styles.titleWrapper}>
         <div className={styles.container}>
-          <StatusProfitability profitability={profitability} />
+          <div className={styles.profitability}>
+            <StatusProfitability profitability={profitability} />
+          </div>
           <div className={styles.titleKeyData}>
             <span className={styles.title}>{title}</span>
             <div className={styles.keyData}>
-              <span className={styles.keyDataDescription}>
-                Привлечено $2 млн
-              </span>
+              <span className={styles.keyDataDescription}>{price}</span>
               <div className={styles.containerEllipse}>
                 <div className={styles.ellipse} />
               </div>
               <span className={styles.keyDataDescription}>
-                Локальный рынок
-              </span>
-              <div className={styles.containerEllipse}>
-                <div className={styles.ellipse} />
-              </div>
-              <span className={styles.keyDataDescription}>
-                Восточная Европа
+                {location[0].value}
               </span>
             </div>
           </div>
           <div className={styles.otherInfo}>
             <div className={styles.otherInfoContainer}>
-              <span className={styles.description}>
-                Платформа автоматизирует процесс выдачи займов для малых
-                компаний, основанная на данных об их операциях.
-              </span>
+              <span className={styles.description}>{description}</span>
               <div className={styles.tags}>
-                <Item
-                  title='-Test-'
-                  tags={[
-                    { id: 0, propId: 0, value: 'Business' },
-                    { id: 1, propId: 1, value: 'Business' },
-                    { id: 2, propId: 2, value: 'Business' },
-                  ]}
-                />
-                <Item
-                  title='-Test-'
-                  tags={[
-                    { id: 0, propId: 0, value: 'Business' },
-                    { id: 1, propId: 1, value: 'Business' },
-                    { id: 2, propId: 2, value: 'Business' },
-                  ]}
-                />
+                <Item title='Industries' tags={industries} />
+                <Item title='Technologies' tags={technologies} />
               </div>
-              <div className={styles.buttons}>
-                <CustomMiniButton
-                  style='mint'
-                  icon='/icons/view.svg'
-                  tooltipTitle='View'
-                  alt='View'
-                  onClick={() => onNavigate(1)}
+              {isAdmin && (
+                <div className={styles.buttons}>
+                  <CustomMiniButton
+                    style='mint'
+                    icon='/icons/view.svg'
+                    tooltipTitle='View'
+                    alt='View'
+                    onClick={() => onNavigate(id)}
+                  />
+                </div>
+              )}
+              {!isAdmin && (
+                <ButtonBlue
+                  title='Details'
+                  onClick={() => onNavigate(id)}
                 />
-              </div>
+              )}
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@ import { LightningIcon } from '../../icons/LightningIcon'
 import styles from './StatusProfitability.module.scss'
 
 interface StatusProfitabilityProps {
-  profitability: 'average' | 'high' | 'veryHigh'
+  profitability: string
 }
 
 const profitabilityColors = {
@@ -19,13 +19,13 @@ export const StatusProfitability: FC<StatusProfitabilityProps> = ({
   let style = ''
 
   switch (profitability) {
-    case 'average':
+    case 'Average':
       style = profitabilityColors.average
       break
-    case 'high':
+    case 'High':
       style = profitabilityColors.high
       break
-    case 'veryHigh':
+    case 'Very high':
       style = profitabilityColors.veryHigh
       break
   }
@@ -33,13 +33,13 @@ export const StatusProfitability: FC<StatusProfitabilityProps> = ({
   return (
     <div className={`${styles.wrapper} ${style}`}>
       <LightningIcon style={styles.icon} />
-      {profitability === 'average' && (
+      {profitability === 'Average' && (
         <span className={styles.title}>Average</span>
       )}
-      {profitability === 'high' && (
+      {profitability === 'High' && (
         <span className={styles.title}>High</span>
       )}
-      {profitability === 'veryHigh' && (
+      {profitability === 'Very high' && (
         <span className={styles.title}>Very High</span>
       )}
     </div>
