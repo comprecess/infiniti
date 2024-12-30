@@ -25,7 +25,7 @@ Route::controller(BusinessModelController::class)
         Route::get('properties', 'properties');
         Route::get('property/{id}', 'property');
         Route::post('list', 'list');
-        Route::get('item/{catalogUser}', 'item');
+        Route::get('item/{model}', 'item');
     });
 
 
