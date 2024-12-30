@@ -27,7 +27,7 @@ interface TalentsListProps {
     sort: { name: string; type: string }
   }
   setSort: React.Dispatch<
-  React.SetStateAction<{ sort: { name: string; type: string } }>
+    React.SetStateAction<{ sort: { name: string; type: string } }>
   >
   selectedFilters: FiltersState
 }
@@ -118,7 +118,7 @@ export const TalentsList: FC<TalentsListProps> = ({
           {talentsList.data.length > 0 ? (
             <>
               <div className={styles.talentsList}>
-                {talentsList.data?.map(talent => {
+                {talentsList.data.map(talent => {
                   return (
                     <TalentsCard
                       key={talent.id}

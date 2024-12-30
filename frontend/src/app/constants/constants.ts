@@ -1123,3 +1123,18 @@ export interface BusinessPlanNewPlanFormData {
   finance: string
   appendix: string
 }
+
+export interface BusinessPlanBusinessModelData {
+  id: number
+  category: []
+  preview: string
+  description: string
+  age: string
+  industries: ValuesProps[]
+  price: string
+  start: string
+  technologies: ValuesProps[]
+  title: string
+  profitability: ValuesProps[]
+  location: ValuesProps[]
+}

@@ -1,24 +1,52 @@
 import { FC, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import {
+  BusinessPlanBusinessModelData,
+  FiltersState,
+  page,
+  PagesMetaData,
+} from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
 import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
+import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { postBusinessModelList } from '../../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/PostBusinessModelList'
 import { BusinessModelCard } from '../../../../../widgets/BusinessModelCard/BusinessModelCard'
+import { PagesList } from '../../../../Client/CatalogPage/TalentsList/PagesList/PagesList'
 import styles from './ModelsList.module.scss'
 
 interface ModelsListProps {
   isAdmin: boolean
+  selectedFilters: FiltersState
 }
 
-export const ModelsList: FC<ModelsListProps> = ({ isAdmin }) => {
-  const [isMobile, setIsMobile] = useState(false)
-  const [modelsOpen, setModelsOpen] = useState<boolean[]>([
-    false,
-    false,
-    false,
-  ])
+export const ModelsList: FC<ModelsListProps> = ({
+  isAdmin,
+  selectedFilters,
+}) => {
+  const [modelsList, setModelsList] = useState<{
+    data: BusinessPlanBusinessModelData[]
+    meta: PagesMetaData
+  } | null>(null)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+
+  const [modelsOpen, setModelsOpen] = useState<boolean[]>([])
 
   const navigate = useNavigate()
+
+  const getModels = async () => {
+    const response = await postBusinessModelList(
+      page + String(currentPage),
+      selectedFilters,
+    )
+
+    if (currentPage > response.meta.last_page) {
+      setCurrentPage(1)
+    }
+
+    setModelsList(response)
+    setModelsOpen(Array(response.meta.total).fill(false))
+  }
 
   const handleNavigateToViewBusinessModel = (id: number) => {
     if (isAdmin) {
@@ -42,6 +70,10 @@ export const ModelsList: FC<ModelsListProps> = ({ isAdmin }) => {
     })
   }
 
+  const nextPage = useCallback((id: number) => {
+    setCurrentPage(id)
+  }, [])
+
   const scrollToTop = useCallback(() => {
     setTimeout(() => {
       window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -49,18 +81,16 @@ export const ModelsList: FC<ModelsListProps> = ({ isAdmin }) => {
   }, [])
 
   useEffect(() => {
-    const handleResize = () => {
-      const isMobileView = window.innerWidth <= 1700
+    getModels()
+  }, [currentPage, selectedFilters])
 
-      setIsMobile(isMobileView)
-    }
-
-    handleResize()
-
-    window.addEventListener('resize', handleResize)
-
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+  if (!modelsList) {
+    return (
+      <div className={styles.wrapper}>
+        <LoadingSpinner size='xl' />
+      </div>
+    )
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -68,43 +98,47 @@ export const ModelsList: FC<ModelsListProps> = ({ isAdmin }) => {
         <div className={styles.header}>
           <div className={styles.title}>
             <h3 className={styles.name}>Models</h3>
-            <h3 className={styles.number}>-3-</h3>
+            <h3 className={styles.number}>{modelsList.meta.total}</h3>
           </div>
           -SortList-
         </div>
         <div className={styles.list}>
-          <div className={styles.modelsList}>
-            <BusinessModelCard
-              title='Платформа для автоматизации выдачи займов'
-              image='/test_1.jpg'
-              profitability='average'
-              isMobile={isMobile}
-              isMobileOpen={modelsOpen[0]}
-              onMobileCLick={() => handleModelOpenClose(0)}
-              onNavigate={handleNavigateToViewBusinessModel}
-            />
-            <BusinessModelCard
-              title='Финтех платформа для малого и среднего бизнеса'
-              image='/test_2.jpg'
-              profitability='high'
-              isMobile={isMobile}
-              isMobileOpen={modelsOpen[1]}
-              onMobileCLick={() => handleModelOpenClose(1)}
-              onNavigate={handleNavigateToViewBusinessModel}
-            />
-            <BusinessModelCard
-              title='Перспективные бизнес модели для корпоративного роста и инноваций'
-              image='/test_4.png'
-              profitability='veryHigh'
-              isMobile={isMobile}
-              isMobileOpen={modelsOpen[2]}
-              onMobileCLick={() => handleModelOpenClose(2)}
-              onNavigate={handleNavigateToViewBusinessModel}
-            />
-          </div>
+          {modelsList.data.length > 0 ? (
+            <>
+              <div className={styles.modelsList}>
+                {modelsList.data.map((model, index) => {
+                  return (
+                    <BusinessModelCard
+                      key={model.id}
+                      id={model.id}
+                      isAdmin={isAdmin}
+                      title={model.title}
+                      description={model.description}
+                      price={model.price}
+                      image={model.preview}
+                      industries={model.industries}
+                      technologies={model.technologies}
+                      location={model.location}
+                      profitability={model.profitability[0].value}
+                      isOpen={modelsOpen[index]}
+                      onMobileCLick={() => handleModelOpenClose(index)}
+                      onNavigate={handleNavigateToViewBusinessModel}
+                    />
+                  )
+                })}
+              </div>
+              <PagesList meta={modelsList.meta} nextPage={nextPage} />
+            </>
+          ) : (
+            <div className={styles.nothingFound}>
+              <span className={styles.nothingFoundText}>
+                Nothing Found
+              </span>
+            </div>
+          )}
           <div
             className={
-              [0, 0, 0].length > 0
+              modelsList.data.length > 0
                 ? styles.buttonBackToTopActive
                 : styles.buttonBackToTopInactive
             }

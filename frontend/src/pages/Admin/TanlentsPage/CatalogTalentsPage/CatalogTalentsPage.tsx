@@ -58,9 +58,9 @@ export const AdminCatalogTalentsPage: FC = () => {
   }
 
   useEffect(() => {
-    document.title = 'infiniti | Catalog Talents'
-
     getCategories()
+
+    document.title = 'infiniti | Catalog Talents'
   }, [])
 
   useEffect(() => {
@@ -83,10 +83,15 @@ export const AdminCatalogTalentsPage: FC = () => {
                 onClick={() => setActiveCategory(0)}
               />
               {categories.values.map((category, index) => {
+                const updatedCategory = category.value.replace(
+                  /&amp;/g,
+                  '&',
+                )
+
                 return (
                   <CategoriesItem
                     key={index + 1}
-                    name={category.value}
+                    name={updatedCategory}
                     isActive={activeCategory === index + 1}
                     onClick={() => setActiveCategory(index + 1)}
                   />
