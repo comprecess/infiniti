@@ -42,6 +42,7 @@ class BusinessModelResource extends JsonResource
         ];
 
         if(!self::$isCollection) {
+                $resorce['location'] = ValueResource::collection($this->getPropValues('location', null));
 //            $resorce['available'] = User::AVAILABLE_STATUS[$this->getAvailableStatus()];
 //            $resorce['allSkills'] = ValueResorce::collection($this->getPropValues('all_skills', null));
 //            $resorce['userId'] = $this->getNested('user.id');
