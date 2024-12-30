@@ -88,9 +88,9 @@ class BusinessModelController extends Controller
         return BusinessModelResource::collection($resultQuery);
     }
 
-    public function item(User $catalogUser)
+    public function item(BusinessModel $model)
     {
-        return new UsersResorce($catalogUser);
+        return new BusinessModelResource($model);
     }
 
 }
