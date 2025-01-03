@@ -1,6 +1,10 @@
 import { FC, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
-import { DashboardData, RolesAccess } from '../../../app/constants/constants'
+import {
+  DashboardData,
+  RolesAccess,
+} from '../../../app/constants/constants'
 import { Calendar } from '../../../features/Admin/DashboardPage/Calendar/Calendar'
 import { CashFlow } from '../../../features/Admin/DashboardPage/CashFlow/CashFlow'
 import { ExpensesCategory } from '../../../features/Admin/DashboardPage/ExpensesCategory/ExpensesCategory'
@@ -17,7 +21,11 @@ import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './DashboardPage.module.scss'
 
 export const AdminDashboardPage: FC = () => {
-  const [dataCashFlow, setDataCashFlow] = useState<DashboardData | null>(null)
+  const [dataCashFlow, setDataCashFlow] = useState<DashboardData | null>(
+    null,
+  )
+
+  const { t } = useTranslation()
 
   const getCashFlowData = async () => {
     const getResponse: {
@@ -41,7 +49,7 @@ export const AdminDashboardPage: FC = () => {
         {dataCashFlow ? (
           <RecentCard
             refreshIcon
-            title='Cash Flow'
+            title={t('admin-dashboard-page-card-1-title')}
             style={`${styles.recentFullScreen} ${styles.zIndex}`}
           >
             <CashFlow data={dataCashFlow} />
@@ -53,14 +61,14 @@ export const AdminDashboardPage: FC = () => {
       <section className={styles.sectionSecond}>
         <RecentCard
           ordinaryIcons
-          title='Recent Clients'
+          title={t('admin-dashboard-page-card-2-title')}
           style={styles.recentHalf}
         >
           <RecentClients />
         </RecentCard>
         <RecentCard
           ordinaryIcons
-          title='Recent Projects'
+          title={t('admin-dashboard-page-card-3-title')}
           style={styles.recentHalf}
         >
           <RecentProjects />
@@ -69,26 +77,30 @@ export const AdminDashboardPage: FC = () => {
       <section className={styles.sectionThird}>
         <RecentCard
           ordinaryIcons
-          title='Recent Invoices'
+          title={t('admin-dashboard-page-card-4-title')}
           style={styles.recentHalf}
         >
           <RecentInvoices />
         </RecentCard>
-        <RecentCard ordinaryIcons title='Calendar' style={styles.recentHalf}>
+        <RecentCard
+          ordinaryIcons
+          title={t('admin-dashboard-page-card-5-title')}
+          style={styles.recentHalf}
+        >
           <Calendar />
         </RecentCard>
       </section>
       <section className={styles.sectionFourth}>
         <RecentCard
           ordinaryIcons
-          title='Latest Income'
+          title={t('admin-dashboard-page-card-6-title')}
           style={styles.recentHalf}
         >
           <LatestIncome />
         </RecentCard>
         <RecentCard
           ordinaryIcons
-          title='Latest Expense'
+          title={t('admin-dashboard-page-card-7-title')}
           style={styles.recentHalf}
         >
           <LatestExpense />
@@ -97,14 +109,14 @@ export const AdminDashboardPage: FC = () => {
       <section className={styles.sectionFifth}>
         <RecentCard
           ordinaryIcons
-          title='Net Worth & Account Balances'
+          title={t('admin-dashboard-page-card-8-title')}
           style={styles.recentHalf}
         >
           <NetWorthAccountBalances />
         </RecentCard>
         <RecentCard
           ordinaryIcons
-          title='Expenses by Category'
+          title={t('admin-dashboard-page-card-9-title')}
           style={styles.recentHalf}
         >
           <ExpensesCategory />
@@ -113,7 +125,7 @@ export const AdminDashboardPage: FC = () => {
       <section className={styles.sectionSixth}>
         <RecentCard
           ordinaryIcons
-          title='Income vs Expense: Monthly'
+          title={t('admin-dashboard-page-card-10-title')}
           style={styles.recentFullScreen}
         >
           <IncomeExpenseMonthly />

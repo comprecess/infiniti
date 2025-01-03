@@ -2,6 +2,7 @@ import './BarChart.scss'
 
 import { FC, useEffect, useState } from 'react'
 import Chart from 'react-apexcharts'
+import { useTranslation } from 'react-i18next'
 
 interface DataEntry {
   Income: number
@@ -19,6 +20,8 @@ interface DashboardChartProps {
 export const BarChart: FC<DashboardChartProps> = ({ data }) => {
   const [chartData, setChartData] = useState<any>(null)
 
+  const { t } = useTranslation()
+
   useEffect(() => {
     const typedDataJson = Object.fromEntries(
       Object.entries(data).reverse(),
@@ -31,13 +34,13 @@ export const BarChart: FC<DashboardChartProps> = ({ data }) => {
 
     const series = [
       {
-        name: 'Income',
+        name: `${t('admin-dashboard-page-bar-chart-legend-1')}`,
         type: 'bar',
         data: incomeData,
         color: '#5965E7',
       },
       {
-        name: 'Expense',
+        name: `${t('admin-dashboard-page-bar-chart-legend-2')}`,
         type: 'area',
         data: expenseData,
         color: '#DC286A',

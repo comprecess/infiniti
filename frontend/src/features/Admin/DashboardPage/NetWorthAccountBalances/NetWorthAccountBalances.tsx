@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
@@ -7,14 +8,26 @@ import { Item } from './Item/Item'
 import styles from './NetWorthAccountBalances.module.scss'
 
 export const NetWorthAccountBalances: FC = () => {
+  const { t } = useTranslation()
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.card}>
-        <Header amount={'-0-'} total={'-0-'} name='Net Worth' />
+        <Header
+          amount={'-0-'}
+          total={'-0-'}
+          name={t('admin-dashboard-page-card-8-mini-title')}
+        />
         <div>
           <div className={styles.columns}>
-            <Title title='Account' style={styles.accountColumn} />
-            <Title title='Balance' style={styles.balanceColumn} />
+            <Title
+              title={t('admin-dashboard-page-card-8-table-1')}
+              style={styles.accountColumn}
+            />
+            <Title
+              title={t('admin-dashboard-page-card-8-table-2')}
+              style={styles.balanceColumn}
+            />
           </div>
           <div className={styles.items}>
             {[].map((_order, index) => {

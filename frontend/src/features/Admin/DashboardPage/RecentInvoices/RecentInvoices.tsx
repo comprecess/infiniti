@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
@@ -7,6 +8,8 @@ import { Item } from './Item/Item'
 import styles from './RecentInvoices.module.scss'
 
 export const RecentInvoices: FC = () => {
+  const { t } = useTranslation()
+
   const data: string[] = []
 
   return (
@@ -15,11 +18,26 @@ export const RecentInvoices: FC = () => {
         <div>
           <div className={styles.columns}>
             <Title title='#' style={styles.hashtagColumn} />
-            <Title title='Account' style={styles.accountColumn} />
-            <Title title='Amount' style={styles.amountColumn} />
-            <Title title='Created' style={styles.createdColumn} />
-            <Title title='Due' style={styles.dueColumn} />
-            <Title title='Status' style={styles.statusColumn} />
+            <Title
+              title={t('admin-dashboard-page-card-4-table-1')}
+              style={styles.accountColumn}
+            />
+            <Title
+              title={t('admin-dashboard-page-card-4-table-2')}
+              style={styles.amountColumn}
+            />
+            <Title
+              title={t('admin-dashboard-page-card-4-table-3')}
+              style={styles.createdColumn}
+            />
+            <Title
+              title={t('admin-dashboard-page-card-4-table-4')}
+              style={styles.dueColumn}
+            />
+            <Title
+              title={t('admin-dashboard-page-card-4-table-5')}
+              style={styles.statusColumn}
+            />
           </div>
           <div className={styles.items}>
             {[].map((_order, index) => {
