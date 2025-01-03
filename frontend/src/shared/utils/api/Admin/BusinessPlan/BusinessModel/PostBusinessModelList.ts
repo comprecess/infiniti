@@ -24,8 +24,6 @@ export const postBusinessModelList = async (
 
       const data = await response.json()
 
-      console.log(data)
-
       return data
     } catch (error) {
       return { status: false, message: 'An error occurred' }

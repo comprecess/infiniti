@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
@@ -6,12 +7,23 @@ import { Item } from './Item/Item'
 import styles from './LatestIncome.module.scss'
 
 export const LatestIncome: FC = () => {
+  const { t } = useTranslation()
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
-        <Title title='Date' style={styles.dateColumn} />
-        <Title title='Description' style={styles.descriptionColumn} />
-        <Title title='Amount' style={styles.amountColumn} />
+        <Title
+          title={t('admin-dashboard-page-card-6-table-1')}
+          style={styles.dateColumn}
+        />
+        <Title
+          title={t('admin-dashboard-page-card-6-table-2')}
+          style={styles.descriptionColumn}
+        />
+        <Title
+          title={t('admin-dashboard-page-card-6-table-3')}
+          style={styles.amountColumn}
+        />
       </div>
       <div className={styles.items}>
         {[].map((_order, index) => {

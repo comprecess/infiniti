@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { DashboardData } from '../../../../app/constants/constants'
@@ -15,6 +16,8 @@ interface CashFlowProps {
 }
 
 export const CashFlow: FC<CashFlowProps> = ({ data }) => {
+  const { t } = useTranslation()
+
   const navigate = useNavigate()
 
   const navigateToListCustomers = () => {
@@ -24,7 +27,9 @@ export const CashFlow: FC<CashFlowProps> = ({ data }) => {
   }
 
   const navigateToListCompanies = () => {
-    navigate(`/${Routes.adminPages}/${Routes.customers}/${Routes.companies}`)
+    navigate(
+      `/${Routes.adminPages}/${Routes.customers}/${Routes.companies}`,
+    )
   }
 
   const navigateToLeads = () => {
@@ -36,19 +41,19 @@ export const CashFlow: FC<CashFlowProps> = ({ data }) => {
       <div className={styles.leftItem}>
         <div className={styles.cardsInfo}>
           <BigCard
-            title='Customers'
+            title={t('admin-dashboard-page-info-card-1-title')}
             icon='/icons/user.svg'
             amount={data.client.toString()}
             onClick={navigateToListCustomers}
           />
           <BigCard
-            title='Companies'
+            title={t('admin-dashboard-page-info-card-2-title')}
             icon='/icons/elements.svg'
             amount={data.company.toString()}
             onClick={navigateToListCompanies}
           />
           <BigCard
-            title='Leads'
+            title={t('admin-dashboard-page-info-card-3-title')}
             icon='/icons/userPlusPurple.svg'
             amount={data.leads.toString()}
             onClick={navigateToLeads}
@@ -61,19 +66,19 @@ export const CashFlow: FC<CashFlowProps> = ({ data }) => {
       </div>
       <div className={styles.rightItem}>
         <MiniCard
-          title='Today'
+          title={t('admin-dashboard-page-mini-info-card-1-title')}
           income={data.Income.today.toString()}
           expense={data.Expense.today.toString()}
         />
         <CustomDivider />
         <MiniCard
-          title='Last Month'
+          title={t('admin-dashboard-page-mini-info-card-2-title')}
           income={data.Income.thisMonth.toString()}
           expense={data.Expense.thisMonth.toString()}
         />
         <CustomDivider />
         <MiniCard
-          title='Total'
+          title={t('admin-dashboard-page-mini-info-card-3-title')}
           income={data.Income.total.toString()}
           expense={data.Expense.total.toString()}
         />
