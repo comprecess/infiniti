@@ -1129,6 +1129,7 @@ export interface BusinessPlanBusinessModelData {
   category: []
   preview: string
   description: string
+  fullDescription: string
   age: string
   industries: ValuesProps[]
   price: string

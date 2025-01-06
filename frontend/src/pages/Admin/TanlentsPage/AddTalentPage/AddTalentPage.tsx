@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import {
   TalentFormData,
@@ -17,6 +18,7 @@ export const AdminAddTalentPage: FC = () => {
   const [formData, setFormData] = useState<Partial<TalentFormData>>({})
   const [inputData, setInputData] = useState<TalentsInputData | null>(null)
 
+  const { t } = useTranslation()
   const showToast = useCustomToast()
 
   const getInputData = async () => {
@@ -70,12 +72,12 @@ export const AdminAddTalentPage: FC = () => {
       <section className={styles.section}>
         {inputData ? (
           <RecentCard
-            title='Add Talent'
+            title={t('admin-talents-add-talent-page-title')}
             Component={ButtonBlue}
             style={styles.recentFullScreen}
             componentProps={{
               titleNone: true,
-              title: 'Save',
+              title: `${t('admin-talents-add-talent-page-button-1')}`,
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,
               onClick: createNewTalent,

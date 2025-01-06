@@ -1,9 +1,10 @@
 import { Textarea } from '@chakra-ui/react'
 import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
 
-import { ButtonBlue } from '../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDataPicker } from '../../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomInput } from '../../../../../../shared/ui/CustomInput/CustomInput'
+import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styles from './ProjectsExperienceItem.module.scss'
 
 interface ProjectsExperienceItemProps {
@@ -15,6 +16,8 @@ export const ProjectsExperienceItem: FC<ProjectsExperienceItemProps> = ({
   onChange,
   onRemove,
 }) => {
+  const { t } = useTranslation()
+
   const handleOnInputChange = (name: string, value: string | number) => {
     onChange(name, value)
   }
@@ -28,32 +31,32 @@ export const ProjectsExperienceItem: FC<ProjectsExperienceItemProps> = ({
   return (
     <div className={styles.wrapper}>
       <CustomInput
-        title='Company'
+        title={`${t('admin-project-experience-item-input-1')}`}
         type='string'
         id='name'
         name='name'
         onChange={handleOnInputChange}
       />
       <CustomInput
-        title='Position'
+        title={`${t('admin-project-experience-item-input-2')}`}
         type='string'
         id='position'
         name='position'
         onChange={handleOnInputChange}
       />
       <CustomDataPicker
-        title='Period From'
+        title={`${t('admin-project-experience-item-input-3')}`}
         titleOnChange='periodFrom'
         onChange={handleOnInputChange}
       />
       <CustomDataPicker
-        title='Period To'
+        title={`${t('admin-project-experience-item-input-4')}`}
         titleOnChange='periodTo'
         onChange={handleOnInputChange}
       />
       <div className={styles.containerItems}>
         <span className={styles.containerItemsTitle}>
-          Responsibilities
+          {`${t('admin-project-experience-item-input-5')}`}
         </span>
         <Textarea
           minHeight='140px'
@@ -71,12 +74,11 @@ export const ProjectsExperienceItem: FC<ProjectsExperienceItemProps> = ({
         />
       </div>
       <div className={styles.buttonRemove}>
-        <ButtonBlue
-          titleNone
-          title='Delete Experience'
+        <CustomMiniButton
           icon='/icons/trash.svg'
-          iconProps={styles.buttonIcon}
-          style={styles.buttonDeleteBlank}
+          style='cherry'
+          alt='Delete'
+          tooltipTitle='Delete'
           onClick={onRemove}
         />
       </div>
