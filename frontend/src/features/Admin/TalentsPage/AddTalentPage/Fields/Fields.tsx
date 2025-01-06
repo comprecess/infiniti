@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import {
   FiltersState,
@@ -24,15 +25,15 @@ interface FieldsProps {
 
 export interface PartialFieldsPostData extends Partial<TalentFormData> {
   [key: string]:
-  | string
-  | number
-  | number[]
-  | string[]
-  | FormData
-  | TalentProjectsExperience[]
-  | boolean
-  | undefined
-  | null
+    | string
+    | number
+    | number[]
+    | string[]
+    | FormData
+    | TalentProjectsExperience[]
+    | boolean
+    | undefined
+    | null
 }
 
 export const Fields: FC<FieldsProps> = ({
@@ -59,16 +60,18 @@ export const Fields: FC<FieldsProps> = ({
 
   const [selectedFilters, setSelectedFilters] = useState<FiltersState>({})
 
+  const { t } = useTranslation()
+
   const handleChangeInput = (
     field: string,
     value:
-    | string
-    | number
-    | number[]
-    | string[]
-    | boolean
-    | undefined
-    | null,
+      | string
+      | number
+      | number[]
+      | string[]
+      | boolean
+      | undefined
+      | null,
   ) => {
     if (field === 'rate' && typeof value === 'boolean') {
       value = value === true ? 1 : 0
@@ -173,60 +176,62 @@ export const Fields: FC<FieldsProps> = ({
   return (
     <div className={styles.wrapper}>
       <CustomInput
-        title='Full Name'
+        title={`${t('admin-talents-add-talent-page-input-1')}`}
         type='text'
         id='name'
         name='name'
         onChange={handleChangeInput}
       />
       <CustomDataPicker
-        title='Date of Birth'
+        title={`${t('admin-talents-add-talent-page-input-2')}`}
         titleOnChange='birthDay'
         onChange={handleChangeInput}
       />
       <CustomInput
-        title='Daily Rate'
+        title={`${t('admin-talents-add-talent-page-input-3')}`}
         type='number'
         id='priceDay'
         name='priceDay'
         onChange={handleChangeInput}
       />
       <CustomInput
-        title='Hourly Rate'
+        title={`${t('admin-talents-add-talent-page-input-4')}`}
         type='number'
         id='priceHour'
         name='priceHour'
         onChange={handleChangeInput}
       />
       <CustomCheckBox
-        title='Taxes Included'
+        title={`${t('admin-talents-add-talent-page-input-5')}`}
         titleOnChange='rate'
         onInputChange={handleChangeInput}
       />
       <CustomCheckBox
-        title='Display in the Talent directory?'
+        title={`${t('admin-talents-add-talent-page-input-6')}`}
         titleOnChange='active'
         onInputChange={handleChangeInput}
       />
       <CustomSelect
-        title='Gender'
+        title={`${t('admin-talents-add-talent-page-input-7')}`}
         titleOnChange='gender'
         idList={inputData.gender.map(gender => gender.id)}
         nameList={inputData.gender.map(gender => gender.value)}
         onChange={handleChangeInput}
       />
       <CustomSelect
-        title='Level'
+        title={`${t('admin-talents-add-talent-page-input-8')}`}
         titleOnChange='lvl'
         idList={inputData.lvl.map(lvl => lvl.id)}
         nameList={inputData.lvl.map(lvl => lvl.value)}
         onChange={handleChangeInput}
       />
       <section className={styles.section}>
-        <span className={styles.sectionTitle}>About talent</span>
+        <span className={styles.sectionTitle}>
+          {`${t('admin-talents-add-talent-page-mini-title-1')}`}
+        </span>
         <div className={styles.sectionItems}>
           <TagSelector
-            title='Specialization'
+            title={`${t('admin-talents-add-talent-page-input-9')}`}
             list={inputData.specialization.map(spec => spec.value)}
             selectedTags={[]}
             onTagsChange={tags =>
@@ -234,25 +239,27 @@ export const Fields: FC<FieldsProps> = ({
             }
           />
           <TagSelector
-            title='Industries'
+            title={`${t('admin-talents-add-talent-page-input-10')}`}
             list={inputData.industries.map(spec => spec.value)}
             selectedTags={[]}
             onTagsChange={tags => handleChangeInput('industries', tags)}
           />
           <TagSelector
-            title='Key skills'
+            title={`${t('admin-talents-add-talent-page-input-11')}`}
             list={inputData.keySkills.map(spec => spec.value)}
             selectedTags={[]}
             onTagsChange={tags => handleChangeInput('keySkills', tags)}
           />
           <TagSelector
-            title='All skills'
+            title={`${t('admin-talents-add-talent-page-input-12')}`}
             list={inputData.allSkills.map(spec => spec.value)}
             selectedTags={[]}
             onTagsChange={tags => handleChangeInput('allSkills', tags)}
           />
           <div className={styles.containerItems}>
-            <span className={styles.containerItemsTitle}>Language</span>
+            <span className={styles.containerItemsTitle}>
+              {`${t('admin-talents-add-talent-page-input-13')}`}
+            </span>
             <CustomCheckBoxIndeterminate
               languages={inputData.language[0].children}
               filters={selectedFilters}
@@ -260,7 +267,7 @@ export const Fields: FC<FieldsProps> = ({
             />
           </div>
           <CustomSelect
-            title='Timezone'
+            title={`${t('admin-talents-add-talent-page-input-14')}`}
             titleOnChange='timezone'
             idList={inputData.timezone.map(spec => spec.id)}
             nameList={inputData.timezone.map(spec => spec.value)}
@@ -270,7 +277,7 @@ export const Fields: FC<FieldsProps> = ({
       </section>
       <section className={styles.section}>
         <span className={styles.sectionTitle}>
-          Projects and experience
+          {`${t('admin-talents-add-talent-page-mini-title-2')}`}
         </span>
         {formData.blockExperience && isProjectsList && (
           <div className={styles.sectionItems}>
@@ -292,41 +299,43 @@ export const Fields: FC<FieldsProps> = ({
           </div>
         )}
       </section>
-      <section>
+      <div>
         <ButtonBlue
           titleNone
           icon='/icons/plus.svg'
-          title='Add Experience'
+          title={`${t('admin-talents-add-talent-page-button-2')}`}
           style={styles.addExperienceButton}
           onClick={handleAddExperience}
         />
-      </section>
+      </div>
       <section className={styles.section}>
-        <span className={styles.sectionTitle}>Education</span>
+        <span className={styles.sectionTitle}>
+          {`${t('admin-talents-add-talent-page-mini-title-3')}`}
+        </span>
         <div className={styles.sectionItems}>
           <CustomInput
-            title='Name'
+            title={`${t('admin-talents-add-talent-page-input-15')}`}
             type='text'
             id='educationName'
             name='educationName'
             onChange={handleChangeInput}
           />
           <CustomInput
-            title='Specialization'
+            title={`${t('admin-talents-add-talent-page-input-16')}`}
             type='text'
             id='educationSpecialization'
             name='educationSpecialization'
             onChange={handleChangeInput}
           />
           <CustomInput
-            title='Degree'
+            title={`${t('admin-talents-add-talent-page-input-17')}`}
             type='text'
             id='educationDegree'
             name='educationDegree'
             onChange={handleChangeInput}
           />
           <CustomInput
-            title='Graduation'
+            title={`${t('admin-talents-add-talent-page-input-18')}`}
             type='text'
             id='educationGraduation'
             name='educationGraduation'
