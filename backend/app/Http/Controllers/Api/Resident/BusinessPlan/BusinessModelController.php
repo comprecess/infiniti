@@ -57,7 +57,7 @@ class BusinessModelController extends BusinessPlanAccessController
 
     public function inputData()
     {
-        $all = ['industries', 'technologies', 'category', 'profitability'];
+        $all = ['industries', 'technologies', 'category', 'profitability', 'location'];
         $data = [];
 
         foreach($all as $value) {
