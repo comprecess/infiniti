@@ -189,12 +189,16 @@ class TalentController extends TalentsController
     public function update(TalentUpdateRequest $request, User $user)
     {
         if($request->file) {
-            $user->files()->whereNull('data')->delete();
+            $user->files()->whereNull('data')->get()->each(function($item){
+                $item->delete();
+            });
             $user->uploads($request->file);
         }
 
         if($request->deleteImg) {
-            $user->files()->whereNull('data')->delete();
+            $user->files()->whereNull('data')->get()->each(function($item){
+                $item->delete();
+            });
         }
 
         return $this->defResponse();

@@ -129,6 +129,17 @@ Route::controller(Resident\BusinessPlan\BusinessPlanController::class)->prefix('
         Route::delete('/{plan}', 'delete');
     });
 
+#BusinessModel
+Route::controller(Resident\BusinessPlan\BusinessModelController::class)->prefix('business-model')
+    ->group(function(){
+        Route::get('/input-data', 'inputData');
+        Route::post('/', 'createOrUpdate');
+        Route::put('/{model}', 'createOrUpdate');
+        Route::get('/{model}', 'item');
+        Route::delete('/{model}', 'delete');
+        Route::match(['put', 'post'],'/{model}/update', 'update');
+    });
+
 #settings
 Route::group(['prefix' => 'settings'], function(){
     #admin

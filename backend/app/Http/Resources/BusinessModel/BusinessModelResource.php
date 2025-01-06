@@ -31,7 +31,6 @@ class BusinessModelResource extends JsonResource
             'title' => $this->title,
             'start' => $this->start?->format('Y-m-d'),
             'description' => $this->description,
-//            'img' => $this->getLastFile(true) ?? "",
             'category' => ValueResource::collection($this->getPropValues('category', null)),
             'age' => $this->getPropValues('age'),
             'industries' => ValueResource::collection(self::$isCollection ? ($industries->count() ? $industries?->chunk(3)?->first() : collect([])) : $industries),
@@ -43,6 +42,8 @@ class BusinessModelResource extends JsonResource
         ];
 
         if(!self::$isCollection) {
+            $resorce[BusinessModel::TYPE_IMG[1]] = $this->getFileType(BusinessModel::TYPE_IMG[1])->first()?->getLink();
+            $resorce['fullDescription'] = $this->full_description;
 //                $resorce['location'] = ValueResource::collection($this->getPropValues('location', null));
 //            $resorce['available'] = User::AVAILABLE_STATUS[$this->getAvailableStatus()];
 //            $resorce['allSkills'] = ValueResorce::collection($this->getPropValues('all_skills', null));

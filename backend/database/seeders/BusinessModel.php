@@ -27,9 +27,9 @@ class BusinessModel extends Catalog
                 ['name' => 'Investments price', 'id_name' => 'price', 'type' => 'integer', 'filter' => 1, 'has_add' => 1, 'options' => '{"placeholder": {"from": 1, "to": 8000}}', 'sort' => 10, 'required' => 1],
             ]
             ],
-            ['name' => 'Location', 'id_name' => 'location', 'type' => 'checkbox', 'filter' => 1, 'sort' => 400, 'required' => 1],
+            ['name' => 'Location', 'id_name' => 'location', 'type' => 'checkbox', 'filter' => 1, 'sort' => 400, 'required' => 1, 'has_add' => 1],
             ['name' => 'Age', 'id_name' => 'age', 'type' => 'integer',  'has_add' => '1', 'sort' => 900, 'filter' => 1, 'required' => 1, 'options' => '{"placeholder": {"from": 1, "to": 65}}'],
-            ['name' => 'Category', 'id_name' => 'category', 'type' => $type[0]],
+            ['name' => 'Category', 'id_name' => 'category', 'type' => $type[0], 'has_add' => 1],
             ['name' => 'Profitability', 'id_name' => 'profitability', 'type' => $type[0], 'filter' => 1, 'sort' => 1000],
         ];
 

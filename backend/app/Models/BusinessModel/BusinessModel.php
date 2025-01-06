@@ -81,10 +81,5 @@ class BusinessModel extends Model
 
     }
 
-    public function getImg($type = self::TYPE_IMG[0])
-    {
-
-    }
-
 
 }
