@@ -5,7 +5,7 @@ namespace App\Http\Requests\Resident\BusinessPlan;
 use Illuminate\Foundation\Http\FormRequest;
 
 
-class BusinessModeUpdateRequest extends FormRequest
+class BusinessModelUpdateRequest extends FormRequest
 {
 
     public function rules(): array
