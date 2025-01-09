@@ -33,7 +33,7 @@ class BusinessModelResource extends JsonResource
 
         $data = [
             'id' => $this->id,
-            'title' => $this->name,
+            'title' => $this->title,
             'start' => $this->start?->format('Y-m-d'),
             'description' => $this->description,
             'fullDescription' => $this->full_description,
