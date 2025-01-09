@@ -9,7 +9,9 @@ import {
 } from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
 import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
+import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { deleteBusinessModel } from '../../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/DeleteBusinessModel'
 import { postBusinessModelList } from '../../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/PostBusinessModelList'
 import { BusinessModelCard } from '../../../../../widgets/BusinessModelCard/BusinessModelCard'
 import { PagesList } from '../../../../Client/CatalogPage/TalentsList/PagesList/PagesList'
@@ -33,6 +35,7 @@ export const ModelsList: FC<ModelsListProps> = ({
   const [modelsOpen, setModelsOpen] = useState<boolean[]>([])
 
   const navigate = useNavigate()
+  const showToast = useCustomToast()
 
   const getModels = async () => {
     const response = await postBusinessModelList(
@@ -57,6 +60,32 @@ export const ModelsList: FC<ModelsListProps> = ({
       navigate(
         `/${Routes.clientPages}/${Routes.businessModels}/${Routes.businessModel}/${Routes.view}/${id}`,
       )
+    }
+  }
+
+  const handleNavigateToEditBusinessModel = (id: number) => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.edit}/${Routes.businessModel}/${id}`,
+    )
+  }
+
+  const handleDeleteBusinessModel = async (id: number) => {
+    const response = await deleteBusinessModel(id)
+
+    if (response.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully deleted the Business Model',
+        status: 'success',
+      })
+
+      getModels()
+    } else {
+      showToast({
+        title: 'Error',
+        description: response.message,
+        status: 'error',
+      })
     }
   }
 
@@ -123,6 +152,8 @@ export const ModelsList: FC<ModelsListProps> = ({
                       isOpen={modelsOpen[index]}
                       onMobileCLick={() => handleModelOpenClose(index)}
                       onNavigate={handleNavigateToViewBusinessModel}
+                      onDelete={handleDeleteBusinessModel}
+                      onEdit={handleNavigateToEditBusinessModel}
                     />
                   )
                 })}

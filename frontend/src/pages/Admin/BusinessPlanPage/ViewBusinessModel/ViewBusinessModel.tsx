@@ -59,7 +59,7 @@ export const AdminViewBusinessModel = () => {
             <div className={styles.card}>
               <div className={styles.rowHalfContainer}>
                 <img
-                  src={data.preview}
+                  src={data.content}
                   alt='BusinessModelImg'
                   className={styles.businessModelImg}
                 />
@@ -74,18 +74,36 @@ export const AdminViewBusinessModel = () => {
                     <span className={styles.description}>
                       {data.fullDescription}
                     </span>
-                    <ListInfoItem
-                      title='Industries'
-                      list={data.industries}
-                    />
-                    <ListInfoItem
-                      title='Technologies'
-                      list={data.technologies}
-                    />
-                    <TextInfoItem
-                      title='Location'
-                      text={data.location[0].value}
-                    />
+                    {data.industries.length > 0 && (
+                      <ListInfoItem
+                        title='Industries'
+                        list={data.industries}
+                      />
+                    )}
+                    {data.technologies.length > 0 && (
+                      <ListInfoItem
+                        title='Technologies'
+                        list={data.technologies}
+                      />
+                    )}
+                    {data.location.length > 0 && (
+                      <ListInfoItem
+                        title='Location'
+                        list={data.location}
+                      />
+                    )}
+                    {data.technologies.length > 0 && (
+                      <ListInfoItem
+                        title='Technologies'
+                        list={data.technologies}
+                      />
+                    )}
+                    {data.category.length > 0 && (
+                      <ListInfoItem
+                        title='Category'
+                        list={data.category}
+                      />
+                    )}
                     <TextInfoItem title='Price' text={data.price} />
                     <TextInfoItem title='Age' text={data.age} />
                     <TextInfoItem title='Start' text={data.start} />

@@ -26,6 +26,7 @@
   @include mobileBreakpoint('max', $bpL) {
     align-items: start;
     flex-direction: column;
+    gap: 0;
   }
 }
 

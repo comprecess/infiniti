@@ -1,0 +1,10 @@
+- Localization:
+		[Admin]
+				- Dashboard
+				- Talents
+						- Add Talent
+				- Business Plan
+						- Make Business Model
+						- Edit Business Model
+				- Settings
+						- Localization

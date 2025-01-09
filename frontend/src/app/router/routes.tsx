@@ -10,7 +10,9 @@ import { AdminViewTransactionsPage } from '../../pages/Admin/AccountingPage/View
 import { AdminAppearancePage } from '../../pages/Admin/AppearancePage/AppearancePage'
 import { AdminBusinessModelsPage } from '../../pages/Admin/BusinessPlanPage/BusinessModelsPage/BusinessModelsPage'
 import { AdminBusinessPlanPage } from '../../pages/Admin/BusinessPlanPage/BusinessPlanPage/BusinessPlanPage'
+import { AdminEditBusinessModel } from '../../pages/Admin/BusinessPlanPage/EditBusinessModel/EditBusinessModel'
 import { AdminEditBusinessPlanPage } from '../../pages/Admin/BusinessPlanPage/EditBusinessPlanPage/EditBusinessPlanPage'
+import { AdminMakeBusinessModelPage } from '../../pages/Admin/BusinessPlanPage/MakeBusinessModelPage/MakeBusinessModelPage'
 import { AdminMakeBusinessPlanPage } from '../../pages/Admin/BusinessPlanPage/MakeBusinessPlanPage/MakeBusinessPlanPage'
 import { AdminViewBusinessModel } from '../../pages/Admin/BusinessPlanPage/ViewBusinessModel/ViewBusinessModel'
 import { AdminViewBusinessPlanPage } from '../../pages/Admin/BusinessPlanPage/ViewBusinessPlanPage/ViewBusinessPlanPage'
@@ -190,6 +192,7 @@ export const Routes = {
   list: 'list',
   auth: 'auth',
   makeBusinessPlan: 'make-business-plan',
+  makeBusinessModel: 'make-business-model',
   files: 'files',
   sign: 'sign',
   in: 'in',
@@ -252,6 +255,8 @@ export const Pages = {
   adminEditBusinessPlanPage: <AdminEditBusinessPlanPage />,
   adminViewBusinessPlanPage: <AdminViewBusinessPlanPage />,
   adminViewBusinessModel: <AdminViewBusinessModel />,
+  adminMakeBusinessModelPage: <AdminMakeBusinessModelPage />,
+  adminEditBusinessModel: <AdminEditBusinessModel />,
   adminAccountsPage: <AdminAccountsPage />,
   adminAssetsPage: <AdminAssetsPage />,
   adminBillsPage: <AdminBillsPage />,
