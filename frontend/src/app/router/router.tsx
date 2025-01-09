@@ -195,6 +195,10 @@ export const router = createBrowserRouter([
             element: Pages.adminViewBusinessModel,
           },
           {
+            path: `${Routes.edit}/${Routes.businessModel}/:id`,
+            element: Pages.adminEditBusinessModel,
+          },
+          {
             path: Routes.makeBusinessPlan,
             element: Pages.adminMakeBusinessPlanPage,
           },

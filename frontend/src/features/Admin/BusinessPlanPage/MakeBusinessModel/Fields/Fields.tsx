@@ -2,18 +2,45 @@ import { Textarea } from '@chakra-ui/react'
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { BusinessModelInputData } from '../../../../../app/constants/constants'
+import {
+  BusinessModelInputData,
+  BusinessPlanBusinessModelFormData,
+} from '../../../../../app/constants/constants'
 import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
+import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
 import { TagSelector } from '../../../../../shared/ui/TagSelector/TagSelector'
 import styles from './Fields.module.scss'
 
 interface FieldsProps {
   inputData: BusinessModelInputData
+  setFormData: React.Dispatch<React.SetStateAction<PartialFieldsPostData>>
 }
 
-export const Fields: FC<FieldsProps> = ({ inputData }) => {
+export interface PartialFieldsPostData
+  extends Partial<BusinessPlanBusinessModelFormData> {
+  [key: string]: string | number | string[] | File | undefined | null
+}
+
+export const Fields: FC<FieldsProps> = ({ inputData, setFormData }) => {
   const { t } = useTranslation()
+
+  const handleChangeInput = (
+    field: string,
+    value: string | number | string[] | undefined | null,
+  ) => {
+    setFormData(prevFormData => {
+      const updatedFormData = { ...prevFormData }
+
+      if (value === '' || value === null || value === undefined) {
+        delete updatedFormData[field]
+      } else {
+        updatedFormData[field] = value
+      }
+
+      return updatedFormData
+    })
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -22,7 +49,7 @@ export const Fields: FC<FieldsProps> = ({ inputData }) => {
         type='text'
         id='title'
         name='title'
-        onChange={() => {}}
+        onChange={handleChangeInput}
       />
       <div className={styles.containerItems}>
         <span className={styles.containerItemsTitle}>
@@ -40,7 +67,9 @@ export const Fields: FC<FieldsProps> = ({ inputData }) => {
           fontSize='16px'
           fontWeight='400'
           lineHeight='24px'
-          onChange={() => {}}
+          onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+            handleChangeInput('description', event.target.value)
+          }
         />
       </div>
       <div className={styles.containerItems}>
@@ -59,25 +88,61 @@ export const Fields: FC<FieldsProps> = ({ inputData }) => {
           fontSize='16px'
           fontWeight='400'
           lineHeight='24px'
-          onChange={() => {}}
+          onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+            handleChangeInput('fullDescription', event.target.value)
+          }
         />
       </div>
+      <CustomInput
+        title={`${t('admin-make-business-plan-page-input-7')}`}
+        type='text'
+        id='price'
+        name='price'
+        onChange={handleChangeInput}
+      />
+      <CustomInput
+        title={`${t('admin-make-business-plan-page-input-9')}`}
+        type='number'
+        id='age'
+        name='age'
+        onChange={handleChangeInput}
+      />
       <CustomDataPicker
         title={`${t('admin-make-business-plan-page-input-4')}`}
         titleOnChange='start'
-        onChange={() => {}}
+        onChange={handleChangeInput}
       />
       <TagSelector
         title={`${t('admin-make-business-plan-page-input-5')}`}
         list={inputData.industries.map(spec => spec.value)}
         selectedTags={[]}
-        onTagsChange={() => {}}
+        onTagsChange={tags => handleChangeInput('industries', tags)}
       />
       <TagSelector
         title={`${t('admin-make-business-plan-page-input-6')}`}
         list={inputData.technologies.map(spec => spec.value)}
         selectedTags={[]}
-        onTagsChange={() => {}}
+        onTagsChange={tags => handleChangeInput('technologies', tags)}
+      />
+      <TagSelector
+        title={`${t('admin-make-business-plan-page-input-8')}`}
+        list={inputData.location.map(spec => spec.value)}
+        selectedTags={[]}
+        onTagsChange={tags => handleChangeInput('location', tags)}
+      />
+      <TagSelector
+        title={`${t('admin-make-business-plan-page-input-10')}`}
+        list={inputData.category.map(spec => spec.value)}
+        selectedTags={[]}
+        onTagsChange={tags => handleChangeInput('category', tags)}
+      />
+      <CustomSelect
+        title={`${t('admin-make-business-plan-page-input-11')}`}
+        titleOnChange='profitability'
+        value={inputData.profitability[0].id}
+        idList={inputData.profitability.map(item => item.id)}
+        nameList={inputData.profitability.map(item => item.value)}
+        onChange={handleChangeInput}
       />
     </div>
   )

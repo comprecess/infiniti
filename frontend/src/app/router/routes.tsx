@@ -10,6 +10,7 @@ import { AdminViewTransactionsPage } from '../../pages/Admin/AccountingPage/View
 import { AdminAppearancePage } from '../../pages/Admin/AppearancePage/AppearancePage'
 import { AdminBusinessModelsPage } from '../../pages/Admin/BusinessPlanPage/BusinessModelsPage/BusinessModelsPage'
 import { AdminBusinessPlanPage } from '../../pages/Admin/BusinessPlanPage/BusinessPlanPage/BusinessPlanPage'
+import { AdminEditBusinessModel } from '../../pages/Admin/BusinessPlanPage/EditBusinessModel/EditBusinessModel'
 import { AdminEditBusinessPlanPage } from '../../pages/Admin/BusinessPlanPage/EditBusinessPlanPage/EditBusinessPlanPage'
 import { AdminMakeBusinessModelPage } from '../../pages/Admin/BusinessPlanPage/MakeBusinessModelPage/MakeBusinessModelPage'
 import { AdminMakeBusinessPlanPage } from '../../pages/Admin/BusinessPlanPage/MakeBusinessPlanPage/MakeBusinessPlanPage'
@@ -255,6 +256,7 @@ export const Pages = {
   adminViewBusinessPlanPage: <AdminViewBusinessPlanPage />,
   adminViewBusinessModel: <AdminViewBusinessModel />,
   adminMakeBusinessModelPage: <AdminMakeBusinessModelPage />,
+  adminEditBusinessModel: <AdminEditBusinessModel />,
   adminAccountsPage: <AdminAccountsPage />,
   adminAssetsPage: <AdminAssetsPage />,
   adminBillsPage: <AdminBillsPage />,

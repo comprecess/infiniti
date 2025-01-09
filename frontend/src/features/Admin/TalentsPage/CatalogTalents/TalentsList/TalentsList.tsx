@@ -27,7 +27,7 @@ interface TalentsListProps {
     sort: { name: string; type: string }
   }
   setSort: React.Dispatch<
-    React.SetStateAction<{ sort: { name: string; type: string } }>
+  React.SetStateAction<{ sort: { name: string; type: string } }>
   >
   selectedFilters: FiltersState
 }

@@ -1126,8 +1126,9 @@ export interface BusinessPlanNewPlanFormData {
 
 export interface BusinessPlanBusinessModelData {
   id: number
-  category: []
+  category: ValuesProps[]
   preview: string
+  content: string
   description: string
   fullDescription: string
   age: string
@@ -1140,9 +1141,38 @@ export interface BusinessPlanBusinessModelData {
   location: ValuesProps[]
 }
 
+export interface BusinessPlanBusinessModelFormData {
+  category: string[]
+  description: string
+  fullDescription: string
+  age: string
+  industries: string[]
+  price: string
+  start: string
+  technologies: string[]
+  title: string
+  profitability: number
+  location: string[]
+  preview?: string
+  content?: string
+}
+
+export interface BusinessPlanBusinessModelEditData {
+  id: number
+  title: string
+  description: string
+  fullDescription: string
+  start: string
+  content: null
+  preview: null
+  property: {
+    [key: string]: ValuesProps[]
+  }[]
+}
+
 export interface BusinessModelInputData {
   access: RolesAccess
-  category: []
+  category: ValuesProps[]
   industries: ValuesProps[]
   location: ValuesProps[]
   profitability: ValuesProps[]
