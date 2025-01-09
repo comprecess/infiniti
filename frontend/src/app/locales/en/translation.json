@@ -14,6 +14,7 @@
   "admin-sidebar-subsidiary-page-business-plans": "Business Plans",
   "admin-sidebar-subsidiary-page-make-business-plan": "Make Business Plan",
   "admin-sidebar-subsidiary-page-business-models": "Business Models",
+  "admin-sidebar-subsidiary-page-create-business-models": "Make Business Model",
   "admin-sidebar-main-page-accounting": "Accounting",
   "admin-sidebar-subsidiary-page-new-deposit": "New Deposit",
   "admin-sidebar-subsidiary-page-new-expense": "New Expense",
@@ -214,5 +215,14 @@
   "admin-project-experience-item-input-2": "Position",
   "admin-project-experience-item-input-3": "Period From",
   "admin-project-experience-item-input-4": "Period To",
-  "admin-project-experience-item-input-5": "Responsibilities"
+  "admin-project-experience-item-input-5": "Responsibilities",
+
+  "admin-make-business-plan-page-title": "Add Model",
+  "admin-make-business-plan-page-button-1": "Save",
+  "admin-make-business-plan-page-input-1": "Title",
+  "admin-make-business-plan-page-input-2": "Brief Description",
+  "admin-make-business-plan-page-input-3": "Full Description",
+  "admin-make-business-plan-page-input-4": "Start Date",
+  "admin-make-business-plan-page-input-5": "Industries",
+  "admin-make-business-plan-page-input-6": "Technologies"
 }

@@ -148,6 +148,14 @@ export const adminSidebarPages = [
         // Access
         create: false,
       },
+      {
+        id: 3,
+        title: 'admin-sidebar-subsidiary-page-create-business-models',
+        path: Routes.makeBusinessModel,
+
+        // Access
+        create: true,
+      },
     ],
 
     // Access

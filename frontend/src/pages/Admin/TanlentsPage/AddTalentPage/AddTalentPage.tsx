@@ -19,6 +19,7 @@ export const AdminAddTalentPage: FC = () => {
   const [inputData, setInputData] = useState<TalentsInputData | null>(null)
 
   const { t } = useTranslation()
+
   const showToast = useCustomToast()
 
   const getInputData = async () => {

@@ -14,6 +14,7 @@
   "admin-sidebar-subsidiary-page-business-plans": "Бизнес Планы",
   "admin-sidebar-subsidiary-page-make-business-plan": "Создать Бизнес План",
   "admin-sidebar-subsidiary-page-business-models": "Бизнес Модели",
+  "admin-sidebar-subsidiary-page-create-business-models": "Создать Бизнес Модель",
   "admin-sidebar-main-page-accounting": "Финансы",
   "admin-sidebar-subsidiary-page-new-deposit": "Новый Депозит",
   "admin-sidebar-subsidiary-page-new-expense": "Новый Расход",
@@ -214,5 +215,14 @@
   "admin-project-experience-item-input-2": "Должность",
   "admin-project-experience-item-input-3": "Период с",
   "admin-project-experience-item-input-4": "Период до",
-  "admin-project-experience-item-input-5": "Обязанности"
+  "admin-project-experience-item-input-5": "Обязанности",
+
+  "admin-make-business-plan-page-title": "Добавить Модель",
+  "admin-make-business-plan-page-button-1": "Сохранить",
+  "admin-make-business-plan-page-input-1": "Название",
+  "admin-make-business-plan-page-input-2": "Краткое Описание",
+  "admin-make-business-plan-page-input-3": "Полное Описание",
+  "admin-make-business-plan-page-input-4": "Дата Начала",
+  "admin-make-business-plan-page-input-5": "Индустрии",
+  "admin-make-business-plan-page-input-6": "Технологии"
 }

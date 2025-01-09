@@ -203,6 +203,10 @@ export const router = createBrowserRouter([
             element: Pages.adminBusinessModelsPage,
           },
           {
+            path: Routes.makeBusinessModel,
+            element: Pages.adminMakeBusinessModelPage,
+          },
+          {
             index: true,
             element: (
               <Navigate

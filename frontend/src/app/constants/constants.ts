@@ -1139,3 +1139,12 @@ export interface BusinessPlanBusinessModelData {
   profitability: ValuesProps[]
   location: ValuesProps[]
 }
+
+export interface BusinessModelInputData {
+  access: RolesAccess
+  category: []
+  industries: ValuesProps[]
+  location: ValuesProps[]
+  profitability: ValuesProps[]
+  technologies: ValuesProps[]
+}
