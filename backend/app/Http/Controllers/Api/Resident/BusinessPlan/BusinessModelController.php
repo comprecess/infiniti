@@ -7,8 +7,9 @@ namespace App\Http\Controllers\Api\Resident\BusinessPlan;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\BusinessPlan\BusinessModelCreateRequest;
 use App\Http\Requests\Resident\BusinessPlan\BusinessModelListRequest;
-use App\Http\Requests\Resident\BusinessPlan\BusinessModeUpdateRequest;
+use App\Http\Requests\Resident\BusinessPlan\BusinessModelUpdateRequest;
 use App\Http\Resources\Catalog\ValueResorce;
+use App\Http\Resources\Resident\BusinessPlan\BusinessModelResource;
 use App\Models\BusinessModel\BusinessModel;
 use App\Models\BusinessModel\BusinessModelValue;
 use App\Models\BusinessModel\Prop;
@@ -108,7 +109,7 @@ class BusinessModelController extends BusinessPlanAccessController
         return $this->deleteCRUD($model);
     }
 
-    public function update(BusinessModeUpdateRequest $request, BusinessModel $model)
+    public function update(BusinessModelUpdateRequest $request, BusinessModel $model)
     {
 
         foreach(BusinessModel::TYPE_IMG as $file) {
@@ -127,5 +128,10 @@ class BusinessModelController extends BusinessPlanAccessController
         }
 
         return $this->defResponse();
+    }
+
+    public function item(BusinessModel $model)
+    {
+        return new BusinessModelResource($model);
     }
 }
