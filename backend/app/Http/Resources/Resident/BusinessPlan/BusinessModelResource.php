@@ -37,8 +37,6 @@ class BusinessModelResource extends JsonResource
             'start' => $this->start?->format('Y-m-d'),
             'description' => $this->description,
             'fullDescription' => $this->full_description,
-            'birthDay' => $this->birth_day?->format('Y-m-d'),
-            'active' => $this->active ? 1 : 0,
             'property' => TalentPropResource::collection($prop),
         ];
 
