@@ -1,4 +1,5 @@
 import { FC, memo, useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import {
   FiltersState,
@@ -44,6 +45,8 @@ export const TalentsList: FC<TalentsListProps> = ({
     data: TalentData[]
     meta: PagesMetaData
   } | null>(null)
+
+  const { t } = useTranslation()
 
   const showToast = useCustomToast()
 
@@ -109,7 +112,9 @@ export const TalentsList: FC<TalentsListProps> = ({
       <div className={styles.items}>
         <div className={styles.header}>
           <div className={styles.title}>
-            <h3 className={styles.name}>Talents</h3>
+            <h3 className={styles.name}>
+              {t('admin-catalog-talents-page-text-4')}
+            </h3>
             <h3 className={styles.number}>{talentsList.meta.total}</h3>
           </div>
           <SortListMemoized setSort={setSort} sort={sort} />
@@ -135,7 +140,7 @@ export const TalentsList: FC<TalentsListProps> = ({
           ) : (
             <div className={styles.nothingFound}>
               <span className={styles.nothingFoundText}>
-                Nothing Found
+                {t('admin-catalog-talents-page-text-6')}
               </span>
             </div>
           )}
@@ -147,7 +152,7 @@ export const TalentsList: FC<TalentsListProps> = ({
             }
           >
             <ButtonBrandMemoized
-              title='Back to top'
+              title={t('admin-catalog-talents-page-button-1')}
               onClick={scrollToTop}
             />
           </div>

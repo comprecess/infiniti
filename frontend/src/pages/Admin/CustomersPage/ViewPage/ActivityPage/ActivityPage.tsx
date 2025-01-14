@@ -160,6 +160,7 @@ export const AdminContactActivityPage: FC = () => {
           HeaderComponent={TextEditorWrapper}
           headerProps={{
             selectedIcon,
+            message,
             setSelectedIcon,
             setMessage,
             addNewActivity,

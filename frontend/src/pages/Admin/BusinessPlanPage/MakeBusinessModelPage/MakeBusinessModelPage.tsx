@@ -78,12 +78,12 @@ export const AdminMakeBusinessModelPage = () => {
       <section className={styles.section}>
         {inputData ? (
           <RecentCard
-            title={t('admin-make-business-plan-page-title')}
+            title={t('admin-make-business-model-page-title')}
             Component={ButtonBlue}
             style={styles.recentFullScreen}
             componentProps={{
               titleNone: true,
-              title: `${t('admin-make-business-plan-page-button-1')}`,
+              title: `${t('admin-make-business-model-page-button-1')}`,
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,
               style: styles.buttonSave,

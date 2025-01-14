@@ -1,4 +1,5 @@
 import React, { FC, useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import {
   FiltersData,
@@ -29,6 +30,8 @@ export const Filters: FC<FiltersProps> = ({
 }) => {
   const [searchItems, setSearchItems] = useState<string[]>([])
   const [filters, setFilters] = useState<FiltersData[] | null>(null)
+
+  const { t } = useTranslation()
 
   const handleSearchChange = (index: number, value: string) => {
     setSearchItems(prevSearchItems => {
@@ -85,12 +88,14 @@ export const Filters: FC<FiltersProps> = ({
       {filters ? (
         <>
           <div className={styles.header}>
-            <h6 className={styles.title}>Filters</h6>
+            <h6 className={styles.title}>
+              {t('admin-catalog-talents-page-text-2')}
+            </h6>
             <span
               className={styles.buttonReset}
               onClick={handleFiltersReset}
             >
-              Reset filters
+              {t('admin-catalog-talents-page-text-3')}
             </span>
           </div>
           <div className={styles.filters}>
