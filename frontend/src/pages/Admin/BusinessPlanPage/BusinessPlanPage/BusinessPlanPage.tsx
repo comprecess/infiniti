@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import {
@@ -17,6 +18,8 @@ import styles from './BusinessPlanPage.module.scss'
 export const AdminBusinessPlanPage: FC = () => {
   const [plans, setPlans] = useState<BusinessPlanItemData[] | null>(null)
   const [access, setAccess] = useState<RolesAccess | null>(null)
+
+  const { t } = useTranslation()
 
   const showToast = useCustomToast()
   const navigate = useNavigate()
@@ -79,7 +82,7 @@ export const AdminBusinessPlanPage: FC = () => {
           {access.create === 1 && (
             <div className={styles.wrapperButtonBlue}>
               <ButtonBlue
-                title='Make Business Plan'
+                title={t('admin-business-plans-page-button-1')}
                 style={styles.buttonBlue}
                 onClick={handleNavigateToMakeBusinessPlan}
               />

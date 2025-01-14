@@ -1,8 +1,9 @@
 - Localization:
 		[Admin]
-				- Dashboard
+				- Dashboard ✔
 				- Talents
 						- Add Talent
+						- Catalog Talents
 				- Business Plan
 						- Make Business Model
 						- Edit Business Model

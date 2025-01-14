@@ -181,12 +181,12 @@ export const AdminEditBusinessModel = () => {
       <section className={styles.section}>
         {inputData && Object.keys(formData).length > 0 ? (
           <RecentCard
-            title={t('admin-edit-business-plan-page-title')}
+            title={t('admin-edit-business-model-page-title')}
             Component={ButtonBlue}
             style={styles.recentFullScreen}
             componentProps={{
               titleNone: true,
-              title: `${t('admin-edit-business-plan-page-button-1')}`,
+              title: `${t('admin-edit-business-model-page-button-1')}`,
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,
               style: styles.buttonSave,

@@ -12,6 +12,7 @@ import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { TagSelector } from '../../../../../shared/ui/TagSelector/TagSelector'
+import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 import styles from './Fields.module.scss'
 
 interface FieldsProps {
@@ -96,185 +97,213 @@ export const Fields: FC<FieldsProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.wrapper}>
-        <CustomInput
-          title={`${t('admin-edit-business-plan-page-input-1')}`}
-          type='text'
-          id='title'
-          name='title'
-          value={formData.title}
-          onChange={handleChangeInput}
+      <CustomInput
+        title={`${t('admin-edit-business-model-page-input-1')}`}
+        type='text'
+        id='title'
+        name='title'
+        value={formData.title}
+        onChange={handleChangeInput}
+      />
+      <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>
+          {`${t('admin-edit-business-model-page-input-2')}`}
+        </span>
+        <Textarea
+          minHeight='140px'
+          maxHeight='232px'
+          focusBorderColor='#1b1e29'
+          borderColor='#1b1e29'
+          color='gray.400'
+          backgroundColor='brand.800'
+          border='1px solid #1b1e29'
+          _hover={{ borderColor: '#1b1e29' }}
+          fontSize='16px'
+          fontWeight='400'
+          lineHeight='24px'
+          defaultValue={formData.description}
+          onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+            handleChangeInput('description', event.target.value)
+          }
         />
-        <div className={styles.containerItems}>
-          <span className={styles.containerItemsTitle}>
-            {`${t('admin-edit-business-plan-page-input-2')}`}
-          </span>
-          <Textarea
-            minHeight='140px'
-            maxHeight='232px'
-            focusBorderColor='#1b1e29'
-            borderColor='#1b1e29'
-            color='gray.400'
-            backgroundColor='brand.800'
-            border='1px solid #1b1e29'
-            _hover={{ borderColor: '#1b1e29' }}
-            fontSize='16px'
-            fontWeight='400'
-            lineHeight='24px'
-            defaultValue={formData.description}
-            onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
-              handleChangeInput('description', event.target.value)
-            }
-          />
-        </div>
-        <div className={styles.containerItems}>
-          <span className={styles.containerItemsTitle}>
-            {`${t('admin-edit-business-plan-page-input-3')}`}
-          </span>
-          <Textarea
-            minHeight='140px'
-            maxHeight='232px'
-            focusBorderColor='#1b1e29'
-            borderColor='#1b1e29'
-            color='gray.400'
-            backgroundColor='brand.800'
-            border='1px solid #1b1e29'
-            _hover={{ borderColor: '#1b1e29' }}
-            fontSize='16px'
-            fontWeight='400'
-            lineHeight='24px'
-            defaultValue={formData.fullDescription}
-            onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
-              handleChangeInput('fullDescription', event.target.value)
-            }
-          />
-        </div>
-        <div className={styles.containerItems}>
-          <span className={styles.containerItemsTitle}>
-            {t('admin-make-business-plan-page-input-12')}
-          </span>
-          <div className={styles.avatarContainer}>
+      </div>
+      <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>
+          {`${t('admin-edit-business-model-page-input-3')}`}
+        </span>
+        <Textarea
+          minHeight='140px'
+          maxHeight='232px'
+          focusBorderColor='#1b1e29'
+          borderColor='#1b1e29'
+          color='gray.400'
+          backgroundColor='brand.800'
+          border='1px solid #1b1e29'
+          _hover={{ borderColor: '#1b1e29' }}
+          fontSize='16px'
+          fontWeight='400'
+          lineHeight='24px'
+          defaultValue={formData.fullDescription}
+          onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+            handleChangeInput('fullDescription', event.target.value)
+          }
+        />
+      </div>
+      <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>
+          {t('admin-make-business-model-page-input-12')}
+        </span>
+        <div className={styles.avatarContainer}>
+          {formData.preview && (
+            <img
+              src={formData.preview}
+              alt='Avatar'
+              className={styles.avatar}
+            />
+          )}
+          <div className={styles.buttonsContainer}>
+            <div className={styles.uploadPicture}>
+              <ButtonBlue
+                title='Upload picture'
+                style={styles.buttonUpload}
+                onClick={handleButtonUploadPreview}
+              />
+              <input
+                ref={inputRefFirst}
+                type='file'
+                style={{ display: 'none' }}
+                onChange={event => handleAvatarChange(event, 'preview')}
+              />
+            </div>
             {formData.preview && (
-              <img
-                src={formData.preview}
-                alt='Avatar'
-                className={styles.avatar}
+              <ButtonBlue
+                title='Remove picture'
+                style={styles.buttonRemove}
+                onClick={() => removePicture({ previewDelete: 1 })}
               />
             )}
-            <div className={styles.buttonsContainer}>
-              <div className={styles.uploadPicture}>
-                <ButtonBlue
-                  title='Upload picture'
-                  style={styles.buttonUpload}
-                  onClick={handleButtonUploadPreview}
-                />
-                <input
-                  ref={inputRefFirst}
-                  type='file'
-                  style={{ display: 'none' }}
-                  onChange={event => handleAvatarChange(event, 'preview')}
-                />
-              </div>
-              {formData.preview && (
-                <ButtonBlue
-                  title='Remove picture'
-                  style={styles.buttonRemove}
-                  onClick={() => removePicture({ previewDelete: 1 })}
-                />
-              )}
-            </div>
           </div>
         </div>
-        <div className={styles.containerItems}>
-          <span className={styles.containerItemsTitle}>
-            {t('admin-make-business-plan-page-input-13')}
-          </span>
-          <div className={styles.avatarContainer}>
+      </div>
+      <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>
+          {t('admin-make-business-model-page-input-13')}
+        </span>
+        <div className={styles.avatarContainer}>
+          {formData.content && (
+            <img
+              src={formData.content}
+              alt='Avatar'
+              className={styles.avatar}
+            />
+          )}
+          <div className={styles.buttonsContainer}>
+            <div className={styles.uploadPicture}>
+              <ButtonBlue
+                title='Upload picture'
+                style={styles.buttonUpload}
+                onClick={handleButtonUploadContent}
+              />
+              <input
+                ref={inputRefSecond}
+                type='file'
+                style={{ display: 'none' }}
+                onChange={event => handleAvatarChange(event, 'content')}
+              />
+            </div>
             {formData.content && (
-              <img
-                src={formData.content}
-                alt='Avatar'
-                className={styles.avatar}
+              <ButtonBlue
+                title='Remove picture'
+                style={styles.buttonRemove}
+                onClick={() => removePicture({ contentDelete: 1 })}
               />
             )}
-            <div className={styles.buttonsContainer}>
-              <div className={styles.uploadPicture}>
-                <ButtonBlue
-                  title='Upload picture'
-                  style={styles.buttonUpload}
-                  onClick={handleButtonUploadContent}
-                />
-                <input
-                  ref={inputRefSecond}
-                  type='file'
-                  style={{ display: 'none' }}
-                  onChange={event => handleAvatarChange(event, 'content')}
-                />
-              </div>
-              {formData.content && (
-                <ButtonBlue
-                  title='Remove picture'
-                  style={styles.buttonRemove}
-                  onClick={() => removePicture({ contentDelete: 1 })}
-                />
-              )}
-            </div>
           </div>
         </div>
-        <CustomInput
-          title={`${t('admin-edit-business-plan-page-input-7')}`}
-          type='text'
-          id='price'
-          name='price'
-          value={formData.price}
-          onChange={handleChangeInput}
-        />
-        <CustomInput
-          title={`${t('admin-edit-business-plan-page-input-9')}`}
-          type='number'
-          id='age'
-          name='age'
-          value={formData.age}
-          onChange={handleChangeInput}
-        />
-        <CustomDataPicker
-          title={`${t('admin-edit-business-plan-page-input-4')}`}
-          titleOnChange='start'
-          value={formData.start}
-          onChange={handleChangeInput}
-        />
-        <TagSelector
-          title={`${t('admin-edit-business-plan-page-input-5')}`}
-          list={inputData.industries.map(spec => spec.value)}
-          selectedTags={formData.industries || []}
-          onTagsChange={tags => handleChangeInput('industries', tags)}
-        />
-        <TagSelector
-          title={`${t('admin-edit-business-plan-page-input-6')}`}
-          list={inputData.technologies.map(spec => spec.value)}
-          selectedTags={formData.technologies || []}
-          onTagsChange={tags => handleChangeInput('technologies', tags)}
-        />
-        <TagSelector
-          title={`${t('admin-edit-business-plan-page-input-8')}`}
-          list={inputData.location.map(spec => spec.value)}
-          selectedTags={formData.location || []}
-          onTagsChange={tags => handleChangeInput('location', tags)}
-        />
-        <TagSelector
-          title={`${t('admin-edit-business-plan-page-input-10')}`}
-          list={inputData.category.map(spec => spec.value)}
-          selectedTags={formData.category || []}
-          onTagsChange={tags => handleChangeInput('category', tags)}
-        />
-        <CustomSelect
-          title={`${t('admin-edit-business-plan-page-input-11')}`}
-          titleOnChange='profitability'
-          idList={inputData.profitability.map(item => item.id)}
-          nameList={inputData.profitability.map(item => item.value)}
-          value={formData.profitability}
-          onChange={handleChangeInput}
-        />
+      </div>
+      <CustomInput
+        title={`${t('admin-edit-business-model-page-input-7')}`}
+        type='text'
+        id='price'
+        name='price'
+        value={formData.price}
+        onChange={handleChangeInput}
+      />
+      <CustomInput
+        title={`${t('admin-edit-business-model-page-input-9')}`}
+        type='number'
+        id='age'
+        name='age'
+        value={formData.age}
+        onChange={handleChangeInput}
+      />
+      <CustomDataPicker
+        title={`${t('admin-edit-business-model-page-input-4')}`}
+        titleOnChange='start'
+        value={formData.start}
+        onChange={handleChangeInput}
+      />
+      <TagSelector
+        title={`${t('admin-edit-business-model-page-input-5')}`}
+        list={inputData.industries.map(spec => spec.value)}
+        selectedTags={formData.industries || []}
+        onTagsChange={tags => handleChangeInput('industries', tags)}
+      />
+      <TagSelector
+        title={`${t('admin-edit-business-model-page-input-6')}`}
+        list={inputData.technologies.map(spec => spec.value)}
+        selectedTags={formData.technologies || []}
+        onTagsChange={tags => handleChangeInput('technologies', tags)}
+      />
+      <TagSelector
+        title={`${t('admin-edit-business-model-page-input-8')}`}
+        list={inputData.location.map(spec => spec.value)}
+        selectedTags={formData.location || []}
+        onTagsChange={tags => handleChangeInput('location', tags)}
+      />
+      <TagSelector
+        title={`${t('admin-edit-business-model-page-input-10')}`}
+        list={inputData.category.map(spec => spec.value)}
+        selectedTags={formData.category || []}
+        onTagsChange={tags => handleChangeInput('category', tags)}
+      />
+      <CustomSelect
+        title={`${t('admin-edit-business-model-page-input-11')}`}
+        titleOnChange='profitability'
+        idList={inputData.profitability.map(item => item.id)}
+        nameList={inputData.profitability.map(item => item.value)}
+        value={formData.profitability}
+        onChange={handleChangeInput}
+      />
+      <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>
+          {`${t('admin-make-business-model-page-input-14')}`}
+        </span>
+        <TextEditor getValue setValue={() => {}} />
+      </div>
+      <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>
+          {`${t('admin-make-business-model-page-input-15')}`}
+        </span>
+        <TextEditor getValue setValue={() => {}} />
+      </div>
+      <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>
+          {`${t('admin-make-business-model-page-input-16')}`}
+        </span>
+        <TextEditor getValue setValue={() => {}} />
+      </div>
+      <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>
+          {`${t('admin-make-business-model-page-input-17')}`}
+        </span>
+        <TextEditor getValue setValue={() => {}} />
+      </div>
+      <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>
+          {`${t('admin-make-business-model-page-input-18')}`}
+        </span>
+        <TextEditor getValue setValue={() => {}} />
       </div>
     </div>
   )

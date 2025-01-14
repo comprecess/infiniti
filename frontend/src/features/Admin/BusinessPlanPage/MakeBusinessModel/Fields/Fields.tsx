@@ -10,6 +10,7 @@ import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/Cust
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
 import { TagSelector } from '../../../../../shared/ui/TagSelector/TagSelector'
+import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 import styles from './Fields.module.scss'
 
 interface FieldsProps {
@@ -45,7 +46,7 @@ export const Fields: FC<FieldsProps> = ({ inputData, setFormData }) => {
   return (
     <div className={styles.wrapper}>
       <CustomInput
-        title={`${t('admin-make-business-plan-page-input-1')}`}
+        title={`${t('admin-make-business-model-page-input-1')}`}
         type='text'
         id='title'
         name='title'
@@ -53,7 +54,7 @@ export const Fields: FC<FieldsProps> = ({ inputData, setFormData }) => {
       />
       <div className={styles.containerItems}>
         <span className={styles.containerItemsTitle}>
-          {`${t('admin-make-business-plan-page-input-2')}`}
+          {`${t('admin-make-business-model-page-input-2')}`}
         </span>
         <Textarea
           minHeight='140px'
@@ -74,7 +75,7 @@ export const Fields: FC<FieldsProps> = ({ inputData, setFormData }) => {
       </div>
       <div className={styles.containerItems}>
         <span className={styles.containerItemsTitle}>
-          {`${t('admin-make-business-plan-page-input-3')}`}
+          {`${t('admin-make-business-model-page-input-3')}`}
         </span>
         <Textarea
           minHeight='140px'
@@ -94,56 +95,86 @@ export const Fields: FC<FieldsProps> = ({ inputData, setFormData }) => {
         />
       </div>
       <CustomInput
-        title={`${t('admin-make-business-plan-page-input-7')}`}
+        title={`${t('admin-make-business-model-page-input-7')}`}
         type='text'
         id='price'
         name='price'
         onChange={handleChangeInput}
       />
       <CustomInput
-        title={`${t('admin-make-business-plan-page-input-9')}`}
+        title={`${t('admin-make-business-model-page-input-9')}`}
         type='number'
         id='age'
         name='age'
         onChange={handleChangeInput}
       />
       <CustomDataPicker
-        title={`${t('admin-make-business-plan-page-input-4')}`}
+        title={`${t('admin-make-business-model-page-input-4')}`}
         titleOnChange='start'
         onChange={handleChangeInput}
       />
       <TagSelector
-        title={`${t('admin-make-business-plan-page-input-5')}`}
+        title={`${t('admin-make-business-model-page-input-5')}`}
         list={inputData.industries.map(spec => spec.value)}
         selectedTags={[]}
         onTagsChange={tags => handleChangeInput('industries', tags)}
       />
       <TagSelector
-        title={`${t('admin-make-business-plan-page-input-6')}`}
+        title={`${t('admin-make-business-model-page-input-6')}`}
         list={inputData.technologies.map(spec => spec.value)}
         selectedTags={[]}
         onTagsChange={tags => handleChangeInput('technologies', tags)}
       />
       <TagSelector
-        title={`${t('admin-make-business-plan-page-input-8')}`}
+        title={`${t('admin-make-business-model-page-input-8')}`}
         list={inputData.location.map(spec => spec.value)}
         selectedTags={[]}
         onTagsChange={tags => handleChangeInput('location', tags)}
       />
       <TagSelector
-        title={`${t('admin-make-business-plan-page-input-10')}`}
+        title={`${t('admin-make-business-model-page-input-10')}`}
         list={inputData.category.map(spec => spec.value)}
         selectedTags={[]}
         onTagsChange={tags => handleChangeInput('category', tags)}
       />
       <CustomSelect
-        title={`${t('admin-make-business-plan-page-input-11')}`}
+        title={`${t('admin-make-business-model-page-input-11')}`}
         titleOnChange='profitability'
         value={inputData.profitability[0].id}
         idList={inputData.profitability.map(item => item.id)}
         nameList={inputData.profitability.map(item => item.value)}
         onChange={handleChangeInput}
       />
+      <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>
+          {`${t('admin-make-business-model-page-input-14')}`}
+        </span>
+        <TextEditor getValue setValue={() => {}} />
+      </div>
+      <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>
+          {`${t('admin-make-business-model-page-input-15')}`}
+        </span>
+        <TextEditor getValue setValue={() => {}} />
+      </div>
+      <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>
+          {`${t('admin-make-business-model-page-input-16')}`}
+        </span>
+        <TextEditor getValue setValue={() => {}} />
+      </div>
+      <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>
+          {`${t('admin-make-business-model-page-input-17')}`}
+        </span>
+        <TextEditor getValue setValue={() => {}} />
+      </div>
+      <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>
+          {`${t('admin-make-business-model-page-input-18')}`}
+        </span>
+        <TextEditor getValue setValue={() => {}} />
+      </div>
     </div>
   )
 }

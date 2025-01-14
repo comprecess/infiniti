@@ -1,4 +1,5 @@
 import { FC, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { Routes } from '../../../app/router/routes'
@@ -30,6 +31,8 @@ export const Footer: FC<FooterProps> = ({
   deleteTalent,
 }) => {
   const [modal, setModal] = useState<boolean>(false)
+
+  const { t } = useTranslation()
 
   const showToast = useCustomToast()
   const navigate = useNavigate()
@@ -83,8 +86,18 @@ export const Footer: FC<FooterProps> = ({
     <>
       <div className={styles.wrapper}>
         <div className={styles.items}>
-          <Item title={dailyRate} description='Daily rate (8h)' />
-          <Item title={hourlyRate} description='Hourly rate' />
+          <Item
+            title={dailyRate}
+            description={t(
+              'admin-catalog-talents-page-talent-card-rate-1',
+            )}
+          />
+          <Item
+            title={hourlyRate}
+            description={t(
+              'admin-catalog-talents-page-talent-card-rate-2',
+            )}
+          />
         </div>
         {isAdmin ? (
           <div className={styles.buttonsContainer}>

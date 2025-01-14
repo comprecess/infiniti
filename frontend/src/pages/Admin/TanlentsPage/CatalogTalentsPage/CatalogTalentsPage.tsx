@@ -1,4 +1,5 @@
 import { FC, useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import {
   FiltersData,
@@ -21,6 +22,8 @@ export const AdminCatalogTalentsPage: FC = () => {
     sort: { name: 'priceDay', type: 'asc' },
   })
   const [selectedFilters, setSelectedFilters] = useState<FiltersState>({})
+
+  const { t } = useTranslation()
 
   const handleSetSort = useCallback((name: string, type: string) => {
     setSort({ sort: { name, type } })
@@ -70,15 +73,17 @@ export const AdminCatalogTalentsPage: FC = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>
-        <TitlePage title='Catalog' />
+        <TitlePage title={t('admin-catalog-talents-page-title')} />
       </div>
       {categories ? (
         <section className={styles.sectionFirst}>
           <div className={styles.itemsFirst}>
-            <span className={styles.categoriesText}>Categories</span>
+            <span className={styles.categoriesText}>
+              {t('admin-catalog-talents-page-text-1')}
+            </span>
             <div className={styles.categories}>
               <CategoriesItem
-                name='All'
+                name={t('admin-catalog-talents-page-text-5')}
                 isActive={activeCategory === 0}
                 onClick={() => setActiveCategory(0)}
               />

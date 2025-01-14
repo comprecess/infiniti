@@ -8,6 +8,7 @@ import styles from './TextEditorWrapper.module.scss'
 
 interface TextEditorWrapperProps {
   selectedIcon: string
+  message: string
   setSelectedIcon: (nameIcon: string) => void
   setMessage: (message: string) => void
   addNewActivity: () => void
@@ -15,17 +16,27 @@ interface TextEditorWrapperProps {
 
 export const TextEditorWrapper: FC<TextEditorWrapperProps> = ({
   selectedIcon,
+  message,
   setSelectedIcon,
   setMessage,
   addNewActivity,
 }) => {
+  const addActivity = () => {
+    addNewActivity()
+    setMessage('')
+  }
+
   const changeIcon = (nameIcon: string) => {
     setSelectedIcon(nameIcon)
   }
 
   return (
     <div className={styles.wrapper}>
-      <TextEditor placeholder='Add Activity...' setValue={setMessage} />
+      <TextEditor
+        placeholder='Add Activity...'
+        defaultValue={message}
+        setValue={setMessage}
+      />
       <div className={styles.iconsListAndPost}>
         <div className={styles.iconsList}>
           {IconsListData.map(item => {
@@ -46,7 +57,7 @@ export const TextEditorWrapper: FC<TextEditorWrapperProps> = ({
             title='Add Activity'
             icon='/icons/plus.svg'
             style={styles.buttonBlue}
-            onClick={addNewActivity}
+            onClick={addActivity}
           />
         </div>
       </div>
