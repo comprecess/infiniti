@@ -38,7 +38,7 @@ class FileStorage extends Model
         'svg' => 'img'
     ];
 
-    private $convertorByJpg = [
+    public $convertorByJpg = [
         'webp', 'gif', 'bmp', 'tif', 'heic'
     ];
     private $tmpFile = null;
