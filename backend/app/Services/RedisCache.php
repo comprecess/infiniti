@@ -27,7 +27,7 @@ class RedisCache
 
 
         $data = $this->redis?->get($key) ?? Cache::get($key);
-        if(!isNull($data)) {
+        if($data !== null) {
             return unserialize($data);
         }
 
