@@ -108,6 +108,8 @@ return [
 
     'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_cache_'),
 
+    'on_redis' => env('ON_REDIS', false),
+
     'time' => [
         '1year' => 31536000,
         '1month' => 2592000,
