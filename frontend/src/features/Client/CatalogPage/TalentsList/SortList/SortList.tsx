@@ -5,19 +5,15 @@ import {
   MenuItem,
   MenuList,
 } from '@chakra-ui/react'
-import { FC, useEffect, useState } from 'react'
+import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
 
 import { ChevronDownIcon } from '../../../../../shared/icons/ChevronDownIcon'
 import { LongArrowDownIcon } from '../../../../../shared/icons/LongArrowDownIcon'
 import styles from './SortList.module.scss'
 
 interface SortListProps {
-  sort: {
-    sort: { name: string; type: string }
-  }
-  setSort: React.Dispatch<
-  React.SetStateAction<{ sort: { name: string; type: string } }>
-  >
+  sort: { name: string; type: string }
+  setSort: Dispatch<SetStateAction<{ name: string; type: string }>>
 }
 
 export const SortList: FC<SortListProps> = ({ sort, setSort }) => {
@@ -30,11 +26,11 @@ export const SortList: FC<SortListProps> = ({ sort, setSort }) => {
   ) => {
     setItem(selectedItem)
 
-    setSort({ sort: { name: sortName, type: sortTypeString } })
+    setSort({ name: sortName, type: sortTypeString })
   }
 
   useEffect(() => {
-    if (sort.sort.name === 'priceDay' && sort.sort.type === 'asc') {
+    if (sort.name === 'priceDay' && sort.type === 'asc') {
       setItem('Daily rate (8h) Ascending')
     }
   }, [sort])

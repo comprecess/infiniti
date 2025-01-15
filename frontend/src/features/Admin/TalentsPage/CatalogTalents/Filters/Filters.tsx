@@ -1,4 +1,11 @@
-import React, { FC, useCallback, useEffect, useState } from 'react'
+import React, {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -17,7 +24,7 @@ import styles from './Filters.module.scss'
 
 interface FiltersProps {
   selectedFilters: FiltersState
-  setSort: (name: string, type: string) => void
+  setSort: Dispatch<SetStateAction<{ name: string; type: string }>>
   setActiveCategory: (value: number) => void
   setSelectedFilters: React.Dispatch<React.SetStateAction<FiltersState>>
 }
@@ -68,7 +75,7 @@ export const Filters: FC<FiltersProps> = ({
   }
 
   const handleFiltersReset = () => {
-    setSort('priceDay', 'asc')
+    setSort({ name: 'priceDay', type: 'asc' })
     setActiveCategory(0)
     setSelectedFilters({})
   }

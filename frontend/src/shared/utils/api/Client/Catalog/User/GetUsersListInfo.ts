@@ -19,7 +19,7 @@ export const getUsersListInfo = async (
             Accept: 'application/json',
             Authorization: `Bearer ${authToken}`,
           },
-          body: JSON.stringify({ filter: filters, ...sort }),
+          body: JSON.stringify({ filter: filters, sort }),
         },
       )
 
