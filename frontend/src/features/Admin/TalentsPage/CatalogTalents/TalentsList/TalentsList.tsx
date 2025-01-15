@@ -28,12 +28,8 @@ import { SortList } from '../../../../Client/CatalogPage/TalentsList/SortList/So
 import styles from './TalentsList.module.scss'
 
 interface TalentsListProps {
-  sort: {
-    sort: { name: string; type: string }
-  }
-  setSort: Dispatch<
-  SetStateAction<{ sort: { name: string; type: string } }>
-  >
+  sort: { name: string; type: string }
+  setSort: Dispatch<SetStateAction<{ name: string; type: string }>>
   selectedFilters: FiltersState
 }
 
@@ -54,54 +50,54 @@ export const TalentsList: FC<TalentsListProps> = ({
 
   const showToast = useCustomToast()
 
-  const nextPage = useCallback((id: number) => {
-    saveSession(userTalentsPageString, id)
-
-    setCurrentPage(id)
+  const handlePageChange = useCallback((page: number) => {
+    saveSession(userTalentsPageString, page)
+    setCurrentPage(page)
   }, [])
 
-  const scrollToTop = useCallback(() => {
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    }, 0)
-  }, [])
+  const fetchTalents = useCallback(async () => {
+    try {
+      const response = await getUsersListInfo(
+        page + String(currentPage),
+        selectedFilters,
+        sort,
+      )
 
-  const getInfo = useCallback(async () => {
-    const talentsData = await getUsersListInfo(
-      page + String(currentPage),
-      selectedFilters,
-      sort,
-    )
+      setTalentsList(response)
 
-    if (currentPage > talentsData.meta.last_page) {
-      setCurrentPage(1)
+      if (currentPage > response.meta.last_page) {
+        setCurrentPage(1)
+      }
+    } catch (error) {
+      /* empty */
     }
-
-    setTalentsList(talentsData)
   }, [currentPage, selectedFilters, sort])
 
-  const deleteTalent = async (idTalent: number) => {
-    const deleteResponse = await deleteSelectedTalent(idTalent)
+  const deleteTalent = useCallback(
+    async (idTalent: number) => {
+      const deleteResponse = await deleteSelectedTalent(idTalent)
 
-    if (deleteResponse.status) {
-      showToast({
-        title: 'Successfully',
-        description: 'You have successfully removed the Talent',
-        status: 'success',
-      })
-      getInfo()
-    } else {
-      showToast({
-        title: 'Error',
-        description: deleteResponse.message,
-        status: 'error',
-      })
-    }
-  }
+      if (deleteResponse.status) {
+        showToast({
+          title: 'Successfully',
+          description: 'You have successfully removed the Talent',
+          status: 'success',
+        })
+        fetchTalents()
+      } else {
+        showToast({
+          title: 'Error',
+          description: deleteResponse.message,
+          status: 'error',
+        })
+      }
+    },
+    [fetchTalents, showToast],
+  )
 
   useEffect(() => {
-    getInfo()
-  }, [currentPage, selectedFilters, sort, getInfo])
+    fetchTalents()
+  }, [fetchTalents])
 
   if (!talentsList) {
     return (
@@ -133,13 +129,16 @@ export const TalentsList: FC<TalentsListProps> = ({
                       key={talent.id}
                       isAdmin
                       talent={talent}
-                      addTalentInCart={getInfo}
+                      addTalentInCart={fetchTalents}
                       deleteTalent={deleteTalent}
                     />
                   )
                 })}
               </div>
-              <PagesList meta={talentsList.meta} nextPage={nextPage} />
+              <PagesList
+                meta={talentsList.meta}
+                nextPage={handlePageChange}
+              />
             </>
           ) : (
             <div className={styles.nothingFound}>
@@ -157,7 +156,9 @@ export const TalentsList: FC<TalentsListProps> = ({
           >
             <ButtonBrand
               title={t('admin-catalog-talents-page-button-1')}
-              onClick={scrollToTop}
+              onClick={() =>
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }
             />
           </div>
         </div>

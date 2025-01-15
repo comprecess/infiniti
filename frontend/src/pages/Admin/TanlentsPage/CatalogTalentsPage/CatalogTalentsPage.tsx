@@ -14,62 +14,50 @@ import { getPropertiesFiltering } from '../../../../shared/utils/api/Client/Cata
 import styles from './CatalogTalentsPage.module.scss'
 
 export const AdminCatalogTalentsPage: FC = () => {
-  const [activeCategory, setActiveCategory] = useState<number>(0)
+  const [activeCategory, setActiveCategory] = useState(0)
   const [categories, setCategories] = useState<FiltersData | null>(null)
-  const [sort, setSort] = useState<{
-    sort: { name: string; type: string }
-  }>({
-    sort: { name: 'priceDay', type: 'asc' },
-  })
+  const [sort, setSort] = useState({ name: 'priceDay', type: 'asc' })
   const [selectedFilters, setSelectedFilters] = useState<FiltersState>({})
 
   const { t } = useTranslation()
 
-  const handleSetSort = useCallback((name: string, type: string) => {
-    setSort({ sort: { name, type } })
+  const fetchCategories = useCallback(async () => {
+    try {
+      const { data } = await getPropertiesFiltering('?prop=specialization')
+      setCategories(data[0])
+    } catch (error) {
+      console.error('Failed to fetch categories:', error)
+    }
   }, [])
 
-  const getCategories = useCallback(async () => {
-    const categoriesAnswer = await getPropertiesFiltering(
-      '?prop=specialization',
-    )
-
-    setCategories(categoriesAnswer.data[0])
-  }, [])
-
-  const setCategory = () => {
+  const updateFilters = useCallback(() => {
     if (!categories || categories.id === undefined) return
 
     const categoryKey = categories.id.toString()
+    const categoryValue = categories.values[activeCategory - 1]?.id || null
 
-    const categoryValue =
-      categories?.values[activeCategory - 1]?.id ?? null
-
-    if (categoryValue === null) {
-      const newFilters = { ...selectedFilters }
-
-      delete newFilters[categoryKey]
-
-      setSelectedFilters(newFilters)
-    } else {
-      const newFilters = {
-        ...selectedFilters,
-        [categoryKey]: [categoryValue],
+    setSelectedFilters(prev => {
+      const updatedFilters = { ...prev }
+      if (categoryValue === null) {
+        delete updatedFilters[categoryKey]
+      } else {
+        updatedFilters[categoryKey] = [categoryValue]
       }
-      setSelectedFilters(newFilters)
-    }
-  }
+
+      return updatedFilters
+    })
+  }, [categories, activeCategory])
 
   useEffect(() => {
-    getCategories()
+    fetchCategories()
 
     window.scrollTo(0, 0)
     document.title = 'infiniti | Catalog Talents'
-  }, [])
+  }, [fetchCategories])
 
   useEffect(() => {
-    setCategory()
-  }, [activeCategory])
+    updateFilters()
+  }, [activeCategory, updateFilters])
 
   return (
     <div className={styles.wrapper}>
@@ -88,21 +76,14 @@ export const AdminCatalogTalentsPage: FC = () => {
                 isActive={activeCategory === 0}
                 onClick={() => setActiveCategory(0)}
               />
-              {categories.values.map((category, index) => {
-                const updatedCategory = category.value.replace(
-                  /&amp;/g,
-                  '&',
-                )
-
-                return (
-                  <CategoriesItem
-                    key={index + 1}
-                    name={updatedCategory}
-                    isActive={activeCategory === index + 1}
-                    onClick={() => setActiveCategory(index + 1)}
-                  />
-                )
-              })}
+              {categories.values.map((category, index) => (
+                <CategoriesItem
+                  key={index + 1}
+                  name={category.value.replace(/&amp;/g, '&')}
+                  isActive={activeCategory === index + 1}
+                  onClick={() => setActiveCategory(index + 1)}
+                />
+              ))}
             </div>
           </div>
         </section>
@@ -117,7 +98,7 @@ export const AdminCatalogTalentsPage: FC = () => {
             selectedFilters={selectedFilters}
             setSelectedFilters={setSelectedFilters}
             setActiveCategory={setActiveCategory}
-            setSort={handleSetSort}
+            setSort={setSort}
           />
           <TalentsList
             sort={sort}
