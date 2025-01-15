@@ -1,4 +1,11 @@
-import { FC, memo, useCallback, useEffect, useState } from 'react'
+import {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 
 import {
   FiltersState,
@@ -17,16 +24,9 @@ import { PagesList } from './PagesList/PagesList'
 import { SortList } from './SortList/SortList'
 import styles from './TalentsList.module.scss'
 
-const SortListMemoized = memo(SortList)
-const ButtonBrandMemoized = memo(ButtonBrand)
-
 interface TalentsListProps {
-  sort: {
-    sort: { name: string; type: string }
-  }
-  setSort: React.Dispatch<
-  React.SetStateAction<{ sort: { name: string; type: string } }>
-  >
+  sort: { name: string; type: string }
+  setSort: Dispatch<SetStateAction<{ name: string; type: string }>>
   selectedFilters: FiltersState
 }
 
@@ -43,35 +43,32 @@ export const TalentsList: FC<TalentsListProps> = ({
     meta: PagesMetaData
   } | null>(null)
 
-  const nextPage = useCallback((id: number) => {
-    saveSession(userTalentsPageString, id)
-
-    setCurrentPage(id)
+  const handlePageChange = useCallback((page: number) => {
+    saveSession(userTalentsPageString, page)
+    setCurrentPage(page)
   }, [])
 
-  const scrollToTop = useCallback(() => {
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    }, 0)
-  }, [])
+  const fetchTalents = useCallback(async () => {
+    try {
+      const response = await getUsersListInfo(
+        page + String(currentPage),
+        selectedFilters,
+        sort,
+      )
 
-  const getInfo = useCallback(async () => {
-    const talentsData = await getUsersListInfo(
-      page + String(currentPage),
-      selectedFilters,
-      sort,
-    )
+      setTalentsList(response)
 
-    if (currentPage > talentsData.meta.last_page) {
-      setCurrentPage(1)
+      if (currentPage > response.meta.last_page) {
+        setCurrentPage(1)
+      }
+    } catch (error) {
+      /* empty */
     }
-
-    setTalentsList(talentsData)
   }, [currentPage, selectedFilters, sort])
 
   useEffect(() => {
-    getInfo()
-  }, [currentPage, selectedFilters, sort, getInfo])
+    fetchTalents()
+  }, [fetchTalents])
 
   if (!talentsList) {
     return (
@@ -89,7 +86,7 @@ export const TalentsList: FC<TalentsListProps> = ({
             <h3 className={styles.name}>Talents</h3>
             <h3 className={styles.number}>{talentsList.meta.total}</h3>
           </div>
-          <SortListMemoized setSort={setSort} sort={sort} />
+          <SortList setSort={setSort} sort={sort} />
         </div>
         <div className={styles.list}>
           {talentsList.data.length > 0 ? (
@@ -99,7 +96,10 @@ export const TalentsList: FC<TalentsListProps> = ({
                   return <TalentsCard key={talent.id} talent={talent} />
                 })}
               </div>
-              <PagesList meta={talentsList.meta} nextPage={nextPage} />
+              <PagesList
+                meta={talentsList.meta}
+                nextPage={handlePageChange}
+              />
             </>
           ) : (
             <div className={styles.nothingFound}>
@@ -115,9 +115,11 @@ export const TalentsList: FC<TalentsListProps> = ({
                 : styles.buttonBackToTopInactive
             }
           >
-            <ButtonBrandMemoized
+            <ButtonBrand
               title='Back to top'
-              onClick={scrollToTop}
+              onClick={() =>
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }
             />
           </div>
         </div>
