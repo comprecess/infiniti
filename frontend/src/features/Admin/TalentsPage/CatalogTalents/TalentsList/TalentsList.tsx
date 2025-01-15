@@ -1,26 +1,12 @@
-import {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react'
+import { Dispatch, FC, SetStateAction, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
-  FiltersState,
-  page,
   PagesMetaData,
   TalentData,
   userTalentsPageString,
 } from '../../../../../app/constants/constants'
 import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
-import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
-import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { deleteSelectedTalent } from '../../../../../shared/utils/api/Admin/Talents/DeleteTalent'
-import { getUsersListInfo } from '../../../../../shared/utils/api/Client/Catalog/User/GetUsersListInfo'
-import { getSession } from '../../../../../shared/utils/Saving/Session/GetSession'
 import { saveSession } from '../../../../../shared/utils/Saving/Session/SaveSession'
 import { TalentsCard } from '../../../../../widgets/TalentsCard/TalentsCard'
 import { PagesList } from '../../../../Client/CatalogPage/TalentsList/PagesList/PagesList'
@@ -28,84 +14,31 @@ import { SortList } from '../../../../Client/CatalogPage/TalentsList/SortList/So
 import styles from './TalentsList.module.scss'
 
 interface TalentsListProps {
+  talentsList: {
+    data: TalentData[]
+    meta: PagesMetaData
+  }
   sort: { name: string; type: string }
   setSort: Dispatch<SetStateAction<{ name: string; type: string }>>
-  selectedFilters: FiltersState
+  setCurrentPage: Dispatch<SetStateAction<number>>
+  deleteTalent: (id: number) => void
+  fetchTalents: () => void
 }
 
 export const TalentsList: FC<TalentsListProps> = ({
+  talentsList,
   sort,
   setSort,
-  selectedFilters,
+  setCurrentPage,
+  deleteTalent,
+  fetchTalents,
 }) => {
-  const [currentPage, setCurrentPage] = useState<number>(
-    getSession(userTalentsPageString),
-  )
-  const [talentsList, setTalentsList] = useState<{
-    data: TalentData[]
-    meta: PagesMetaData
-  } | null>(null)
-
   const { t } = useTranslation()
-
-  const showToast = useCustomToast()
 
   const handlePageChange = useCallback((page: number) => {
     saveSession(userTalentsPageString, page)
     setCurrentPage(page)
   }, [])
-
-  const fetchTalents = useCallback(async () => {
-    try {
-      const response = await getUsersListInfo(
-        page + String(currentPage),
-        selectedFilters,
-        sort,
-      )
-
-      setTalentsList(response)
-
-      if (currentPage > response.meta.last_page) {
-        setCurrentPage(1)
-      }
-    } catch (error) {
-      /* empty */
-    }
-  }, [currentPage, selectedFilters, sort])
-
-  const deleteTalent = useCallback(
-    async (idTalent: number) => {
-      const deleteResponse = await deleteSelectedTalent(idTalent)
-
-      if (deleteResponse.status) {
-        showToast({
-          title: 'Successfully',
-          description: 'You have successfully removed the Talent',
-          status: 'success',
-        })
-        fetchTalents()
-      } else {
-        showToast({
-          title: 'Error',
-          description: deleteResponse.message,
-          status: 'error',
-        })
-      }
-    },
-    [fetchTalents],
-  )
-
-  useEffect(() => {
-    fetchTalents()
-  }, [fetchTalents])
-
-  if (!talentsList) {
-    return (
-      <div className={styles.wrapper}>
-        <LoadingSpinner size='xl' />
-      </div>
-    )
-  }
 
   return (
     <div className={styles.wrapper}>
