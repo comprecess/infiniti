@@ -38,9 +38,10 @@ export const AdminDashboardPage: FC = () => {
   }
 
   useEffect(() => {
-    document.title = 'infiniti | Dashboard'
-
     getCashFlowData()
+
+    window.scrollTo(0, 0)
+    document.title = 'infiniti | Dashboard'
   }, [])
 
   return (

@@ -200,8 +200,9 @@ export const AdminInvoicesPage: FC = () => {
   )
 
   useEffect(() => {
-    document.title = 'infiniti | Invoices'
     getStatInvoice()
+
+    document.title = 'infiniti | Invoices'
   }, [])
 
   useEffect(() => {
