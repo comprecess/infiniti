@@ -51,6 +51,7 @@ export const AdminBusinessModelsPage = () => {
   useEffect(() => {
     getCategories()
 
+    window.scrollTo(0, 0)
     document.title = 'infiniti | Business Models'
   }, [])
 

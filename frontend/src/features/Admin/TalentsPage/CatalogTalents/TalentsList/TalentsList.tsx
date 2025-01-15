@@ -1,4 +1,11 @@
-import { FC, memo, useCallback, useEffect, useState } from 'react'
+import {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -20,15 +27,12 @@ import { PagesList } from '../../../../Client/CatalogPage/TalentsList/PagesList/
 import { SortList } from '../../../../Client/CatalogPage/TalentsList/SortList/SortList'
 import styles from './TalentsList.module.scss'
 
-const SortListMemoized = memo(SortList)
-const ButtonBrandMemoized = memo(ButtonBrand)
-
 interface TalentsListProps {
   sort: {
     sort: { name: string; type: string }
   }
-  setSort: React.Dispatch<
-    React.SetStateAction<{ sort: { name: string; type: string } }>
+  setSort: Dispatch<
+  SetStateAction<{ sort: { name: string; type: string } }>
   >
   selectedFilters: FiltersState
 }
@@ -117,7 +121,7 @@ export const TalentsList: FC<TalentsListProps> = ({
             </h3>
             <h3 className={styles.number}>{talentsList.meta.total}</h3>
           </div>
-          <SortListMemoized setSort={setSort} sort={sort} />
+          <SortList setSort={setSort} sort={sort} />
         </div>
         <div className={styles.list}>
           {talentsList.data.length > 0 ? (
@@ -151,7 +155,7 @@ export const TalentsList: FC<TalentsListProps> = ({
                 : styles.buttonBackToTopInactive
             }
           >
-            <ButtonBrandMemoized
+            <ButtonBrand
               title={t('admin-catalog-talents-page-button-1')}
               onClick={scrollToTop}
             />
