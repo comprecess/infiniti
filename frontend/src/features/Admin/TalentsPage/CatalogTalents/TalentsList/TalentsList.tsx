@@ -92,7 +92,7 @@ export const TalentsList: FC<TalentsListProps> = ({
         })
       }
     },
-    [fetchTalents, showToast],
+    [fetchTalents],
   )
 
   useEffect(() => {

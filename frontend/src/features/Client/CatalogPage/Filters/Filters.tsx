@@ -1,4 +1,11 @@
-import React, { FC, useCallback, useEffect, useState } from 'react'
+import React, {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 
 import {
   FiltersData,
@@ -16,9 +23,9 @@ import styles from './Filters.module.scss'
 
 interface FiltersProps {
   selectedFilters: FiltersState
-  setSort: (name: string, type: string) => void
-  setActiveCategory: (value: number) => void
-  setSelectedFilters: React.Dispatch<React.SetStateAction<FiltersState>>
+  setSort: Dispatch<SetStateAction<{ name: string; type: string }>>
+  setActiveCategory: Dispatch<SetStateAction<number>>
+  setSelectedFilters: Dispatch<SetStateAction<FiltersState>>
 }
 
 export const Filters: FC<FiltersProps> = ({
@@ -65,7 +72,7 @@ export const Filters: FC<FiltersProps> = ({
   }
 
   const handleFiltersReset = () => {
-    setSort('priceDay', 'asc')
+    setSort({ name: 'priceDay', type: 'asc' })
     setActiveCategory(0)
     setSelectedFilters({})
   }

@@ -25,8 +25,8 @@ import styles from './Filters.module.scss'
 interface FiltersProps {
   selectedFilters: FiltersState
   setSort: Dispatch<SetStateAction<{ name: string; type: string }>>
-  setActiveCategory: (value: number) => void
-  setSelectedFilters: React.Dispatch<React.SetStateAction<FiltersState>>
+  setActiveCategory: Dispatch<SetStateAction<number>>
+  setSelectedFilters: Dispatch<SetStateAction<FiltersState>>
 }
 
 export const Filters: FC<FiltersProps> = ({
