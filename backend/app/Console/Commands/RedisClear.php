@@ -20,7 +20,7 @@ class RedisClear extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Removing from the radish database by prefix';
 
     /**
      * Execute the console command.

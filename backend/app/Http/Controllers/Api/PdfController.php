@@ -31,11 +31,22 @@ class PdfController extends Controller
         $model = $this->getModel($request);
         $name = $request->route('name');
         $companyName = Config::get('CompanyName');
-        $mpdf = new Mpdf();
+
+        $pdf_c = '';
+        if(Config::get('pdf_font') == 'default') {
+            $pdf_c = 'c';
+        }
+        $mpdf = new mPDF([$pdf_c, 'A4', '', '', 20, 15, 15, 25, 10, 10]);
 
         $mpdf->SetTitle($companyName . ' ' . ucfirst($name));
         $mpdf->SetAuthor($companyName);
-        $mpdf->SetWatermarkText(__("pdf.statusVar.{$model->status}"));
+        if($model instanceof Invoice) {
+            $statusValue = __("pdf.invoice.statusVar.{$model->status}");
+        }else{
+            $statusValue = __("pdf.offer.statusVar.{$model->stage}");
+        }
+
+        $mpdf->SetWatermarkText($statusValue);
         if(Config::get('invoice_show_watermark') == 1){
             $font = Config::get('pdf_font') == 'default' ? 'Helvetica' : 'dejavusanscondensed';
             $mpdf->showWatermarkText = true;
