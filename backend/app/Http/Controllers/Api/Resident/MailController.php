@@ -20,7 +20,8 @@ class MailController extends ResidentController
 
         if($request->getMethod() == 'POST') {
             $requestSend = app(MailSendRequest::class);
-            Mail::send('emails.email-template', ['content' => $requestSend->message], function($message) use($requestSend, $template){
+//            Mail::send('emails.email-template', ['content' => $requestSend->message], function($message) use($requestSend, $template){
+            Mail::send('emails.insert-content', ['content' => $requestSend->message], function($message) use($requestSend, $template){
                 $message->to($requestSend->toEmail);
                 $message->subject($requestSend->subject);
 
