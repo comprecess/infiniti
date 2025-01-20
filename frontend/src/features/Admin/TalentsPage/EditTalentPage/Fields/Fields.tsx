@@ -335,11 +335,16 @@ export const Fields: FC<FieldsProps> = ({
         onChange={handleChangeInput}
       />
       <div className={styles.avatarContainer}>
-        <img
-          src={data.img || '/profileWithoutAvatar.svg'}
-          alt='Avatar'
-          className={styles.avatar}
-        />
+        <div className={styles.avatar}>
+          <img
+            alt='Avatar'
+            src={
+              data.img
+                ? `${data.img}?width=128&height=128`
+                : '/profileWithoutAvatar.svg'
+            }
+          />
+        </div>
         <div className={styles.buttonsContainer}>
           <div className={styles.uploadPicture}>
             <ButtonBlue

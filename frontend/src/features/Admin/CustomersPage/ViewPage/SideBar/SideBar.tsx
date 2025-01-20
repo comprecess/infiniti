@@ -43,12 +43,19 @@ export const SideBar: FC<SideBarProps> = ({
   }
 
   return (
-    <div className={isActive ? styles.wrapperActive : styles.wrapperDisable}>
-      <img
-        src={data.img ? data.img : '/profileWithoutAvatar.svg'}
-        alt='Avatar'
-        className={styles.avatar}
-      />
+    <div
+      className={isActive ? styles.wrapperActive : styles.wrapperDisable}
+    >
+      <div className={styles.avatar}>
+        <img
+          alt='Avatar'
+          src={
+            data.img
+              ? `${data.img}?width=176&height=176`
+              : '/profileWithoutAvatar.svg'
+          }
+        />
+      </div>
       <div className={styles.info}>
         <span className={styles.email} contentEditable={false}>
           {data.email}

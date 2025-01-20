@@ -57,11 +57,16 @@ export const TalentCard: FC<TalentCardProps> = ({
     <>
       <div className={styles.wrapper}>
         <div className={styles.avatarName}>
-          <img
-            src={talent.img ? talent.img : '/profileWithoutAvatar.svg'}
-            alt='Avatar'
-            className={styles.avatar}
-          />
+          <div className={styles.avatar}>
+            <img
+              alt='Avatar'
+              src={
+                talent.img
+                  ? `${talent.img}?width=92&height=92`
+                  : '/profileWithoutAvatar.svg'
+              }
+            />
+          </div>
           <div className={styles.nameAndCall}>
             <span className={styles.name}>{talent.name}</span>
             <div className={styles.callIconWrapper}>

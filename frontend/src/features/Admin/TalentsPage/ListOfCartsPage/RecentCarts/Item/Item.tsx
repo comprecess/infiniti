@@ -42,11 +42,16 @@ export const Item: FC<ItemProps> = ({
   return (
     <div className={styles.wrapper}>
       <div className={styleItem.imageColumn}>
-        <img
-          src={image ? image : '/profileWithoutAvatar.svg'}
-          alt='Avatar'
-          className={styles.imageItem}
-        />
+        <div className={styles.avatar}>
+          <img
+            alt='Avatar'
+            src={
+              image
+                ? `${image}?width=92&height=92`
+                : '/profileWithoutAvatar.svg'
+            }
+          />
+        </div>
       </div>
       <div
         className={`${styleItem.nameColumn} ${styles.nameCodeItem}`}

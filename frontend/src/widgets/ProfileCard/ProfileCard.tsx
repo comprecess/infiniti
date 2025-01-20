@@ -13,7 +13,10 @@ interface ProfileCardProps {
   onChangeInfo: () => void
 }
 
-export const ProfileCard: FC<ProfileCardProps> = ({ talent, onChangeInfo }) => {
+export const ProfileCard: FC<ProfileCardProps> = ({
+  talent,
+  onChangeInfo,
+}) => {
   const showToast = useCustomToast()
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -27,7 +30,9 @@ export const ProfileCard: FC<ProfileCardProps> = ({ talent, onChangeInfo }) => {
     const files = event.target.files
 
     if (files && files.length > 0) {
-      if (!['image/jpeg', 'image/jpg', 'image/png'].includes(files[0].type)) {
+      if (
+        !['image/jpeg', 'image/jpg', 'image/png'].includes(files[0].type)
+      ) {
         showToast({
           title: 'Error',
           description: 'Only JPEG and PNG images are allowed',
@@ -69,11 +74,16 @@ export const ProfileCard: FC<ProfileCardProps> = ({ talent, onChangeInfo }) => {
 
   return (
     <div className={styles.wrapper}>
-      <img
-        src={talent.img ? talent.img : '/profileWithoutAvatar.svg'}
-        alt='Avatar'
-        className={styles.avatar}
-      />
+      <div className={styles.avatar}>
+        <img
+          alt='Avatar'
+          src={
+            talent.img
+              ? `${talent.img}?width=128&height=128`
+              : '/profileWithoutAvatar.svg'
+          }
+        />
+      </div>
       <h3 className={styles.name}>{talent.account}</h3>
       <div className={styles.info}>
         <InfoItem
@@ -98,12 +108,15 @@ export const ProfileCard: FC<ProfileCardProps> = ({ talent, onChangeInfo }) => {
           title='Address:'
           description={talent.address ? talent.address : '-'}
         />
-        <InfoItem title='City:' description={talent.city ? talent.city : '-'} />
+        <InfoItem
+          title='City:'
+          description={talent.city ? talent.city : '-'}
+        />
         <InfoItem
           title='State/Region:'
-          description={`${talent.state ? talent.state : 'Not Indicate'} — ${
-            talent.zip ? talent.zip : 'Not Indicate'
-          }`}
+          description={`${
+            talent.state ? talent.state : 'Not Indicate'
+          } — ${talent.zip ? talent.zip : 'Not Indicate'}`}
         />
       </div>
       <div className={styles.uploadPicture}>

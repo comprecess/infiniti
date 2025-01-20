@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { UserInfo } from '../../app/constants/constants'
 import { Avatar } from '../../features/Client/DashboardPage/ProfileCard/Avatar/Avatar'
@@ -9,13 +9,15 @@ import { LoadingSpinner } from '../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getProfileInfo } from '../../shared/utils/api/GetProfileInfo'
 import styles from './UserCard.module.scss'
 
-export const UserCard: FC = () => {
-  const [profileData, setProfileData] = useState<UserInfo>()
+export const UserCard = () => {
+  const [profileData, setProfileData] = useState<UserInfo | null>(null)
 
   const getProfileData = useCallback(async () => {
     const profileData = await getProfileInfo()
 
-    if (profileData) setProfileData(profileData)
+    if (profileData) {
+      setProfileData(profileData)
+    }
   }, [])
 
   useEffect(() => {

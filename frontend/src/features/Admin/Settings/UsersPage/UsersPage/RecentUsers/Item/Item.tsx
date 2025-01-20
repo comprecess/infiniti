@@ -55,13 +55,18 @@ export const Item: FC<ItemProps> = ({
 
   return (
     <>
-      {' '}
       <div className={styles.wrapper}>
         <div className={styleItem.avatarColumn}>
-          <img
-            src={avatar ? avatar : '/profileWithoutAvatar.svg'}
-            className={styles.avatarItem}
-          />
+          <div className={styles.avatar}>
+            <img
+              alt='Avatar'
+              src={
+                avatar
+                  ? `${avatar}?width=92&height=92`
+                  : '/profileWithoutAvatar.svg'
+              }
+            />
+          </div>
         </div>
         <div className={styleItem.detailsColumn}>
           <div className={styles.detailsContainer}>

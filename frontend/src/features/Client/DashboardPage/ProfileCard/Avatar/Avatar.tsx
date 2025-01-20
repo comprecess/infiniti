@@ -10,11 +10,16 @@ interface AvatarProps {
 export const Avatar: FC<AvatarProps> = ({ avatar, name }) => {
   return (
     <div className={styles.wrapper}>
-      <img
-        className={styles.avatar}
-        src={avatar ? avatar : '/profileWithoutAvatar.svg'}
-        alt='Profile Avatar'
-      />
+      <div className={styles.avatar}>
+        <img
+          alt='Profile Avatar'
+          src={
+            avatar
+              ? `${avatar}?width=92&height=92`
+              : '/profileWithoutAvatar.svg'
+          }
+        />
+      </div>
       <span className={styles.title}>{name}</span>
     </div>
   )

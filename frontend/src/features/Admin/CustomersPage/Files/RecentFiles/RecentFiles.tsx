@@ -31,8 +31,8 @@ export const RecentFiles: FC<RecentFilesProps> = ({ files }) => {
             key={file.id}
             title={file.title}
             typeFile={file.type}
-            customerId={file.client.id}
-            customerName={file.client.account}
+            customerId={file.client?.id || null}
+            customerName={file.client?.account || null}
             uploadedAt={file.update}
             link={file.link}
             navigateToCustomer={navigateToCustomer}

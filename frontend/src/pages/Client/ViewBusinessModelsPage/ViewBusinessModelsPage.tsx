@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { BusinessPlanBusinessModelData } from '../../../app/constants/constants'
+import { Routes } from '../../../app/router/routes'
 import { ListInfoItem } from '../../../features/Client/TalentDetailsPage/ListInfoItem/ListInfoItem'
 import { TextInfoItem } from '../../../features/Client/TalentDetailsPage/TextInfoItem/TextInfoItem'
 import { TitleCard } from '../../../features/Client/TalentDetailsPage/TitleCard/TitleCard'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
+import { ChevronDownIcon } from '../../../shared/icons/ChevronDownIcon'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { StatusProfitability } from '../../../shared/ui/StatusProfitability/StatusProfitability'
 import { getModelInfo } from '../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/GetModelInfo'
@@ -33,6 +35,7 @@ export const ClientViewBusinessModelsPage = () => {
   )
 
   const id = useIdFromUrl()
+  const navigate = useNavigate()
 
   const getData = async () => {
     if (!id) return
@@ -40,6 +43,14 @@ export const ClientViewBusinessModelsPage = () => {
     const response = await getModelInfo(id)
 
     setData(response.data)
+  }
+
+  const handleNavigateBack = () => {
+    if (window.history.length - 3 <= 0) {
+      navigate(`/${Routes.clientPages}/${Routes.businessModels}`)
+    } else {
+      navigate(-1)
+    }
   }
 
   useEffect(() => {
@@ -52,6 +63,17 @@ export const ClientViewBusinessModelsPage = () => {
     <div className={styles.wrapper}>
       {data ? (
         <section className={styles.section}>
+          <section className={styles.section}>
+            <div className={styles.item}>
+              <div
+                className={styles.buttonBack}
+                onClick={handleNavigateBack}
+              >
+                <ChevronDownIcon style={styles.buttonBackIcon} />
+                <span className={styles.buttonBackText}>Back</span>
+              </div>
+            </div>
+          </section>
           <div className={styles.titleModel}>
             <TitlePage title={data.title} />
           </div>

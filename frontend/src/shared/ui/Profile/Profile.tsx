@@ -38,6 +38,7 @@ export const Profile: FC<ProfileProps> = ({ isAdmin }) => {
 
   const fetchProfileData = useCallback(() => {
     const profileData = getSession(profileInfoString) as ProfileData
+
     if (isAdmin) {
       setProfileData(profileData as AdminInfo)
     } else {
@@ -77,11 +78,16 @@ export const Profile: FC<ProfileProps> = ({ isAdmin }) => {
               <span className={styles.name}>
                 {profileData.account ? profileData.account : '-'}
               </span>
-              <img
-                className={styles.avatar}
-                alt='Profile Avatar'
-                src={profileData.img || '/profileWithoutAvatar.svg'}
-              />
+              <div className={styles.avatar}>
+                <img
+                  alt='Profile Avatar'
+                  src={
+                    profileData.img
+                      ? `${profileData.img}?width=92&height=92`
+                      : '/profileWithoutAvatar.svg'
+                  }
+                />
+              </div>
             </>
           ) : (
             <LoadingSpinner />
@@ -123,12 +129,17 @@ export const Profile: FC<ProfileProps> = ({ isAdmin }) => {
               padding: '18px 24px',
             }}
           >
-            <img
-              className={styles.modalAvatar}
-              alt='Profile Avatar'
-              src={profileData.img || '/profileWithoutAvatar.svg'}
-            />
-            <div className=''>
+            <div className={styles.modalAvatar}>
+              <img
+                alt='Profile Avatar'
+                src={
+                  profileData.img
+                    ? `${profileData.img}?width=92&height=92`
+                    : '/profileWithoutAvatar.svg'
+                }
+              />
+            </div>
+            <div>
               <p className={styles.modalName}>{profileData.account}</p>
               <p className={styles.modalEmail}>{profileData.email}</p>
             </div>

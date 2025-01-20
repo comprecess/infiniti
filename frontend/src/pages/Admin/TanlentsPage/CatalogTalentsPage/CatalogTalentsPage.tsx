@@ -1,8 +1,12 @@
-import { FC, useCallback, useEffect, useState } from 'react'
+import {
+  useQuery,
+  useQueryClient,
+  UseQueryOptions,
+} from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
-  FiltersData,
   FiltersState,
   page,
   PagesMetaData,
@@ -21,82 +25,71 @@ import { getUsersListInfo } from '../../../../shared/utils/api/Client/Catalog/Us
 import { getSession } from '../../../../shared/utils/Saving/Session/GetSession'
 import styles from './CatalogTalentsPage.module.scss'
 
-export const AdminCatalogTalentsPage: FC = () => {
+export const AdminCatalogTalentsPage = () => {
   const [activeCategory, setActiveCategory] = useState(0)
-  const [categories, setCategories] = useState<FiltersData | null>(null)
   const [sort, setSort] = useState({ name: 'priceDay', type: 'asc' })
   const [selectedFilters, setSelectedFilters] = useState<FiltersState>({})
-
-  const [talentsList, setTalentsList] = useState<{
-    data: TalentData[]
-    meta: PagesMetaData
-  } | null>(null)
   const [currentPage, setCurrentPage] = useState<number>(
-    getSession(userTalentsPageString),
+    getSession(userTalentsPageString) || 1,
   )
-
-  const [filters, setFilters] = useState<FiltersData[] | null>(null)
 
   const { t } = useTranslation()
 
+  const queryClient = useQueryClient()
   const showToast = useCustomToast()
 
-  const fetchCategories = useCallback(async () => {
-    try {
-      const { data } = await getPropertiesFiltering('?prop=specialization')
-      setCategories(data[0])
-    } catch (error) {
-      console.error('Failed to fetch categories:', error)
-    }
-  }, [])
+  const { data: categories, isLoading: categoriesLoading } = useQuery({
+    queryKey: ['categories'],
+    queryFn: () =>
+      getPropertiesFiltering('?prop=specialization').then(
+        res => res.data[0],
+      ),
+  })
 
-  const fetchTalents = useCallback(async () => {
-    try {
-      const response = await getUsersListInfo(
+  const { data: talentsList, refetch } = useQuery({
+    queryKey: ['talents', currentPage, selectedFilters, sort],
+    queryFn: async () => {
+      const res = await getUsersListInfo(
         page + String(currentPage),
         selectedFilters,
         sort,
       )
-
-      setTalentsList(response)
-
-      if (currentPage > response.meta.last_page) {
+      if (currentPage > res.meta.last_page) {
         setCurrentPage(1)
       }
-    } catch (error) {
-      /* empty */
-    }
-  }, [currentPage, selectedFilters, sort])
 
-  const deleteTalent = useCallback(
-    async (idTalent: number) => {
-      const deleteResponse = await deleteSelectedTalent(idTalent)
-
-      if (deleteResponse.status) {
-        showToast({
-          title: 'Successfully',
-          description: 'You have successfully removed the Talent',
-          status: 'success',
-        })
-        fetchTalents()
-      } else {
-        showToast({
-          title: 'Error',
-          description: deleteResponse.message,
-          status: 'error',
-        })
-      }
+      return res
     },
-    [fetchTalents],
-  )
+    staleTime: 5000,
+    cacheTime: 300000,
+  } as UseQueryOptions)
 
-  const getFilters = useCallback(async () => {
-    const filtersAnswer = await getPropertiesFiltering()
+  const { data: filters } = useQuery({
+    queryKey: ['filters'],
+    queryFn: () => getPropertiesFiltering().then(res => res.data),
+  })
 
-    setFilters(filtersAnswer.data)
-  }, [])
+  const deleteTalent = async (idTalent: number) => {
+    const deleteResponse = await deleteSelectedTalent(idTalent)
 
-  const updateFilters = useCallback(() => {
+    if (deleteResponse.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully removed the Talent',
+        status: 'success',
+      })
+
+      queryClient.invalidateQueries({ queryKey: ['talents'] })
+    } else {
+      showToast({
+        title: 'Error',
+        description: deleteResponse.message,
+        status: 'error',
+      })
+    }
+  }
+
+  useEffect(() => {
     if (!categories || categories.id === undefined) return
 
     const categoryKey = categories.id.toString()
@@ -115,79 +108,69 @@ export const AdminCatalogTalentsPage: FC = () => {
   }, [categories, activeCategory])
 
   useEffect(() => {
-    fetchCategories()
-
     window.scrollTo(0, 0)
     document.title = 'infiniti | Catalog Talents'
-  }, [fetchCategories])
-
-  useEffect(() => {
-    updateFilters()
-  }, [activeCategory, updateFilters])
-
-  useEffect(() => {
-    fetchTalents()
-  }, [fetchTalents])
-
-  useEffect(() => {
-    getFilters()
-  }, [getFilters])
+  }, [])
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>
         <TitlePage title={t('admin-catalog-talents-page-title')} />
       </div>
-      {categories && talentsList && filters ? (
-        <>
-          <section className={styles.sectionFirst}>
-            <div className={styles.itemsFirst}>
-              <span className={styles.categoriesText}>
-                {t('admin-catalog-talents-page-text-1')}
-              </span>
-              <div className={styles.categories}>
-                <CategoriesItem
-                  name={t('admin-catalog-talents-page-text-5')}
-                  isActive={activeCategory === 0}
-                  onClick={() => setActiveCategory(0)}
-                />
-                {categories.values.map((category, index) => (
+      {!categoriesLoading ? (
+        <section className={styles.sectionFirst}>
+          <div className={styles.itemsFirst}>
+            <span className={styles.categoriesText}>
+              {t('admin-catalog-talents-page-text-1')}
+            </span>
+            <div className={styles.categories}>
+              <CategoriesItem
+                name={t('admin-catalog-talents-page-text-5')}
+                isActive={activeCategory === 0}
+                onClick={() => setActiveCategory(0)}
+              />
+              {categories.values.map(
+                (category: { value: string }, index: number) => (
                   <CategoriesItem
                     key={index + 1}
                     name={category.value.replace(/&amp;/g, '&')}
                     isActive={activeCategory === index + 1}
                     onClick={() => setActiveCategory(index + 1)}
                   />
-                ))}
-              </div>
+                ),
+              )}
             </div>
-          </section>
-          <section className={styles.sectionSecond}>
-            <div className={styles.itemsSecond}>
-              <Filters
-                filters={filters}
-                setFilters={setFilters}
-                selectedFilters={selectedFilters}
-                setSelectedFilters={setSelectedFilters}
-                setActiveCategory={setActiveCategory}
-                setSort={setSort}
-              />
-              <TalentsList
-                talentsList={talentsList}
-                sort={sort}
-                setSort={setSort}
-                deleteTalent={deleteTalent}
-                fetchTalents={fetchTalents}
-                setCurrentPage={setCurrentPage}
-              />
-            </div>
-          </section>
-        </>
+          </div>
+        </section>
       ) : (
         <div className={styles.loading}>
           <LoadingSpinner size='xl' />
         </div>
       )}
+      <section className={styles.sectionSecond}>
+        <div className={styles.itemsSecond}>
+          <Filters
+            filters={filters}
+            selectedFilters={selectedFilters}
+            setSelectedFilters={setSelectedFilters}
+            setActiveCategory={setActiveCategory}
+            setSort={setSort}
+          />
+          <TalentsList
+            sort={sort}
+            setSort={setSort}
+            deleteTalent={deleteTalent}
+            setCurrentPage={setCurrentPage}
+            fetchTalents={refetch}
+            talentsList={
+              talentsList as {
+                data: TalentData[]
+                meta: PagesMetaData
+              }
+            }
+          />
+        </div>
+      </section>
     </div>
   )
 }
