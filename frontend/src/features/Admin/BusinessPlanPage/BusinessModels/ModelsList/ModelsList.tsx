@@ -1,55 +1,50 @@
-import { FC, useCallback, useEffect, useState } from 'react'
+import {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import {
   BusinessPlanBusinessModelData,
-  FiltersState,
-  page,
   PagesMetaData,
+  userModelsPageString,
 } from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
 import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
-import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { deleteBusinessModel } from '../../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/DeleteBusinessModel'
-import { postBusinessModelList } from '../../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/PostBusinessModelList'
+import { saveSession } from '../../../../../shared/utils/Saving/Session/SaveSession'
 import { BusinessModelCard } from '../../../../../widgets/BusinessModelCard/BusinessModelCard'
 import { PagesList } from '../../../../Client/CatalogPage/TalentsList/PagesList/PagesList'
 import styles from './ModelsList.module.scss'
 
 interface ModelsListProps {
   isAdmin: boolean
-  selectedFilters: FiltersState
+  modelsList: {
+    data: BusinessPlanBusinessModelData[]
+    meta: PagesMetaData
+  }
+  setCurrentPage: Dispatch<SetStateAction<number>>
+  deleteBusinessModel?: (id: number) => void
 }
 
 export const ModelsList: FC<ModelsListProps> = ({
   isAdmin,
-  selectedFilters,
+  modelsList,
+  setCurrentPage,
+  deleteBusinessModel,
 }) => {
-  const [modelsList, setModelsList] = useState<{
-    data: BusinessPlanBusinessModelData[]
-    meta: PagesMetaData
-  } | null>(null)
-  const [currentPage, setCurrentPage] = useState<number>(1)
-
   const [modelsOpen, setModelsOpen] = useState<boolean[]>([])
 
   const navigate = useNavigate()
-  const showToast = useCustomToast()
 
-  const getModels = async () => {
-    const response = await postBusinessModelList(
-      page + String(currentPage),
-      selectedFilters,
-    )
-
-    if (currentPage > response.meta.last_page) {
-      setCurrentPage(1)
-    }
-
-    setModelsList(response)
-    setModelsOpen(Array(response.meta.total).fill(false))
-  }
+  const handlePageChange = useCallback((page: number) => {
+    saveSession(userModelsPageString, page)
+    setCurrentPage(page)
+  }, [])
 
   const handleNavigateToViewBusinessModel = (id: number) => {
     if (isAdmin) {
@@ -69,26 +64,6 @@ export const ModelsList: FC<ModelsListProps> = ({
     )
   }
 
-  const handleDeleteBusinessModel = async (id: number) => {
-    const response = await deleteBusinessModel(id)
-
-    if (response.status) {
-      showToast({
-        title: 'Successfully',
-        description: 'You have successfully deleted the Business Model',
-        status: 'success',
-      })
-
-      getModels()
-    } else {
-      showToast({
-        title: 'Error',
-        description: response.message,
-        status: 'error',
-      })
-    }
-  }
-
   const handleModelOpenClose = (index: number) => {
     setModelsOpen(prevModelsOpen => {
       const newModelsOpen = prevModelsOpen.map((_, i) =>
@@ -99,19 +74,9 @@ export const ModelsList: FC<ModelsListProps> = ({
     })
   }
 
-  const nextPage = useCallback((id: number) => {
-    setCurrentPage(id)
-  }, [])
-
-  const scrollToTop = useCallback(() => {
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    }, 0)
-  }, [])
-
   useEffect(() => {
-    getModels()
-  }, [currentPage, selectedFilters])
+    if (modelsList) setModelsOpen(Array(modelsList.meta.total).fill(false))
+  }, [modelsList])
 
   if (!modelsList) {
     return (
@@ -126,57 +91,79 @@ export const ModelsList: FC<ModelsListProps> = ({
       <div className={styles.items}>
         <div className={styles.header}>
           <div className={styles.title}>
-            <h3 className={styles.name}>Models</h3>
-            <h3 className={styles.number}>{modelsList.meta.total}</h3>
+            {modelsList && (
+              <>
+                <h3 className={styles.name}>Models</h3>
+                <h3 className={styles.number}>{modelsList.meta.total}</h3>
+              </>
+            )}
           </div>
           -SortList-
         </div>
-        <div className={styles.list}>
-          {modelsList.data.length > 0 ? (
-            <>
-              <div className={styles.modelsList}>
-                {modelsList.data.map((model, index) => {
-                  return (
-                    <BusinessModelCard
-                      key={model.id}
-                      id={model.id}
-                      isAdmin={isAdmin}
-                      title={model.title}
-                      description={model.description}
-                      price={model.price}
-                      image={model.preview}
-                      industries={model.industries}
-                      technologies={model.technologies}
-                      location={model.location}
-                      profitability={model.profitability[0].value}
-                      isOpen={modelsOpen[index]}
-                      onMobileCLick={() => handleModelOpenClose(index)}
-                      onNavigate={handleNavigateToViewBusinessModel}
-                      onDelete={handleDeleteBusinessModel}
-                      onEdit={handleNavigateToEditBusinessModel}
-                    />
-                  )
-                })}
+        {modelsList ? (
+          <div className={styles.list}>
+            {modelsList.data.length > 0 ? (
+              <>
+                <div className={styles.modelsList}>
+                  {modelsList.data.map((model, index) => {
+                    return (
+                      <BusinessModelCard
+                        key={model.id}
+                        id={model.id}
+                        isAdmin={isAdmin}
+                        title={model.title}
+                        description={model.description}
+                        price={model.price}
+                        image={model.preview}
+                        industries={model.industries}
+                        technologies={model.technologies}
+                        location={model.location}
+                        profitability={model.profitability[0].value}
+                        isOpen={modelsOpen[index]}
+                        onMobileCLick={() => handleModelOpenClose(index)}
+                        onNavigate={handleNavigateToViewBusinessModel}
+                        onEdit={handleNavigateToEditBusinessModel}
+                        onDelete={
+                          deleteBusinessModel
+                            ? deleteBusinessModel
+                            : () => {}
+                        }
+                      />
+                    )
+                  })}
+                </div>
+                <PagesList
+                  meta={modelsList.meta}
+                  nextPage={handlePageChange}
+                />
+              </>
+            ) : (
+              <div className={styles.nothingFound}>
+                <span className={styles.nothingFoundText}>
+                  Nothing Found
+                </span>
               </div>
-              <PagesList meta={modelsList.meta} nextPage={nextPage} />
-            </>
-          ) : (
-            <div className={styles.nothingFound}>
-              <span className={styles.nothingFoundText}>
-                Nothing Found
-              </span>
+            )}
+            <div
+              className={
+                modelsList.data.length > 0
+                  ? styles.buttonBackToTopActive
+                  : styles.buttonBackToTopInactive
+              }
+            >
+              <ButtonBrand
+                title='Back to top'
+                onClick={() =>
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }
+              />
             </div>
-          )}
-          <div
-            className={
-              modelsList.data.length > 0
-                ? styles.buttonBackToTopActive
-                : styles.buttonBackToTopInactive
-            }
-          >
-            <ButtonBrand title='Back to top' onClick={scrollToTop} />
           </div>
-        </div>
+        ) : (
+          <div className={styles.loading}>
+            <LoadingSpinner size='xl' />
+          </div>
+        )}
       </div>
     </div>
   )

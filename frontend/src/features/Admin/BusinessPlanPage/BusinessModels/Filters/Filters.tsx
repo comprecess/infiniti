@@ -1,12 +1,4 @@
-import {
-  Dispatch,
-  FC,
-  Fragment,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react'
+import { Dispatch, FC, Fragment, SetStateAction, useState } from 'react'
 
 import {
   FiltersData,
@@ -15,29 +7,24 @@ import {
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { FromTo } from '../../../../../shared/ui/FromTo/FromTo'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getPropertiesFiltering } from '../../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/GetPropertiesFiltering'
 import { CategoryItem } from '../../../TalentsPage/CatalogTalents/Filters/CategoryItem/CategoryItem'
 import { Item } from '../../../TalentsPage/CatalogTalents/Filters/CategoryItem/Item/Item'
 import styles from './Filters.module.scss'
 
 interface FiltersProps {
+  filters: FiltersData[]
   selectedFilters: FiltersState
   setActiveCategory: (value: number) => void
   setSelectedFilters: Dispatch<SetStateAction<FiltersState>>
 }
 
 export const Filters: FC<FiltersProps> = ({
+  filters,
   selectedFilters,
   setActiveCategory,
   setSelectedFilters,
 }) => {
   const [searchItems, setSearchItems] = useState<string[]>([])
-  const [filters, setFilters] = useState<FiltersData[] | null>(null)
-
-  const handleFiltersReset = () => {
-    setSelectedFilters({})
-    setActiveCategory(0)
-  }
 
   const handleSearchChange = (index: number, value: string) => {
     setSearchItems(prevSearchItems => {
@@ -73,15 +60,10 @@ export const Filters: FC<FiltersProps> = ({
     })
   }
 
-  const getFilters = useCallback(async () => {
-    const response = await getPropertiesFiltering()
-
-    setFilters(response.data)
-  }, [])
-
-  useEffect(() => {
-    getFilters()
-  }, [])
+  const handleFiltersReset = () => {
+    setSelectedFilters({})
+    setActiveCategory(0)
+  }
 
   return (
     <div className={styles.wrapper}>

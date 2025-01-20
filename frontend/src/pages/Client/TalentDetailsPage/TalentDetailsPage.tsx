@@ -49,7 +49,11 @@ export const ClientTalentDetailsPage: FC = () => {
   const navigate = useNavigate()
 
   const handleNavigateBack = () => {
-    navigate(`/${Routes.clientPages}/${Routes.talents}`)
+    if (window.history.length - 3 <= 0) {
+      navigate(`/${Routes.clientPages}/${Routes.talents}`)
+    } else {
+      navigate(-1)
+    }
   }
 
   const scrollToTop = useCallback(() => {

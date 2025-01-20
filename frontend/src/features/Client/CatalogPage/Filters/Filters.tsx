@@ -1,11 +1,4 @@
-import React, {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react'
+import React, { Dispatch, FC, SetStateAction, useState } from 'react'
 
 import {
   FiltersData,
@@ -16,12 +9,12 @@ import { CustomCheckBoxIndeterminate } from '../../../../shared/ui/CustomCheckBo
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { FromTo } from '../../../../shared/ui/FromTo/FromTo'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getPropertiesFiltering } from '../../../../shared/utils/api/Client/Catalog/Properties/GetPropertiesFiltering'
 import { CategoryItem } from './CategoryItem/CategoryItem'
 import { Item } from './CategoryItem/Item/Item'
 import styles from './Filters.module.scss'
 
 interface FiltersProps {
+  filters: FiltersData[]
   selectedFilters: FiltersState
   setSort: Dispatch<SetStateAction<{ name: string; type: string }>>
   setActiveCategory: Dispatch<SetStateAction<number>>
@@ -29,13 +22,13 @@ interface FiltersProps {
 }
 
 export const Filters: FC<FiltersProps> = ({
+  filters,
   selectedFilters,
   setSort,
   setActiveCategory,
   setSelectedFilters,
 }) => {
   const [searchItems, setSearchItems] = useState<string[]>([])
-  const [filters, setFilters] = useState<FiltersData[] | null>(null)
 
   const handleSearchChange = (index: number, value: string) => {
     setSearchItems(prevSearchItems => {
@@ -76,16 +69,6 @@ export const Filters: FC<FiltersProps> = ({
     setActiveCategory(0)
     setSelectedFilters({})
   }
-
-  const getFilters = useCallback(async () => {
-    const filtersAnswer = await getPropertiesFiltering()
-
-    setFilters(filtersAnswer.data)
-  }, [])
-
-  useEffect(() => {
-    getFilters()
-  }, [])
 
   return (
     <div className={styles.wrapper}>

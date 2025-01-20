@@ -20,7 +20,9 @@ export const Header: FC<HeaderProps> = ({
 }) => {
   return (
     <div className={styles.wrapper}>
-      <img src={avatar} alt='Profile Avatar' className={styles.avatar} />
+      <div className={styles.avatar}>
+        <img src={avatar} alt='Profile Avatar' />
+      </div>
       <div className={styles.texts}>
         <h5 className={styles.name}>{name}</h5>
         <div className={styles.description}>

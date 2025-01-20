@@ -6,9 +6,9 @@ import styles from './Item.module.scss'
 interface ItemProps {
   title: string
   typeFile: string
-  customerId: number
-  customerName: string
-  uploadedAt: string
+  customerId: number | null
+  customerName: string | null
+  uploadedAt: string | null
   link: string
   navigateToCustomer: (name: string, idTalent: number) => void
 }
@@ -23,6 +23,8 @@ export const Item: FC<ItemProps> = ({
   navigateToCustomer,
 }) => {
   const handleNavigateToCustomer = () => {
+    if (!customerId) return
+
     navigateToCustomer('summary', customerId)
   }
 
@@ -47,19 +49,23 @@ export const Item: FC<ItemProps> = ({
           {title}
         </span>
       </div>
-      <div className={styles.container}>
-        <span className={styles.customerTitle}>Customer:</span>
-        <span
-          className={styles.customerValue}
-          onClick={handleNavigateToCustomer}
-        >
-          {customerName}
-        </span>
-      </div>
-      <div className={styles.container}>
-        <span className={styles.uploadedTitle}>Uploaded at:</span>
-        <span className={styles.uploadedValue}>{uploadedAt}</span>
-      </div>
+      {customerId && customerName && (
+        <div className={styles.container}>
+          <span className={styles.customerTitle}>Customer:</span>
+          <span
+            className={styles.customerValue}
+            onClick={handleNavigateToCustomer}
+          >
+            {customerName}
+          </span>
+        </div>
+      )}
+      {uploadedAt && (
+        <div className={styles.container}>
+          <span className={styles.uploadedTitle}>Uploaded at:</span>
+          <span className={styles.uploadedValue}>{uploadedAt}</span>
+        </div>
+      )}
     </div>
   )
 }

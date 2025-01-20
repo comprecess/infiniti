@@ -26,7 +26,6 @@ export const AdminFilesPage: FC = () => {
   const [access, setAccess] = useState<RolesAccess | null>(null)
 
   const changeURL = (pageItem: number, searchItem: string) => {
-
     const urlOptions = `?page=${pageItem}&filter[type]=client&filter[search]=${searchItem}&document=json`
 
     setOptions(urlOptions)

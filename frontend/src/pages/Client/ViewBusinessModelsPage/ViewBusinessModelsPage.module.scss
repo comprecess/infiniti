@@ -85,3 +85,29 @@
   flex-direction: row;
   justify-content: space-between;
 }
+
+.item {
+  width: 100%;
+  max-width: $maxContentSize;
+  margin-bottom: 40px;
+}
+
+.buttonBack {
+  display: flex;
+  flex-direction: row;
+  width: 75px;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.buttonBackText {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+  color: $gray-300;
+}
+
+.buttonBackIcon {
+  transform: rotate(90deg);
+}

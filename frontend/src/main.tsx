@@ -2,6 +2,7 @@ import './app/styles/globals.scss'
 import './i18n'
 
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
@@ -53,6 +54,8 @@ const theme = extendTheme({
   },
 })
 
+const queryClient = new QueryClient()
+
 async function main() {
   const rootElement = document.getElementById('root')
 
@@ -62,9 +65,11 @@ async function main() {
 
   root.render(
     <React.StrictMode>
-      <ChakraProvider theme={theme}>
-        <App />
-      </ChakraProvider>
+      <QueryClientProvider client={queryClient}>
+        <ChakraProvider theme={theme}>
+          <App />
+        </ChakraProvider>
+      </QueryClientProvider>
     </React.StrictMode>,
   )
 }

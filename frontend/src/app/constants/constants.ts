@@ -1,6 +1,7 @@
 export const authTokenString = 'authToken/infiniti'
 export const profileInfoString = 'profileInfo/infiniti'
 export const userTalentsPageString = 'userTalentsPage/infiniti'
+export const userModelsPageString = 'userModelsPage/infiniti'
 
 export const page = '?page='
 
@@ -1020,7 +1021,7 @@ export interface CustomersFilesData {
   link: string
   title: string
   type: string
-  client: { id: number; account: string }
+  client?: { id: number; account: string }
   update: string
 }
 

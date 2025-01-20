@@ -45,11 +45,14 @@ export const AdminViewTalentPage: FC = () => {
   const similarTalentsRef = useRef<HTMLDivElement>(null)
 
   const id = useIdFromUrl()
-
   const navigate = useNavigate()
 
   const handleNavigateBack = () => {
-    navigate(`/${Routes.adminPages}/${Routes.talents}/${Routes.catalog}`)
+    if (window.history.length - 3 <= 0) {
+      navigate(`/${Routes.adminPages}/${Routes.talents}/${Routes.catalog}`)
+    } else {
+      navigate(-1)
+    }
   }
 
   const scrollToTop = useCallback(() => {

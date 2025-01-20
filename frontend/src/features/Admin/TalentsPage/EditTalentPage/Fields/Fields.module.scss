@@ -84,6 +84,8 @@
   width: 128px;
   height: 128px;
   border-radius: 50%;
+  overflow: hidden;
+  background-color: $brand-800;
 }
 
 .buttonUpload,

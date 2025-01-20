@@ -23,11 +23,15 @@ export const TalentsCard: FC<TalentsCardProps> = ({
   return (
     <div className={styles.wrapper}>
       <Header
-        avatar={talent?.img ? talent?.img : '/profileWithoutAvatar.svg'}
-        name={talent?.name}
+        name={talent.name}
         specialization={talent.specialization}
         location={talent.timezone}
         level={talent.level}
+        avatar={
+          talent.img
+            ? `${talent.img}?width=128&height=128`
+            : '/profileWithoutAvatar.svg'
+        }
       />
       <CustomDivider />
       <Body industries={talent.industries} keySkills={talent.keySkills} />

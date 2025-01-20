@@ -1,8 +1,12 @@
-import { FC, useCallback, useEffect, useState } from 'react'
+import { useQuery, UseQueryOptions } from '@tanstack/react-query'
+import { FC, useEffect, useState } from 'react'
 
 import {
-  FiltersData,
   FiltersState,
+  page,
+  PagesMetaData,
+  TalentData,
+  userTalentsPageString,
 } from '../../../app/constants/constants'
 import { CategoriesItem } from '../../../features/Client/CatalogPage/CategoriesItem/CategoriesItem'
 import { Filters } from '../../../features/Client/CatalogPage/Filters/Filters'
@@ -10,24 +14,50 @@ import { TalentsList } from '../../../features/Client/CatalogPage/TalentsList/Ta
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getPropertiesFiltering } from '../../../shared/utils/api/Client/Catalog/Properties/GetPropertiesFiltering'
+import { getUsersListInfo } from '../../../shared/utils/api/Client/Catalog/User/GetUsersListInfo'
+import { getSession } from '../../../shared/utils/Saving/Session/GetSession'
 import styles from './TalentsPage.module.scss'
 
 export const ClientTalentsPage: FC = () => {
   const [activeCategory, setActiveCategory] = useState(0)
-  const [categories, setCategories] = useState<FiltersData | null>(null)
   const [sort, setSort] = useState({ name: 'priceDay', type: 'asc' })
   const [selectedFilters, setSelectedFilters] = useState<FiltersState>({})
+  const [currentPage, setCurrentPage] = useState<number>(
+    getSession(userTalentsPageString) || 1,
+  )
 
-  const fetchCategories = useCallback(async () => {
-    try {
-      const { data } = await getPropertiesFiltering('?prop=specialization')
-      setCategories(data[0])
-    } catch (error) {
-      console.error('Failed to fetch categories:', error)
-    }
-  }, [])
+  const { data: categories, isLoading: categoriesLoading } = useQuery({
+    queryKey: ['categories'],
+    queryFn: () =>
+      getPropertiesFiltering('?prop=specialization').then(
+        res => res.data[0],
+      ),
+  })
 
-  const updateFilters = useCallback(() => {
+  const { data: talentsList } = useQuery({
+    queryKey: ['talents', currentPage, selectedFilters, sort],
+    queryFn: async () => {
+      const res = await getUsersListInfo(
+        page + String(currentPage),
+        selectedFilters,
+        sort,
+      )
+      if (currentPage > res.meta.last_page) {
+        setCurrentPage(1)
+      }
+
+      return res
+    },
+    staleTime: 5000,
+    cacheTime: 300000,
+  } as UseQueryOptions)
+
+  const { data: filters } = useQuery({
+    queryKey: ['filters'],
+    queryFn: () => getPropertiesFiltering().then(res => res.data),
+  })
+
+  useEffect(() => {
     if (!categories || categories.id === undefined) return
 
     const categoryKey = categories.id.toString()
@@ -46,22 +76,16 @@ export const ClientTalentsPage: FC = () => {
   }, [categories, activeCategory])
 
   useEffect(() => {
-    fetchCategories()
-
     window.scrollTo(0, 0)
     document.title = 'infiniti | Catalog Talents'
-  }, [fetchCategories])
-
-  useEffect(() => {
-    updateFilters()
-  }, [activeCategory, updateFilters])
+  }, [])
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>
         <TitlePage title='Catalog' />
       </div>
-      {categories ? (
+      {!categoriesLoading ? (
         <section className={styles.sectionFirst}>
           <div className={styles.itemsFirst}>
             <span className={styles.categoriesText}>Categories</span>
@@ -71,34 +95,45 @@ export const ClientTalentsPage: FC = () => {
                 isActive={activeCategory === 0}
                 onClick={() => setActiveCategory(0)}
               />
-              {categories.values.map((category, index) => {
-                return (
-                  <CategoriesItem
-                    key={index + 1}
-                    name={category.value}
-                    isActive={activeCategory === index + 1}
-                    onClick={() => setActiveCategory(index + 1)}
-                  />
-                )
-              })}
+              {categories.values.map(
+                (category: { value: string }, index: number) => {
+                  return (
+                    <CategoriesItem
+                      key={index + 1}
+                      name={category.value}
+                      isActive={activeCategory === index + 1}
+                      onClick={() => setActiveCategory(index + 1)}
+                    />
+                  )
+                },
+              )}
             </div>
           </div>
         </section>
       ) : (
-        <LoadingSpinner size='xl' />
+        <div className={styles.loading}>
+          <LoadingSpinner size='xl' />
+        </div>
       )}
       <section className={styles.sectionSecond}>
         <div className={styles.itemsSecond}>
           <Filters
-            selectedFilters={selectedFilters}
             setSelectedFilters={setSelectedFilters}
             setActiveCategory={setActiveCategory}
             setSort={setSort}
+            filters={filters}
+            selectedFilters={selectedFilters}
           />
           <TalentsList
             sort={sort}
             setSort={setSort}
-            selectedFilters={selectedFilters}
+            setCurrentPage={setCurrentPage}
+            talentsList={
+              talentsList as {
+                data: TalentData[]
+                meta: PagesMetaData
+              }
+            }
           />
         </div>
       </section>
