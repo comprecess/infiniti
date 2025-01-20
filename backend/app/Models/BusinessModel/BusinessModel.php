@@ -32,6 +32,11 @@ class BusinessModel extends Model
         return $this->morphedByMany(related: Prop::class, name: 'cataloggable', table:'business_model_value', foreignPivotKey: 'id_business_model');
     }
 
+    public function chatGPTBlocks()
+    {
+        return $this->hasMany(ChatGPT::class, 'id_business_model');
+    }
+
     public function getPropsByNameId(array $nameId = null)
     {
         $values = $this->values->load(['prop']);

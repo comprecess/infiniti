@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\Resident\BusinessPlan;
 
 
 use App\Http\Controllers\Api\Traits\CRUD;
+use App\Http\Requests\Resident\BusinessPlan\BusinessModelChatGPTRequest;
+use App\Http\Requests\Resident\BusinessPlan\BusinessModelChatGPTSaveRequest;
 use App\Http\Requests\Resident\BusinessPlan\BusinessModelCreateRequest;
 use App\Http\Requests\Resident\BusinessPlan\BusinessModelListRequest;
 use App\Http\Requests\Resident\BusinessPlan\BusinessModelUpdateRequest;
@@ -12,8 +14,10 @@ use App\Http\Resources\Catalog\ValueResorce;
 use App\Http\Resources\Resident\BusinessPlan\BusinessModelResource;
 use App\Models\BusinessModel\BusinessModel;
 use App\Models\BusinessModel\BusinessModelValue;
+use App\Models\BusinessModel\ChatGPT;
 use App\Models\BusinessModel\Prop;
 use App\Models\BusinessModel\Value;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 
@@ -66,12 +70,14 @@ class BusinessModelController extends BusinessPlanAccessController
             $data[snakeCaseToPascalCase($value)] = ValueResorce::collection($prop->values);
         }
 
+        $data['chatGPTType'] = ChatGPT::TYPE;
+
         return response()->json($data);
     }
 
     public function createOrUpdate(BusinessModel $model, BusinessModelCreateRequest $request)
     {
-        $result =  $this->createOrUpdateCRUD(
+        $result = $this->createOrUpdateCRUD(
             $request,
             $model,
             null,
@@ -134,4 +140,31 @@ class BusinessModelController extends BusinessPlanAccessController
     {
         return new BusinessModelResource($model);
     }
+
+    public function chatGPTRequest(BusinessModelChatGPTRequest $request, BusinessModel $model, $type)
+    {
+        $block = $model->chatGPTBlocks()->where('type', $type)->first() ?? new ChatGPT();
+        $block->rquest = $request->request;
+        $block->type = $type;
+        $block->save();
+
+        return response()->json([
+           'success' => true,
+           'response' => $request->request
+        ]);
+    }
+
+    public function chatGPTSave(BusinessModelChatGPTSaveRequest $request, BusinessModel $model, $type)
+    {
+        $block = $model->chatGPTBlocks()->where('type', $type)->first() ?? new ChatGPT();
+        $block->response = $request->response;
+        $block->type = $type;
+        $block->save();
+
+        return response()->json([
+           'success' => true
+        ]);
+    }
+
+
 }

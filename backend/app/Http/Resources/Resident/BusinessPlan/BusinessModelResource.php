@@ -38,6 +38,7 @@ class BusinessModelResource extends JsonResource
             'description' => $this->description,
             'fullDescription' => $this->full_description,
             'property' => TalentPropResource::collection($prop),
+            'chatGPTBlock' => BusinessModelChatGPTBlockResource::collection($this->chatGPTBlocks)
         ];
 
         foreach(BusinessModel::TYPE_IMG as $type) {
