@@ -44,6 +44,7 @@ class BusinessModelResource extends JsonResource
         if(!self::$isCollection) {
             $resorce[BusinessModel::TYPE_IMG[1]] = $this->getFileType(BusinessModel::TYPE_IMG[1])->first()?->getLink();
             $resorce['fullDescription'] = $this->full_description;
+            $resorce['chatGPTBlock'] = BusinessModelChatGPTBlockResource::collection($this->chatGPTBlocks);
 //                $resorce['location'] = ValueResource::collection($this->getPropValues('location', null));
 //            $resorce['available'] = User::AVAILABLE_STATUS[$this->getAvailableStatus()];
 //            $resorce['allSkills'] = ValueResorce::collection($this->getPropValues('all_skills', null));

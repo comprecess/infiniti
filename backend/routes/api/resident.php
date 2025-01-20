@@ -136,6 +136,8 @@ Route::controller(Resident\BusinessPlan\BusinessModelController::class)->prefix(
         Route::post('/', 'createOrUpdate');
         Route::put('/{model}', 'createOrUpdate');
         Route::get('/{model}', 'item');
+        Route::put('/{model}/chatGPT/{type}', 'chatGPTRequest')->whereIn('type', \App\Models\BusinessModel\ChatGPT::TYPE);
+        Route::put('/{model}/chatGPT/{type}/save', 'chatGPTSave')->whereIn('type', \App\Models\BusinessModel\ChatGPT::TYPE);
         Route::delete('/{model}', 'delete');
         Route::match(['put', 'post'],'/{model}/update', 'update');
     });
