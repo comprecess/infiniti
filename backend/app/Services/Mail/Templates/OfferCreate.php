@@ -7,9 +7,11 @@ namespace App\Services\Mail\Templates;
 use App\Models\Resident\Invoices\Offer;
 use App\Services\Mail\Resources\OfferResource;
 use App\Services\Mail\Template;
+use App\Services\PdfDocument;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Mpdf\Output\Destination;
 
-class OfferCreate extends  Template
+class OfferCreate extends Template
 {
 
     public function requireVariables(): array
@@ -30,8 +32,9 @@ class OfferCreate extends  Template
     public function getFile()
     {
         $invoice = $this->varibles['offer'];
-        $pdf = Pdf::loadView('pdf.offer', ['model' => $invoice]);
-        return [$pdf->output(), 'offer_'.$invoice->getCode().'.pdf'];
+//        $pdf = Pdf::loadView('pdf.offer', ['model' => $invoice]);
+        $pdf = (new PdfDocument($invoice))->get(Destination::STRING_RETURN);
+        return [$pdf, 'offer_'.$invoice->getCode().'.pdf'];
     }
 
     public function send() :void
