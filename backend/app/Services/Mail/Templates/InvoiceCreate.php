@@ -7,7 +7,9 @@ namespace App\Services\Mail\Templates;
 use App\Models\Resident\Invoices\Invoice;
 use App\Services\Mail\Resources\InvoiceResource;
 use App\Services\Mail\Template;
+use App\Services\PdfDocument;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Mpdf\Output\Destination;
 
 class InvoiceCreate extends  Template
 {
@@ -30,8 +32,9 @@ class InvoiceCreate extends  Template
     public function getFile()
     {
         $invoice = $this->varibles['invoice'];
-        $pdf = Pdf::loadView('pdf.invoice', ['model' => $invoice]);
-        return [$pdf->output(), 'invoice_'.$invoice->getCode().'.pdf'];
+//        $pdf = Pdf::loadView('pdf.invoice', ['model' => $invoice]);
+        $pdf = (new PdfDocument($invoice))->get(Destination::STRING_RETURN);
+        return [$pdf, 'invoice_'.$invoice->getCode().'.pdf'];
     }
 
 
