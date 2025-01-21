@@ -63,6 +63,6 @@ class PdfDocument
         }
 
         $mpdf->WriteHTML(view('pdf.' . $name, ['model' => $this->model])->render());
-        $mpdf->Output($this->model->getCode() . '.pdf', $typeEcho);
+        return $mpdf->Output($this->model->getCode() . '.pdf', $typeEcho);
     }
 }
