@@ -1,16 +1,10 @@
-import {
-  useQuery,
-  useQueryClient,
-  UseQueryOptions,
-} from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
   FiltersState,
   page,
-  PagesMetaData,
-  TalentData,
   userTalentsPageString,
 } from '../../../../app/constants/constants'
 import { CategoriesItem } from '../../../../features/Admin/TalentsPage/CatalogTalents/CategoriesItem/CategoriesItem'
@@ -61,8 +55,7 @@ export const AdminCatalogTalentsPage = () => {
       return res
     },
     staleTime: 5000,
-    cacheTime: 300000,
-  } as UseQueryOptions)
+  })
 
   const { data: filters } = useQuery({
     queryKey: ['filters'],
@@ -162,12 +155,7 @@ export const AdminCatalogTalentsPage = () => {
             deleteTalent={deleteTalent}
             setCurrentPage={setCurrentPage}
             fetchTalents={refetch}
-            talentsList={
-              talentsList as {
-                data: TalentData[]
-                meta: PagesMetaData
-              }
-            }
+            talentsList={talentsList}
           />
         </div>
       </section>

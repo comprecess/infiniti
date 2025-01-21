@@ -1,11 +1,9 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { FC, useEffect, useState } from 'react'
 
 import {
   FiltersState,
   page,
-  PagesMetaData,
-  TalentData,
   userTalentsPageString,
 } from '../../../app/constants/constants'
 import { CategoriesItem } from '../../../features/Client/CatalogPage/CategoriesItem/CategoriesItem'
@@ -49,8 +47,7 @@ export const ClientTalentsPage: FC = () => {
       return res
     },
     staleTime: 5000,
-    cacheTime: 300000,
-  } as UseQueryOptions)
+  })
 
   const { data: filters } = useQuery({
     queryKey: ['filters'],
@@ -128,12 +125,7 @@ export const ClientTalentsPage: FC = () => {
             sort={sort}
             setSort={setSort}
             setCurrentPage={setCurrentPage}
-            talentsList={
-              talentsList as {
-                data: TalentData[]
-                meta: PagesMetaData
-              }
-            }
+            talentsList={talentsList}
           />
         </div>
       </section>
