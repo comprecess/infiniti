@@ -21,7 +21,7 @@ class PdfDocument
         $companyName = Config::get('CompanyName');
         $name = get_class($this->model);
         $name = explode('\\', $name);
-        $name = $name[count($name) - 1];
+        $name = strtolower($name[count($name) - 1]);
 
         $pdf_c = '';
         if(Config::get('pdf_font') == 'default') {
