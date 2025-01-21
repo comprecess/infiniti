@@ -18,7 +18,7 @@ export const HeaderButtons: FC<HeaderButtonsProps> = ({
 }) => {
   return (
     <div className={styles.wrapper}>
-      {access.create && (
+      {access && access.create && (
         <ButtonBlue
           titleNone
           title='Add Invoice'

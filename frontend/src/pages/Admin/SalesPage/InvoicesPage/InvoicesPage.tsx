@@ -1,11 +1,11 @@
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import saveAs from 'file-saver'
-import { FC, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import {
   PagesMetaData,
   RolesAccess,
-  SalesInvoicesStatData,
   ViewInvoicesRecentData,
 } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
@@ -25,59 +25,46 @@ import { stopRecurringAndClone } from '../../../../shared/utils/api/Admin/Sales/
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './InvoicesPage.module.scss'
 
-export const AdminInvoicesPage: FC = () => {
-  const [stat, setStat] = useState<SalesInvoicesStatData[] | null>(null)
-  const [list, setList] = useState<{
-    data: ViewInvoicesRecentData[]
-    meta: PagesMetaData
-  } | null>(null)
-  const [access, setAccess] = useState<RolesAccess | null>(null)
-
+export const AdminInvoicesPage = () => {
   const [page, setPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
   const [sortName, setSortName] = useState<string>('code')
   const [sortType, setSortType] = useState<number>(1)
   const [filterStatus, setFilterStatus] = useState<string>('Unpaid')
-  const [options, setOptions] = useState<string>('')
 
   const navigate = useNavigate()
   const showToast = useCustomToast()
+  const queryClient = useQueryClient()
 
-  const changeURL = (
-    pageItem: number,
-    searchItem: string,
-    sortNameItem: string,
-    sortTypeItem: number,
-    filterStatusItem: string,
-  ) => {
-    // eslint-disable-next-line max-len
-    const urlOptions = `?page=${pageItem}&filter[search]=${searchItem}&filter[status]=${filterStatusItem}&sort[name]=${sortNameItem}&sort[type]=${sortTypeItem}&document=json`
+  const { data: statsData, isLoading: statsLoading } = useQuery({
+    queryKey: ['statistics'],
+    queryFn: async () => {
+      const response = await getStat()
 
-    setOptions(urlOptions)
-  }
+      return response
+    },
+  })
 
-  const getStatInvoice = async () => {
-    const getResponse = await getStat()
+  const { data: invoicesData, isLoading: invoicesLoading } = useQuery({
+    queryKey: ['invoices', page, search, sortName, sortType, filterStatus],
+    queryFn: async () => {
+      const response: {
+        access: RolesAccess
+        data: ViewInvoicesRecentData[]
+        meta: PagesMetaData
+      } = await getList(
+        // eslint-disable-next-line max-len
+        `?page=${page}&filter[search]=${search}&filter[status]=${filterStatus}&sort[name]=${sortName}&sort[type]=${sortType}&document=json`,
+      )
 
-    setStat(getResponse)
-  }
+      if (page > response.meta.last_page) {
+        setPage(1)
+      }
 
-  const getListInvoice = async () => {
-    if (!options) return
-
-    const getResponse: {
-      access: RolesAccess
-      data: ViewInvoicesRecentData[]
-      meta: PagesMetaData
-    } = await getList(options)
-
-    if (page > getResponse.meta.last_page) {
-      setPage(1)
-    }
-
-    setAccess(getResponse.access)
-    setList(getResponse)
-  }
+      return response
+    },
+    staleTime: 5000,
+  })
 
   const deleteSelectedInvoice = async (idInvoice: number) => {
     const deleteResponse = await deleteInvoice(idInvoice)
@@ -88,8 +75,8 @@ export const AdminInvoicesPage: FC = () => {
         description: 'You have successfully deleted Invoice',
         status: 'success',
       })
-      getStatInvoice()
-      getListInvoice()
+      queryClient.invalidateQueries({ queryKey: ['statistics'] })
+      queryClient.invalidateQueries({ queryKey: ['invoices'] })
     } else {
       showToast({
         title: 'Error',
@@ -123,18 +110,6 @@ export const AdminInvoicesPage: FC = () => {
     )
   }
 
-  const setIsActiveTab = useCallback((name: string) => {
-    setFilterStatus(name)
-  }, [])
-
-  const searchOnChange = useCallback((searchItem: string) => {
-    setSearch(searchItem)
-  }, [])
-
-  const pageOnChange = useCallback((pageItem: number) => {
-    setPage(pageItem)
-  }, [])
-
   const stopRecurringInvoice = async (
     idInvoice: number,
     type: '/clone' | '/stopRecurring',
@@ -147,7 +122,7 @@ export const AdminInvoicesPage: FC = () => {
         description: 'You have successfully stopped the recurrence',
         status: 'success',
       })
-      getListInvoice()
+      queryClient.invalidateQueries({ queryKey: ['invoices'] })
     } else {
       showToast({
         title: 'Error',
@@ -200,18 +175,8 @@ export const AdminInvoicesPage: FC = () => {
   )
 
   useEffect(() => {
-    getStatInvoice()
-
     document.title = 'infiniti | Invoices'
   }, [])
-
-  useEffect(() => {
-    changeURL(page, search, sortName, sortType, filterStatus)
-  }, [page, search, sortName, sortType, filterStatus])
-
-  useEffect(() => {
-    getListInvoice()
-  }, [options])
 
   return (
     <div className={styles.wrapper}>
@@ -219,36 +184,36 @@ export const AdminInvoicesPage: FC = () => {
         <TitlePage title='Sales' />
       </div>
       <section className={styles.sectionFirst}>
-        {stat ? (
+        {!statsLoading ? (
           <div className={styles.blocksList}>
             <div className={styles.blocksContainer}>
               <Blocks
-                titleAmount={stat[0].total}
-                status={stat[0].status}
-                percentage={stat[0].percentage}
+                titleAmount={statsData[0].total}
+                status={statsData[0].status}
+                percentage={statsData[0].percentage}
                 chartBGColor={styles.chartBackGroundFirst}
                 blockBGColor={styles.blocksBackGroundFirst}
               />
               <Blocks
-                titleAmount={stat[1].total}
-                status={stat[1].status}
-                percentage={stat[1].percentage}
+                titleAmount={statsData[1].total}
+                status={statsData[1].status}
+                percentage={statsData[1].percentage}
                 chartBGColor={styles.chartBackGroundSecond}
                 blockBGColor={styles.blocksBackGroundSecond}
               />
             </div>
             <div className={styles.blocksContainer}>
               <Blocks
-                titleAmount={stat[2].total}
-                status={stat[2].status}
-                percentage={stat[2].percentage}
+                titleAmount={statsData[2].total}
+                status={statsData[2].status}
+                percentage={statsData[2].percentage}
                 chartBGColor={styles.chartBackGroundThird}
                 blockBGColor={styles.blocksBackGroundThird}
               />
               <Blocks
-                titleAmount={stat[3].total}
-                status={stat[3].status}
-                percentage={stat[3].percentage}
+                titleAmount={statsData[3].total}
+                status={statsData[3].status}
+                percentage={statsData[3].percentage}
                 chartBGColor={styles.chartBackGroundFourth}
                 blockBGColor={styles.blocksBackGroundFourth}
               />
@@ -259,50 +224,52 @@ export const AdminInvoicesPage: FC = () => {
         )}
       </section>
       <section className={styles.sectionSecond}>
-        {list && access ? (
-          <RecentCard
-            title='Invoices'
-            style={styles.recentFullScreen}
-            HeaderComponent={Header}
-            Component={HeaderButtons}
-            PagesComponent={list.data.length > 0 ? PagesList : undefined}
-            componentProps={{
-              access,
-              firstButtonClick: navigateToAddInvoice,
-            }}
-            headerProps={{
-              isActiveTab: filterStatus,
-              setIsActiveTab,
-              searchChange: searchOnChange,
-              rightButtons: documentOnChange,
-            }}
-            pagesProps={
-              list.data.length > 0
-                ? {
-                  meta: list.meta,
-                  nextPage: pageOnChange,
-                  size: 'sm',
-                }
-                : undefined
-            }
-          >
-            {list ? (
-              <RecentInvoices
-                invoicesList={list.data}
-                changeSortName={changeSort}
-                navigateToViewInvoice={navigateToViewInvoice}
-                navigateToSelectInvoice={navigateToSelectInvoice}
-                navigateToSelectAccount={navigateToSelectAccount}
-                deleteInvoice={deleteSelectedInvoice}
-                stopRecurringInvoice={stopRecurringInvoice}
-              />
-            ) : (
+        <RecentCard
+          title='Invoices'
+          style={styles.recentFullScreen}
+          HeaderComponent={Header}
+          Component={HeaderButtons}
+          PagesComponent={
+            invoicesData && invoicesData.data.length > 0
+              ? PagesList
+              : undefined
+          }
+          componentProps={{
+            access: invoicesData?.access,
+            firstButtonClick: navigateToAddInvoice,
+          }}
+          headerProps={{
+            isActiveTab: filterStatus,
+            setIsActiveTab: setFilterStatus,
+            searchChange: setSearch,
+            rightButtons: documentOnChange,
+          }}
+          pagesProps={
+            invoicesData && invoicesData.data.length > 0
+              ? {
+                meta: invoicesData?.meta,
+                nextPage: setPage,
+                size: 'sm',
+              }
+              : undefined
+          }
+        >
+          {!invoicesLoading && invoicesData ? (
+            <RecentInvoices
+              invoicesList={invoicesData.data}
+              changeSortName={changeSort}
+              navigateToViewInvoice={navigateToViewInvoice}
+              navigateToSelectInvoice={navigateToSelectInvoice}
+              navigateToSelectAccount={navigateToSelectAccount}
+              deleteInvoice={deleteSelectedInvoice}
+              stopRecurringInvoice={stopRecurringInvoice}
+            />
+          ) : (
+            <div className={styles.loading}>
               <LoadingSpinner size='xl' />
-            )}
-          </RecentCard>
-        ) : (
-          <LoadingSpinner size='xl' />
-        )}
+            </div>
+          )}
+        </RecentCard>
       </section>
     </div>
   )

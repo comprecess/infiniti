@@ -1,11 +1,9 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 
 import {
-  BusinessPlanBusinessModelData,
   FiltersState,
   page,
-  PagesMetaData,
   userModelsPageString,
 } from '../../../app/constants/constants'
 import { Filters } from '../../../features/Admin/BusinessPlanPage/BusinessModels/Filters/Filters'
@@ -39,8 +37,7 @@ export const ClientBusinessModelsPage = () => {
       return res
     },
     staleTime: 5000,
-    cacheTime: 300000,
-  } as UseQueryOptions)
+  })
 
   const { data: categories, isLoading: categoriesLoading } = useQuery({
     queryKey: ['categories'],
@@ -129,12 +126,7 @@ export const ClientBusinessModelsPage = () => {
           <ModelsList
             isAdmin={false}
             setCurrentPage={setCurrentPage}
-            modelsList={
-              modelsList as {
-                data: BusinessPlanBusinessModelData[]
-                meta: PagesMetaData
-              }
-            }
+            modelsList={modelsList}
           />
         </div>
       </section>
