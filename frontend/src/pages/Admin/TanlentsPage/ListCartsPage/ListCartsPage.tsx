@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query'
 import { FC, useCallback, useEffect, useState } from 'react'
 
 import {
@@ -14,45 +15,32 @@ import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './ListCartsPage.module.scss'
 
 export const AdminListCartsPage: FC = () => {
-  const [data, setData] = useState<{
-    data: TalentsListCartsData[]
-    meta: PagesMetaData
-  } | null>(null)
-
-  const [access, setAccess] = useState<RolesAccess | null>(null)
-
   const [page, setPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
   const [sortName, setSortName] = useState<string>('id')
   const [sortType, setSortType] = useState<number>(1)
   const [filterType, setFilterType] = useState<string>('recently')
-  const [options, setOptions] = useState<string>('')
 
-  const changeURL = (
-    pageItem: number,
-    searchItem: string,
-    sortNameItem: string,
-    sortTypeItem: number,
-    filterTypeItem: string,
-  ) => {
-    // eslint-disable-next-line max-len
-    const urlOptions = `?page=${pageItem}&filter[search]=${searchItem}&filter[type]=${filterTypeItem}&sort[name]=${sortNameItem}&sort[type]=${sortTypeItem}`
+  const { data: listInfo } = useQuery({
+    queryKey: ['listOfCart', page, search, sortName, sortType, filterType],
+    queryFn: async () => {
+      const response: {
+        access: RolesAccess
+        data: TalentsListCartsData[]
+        meta: PagesMetaData
+      } = await getCartList(
+        // eslint-disable-next-line max-len
+        `?page=${page}&filter[search]=${search}&filter[type]=${filterType}&sort[name]=${sortName}&sort[type]=${sortType}`,
+      )
 
-    setOptions(urlOptions)
-  }
+      if (page > response.meta.last_page) {
+        setPage(1)
+      }
 
-  const getList = async () => {
-    if (!options) return
-
-    const getResponse = await getCartList(options)
-
-    if (page > getResponse.meta.last_page) {
-      setPage(1)
-    }
-
-    setAccess(getResponse.access)
-    setData(getResponse)
-  }
+      return response
+    },
+    staleTime: 5000,
+  })
 
   const changeSort = useCallback(
     (sortNameItem: string, sortTypeItem: number) => {
@@ -62,65 +50,48 @@ export const AdminListCartsPage: FC = () => {
     [],
   )
 
-  const pageOnChange = useCallback((pageItem: number) => {
-    setPage(pageItem)
-  }, [])
-
-  const setIsActiveTab = useCallback((name: string) => {
-    setFilterType(name)
-  }, [])
-
-  const searchOnChange = useCallback((searchItem: string) => {
-    setSearch(searchItem)
-  }, [])
-
   useEffect(() => {
     document.title = 'infiniti | List of Carts'
-
-    getList()
   }, [])
-
-  useEffect(() => {
-    changeURL(page, search, sortName, sortType, filterType)
-  }, [page, search, sortName, sortType, filterType])
-
-  useEffect(() => {
-    getList()
-  }, [options])
 
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        {data && access ? (
-          <RecentCard
-            title='List of Carts'
-            style={styles.recentFullScreen}
-            PagesComponent={data.data.length > 0 ? PagesList : undefined}
-            HeaderComponent={Header}
-            headerProps={{
-              access,
-              isActiveTab: filterType,
-              setIsActiveTab,
-              searchChange: searchOnChange,
-            }}
-            pagesProps={
-              data.data.length > 0
-                ? {
-                  meta: data.meta,
-                  nextPage: pageOnChange,
-                  size: 'sm',
-                }
-                : undefined
-            }
-          >
+        <RecentCard
+          title='List of Carts'
+          style={styles.recentFullScreen}
+          HeaderComponent={Header}
+          PagesComponent={
+            listInfo && listInfo.data.length > 0 ? PagesList : undefined
+          }
+          headerProps={{
+            access:
+              listInfo && listInfo.access ? listInfo.access : undefined,
+            isActiveTab: filterType,
+            setIsActiveTab: setFilterType,
+            searchChange: setSearch,
+          }}
+          pagesProps={
+            listInfo && listInfo.data.length > 0
+              ? {
+                meta: listInfo.meta,
+                nextPage: setPage,
+                size: 'sm',
+              }
+              : undefined
+          }
+        >
+          {listInfo && listInfo.data ? (
             <RecentCarts
-              cartsList={data.data}
+              cartsList={listInfo.data}
               changeSortName={changeSort}
             />
-          </RecentCard>
-        ) : (
-          <LoadingSpinner size='xl' />
-        )}
+          ) : (
+            <div className={styles.loading}>
+              <LoadingSpinner size='xl' />
+            </div>
+          )}
+        </RecentCard>
       </section>
     </div>
   )
