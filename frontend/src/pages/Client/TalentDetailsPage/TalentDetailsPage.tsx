@@ -1,11 +1,5 @@
-import {
-  FC,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { FC, useCallback, useEffect, useMemo, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { TalentData } from '../../../app/constants/constants'
@@ -40,8 +34,6 @@ const useIdFromUrl = () => {
 }
 
 export const ClientTalentDetailsPage: FC = () => {
-  const [talentInfo, setTalentInfo] = useState<TalentData | null>(null)
-
   const similarTalentsRef = useRef<HTMLDivElement>(null)
 
   const id = useIdFromUrl()
@@ -70,35 +62,33 @@ export const ClientTalentDetailsPage: FC = () => {
     }, 0)
   }, [])
 
-  const getInfo = useCallback(async () => {
-    if (id !== null) {
-      setTalentInfo(null)
+  const { data: talentInfo } = useQuery({
+    queryKey: ['talents', id],
+    queryFn: async () => {
+      if (id === null) return
 
-      const talentsData = await getUserInfo(id)
+      const response: { data: TalentData | null; status: boolean } =
+        await getUserInfo(id)
 
-      if (talentsData) {
-        setTalentInfo(talentsData.data)
+      if (response.status) {
+        return response
       } else {
         navigate('/404')
-      }
-    } else {
-      navigate('/404')
-    }
-  }, [id, navigate])
 
-  useEffect(() => {
-    document.title = 'infiniti | Talent Details'
-  }, [])
+        return
+      }
+    },
+    staleTime: 5000,
+  })
 
   useEffect(() => {
     window.scrollTo(0, 0)
-
-    getInfo()
-  }, [id, getInfo])
+    document.title = 'infiniti | Talent Details'
+  }, [])
 
   return (
     <div className={styles.wrapper}>
-      {talentInfo ? (
+      {talentInfo && talentInfo.data ? (
         <>
           <section className={styles.section}>
             <div className={styles.item}>
@@ -114,19 +104,19 @@ export const ClientTalentDetailsPage: FC = () => {
           <section className={styles.section}>
             <div className={styles.listItems}>
               <TalentCard
-                talent={talentInfo}
+                talent={talentInfo.data}
                 showSimilar={scrollToSimilarTalents}
               />
               <div className={styles.info}>
-                <AboutTalentCard talentInfo={talentInfo} />
-                <ProjectsExperienceCard talentInfo={talentInfo} />
-                <EducationCard talentInfo={talentInfo} />
+                <AboutTalentCard talentInfo={talentInfo.data} />
+                <ProjectsExperienceCard talentInfo={talentInfo.data} />
+                <EducationCard talentInfo={talentInfo.data} />
               </div>
             </div>
           </section>
           <section ref={similarTalentsRef} className={styles.section}>
             <section className={styles.item}>
-              <SimilarTalents similarTalents={talentInfo.similar} />
+              <SimilarTalents similarTalents={talentInfo.data.similar} />
             </section>
           </section>
           <section className={styles.section}>

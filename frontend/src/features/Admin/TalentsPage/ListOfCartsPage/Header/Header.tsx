@@ -24,14 +24,21 @@ export const Header: FC<HeaderProps> = ({
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.tabs}>
-        <Tabs
-          isActiveTab={isActiveTab}
-          setIsActiveTab={setIsActiveTab}
-          access={access}
-        />
-      </div>
-      <Search style={styles.search} onSearchChange={handleSearchChange} />
+      {access && (
+        <>
+          <div className={styles.tabs}>
+            <Tabs
+              isActiveTab={isActiveTab}
+              setIsActiveTab={setIsActiveTab}
+              access={access}
+            />
+          </div>
+          <Search
+            style={styles.search}
+            onSearchChange={handleSearchChange}
+          />
+        </>
+      )}
     </div>
   )
 }

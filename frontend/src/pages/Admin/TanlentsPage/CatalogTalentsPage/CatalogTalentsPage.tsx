@@ -48,6 +48,7 @@ export const AdminCatalogTalentsPage = () => {
         selectedFilters,
         sort,
       )
+
       if (currentPage > res.meta.last_page) {
         setCurrentPage(1)
       }

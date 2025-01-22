@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { FC, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -21,25 +22,23 @@ import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './DashboardPage.module.scss'
 
 export const AdminDashboardPage: FC = () => {
-  const [dataCashFlow, setDataCashFlow] = useState<DashboardData | null>(
-    null,
-  )
-
   const { t } = useTranslation()
 
-  const getCashFlowData = async () => {
-    const getResponse: {
-      access: RolesAccess
-      cashFlow: DashboardData
-      status: boolean
-    } = await getCashFlowInfo()
+  const { data: dataCashFlow } = useQuery({
+    queryKey: ['cashFlow'],
+    queryFn: async () => {
+      const response: {
+        access: RolesAccess
+        cashFlow: DashboardData
+        status: boolean
+      } = await getCashFlowInfo()
 
-    setDataCashFlow(getResponse.cashFlow)
-  }
+      return response
+    },
+    staleTime: 5000,
+  })
 
   useEffect(() => {
-    getCashFlowData()
-
     window.scrollTo(0, 0)
     document.title = 'infiniti | Dashboard'
   }, [])
@@ -53,7 +52,7 @@ export const AdminDashboardPage: FC = () => {
             title={t('admin-dashboard-page-card-1-title')}
             style={`${styles.recentFullScreen} ${styles.zIndex}`}
           >
-            <CashFlow data={dataCashFlow} />
+            <CashFlow data={dataCashFlow.cashFlow} />
           </RecentCard>
         ) : (
           <LoadingSpinner size='xl' />
