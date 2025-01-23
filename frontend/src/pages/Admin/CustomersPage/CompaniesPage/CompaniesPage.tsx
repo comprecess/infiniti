@@ -1,3 +1,4 @@
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { FC, useEffect, useState } from 'react'
 
 import {
@@ -21,22 +22,17 @@ import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CompaniesPage.module.scss'
 
 export const AdminCompaniesPage: FC = () => {
-  const [companies, setCompanies] = useState<CompaniesListProps[] | null>(
-    null,
-  )
   const [filteredCompanies, setFilteredCompanies] = useState<
-  CompaniesListProps[] | null
+    CompaniesListProps[] | null
   >(null)
 
   const [selectedCompanyId, setSelectedCompanyId] = useState<
-  number | null
+    number | null
   >(null)
 
   const [modalNewCompany, setModalNewCompany] = useState<boolean>(false)
   const [modalEditCompany, setModalEditCompany] = useState<boolean>(false)
   const [modalCompanyInfo, setModalCompanyInfo] = useState<boolean>(false)
-
-  const [access, setAccess] = useState<RolesAccess | null>(null)
 
   const [companyData, setCompanyData] = useState<CompanyData>({
     name: '',
@@ -54,6 +50,7 @@ export const AdminCompaniesPage: FC = () => {
   })
 
   const showToast = useCustomToast()
+  const queryClient = useQueryClient()
 
   const handleOpenCloseModalNewCompany = () => {
     setModalNewCompany(!modalNewCompany)
@@ -78,33 +75,37 @@ export const AdminCompaniesPage: FC = () => {
     }))
   }
 
-  const handleSearchChange = (searchItem: string) => {
-    if (companies === null) return
-
-    const filtered = companies.filter(company =>
-      company.name.toLowerCase().includes(searchItem.toLowerCase()),
-    )
-    setFilteredCompanies(filtered)
-  }
-
   const reloadSearchFilter = () => {
     setFilteredCompanies(prevFilteredCompanies =>
       prevFilteredCompanies
         ? prevFilteredCompanies.filter(
-          company => company.id !== selectedCompanyId,
-        )
+            company => company.id !== selectedCompanyId,
+          )
         : [],
     )
   }
 
-  const getCompanies = async () => {
-    const companiesResponse: {
-      access: RolesAccess
-      data: CompaniesListProps[]
-    } = await getCompaniesList()
+  const { data: companiesData } = useQuery({
+    queryKey: ['companies'],
+    queryFn: async () => {
+      const response: {
+        access: RolesAccess
+        data: CompaniesListProps[]
+      } = await getCompaniesList()
 
-    setAccess(companiesResponse.access)
-    setCompanies(companiesResponse.data)
+      return response
+    },
+    staleTime: 5000,
+  })
+
+  const handleSearchChange = (searchItem: string) => {
+    if (companiesData) {
+      const filtered = companiesData.data.filter(company =>
+        company.name.toLowerCase().includes(searchItem.toLowerCase()),
+      )
+
+      setFilteredCompanies(filtered)
+    }
   }
 
   const filterEmptyFields = (data: CompanyData): Partial<CompanyData> => {
@@ -156,7 +157,7 @@ export const AdminCompaniesPage: FC = () => {
         description: 'You have successfully created a new company',
         status: 'success',
       })
-      getCompanies()
+      queryClient.invalidateQueries({ queryKey: ['companies'] })
       handleOpenCloseModalNewCompany()
     } else {
       showToast({
@@ -176,7 +177,7 @@ export const AdminCompaniesPage: FC = () => {
         description: 'You have successfully deleted the company',
         status: 'success',
       })
-      getCompanies()
+      queryClient.invalidateQueries({ queryKey: ['companies'] })
       reloadSearchFilter()
     } else {
       showToast({
@@ -198,7 +199,7 @@ export const AdminCompaniesPage: FC = () => {
         description: 'You have successfully changed your company details',
         status: 'success',
       })
-      getCompanies()
+      queryClient.invalidateQueries({ queryKey: ['companies'] })
       handleOpenCloseModalEditCompany()
     } else {
       showToast({
@@ -211,42 +212,42 @@ export const AdminCompaniesPage: FC = () => {
 
   useEffect(() => {
     document.title = 'infiniti | Companies'
-
-    getCompanies()
   }, [])
 
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        {companies && access ? (
+        {companiesData ? (
           <RecentCard
             title='Companies'
             style={styles.recentFullScreen}
             HeaderComponent={SearchAndButtons}
             headerProps={{ searchChange: handleSearchChange }}
-            Component={access.create ? ButtonBlue : undefined}
+            Component={
+              companiesData.access.create ? ButtonBlue : undefined
+            }
             componentProps={
-              access.create
+              companiesData.access.create
                 ? {
-                  title: 'New Company',
-                  titleNone: true,
-                  icon: '/icons/plus.svg',
-                  iconProps: styles.icon,
-                  style: styles.blueButton,
-                  onClick: handleOpenCloseModalNewCompany,
-                }
+                    title: 'New Company',
+                    titleNone: true,
+                    icon: '/icons/plus.svg',
+                    iconProps: styles.icon,
+                    style: styles.blueButton,
+                    onClick: handleOpenCloseModalNewCompany,
+                  }
                 : undefined
             }
           >
             <RecentCompanies
-              access={access}
+              access={companiesData.access}
               deleteCompany={deleteSelectedCompany}
               editCompany={loadCompanyInfoEdit}
               infoCompany={loadViewCompany}
               companiesList={
                 filteredCompanies && filteredCompanies.length > 0
                   ? filteredCompanies
-                  : companies
+                  : companiesData.data
               }
             />
           </RecentCard>

@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from 'react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { FC, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
@@ -16,13 +17,11 @@ import { getListBusinessPlans } from '../../../../shared/utils/api/Admin/Busines
 import styles from './BusinessPlanPage.module.scss'
 
 export const AdminBusinessPlanPage: FC = () => {
-  const [plans, setPlans] = useState<BusinessPlanItemData[] | null>(null)
-  const [access, setAccess] = useState<RolesAccess | null>(null)
-
   const { t } = useTranslation()
 
   const showToast = useCustomToast()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   const handleNavigateToMakeBusinessPlan = () => {
     navigate(
@@ -42,13 +41,18 @@ export const AdminBusinessPlanPage: FC = () => {
     )
   }
 
-  const getPlansInfo = async () => {
-    const response: { access: RolesAccess; data: BusinessPlanItemData[] } =
-      await getListBusinessPlans()
+  const { data: plansData } = useQuery({
+    queryKey: ['plans'],
+    queryFn: async () => {
+      const response: {
+        access: RolesAccess
+        data: BusinessPlanItemData[]
+      } = await getListBusinessPlans()
 
-    setPlans(response.data)
-    setAccess(response.access)
-  }
+      return response
+    },
+    staleTime: 5000,
+  })
 
   const deletePlan = async (id: number) => {
     const response = await deleteBusinessPlan(id)
@@ -59,7 +63,7 @@ export const AdminBusinessPlanPage: FC = () => {
         description: 'You have successfully deleted your Business Plan',
         status: 'success',
       })
-      getPlansInfo()
+      queryClient.invalidateQueries({ queryKey: ['talents'] })
     } else {
       showToast({
         title: 'Error',
@@ -70,16 +74,14 @@ export const AdminBusinessPlanPage: FC = () => {
   }
 
   useEffect(() => {
-    getPlansInfo()
-
     document.title = 'infiniti | Business Plans'
   }, [])
 
   return (
     <div className={styles.wrapper}>
-      {plans && access ? (
+      {plansData ? (
         <section className={styles.section}>
-          {access.create === 1 && (
+          {plansData.access.create === 1 && (
             <div className={styles.wrapperButtonBlue}>
               <ButtonBlue
                 title={t('admin-business-plans-page-button-1')}
@@ -89,7 +91,7 @@ export const AdminBusinessPlanPage: FC = () => {
             </div>
           )}
           <div className={styles.plans}>
-            {plans.map(plan => {
+            {plansData.data.map(plan => {
               return (
                 <CardPlan
                   key={plan.id}
@@ -99,7 +101,7 @@ export const AdminBusinessPlanPage: FC = () => {
                   viewBusinessPlan={handleNavigateViewBusinessPlan}
                   editBusinessPlan={handleNavigateEditBusinessPlan}
                   deleteBusinessPlan={deletePlan}
-                  access={access}
+                  access={plansData.access}
                 />
               )
             })}
