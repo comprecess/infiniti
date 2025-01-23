@@ -1,3 +1,4 @@
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { FC, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -20,10 +21,6 @@ import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './GroupsPage.module.scss'
 
 export const AdminGroupsPage: FC = () => {
-  const [groups, setGroups] = useState<GroupsListProps[] | null>(null)
-
-  const [access, setAccess] = useState<RolesAccess | null>(null)
-
   const [newGroup, setNewGroup] = useState<boolean>(false)
   const [modalEditGroups, setModalEditGroups] = useState<boolean>(false)
 
@@ -35,16 +32,20 @@ export const AdminGroupsPage: FC = () => {
 
   const navigate = useNavigate()
   const showToast = useCustomToast()
+  const queryClient = useQueryClient()
 
-  const getGroups = async () => {
-    const getResponse: {
-      access: RolesAccess
-      data: GroupsListProps[]
-    } = await getListGroups()
+  const { data: groupsData } = useQuery({
+    queryKey: ['groups'],
+    queryFn: async () => {
+      const response: {
+        access: RolesAccess
+        data: GroupsListProps[]
+      } = await getListGroups()
 
-    setAccess(getResponse.access)
-    setGroups(getResponse.data)
-  }
+      return response
+    },
+    staleTime: 5000,
+  })
 
   const openNewGroupModal = () => {
     setNewGroup(!newGroup)
@@ -73,7 +74,7 @@ export const AdminGroupsPage: FC = () => {
         description: 'You have successfully created a new group',
         status: 'success',
       })
-      getGroups()
+      queryClient.invalidateQueries({ queryKey: ['groups'] })
     } else {
       showToast({
         title: 'Error',
@@ -94,7 +95,7 @@ export const AdminGroupsPage: FC = () => {
         description: 'You have successfully deleted the group',
         status: 'success',
       })
-      getGroups()
+      queryClient.invalidateQueries({ queryKey: ['groups'] })
     } else {
       showToast({
         title: 'Error',
@@ -115,7 +116,7 @@ export const AdminGroupsPage: FC = () => {
         description: 'You have successfully changed the group name',
         status: 'success',
       })
-      getGroups()
+      queryClient.invalidateQueries({ queryKey: ['groups'] })
     } else {
       showToast({
         title: 'Error',
@@ -137,27 +138,23 @@ export const AdminGroupsPage: FC = () => {
     document.title = 'infiniti | Groups'
   }, [])
 
-  useEffect(() => {
-    getGroups()
-  }, [])
-
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        {groups && access ? (
+        {groupsData ? (
           <RecentCard
             title='Groups'
             style={styles.recentFullScreen}
             Component={RecentButtons}
             componentProps={{
-              isCanCreate: access.create,
+              isCanCreate: groupsData.access.create,
               firstButtonClick: openNewGroupModal,
               secondButtonClick: handleNavigateToOrder,
             }}
           >
             <RecentGroups
-              access={access}
-              groupsList={groups}
+              access={groupsData.access}
+              groupsList={groupsData.data}
               deleteGroup={deleteSelectedGroup}
               editGroup={setIdEditGroup}
             />

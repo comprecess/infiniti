@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query'
 import { FC, useCallback, useEffect, useState } from 'react'
 
 import {
@@ -16,33 +17,22 @@ import styles from './FilesPage.module.scss'
 export const AdminFilesPage: FC = () => {
   const [page, setPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
-  const [options, setOptions] = useState<string>('')
 
-  const [data, setData] = useState<{
-    files: CustomersFilesData[]
-    meta: PagesMetaData
-  } | null>(null)
+  const { data: groupsData } = useQuery({
+    queryKey: ['groups', page, search],
+    queryFn: async () => {
+      const response: {
+        access: RolesAccess
+        data: CustomersFilesData[]
+        meta: PagesMetaData
+      } = await getCustomersFiles(
+        `?page=${page}&filter[type]=client&filter[search]=${search}&document=json`,
+      )
 
-  const [access, setAccess] = useState<RolesAccess | null>(null)
-
-  const changeURL = (pageItem: number, searchItem: string) => {
-    const urlOptions = `?page=${pageItem}&filter[type]=client&filter[search]=${searchItem}&document=json`
-
-    setOptions(urlOptions)
-  }
-
-  const getFiles = async () => {
-    if (!options) return
-
-    const getResponse: {
-      access: RolesAccess
-      data: CustomersFilesData[]
-      meta: PagesMetaData
-    } = await getCustomersFiles(options)
-
-    setAccess(getResponse.access)
-    setData({ files: getResponse.data, meta: getResponse.meta })
-  }
+      return response
+    },
+    staleTime: 5000,
+  })
 
   const searchOnChange = useCallback((searchItem: string) => {
     setSearch(searchItem)
@@ -56,25 +46,17 @@ export const AdminFilesPage: FC = () => {
     document.title = 'infiniti | Files'
   }, [])
 
-  useEffect(() => {
-    changeURL(page, search)
-  }, [page, search])
-
-  useEffect(() => {
-    getFiles()
-  }, [options])
-
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        {data && access ? (
+        {groupsData ? (
           <RecentCard
             title='Files uploaded by Customers'
             style={styles.recentFullScreen}
             HeaderComponent={Search}
             PagesComponent={PagesList}
             pagesProps={{
-              meta: data.meta,
+              meta: groupsData.meta,
               nextPage: pageOnChange,
               size: 'sm',
             }}
@@ -82,7 +64,10 @@ export const AdminFilesPage: FC = () => {
               onSearchChange: searchOnChange,
             }}
           >
-            <RecentFiles access={access} files={data.files} />
+            <RecentFiles
+              access={groupsData.access}
+              files={groupsData.data}
+            />
           </RecentCard>
         ) : (
           <LoadingSpinner size='xl' />
