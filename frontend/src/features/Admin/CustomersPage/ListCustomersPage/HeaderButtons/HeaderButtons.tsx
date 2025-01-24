@@ -1,23 +1,24 @@
 import { FC } from 'react'
 
+import { RolesAccess } from '../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
 import styles from './HeaderButtons.module.scss'
 
 interface HeaderButtonsProps {
-  isCanCreate: boolean
+  access: RolesAccess
   firstButtonClick: () => void
   secondButtonClick: () => void
 }
 
 export const HeaderButtons: FC<HeaderButtonsProps> = ({
-  isCanCreate,
+  access,
   firstButtonClick,
   secondButtonClick,
 }) => {
   return (
     <div className={styles.wrapper}>
-      {isCanCreate && (
+      {access && access.create && (
         <ButtonBlue
           titleNone
           title='Add Customer'
