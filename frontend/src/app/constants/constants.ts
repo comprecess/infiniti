@@ -432,6 +432,7 @@ export interface ViewListPagesAndInfo {
   img: string
   email: string
   phone: string
+  status: boolean
   type: { [key: string]: number | null }
 }
 

@@ -1,3 +1,4 @@
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { saveAs } from 'file-saver'
 import { FC, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -25,29 +26,30 @@ export const AdminListCustomerPage: FC = () => {
   const [search, setSearch] = useState<string>('')
   const [sortName, setSortName] = useState<string>('id')
   const [sortType, setSortType] = useState<number>(1)
-  const [options, setOptions] = useState<string>('')
-
-  const [customers, setCustomers] = useState<{
-    data: ListCustomersData[]
-    meta: PagesMetaData
-  } | null>(null)
-
-  const [access, setAccess] = useState<RolesAccess | null>(null)
 
   const navigate = useNavigate()
   const showToast = useCustomToast()
+  const queryClient = useQueryClient()
 
-  const changeURL = (
-    pageItem: number,
-    searchItem: string,
-    sortNameItem: string,
-    sortTypeItem: number,
-  ) => {
-    // eslint-disable-next-line max-len
-    const urlOptions = `?page=${pageItem}&filter[search]=${searchItem}&sort[name]=${sortNameItem}&sort[type]=${sortTypeItem}&document=json`
+  const { data: customers } = useQuery({
+    queryKey: ['suppliers', page, search, sortName, sortType],
+    queryFn: async () => {
+      const response: {
+        access: RolesAccess
+        data: ListCustomersData[]
+        meta: PagesMetaData
+      } = await getCustomersList(
+        `?page=${page}&filter[search]=${search}&sort[name]=${sortName}&sort[type]=${sortType}&document=json`,
+      )
 
-    setOptions(urlOptions)
-  }
+      if (page > response.meta.last_page) {
+        setPage(1)
+      }
+
+      return response
+    },
+    staleTime: 5000,
+  })
 
   const changeSort = useCallback(
     (sortNameItem: string, sortTypeItem: number) => {
@@ -91,31 +93,6 @@ export const AdminListCustomerPage: FC = () => {
     [page, search, sortName, sortType],
   )
 
-  const searchOnChange = useCallback((searchItem: string) => {
-    setSearch(searchItem)
-  }, [])
-
-  const pageOnChange = useCallback((pageItem: number) => {
-    setPage(pageItem)
-  }, [])
-
-  const getCustomers = async () => {
-    if (!options) return
-
-    const getResponse: {
-      access: RolesAccess
-      data: ListCustomersData[]
-      meta: PagesMetaData
-    } = await getCustomersList(options)
-
-    if (page > getResponse.meta.last_page) {
-      setPage(1)
-    }
-
-    setAccess(getResponse.access)
-    setCustomers({ data: getResponse.data, meta: getResponse.meta })
-  }
-
   const deleteCustomer = async (idCustomer: number) => {
     const deleteResponse = await deleteClient(idCustomer)
 
@@ -125,7 +102,7 @@ export const AdminListCustomerPage: FC = () => {
         description: 'You have successfully deleted Customer',
         status: 'success',
       })
-      getCustomers()
+      queryClient.invalidateQueries({ queryKey: ['suppliers'] })
     } else {
       showToast({
         title: 'Error',
@@ -145,48 +122,46 @@ export const AdminListCustomerPage: FC = () => {
     document.title = 'infiniti | List Customers'
   }, [])
 
-  useEffect(() => {
-    changeURL(page, search, sortName, sortType)
-  }, [page, search, sortName, sortType])
-
-  useEffect(() => {
-    getCustomers()
-  }, [options])
-
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        {customers && access ? (
-          <RecentCard
-            title='List Customers'
-            style={styles.recentFullScreen}
-            HeaderComponent={SearchAndButtons}
-            Component={HeaderButtons}
-            PagesComponent={PagesList}
-            componentProps={{
-              isCanCreate: access.create,
-              firstButtonClick: navigateToAddCustomer,
-            }}
-            headerProps={{
-              searchChange: searchOnChange,
-              rightButtons: documentOnChange,
-            }}
-            pagesProps={{
-              meta: customers.meta,
-              nextPage: pageOnChange,
-              size: 'sm',
-            }}
-          >
+        <RecentCard
+          title='List Customers'
+          style={styles.recentFullScreen}
+          HeaderComponent={SearchAndButtons}
+          Component={HeaderButtons}
+          PagesComponent={customers ? PagesList : undefined}
+          componentProps={{
+            access: customers?.access,
+            firstButtonClick: navigateToAddCustomer,
+          }}
+          headerProps={{
+            searchChange: setSearch,
+            rightButtons: documentOnChange,
+          }}
+          pagesProps={
+            customers
+              ? {
+                  meta: customers.meta,
+                  nextPage: setPage,
+                  size: 'sm',
+                }
+              : undefined
+          }
+        >
+          {customers ? (
             <RecentCustomers
-              access={access}
+              access={customers.access}
               customersList={customers.data}
               changeSortName={changeSort}
               deleteClient={deleteCustomer}
             />
-          </RecentCard>
-        ) : (
-          <LoadingSpinner size='xl' />
-        )}
+          ) : (
+            <div className={styles.loading}>
+              <LoadingSpinner size='xl' />
+            </div>
+          )}
+        </RecentCard>
       </section>
     </div>
   )

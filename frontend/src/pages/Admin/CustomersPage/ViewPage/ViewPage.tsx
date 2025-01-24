@@ -1,4 +1,5 @@
-import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { FC, useEffect, useMemo, useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 import { ViewListPagesAndInfo } from '../../../../app/constants/constants'
@@ -31,31 +32,31 @@ export const AdminViewPage: FC = () => {
   const [isOpenSideBar, setIsOpenSideBar] = useState<boolean>(true)
   const [isMobile, setIsMobile] = useState<boolean>(false)
 
-  const [pagesAndInfo, setPagesAndInfo] =
-    useState<ViewListPagesAndInfo | null>(null)
+  const [touchStartX, setTouchStartX] = useState<number | null>(null)
+  const [touchEndX, setTouchEndX] = useState<number | null>(null)
 
   const navigate = useNavigate()
-
   const id = useIdFromUrl()
 
   const handleOpenCloseSidebar = () => {
     setIsOpenSideBar(!isOpenSideBar)
   }
 
-  const getListPagesInfo = useCallback(async () => {
-    if (id !== null) {
-      const getResponse = await getListPagesAndInfo(id)
+  const { data: pagesInfo } = useQuery({
+    queryKey: ['pages', id],
+    queryFn: async () => {
+      if (id === null) return
 
-      setPagesAndInfo(getResponse)
+      const response: ViewListPagesAndInfo = await getListPagesAndInfo(id)
 
-      if (!getResponse.status) {
+      if (!response.status) {
         navigate(`/${Routes.notFound}`)
       }
-    }
-  }, [id])
 
-  const [touchStartX, setTouchStartX] = useState<number | null>(null)
-  const [touchEndX, setTouchEndX] = useState<number | null>(null)
+      return response
+    },
+    staleTime: 5000,
+  })
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStartX(e.touches[0].clientX)
@@ -99,14 +100,10 @@ export const AdminViewPage: FC = () => {
     }
   }, [isOpenSideBar, isMobile])
 
-  useEffect(() => {
-    getListPagesInfo()
-  }, [id])
-
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        {pagesAndInfo ? (
+        {pagesInfo ? (
           <div className={styles.container}>
             {isMobile && isOpenSideBar && (
               <div
@@ -128,7 +125,7 @@ export const AdminViewPage: FC = () => {
             >
               <div className={styles.sideBarOverFlow}>
                 <SideBar
-                  data={pagesAndInfo}
+                  data={pagesInfo}
                   isActive={isMobile && isOpenSideBar}
                   openCloseSidebar={handleOpenCloseSidebar}
                 />
@@ -142,9 +139,7 @@ export const AdminViewPage: FC = () => {
                 >
                   <ArrowBackGroundIcon />
                 </div>
-                <h4 className={styles.accountName}>
-                  {pagesAndInfo.account}
-                </h4>
+                <h4 className={styles.accountName}>{pagesInfo.account}</h4>
               </div>
               <Outlet context={{ idClient: id }} />
             </main>

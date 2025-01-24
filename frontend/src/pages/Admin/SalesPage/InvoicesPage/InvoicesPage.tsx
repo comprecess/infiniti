@@ -229,11 +229,7 @@ export const AdminInvoicesPage = () => {
           style={styles.recentFullScreen}
           HeaderComponent={Header}
           Component={HeaderButtons}
-          PagesComponent={
-            invoicesData && invoicesData.data.length > 0
-              ? PagesList
-              : undefined
-          }
+          PagesComponent={invoicesData ? PagesList : undefined}
           componentProps={{
             access: invoicesData?.access,
             firstButtonClick: navigateToAddInvoice,
@@ -245,12 +241,12 @@ export const AdminInvoicesPage = () => {
             rightButtons: documentOnChange,
           }}
           pagesProps={
-            invoicesData && invoicesData.data.length > 0
+            invoicesData
               ? {
-                meta: invoicesData?.meta,
-                nextPage: setPage,
-                size: 'sm',
-              }
+                  meta: invoicesData?.meta,
+                  nextPage: setPage,
+                  size: 'sm',
+                }
               : undefined
           }
         >
