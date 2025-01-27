@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import {
@@ -11,33 +12,29 @@ import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewC
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './TransactionsPage.module.scss'
 
-export const AdminContactTransactionsPage: FC = () => {
-  const [data, setData] = useState<ViewTransactionsTypeData[] | null>(null)
-
+export const AdminContactTransactionsPage = () => {
   const context = useOutletContext<ViewPageContext>()
 
-  const getInfo = async () => {
-    const getResponse = await getSelectedTypeInfo(
-      context.idClient,
-      'transactions',
-    )
+  const { data: transactions } = useQuery({
+    queryKey: ['transactions', context.idClient],
+    queryFn: async () => {
+      const response: { data: ViewTransactionsTypeData[] } =
+        await getSelectedTypeInfo(context.idClient, 'transactions')
 
-    setData(getResponse.data)
-  }
+      return response
+    },
+    staleTime: 5000,
+  })
 
   useEffect(() => {
     document.title = 'infiniti | Contact | Transactions'
   }, [])
 
-  useEffect(() => {
-    getInfo()
-  }, [context.idClient])
-
   return (
     <div className={styles.wrapper}>
-      {data ? (
+      {transactions ? (
         <RecentCard>
-          <RecentTransactions list={data} />
+          <RecentTransactions list={transactions.data} />
         </RecentCard>
       ) : (
         <LoadingSpinner size='xl' />

@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useEffect, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { BusinessPlanBusinessModelData } from '../../../../app/constants/constants'
@@ -30,20 +31,21 @@ const useIdFromUrl = () => {
 }
 
 export const AdminViewBusinessModel = () => {
-  const [data, setData] = useState<BusinessPlanBusinessModelData | null>(
-    null,
-  )
-
   const id = useIdFromUrl()
   const navigate = useNavigate()
 
-  const getData = async () => {
-    if (!id) return
+  const { data: model, isLoading: modelLoading } = useQuery({
+    queryKey: ['model', id],
+    queryFn: async () => {
+      if (!id) return
 
-    const response = await getModelInfo(id)
+      const response: { data: BusinessPlanBusinessModelData } =
+        await getModelInfo(id)
 
-    setData(response.data)
-  }
+      return response
+    },
+    staleTime: 5000,
+  })
 
   const handleNavigateBack = () => {
     if (window.history.length - 3 <= 0) {
@@ -56,14 +58,12 @@ export const AdminViewBusinessModel = () => {
   }
 
   useEffect(() => {
-    getData()
-
     document.title = 'infiniti | View Business Models'
   }, [])
 
   return (
     <div className={styles.wrapper}>
-      {data ? (
+      {!modelLoading && model ? (
         <section className={styles.section}>
           <section className={styles.section}>
             <div className={styles.item}>
@@ -77,14 +77,14 @@ export const AdminViewBusinessModel = () => {
             </div>
           </section>
           <div className={styles.titleModel}>
-            <TitlePage title={data.title} />
+            <TitlePage title={model.data.title} />
           </div>
           <div className={styles.content}>
             <div className={styles.card}>
               <div className={styles.rowHalfContainer}>
                 <div className={styles.imgContainer}>
                   <img
-                    src={data.content}
+                    src={model.data.content}
                     alt='BusinessModelImg'
                     className={styles.businessModelImg}
                   />
@@ -93,46 +93,46 @@ export const AdminViewBusinessModel = () => {
                   <div className={styles.aboutModelContainer}>
                     <TitleCard title='About Model' />
                     <StatusProfitability
-                      profitability={data.profitability[0].value}
+                      profitability={model.data.profitability[0].value}
                     />
                   </div>
                   <div className={styles.list}>
                     <span className={styles.description}>
-                      {data.fullDescription}
+                      {model.data.fullDescription}
                     </span>
-                    {data.industries.length > 0 && (
+                    {model.data.industries.length > 0 && (
                       <ListInfoItem
                         title='Industries'
-                        list={data.industries}
+                        list={model.data.industries}
                       />
                     )}
-                    {data.technologies.length > 0 && (
+                    {model.data.technologies.length > 0 && (
                       <ListInfoItem
                         title='Technologies'
-                        list={data.technologies}
+                        list={model.data.technologies}
                       />
                     )}
-                    {data.location.length > 0 && (
+                    {model.data.location.length > 0 && (
                       <ListInfoItem
                         title='Location'
-                        list={data.location}
+                        list={model.data.location}
                       />
                     )}
-                    {data.technologies.length > 0 && (
+                    {model.data.technologies.length > 0 && (
                       <ListInfoItem
                         title='Technologies'
-                        list={data.technologies}
+                        list={model.data.technologies}
                       />
                     )}
-                    {data.category.length > 0 && (
+                    {model.data.category.length > 0 && (
                       <ListInfoItem
                         title='Category'
-                        list={data.category}
+                        list={model.data.category}
                       />
                     )}
-                    <TextInfoItem title='Price' text={data.price} />
-                    <TextInfoItem title='Age' text={data.age} />
-                    <TextInfoItem title='Start' text={data.start} />
+                    <TextInfoItem title='Price' text={model.data.price} />
+                    <TextInfoItem title='Age' text={model.data.age} />
+                    <TextInfoItem title='Start' text={model.data.start} />
                   </div>
                 </div>
               </div>
