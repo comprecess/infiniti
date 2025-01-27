@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import {
@@ -12,40 +13,40 @@ import { getCustomerInputsData } from '../../../../../shared/utils/api/Admin/Add
 import { getInfoProfileView } from '../../../../../shared/utils/api/Admin/ViewContact/Edit/GetInfoProfileView'
 import styles from './EditPage.module.scss'
 
-export const AdminContactEditPage: FC = () => {
-  const [data, setData] = useState<ViewEditTypeData | null>(null)
-  const [inputs, setInputs] = useState<CustomerInputsData | null>(null)
-
+export const AdminContactEditPage = () => {
   const context = useOutletContext<ViewPageContext>()
 
-  const getInfo = async () => {
-    const getResponse = await getInfoProfileView(context.idClient)
+  const { data: edit } = useQuery({
+    queryKey: ['edit', context.idClient],
+    queryFn: async () => {
+      const response: { data: ViewEditTypeData } =
+        await getInfoProfileView(context.idClient)
 
-    setData(getResponse.data)
-  }
+      return response
+    },
+    staleTime: 5000,
+  })
 
-  const getInputsList = async () => {
-    const getResponse = await getCustomerInputsData()
+  const { data: inputs } = useQuery({
+    queryKey: ['inputs', context.idClient],
+    queryFn: async () => {
+      const response: CustomerInputsData = await getCustomerInputsData()
 
-    setInputs(getResponse)
-  }
+      return response
+    },
+  })
 
   useEffect(() => {
     document.title = 'infiniti | Contact | Edit'
   }, [])
 
-  useEffect(() => {
-    getInfo()
-    getInputsList()
-  }, [context.idClient])
-
   return (
     <div className={styles.wrapper}>
-      {data && inputs ? (
+      {edit && inputs ? (
         <div className={styles.container}>
           <Fields
             idClient={context.idClient}
-            data={data}
+            data={edit.data}
             inputs={inputs}
           />
         </div>

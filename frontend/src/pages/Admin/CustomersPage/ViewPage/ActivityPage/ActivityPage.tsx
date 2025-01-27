@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from 'react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import {
@@ -22,20 +23,20 @@ interface EditActiveModalData {
   message: string
 }
 
-export const AdminContactActivityPage: FC = () => {
-  const [data, setData] = useState<ViewActivityTypeData[] | null>(null)
+export const AdminContactActivityPage = () => {
   const [selectedIcon, setSelectedIcon] = useState<string>('check')
   const [message, setMessage] = useState<string>('')
 
   const [selectedIdType, setSelectedIdType] = useState<number>(0)
 
   const [editActiveData, setEditActiveData] = useState<
-  EditActiveModalData | undefined
+    EditActiveModalData | undefined
   >()
 
   const [isEditActivityModal, setIsEditActivityModal] =
     useState<boolean>(false)
 
+  const queryClient = useQueryClient()
   const context = useOutletContext<ViewPageContext>()
   const showToast = useCustomToast()
 
@@ -43,14 +44,16 @@ export const AdminContactActivityPage: FC = () => {
     setIsEditActivityModal(prev => !prev)
   }
 
-  const getInfo = async () => {
-    const getResponse = await getSelectedTypeInfo(
-      context.idClient,
-      'activity',
-    )
+  const { data: activity } = useQuery({
+    queryKey: ['activity', context.idClient],
+    queryFn: async () => {
+      const response: { data: ViewActivityTypeData[] } =
+        await getSelectedTypeInfo(context.idClient, 'activity')
 
-    setData(getResponse.data)
-  }
+      return response
+    },
+    staleTime: 5000,
+  })
 
   const addNewActivity = async () => {
     const addResponse = await addActivity(
@@ -66,7 +69,7 @@ export const AdminContactActivityPage: FC = () => {
         description: 'You have successfully added activity',
         status: 'success',
       })
-      getInfo()
+      queryClient.invalidateQueries({ queryKey: ['activity'] })
     } else {
       showToast({
         title: 'Error',
@@ -98,7 +101,7 @@ export const AdminContactActivityPage: FC = () => {
         description: 'You have successfully deleted the Activity',
         status: 'success',
       })
-      getInfo()
+      queryClient.invalidateQueries({ queryKey: ['activity'] })
     } else {
       showToast({
         title: 'Error',
@@ -126,7 +129,7 @@ export const AdminContactActivityPage: FC = () => {
         description: 'You have successfully changed the activity',
         status: 'success',
       })
-      getInfo()
+      queryClient.invalidateQueries({ queryKey: ['activity'] })
     } else {
       showToast({
         title: 'Error',
@@ -141,10 +144,6 @@ export const AdminContactActivityPage: FC = () => {
   }, [])
 
   useEffect(() => {
-    getInfo()
-  }, [context.idClient])
-
-  useEffect(() => {
     if (
       editActiveData?.icon != undefined &&
       editActiveData?.message != undefined
@@ -155,7 +154,7 @@ export const AdminContactActivityPage: FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      {data ? (
+      {activity ? (
         <RecentCard
           HeaderComponent={TextEditorWrapper}
           headerProps={{
@@ -166,11 +165,11 @@ export const AdminContactActivityPage: FC = () => {
             addNewActivity,
           }}
         >
-          {data.length > 0 && (
+          {activity.data.length > 0 && (
             <RecentActivity
               deleteSelectedActivity={deleteSelectedActivity}
               editActivity={openEditModal}
-              list={data}
+              list={activity.data}
             />
           )}
         </RecentCard>

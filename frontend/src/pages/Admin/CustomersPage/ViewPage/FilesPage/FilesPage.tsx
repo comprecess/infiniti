@@ -1,10 +1,8 @@
-import { FC, useEffect, useState } from 'react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useEffect } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
-import {
-  ViewFilesTypeData,
-  ViewPageContext,
-} from '../../../../../app/constants/constants'
+import { ViewPageContext } from '../../../../../app/constants/constants'
 import { Header } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/FilesPage/Header/Header'
 import { RecentFiles } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/FilesPage/RecentFiles/RecentFiles'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
@@ -15,20 +13,20 @@ import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewC
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './FilesPage.module.scss'
 
-export const AdminContactFilesPage: FC = () => {
-  const [data, setData] = useState<ViewFilesTypeData | null>(null)
-
+export const AdminContactFilesPage = () => {
+  const queryClient = useQueryClient()
   const context = useOutletContext<ViewPageContext>()
   const showToast = useCustomToast()
 
-  const getInfo = async () => {
-    const getResponse = await getSelectedTypeInfo(
-      context.idClient,
-      'files',
-    )
+  const { data: files } = useQuery({
+    queryKey: ['files', context.idClient],
+    queryFn: async () => {
+      const response = await getSelectedTypeInfo(context.idClient, 'files')
 
-    setData(getResponse)
-  }
+      return response
+    },
+    staleTime: 5000,
+  })
 
   const onChangeInput = async (value: number) => {
     const addResponse = await addViewFile(context.idClient, 'files', {
@@ -41,7 +39,7 @@ export const AdminContactFilesPage: FC = () => {
         description: 'You have successfully added the file',
         status: 'success',
       })
-      getInfo()
+      queryClient.invalidateQueries({ queryKey: ['files'] })
     } else {
       showToast({
         title: 'Error',
@@ -64,7 +62,7 @@ export const AdminContactFilesPage: FC = () => {
         description: 'You have successfully deleted the file',
         status: 'success',
       })
-      getInfo()
+      queryClient.invalidateQueries({ queryKey: ['files'] })
     } else {
       showToast({
         title: 'Error',
@@ -78,21 +76,17 @@ export const AdminContactFilesPage: FC = () => {
     document.title = 'infiniti | Contact | Files'
   }, [])
 
-  useEffect(() => {
-    getInfo()
-  }, [context.idClient])
-
   return (
     <div className={styles.wrapper}>
-      {data ? (
+      {files ? (
         <RecentCard
           HeaderComponent={Header}
           headerProps={{
             onChange: onChangeInput,
-            groupsList: data.listFiles,
+            groupsList: files.listFiles,
           }}
         >
-          <RecentFiles list={data.clientFiles} deleteFile={deleteFile} />
+          <RecentFiles list={files.clientFiles} deleteFile={deleteFile} />
         </RecentCard>
       ) : (
         <LoadingSpinner size='xl' />

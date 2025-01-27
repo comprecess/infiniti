@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 
 import {
@@ -13,20 +14,20 @@ import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewC
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './OffersPage.module.scss'
 
-export const AdminContactOffersPage: FC = () => {
-  const [data, setData] = useState<ViewOffersTypeData[] | null>(null)
-
+export const AdminContactOffersPage = () => {
   const context = useOutletContext<ViewPageContext>()
   const navigate = useNavigate()
 
-  const getInfo = async () => {
-    const getResponse = await getSelectedTypeInfo(
-      context.idClient,
-      'quotes',
-    )
+  const { data: offers } = useQuery({
+    queryKey: ['offers', context.idClient],
+    queryFn: async () => {
+      const response: { data: ViewOffersTypeData[] } =
+        await getSelectedTypeInfo(context.idClient, 'quotes')
 
-    setData(getResponse.data)
-  }
+      return response
+    },
+    staleTime: 5000,
+  })
 
   const navigateToCreateNewOffer = () => {
     navigate(
@@ -38,13 +39,9 @@ export const AdminContactOffersPage: FC = () => {
     document.title = 'infiniti | Contact | Offers'
   }, [])
 
-  useEffect(() => {
-    getInfo()
-  }, [context.idClient])
-
   return (
     <div className={styles.wrapper}>
-      {data ? (
+      {offers ? (
         <RecentCard
           HeaderComponent={ButtonBlue}
           headerProps={{
@@ -53,7 +50,7 @@ export const AdminContactOffersPage: FC = () => {
             onClick: navigateToCreateNewOffer,
           }}
         >
-          <RecentOffers list={data} />
+          <RecentOffers list={offers.data} />
         </RecentCard>
       ) : (
         <LoadingSpinner size='xl' />

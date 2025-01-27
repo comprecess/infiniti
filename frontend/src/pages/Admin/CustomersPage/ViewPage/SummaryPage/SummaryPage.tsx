@@ -1,12 +1,6 @@
 import { Textarea } from '@chakra-ui/react'
-import {
-  FC,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import {
@@ -34,8 +28,11 @@ const extractTokenFromUrl = (url: string): string | null => {
   return match ? match[1] : null
 }
 
-const useTokenFromUrl = (url: string) => {
-  return useMemo(() => extractTokenFromUrl(url), [url])
+const generateAutoLoginUrl = (autologin: string | null) => {
+  const domain = import.meta.env.VITE_MAIN_DOMAIN
+  const token = extractTokenFromUrl(autologin || '')
+
+  return `${domain}/${Routes.public}/${Routes.auto}/${Routes.login}/${token}`
 }
 
 export interface PartialFieldsPostData
@@ -43,9 +40,7 @@ export interface PartialFieldsPostData
   [key: string]: string | boolean | undefined | number | null
 }
 
-export const AdminContactSummaryPage: FC = () => {
-  const [profileInfo, setProfileInfo] =
-    useState<ViewSummaryTypeData | null>(null)
+export const AdminContactSummaryPage = () => {
   const [updateInfo, setUpdateInfo] = useState<PartialFieldsPostData>({})
 
   const [addFundModal, setAddFundModal] = useState<boolean>(false)
@@ -54,12 +49,7 @@ export const AdminContactSummaryPage: FC = () => {
   const context = useOutletContext<ViewPageContext>()
   const showToast = useCustomToast()
   const timerRef = useRef<number | null>(null)
-
-  const autoLoginUrl = `${import.meta.env.VITE_MAIN_DOMAIN}/${
-    Routes.public
-  }/${Routes.auto}/${Routes.login}/${useTokenFromUrl(
-    profileInfo?.autologin || '',
-  )}`
+  const queryClient = useQueryClient()
 
   const openCloseAddFundModal = () => {
     setAddFundModal(!addFundModal)
@@ -69,14 +59,16 @@ export const AdminContactSummaryPage: FC = () => {
     setReturnFundModal(!returnFundModal)
   }
 
-  const getInfoProfile = useCallback(async () => {
-    const getResponse = await getSelectedTypeInfo(
-      context.idClient,
-      'summary',
-    )
+  const { data: profileInfo, isLoading: profileLoading } = useQuery({
+    queryKey: ['profile', context.idClient],
+    queryFn: async () => {
+      const response: { data: ViewSummaryTypeData } =
+        await getSelectedTypeInfo(context.idClient, 'summary')
 
-    setProfileInfo(getResponse.data)
-  }, [context.idClient])
+      return response
+    },
+    staleTime: 5000,
+  })
 
   const updateData = useCallback(async () => {
     const updateResponse = await updateAllInfo(
@@ -91,7 +83,7 @@ export const AdminContactSummaryPage: FC = () => {
         description: 'You have successfully changed your information',
         status: 'success',
       })
-      getInfoProfile()
+      queryClient.invalidateQueries({ queryKey: ['profile'] })
     } else {
       showToast({
         title: 'Error',
@@ -145,7 +137,7 @@ export const AdminContactSummaryPage: FC = () => {
         description: 'You have successfully changed your information',
         status: 'success',
       })
-      getInfoProfile()
+      queryClient.invalidateQueries({ queryKey: ['profile'] })
     } else {
       showToast({
         title: 'Error',
@@ -161,17 +153,13 @@ export const AdminContactSummaryPage: FC = () => {
     onChangeInput('notes', event.target.value)
   }
 
-  const navigateToAutoLogin = () => {
-    window.open(autoLoginUrl, '_blank')
+  const navigateToAutoLogin = (autologin: string) => {
+    window.open(autologin, '_blank')
   }
 
   useEffect(() => {
     document.title = 'infiniti | Contact | Summary'
   }, [])
-
-  useEffect(() => {
-    getInfoProfile()
-  }, [context.idClient])
 
   useEffect(() => {
     if (Object.keys(updateInfo).length > 0) {
@@ -181,7 +169,7 @@ export const AdminContactSummaryPage: FC = () => {
 
   return (
     <div className={styles.wrapper}>
-      {profileInfo ? (
+      {!profileLoading && profileInfo ? (
         <RecentCard>
           <div className={styles.wrapperContainer}>
             <div className={styles.wrapperInfo}>
@@ -189,27 +177,33 @@ export const AdminContactSummaryPage: FC = () => {
                 <div>
                   <InfoItem
                     title='Full Name'
-                    value={profileInfo.account}
+                    value={profileInfo.data.account}
                   />
                   <InfoItem
                     title='Company Name'
-                    value={profileInfo.company}
+                    value={profileInfo.data.company}
                   />
-                  <InfoItem title='Email' value={profileInfo.email} />
-                  <InfoItem title='Phone' value={profileInfo.phone} />
-                  <InfoItem title='Address' value={profileInfo.address} />
-                  <InfoItem title='City' value={profileInfo.city} />
+                  <InfoItem title='Email' value={profileInfo.data.email} />
+                  <InfoItem title='Phone' value={profileInfo.data.phone} />
+                  <InfoItem
+                    title='Address'
+                    value={profileInfo.data.address}
+                  />
+                  <InfoItem title='City' value={profileInfo.data.city} />
                   <InfoItem
                     title='State/Region'
-                    value={profileInfo.state}
+                    value={profileInfo.data.state}
                   />
                   <InfoItem
                     title='ZIP/Postal Code'
-                    value={profileInfo.zip}
+                    value={profileInfo.data.zip}
                   />
-                  <InfoItem title='Country' value={profileInfo.country} />
-                  <InfoItem title='Tags' value={profileInfo.tags} />
-                  <InfoItem title='Group' value={profileInfo.group} />
+                  <InfoItem
+                    title='Country'
+                    value={profileInfo.data.country}
+                  />
+                  <InfoItem title='Tags' value={profileInfo.data.tags} />
+                  <InfoItem title='Group' value={profileInfo.data.group} />
                 </div>
                 <div className={styles.customFieldsWrapper}>
                   <div className={styles.customFieldsContainer}>
@@ -220,13 +214,15 @@ export const AdminContactSummaryPage: FC = () => {
                       <CustomSwitch
                         titleOnChange='primaryContact'
                         isChecked={
-                          profileInfo.primaryContact === 0 ? false : true
+                          profileInfo.data.primaryContact === 0
+                            ? false
+                            : true
                         }
                         onChange={onChangeInput}
                       />
                     </div>
                     <div>
-                      {profileInfo.customFields.map(item => {
+                      {profileInfo.data.customFields.map(item => {
                         return (
                           <InfoItem
                             key={item.id}
@@ -240,7 +236,7 @@ export const AdminContactSummaryPage: FC = () => {
                   <Textarea
                     maxHeight='250px'
                     maxWidth='400px'
-                    defaultValue={profileInfo.notes}
+                    defaultValue={profileInfo.data.notes}
                     placeholder='Contact Notes...'
                     focusBorderColor='#1b1e29'
                     borderColor='#1b1e29'
@@ -258,7 +254,7 @@ export const AdminContactSummaryPage: FC = () => {
             </div>
             <div className={styles.balanceContainer}>
               <h5 className={styles.balanceText}>
-                {`Balance: ${profileInfo.balance}`}
+                {`Balance: ${profileInfo.data.balance}`}
               </h5>
               <div className={styles.balanceButtons}>
                 <ButtonBlue
@@ -273,7 +269,7 @@ export const AdminContactSummaryPage: FC = () => {
                 />
               </div>
             </div>
-            {autoLoginUrl && profileInfo.autologin ? (
+            {profileInfo.data.autologin !== null ? (
               <div className={styles.autoLoginWrapper}>
                 <div className={styles.autoLoginURL}>
                   <span className={styles.titleAutoLogin}>
@@ -281,14 +277,18 @@ export const AdminContactSummaryPage: FC = () => {
                   </span>
                   <div className={styles.wrapperAutoLoginLink}>
                     <span className={styles.autoLoginLink}>
-                      {autoLoginUrl}
+                      {generateAutoLoginUrl(profileInfo.data.autologin)}
                     </span>
                   </div>
                 </div>
                 <div className={styles.interactURL}>
                   <span
                     className={styles.loginCustomerText}
-                    onClick={navigateToAutoLogin}
+                    onClick={() =>
+                      navigateToAutoLogin(
+                        generateAutoLoginUrl(profileInfo.data.autologin),
+                      )
+                    }
                   >
                     Login As Customer
                   </span>
@@ -327,17 +327,17 @@ export const AdminContactSummaryPage: FC = () => {
               <div className={styles.accountingList}>
                 <AccountingItem
                   title='Total Income'
-                  value={profileInfo.totalProfit}
+                  value={profileInfo.data.totalProfit}
                   color={styles.totalIncomeColor}
                 />
                 <AccountingItem
                   title='Total Expense'
-                  value={profileInfo.totalExpense}
+                  value={profileInfo.data.totalExpense}
                   color={styles.totalExpenseColor}
                 />
                 <AccountingItem
                   title='Profit'
-                  value={profileInfo.amount}
+                  value={profileInfo.data.amount}
                   color={styles.profitColor}
                 />
               </div>

@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import {
@@ -11,30 +12,29 @@ import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewC
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './LogPage.module.scss'
 
-export const AdminContactLogPage: FC = () => {
-  const [data, setData] = useState<ViewLogTypeData[] | null>(null)
-
+export const AdminContactLogPage = () => {
   const context = useOutletContext<ViewPageContext>()
 
-  const getInfo = async () => {
-    const getResponse = await getSelectedTypeInfo(context.idClient, 'log')
+  const { data: logs } = useQuery({
+    queryKey: ['logs', context.idClient],
+    queryFn: async () => {
+      const response: { data: ViewLogTypeData[] } =
+        await getSelectedTypeInfo(context.idClient, 'log')
 
-    setData(getResponse.data)
-  }
+      return response
+    },
+    staleTime: 5000,
+  })
 
   useEffect(() => {
     document.title = 'infiniti | Contact | Log'
   }, [])
 
-  useEffect(() => {
-    getInfo()
-  }, [context.idClient])
-
   return (
     <div className={styles.wrapper}>
-      {data ? (
+      {logs ? (
         <RecentCard>
-          <RecentLog list={data} />
+          <RecentLog list={logs.data} />
         </RecentCard>
       ) : (
         <LoadingSpinner size='xl' />

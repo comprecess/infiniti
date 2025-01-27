@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from 'react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import {
@@ -20,22 +21,25 @@ export interface PartialFieldsPostData
   [key: string]: string | undefined
 }
 
-export const AdminContactEmailPage: FC = () => {
-  const [data, setData] = useState<ViewEmailTypeData | null>(null)
-
+export const AdminContactEmailPage = () => {
   const [values, setValues] = useState<PartialFieldsPostData>()
 
   const showToast = useCustomToast()
+  const queryClient = useQueryClient()
   const context = useOutletContext<ViewPageContext>()
 
-  const getInfo = async () => {
-    const getResponse = await getSelectedTypeInfo(
-      context.idClient,
-      'email',
-    )
+  const { data: email } = useQuery({
+    queryKey: ['email', context.idClient],
+    queryFn: async () => {
+      const response: ViewEmailTypeData = await getSelectedTypeInfo(
+        context.idClient,
+        'email',
+      )
 
-    setData(getResponse)
-  }
+      return response
+    },
+    staleTime: 5000,
+  })
 
   const sendEmail = async () => {
     if (values === undefined) return
@@ -52,7 +56,7 @@ export const AdminContactEmailPage: FC = () => {
         description: 'You have successfully sent the letter',
         status: 'success',
       })
-      getInfo()
+      queryClient.invalidateQueries({ queryKey: ['email'] })
     } else {
       showToast({
         title: 'Error',
@@ -73,22 +77,18 @@ export const AdminContactEmailPage: FC = () => {
     document.title = 'infiniti | Contact | Email'
   }, [])
 
-  useEffect(() => {
-    getInfo()
-  }, [context.idClient])
-
   return (
     <div className={styles.wrapper}>
-      {data ? (
+      {email ? (
         <RecentCard
           HeaderComponent={Header}
           headerProps={{
-            inputTo: data.client.email,
+            inputTo: email.client.email,
             updateInfo,
             sendEmail,
           }}
         >
-          <RecentEmail list={data.logEmail} />
+          <RecentEmail list={email.logEmail} />
         </RecentCard>
       ) : (
         <LoadingSpinner size='xl' />

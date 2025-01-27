@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 
 import {
@@ -13,20 +14,22 @@ import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewC
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './InvoicesPage.module.scss'
 
-export const AdminContactInvoicesPage: FC = () => {
-  const [data, setData] = useState<ViewInvoicesTypeData | null>(null)
-
+export const AdminContactInvoicesPage = () => {
   const context = useOutletContext<ViewPageContext>()
   const navigate = useNavigate()
 
-  const getInfo = async () => {
-    const getResponse = await getSelectedTypeInfo(
-      context.idClient,
-      'invoices',
-    )
+  const { data: invoices } = useQuery({
+    queryKey: ['invoices', context.idClient],
+    queryFn: async () => {
+      const response: ViewInvoicesTypeData = await getSelectedTypeInfo(
+        context.idClient,
+        'invoices',
+      )
 
-    setData(getResponse)
-  }
+      return response
+    },
+    staleTime: 5000,
+  })
 
   const navigateToCreateNewInvoice = () => {
     navigate(
@@ -38,23 +41,19 @@ export const AdminContactInvoicesPage: FC = () => {
     document.title = 'infiniti | Contact | Invoices'
   }, [])
 
-  useEffect(() => {
-    getInfo()
-  }, [context.idClient])
-
   return (
     <div className={styles.wrapper}>
-      {data ? (
+      {invoices ? (
         <RecentCard
           HeaderComponent={Header}
           headerProps={{
-            invoiceAmount: data.invoiceAmount,
-            paidAmount: data.paidAmount,
-            unPaidAmount: data.unpaidAmount,
+            invoiceAmount: invoices.invoiceAmount,
+            paidAmount: invoices.paidAmount,
+            unPaidAmount: invoices.unpaidAmount,
             onClickButton: navigateToCreateNewInvoice,
           }}
         >
-          <RecentInvoices list={data.invoice} />
+          <RecentInvoices list={invoices.invoice} />
         </RecentCard>
       ) : (
         <LoadingSpinner size='xl' />
