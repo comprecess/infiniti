@@ -62,7 +62,7 @@ export const Item: FC<ItemProps> = ({
               alt='Avatar'
               src={
                 avatar
-                  ? `${avatar}?width=92&height=92`
+                  ? `${avatar}?width=128&height=128`
                   : '/profileWithoutAvatar.svg'
               }
             />
