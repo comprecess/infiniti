@@ -24,7 +24,7 @@ export const AdminContactEditPage = () => {
 
       return response
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const { data: inputs } = useQuery({
@@ -34,6 +34,7 @@ export const AdminContactEditPage = () => {
 
       return response
     },
+    placeholderData: previousData => previousData,
   })
 
   useEffect(() => {

@@ -25,7 +25,7 @@ export const AdminContactFilesPage = () => {
 
       return response
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const onChangeInput = async (value: number) => {

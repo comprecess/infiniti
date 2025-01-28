@@ -48,7 +48,7 @@ export const AdminListCustomerPage: FC = () => {
 
       return response
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const changeSort = useCallback(
@@ -142,10 +142,10 @@ export const AdminListCustomerPage: FC = () => {
           pagesProps={
             customers
               ? {
-                  meta: customers.meta,
-                  nextPage: setPage,
-                  size: 'sm',
-                }
+                meta: customers.meta,
+                nextPage: setPage,
+                size: 'sm',
+              }
               : undefined
           }
         >

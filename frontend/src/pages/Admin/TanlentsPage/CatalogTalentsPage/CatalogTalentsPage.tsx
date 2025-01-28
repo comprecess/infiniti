@@ -38,6 +38,7 @@ export const AdminCatalogTalentsPage = () => {
       getPropertiesFiltering('?prop=specialization').then(
         res => res.data[0],
       ),
+    placeholderData: previousData => previousData,
   })
 
   const { data: talentsList, refetch } = useQuery({
@@ -55,12 +56,13 @@ export const AdminCatalogTalentsPage = () => {
 
       return res
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const { data: filters } = useQuery({
     queryKey: ['filters'],
     queryFn: () => getPropertiesFiltering().then(res => res.data),
+    placeholderData: previousData => previousData,
   })
 
   const deleteTalent = async (idTalent: number) => {

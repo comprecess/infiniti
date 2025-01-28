@@ -35,7 +35,7 @@ export const AdminDashboardPage: FC = () => {
 
       return response
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   useEffect(() => {

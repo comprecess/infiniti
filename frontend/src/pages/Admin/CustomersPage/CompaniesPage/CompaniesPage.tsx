@@ -23,11 +23,11 @@ import styles from './CompaniesPage.module.scss'
 
 export const AdminCompaniesPage: FC = () => {
   const [filteredCompanies, setFilteredCompanies] = useState<
-    CompaniesListProps[] | null
+  CompaniesListProps[] | null
   >(null)
 
   const [selectedCompanyId, setSelectedCompanyId] = useState<
-    number | null
+  number | null
   >(null)
 
   const [modalNewCompany, setModalNewCompany] = useState<boolean>(false)
@@ -79,8 +79,8 @@ export const AdminCompaniesPage: FC = () => {
     setFilteredCompanies(prevFilteredCompanies =>
       prevFilteredCompanies
         ? prevFilteredCompanies.filter(
-            company => company.id !== selectedCompanyId,
-          )
+          company => company.id !== selectedCompanyId,
+        )
         : [],
     )
   }
@@ -95,7 +95,7 @@ export const AdminCompaniesPage: FC = () => {
 
       return response
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const handleSearchChange = (searchItem: string) => {
@@ -229,13 +229,13 @@ export const AdminCompaniesPage: FC = () => {
             componentProps={
               companiesData.access.create
                 ? {
-                    title: 'New Company',
-                    titleNone: true,
-                    icon: '/icons/plus.svg',
-                    iconProps: styles.icon,
-                    style: styles.blueButton,
-                    onClick: handleOpenCloseModalNewCompany,
-                  }
+                  title: 'New Company',
+                  titleNone: true,
+                  icon: '/icons/plus.svg',
+                  iconProps: styles.icon,
+                  style: styles.blueButton,
+                  onClick: handleOpenCloseModalNewCompany,
+                }
                 : undefined
             }
           >

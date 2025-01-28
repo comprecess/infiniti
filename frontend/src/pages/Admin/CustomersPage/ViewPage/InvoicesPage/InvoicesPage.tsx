@@ -28,7 +28,7 @@ export const AdminContactInvoicesPage = () => {
 
       return response
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const navigateToCreateNewInvoice = () => {

@@ -31,7 +31,7 @@ export const AdminFilesPage: FC = () => {
 
       return response
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const searchOnChange = useCallback((searchItem: string) => {

@@ -26,7 +26,7 @@ export const AdminContactOffersPage = () => {
 
       return response
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const navigateToCreateNewOffer = () => {

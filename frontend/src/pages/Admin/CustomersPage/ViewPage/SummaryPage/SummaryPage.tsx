@@ -67,7 +67,7 @@ export const AdminContactSummaryPage = () => {
 
       return response
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const updateData = useCallback(async () => {

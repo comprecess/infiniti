@@ -30,7 +30,7 @@ export const AdminContactActivityPage = () => {
   const [selectedIdType, setSelectedIdType] = useState<number>(0)
 
   const [editActiveData, setEditActiveData] = useState<
-    EditActiveModalData | undefined
+  EditActiveModalData | undefined
   >()
 
   const [isEditActivityModal, setIsEditActivityModal] =
@@ -52,7 +52,7 @@ export const AdminContactActivityPage = () => {
 
       return response
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const addNewActivity = async () => {

@@ -44,7 +44,7 @@ export const AdminViewBusinessModel = () => {
 
       return response
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const handleNavigateBack = () => {
