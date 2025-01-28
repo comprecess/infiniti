@@ -23,6 +23,7 @@ use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Http\Resources\Resident\Settings\CustomFieldsResource;
 use App\Http\Resources\UserResource;
 use App\Mail\EmailTemplateMail;
+use App\Models\ChatGPT;
 use App\Models\Log;
 use App\Models\Resident\Client\Activity;
 use App\Models\Resident\Client\Company;
@@ -437,10 +438,12 @@ class ClientController extends MainClientController
 
     public function test()
     {
-        $invoice = Invoice::find(69);
-//        return view('emails.create-pay', ['invoice' => $invoice]);
-        $redis = Redis::connections();
-        dd($redis);
-        event(new \App\Events\User\CreateOrder($invoice));
+//        $invoice = Invoice::find(69);
+////        return view('emails.create-pay', ['invoice' => $invoice]);
+//        $redis = Redis::connections();
+//        dd($redis);
+//        event(new \App\Events\User\CreateOrder($invoice));
+
+    ChatGPT::test();
     }
 }
