@@ -15,10 +15,12 @@ import { SortList } from '../../../../Client/CatalogPage/TalentsList/SortList/So
 import styles from './TalentsList.module.scss'
 
 interface TalentsListProps {
-  talentsList: {
-    data: TalentData[]
-    meta: PagesMetaData
-  }
+  talentsList:
+    | {
+        data: TalentData[]
+        meta: PagesMetaData
+      }
+    | undefined
   sort: { name: string; type: string }
   setSort: Dispatch<SetStateAction<{ name: string; type: string }>>
   setCurrentPage: Dispatch<SetStateAction<number>>
