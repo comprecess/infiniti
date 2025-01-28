@@ -60,7 +60,7 @@ export const TalentCard: FC<TalentCardProps> = ({
               alt='Avatar'
               src={
                 talent.img
-                  ? `${talent.img}?width=92&height=92`
+                  ? `${talent.img}?width=128&height=128`
                   : '/profileWithoutAvatar.svg'
               }
             />

@@ -83,7 +83,7 @@ export const Profile: FC<ProfileProps> = ({ isAdmin }) => {
                   alt='Profile Avatar'
                   src={
                     profileData.img
-                      ? `${profileData.img}?width=92&height=92`
+                      ? `${profileData.img}?width=128&height=128`
                       : '/profileWithoutAvatar.svg'
                   }
                 />
@@ -134,7 +134,7 @@ export const Profile: FC<ProfileProps> = ({ isAdmin }) => {
                 alt='Profile Avatar'
                 src={
                   profileData.img
-                    ? `${profileData.img}?width=92&height=92`
+                    ? `${profileData.img}?width=128&height=128`
                     : '/profileWithoutAvatar.svg'
                 }
               />
