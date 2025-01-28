@@ -34,7 +34,7 @@ export const AdminViewBusinessModel = () => {
   const id = useIdFromUrl()
   const navigate = useNavigate()
 
-  const { data: model, isLoading: modelLoading } = useQuery({
+  const { data: model } = useQuery({
     queryKey: ['model', id],
     queryFn: async () => {
       if (!id) return
@@ -63,7 +63,7 @@ export const AdminViewBusinessModel = () => {
 
   return (
     <div className={styles.wrapper}>
-      {!modelLoading && model ? (
+      {model ? (
         <section className={styles.section}>
           <section className={styles.section}>
             <div className={styles.item}>

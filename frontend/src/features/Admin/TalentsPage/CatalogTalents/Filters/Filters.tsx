@@ -15,7 +15,7 @@ import { Item } from './CategoryItem/Item/Item'
 import styles from './Filters.module.scss'
 
 interface FiltersProps {
-  filters: FiltersData[]
+  filters: FiltersData[] | undefined
   selectedFilters: FiltersState
   setSort: Dispatch<SetStateAction<{ name: string; type: string }>>
   setActiveCategory: Dispatch<SetStateAction<number>>

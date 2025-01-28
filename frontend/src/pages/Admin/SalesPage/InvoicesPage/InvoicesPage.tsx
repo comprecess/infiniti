@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import {
   PagesMetaData,
   RolesAccess,
+  SalesInvoicesStatData,
   ViewInvoicesRecentData,
 } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
@@ -36,17 +37,17 @@ export const AdminInvoicesPage = () => {
   const showToast = useCustomToast()
   const queryClient = useQueryClient()
 
-  const { data: statsData, isLoading: statsLoading } = useQuery({
+  const { data: statsData } = useQuery({
     queryKey: ['statistics'],
     queryFn: async () => {
-      const response = await getStat()
+      const response: SalesInvoicesStatData[] = await getStat()
 
       return response
     },
     placeholderData: previousData => previousData,
   })
 
-  const { data: invoicesData, isLoading: invoicesLoading } = useQuery({
+  const { data: invoicesData } = useQuery({
     queryKey: ['invoices', page, search, sortName, sortType, filterStatus],
     queryFn: async () => {
       const response: {
@@ -185,7 +186,7 @@ export const AdminInvoicesPage = () => {
         <TitlePage title='Sales' />
       </div>
       <section className={styles.sectionFirst}>
-        {!statsLoading ? (
+        {statsData ? (
           <div className={styles.blocksList}>
             <div className={styles.blocksContainer}>
               <Blocks
@@ -244,14 +245,14 @@ export const AdminInvoicesPage = () => {
           pagesProps={
             invoicesData
               ? {
-                meta: invoicesData?.meta,
-                nextPage: setPage,
-                size: 'sm',
-              }
+                  meta: invoicesData?.meta,
+                  nextPage: setPage,
+                  size: 'sm',
+                }
               : undefined
           }
         >
-          {!invoicesLoading && invoicesData ? (
+          {invoicesData ? (
             <RecentInvoices
               invoicesList={invoicesData.data}
               changeSortName={changeSort}

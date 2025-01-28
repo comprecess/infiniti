@@ -2,8 +2,11 @@ import { useQuery } from '@tanstack/react-query'
 import { FC, useEffect, useState } from 'react'
 
 import {
+  FiltersData,
   FiltersState,
   page,
+  PagesMetaData,
+  TalentData,
   userTalentsPageString,
 } from '../../../app/constants/constants'
 import { CategoriesItem } from '../../../features/Client/CatalogPage/CategoriesItem/CategoriesItem'
@@ -24,23 +27,18 @@ export const ClientTalentsPage: FC = () => {
     getSession(userTalentsPageString) || 1,
   )
 
-  const { data: categories, isLoading: categoriesLoading } = useQuery({
-    queryKey: ['categories'],
-    queryFn: () =>
-      getPropertiesFiltering('?prop=specialization').then(
-        res => res.data[0],
-      ),
-    placeholderData: previousData => previousData,
-  })
-
   const { data: talentsList } = useQuery({
     queryKey: ['talents', currentPage, selectedFilters, sort],
     queryFn: async () => {
-      const res = await getUsersListInfo(
+      const res: {
+        data: TalentData[]
+        meta: PagesMetaData
+      } = await getUsersListInfo(
         page + String(currentPage),
         selectedFilters,
         sort,
       )
+
       if (currentPage > res.meta.last_page) {
         setCurrentPage(1)
       }
@@ -50,9 +48,25 @@ export const ClientTalentsPage: FC = () => {
     placeholderData: previousData => previousData,
   })
 
+  const { data: categories } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async () => {
+      const response: { data: FiltersData[] } =
+        await getPropertiesFiltering('?prop=specialization')
+
+      return response.data[0]
+    },
+    placeholderData: previousData => previousData,
+  })
+
   const { data: filters } = useQuery({
     queryKey: ['filters'],
-    queryFn: () => getPropertiesFiltering().then(res => res.data),
+    queryFn: async () => {
+      const response: { data: FiltersData[] } =
+        await getPropertiesFiltering()
+
+      return response.data
+    },
     placeholderData: previousData => previousData,
   })
 
@@ -84,7 +98,7 @@ export const ClientTalentsPage: FC = () => {
       <div className={styles.title}>
         <TitlePage title='Catalog' />
       </div>
-      {!categoriesLoading ? (
+      {categories ? (
         <section className={styles.sectionFirst}>
           <div className={styles.itemsFirst}>
             <span className={styles.categoriesText}>Categories</span>

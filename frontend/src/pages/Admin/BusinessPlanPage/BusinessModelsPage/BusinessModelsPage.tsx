@@ -2,8 +2,11 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 
 import {
+  BusinessPlanBusinessModelData,
+  FiltersData,
   FiltersState,
   page,
+  PagesMetaData,
   userModelsPageString,
 } from '../../../../app/constants/constants'
 import { Filters } from '../../../../features/Admin/BusinessPlanPage/BusinessModels/Filters/Filters'
@@ -31,31 +34,42 @@ export const AdminBusinessModelsPage = () => {
   const { data: modelsList } = useQuery({
     queryKey: ['models', currentPage, JSON.stringify(selectedFilters)],
     queryFn: async () => {
-      const res = await postBusinessModelList(
+      const response: {
+        data: BusinessPlanBusinessModelData[]
+        meta: PagesMetaData
+      } = await postBusinessModelList(
         page + String(currentPage),
         selectedFilters,
       )
-      if (currentPage > res.meta.last_page) {
+
+      if (currentPage > response.meta.last_page) {
         setCurrentPage(1)
       }
 
-      return res
+      return response
     },
     placeholderData: previousData => previousData,
   })
 
-  const { data: categories, isLoading: categoriesLoading } = useQuery({
+  const { data: categories } = useQuery({
     queryKey: ['categories'],
-    queryFn: () =>
-      getPropertiesFiltering('?prop=specialization').then(
-        res => res.data[0],
-      ),
+    queryFn: async () => {
+      const response: { data: FiltersData[] } =
+        await getPropertiesFiltering('?prop=specialization')
+
+      return response.data[0]
+    },
     placeholderData: previousData => previousData,
   })
 
   const { data: filters } = useQuery({
     queryKey: ['filters'],
-    queryFn: () => getPropertiesFiltering().then(res => res.data),
+    queryFn: async () => {
+      const response: { data: FiltersData[] } =
+        await getPropertiesFiltering()
+
+      return response.data
+    },
     placeholderData: previousData => previousData,
   })
 
@@ -106,7 +120,7 @@ export const AdminBusinessModelsPage = () => {
       <div className={styles.title}>
         <TitlePage title='Business Models' />
       </div>
-      {!categoriesLoading ? (
+      {categories ? (
         <section className={styles.sectionFirst}>
           <div className={styles.itemsFirst}>
             <span className={styles.categoriesText}>Categories</span>

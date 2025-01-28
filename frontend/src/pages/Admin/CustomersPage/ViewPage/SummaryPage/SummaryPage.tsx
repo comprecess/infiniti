@@ -59,7 +59,7 @@ export const AdminContactSummaryPage = () => {
     setReturnFundModal(!returnFundModal)
   }
 
-  const { data: profileInfo, isLoading: profileLoading } = useQuery({
+  const { data: profileInfo } = useQuery({
     queryKey: ['profile', context.idClient],
     queryFn: async () => {
       const response: { data: ViewSummaryTypeData } =
@@ -169,7 +169,7 @@ export const AdminContactSummaryPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      {!profileLoading && profileInfo ? (
+      {profileInfo ? (
         <RecentCard>
           <div className={styles.wrapperContainer}>
             <div className={styles.wrapperInfo}>

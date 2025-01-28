@@ -12,7 +12,7 @@ import { Item } from '../../../TalentsPage/CatalogTalents/Filters/CategoryItem/I
 import styles from './Filters.module.scss'
 
 interface FiltersProps {
-  filters: FiltersData[]
+  filters: FiltersData[] | undefined
   selectedFilters: FiltersState
   setActiveCategory: (value: number) => void
   setSelectedFilters: Dispatch<SetStateAction<FiltersState>>

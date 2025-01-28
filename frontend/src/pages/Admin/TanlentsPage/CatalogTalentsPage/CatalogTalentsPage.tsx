@@ -3,8 +3,11 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
+  FiltersData,
   FiltersState,
   page,
+  PagesMetaData,
+  TalentData,
   userTalentsPageString,
 } from '../../../../app/constants/constants'
 import { CategoriesItem } from '../../../../features/Admin/TalentsPage/CatalogTalents/CategoriesItem/CategoriesItem'
@@ -32,19 +35,13 @@ export const AdminCatalogTalentsPage = () => {
   const queryClient = useQueryClient()
   const showToast = useCustomToast()
 
-  const { data: categories, isLoading: categoriesLoading } = useQuery({
-    queryKey: ['categories'],
-    queryFn: () =>
-      getPropertiesFiltering('?prop=specialization').then(
-        res => res.data[0],
-      ),
-    placeholderData: previousData => previousData,
-  })
-
   const { data: talentsList, refetch } = useQuery({
     queryKey: ['talents', currentPage, selectedFilters, sort],
     queryFn: async () => {
-      const res = await getUsersListInfo(
+      const res: {
+        data: TalentData[]
+        meta: PagesMetaData
+      } = await getUsersListInfo(
         page + String(currentPage),
         selectedFilters,
         sort,
@@ -59,9 +56,25 @@ export const AdminCatalogTalentsPage = () => {
     placeholderData: previousData => previousData,
   })
 
+  const { data: categories } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async () => {
+      const response: { data: FiltersData[] } =
+        await getPropertiesFiltering('?prop=specialization')
+
+      return response.data[0]
+    },
+    placeholderData: previousData => previousData,
+  })
+
   const { data: filters } = useQuery({
     queryKey: ['filters'],
-    queryFn: () => getPropertiesFiltering().then(res => res.data),
+    queryFn: async () => {
+      const response: { data: FiltersData[] } =
+        await getPropertiesFiltering()
+
+      return response.data
+    },
     placeholderData: previousData => previousData,
   })
 
@@ -113,7 +126,7 @@ export const AdminCatalogTalentsPage = () => {
       <div className={styles.title}>
         <TitlePage title={t('admin-catalog-talents-page-title')} />
       </div>
-      {!categoriesLoading ? (
+      {categories ? (
         <section className={styles.sectionFirst}>
           <div className={styles.itemsFirst}>
             <span className={styles.categoriesText}>
