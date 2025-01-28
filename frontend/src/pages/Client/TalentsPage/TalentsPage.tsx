@@ -30,6 +30,7 @@ export const ClientTalentsPage: FC = () => {
       getPropertiesFiltering('?prop=specialization').then(
         res => res.data[0],
       ),
+    placeholderData: previousData => previousData,
   })
 
   const { data: talentsList } = useQuery({
@@ -46,12 +47,13 @@ export const ClientTalentsPage: FC = () => {
 
       return res
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const { data: filters } = useQuery({
     queryKey: ['filters'],
     queryFn: () => getPropertiesFiltering().then(res => res.data),
+    placeholderData: previousData => previousData,
   })
 
   useEffect(() => {

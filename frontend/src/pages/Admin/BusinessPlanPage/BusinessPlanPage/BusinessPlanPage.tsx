@@ -51,7 +51,7 @@ export const AdminBusinessPlanPage: FC = () => {
 
       return response
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const deletePlan = async (id: number) => {

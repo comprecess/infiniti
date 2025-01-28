@@ -44,7 +44,7 @@ export const ClientViewBusinessModelsPage = () => {
 
       return response
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const handleNavigateBack = () => {

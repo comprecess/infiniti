@@ -55,7 +55,7 @@ export const AdminViewPage: FC = () => {
 
       return response
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const handleTouchStart = (e: React.TouchEvent) => {

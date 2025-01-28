@@ -49,7 +49,7 @@ export const AdminListSuppliersPage: FC = () => {
 
       return response
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const changeSort = useCallback(
@@ -143,10 +143,10 @@ export const AdminListSuppliersPage: FC = () => {
           pagesProps={
             suppliers
               ? {
-                  meta: suppliers.meta,
-                  nextPage: setPage,
-                  size: 'sm',
-                }
+                meta: suppliers.meta,
+                nextPage: setPage,
+                size: 'sm',
+              }
               : undefined
           }
         >

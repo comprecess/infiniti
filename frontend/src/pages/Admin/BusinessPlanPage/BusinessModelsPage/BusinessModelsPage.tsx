@@ -29,7 +29,7 @@ export const AdminBusinessModelsPage = () => {
   const showToast = useCustomToast()
 
   const { data: modelsList } = useQuery({
-    queryKey: ['models', currentPage, selectedFilters],
+    queryKey: ['models', currentPage, JSON.stringify(selectedFilters)],
     queryFn: async () => {
       const res = await postBusinessModelList(
         page + String(currentPage),
@@ -41,7 +41,7 @@ export const AdminBusinessModelsPage = () => {
 
       return res
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const { data: categories, isLoading: categoriesLoading } = useQuery({
@@ -50,11 +50,13 @@ export const AdminBusinessModelsPage = () => {
       getPropertiesFiltering('?prop=specialization').then(
         res => res.data[0],
       ),
+    placeholderData: previousData => previousData,
   })
 
   const { data: filters } = useQuery({
     queryKey: ['filters'],
     queryFn: () => getPropertiesFiltering().then(res => res.data),
+    placeholderData: previousData => previousData,
   })
 
   const handleDeleteBusinessModel = async (id: number) => {

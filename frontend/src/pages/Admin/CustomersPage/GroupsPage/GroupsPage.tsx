@@ -44,7 +44,7 @@ export const AdminGroupsPage: FC = () => {
 
       return response
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const openNewGroupModal = () => {

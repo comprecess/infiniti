@@ -39,7 +39,7 @@ export const AdminListCartsPage: FC = () => {
 
       return response
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const changeSort = useCallback(

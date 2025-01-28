@@ -43,6 +43,7 @@ export const AdminInvoicesPage = () => {
 
       return response
     },
+    placeholderData: previousData => previousData,
   })
 
   const { data: invoicesData, isLoading: invoicesLoading } = useQuery({
@@ -63,7 +64,7 @@ export const AdminInvoicesPage = () => {
 
       return response
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   const deleteSelectedInvoice = async (idInvoice: number) => {
@@ -243,10 +244,10 @@ export const AdminInvoicesPage = () => {
           pagesProps={
             invoicesData
               ? {
-                  meta: invoicesData?.meta,
-                  nextPage: setPage,
-                  size: 'sm',
-                }
+                meta: invoicesData?.meta,
+                nextPage: setPage,
+                size: 'sm',
+              }
               : undefined
           }
         >

@@ -78,7 +78,7 @@ export const ClientTalentDetailsPage: FC = () => {
         return
       }
     },
-    staleTime: 5000,
+    placeholderData: previousData => previousData,
   })
 
   useEffect(() => {
