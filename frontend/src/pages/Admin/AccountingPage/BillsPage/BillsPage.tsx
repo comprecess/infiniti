@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { AddABillPage } from '../../../../features/Admin/AccountingPage/Bills/Pages/AddABillPage/AddABillPage'
 import { AllPage } from '../../../../features/Admin/AccountingPage/Bills/Pages/AllPage/AllPage'
@@ -7,7 +7,7 @@ import { Tabs } from '../../../../features/Admin/AccountingPage/Bills/Tabs/Tabs'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './BillsPage.module.scss'
 
-export const AdminBillsPage: FC = () => {
+export const AdminBillsPage = () => {
   const [pages, setPages] = useState<string>('Summary')
 
   useEffect(() => {

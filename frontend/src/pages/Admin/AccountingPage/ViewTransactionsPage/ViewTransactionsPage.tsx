@@ -1,10 +1,12 @@
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import { Filters } from '../../../../features/Admin/AccountingPage/ViewTransactions/Filters/Filters'
+import { TableTransactions } from '../../../../features/Admin/AccountingPage/ViewTransactions/TableTransactions/TableTransactions'
+import { RecentRightButtons } from '../../../../features/Admin/CustomersPage/CompaniesPage/RecentRightButtons/RecentRightButtons'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './ViewTransactionsPage.module.scss'
 
-export const AdminViewTransactionsPage: FC = () => {
+export const AdminViewTransactionsPage = () => {
   useEffect(() => {
     document.title = 'infiniti | View Transactions'
   }, [])
@@ -20,7 +22,10 @@ export const AdminViewTransactionsPage: FC = () => {
             <div className={styles.filters}>
               <Filters />
             </div>
-            <div className={styles.content}>Content</div>
+            <div className={styles.buttonsAndTable}>
+              <RecentRightButtons />
+              <TableTransactions />
+            </div>
           </div>
         </RecentCard>
       </section>

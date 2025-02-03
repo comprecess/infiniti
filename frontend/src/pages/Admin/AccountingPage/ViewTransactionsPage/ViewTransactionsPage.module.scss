@@ -22,13 +22,24 @@
   flex-direction: row;
   gap: 12px;
   width: 100%;
+
+  @include mobileBreakpoint('max', $bpL) {
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+
+.buttonsAndTable {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
 }
 
 .filters {
-  width: 100%;
-  max-width: 300px;
-}
+  width: 300px;
 
-.content {
-  width: 100%;
+  @include mobileBreakpoint('max', $bpL) {
+    width: 100%;
+  }
 }

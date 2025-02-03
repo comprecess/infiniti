@@ -1,11 +1,11 @@
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import { AddDepositFields } from '../../../../features/Admin/AccountingPage/NewDepositPage/AddDepositFields/AddDepositFields'
 import { RecentDeposits } from '../../../../features/Admin/AccountingPage/NewDepositPage/RecentDeposits/RecentDeposits'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './NewDepositPage.module.scss'
 
-export const AdminNewDepositPage: FC = () => {
+export const AdminNewDepositPage = () => {
   useEffect(() => {
     document.title = 'infiniti | New Deposit'
   }, [])

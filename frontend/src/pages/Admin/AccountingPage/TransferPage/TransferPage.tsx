@@ -1,11 +1,11 @@
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import { NewTransferFields } from '../../../../features/Admin/AccountingPage/TransferPage/NewTransferFields/NewTransferFields'
 import { RecentTransfers } from '../../../../features/Admin/AccountingPage/TransferPage/RecentTransfers/RecentTransfers'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './TransferPage.module.scss'
 
-export const AdminTransferPage: FC = () => {
+export const AdminTransferPage = () => {
   useEffect(() => {
     document.title = 'infiniti | Transfer'
   }, [])

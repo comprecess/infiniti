@@ -1,0 +1,36 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+
+  @include scrollbar;
+}
+
+.section {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+
+  @include mobileBreakpoint('max', $bpXL) {
+    flex-direction: column;
+  }
+}
+
+.cardFirst {
+  max-width: 450px;
+
+  @include mobileBreakpoint('max', $bpXL) {
+    max-width: 100%;
+  }
+}
+
+.cardSecond {
+  max-width: 1077px;
+
+  @include mobileBreakpoint('max', $bpXL) {
+    max-width: 100%;
+  }
+}

@@ -22,15 +22,15 @@ import { ProjectsExperienceItem } from './ProjectsExperienceItem/ProjectsExperie
 
 export interface PartialFieldsPostData extends Partial<TalentFormData> {
   [key: string]:
-  | string
-  | FormData
-  | TalentProjectsExperience[]
-  | number[]
-  | string[]
-  | number
-  | boolean
-  | undefined
-  | null
+    | string
+    | FormData
+    | TalentProjectsExperience[]
+    | number[]
+    | string[]
+    | number
+    | boolean
+    | undefined
+    | null
 }
 
 interface FieldsProps {
@@ -186,13 +186,13 @@ export const Fields: FC<FieldsProps> = ({
   const handleChangeInput = (
     field: string,
     value:
-    | string
-    | number
-    | number[]
-    | string[]
-    | boolean
-    | undefined
-    | null,
+      | string
+      | number
+      | number[]
+      | string[]
+      | boolean
+      | undefined
+      | null,
   ) => {
     if (field === 'rate' && typeof value === 'boolean') {
       value = value === true ? 1 : 0

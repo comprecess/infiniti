@@ -1,14 +1,15 @@
 import React, { useCallback, useState } from 'react'
 
-import { Search } from '../../../../../../shared/ui/Search/Search'
-import { Title } from '../../../../../Main/RecentCard/Title/Title'
-import styles from './AllPage.module.scss'
+import { Title } from '../../../../Main/RecentCard/Title/Title'
+import styles from './TableTransactions.module.scss'
 
-export const AllPage = () => {
+export const TableTransactions = () => {
   /* eslint-disable @typescript-eslint/no-unused-vars */
-  const [_sortName, setSortName] = useState<string>('title')
+  const [_sortName, setSortName] = useState<string>('id')
   const [_sortType, setSortType] = useState<number>(1)
-  const [sortNumbers, setSortNumbers] = useState<number[]>([1, 1, 1])
+  const [sortNumbers, setSortNumbers] = useState<number[]>([
+    1, 1, 1, 1, 1, 1,
+  ])
 
   const handleSortChange = useCallback(
     (index: number, sortNameItem: string, sortTypeItem: number) => {
@@ -27,38 +28,65 @@ export const AllPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.search}>
-        <Search onSearchChange={() => {}} />
-      </div>
-      <div className={styles.wrapperAll}>
+      <div className={styles.columnsWrapper}>
         <div className={styles.columns}>
           <Title
             sorted
-            title='Title'
-            style={styles.titleColumn}
+            title='ID'
+            style={styles.idColumn}
             sortType={sortNumbers[0]}
-            sortName='title'
+            sortName='id'
             sortIndex={0}
             changeSortName={handleSortChange}
             clearSort={clearSort}
           />
           <Title
             sorted
-            title='Amount'
-            style={styles.amountColumn}
+            title='Date'
+            style={styles.dateColumn}
             sortType={sortNumbers[1]}
-            sortName='amount'
+            sortName='date'
             sortIndex={1}
             changeSortName={handleSortChange}
             clearSort={clearSort}
           />
           <Title
             sorted
-            title='Next Due Date'
-            style={styles.dueColumn}
+            title='Account'
+            style={styles.accountColumn}
             sortType={sortNumbers[2]}
-            sortName='due'
+            sortName='account'
             sortIndex={2}
+            changeSortName={handleSortChange}
+            clearSort={clearSort}
+          />
+          <Title
+            sorted
+            title='Description'
+            style={styles.descriptionColumn}
+            sortType={sortNumbers[3]}
+            sortName='description'
+            sortIndex={3}
+            changeSortName={handleSortChange}
+            clearSort={clearSort}
+          />
+          <Title
+            sorted
+            title='DR. (RUB)'
+            style={styles.drColumn}
+            sortType={sortNumbers[4]}
+            sortName='dr'
+            sortIndex={4}
+            changeSortName={handleSortChange}
+            clearSort={clearSort}
+          />
+          <Title
+            sorted
+            title='CR. (RUB)'
+            style={styles.crColumn}
+            sortType={sortNumbers[5]}
+            sortName='cr'
+            sortIndex={5}
             changeSortName={handleSortChange}
             clearSort={clearSort}
           />

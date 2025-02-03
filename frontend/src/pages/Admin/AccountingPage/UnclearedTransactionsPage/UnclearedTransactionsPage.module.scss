@@ -1,0 +1,30 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+
+  @include scrollbar;
+}
+
+.section {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.recentFullScreen {
+  max-width: $maxContentSize;
+}
+
+.search {
+  @include mobileBreakpoint('min', $bpL) {
+    width: 400px;
+  }
+
+  @include mobileBreakpoint('max', $bpL) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
