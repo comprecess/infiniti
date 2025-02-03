@@ -1,0 +1,45 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+
+  @include mobileBreakpoint('max', $bpL) {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+.columnsWrapper {
+  width: 100%;
+  min-width: 1000px;
+
+  @include mobileBreakpoint('max', $bpL) {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+.columns {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  padding: 8px 12px 8px 12px;
+  border-radius: 8px;
+  align-items: center;
+  background-color: $brand-800;
+}
+
+.idColumn,
+.dateColumn,
+.accountColumn,
+.descriptionColumn,
+.drColumn,
+.crColumn,
+.manageColumn {
+  width: 100%;
+}
+
+.manageColumn {
+  justify-content: end;
+}

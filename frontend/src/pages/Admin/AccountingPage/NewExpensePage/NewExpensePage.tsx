@@ -1,11 +1,11 @@
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import { AddExpenseFields } from '../../../../features/Admin/AccountingPage/NewExpensePage/AddExpenseFields/AddExpenseFields'
 import { RecentExpense } from '../../../../features/Admin/AccountingPage/NewExpensePage/RecentExpense/RecentExpense'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './NewExpensePage.module.scss'
 
-export const AdminNewExpensePage: FC = () => {
+export const AdminNewExpensePage = () => {
   useEffect(() => {
     document.title = 'infiniti | New Expense'
   }, [])

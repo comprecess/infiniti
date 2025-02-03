@@ -23,6 +23,13 @@
   justify-content: center;
 }
 
+.projectsList {
+  display: flex;
+  width: 100%;
+  justify-content: start;
+  max-width: $maxContentSize;
+}
+
 .buttonCreateProject {
   max-width: 210px;
   height: 44px;

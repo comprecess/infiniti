@@ -2,8 +2,12 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 100%;
+  width: 300px;
   padding: 1px;
+
+  @include mobileBreakpoint('max', $bpL) {
+    width: 100%;
+  }
 }
 
 .buttonSubmit {

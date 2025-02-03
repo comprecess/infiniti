@@ -1,0 +1,36 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.columnsWrapper {
+  width: 100%;
+  min-width: 1250px;
+}
+
+.columns {
+  display: flex;
+  width: 100%;
+  height: 40px;
+  padding: 8px 12px 8px 12px;
+  border-radius: 8px;
+  align-items: center;
+  background-color: $brand-800;
+}
+
+.accountColumn,
+.balanceColumn,
+.manageColumn {
+  width: 100%;
+}
+
+.accountColumn {
+  max-width: 250px;
+}
+
+.manageColumn {
+  max-width: 450px;
+  justify-content: end;
+}
