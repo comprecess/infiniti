@@ -3,7 +3,7 @@ import { FC } from 'react'
 import styles from './ButtonBlue.module.scss'
 
 interface ButtonBlueProps {
-  title: string
+  title?: string
   type?: 'button' | 'submit' | 'reset'
   style?: string
   styleTitle?: string
@@ -34,15 +34,17 @@ export const ButtonBlue: FC<ButtonBlueProps> = ({
       onClick={onClick}
     >
       {icon ? <img src={icon} alt='Icon' className={iconProps} /> : null}
-      <span
-        className={
-          titleNone
-            ? `${styles.titleNone} ${styleTitle}`
-            : `${styles.title} ${styleTitle}`
-        }
-      >
-        {title}
-      </span>
+      {title && (
+        <span
+          className={
+            titleNone
+              ? `${styles.titleNone} ${styleTitle}`
+              : `${styles.title} ${styleTitle}`
+          }
+        >
+          {title}
+        </span>
+      )}
     </button>
   )
 }

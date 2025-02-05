@@ -7,13 +7,13 @@
   cursor: pointer;
 }
 
-.wrapperFill {
+.wrapperFillHover {
   &:hover * {
     fill: $gray-200;
   }
 }
 
-.wrapperStroke {
+.wrapperStrokeHover {
   &:hover * {
     stroke: $gray-200;
   }

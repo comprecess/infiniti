@@ -67,7 +67,7 @@ export const Profile: FC<ProfileProps> = ({ isAdmin }) => {
     <Popover
       closeOnBlur
       isOpen={isOpen}
-      placement='bottom-start'
+      placement='bottom-end'
       returnFocusOnClose={false}
       onClose={onClose}
     >
@@ -151,7 +151,7 @@ export const Profile: FC<ProfileProps> = ({ isAdmin }) => {
               gap: 4,
               borderBottomLeftRadius: 8,
               borderBottomRightRadius: 8,
-              backgroundColor: '#1b1e29',
+              backgroundColor: '#151720',
             }}
           >
             <span className={styles.modalItem}>Edit Profile</span>

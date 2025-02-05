@@ -1,0 +1,89 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  user-select: none;
+}
+
+.chatGPTContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+}
+
+.chatGPTTitle {
+  font-family: $fontSpaceGrotesk;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 23px;
+  letter-spacing: -0.03em;
+  user-select: none;
+}
+
+.iconChatGPT {
+  cursor: default;
+}
+
+.iconChatGPT * {
+  fill: $white;
+}
+
+.popoverContent {
+  display: flex;
+  flex-direction: column;
+  width: 100% !important;
+  max-width: 500px;
+  height: calc(100vh - 65px);
+  z-index: 9999;
+
+  @include mobileBreakpoint('min', 500px) {
+    max-height: 650px;
+  }
+}
+
+.popoverHeader {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 60px;
+  gap: 12px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.popoverBody {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.messenger {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.input {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+
+  @include mobileBreakpoint('max', 500px - 1px) {
+    padding-bottom: 20px;
+  }
+}
+
+.button {
+  max-width: 50px;
+  padding: 0;
+}

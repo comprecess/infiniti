@@ -12,6 +12,7 @@ import { Basket } from '../../../shared/ui/Basket/Basket'
 import { Icon } from '../../../shared/ui/Icon/Icon'
 import { Profile } from '../../../shared/ui/Profile/Profile'
 import { getOrdersInCart } from '../../../shared/utils/api/Client/Cart/GetOrdersInCart'
+import { ChatGPT } from '../../../widgets/ChatGPT/ChatGPT'
 import styles from './Header.module.scss'
 
 const IconMemo = memo(Icon)
@@ -70,8 +71,12 @@ export const Header: FC<HeaderProps> = ({
       <div className={styles.itemsRight}>
         {isAdmin ? (
           <>
-            <IconMemo icon={<NotificationIndicatorIcon />} />
-            <IconMemo icon={<NoteIcon />} />
+            <ChatGPT />
+            <IconMemo
+              icon={<NotificationIndicatorIcon />}
+              onIconClick={() => {}}
+            />
+            <IconMemo icon={<NoteIcon />} onIconClick={() => {}} />
           </>
         ) : (
           <BasketMemo
