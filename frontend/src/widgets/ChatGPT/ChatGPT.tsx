@@ -14,6 +14,53 @@ import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../shared/ui/CustomInput/CustomInput'
 import { Icon } from '../../shared/ui/Icon/Icon'
 import styles from './ChatGPT.module.scss'
+import { Message } from './Message/Message'
+
+const messages = [
+  { id: 1, text: 'Привет! Как дела?', isMy: false },
+  { id: 2, text: 'Привет! Все отлично, спасибо!', isMy: true },
+  { id: 3, text: 'Ты знаешь, что я ChatGPT?', isMy: false },
+  { id: 4, text: 'Конечно! А что ты умеешь?', isMy: true },
+  { id: 5, text: 'Все!', isMy: false },
+  {
+    id: 6,
+    text: 'Вооу...',
+    isMy: true,
+  },
+  {
+    id: 7,
+    text: 'Могу помочь с кодом, ответить на вопросы, даже поддержать беседу.',
+    isMy: false,
+  },
+  {
+    id: 8,
+    text: 'Звучит круто! А ты можешь рассказать анекдот?',
+    isMy: true,
+  },
+  {
+    id: 9,
+    text: 'Конечно! Почему программисты не любят природу?',
+    isMy: false,
+  },
+  { id: 10, text: 'Хм, почему?', isMy: true },
+  { id: 11, text: 'Потому что там слишком много багов! 😆', isMy: false },
+  { id: 12, text: 'Ахаха, неплохо! А ты знаешь про React?', isMy: true },
+  {
+    id: 13,
+    text: 'Конечно! Это библиотека для создания пользовательских интерфейсов.',
+    isMy: false,
+  },
+  {
+    id: 14,
+    text: 'А как правильно управлять состоянием в React?',
+    isMy: true,
+  },
+  {
+    id: 15,
+    text: 'Можно использовать useState, useReducer или глобальное хранилище, например Redux или React Query.',
+    isMy: false,
+  },
+]
 
 export const ChatGPT = () => {
   const { isOpen, onToggle, onClose } = useDisclosure()
@@ -80,7 +127,13 @@ export const ChatGPT = () => {
           }}
         >
           <div className={styles.messenger}>
-            <div className={styles.messages}>Messages</div>
+            <div className={styles.messages}>
+              {messages.map(msg => {
+                return (
+                  <Message key={msg.id} text={msg.text} isMy={msg.isMy} />
+                )
+              })}
+            </div>
             <div className={styles.input}>
               <CustomInput type='text' onChange={() => {}} />
               <ButtonBlue icon='/icons/send.svg' style={styles.button} />
