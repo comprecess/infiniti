@@ -8,11 +8,13 @@ import {
   PopoverTrigger,
   useDisclosure,
 } from '@chakra-ui/react'
+import { useEffect } from 'react'
 
 import { ChatGPTIcon } from '../../shared/icons/ChatGPTIcon'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../shared/ui/CustomInput/CustomInput'
 import { Icon } from '../../shared/ui/Icon/Icon'
+import { TransparentSelect } from '../../shared/ui/TransparentSelect/TransparentSelect'
 import styles from './ChatGPT.module.scss'
 import { Message } from './Message/Message'
 
@@ -65,6 +67,14 @@ const messages = [
 export const ChatGPT = () => {
   const { isOpen, onToggle, onClose } = useDisclosure()
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
+  }, [isOpen])
+
   return (
     <Popover
       closeOnBlur
@@ -116,6 +126,17 @@ export const ChatGPT = () => {
               style={styles.iconChatGPT}
             />
             <span className={styles.chatGPTTitle}>ChatGPT</span>
+          </div>
+          <div>
+            <TransparentSelect
+              value={'test1'}
+              options={[
+                { value: 'test1', label: 'gpt 3.5' },
+                { value: 'test2', label: 'gpt 3.5 turbo' },
+                { value: 'test3', label: 'gpt 4.0' },
+              ]}
+              onChange={() => {}}
+            />
           </div>
         </PopoverHeader>
         <PopoverBody

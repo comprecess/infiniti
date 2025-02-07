@@ -22,11 +22,11 @@ export const Icon: FC<IconProps> = ({
       className={
         fill
           ? `${styles.wrapperFill} ${
-              hover ? styles.wrapperFillHover : ''
-            } ${style}`
+            hover ? styles.wrapperFillHover : ''
+          } ${style}`
           : `${styles.wrapperStroke} ${
-              hover ? styles.wrapperStrokeHover : ''
-            }${style}`
+            hover ? styles.wrapperStrokeHover : ''
+          }${style}`
       }
       onClick={onIconClick}
     >
