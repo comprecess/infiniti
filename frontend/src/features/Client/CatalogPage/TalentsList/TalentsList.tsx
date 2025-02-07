@@ -15,11 +15,11 @@ import styles from './TalentsList.module.scss'
 
 interface TalentsListProps {
   talentsList:
-    | {
-        data: TalentData[]
-        meta: PagesMetaData
-      }
-    | undefined
+  | {
+    data: TalentData[]
+    meta: PagesMetaData
+  }
+  | undefined
   sort: { name: string; type: string }
   setCurrentPage: Dispatch<SetStateAction<number>>
   setSort: Dispatch<SetStateAction<{ name: string; type: string }>>

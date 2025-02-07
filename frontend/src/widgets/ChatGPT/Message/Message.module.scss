@@ -9,6 +9,7 @@
 }
 
 .bubble {
+  position: relative;
   display: inline-flex;
   max-width: 80%;
   padding: 10px 14px;
@@ -16,6 +17,7 @@
   font-size: 14px;
   line-height: 1.4;
   flex-shrink: 1;
+  margin-top: 12px;
 }
 
 .text {
@@ -35,4 +37,22 @@
   background-color: $brand-800;
   color: $white;
   border-bottom-left-radius: 4px;
+  position: relative;
+}
+
+.copyButton {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+
+  &:focus {
+    outline: none;
+  }
 }

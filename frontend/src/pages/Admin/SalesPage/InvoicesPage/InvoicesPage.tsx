@@ -245,10 +245,10 @@ export const AdminInvoicesPage = () => {
           pagesProps={
             invoicesData
               ? {
-                  meta: invoicesData?.meta,
-                  nextPage: setPage,
-                  size: 'sm',
-                }
+                meta: invoicesData?.meta,
+                nextPage: setPage,
+                size: 'sm',
+              }
               : undefined
           }
         >
