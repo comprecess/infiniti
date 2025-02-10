@@ -91,6 +91,7 @@ export const Fields: FC<FieldsProps> = ({ setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           setValue={message => handleChangeInput('exSummary', message)}
         />
       </div>
@@ -104,6 +105,7 @@ export const Fields: FC<FieldsProps> = ({ setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           setValue={message => handleChangeInput('description', message)}
         />
       </div>
@@ -117,6 +119,7 @@ export const Fields: FC<FieldsProps> = ({ setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           setValue={message => handleChangeInput('mAnalysis', message)}
         />
       </div>
@@ -130,6 +133,7 @@ export const Fields: FC<FieldsProps> = ({ setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           setValue={message => handleChangeInput('management', message)}
         />
       </div>
@@ -143,6 +147,7 @@ export const Fields: FC<FieldsProps> = ({ setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           setValue={message => handleChangeInput('product', message)}
         />
       </div>
@@ -156,6 +161,7 @@ export const Fields: FC<FieldsProps> = ({ setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           setValue={message => handleChangeInput('marketing', message)}
         />
       </div>
@@ -168,6 +174,7 @@ export const Fields: FC<FieldsProps> = ({ setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           setValue={message => handleChangeInput('budget', message)}
         />
       </div>
@@ -181,6 +188,7 @@ export const Fields: FC<FieldsProps> = ({ setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           setValue={message => handleChangeInput('investment', message)}
         />
       </div>
@@ -194,6 +202,7 @@ export const Fields: FC<FieldsProps> = ({ setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           setValue={message => handleChangeInput('finance', message)}
         />
       </div>
@@ -205,6 +214,7 @@ export const Fields: FC<FieldsProps> = ({ setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           setValue={message => handleChangeInput('appendix', message)}
         />
       </div>
