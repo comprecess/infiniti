@@ -279,31 +279,31 @@ export const Fields: FC<FieldsProps> = ({
         <span className={styles.containerItemsTitle}>
           {`${t('admin-make-business-model-page-input-14')}`}
         </span>
-        <TextEditor getValue setValue={() => {}} />
+        <TextEditor chatGPT setValue={() => {}} />
       </div>
       <div className={styles.containerItems}>
         <span className={styles.containerItemsTitle}>
           {`${t('admin-make-business-model-page-input-15')}`}
         </span>
-        <TextEditor getValue setValue={() => {}} />
+        <TextEditor chatGPT setValue={() => {}} />
       </div>
       <div className={styles.containerItems}>
         <span className={styles.containerItemsTitle}>
           {`${t('admin-make-business-model-page-input-16')}`}
         </span>
-        <TextEditor getValue setValue={() => {}} />
+        <TextEditor chatGPT setValue={() => {}} />
       </div>
       <div className={styles.containerItems}>
         <span className={styles.containerItemsTitle}>
           {`${t('admin-make-business-model-page-input-17')}`}
         </span>
-        <TextEditor getValue setValue={() => {}} />
+        <TextEditor chatGPT setValue={() => {}} />
       </div>
       <div className={styles.containerItems}>
         <span className={styles.containerItemsTitle}>
           {`${t('admin-make-business-model-page-input-18')}`}
         </span>
-        <TextEditor getValue setValue={() => {}} />
+        <TextEditor chatGPT setValue={() => {}} />
       </div>
     </div>
   )

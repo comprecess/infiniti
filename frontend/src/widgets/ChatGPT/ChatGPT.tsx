@@ -12,6 +12,7 @@ import { useEffect } from 'react'
 
 import { ChatGPTIcon } from '../../shared/icons/ChatGPTIcon'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
+import { CustomCheckBox } from '../../shared/ui/CustomCheckBox/CustomCheckBox'
 import { CustomInput } from '../../shared/ui/CustomInput/CustomInput'
 import { Icon } from '../../shared/ui/Icon/Icon'
 import { TransparentSelect } from '../../shared/ui/TransparentSelect/TransparentSelect'
@@ -155,9 +156,12 @@ export const ChatGPT = () => {
                 )
               })}
             </div>
-            <div className={styles.input}>
-              <CustomInput type='text' onChange={() => {}} />
-              <ButtonBlue icon='/icons/send.svg' style={styles.button} />
+            <div className={styles.footer}>
+              <CustomCheckBox title='On Topic' />
+              <div className={styles.inputs}>
+                <CustomInput type='text' onChange={() => {}} />
+                <ButtonBlue icon='/icons/send.svg' style={styles.button} />
+              </div>
             </div>
           </div>
         </PopoverBody>

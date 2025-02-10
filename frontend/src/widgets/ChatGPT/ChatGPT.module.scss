@@ -78,14 +78,14 @@
   padding-right: 6px;
 
   @include mobileBreakpoint('max', 500px - 1px) {
-    width: calc(100vw - 24px);
+    width: calc(100vw - 18px);
   }
 }
 
-.input {
+.footer {
   display: flex;
-  flex-direction: row;
-  gap: 12px;
+  flex-direction: column;
+  gap: 8px;
   padding-right: 6px;
   padding-top: 8px;
   padding-bottom: 10px;
@@ -93,6 +93,12 @@
   @include mobileBreakpoint('max', 500px - 1px) {
     padding-bottom: 20px;
   }
+}
+
+.inputs {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
 }
 
 .button {

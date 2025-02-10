@@ -9,7 +9,7 @@ import styles from './Fields.module.scss'
 interface FieldsProps {
   formData: Partial<BusinessPlanNewPlanFormData>
   setFormData: Dispatch<
-  SetStateAction<Partial<BusinessPlanNewPlanFormData> | null>
+    SetStateAction<Partial<BusinessPlanNewPlanFormData> | null>
   >
 }
 
@@ -101,6 +101,7 @@ export const Fields: FC<FieldsProps> = ({ formData, setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           setValue={message => handleChangeInput('exSummary', message)}
           defaultValue={formData.exSummary}
         />
@@ -115,6 +116,7 @@ export const Fields: FC<FieldsProps> = ({ formData, setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           setValue={message => handleChangeInput('description', message)}
           defaultValue={formData.description}
         />
@@ -129,6 +131,7 @@ export const Fields: FC<FieldsProps> = ({ formData, setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           defaultValue={formData.mAnalysis}
           setValue={message => handleChangeInput('mAnalysis', message)}
         />
@@ -143,6 +146,7 @@ export const Fields: FC<FieldsProps> = ({ formData, setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           defaultValue={formData.management}
           setValue={message => handleChangeInput('management', message)}
         />
@@ -157,6 +161,7 @@ export const Fields: FC<FieldsProps> = ({ formData, setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           defaultValue={formData.product}
           setValue={message => handleChangeInput('product', message)}
         />
@@ -171,6 +176,7 @@ export const Fields: FC<FieldsProps> = ({ formData, setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           defaultValue={formData.marketing}
           setValue={message => handleChangeInput('marketing', message)}
         />
@@ -184,6 +190,7 @@ export const Fields: FC<FieldsProps> = ({ formData, setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           defaultValue={formData.budget}
           setValue={message => handleChangeInput('budget', message)}
         />
@@ -198,6 +205,7 @@ export const Fields: FC<FieldsProps> = ({ formData, setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           defaultValue={formData.investment}
           setValue={message => handleChangeInput('investment', message)}
         />
@@ -212,6 +220,7 @@ export const Fields: FC<FieldsProps> = ({ formData, setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           defaultValue={formData.finance}
           setValue={message => handleChangeInput('finance', message)}
         />
@@ -224,6 +233,7 @@ export const Fields: FC<FieldsProps> = ({ formData, setFormData }) => {
           </span>
         </div>
         <TextEditor
+          chatGPT
           defaultValue={formData.appendix}
           setValue={message => handleChangeInput('appendix', message)}
         />
