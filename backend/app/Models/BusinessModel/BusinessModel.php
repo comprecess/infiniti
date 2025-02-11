@@ -2,15 +2,20 @@
 
 namespace App\Models\BusinessModel;
 
+use App\Http\Resources\BusinessModel\BusinessModelResource;
+use App\Models\Contracts\ChatGPTContract;
+use App\Models\Traits\ChatGPTTrait;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\FileStorageTrait;
+use App\Services\ChatGPT;
+use App\Models\BusinessModel\ChatGPT as ChatGPTModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class BusinessModel extends Model
+class BusinessModel extends Model implements ChatGPTContract
 {
-    use HasFactory, CurrencyTrait, SoftDeletes, FileStorageTrait;
+    use HasFactory, CurrencyTrait, SoftDeletes, FileStorageTrait, ChatGPTTrait;
 
     const TYPE_IMG = ['preview', 'content'];
 
@@ -34,7 +39,7 @@ class BusinessModel extends Model
 
     public function chatGPTBlocks()
     {
-        return $this->hasMany(ChatGPT::class, 'id_business_model');
+        return $this->hasMany(ChatGPTModel::class, 'id_business_model');
     }
 
     public function getPropsByNameId(array $nameId = null)
@@ -87,4 +92,19 @@ class BusinessModel extends Model
     }
 
 
+    public function discussion(ChatGPT $chat)
+    {
+        $chat->write("Тема разговора бизнес-модель");
+        $chat->write("У меня есть информация о бизнес-модели формате JSON: " . $this->modelDescription() );
+    }
+
+    public function modelDescription()
+    {
+        return (new BusinessModelResource($this))->toJson();
+    }
+
+    public function discussionColumn()
+    {
+        return "";
+    }
 }

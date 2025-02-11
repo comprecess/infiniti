@@ -14,12 +14,18 @@ return new class extends Migration
         Schema::create('chat_gpt', function(Blueprint $table){
             $table->id();
             $table->unsignedInteger('admin_id')->nullable();
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->nullableMorphs('model');
-            $table->enum('type', \App\Models\ChatGPT::TYPE);
             $table->mediumText('message')->nullable();
+            $table->mediumText('log_message')->nullable();
+            $table->string('chat_id')->nullable();
+            $table->string('chat_model')->nullable();
+            $table->string('chat_history_hash')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('admin_id')->references('id')->on('sys_users')->onDelete('cascade');
+            $table->foreign('parent_id')->references('id')->on('chat_gpt')->onDelete('cascade');
         });
     }
 
@@ -30,6 +36,7 @@ return new class extends Migration
     {
         Schema::table('chat_gpt', function(Blueprint $table){
             $table->dropForeign(['admin_id']);
+            $table->dropForeign(['parent_id']);
         });
 
         Schema::drop('chat_gpt');
