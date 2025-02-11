@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\Resident;
 use App\Http\Requests\Resident\ChatGPTRequest;
 use App\Http\Resources\Resident\ChatGPTResource;
 use App\Models\ChatGPT;
+use App\Services\ChatGPT as ChatGPTService;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -46,5 +47,12 @@ class ChatGPTController extends ResidentController
         }
         $query->orderBy('desc')
             ->limit(20);
+    }
+
+    public function inputData()
+    {
+        $data['chatGPTModel'] = ChatGPTService::MODEL;
+
+        return response()->json($data);
     }
 }

@@ -189,6 +189,7 @@ Route::prefix('chat-gpt')
     ->controller(Resident\ChatGPTController::class)
     ->group(function(){
         Route::get('history-user', 'historyUser');
+        Route::post('input-data', 'inputData');
         Route::post('message', 'message');
         Route::any('history/{hash}', 'history');
     });
