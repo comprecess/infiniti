@@ -4,26 +4,43 @@ import styles from './Message.module.scss'
 
 interface MessageProps {
   text: string
-  isMy: boolean
+  type: 'out' | 'in'
+  timestamp: string
+  isLoadingMessage?: boolean
 }
 
-export const Message: FC<MessageProps> = ({ text, isMy }) => {
+export const Message: FC<MessageProps> = ({
+  text,
+  type,
+  timestamp,
+  isLoadingMessage = false,
+}) => {
   const [copied, setCopied] = useState(false)
 
+  const formatTime = (timestamp: string): string => {
+    const date = new Date(timestamp)
+
+    return date.toLocaleTimeString('ru-RU', {
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+  }
+
   const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(text)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    } catch (err) {
-      console.error('Ошибка копирования:', err)
-    }
+    await navigator.clipboard.writeText(text)
+
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   return (
-    <div className={`${isMy ? styles.myMessage : styles.otherMessage}`}>
+    <div
+      className={`${
+        type === 'in' ? styles.myMessage : styles.otherMessage
+      }`}
+    >
       <div className={styles.bubble}>
-        {!isMy && (
+        {type === 'out' && !isLoadingMessage && (
           <button className={styles.copyButton} onClick={handleCopy}>
             {copied ? (
               <img src='/icons/checkBG.svg' alt='Copied' />
@@ -33,6 +50,9 @@ export const Message: FC<MessageProps> = ({ text, isMy }) => {
           </button>
         )}
         <span className={styles.text}>{text}</span>
+        {!isLoadingMessage && (
+          <span className={styles.timestamp}>{formatTime(timestamp)}</span>
+        )}
       </div>
     </div>
   )

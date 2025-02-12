@@ -10,6 +10,14 @@ export const roles = {
   admin: 'Admin',
 }
 
+export interface MessageChatGPT {
+  id: number
+  message: string
+  create: string
+  type: 'out' | 'in'
+  isLoadingMessage?: boolean
+}
+
 export interface LanguagesList {
   id: number
   name: string
