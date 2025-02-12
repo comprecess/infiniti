@@ -67,8 +67,8 @@ class ChatGPT extends Model
 
     public function scopeFindModel($query, ?string $class = null, ?int $id = null)
     {
-        $class = Arr::get(self::DISCUSSION_MODEL, $class, null);
         if($class) {
+            $class = Arr::get(self::DISCUSSION_MODEL, $class, null);
             $query->where('model_type', $class);
 
             if($id) {
