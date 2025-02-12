@@ -11,8 +11,11 @@
 .bubble {
   position: relative;
   display: inline-flex;
+  flex-direction: column;
   max-width: 80%;
+  min-width: 50px;
   padding: 10px 14px;
+  padding-bottom: 18px;
   border-radius: 16px;
   font-size: 14px;
   line-height: 1.4;
@@ -55,4 +58,13 @@
   &:focus {
     outline: none;
   }
+}
+
+.timestamp {
+  position: absolute;
+  font-size: 10px;
+  color: $gray-100;
+  bottom: 5px;
+  right: 10px;
+  user-select: none;
 }

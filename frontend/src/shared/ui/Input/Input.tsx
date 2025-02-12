@@ -4,7 +4,8 @@ import { RegisterOptions, UseFormRegister } from 'react-hook-form'
 import styles from './Input.module.scss'
 
 interface InputProps extends HTMLProps<HTMLInputElement> {
-  title: string
+  title?: string
+  typeInput?: 'white' | 'brand'
   id: string
   name: string
   type: string
@@ -16,6 +17,7 @@ interface InputProps extends HTMLProps<HTMLInputElement> {
 export const Input: FC<InputProps> = ({
   title,
   placeholder,
+  typeInput = 'white',
   id,
   name,
   type,
@@ -24,14 +26,22 @@ export const Input: FC<InputProps> = ({
 }) => {
   return (
     <div className={styles.wrapper}>
-      <label className={styles.title} htmlFor={id}>
-        {title}
-      </label>
+      {title && (
+        <label className={styles.title} htmlFor={id}>
+          {title}
+        </label>
+      )}
       <input
-        className={styles.input}
         placeholder={placeholder}
         id={id}
         type={type}
+        className={
+          typeInput === 'white'
+            ? styles.inputWhite
+            : typeInput === 'brand'
+              ? styles.inputBrand
+              : ''
+        }
         {...register(name, validationRules)}
       />
     </div>
