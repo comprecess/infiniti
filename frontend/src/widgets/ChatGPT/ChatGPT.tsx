@@ -71,10 +71,17 @@ export const ChatGPT = () => {
     let extraData = null
 
     if (onTopic) {
-      const urlPattern =
-        /\/admin\/business-plan\/view\/business-model\/(\d+)$/
+      const urlPatterns = [
+        /\/admin\/business-plan\/view\/business-model\/(\d+)$/,
+        /\/admin\/business-plan\/edit\/business-model\/(\d+)$/,
+      ]
 
-      const match = window.location.pathname.match(urlPattern)
+      let match = null
+
+      for (const pattern of urlPatterns) {
+        match = window.location.pathname.match(pattern)
+        if (match) break
+      }
 
       if (match) {
         extraData = { id: match[1], type: 'businessModel' }
@@ -98,13 +105,13 @@ export const ChatGPT = () => {
       setMessages(prev =>
         prev
           ? prev.map(msg =>
-            msg.id === loadingMessage.id
-              ? {
-                ...msg,
-                message: `ChatGPT has an answer for you${dots}`,
-              }
-              : msg,
-          )
+              msg.id === loadingMessage.id
+                ? {
+                    ...msg,
+                    message: `ChatGPT has an answer for you${dots}`,
+                  }
+                : msg,
+            )
           : [],
       )
     }, 500)
@@ -120,9 +127,9 @@ export const ChatGPT = () => {
     setMessages(prev =>
       prev
         ? [
-          ...prev.filter(msg => msg.id !== loadingMessage.id),
-          response.data,
-        ]
+            ...prev.filter(msg => msg.id !== loadingMessage.id),
+            response.data,
+          ]
         : [response.data],
     )
   }
@@ -189,9 +196,14 @@ export const ChatGPT = () => {
   }, [models, setValue])
 
   useEffect(() => {
-    const urlPattern =
-      /\/admin\/business-plan\/view\/business-model\/(\d+)$/
-    setShowCheckbox(urlPattern.test(window.location.pathname))
+    const urlPatterns = [
+      /\/admin\/business-plan\/view\/business-model\/(\d+)$/,
+      /\/admin\/business-plan\/edit\/business-model\/(\d+)$/,
+    ]
+
+    setShowCheckbox(
+      urlPatterns.some(pattern => pattern.test(window.location.pathname)),
+    )
 
     getHistoryUser()
   }, [window.location.pathname])
