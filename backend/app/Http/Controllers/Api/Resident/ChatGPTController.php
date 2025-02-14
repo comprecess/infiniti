@@ -10,6 +10,7 @@ use App\Models\ChatGPT;
 use App\Services\ChatGPT as ChatGPTService;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ChatGPTController extends ResidentController
 {
@@ -19,11 +20,23 @@ class ChatGPTController extends ResidentController
 
         $query = ChatGPT::where('admin_id', $user->id)
             ->whereNotNull('admin_id')
-            ->findModel($request->discussionModel, $request->discussionId)
             ->orderBy('id', 'desc')
-            ->limit(25);
+            ->paginate(25)
+        ;
+        /**
+         * @var \Illuminate\Pagination\LengthAwarePaginator $query
+         */
 
-        return ChatGPTResource::collection($query->get());
+        $dataPage = $query->toArray();
+        $paginat = new LengthAwarePaginator(
+            $query->reverse(),
+            $dataPage['total'],
+            $dataPage['per_page'],
+            $dataPage['current_page'],
+            $dataPage
+        );
+
+        return ChatGPTResource::collection($paginat);
     }
 
     public function message(ChatGPTRequest $request)
