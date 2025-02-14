@@ -19,8 +19,10 @@ export const Message: FC<MessageProps> = ({
 
   const formatTime = (timestamp: string): string => {
     const date = new Date(timestamp)
+    const timezoneOffset = date.getTimezoneOffset() * 60000
+    const localTime = new Date(date.getTime() - timezoneOffset)
 
-    return date.toLocaleTimeString('ru-RU', {
+    return localTime.toLocaleTimeString('ru-RU', {
       hour: '2-digit',
       minute: '2-digit',
     })
