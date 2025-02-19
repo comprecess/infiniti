@@ -22,6 +22,7 @@ import { TransparentSelect } from '../../shared/ui/TransparentSelect/Transparent
 import { getChatGPTInputData } from '../../shared/utils/api/Admin/ChatGPT/GetChatGPTInputData'
 import { getUserHistoryMessage } from '../../shared/utils/api/Admin/ChatGPT/GetUserHistoryMessage'
 import { postUserMessage } from '../../shared/utils/api/Admin/ChatGPT/PostUserMessage'
+import { useChatGPT } from '../../shared/utils/Contexts/ChatGPTContext'
 import styles from './ChatGPT.module.scss'
 import { Message } from './Message/Message'
 
@@ -41,6 +42,7 @@ export const ChatGPT = () => {
 
   const { isOpen, onToggle, onClose } = useDisclosure()
   const { i18n } = useTranslation()
+  const { setChatGPTChangeForm } = useChatGPT()
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
 
@@ -122,6 +124,10 @@ export const ChatGPT = () => {
       extraData?.id,
       extraData?.type,
     )
+
+    if (onTopic) {
+      setChatGPTChangeForm(value => !value)
+    }
 
     clearInterval(interval)
     setMessages(prev =>

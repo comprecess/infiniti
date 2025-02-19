@@ -24,7 +24,7 @@ export const Chart: FC<ChartProps> = ({ data }) => {
   const getColorText = (label: string): string => {
     const colorMap: { [key: string]: string } = {
       Unpaid: styles.unpaidText,
-      'Partially paid': styles.partiallyPaidText,
+      'Partially Paid': styles.partiallyPaidText,
       Paid: styles.paidText,
     }
 
@@ -34,7 +34,7 @@ export const Chart: FC<ChartProps> = ({ data }) => {
   const getColorBG = (label: string): string => {
     const colorMap: { [key: string]: string } = {
       Unpaid: styles.unpaidBar,
-      'Partially paid': styles.partiallyPaidBar,
+      'Partially Paid': styles.partiallyPaidBar,
       Paid: styles.paidBar,
     }
 

@@ -13,6 +13,7 @@ import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getInputData } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/GetInputData'
 import { makeBusinessModel } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/MakeBusinessModel'
+import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './MakeBusinessModelPage.module.scss'
 
@@ -22,6 +23,7 @@ export const AdminMakeBusinessModelPage = () => {
     useState<BusinessModelInputData | null>(null)
 
   const { t } = useTranslation()
+  const { chatGPTChangeForm, setChatGPTChangeForm } = useChatGPT()
 
   const showToast = useCustomToast()
   const navigate = useNavigate()
@@ -66,6 +68,15 @@ export const AdminMakeBusinessModelPage = () => {
       })
     }
   }
+
+  const handleGetFormInfo = () => {
+    console.log(chatGPTChangeForm)
+    setChatGPTChangeForm(false)
+  }
+
+  useEffect(() => {
+    if (chatGPTChangeForm) handleGetFormInfo()
+  }, [chatGPTChangeForm])
 
   useEffect(() => {
     getModelInputData()

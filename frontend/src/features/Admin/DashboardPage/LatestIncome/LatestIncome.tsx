@@ -6,6 +6,24 @@ import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './LatestIncome.module.scss'
 
+const demoData = [
+  {
+    id: 0,
+    date: '19.02.2025',
+    amount: '1,020 $',
+    description: 'Infiniti stream (2031)',
+  },
+  { id: 1, date: '19.02.2025', amount: '4,560 $', description: 'Menu' },
+  { id: 2, date: '19.02.2025', amount: '870 $', description: 'Dedic64' },
+  { id: 3, date: '19.02.2025', amount: '2,130 $', description: 'Zadarma' },
+  {
+    id: 4,
+    date: '19.02.2025',
+    amount: '1,240 $',
+    description: 'Drumeneton',
+  },
+]
+
 export const LatestIncome: FC = () => {
   const { t } = useTranslation()
 
@@ -26,15 +44,15 @@ export const LatestIncome: FC = () => {
         />
       </div>
       <div className={styles.items}>
-        {[].map((_order, index) => {
+        {demoData.map((order, index) => {
           return (
-            <React.Fragment key={'order.id'}>
+            <React.Fragment key={order.id}>
               <Item
-                date={'order.date'}
-                amount={'order.amount'}
-                description={'order.description'}
+                date={order.date}
+                amount={order.amount}
+                description={order.description}
               />
-              {index !== [].length - 1 && <CustomDivider />}
+              {index !== demoData.length - 1 && <CustomDivider />}
             </React.Fragment>
           )
         })}

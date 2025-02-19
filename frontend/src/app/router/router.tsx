@@ -5,6 +5,7 @@ import { AuthOutlet } from '../../pages/Auth/AuthOutlet/AuthOutlet'
 import { RootPage } from '../../pages/General/RootPage/RootPage'
 import { ExaminationAuth } from '../../shared/utils/api/Auth/ExaminationAuth'
 import { ExaminationUser } from '../../shared/utils/api/Auth/ExaminationUser'
+import { ChatGPTProvider } from '../../shared/utils/Contexts/ChatGPTContext'
 import { Pages, Routes, To } from './routes'
 
 export const router = createBrowserRouter([
@@ -36,7 +37,9 @@ export const router = createBrowserRouter([
     path: Routes.adminPages,
     element: (
       <ExaminationUser>
-        <MainOutlet />
+        <ChatGPTProvider>
+          <MainOutlet />
+        </ChatGPTProvider>
       </ExaminationUser>
     ),
     children: [
