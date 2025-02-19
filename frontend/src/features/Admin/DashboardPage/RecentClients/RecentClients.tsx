@@ -6,6 +6,37 @@ import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentClients.module.scss'
 
+const demoData = [
+  {
+    id: 0,
+    avatar: '/cartAvatar.svg',
+    name: 'Alex Vishnyakov',
+    email: 'alex.v1984@gmail.com',
+    created: '19.02.2025',
+  },
+  {
+    id: 1,
+    avatar: '/cartAvatar.svg',
+    name: 'Alex Vishnyakov',
+    email: 'alex.v1984@gmail.com',
+    created: '19.02.2025',
+  },
+  {
+    id: 2,
+    avatar: '/cartAvatar.svg',
+    name: 'Alex Vishnyakov',
+    email: 'alex.v1984@gmail.com',
+    created: '19.02.2025',
+  },
+  {
+    id: 3,
+    avatar: '/cartAvatar.svg',
+    name: 'Alex Vishnyakov',
+    email: 'alex.v1984@gmail.com',
+    created: '19.02.2025',
+  },
+]
+
 export const RecentClients: FC = () => {
   const { t } = useTranslation()
 
@@ -26,16 +57,16 @@ export const RecentClients: FC = () => {
         />
       </div>
       <div className={styles.items}>
-        {[].map((_order, index) => {
+        {demoData.map((order, index) => {
           return (
-            <React.Fragment key={'order.id'}>
+            <React.Fragment key={order.id}>
               <Item
-                avatar={'order.avatar'}
-                name={'order.name'}
-                email={'order.email'}
-                created={'order.created'}
+                avatar={order.avatar}
+                name={order.name}
+                email={order.email}
+                created={order.created}
               />
-              {index !== [].length - 1 && <CustomDivider />}
+              {index !== demoData.length - 1 && <CustomDivider />}
             </React.Fragment>
           )
         })}

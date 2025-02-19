@@ -17,6 +17,7 @@ import { ReportsIcon } from '../../shared/icons/sidebarList/ReportsIcon'
 import { SalesIcon } from '../../shared/icons/sidebarList/SalesIcon'
 import { SettingsIcon } from '../../shared/icons/sidebarList/SettingsIcon'
 import { SupportIcon } from '../../shared/icons/sidebarList/SupportIcon'
+import { TalentsIcon } from '../../shared/icons/sidebarList/TalentsIcon'
 import { TasksIcon } from '../../shared/icons/sidebarList/TasksIcon'
 import { TicketsIcon } from '../../shared/icons/sidebarList/TicketsIcon'
 import { UtilitiesIcon } from '../../shared/icons/sidebarList/UtilitiesIcon'
@@ -35,7 +36,7 @@ export const adminSidebarPages = [
   {
     id: 1,
     name: 'admin-sidebar-main-page-talents',
-    icon: <ProfileIcon />,
+    icon: <TalentsIcon />,
     path: Routes.talents,
     openPaths: [
       {

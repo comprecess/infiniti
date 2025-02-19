@@ -18,6 +18,7 @@ import { getInputData } from '../../../../shared/utils/api/Admin/BusinessPlan/Bu
 import { putAddBusinessModelPicture } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/PutAddBusinessModelPicture'
 import { putUpdateModelInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/PutUpdateModelInfo'
 import { removePictureBusinessModel } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/RemovePictureBusinessModel'
+import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditBusinessModel.module.scss'
 
@@ -43,6 +44,7 @@ export const AdminEditBusinessModel = () => {
     useState<BusinessModelInputData | null>(null)
 
   const { t } = useTranslation()
+  const { chatGPTChangeForm, setChatGPTChangeForm } = useChatGPT()
 
   const id = useIdFromUrl()
   const showToast = useCustomToast()
@@ -166,6 +168,15 @@ export const AdminEditBusinessModel = () => {
       })
     }
   }
+
+  const handleGetFormInfo = () => {
+    console.log(chatGPTChangeForm)
+    setChatGPTChangeForm(false)
+  }
+
+  useEffect(() => {
+    if (chatGPTChangeForm) handleGetFormInfo()
+  }, [chatGPTChangeForm])
 
   useEffect(() => {
     document.title = 'infiniti | Edit Business Model'

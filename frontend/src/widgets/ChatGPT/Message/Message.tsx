@@ -35,6 +35,12 @@ export const Message: FC<MessageProps> = ({
     setTimeout(() => setCopied(false), 2000)
   }
 
+  const formatText = (input: string): string => {
+    return input
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // **текст** → <strong>текст</strong>
+      .replace(/\n/g, '<br />') // Переводы строк → <br>
+  }
+
   return (
     <div
       className={`${
@@ -51,7 +57,10 @@ export const Message: FC<MessageProps> = ({
             )}
           </button>
         )}
-        <span className={styles.text}>{text}</span>
+        <span
+          dangerouslySetInnerHTML={{ __html: formatText(text) }}
+          className={styles.text}
+        />
         {!isLoadingMessage && (
           <span className={styles.timestamp}>{formatTime(timestamp)}</span>
         )}

@@ -7,10 +7,56 @@ import { Chart } from './Chart/Chart'
 import { Item } from './Item/Item'
 import styles from './RecentInvoices.module.scss'
 
+const demoData = [
+  {
+    id: 0,
+    hashtag: 'INV-091820',
+    account: 'Konstantin Rabits',
+    amount: '4,560 $',
+    created: '19.02.2025',
+    due: '19.02.2025',
+    status: 'Unpaid',
+  },
+  {
+    id: 1,
+    hashtag: 'INV-091820',
+    account: 'Konstantin Rabits',
+    amount: '4,560 $',
+    created: '19.02.2025',
+    due: '19.02.2025',
+    status: 'Partially Paid',
+  },
+  {
+    id: 2,
+    hashtag: 'INV-091820',
+    account: 'Konstantin Rabits',
+    amount: '4,560 $',
+    created: '19.02.2025',
+    due: '19.02.2025',
+    status: 'Partially Paid',
+  },
+  {
+    id: 3,
+    hashtag: 'INV-091820',
+    account: 'Konstantin Rabits',
+    amount: '4,560 $',
+    created: '19.02.2025',
+    due: '19.02.2025',
+    status: 'Partially Paid',
+  },
+  {
+    id: 4,
+    hashtag: 'INV-091820',
+    account: 'Konstantin Rabits',
+    amount: '1,020 $',
+    created: '19.02.2025',
+    due: '19.02.2025',
+    status: 'Paid',
+  },
+]
+
 export const RecentInvoices: FC = () => {
   const { t } = useTranslation()
-
-  const data: string[] = []
 
   return (
     <div className={styles.wrapper}>
@@ -40,24 +86,24 @@ export const RecentInvoices: FC = () => {
             />
           </div>
           <div className={styles.items}>
-            {[].map((_order, index) => {
+            {demoData.map((order, index) => {
               return (
-                <React.Fragment key={'order.id'}>
+                <React.Fragment key={order.id}>
                   <Item
-                    hashtag={'order.hashtag'}
-                    account={'order.account'}
-                    amount={'order.amount'}
-                    created={'order.created'}
-                    due={'order.due'}
-                    status={'order.status'}
+                    hashtag={order.hashtag}
+                    account={order.account}
+                    amount={order.amount}
+                    created={order.created}
+                    due={order.due}
+                    status={order.status}
                   />
-                  {index !== [].length - 1 && <CustomDivider />}
+                  {index !== demoData.length - 1 && <CustomDivider />}
                 </React.Fragment>
               )
             })}
           </div>
         </div>
-        <Chart data={data} />
+        <Chart data={demoData.map(item => item.status)} />
       </div>
     </div>
   )
