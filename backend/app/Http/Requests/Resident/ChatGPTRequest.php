@@ -26,27 +26,27 @@ class ChatGPTRequest extends FormRequest
         return $rules;
     }
 
-    public function getChatGPT()
+    public function getModel()
     {
-        $accessData = array_combine(
-            array_keys(ChatGPT::DISCUSSION_MODEL),
-            [
-                BusinessModelController::class
-            ]
-        );
 
         $model = null;
 
         if($this->discussionModel) {
-            $access = $accessData[$this->discussionModel];
-            $model = ChatGPT::DISCUSSION_MODEL[$this->discussionModel];
-            if(!$this->user()->checkAccess('edit', $access)) {
+            $model = ChatGPT::DISCUSSION_MODEL[$this->discussionModel]['class'];
+            if(!$this->user()->checkAccess('edit', ChatGPT::DISCUSSION_MODEL[$this->discussionModel]['access'])) {
                 abort(403);
             }
             if($model) {
-                $model = $this->discussionId ? $model::find($this->discussionId) : new $model;
+                $model = $this->discussionId ? $model::find($this->discussionId) : new $model();
             }
         }
+
+        return $model;
+    }
+
+    public function getChatGPT()
+    {
+        $model = $this->getModel();
 
         $chatGPT = $model?->chatGPT() ?? new ChatGPT();
         $chatGPT->chat_model = $this->chatModel ?? ChatGPTService::MODEL[0];

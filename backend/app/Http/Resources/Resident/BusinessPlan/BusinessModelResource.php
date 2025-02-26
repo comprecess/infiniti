@@ -37,6 +37,11 @@ class BusinessModelResource extends JsonResource
             'start' => $this->start?->format('Y-m-d'),
             'description' => $this->description,
             'fullDescription' => $this->full_description,
+            'marketAnalysis' => $this->market_analysis,
+            'financialModel' => $this->financial_model,
+            'currentInvestors' => $this->current_investors,
+            'stagesOfImplementation' => $this->stages_implementation,
+            'partnershipOptions' => $this->partnership_options,
             'property' => TalentPropResource::collection($prop),
             'chatGPTBlock' => BusinessModelChatGPTBlockResource::collection($this->chatGPTBlocks)
         ];

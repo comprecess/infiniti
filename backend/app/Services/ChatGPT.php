@@ -39,9 +39,13 @@ class ChatGPT
         return $this;
     }
 
-    public function write($promt)
+    public function write($promt, $ln = true)
     {
-        $this->write[] = $promt;
+        if($ln) {
+            $this->write[] = $promt;
+        } else {
+            $this->write[count($this->write) - 1 < 0 ? 0 : count($this->write) - 1]  = $promt;
+        }
         return $this;
     }
 
