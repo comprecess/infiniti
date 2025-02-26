@@ -5,10 +5,14 @@
 <head>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap">
+    <meta name="color-scheme" content="only light">
     <style>
 {{--        @charset "UTF-8";
         @import"https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap";
         @import"https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"; --}}
+        :root {
+            color-scheme: only light;
+        }
         * {
             margin: 0;
             padding: 0;
