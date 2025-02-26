@@ -185,11 +185,13 @@ Route::group(['prefix' => 'settings'], function(){
         });
 });
 
+#ChatGPT
 Route::prefix('chat-gpt')
     ->controller(Resident\ChatGPTController::class)
     ->group(function(){
         Route::get('history-user', 'historyUser');
         Route::get('input-data', 'inputData');
+        Route::get('analysis', 'analysis');
         Route::post('message', 'message');
         Route::any('history/{hash}', 'history');
     });

@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Api\Resident;
 
 
 use App\Http\Requests\Resident\ChatGPTRequest;
+use App\Http\Resources\Resident\BusinessPlan\BusinessModelResource;
 use App\Http\Resources\Resident\ChatGPTResource;
 use App\Models\ChatGPT;
+use App\Models\Contracts\ChatGPTContract;
 use App\Services\ChatGPT as ChatGPTService;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Arr;
 
 class ChatGPTController extends ResidentController
 {
@@ -41,15 +44,108 @@ class ChatGPTController extends ResidentController
 
     public function message(ChatGPTRequest $request)
     {
-        $chat = $request
-            ->getChatGPT()
-            ->discussionAboutModel();
+        $chatGPT = $request->getChatGPT()->analysisModelFields();
+        $chatGPT->save();
 
-        return new ChatGPTResource($chat);
+        $chat = new ChatGPTService($chatGPT);
+        $chat->setModel($chatGPT->chat_model);
+
+
+        /******-1/
+  /*
+        $promt = 'Твоя задача написать ответ, ';
+        $block = [];
+
+        if($chatGPT->discussionModel instanceof ChatGPTContract) {
+            $promt .= 'на тему ' . $chatGPT->discussionModel->discussionTopic();
+            if($chatGPT->discussionModel->id) {
+                $block['Свойства и характеристики'] = $chatGPT->discussionModel->modelDescription(config("data.chat_gpt.{$chatGPT->getDiscussionModelName()}"));
+            }
+
+        }
+
+        $analysis = $chatGPT->getAnalysis();
+        if(count($analysis)) {
+            $promt .= " по конкретному паттерну [Паттерн]";
+            $pattern = "";
+            foreach(array_keys($analysis) as $key) {
+                $pattern .= "{{$key}}: Твой текст в разметке html{/{$key}}\n";
+            }
+            $block['Паттерн'] = $pattern;
+        }
+
+        $promt .= " исходя из текста [Текст]";
+        $block['Текст'] = $chatGPT->message;
+
+        $history = $chatGPT->history();
+        if($history?->count()){
+            $promt .= " и истории [История] нашей переписки";
+            $block['История'] = $history->toChat();
+        }
+
+        $promt .= ", не двигаясь вправо влево, не сочиняя что-то свое без лишних движений,";
+
+        if(count($analysis)) {
+            $promt .= ' строго соблюдая паттерн.';
+        }else{
+            $promt .= ".";
+        }
+
+//        $promt .= " Повторюсь проанализируй [Текст] и напиши строго по патерну свой ответ, не дополняя ничего \n";
+*/
+        /******/
+
+        $promt = 'В поле текст [текст] описаны основне требование для тебя и что пользователь хочет получить. ';
+        $block['текст'] = $chatGPT->message;
+
+        if($chatGPT->discussionModel instanceof ChatGPTContract) {
+            $promt .= 'Дискуссия ведется по теме: ' . $chatGPT->discussionModel->discussionTopic();
+            if($chatGPT->discussionModel->id) {
+                $block['свойства и характеристики'] = $chatGPT->discussionModel->modelDescription(config("data.chat_gpt.{$chatGPT->getDiscussionModelName()}"));
+            }
+
+        }
+
+        $analysis = $chatGPT->getAnalysis();
+        if(count($analysis)) {
+            $promt .= "\nТвой ответ должен выглядеть в виде паттерна [паттерн]";
+            $pattern = "";
+            foreach(array_keys($analysis) as $key) {
+                $pattern .= "{{$key}} Твой текст в разметке html {/{$key}}\n";
+            }
+            $block['паттерн'] = $pattern;
+        }
+
+        $history = $chatGPT->history();
+        if($history?->count()){
+            $block['История'] = $history->toChat();
+        }
+
+        $promt .= "\n";
+        /******/
+
+        $chat->write($promt);
+
+        foreach($block as $name => $value) {
+            $chat->write("[{$name}]\n{$value}\n");
+        }
+
+        $model = $chat->send()->toModel();
+        $model->save();
+
+        $chatGPT->log_message = $chat->getHistory(2);
+        $chatGPT->save();
+
+        /*$chat = $request
+            ->getChatGPT()
+            ->discussionAboutModel();*/
+
+        return new ChatGPTResource($model);
     }
 
     public function history(Request $request)
     {
+
         $chat = ChatGPT::where('chat_history_hash', $request->route('hash'))->firstOrFail();
 
         $query = ChatGPT::where('admin_id', $chat->admin_id);
@@ -67,5 +163,56 @@ class ChatGPTController extends ResidentController
         $data['chatGPTModel'] = ChatGPTService::MODEL;
 
         return response()->json($data);
+    }
+
+    public function analysis(ChatGPTRequest $request)
+    {
+        $user = User::getAuth();
+        $model = $request->getModel();
+
+        if(!$model) {
+            return response()->json(['success' => false, 'message' => 'There is no discussion model'], 422);
+        }
+
+        $newModel = ChatGPT::DISCUSSION_MODEL[$request->discussionModel]['class'];
+        $newModel = new $newModel();
+
+
+        $answerQuery = ChatGPT::where('admin_id', $user->id)
+            ->whereNull('chat_id')
+            ->where('created_at', '>', now()->subDays(7))
+            ->orderBy('id', 'desc');
+
+        $answerQuery->where('model_type', get_class($model));
+        if($model->id) {
+            $answerQuery->where('model_id', $model->id);
+        }
+
+        $answer = $answerQuery->first();
+
+        $analysis = Arr::get($answer->data, 'analysis');
+
+        if($analysis) {
+            $chat = $answer->child;
+            foreach($analysis as $column => $data) {
+                $startSearch = "{{$column}}";
+                $endSearch = "{{$column}}";
+                $start = mb_strpos($startSearch, $chat->message);
+                $end = mb_strpos($endSearch, $chat->message);
+
+                if($start !== null && $end !== null){
+                    $newModel->{$column} = trim(mb_substr($chat->message, $start + strlen($startSearch), $end - strlen($endSearch) -1));
+                }
+            }
+        }
+
+        $jsonResponse = json_decode((new BusinessModelResource($newModel))->toJson(), true);
+        foreach($jsonResponse as $key => $value) {
+            if(!$value) {
+                unset($jsonResponse[$key]);
+            }
+        }
+
+        return response()->json($jsonResponse, 422);
     }
 }

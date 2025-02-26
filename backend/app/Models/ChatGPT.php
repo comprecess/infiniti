@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Models\BusinessModel\BusinessModel;
+use App\Models\Collection\ChatGPTCollection;
 use App\Models\Contracts\ChatGPTContract;
 use App\Models\Traits\BootTrait;
+use App\Models\Traits\CollectionTrait;
 use App\Models\Traits\UserTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +20,7 @@ use App\Services\ChatGPT as ChatGPTService;
 
 class ChatGPT extends Model
 {
-    use HasFactory, UserTrait, BootTrait, SoftDeletes;
+    use HasFactory, UserTrait, BootTrait, SoftDeletes, CollectionTrait;
 
     const MODEL = [
         'gpt-4o',
@@ -29,14 +31,20 @@ class ChatGPT extends Model
     ];
 
     const DISCUSSION_MODEL = [
-        'businessModel' => BusinessModel::class
+        'businessModel' => ['class' => BusinessModel::class, 'access' => 'business_plan']
     ];
 
-    protected $discussionModel = null;
+    public $discussionModel = null;
 
     protected $table = 'chat_gpt';
 
     protected $adminColumn = 'admin_id';
+
+    protected $casts = [
+        'data' => 'json',
+    ];
+
+    public $collection = ChatGPTCollection::class;
 
     public static function creatingEvent($item)
     {
@@ -51,6 +59,11 @@ class ChatGPT extends Model
     public function model()
     {
         return $this->morphTo('model');
+    }
+
+    public function child()
+    {
+        return $this->hasOne(self::class, 'parent_id');
     }
 
     public static function test($promt = null) {
@@ -116,6 +129,60 @@ class ChatGPT extends Model
         return $model;
     }
 
+    public function analysisModelFields()
+    {
+        if(!$this->model_type) {
+            return $this;
+        }
+
+        $tables = config('data.chat_gpt');
+        $columns = null;
+        foreach($tables as $table => $value) {
+            if(self::DISCUSSION_MODEL[$table]['class'] == $this->model_type) {
+                $columns = $value;
+            }
+        }
+
+        $searchText = [];
+        foreach($columns as $column => $values) {
+            $text = $this->message;
+            foreach($values['parse'] ?? [] as $word) {
+                $position = false;
+                $length = 0;
+                do {
+//                    dump($column, $word,$position, $text);
+                    if($position !== false) {
+//                        dump($length, $position, strlen($word));
+                        $length = $length + $position + strlen($word);
+                        $text = mb_substr($text, $position + strlen($word));
+                        $searchText[$column][] = ['position' => $length, 'word' => $word];
+
+                    }
+                } while (($position = mb_strpos($text, $word)) !== false);
+            }
+//            foreach($values['parse'] ?? [] as $word) {
+//                if($position = strripos($this->message, $word)) {
+//                    if(isset($searchText[$column])){
+//                        $searchText[$column]['col']++;
+//                    } else {
+//                        $searchText[$column]['col'] = 1;
+//                        $searchText[$column]['position'] = $position;
+//                    }
+//                }
+//            }
+        }
+
+        $data = $this->data ?? [];
+        $data['analysis'] = $searchText;
+        $this->data = $data;
+        return $this;
+    }
+
+    public function getAnalysis()
+    {
+        return Arr::get($this->data ?? [], 'analysis', []);
+    }
+
     public function send($promt = null, $model = null, $delet = false)
     {
         dump($promt);
@@ -143,7 +210,9 @@ class ChatGPT extends Model
 
         $result->forget(0);
 
-        if($result->count()){
+        return $result->reverse();
+
+       /* if($result->count()){
             $history = collect();
 
             $result->reverse()
@@ -156,8 +225,19 @@ class ChatGPT extends Model
             });
         }
 
-        return $history;
+        return $history;*/
 
+    }
+
+    public function getDiscussionModelName() :?string
+    {
+        foreach(self::DISCUSSION_MODEL as $key => $value){
+            if($value['class'] == $this->model_type) {
+                return $key;
+            }
+        }
+
+        return null;
     }
 
 }

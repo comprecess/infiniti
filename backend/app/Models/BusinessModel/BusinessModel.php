@@ -2,6 +2,7 @@
 
 namespace App\Models\BusinessModel;
 
+use App\Http\Resources\BusinessModel\BusinessModelChatGPTResource;
 use App\Http\Resources\BusinessModel\BusinessModelResource;
 use App\Models\Contracts\ChatGPTContract;
 use App\Models\Traits\ChatGPTTrait;
@@ -91,16 +92,33 @@ class BusinessModel extends Model implements ChatGPTContract
 
     }
 
-
-    public function discussion(ChatGPT $chat)
+    public function discussionTopic() :string
     {
-        $chat->write("Тема разговора бизнес-модель");
-        $chat->write("У меня есть информация о бизнес-модели формате JSON: " . $this->modelDescription() );
+        /*
+         $topic = 'бизнес-модель';
+        if($this->id) {
+            $topic .= ' орентируясь на свойства и харктеристики [Свойства и характеристики]';
+        }
+        */
+
+        $topic = "бизнес-модель. \n";
+        if($this->id) {
+            $topic .= 'Орентируйся на свойства и харктеристики [свойства и характеристики] этой бизнес-модели.';
+        }
+
+        return $topic;
     }
 
-    public function modelDescription()
+    public function discussion() :string
     {
-        return (new BusinessModelResource($this))->toJson();
+//        $chat->write("Тема разговора бизнес-модель");
+//        $chat->write("У меня есть информация о бизнес-модели формате JSON: " . $this->modelDescription() );
+        return '';
+    }
+
+    public function modelDescription(mixed $data = null)
+    {
+        return (new BusinessModelChatGPTResource($this))->toChat($data);
     }
 
     public function discussionColumn()
