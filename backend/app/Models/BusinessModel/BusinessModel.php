@@ -3,13 +3,10 @@
 namespace App\Models\BusinessModel;
 
 use App\Http\Resources\BusinessModel\BusinessModelChatGPTResource;
-use App\Http\Resources\BusinessModel\BusinessModelResource;
 use App\Models\Contracts\ChatGPTContract;
 use App\Models\Traits\ChatGPTTrait;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\FileStorageTrait;
-use App\Services\ChatGPT;
-use App\Models\BusinessModel\ChatGPT as ChatGPTModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -36,11 +33,6 @@ class BusinessModel extends Model implements ChatGPTContract
     public function props()
     {
         return $this->morphedByMany(related: Prop::class, name: 'cataloggable', table:'business_model_value', foreignPivotKey: 'id_business_model');
-    }
-
-    public function chatGPTBlocks()
-    {
-        return $this->hasMany(ChatGPTModel::class, 'id_business_model');
     }
 
     public function getPropsByNameId(array $nameId = null)
