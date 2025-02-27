@@ -168,8 +168,6 @@ class ChatGPTController extends ResidentController
 
     public function analysis(ChatGPTRequest $request)
     {
-        Log::alert('************analysis*********', $request->all());
-
         $user = User::getAuth();
         $model = $request->getModel();
 
@@ -199,12 +197,13 @@ class ChatGPTController extends ResidentController
             $chat = $answer->child;
             foreach($analysis as $column => $data) {
                 $startSearch = "{{$column}}";
-                $endSearch = "{{$column}}";
-                $start = mb_strpos($startSearch, $chat->message);
-                $end = mb_strpos($endSearch, $chat->message);
+                $endSearch = "{/{$column}}";
+                $start = mb_strpos($chat->message, $startSearch);
+                $end = mb_strpos($chat->message, $endSearch);
 
                 if($start !== null && $end !== null){
-                    $newModel->{$column} = trim(mb_substr($chat->message, $start + strlen($startSearch), $end - strlen($endSearch) -1));
+                    $calc = $start + strlen($startSearch);
+                    $newModel->{$column} = trim(mb_substr($chat->message, $calc, $end - $calc));
                 }
             }
         }
