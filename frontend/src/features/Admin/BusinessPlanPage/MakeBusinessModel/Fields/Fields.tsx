@@ -15,6 +15,7 @@ import styles from './Fields.module.scss'
 
 interface FieldsProps {
   inputData: BusinessModelInputData
+  formData: PartialFieldsPostData
   setFormData: React.Dispatch<React.SetStateAction<PartialFieldsPostData>>
 }
 
@@ -23,7 +24,11 @@ export interface PartialFieldsPostData
   [key: string]: string | number | string[] | File | undefined | null
 }
 
-export const Fields: FC<FieldsProps> = ({ inputData, setFormData }) => {
+export const Fields: FC<FieldsProps> = ({
+  inputData,
+  formData,
+  setFormData,
+}) => {
   const { t } = useTranslation()
 
   const handleChangeInput = (
@@ -50,6 +55,7 @@ export const Fields: FC<FieldsProps> = ({ inputData, setFormData }) => {
         type='text'
         id='title'
         name='title'
+        value={formData.title}
         onChange={handleChangeInput}
       />
       <div className={styles.containerItems}>
@@ -68,6 +74,7 @@ export const Fields: FC<FieldsProps> = ({ inputData, setFormData }) => {
           fontSize='16px'
           fontWeight='400'
           lineHeight='24px'
+          value={formData.description}
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
             handleChangeInput('description', event.target.value)
           }
@@ -89,6 +96,7 @@ export const Fields: FC<FieldsProps> = ({ inputData, setFormData }) => {
           fontSize='16px'
           fontWeight='400'
           lineHeight='24px'
+          value={formData.fullDescription}
           onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
             handleChangeInput('fullDescription', event.target.value)
           }
@@ -149,31 +157,61 @@ export const Fields: FC<FieldsProps> = ({ inputData, setFormData }) => {
         <span className={styles.containerItemsTitle}>
           {`${t('admin-make-business-model-page-input-14')}`}
         </span>
-        <TextEditor chatGPT setValue={() => {}} />
+        <TextEditor
+          chatGPT
+          defaultValue={formData.marketAnalysis}
+          setValue={message =>
+            handleChangeInput('marketAnalysis', message)
+          }
+        />
       </div>
       <div className={styles.containerItems}>
         <span className={styles.containerItemsTitle}>
           {`${t('admin-make-business-model-page-input-15')}`}
         </span>
-        <TextEditor chatGPT setValue={() => {}} />
+        <TextEditor
+          chatGPT
+          defaultValue={formData.financialModel}
+          setValue={message =>
+            handleChangeInput('financialModel', message)
+          }
+        />
       </div>
       <div className={styles.containerItems}>
         <span className={styles.containerItemsTitle}>
           {`${t('admin-make-business-model-page-input-16')}`}
         </span>
-        <TextEditor chatGPT setValue={() => {}} />
+        <TextEditor
+          chatGPT
+          defaultValue={formData.currentInvestors}
+          setValue={message =>
+            handleChangeInput('currentInvestors', message)
+          }
+        />
       </div>
       <div className={styles.containerItems}>
         <span className={styles.containerItemsTitle}>
           {`${t('admin-make-business-model-page-input-17')}`}
         </span>
-        <TextEditor chatGPT setValue={() => {}} />
+        <TextEditor
+          chatGPT
+          defaultValue={formData.stagesOfImplementation}
+          setValue={message =>
+            handleChangeInput('stagesOfImplementation', message)
+          }
+        />
       </div>
       <div className={styles.containerItems}>
         <span className={styles.containerItemsTitle}>
           {`${t('admin-make-business-model-page-input-18')}`}
         </span>
-        <TextEditor chatGPT setValue={() => {}} />
+        <TextEditor
+          chatGPT
+          defaultValue={formData.partnershipOptions}
+          setValue={message =>
+            handleChangeInput('partnershipOptions', message)
+          }
+        />
       </div>
     </div>
   )

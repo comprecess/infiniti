@@ -13,6 +13,7 @@ import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getInputData } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/GetInputData'
 import { makeBusinessModel } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/MakeBusinessModel'
+import { getChatGPTAnalysis } from '../../../../shared/utils/api/Admin/ChatGPT/GetChatGPTAnalysis'
 import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './MakeBusinessModelPage.module.scss'
@@ -69,8 +70,21 @@ export const AdminMakeBusinessModelPage = () => {
     }
   }
 
-  const handleGetFormInfo = () => {
-    console.log(chatGPTChangeForm)
+  const handleGetFormInfo = async () => {
+    const response = await getChatGPTAnalysis(
+      '?discussionModel=businessModel',
+    )
+
+    if (!response) return
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { access, status, ...filteredResponse } = response
+
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      ...filteredResponse,
+    }))
+
     setChatGPTChangeForm(false)
   }
 
@@ -101,7 +115,11 @@ export const AdminMakeBusinessModelPage = () => {
               onClick: handleCreateNewBusinessModel,
             }}
           >
-            <Fields inputData={inputData} setFormData={setFormData} />
+            <Fields
+              inputData={inputData}
+              formData={formData}
+              setFormData={setFormData}
+            />
           </RecentCard>
         ) : (
           <LoadingSpinner size='xl' />

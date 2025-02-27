@@ -18,6 +18,7 @@ import { getInputData } from '../../../../shared/utils/api/Admin/BusinessPlan/Bu
 import { putAddBusinessModelPicture } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/PutAddBusinessModelPicture'
 import { putUpdateModelInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/PutUpdateModelInfo'
 import { removePictureBusinessModel } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/RemovePictureBusinessModel'
+import { getChatGPTAnalysis } from '../../../../shared/utils/api/Admin/ChatGPT/GetChatGPTAnalysis'
 import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditBusinessModel.module.scss'
@@ -169,8 +170,21 @@ export const AdminEditBusinessModel = () => {
     }
   }
 
-  const handleGetFormInfo = () => {
-    console.log(chatGPTChangeForm)
+  const handleGetFormInfo = async () => {
+    const response = await getChatGPTAnalysis(
+      '?discussionModel=businessModel',
+    )
+
+    if (!response) return
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { access, status, ...filteredResponse } = response
+
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      ...filteredResponse,
+    }))
+
     setChatGPTChangeForm(false)
   }
 
