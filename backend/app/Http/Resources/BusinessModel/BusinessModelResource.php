@@ -49,7 +49,6 @@ class BusinessModelResource extends JsonResource
             $resorce['currentInvestors'] = $this->current_investors;
             $resorce['stagesImplementation'] = $this->stages_implementation;
             $resorce['partnershipOptions'] = $this->partnership_options;
-//            $resorce['chatGPTBlock'] = BusinessModelChatGPTBlockResource::collection($this->chatGPTBlocks);
 //                $resorce['location'] = ValueResource::collection($this->getPropValues('location', null));
 //            $resorce['available'] = User::AVAILABLE_STATUS[$this->getAvailableStatus()];
 //            $resorce['allSkills'] = ValueResorce::collection($this->getPropValues('all_skills', null));

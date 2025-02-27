@@ -14,7 +14,6 @@ use App\Http\Resources\Catalog\ValueResorce;
 use App\Http\Resources\Resident\BusinessPlan\BusinessModelResource;
 use App\Models\BusinessModel\BusinessModel;
 use App\Models\BusinessModel\BusinessModelValue;
-use App\Models\BusinessModel\ChatGPT;
 use App\Models\BusinessModel\Prop;
 use App\Models\BusinessModel\Value;
 use Illuminate\Http\Request;
@@ -69,8 +68,6 @@ class BusinessModelController extends BusinessPlanAccessController
             $prop = Prop::where('id_name', $value)->first();
             $data[snakeCaseToPascalCase($value)] = ValueResorce::collection($prop->values);
         }
-
-        $data['chatGPTType'] = ChatGPT::TYPE;
 
         return response()->json($data);
     }
@@ -139,31 +136,6 @@ class BusinessModelController extends BusinessPlanAccessController
     public function item(BusinessModel $model)
     {
         return new BusinessModelResource($model);
-    }
-
-    public function chatGPTRequest(BusinessModelChatGPTRequest $request, BusinessModel $model, $type)
-    {
-        $block = $model->chatGPTBlocks()->where('type', $type)->first() ?? new ChatGPT();
-        $block->rquest = $request->request;
-        $block->type = $type;
-        $block->save();
-
-        return response()->json([
-           'success' => true,
-           'response' => $request->request
-        ]);
-    }
-
-    public function chatGPTSave(BusinessModelChatGPTSaveRequest $request, BusinessModel $model, $type)
-    {
-        $block = $model->chatGPTBlocks()->where('type', $type)->first() ?? new ChatGPT();
-        $block->response = $request->response;
-        $block->type = $type;
-        $block->save();
-
-        return response()->json([
-           'success' => true
-        ]);
     }
 
 
