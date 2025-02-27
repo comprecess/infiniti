@@ -8,7 +8,7 @@
                 'parse' => ['описание', 'brief description', 'краткое описание', 'описани', 'кратк', 'descript']
             ],
             'full_description' => [
-                'parse' => ['подробное описание', 'full description', 'полное описание', 'полн', 'подробн', 'описани', 'full', 'descript']
+                'parse' => ['подробное описание', 'full description', 'полное описание', 'подробное описание']
             ],
             'industries' => [
                 'table' => 'props',
