@@ -191,7 +191,7 @@ Route::prefix('chat-gpt')
     ->group(function(){
         Route::get('history-user', 'historyUser');
         Route::get('input-data', 'inputData');
-        Route::post('analysis', 'analysis');
+        Route::get('analysis', 'analysis');
         Route::post('message', 'message');
         Route::any('history/{hash}', 'history');
     });
