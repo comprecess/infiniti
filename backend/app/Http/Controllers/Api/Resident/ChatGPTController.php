@@ -14,6 +14,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 
 class ChatGPTController extends ResidentController
 {
@@ -167,6 +168,8 @@ class ChatGPTController extends ResidentController
 
     public function analysis(ChatGPTRequest $request)
     {
+        Log::alert('************analysis*********', $request->all());
+
         $user = User::getAuth();
         $model = $request->getModel();
 
