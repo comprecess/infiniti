@@ -12,6 +12,7 @@ import { ChevronDownIcon } from '../../../../shared/icons/ChevronDownIcon'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { StatusProfitability } from '../../../../shared/ui/StatusProfitability/StatusProfitability'
 import { getModelInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/GetModelInfo'
+import { sanitizeMessage } from '../../../../shared/utils/TextEditor/sanitizeMessage'
 import styles from './ViewBusinessModel.module.scss'
 
 const extractIdFromUrl = (url: string): number | null => {
@@ -137,26 +138,58 @@ export const AdminViewBusinessModel = () => {
                 </div>
               </div>
             </div>
-            <div className={styles.card}>
-              <TitleCard title='Market Analysis' />
-              content
-            </div>
-            <div className={styles.card}>
-              <TitleCard title='Financial Model' />
-              content
-            </div>
-            <div className={styles.card}>
-              <TitleCard title='Current Investors' />
-              content
-            </div>
-            <div className={styles.card}>
-              <TitleCard title='Implementation Stages' />
-              content
-            </div>
-            <div className={styles.card}>
-              <TitleCard title='Partnership Options' />
-              content
-            </div>
+            {model.data.marketAnalysis && (
+              <div className={styles.card}>
+                <TitleCard title='Market Analysis' />
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: sanitizeMessage(model.data.marketAnalysis),
+                  }}
+                />
+              </div>
+            )}
+            {model.data.financialModel && (
+              <div className={styles.card}>
+                <TitleCard title='Financial Model' />
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: sanitizeMessage(model.data.financialModel),
+                  }}
+                />
+              </div>
+            )}
+            {model.data.currentInvestors && (
+              <div className={styles.card}>
+                <TitleCard title='Current Investors' />
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: sanitizeMessage(model.data.currentInvestors),
+                  }}
+                />
+              </div>
+            )}
+            {model.data.stagesImplementation && (
+              <div className={styles.card}>
+                <TitleCard title='Implementation Stages' />
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: sanitizeMessage(
+                      model.data.stagesImplementation,
+                    ),
+                  }}
+                />
+              </div>
+            )}
+            {model.data.partnershipOptions && (
+              <div className={styles.card}>
+                <TitleCard title='Partnership Options' />
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: sanitizeMessage(model.data.partnershipOptions),
+                  }}
+                />
+              </div>
+            )}
           </div>
         </section>
       ) : (

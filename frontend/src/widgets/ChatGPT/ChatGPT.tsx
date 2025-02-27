@@ -76,6 +76,7 @@ export const ChatGPT = () => {
       const urlPatterns = [
         /\/admin\/business-plan\/view\/business-model\/(\d+)$/,
         /\/admin\/business-plan\/edit\/business-model\/(\d+)$/,
+        /\/admin\/business-plan\/make-business-model\/?$/,
       ]
 
       let match = null
@@ -107,13 +108,13 @@ export const ChatGPT = () => {
       setMessages(prev =>
         prev
           ? prev.map(msg =>
-              msg.id === loadingMessage.id
-                ? {
-                    ...msg,
-                    message: `ChatGPT has an answer for you${dots}`,
-                  }
-                : msg,
-            )
+            msg.id === loadingMessage.id
+              ? {
+                ...msg,
+                message: `ChatGPT has an answer for you${dots}`,
+              }
+              : msg,
+          )
           : [],
       )
     }, 500)
@@ -133,9 +134,9 @@ export const ChatGPT = () => {
     setMessages(prev =>
       prev
         ? [
-            ...prev.filter(msg => msg.id !== loadingMessage.id),
-            response.data,
-          ]
+          ...prev.filter(msg => msg.id !== loadingMessage.id),
+          response.data,
+        ]
         : [response.data],
     )
   }
@@ -205,6 +206,7 @@ export const ChatGPT = () => {
     const urlPatterns = [
       /\/admin\/business-plan\/view\/business-model\/(\d+)$/,
       /\/admin\/business-plan\/edit\/business-model\/(\d+)$/,
+      /\/admin\/business-plan\/make-business-model\/?$/,
     ]
 
     setShowCheckbox(

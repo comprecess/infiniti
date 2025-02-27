@@ -1149,6 +1149,11 @@ export interface BusinessPlanBusinessModelData {
   title: string
   profitability: ValuesProps[]
   location: ValuesProps[]
+  marketAnalysis: string
+  financialModel: string
+  currentInvestors: string
+  stagesImplementation: string
+  partnershipOptions: string
 }
 
 export interface BusinessPlanBusinessModelFormData {
@@ -1165,6 +1170,11 @@ export interface BusinessPlanBusinessModelFormData {
   location: string[]
   preview?: string
   content?: string
+  marketAnalysis: string
+  financialModel: string
+  currentInvestors: string
+  stagesOfImplementation: string
+  partnershipOptions: string
 }
 
 export interface BusinessPlanBusinessModelEditData {

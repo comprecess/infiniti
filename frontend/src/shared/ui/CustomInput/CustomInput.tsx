@@ -44,6 +44,10 @@ export const CustomInput: FC<CustomInputProps> = ({
     }
   }, [])
 
+  useEffect(() => {
+    setInputValue(value)
+  }, [value])
+
   return (
     <div className={styles.wrapper}>
       {title && (
