@@ -216,6 +216,6 @@ class ChatGPTController extends ResidentController
             }
         }
 
-        return response()->json($jsonResponse, 422);
+        return response()->json($jsonResponse);
     }
 }
