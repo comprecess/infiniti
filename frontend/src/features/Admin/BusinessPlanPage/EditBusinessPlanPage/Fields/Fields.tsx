@@ -9,7 +9,7 @@ import styles from './Fields.module.scss'
 interface FieldsProps {
   formData: Partial<BusinessPlanNewPlanFormData>
   setFormData: Dispatch<
-  SetStateAction<Partial<BusinessPlanNewPlanFormData> | null>
+    SetStateAction<Partial<BusinessPlanNewPlanFormData> | null>
   >
 }
 
@@ -102,8 +102,8 @@ export const Fields: FC<FieldsProps> = ({ formData, setFormData }) => {
         </div>
         <TextEditor
           chatGPT
-          setValue={message => handleChangeInput('exSummary', message)}
           defaultValue={formData.exSummary}
+          setValue={message => handleChangeInput('exSummary', message)}
         />
       </div>
       <div className={styles.containerItems}>
@@ -117,8 +117,8 @@ export const Fields: FC<FieldsProps> = ({ formData, setFormData }) => {
         </div>
         <TextEditor
           chatGPT
-          setValue={message => handleChangeInput('description', message)}
           defaultValue={formData.description}
+          setValue={message => handleChangeInput('description', message)}
         />
       </div>
       <div className={styles.containerItems}>

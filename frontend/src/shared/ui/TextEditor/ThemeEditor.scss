@@ -100,6 +100,10 @@
   ) !important;
 }
 
+.jodit-container:not(.jodit_inline) .jodit-wysiwyg {
+  padding: 8px 8px 30px 8px !important;
+}
+
 .jodit-workplace {
   p {
     font-size: 15px;

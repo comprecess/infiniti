@@ -1,4 +1,22 @@
 .wrapper {
+  position: relative;
   width: 100%;
   height: 100%;
+}
+
+.chatGPTButton {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  cursor: pointer;
+}
+
+.chatGPTIconFirst {
+  width: 18px;
+  height: 18px;
+}
+
+.chatGPTIconSecond * {
+  width: 18px;
+  height: 18px;
 }
