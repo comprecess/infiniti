@@ -108,22 +108,22 @@ export const ChatGPT = () => {
       setMessages(prev =>
         prev
           ? prev.map(msg =>
-            msg.id === loadingMessage.id
-              ? {
-                ...msg,
-                message: `ChatGPT has an answer for you${dots}`,
-              }
-              : msg,
-          )
+              msg.id === loadingMessage.id
+                ? {
+                    ...msg,
+                    message: `ChatGPT has an answer for you${dots}`,
+                  }
+                : msg,
+            )
           : [],
       )
     }, 500)
 
     const response: { data: MessageChatGPT } = await postUserMessage(
-      models[parseInt(model)],
       message,
       extraData?.id,
       extraData?.type,
+      models[parseInt(model)],
     )
 
     if (onTopic) {
@@ -134,9 +134,9 @@ export const ChatGPT = () => {
     setMessages(prev =>
       prev
         ? [
-          ...prev.filter(msg => msg.id !== loadingMessage.id),
-          response.data,
-        ]
+            ...prev.filter(msg => msg.id !== loadingMessage.id),
+            response.data,
+          ]
         : [response.data],
     )
   }

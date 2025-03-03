@@ -180,10 +180,11 @@ export const AdminEditBusinessModel = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { access, status, ...filteredResponse } = response
 
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      ...filteredResponse,
-    }))
+    setFormData(prevFormData => {
+      const updatedFormData = { ...prevFormData, ...filteredResponse }
+
+      return updatedFormData
+    })
 
     setChatGPTChangeForm(false)
   }

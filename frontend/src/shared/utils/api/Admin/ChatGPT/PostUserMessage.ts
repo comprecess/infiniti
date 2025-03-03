@@ -1,10 +1,10 @@
 import { getAuthToken } from '../../GetAuthToken'
 
 export const postUserMessage = async (
-  chatModel: string,
   message: string,
   discussionId?: string,
   discussionModel?: string,
+  chatModel?: string,
 ) => {
   const authToken = getAuthToken()
 
@@ -21,8 +21,8 @@ export const postUserMessage = async (
             Authorization: `Bearer ${authToken}`,
           },
           body: JSON.stringify({
-            chatModel,
             message,
+            chatModel,
             discussionId,
             discussionModel,
           }),
