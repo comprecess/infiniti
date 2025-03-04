@@ -15,5 +15,8 @@
           'current_investors',
           'stages_implementation',
           'partnership_options'
-      ]
+      ],
+        'message' => [
+            'error' => "Произошла ошибка"
+        ]
     ];
