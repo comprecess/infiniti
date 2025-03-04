@@ -12,6 +12,7 @@ class ChatGPT
 {
     const MODEL = [
         'gpt-4o',
+        'gpt-4.5',
         'gpt-4o-mini',
         'o1',
         'o1-mini',

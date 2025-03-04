@@ -4,6 +4,6 @@
         'title' => 'title'
       ],
         'message' => [
-            'error' => "Произошла ошибка"
+            'error' => "An error occurred"
         ]
     ];
