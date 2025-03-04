@@ -192,9 +192,9 @@ class ChatGPTController extends ResidentController
         $answer = $answerQuery->first();
 
         $analysis = Arr::get($answer->data, 'analysis');
+        $chat = $answer->child;
 
-        if($analysis) {
-            $chat = $answer->child;
+        if($analysis && $chat) {
             foreach($analysis as $column => $data) {
                 $startSearch = "{{$column}}";
                 $endSearch = "{/{$column}}";
