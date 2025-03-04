@@ -102,7 +102,7 @@ class ChatGPT
         $chat = $this->chatGPTModel->replicate();
         $chat->id = null;
         $chat->parent_id = $this->chatGPTModel->id;
-        $chat->chat_id = Arr::get($this->lastMessage, 'id');
+        $chat->chat_id = Arr::get($this->lastMessage, 'id', 'no_id_or_error');
         $chat->message = $message;
         $chat->log_message = $log_message;
         return $chat;
