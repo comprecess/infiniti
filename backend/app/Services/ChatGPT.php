@@ -23,6 +23,7 @@ class ChatGPT
     private $write = [];
     private $history = [];
     private $lastMessage = null;
+    private $error = null;
 
     public function __construct(\App\Models\ChatGPT $chatGPTModel)
     {
@@ -76,6 +77,7 @@ class ChatGPT
 
         }catch (\Exception $e) {
             Log::error($e->getMessage(), $e->getTrace());
+            $this->error = $e->getMessage();
         }
 
         return $this;
@@ -88,12 +90,20 @@ class ChatGPT
 
     public function toModel() :\App\Models\ChatGPT
     {
+        if($this->lastMessage) {
+            $message =  $this->getHistory();
+            $log_message = null;
+        } else {
+            $message =  __('chat_gpt.message.error');
+            $log_message = $this->error;
+        }
+
         $chat = $this->chatGPTModel->replicate();
         $chat->id = null;
         $chat->parent_id = $this->chatGPTModel->id;
-        $chat->chat_id = $this->lastMessage['id'];
-        $chat->message = $this->getHistory();
-        $chat->log_message = null;
+        $chat->chat_id = Arr::get($this->lastMessage, 'id');
+        $chat->message = $message;
+        $chat->log_message = $log_message;
         return $chat;
     }
 }

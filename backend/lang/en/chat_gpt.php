@@ -2,5 +2,8 @@
     return [
       'App\Models\BusinessModel\BusinessModel' => [
         'title' => 'title'
-      ]
+      ],
+        'message' => [
+            'error' => "Произошла ошибка"
+        ]
     ];
