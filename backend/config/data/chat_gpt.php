@@ -2,7 +2,7 @@
     return [
         'businessModel' => [
             'title' => [
-               'parse' => ['заголовок', 'заголов', 'title']
+               'parse' => ['заголовок', 'title', 'заголов']
             ],
             'description' => [
                 'parse' => ['описание', 'brief description', 'краткое описание', 'описани', 'кратк', 'descript']
@@ -12,19 +12,19 @@
             ],
             'industries' => [
                 'table' => 'props',
-                'parse' => ['отрасли промышленности', 'отрасли', 'промышленности', 'industry', 'отрасл', 'промышленнос'],
+                'parse' => ['отрасли промышленности', 'industries', 'отрасли', 'промышленности', 'industry', 'отрасл', 'промышленнос'],
             ],
             'technologies' => [
                 'table' => 'props',
-                'parse' => ['технологии', 'technology', 'технолог'],
+                'parse' => ['технологии', 'technologies', 'technology', 'технолог'],
             ],
             'location' => [
                 'table' => 'props',
-                'parse' => ['расположение', 'расположен', 'локаци', 'position', 'location'],
+                'parse' => ['расположение', 'location', 'расположен', 'локаци', 'position'],
             ],
             'category' => [
                 'table' => 'props',
-                'parse' => ['категория', 'категори', 'categor'],
+                'parse' => ['категория', 'category', 'категори', 'categor'],
             ],
             'market_analysis' => [
                 'parse' => ['анализ рынка', 'market analysis', 'analysis', 'market', 'анализ', 'рын'],

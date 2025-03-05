@@ -5,13 +5,12 @@ namespace App\Http\Controllers\Api\Resident\BusinessPlan;
 
 
 use App\Http\Controllers\Api\Traits\CRUD;
-use App\Http\Requests\Resident\BusinessPlan\BusinessModelChatGPTRequest;
-use App\Http\Requests\Resident\BusinessPlan\BusinessModelChatGPTSaveRequest;
 use App\Http\Requests\Resident\BusinessPlan\BusinessModelCreateRequest;
 use App\Http\Requests\Resident\BusinessPlan\BusinessModelListRequest;
 use App\Http\Requests\Resident\BusinessPlan\BusinessModelUpdateRequest;
 use App\Http\Resources\Catalog\ValueResorce;
 use App\Http\Resources\Resident\BusinessPlan\BusinessModelResource;
+use App\Http\Resources\Resident\BusinessPlan\BusinessPlanResource;
 use App\Models\BusinessModel\BusinessModel;
 use App\Models\BusinessModel\BusinessModelValue;
 use App\Models\BusinessModel\Prop;
@@ -136,6 +135,11 @@ class BusinessModelController extends BusinessPlanAccessController
     public function item(BusinessModel $model)
     {
         return new BusinessModelResource($model);
+    }
+
+    public function toPlan(BusinessModel $model)
+    {
+        return new BusinessPlanResource($model->toPlan());
     }
 
 
