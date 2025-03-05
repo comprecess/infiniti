@@ -14,6 +14,9 @@ const baseStyle = definePartsStyle({
     borderRadius: 4,
     border: 'none',
     backgroundColor: 'gray.500',
+    _checked: {
+      background: 'brand.500',
+    },
   },
   label: {
     display: 'block',

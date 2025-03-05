@@ -42,7 +42,7 @@ export const AdminBusinessPlanPage: FC = () => {
   }
 
   const { data: plansData } = useQuery({
-    queryKey: ['plans'],
+    queryKey: ['businessPlans'],
     queryFn: async () => {
       const response: {
         access: RolesAccess
@@ -63,7 +63,7 @@ export const AdminBusinessPlanPage: FC = () => {
         description: 'You have successfully deleted your Business Plan',
         status: 'success',
       })
-      queryClient.invalidateQueries({ queryKey: ['talents'] })
+      queryClient.invalidateQueries({ queryKey: ['businessPlans'] })
     } else {
       showToast({
         title: 'Error',

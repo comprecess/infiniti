@@ -14,6 +14,7 @@ export const TransparentSelect: FC<TransparentSelectProps> = ({
 }) => {
   return (
     <Select
+      width='auto'
       value={value}
       variant='unstyled'
       _focus={{ boxShadow: 'none' }}

@@ -23,6 +23,7 @@ interface BusinessModelCardProps {
   onMobileCLick: () => void
   onNavigate: (id: number) => void
   onDelete: (id: number) => void
+  onConvert: (id: number) => void
   onEdit: (id: number) => void
 }
 
@@ -41,6 +42,7 @@ export const BusinessModelCard: FC<BusinessModelCardProps> = ({
   onMobileCLick,
   onNavigate,
   onDelete,
+  onConvert,
   onEdit,
 }) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
@@ -97,6 +99,13 @@ export const BusinessModelCard: FC<BusinessModelCardProps> = ({
                       tooltipTitle='Edit'
                       alt='Edit'
                       onClick={() => onEdit(id)}
+                    />
+                    <CustomMiniButton
+                      style='blue'
+                      icon='/icons/fileMove.svg'
+                      tooltipTitle='Convert to Business Plan'
+                      alt='Convert'
+                      onClick={() => onConvert(id)}
                     />
                     <CustomMiniButton
                       style='cherry'

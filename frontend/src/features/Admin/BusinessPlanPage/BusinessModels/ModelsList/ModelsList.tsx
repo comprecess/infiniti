@@ -15,7 +15,9 @@ import {
 } from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
 import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
+import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { convertBusinessModel } from '../../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/ConvertBusinessModel'
 import { saveSession } from '../../../../../shared/utils/Saving/Session/SaveSession'
 import { BusinessModelCard } from '../../../../../widgets/BusinessModelCard/BusinessModelCard'
 import { PagesList } from '../../../../Client/CatalogPage/TalentsList/PagesList/PagesList'
@@ -42,11 +44,37 @@ export const ModelsList: FC<ModelsListProps> = ({
   const [modelsOpen, setModelsOpen] = useState<boolean[]>([])
 
   const navigate = useNavigate()
+  const showToast = useCustomToast()
 
   const handlePageChange = useCallback((page: number) => {
     saveSession(userModelsPageString, page)
     setCurrentPage(page)
   }, [])
+
+  const handleConvertBusinessModel = async (id: number) => {
+    const response: {
+      data: BusinessPlanBusinessModelData
+      message: string
+      status: boolean
+    } = await convertBusinessModel(id)
+
+    if (response.status) {
+      navigate(
+        `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.businessPlans}`,
+      )
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully converted the Business Model',
+        status: 'success',
+      })
+    } else {
+      showToast({
+        title: 'Error',
+        description: response.message,
+        status: 'error',
+      })
+    }
+  }
 
   const handleNavigateToViewBusinessModel = (id: number) => {
     if (isAdmin) {
@@ -125,6 +153,7 @@ export const ModelsList: FC<ModelsListProps> = ({
                         onMobileCLick={() => handleModelOpenClose(index)}
                         onNavigate={handleNavigateToViewBusinessModel}
                         onEdit={handleNavigateToEditBusinessModel}
+                        onConvert={handleConvertBusinessModel}
                         onDelete={
                           deleteBusinessModel
                             ? deleteBusinessModel

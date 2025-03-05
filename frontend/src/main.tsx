@@ -52,6 +52,15 @@ const theme = extendTheme({
       400: '#f872a3',
     },
   },
+  styles: {
+    global: (props: any) => ({
+      body: {
+        bg: props.colorMode === 'light' ? 'white' : 'white',
+        color: props.colorMode === 'light' ? 'white' : 'white',
+        transition: 'background-color 0.2s ease',
+      },
+    }),
+  },
 })
 
 const queryClient = new QueryClient()

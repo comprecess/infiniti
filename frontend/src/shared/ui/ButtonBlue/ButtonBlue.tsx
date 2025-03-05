@@ -10,6 +10,7 @@ interface ButtonBlueProps {
   icon?: string
   iconProps?: string
   titleNone?: boolean
+  disabled?: boolean
   onClick?: () => void
 }
 
@@ -20,12 +21,14 @@ export const ButtonBlue: FC<ButtonBlueProps> = ({
   styleTitle,
   icon,
   iconProps,
+  disabled = false,
   titleNone = false,
   onClick,
 }) => {
   return (
     <button
       type={type}
+      disabled={disabled}
       className={
         icon
           ? `${styles.iconWrapper} ${style}`
