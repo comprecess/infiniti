@@ -26,11 +26,11 @@ import styles from './ModelsList.module.scss'
 interface ModelsListProps {
   isAdmin: boolean
   modelsList:
-    | {
-        data: BusinessPlanBusinessModelData[]
-        meta: PagesMetaData
-      }
-    | undefined
+  | {
+    data: BusinessPlanBusinessModelData[]
+    meta: PagesMetaData
+  }
+  | undefined
   setCurrentPage: Dispatch<SetStateAction<number>>
   deleteBusinessModel?: (id: number) => void
 }
