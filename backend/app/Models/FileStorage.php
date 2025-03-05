@@ -247,4 +247,13 @@ class FileStorage extends Model
             Storage::disk('local')->delete($this->tmpFile);
         }
     }
+
+    public function replicateNewModel($model)
+    {
+        if(!$model->id) {
+            return null;
+        }
+
+        return $this->replicate(['model_type' => get_class($model), 'model_id' => $model->id]);
+    }
 }

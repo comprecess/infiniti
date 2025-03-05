@@ -3,10 +3,13 @@
 namespace App\Models\BusinessModel;
 
 use App\Http\Resources\BusinessModel\BusinessModelChatGPTResource;
+use App\Http\Resources\Resident\BusinessPlan\BusinessPlanResource;
 use App\Models\Contracts\ChatGPTContract;
+use App\Models\Resident\BusinessPlan;
 use App\Models\Traits\ChatGPTTrait;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\FileStorageTrait;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -116,5 +119,29 @@ class BusinessModel extends Model implements ChatGPTContract
     public function discussionColumn()
     {
         return "";
+    }
+
+    public function toPlan() :BusinessPlan
+    {
+        $user = User::getAuth();
+
+        $plan = new BusinessPlan();
+        $plan->business_model_id = $this->id;
+
+        $plan->email = $user->username;
+        $plan->phone = $user->phonenumber;
+        $plan->name = $user->fullname;
+
+        $plan->company_name = $this->title;
+        $plan->date = $this->start;
+        $plan->description = $this->full_description;
+        $plan->ex_summary = $this->description;
+        $plan->m_analysis = $this->market_analysis;
+        $plan->investment = $this->current_investors;
+        $plan->finance = $this->financial_model;
+
+        $plan->save();
+
+        return $plan;
     }
 }
