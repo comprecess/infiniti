@@ -41,6 +41,7 @@ export const Buttons: FC<ButtonsProps> = ({
           label='Send Email'
           openDelay={100}
           closeDelay={100}
+          color='white'
           bg='#010102'
           borderRadius='8px'
         >
@@ -80,6 +81,7 @@ export const Buttons: FC<ButtonsProps> = ({
           label='Send SMS'
           openDelay={100}
           closeDelay={100}
+          color='white'
           bg='#010102'
           borderRadius='8px'
         >
@@ -113,6 +115,7 @@ export const Buttons: FC<ButtonsProps> = ({
           label='View or Download PDF'
           openDelay={100}
           closeDelay={100}
+          color='white'
           bg='#010102'
           borderRadius='8px'
         >
@@ -143,6 +146,7 @@ export const Buttons: FC<ButtonsProps> = ({
           label='Change Status'
           openDelay={100}
           closeDelay={100}
+          color='white'
           bg='#010102'
           borderRadius='8px'
         >

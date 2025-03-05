@@ -32,10 +32,15 @@
 .popoverContent {
   display: flex;
   flex-direction: column;
-  width: 100% !important;
   max-width: 500px;
   height: calc(100vh - 65px);
   z-index: 9999;
+  width: 100% !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  outline: none !important;
+  box-shadow: 1px 1px 7px $brand-300 !important;
+  border: none !important;
 
   @include mobileBreakpoint('min', 500px) {
     max-height: 650px;
@@ -50,6 +55,16 @@
   gap: 18px;
   align-items: center;
   flex-shrink: 0;
+  border-top-left-radius: 8px !important;
+  border-top-right-radius: 8px !important;
+  border-bottom: none !important;
+  padding: 18px 24px !important;
+  background: linear-gradient(
+    to right,
+    #838ced,
+    #5965e7,
+    #303fe1
+  ) !important;
 }
 
 .popoverBody {
@@ -59,6 +74,9 @@
   flex-grow: 1;
   overflow: hidden;
   padding-right: 6px !important;
+  border-top-left-radius: 8px !important;
+  border-top-right-radius: 8px !important;
+  background-color: $brand-900 !important;
 }
 
 .messenger {

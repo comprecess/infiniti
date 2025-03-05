@@ -35,6 +35,7 @@ export const CustomMiniButton: FC<CustomMiniButtonProps> = ({
       label={tooltipTitle}
       openDelay={100}
       closeDelay={100}
+      color='white'
       bg='#010102'
       borderRadius='8px'
     >

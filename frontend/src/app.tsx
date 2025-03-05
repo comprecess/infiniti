@@ -17,7 +17,7 @@ export const App: FC = () => {
       await getProfileInfo()
 
       setIsLoading(false)
-      setColorMode('light')
+      setColorMode('dark')
     }
 
     loadProfileInfo()

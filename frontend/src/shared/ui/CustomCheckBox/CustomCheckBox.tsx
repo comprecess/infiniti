@@ -1,4 +1,4 @@
-import { Checkbox } from '@chakra-ui/react'
+import { Checkbox, useTheme } from '@chakra-ui/react'
 import { FC } from 'react'
 
 interface CheckBoxProps {
@@ -20,6 +20,8 @@ export const CustomCheckBox: FC<CheckBoxProps> = ({
   onChange,
   onInputChange,
 }) => {
+  const theme = useTheme()
+
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (titleOnChange && onInputChange) {
       onInputChange(titleOnChange, event.target.checked)

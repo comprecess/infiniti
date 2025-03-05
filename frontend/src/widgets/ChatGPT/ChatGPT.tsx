@@ -8,7 +8,7 @@ import {
   PopoverTrigger,
   useDisclosure,
 } from '@chakra-ui/react'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
@@ -37,8 +37,8 @@ export const ChatGPT = () => {
 
   const [messages, setMessages] = useState<MessageChatGPT[] | null>(null)
   const [models, setModels] = useState<Record<number, string> | null>(null)
-
   const [showCheckbox, setShowCheckbox] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const { isOpen, onToggle, onClose } = useDisclosure()
   const { i18n } = useTranslation()
@@ -46,19 +46,32 @@ export const ChatGPT = () => {
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
 
-  const sendMessage = async (data: {
+  const fetchData = useCallback(async () => {
+    const [inputData, userHistory] = await Promise.all([
+      getChatGPTInputData(),
+      getUserHistoryMessage(),
+    ])
+    setModels(inputData.chatGPTModel)
+    setMessages(userHistory.data)
+  }, [])
+
+  const sendMessage = async ({
+    message,
+    model,
+    onTopic,
+  }: {
     message: string
     model: string
     onTopic: boolean
   }) => {
-    const { message, model, onTopic } = data
-
     if (!model || message === '' || models === null) return
+
+    setIsLoading(true)
 
     const currentDate = new Date()
       .toISOString()
-      .replace('T', ' ')
       .slice(0, 19)
+      .replace('T', ' ')
 
     const userMessage: MessageChatGPT = {
       id: messages?.length || 0,
@@ -67,28 +80,16 @@ export const ChatGPT = () => {
       create: currentDate,
     }
 
-    reset({ message: '', model: data.model, onTopic: data.onTopic })
+    reset({ message: '', model, onTopic })
     setMessages(prev => (prev ? [...prev, userMessage] : [userMessage]))
 
     let extraData = null
 
     if (onTopic) {
-      const urlPatterns = [
-        /\/admin\/business-plan\/view\/business-model\/(\d+)$/,
-        /\/admin\/business-plan\/edit\/business-model\/(\d+)$/,
-        /\/admin\/business-plan\/make-business-model\/?$/,
-      ]
-
-      let match = null
-
-      for (const pattern of urlPatterns) {
-        match = window.location.pathname.match(pattern)
-        if (match) break
-      }
-
-      if (match) {
-        extraData = { id: match[1], type: 'businessModel' }
-      }
+      const match = window.location.pathname.match(
+        /\/admin\/business-plan\/(view|edit|make)-business-model\/(\d+)/,
+      )
+      if (match) extraData = { id: match[2], type: 'businessModel' }
     }
 
     const loadingMessage: MessageChatGPT = {
@@ -98,86 +99,56 @@ export const ChatGPT = () => {
       create: currentDate,
       isLoadingMessage: true,
     }
+
     setMessages(prev =>
       prev ? [...prev, loadingMessage] : [loadingMessage],
     )
 
     let dots = ''
+
     const interval = setInterval(() => {
       dots = dots.length < 3 ? dots + '.' : ''
-      setMessages(prev =>
-        prev
-          ? prev.map(msg =>
-              msg.id === loadingMessage.id
-                ? {
-                    ...msg,
-                    message: `ChatGPT has an answer for you${dots}`,
-                  }
-                : msg,
-            )
-          : [],
+      setMessages(
+        prev =>
+          prev?.map(msg =>
+            msg.id === loadingMessage.id
+              ? { ...msg, message: `ChatGPT has an answer for you${dots}` }
+              : msg,
+          ) || [],
       )
     }, 500)
 
-    const response: { data: MessageChatGPT } = await postUserMessage(
+    const response = await postUserMessage(
       message,
       extraData?.id,
       extraData?.type,
       models[parseInt(model)],
     )
 
-    if (onTopic) {
-      setChatGPTChangeForm(value => !value)
-    }
+    if (onTopic) setChatGPTChangeForm(prev => !prev)
 
     clearInterval(interval)
-    setMessages(prev =>
-      prev
-        ? [
-            ...prev.filter(msg => msg.id !== loadingMessage.id),
-            response.data,
-          ]
-        : [response.data],
+    setMessages(
+      prev =>
+        prev
+          ?.filter(msg => msg.id !== loadingMessage.id)
+          .concat(response.data) || [response.data],
     )
+    setIsLoading(false)
   }
 
-  const getInputData = async () => {
-    const response: { chatGPTModel: Record<number, string> } =
-      await getChatGPTInputData()
+  const groupMessagesByDate = (messages: MessageChatGPT[]) =>
+    messages.reduce<Record<string, MessageChatGPT[]>>((acc, msg) => {
+      const date = new Date(msg.create).toLocaleDateString(i18n.language, {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+      })
+      if (!acc[date]) acc[date] = []
+      acc[date].push(msg)
 
-    setModels(response.chatGPTModel)
-  }
-
-  const getHistoryUser = async () => {
-    const response: { data: MessageChatGPT[] } =
-      await getUserHistoryMessage()
-
-    setMessages(response.data)
-  }
-
-  const groupMessagesByDate = (messages: MessageChatGPT[]) => {
-    return messages.reduce<Record<string, MessageChatGPT[]>>(
-      (acc, msg) => {
-        const date = new Date(msg.create).toLocaleDateString(
-          i18n.language,
-          {
-            day: '2-digit',
-            month: 'long',
-            year: 'numeric',
-          },
-        )
-
-        if (!acc[date]) {
-          acc[date] = []
-        }
-
-        acc[date].push(msg)
-
-        return acc
-      },
-      {},
-    )
-  }
+      return acc
+    }, {})
 
   const groupedMessages = messages ? groupMessagesByDate(messages) : {}
 
@@ -190,6 +161,17 @@ export const ChatGPT = () => {
   }, [isOpen])
 
   useEffect(() => {
+    const urlPatterns = [
+      /\/admin\/business-plan\/view\/business-model\/(\d+)$/,
+      /\/admin\/business-plan\/edit\/business-model\/(\d+)$/,
+      /\/admin\/business-plan\/make-business-model\/?$/,
+    ]
+    setShowCheckbox(
+      urlPatterns.some(pattern => pattern.test(window.location.pathname)),
+    )
+  }, [window.location.pathname])
+
+  useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
     }
@@ -197,28 +179,13 @@ export const ChatGPT = () => {
 
   useEffect(() => {
     if (models && Object.keys(models).length > 0) {
-      const firstModelValue = Object.keys(models)[0]
-      setValue('model', firstModelValue)
+      setValue('model', Object.keys(models)[0])
     }
   }, [models, setValue])
 
   useEffect(() => {
-    const urlPatterns = [
-      /\/admin\/business-plan\/view\/business-model\/(\d+)$/,
-      /\/admin\/business-plan\/edit\/business-model\/(\d+)$/,
-      /\/admin\/business-plan\/make-business-model\/?$/,
-    ]
-
-    setShowCheckbox(
-      urlPatterns.some(pattern => pattern.test(window.location.pathname)),
-    )
-
-    getHistoryUser()
-  }, [window.location.pathname])
-
-  useEffect(() => {
-    getInputData()
-  }, [])
+    fetchData()
+  }, [fetchData])
 
   return (
     <Popover
@@ -245,64 +212,34 @@ export const ChatGPT = () => {
           boxShadow: '1px 1px 8px #acb2f3',
           border: 'none',
         }}
-        style={{
-          borderRadius: 8,
-          background: 'transparent',
-          outline: 'none',
-          boxShadow: '1px 1px 7px #838ced',
-          border: 'none',
-        }}
       >
-        <PopoverHeader
-          className={styles.popoverHeader}
-          style={{
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
-            background:
-              'linear-gradient(to right, #838ced, #5965e7, #303fe1)',
-            borderBottom: 'none',
-            padding: '18px 24px',
-          }}
-        >
+        <PopoverHeader className={styles.popoverHeader}>
           <div className={styles.chatGPTContainer}>
             <Icon
-              hover={false}
               icon={<ChatGPTIcon />}
+              hover={false}
               style={styles.iconChatGPT}
             />
             <span className={styles.chatGPTTitle}>ChatGPT</span>
           </div>
           {models && (
-            <div>
-              <Controller
-                name='model'
-                control={control}
-                render={({ field }) => (
-                  <TransparentSelect
-                    value={field.value}
-                    options={Object.entries(models).map(
-                      ([key, value]) => ({
-                        value: key,
-                        label: value,
-                      }),
-                    )}
-                    onChange={selectedValue =>
-                      field.onChange(selectedValue)
-                    }
-                  />
-                )}
-              />
-            </div>
+            <Controller
+              name='model'
+              control={control}
+              render={({ field }) => (
+                <TransparentSelect
+                  value={field.value}
+                  options={Object.entries(models).map(([key, value]) => ({
+                    value: key,
+                    label: value,
+                  }))}
+                  onChange={field.onChange}
+                />
+              )}
+            />
           )}
         </PopoverHeader>
-        <PopoverBody
-          className={styles.popoverBody}
-          style={{
-            borderBottomLeftRadius: 8,
-            borderBottomRightRadius: 8,
-            backgroundColor: '#151720',
-          }}
-        >
+        <PopoverBody className={styles.popoverBody}>
           <div className={styles.messenger}>
             {messages && (
               <div className={styles.messages}>
@@ -346,12 +283,14 @@ export const ChatGPT = () => {
                   id='message'
                   name='message'
                   type='text'
+                  disabled={isLoading}
                   register={register}
                   validationRules={{ required: true }}
                 />
                 <ButtonBlue
                   type='submit'
                   icon='/icons/send.svg'
+                  disabled={isLoading}
                   style={styles.button}
                 />
               </div>

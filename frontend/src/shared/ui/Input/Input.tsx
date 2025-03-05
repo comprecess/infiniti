@@ -11,6 +11,7 @@ interface InputProps extends HTMLProps<HTMLInputElement> {
   type: string
   register: UseFormRegister<any>
   placeholder?: string
+  disabled?: boolean
   validationRules?: RegisterOptions
 }
 
@@ -21,8 +22,9 @@ export const Input: FC<InputProps> = ({
   id,
   name,
   type,
-  register,
+  disabled = false,
   validationRules,
+  register,
 }) => {
   return (
     <div className={styles.wrapper}>
@@ -32,6 +34,7 @@ export const Input: FC<InputProps> = ({
         </label>
       )}
       <input
+        disabled={disabled}
         placeholder={placeholder}
         id={id}
         type={type}
