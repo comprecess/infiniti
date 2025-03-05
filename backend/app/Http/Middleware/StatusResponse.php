@@ -26,7 +26,7 @@ class StatusResponse
                 $json = json_decode($response->getContent(), true);
 
                 if(!isset($json['status'])) {
-                    $json['status'] = $response->getStatusCode() == 200;
+                    $json['status'] = in_array($response->getStatusCode(), [200, 201]);
                 }
 
                 $response->setContent(json_encode($json));
