@@ -25,7 +25,7 @@ export const AdminBusinessPlanPage: FC = () => {
 
   const handleNavigateToMakeBusinessPlan = () => {
     navigate(
-      `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.makeBusinessPlan}`,
+      `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.make}/${Routes.businessPlan}`,
     )
   }
 
