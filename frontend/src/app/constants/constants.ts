@@ -1116,6 +1116,7 @@ export interface BusinessPlanItemData {
 }
 
 export interface BusinessPlanNewPlanFormData {
+  id: string
   companyName: string
   name: string
   email: string

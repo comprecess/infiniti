@@ -5,7 +5,13 @@
   font-family: $fontMain;
 }
 
+html body[data-scroll-locked] {
+  margin-right: 0px !important;
+}
+
 html {
+  overflow-x: hidden !important;
+  overflow-y: scroll !important;
   background-color: $brand-1000;
 }
 

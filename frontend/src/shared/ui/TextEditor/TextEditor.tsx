@@ -39,21 +39,16 @@ export const TextEditor: FC<TextEditorProps> = ({
 
     let extraData = null
 
-    const urlPatterns = [
-      /\/admin\/business-plan\/view\/business-model\/(\d+)$/,
-      /\/admin\/business-plan\/edit\/business-model\/(\d+)$/,
-      /\/admin\/business-plan\/make-business-model\/?$/,
-    ]
-
-    let match = null
-
-    for (const pattern of urlPatterns) {
-      match = window.location.pathname.match(pattern)
-      if (match) break
-    }
+    const match = window.location.pathname.match(
+      /\/admin\/business-plan\/(view|edit|make)\/(business-model|business-plan)(?:\/(\d+))?/,
+    )
 
     if (match) {
-      extraData = { id: match[1], type: 'businessModel' }
+      if (match[2] === 'business-model') {
+        extraData = { id: match[3], type: 'businessModel' }
+      } else if (match[2] === 'business-plan') {
+        extraData = { id: match[3], type: 'businessPlan' }
+      }
     }
 
     const response = await postUserMessage(
