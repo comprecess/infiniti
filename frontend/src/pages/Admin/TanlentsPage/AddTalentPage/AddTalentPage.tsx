@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -14,7 +14,7 @@ import { getTalentsInputData } from '../../../../shared/utils/api/Admin/Talents/
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './AddTalentPage.module.scss'
 
-export const AdminAddTalentPage: FC = () => {
+export const AdminAddTalentPage = () => {
   const [formData, setFormData] = useState<Partial<TalentFormData>>({})
   const [inputData, setInputData] = useState<TalentsInputData | null>(null)
 

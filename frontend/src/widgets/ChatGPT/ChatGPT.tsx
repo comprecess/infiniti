@@ -87,9 +87,16 @@ export const ChatGPT = () => {
 
     if (onTopic) {
       const match = window.location.pathname.match(
-        /\/admin\/business-plan\/(view|edit|make)-business-model\/(\d+)/,
+        /\/admin\/business-plan\/(view|edit|make)\/(business-model|business-plan)(?:\/(\d+))?/,
       )
-      if (match) extraData = { id: match[2], type: 'businessModel' }
+
+      if (match) {
+        if (match[2] === 'business-model') {
+          extraData = { id: match[3], type: 'businessModel' }
+        } else if (match[2] === 'business-plan') {
+          extraData = { id: match[3], type: 'businessPlan' }
+        }
+      }
     }
 
     const loadingMessage: MessageChatGPT = {
@@ -153,9 +160,23 @@ export const ChatGPT = () => {
   const groupedMessages = messages ? groupMessagesByDate(messages) : {}
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
+    const handleResize = () => {
+      if (isOpen && window.innerWidth <= 500) {
+        document.documentElement.style.overflow = 'hidden'
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.documentElement.style.overflow = 'scroll'
+        document.body.style.overflow = 'auto'
+      }
+    }
+
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      document.documentElement.style.overflow = 'scroll'
       document.body.style.overflow = 'auto'
     }
   }, [isOpen])
@@ -164,8 +185,12 @@ export const ChatGPT = () => {
     const urlPatterns = [
       /\/admin\/business-plan\/view\/business-model\/(\d+)$/,
       /\/admin\/business-plan\/edit\/business-model\/(\d+)$/,
-      /\/admin\/business-plan\/make-business-model\/?$/,
+      /\/admin\/business-plan\/make\/business-model\/?$/,
+      /\/admin\/business-plan\/view\/business-plan\/(\d+)$/,
+      /\/admin\/business-plan\/edit\/business-plan\/(\d+)$/,
+      /\/admin\/business-plan\/make\/business-plan$/,
     ]
+
     setShowCheckbox(
       urlPatterns.some(pattern => pattern.test(window.location.pathname)),
     )
@@ -202,6 +227,7 @@ export const ChatGPT = () => {
       </PopoverTrigger>
       <PopoverContent
         className={styles.popoverContent}
+        tabIndex={1000}
         _focus={{
           outline: 'none',
           boxShadow: '1px 1px 8px #acb2f3',

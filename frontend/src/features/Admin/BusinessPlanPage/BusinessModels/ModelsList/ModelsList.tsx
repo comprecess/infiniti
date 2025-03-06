@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 
 import {
   BusinessPlanBusinessModelData,
+  BusinessPlanNewPlanFormData,
   PagesMetaData,
   userModelsPageString,
 } from '../../../../../app/constants/constants'
@@ -53,14 +54,14 @@ export const ModelsList: FC<ModelsListProps> = ({
 
   const handleConvertBusinessModel = async (id: number) => {
     const response: {
-      data: BusinessPlanBusinessModelData
+      data: BusinessPlanNewPlanFormData
       message: string
       status: boolean
     } = await convertBusinessModel(id)
 
     if (response.status) {
       navigate(
-        `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.businessPlans}`,
+        `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.view}/${Routes.businessPlan}/${response.data.id}`,
       )
       showToast({
         title: 'Successfully',

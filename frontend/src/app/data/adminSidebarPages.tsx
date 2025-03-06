@@ -136,7 +136,7 @@ export const adminSidebarPages = [
       {
         id: 1,
         title: 'admin-sidebar-subsidiary-page-make-business-plan',
-        path: Routes.makeBusinessPlan,
+        path: `${Routes.make}/${Routes.businessPlan}`,
 
         // Access
         create: true,
@@ -152,7 +152,7 @@ export const adminSidebarPages = [
       {
         id: 3,
         title: 'admin-sidebar-subsidiary-page-create-business-models',
-        path: Routes.makeBusinessModel,
+        path: `${Routes.make}/${Routes.businessModel}`,
 
         // Access
         create: true,

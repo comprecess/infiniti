@@ -9,7 +9,7 @@ import styles from './Fields.module.scss'
 interface FieldsProps {
   formData: Partial<BusinessPlanNewPlanFormData>
   setFormData: Dispatch<
-  SetStateAction<Partial<BusinessPlanNewPlanFormData> | null>
+    SetStateAction<Partial<BusinessPlanNewPlanFormData> | null>
   >
 }
 

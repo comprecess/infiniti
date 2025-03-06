@@ -61,7 +61,7 @@ export const AdminMakeBusinessPlanPage: FC = () => {
             onClick: handleCreateNewBusinessPlan,
           }}
         >
-          <Fields setFormData={setFormData} />
+          <Fields formData={formData} setFormData={setFormData} />
         </RecentCard>
       </section>
     </div>
