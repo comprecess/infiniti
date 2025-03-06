@@ -4,13 +4,14 @@ namespace App\Http\Resources\BusinessModel;
 
 use App\Http\Resources\Traits\NestedParametersTrait;
 use App\Http\Resources\Traits\PropValuesTrait;
+use App\Http\Resources\Traits\ToChatTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Arr;
 
 class BusinessModelChatGPTResource extends JsonResource
 {
-    use NestedParametersTrait, PropValuesTrait;
+    use NestedParametersTrait, PropValuesTrait, ToChatTrait;
     /**
      * Transform the resource into an array.
      *
@@ -21,8 +22,6 @@ class BusinessModelChatGPTResource extends JsonResource
 
     public function toArray(Request $request): array
     {
-       $name = get_class($this->resource);
-
         $data = ['title', 'description', 'category', 'industries', 'technologies', 'location', 'full_description', 'market_analysis', 'financial_model', 'current_investors', 'stages_implementation', 'partnership_options'];
         $resorce = [];
         foreach($data as $key => $value) {
@@ -40,17 +39,17 @@ class BusinessModelChatGPTResource extends JsonResource
         return $resorce;
     }
 
-    public function toChat(mixed $data = null) :string
-    {
-        $data = $data ?? [];
-        $result = $this->jsonSerialize();
-        $resultArray = [];
-        foreach($result as $key => $value) {
-            $resultArray[] = Arr::get($data, "{$key}.parse.0", $key) . ": " . $value;
-        }
-
-        return implode("\n", $resultArray);
-    }
+//    public function toChat(mixed $data = null) :string
+//    {
+//        $data = $data ?? [];
+//        $result = $this->jsonSerialize();
+//        $resultArray = [];
+//        foreach($result as $key => $value) {
+//            $resultArray[] = Arr::get($data, "{$key}.parse.0", $key) . ": " . $value;
+//        }
+//
+//        return implode("\n", $resultArray);
+//    }
 
 
 

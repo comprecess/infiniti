@@ -99,10 +99,12 @@ class ChatGPTController extends ResidentController
         $promt = 'В поле текст [текст] описаны основне требование для тебя и что пользователь хочет получить. ';
         $block['текст'] = $chatGPT->message;
 
+        $modelData = config("data.chat_gpt.{$chatGPT->getDiscussionModelName()}");
+
         if($chatGPT->discussionModel instanceof ChatGPTContract) {
             $promt .= 'Дискуссия ведется по теме: ' . $chatGPT->discussionModel->discussionTopic();
             if($chatGPT->discussionModel->id) {
-                $block['свойства и характеристики'] = $chatGPT->discussionModel->modelDescription(config("data.chat_gpt.{$chatGPT->getDiscussionModelName()}"));
+                $block[$chatGPT->discussionModel->discussionName()] = $chatGPT->discussionModel->modelDescription($modelData);
             }
 
         }
@@ -112,7 +114,8 @@ class ChatGPTController extends ResidentController
             $promt .= "\nТвой ответ должен выглядеть в виде паттерна [паттерн]";
             $pattern = "";
             foreach(array_keys($analysis) as $key) {
-                $pattern .= "{{$key}} Твой текст в разметке html {/{$key}}\n";
+                $html = Arr::get($modelData, "{$key}.html", false) ? " в разметке html" : "";
+                $pattern .= "{{$key}} Твой текст{$html} {/{$key}}\n";
             }
             $block['паттерн'] = $pattern;
         }
@@ -216,5 +219,10 @@ class ChatGPTController extends ResidentController
         }
 
         return response()->json($jsonResponse);
+    }
+
+    public function readyPromt(ChatGPTRequest $request)
+    {
+        $chat = $request->getChatGPTDiscussion();
     }
 }

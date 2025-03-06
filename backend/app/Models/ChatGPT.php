@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\BusinessModel\BusinessModel;
 use App\Models\Collection\ChatGPTCollection;
 use App\Models\Contracts\ChatGPTContract;
+use App\Models\Resident\BusinessPlan;
 use App\Models\Traits\BootTrait;
 use App\Models\Traits\CollectionTrait;
 use App\Models\Traits\UserTrait;
@@ -15,7 +16,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use OpenAI\Laravel\Facades\OpenAI;
 use App\Services\ChatGPT as ChatGPTService;
 
 class ChatGPT extends Model
@@ -31,7 +31,8 @@ class ChatGPT extends Model
     ];
 
     const DISCUSSION_MODEL = [
-        'businessModel' => ['class' => BusinessModel::class, 'access' => 'business_plan']
+        'businessModel' => ['class' => BusinessModel::class, 'access' => 'business_plan'],
+        'businessPlan' => ['class' => BusinessPlan::class, 'access' => 'business_plan']
     ];
 
     public $discussionModel = null;
@@ -64,18 +65,6 @@ class ChatGPT extends Model
     public function child()
     {
         return $this->hasOne(self::class, 'parent_id');
-    }
-
-    public static function test($promt = null) {
-        $result = OpenAI::chat()->create([
-            'model' => 'gpt-4o',
-            'messages' => [
-//                ['role' => 'user', 'content' => 'У меня есть список сотрудников, у каждого есть свои характеристики и свойства. В каком формате мене предоставить тебе этот список?'],
-                ['role' => 'user', 'content' => 'Напиши бизнес проект, связаный с веб технологиями. Ответ должен быть в xml формате. Опсание в теге <description>'],
-            ],
-        ]);
-
-        dd($result);
     }
 
     public function scopeFindModel($query, ?string $class = null, ?int $id = null)
@@ -160,16 +149,7 @@ class ChatGPT extends Model
                     }
                 } while (($position = mb_strpos($text, $word)) !== false);
             }
-//            foreach($values['parse'] ?? [] as $word) {
-//                if($position = strripos($this->message, $word)) {
-//                    if(isset($searchText[$column])){
-//                        $searchText[$column]['col']++;
-//                    } else {
-//                        $searchText[$column]['col'] = 1;
-//                        $searchText[$column]['position'] = $position;
-//                    }
-//                }
-//            }
+
         }
 
         $data = $this->data ?? [];
@@ -183,16 +163,6 @@ class ChatGPT extends Model
         return Arr::get($this->data ?? [], 'analysis', []);
     }
 
-    public function send($promt = null, $model = null, $delet = false)
-    {
-        dump($promt);
-//        return OpenAI::chat()->create([
-//            'model' => $model ?? $this->chat_model ?? self::MODEL[0],
-//            'messages' => [
-//                ['role' => 'user', 'content' => $promt ?? $this->message],
-//            ],
-//        ]);
-    }
 
     public function history() : ?Collection
     {
@@ -212,20 +182,6 @@ class ChatGPT extends Model
 
         return $result->reverse();
 
-       /* if($result->count()){
-            $history = collect();
-
-            $result->reverse()
-                ->each(function($item) use(&$history){
-                $history->push([
-                    'user' => $item->parent_id ? "ChatGPT" : $item->admin->fullname,
-                    'date' => $item->created_at->format("d.m.Y H:i:s"),
-                    'message' => $item->message,
-                ]);
-            });
-        }
-
-        return $history;*/
 
     }
 

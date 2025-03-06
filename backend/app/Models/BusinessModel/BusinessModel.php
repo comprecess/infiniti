@@ -89,36 +89,24 @@ class BusinessModel extends Model implements ChatGPTContract
 
     public function discussionTopic() :string
     {
-        /*
-         $topic = 'бизнес-модель';
-        if($this->id) {
-            $topic .= ' орентируясь на свойства и харктеристики [Свойства и характеристики]';
-        }
-        */
+        $name = $this->discussionName();
 
         $topic = "бизнес-модель. \n";
         if($this->id) {
-            $topic .= 'Орентируйся на свойства и харктеристики [свойства и характеристики] этой бизнес-модели.';
+            $topic .= 'Орентируйся на свойства и харктеристики ['.$name.'] этой бизнес-модели.';
         }
 
         return $topic;
     }
 
-    public function discussion() :string
+    public function discussionName() :string
     {
-//        $chat->write("Тема разговора бизнес-модель");
-//        $chat->write("У меня есть информация о бизнес-модели формате JSON: " . $this->modelDescription() );
-        return '';
+        return 'свойства и характеристики';
     }
 
     public function modelDescription(mixed $data = null)
     {
         return (new BusinessModelChatGPTResource($this))->toChat($data);
-    }
-
-    public function discussionColumn()
-    {
-        return "";
     }
 
     public function toPlan() :BusinessPlan

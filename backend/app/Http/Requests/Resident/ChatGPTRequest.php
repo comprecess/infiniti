@@ -3,10 +3,10 @@
 namespace App\Http\Requests\Resident;
 
 
-use App\Http\Controllers\Api\Resident\BusinessPlan\BusinessModelController;
 use App\Models\ChatGPT;
 use App\Services\ChatGPT as ChatGPTService;
 use Illuminate\Foundation\Http\FormRequest;
+use Nette\Schema\ValidationException;
 
 class ChatGPTRequest extends FormRequest
 {
@@ -37,7 +37,7 @@ class ChatGPTRequest extends FormRequest
                 abort(403);
             }
             if($model) {
-                $model = $this->discussionId ? $model::find($this->discussionId) : new $model();
+                $model = $this->discussionId ? ($model::find($this->discussionId)) ?? new $model() : new $model();
             }
         }
 
@@ -51,6 +51,19 @@ class ChatGPTRequest extends FormRequest
         $chatGPT = $model?->chatGPT() ?? new ChatGPT();
         $chatGPT->chat_model = $this->chatModel ?? ChatGPTService::MODEL[0];
         $chatGPT->message = $this->message;
+
+        return $chatGPT;
+    }
+
+    public function getChatGPTDiscussion()
+    {
+        $model = $this->getModel();
+        if(!$model) {
+            throw ValidationException::withMessages(["discussionModel" => __('validation.required', ['attribute' => 'discussionModel'])]);
+        }
+
+        $chatGPT = $model->chatGPT();
+        $chatGPT->chat_model = $this->chatModel ?? ChatGPTService::MODEL[0];
 
         return $chatGPT;
     }

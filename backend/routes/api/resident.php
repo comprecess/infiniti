@@ -192,6 +192,7 @@ Route::prefix('chat-gpt')
         Route::get('input-data', 'inputData');
         Route::get('analysis', 'analysis');
         Route::post('message', 'message');
+        Route::get('ready-promt', 'readyPromt');
         Route::any('history/{hash}', 'history');
     });
 
