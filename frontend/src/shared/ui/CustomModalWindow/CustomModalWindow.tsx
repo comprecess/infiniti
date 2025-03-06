@@ -8,7 +8,7 @@ interface CustomModalWindowProps {
 }
 
 export const CustomModalWindow: FC<
-  PropsWithChildren<CustomModalWindowProps>
+PropsWithChildren<CustomModalWindowProps>
 > = ({ isOpen, onClose, maxWidth, children }) => {
   return (
     <Modal isCentered isOpen={isOpen} onClose={onClose}>
