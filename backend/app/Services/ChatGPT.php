@@ -99,6 +99,13 @@ class ChatGPT
             $log_message = $this->error;
         }
 
+        $analysis = Arr::get($this->chatGPTModel->data, 'analysis');
+
+        if(!$log_message && count($analysis)) {
+            $log_message = $message;
+            $message = trim(preg_replace('/\{\/?([^\}]*)\}/', '', $message));
+        }
+
         $chat = $this->chatGPTModel->replicate();
         $chat->id = null;
         $chat->parent_id = $this->chatGPTModel->id;
