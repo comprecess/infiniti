@@ -104,9 +104,9 @@ class BusinessModel extends Model implements ChatGPTContract
         return 'свойства и характеристики';
     }
 
-    public function modelDescription(mixed $data = null)
+    public function getResourceChat()
     {
-        return (new BusinessModelChatGPTResource($this))->toChat($data);
+        return BusinessModelChatGPTResource::class;
     }
 
     public function toPlan() :BusinessPlan

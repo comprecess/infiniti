@@ -14,4 +14,10 @@ trait ChatGPTTrait
         $chatGPT->setDiscussionModel($this);
         return $chatGPT;
     }
+
+    public function modelDescription(mixed $data = null)
+    {
+        $resource = $this->getResourceChat();
+        return (new $resource($this))->toChat($data);
+    }
 }

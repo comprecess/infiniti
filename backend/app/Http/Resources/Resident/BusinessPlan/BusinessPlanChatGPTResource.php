@@ -20,7 +20,7 @@ class BusinessPlanChatGPTResource extends JsonResource
     {
         $data = [
             'company_name' => $this->company_name,
-            'name' => $this->name,
+//            'name' => $this->name,
             'description' => $this->description,
             'ex_summary' => $this->ex_summary,
             'm_analysis' => $this->m_analysis,
@@ -40,7 +40,7 @@ class BusinessPlanChatGPTResource extends JsonResource
     {
         return [
             'company_name' => 'название компании',
-            'name' => 'имя',
+//            'name' => 'имя',
         ];
     }
 
