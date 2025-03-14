@@ -3,6 +3,7 @@
 namespace App\Models\Catalog;
 
 use App\Contracts\FilterContract;
+use App\Models\Resident\BusinessPlan;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\FileStorageTrait;
 use App\Models\Users\Client;
@@ -51,6 +52,16 @@ class User extends Model
     public function blockExperience()
     {
         return $this->hasMany(UserBlock::class, 'id_catalog_user');
+    }
+
+    public function businessPlanTeams()
+    {
+        return $this->morphedByMany(BusinessPlan::class, 'model', 'catalog_team');
+    }
+
+    public function scopeActive($query) :void
+    {
+        $query->where('active', 1);
     }
 
     public function getPropsByNameId(array $nameId = null)

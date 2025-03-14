@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Resident\BusinessPlan;
 
 use App\Http\Resources\Resident\Client\ClientResource;
+use App\Http\Resources\Resident\Talents\TalentResource;
 use App\Models\Config;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -34,6 +35,7 @@ class BusinessPlanResource extends JsonResource
             'investment' => $this->investment,
             'finance' => $this->finance,
             'appendix' => $this->appendix,
+            'teams' => TalentResource::collection($this->teams)
         ];
 
         return $data;

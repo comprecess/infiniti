@@ -3,7 +3,6 @@
 namespace App\Models\BusinessModel;
 
 use App\Http\Resources\BusinessModel\BusinessModelChatGPTResource;
-use App\Http\Resources\Resident\BusinessPlan\BusinessPlanResource;
 use App\Models\Contracts\ChatGPTContract;
 use App\Models\Resident\BusinessPlan;
 use App\Models\Traits\ChatGPTTrait;
@@ -13,6 +12,8 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
+use App\Models\Catalog\User as CatalogUser;
 
 class BusinessModel extends Model implements ChatGPTContract
 {
@@ -112,6 +113,16 @@ class BusinessModel extends Model implements ChatGPTContract
     public function toPlan() :BusinessPlan
     {
         $user = User::getAuth();
+        $chatGptService = $this->chatGPT()->toPrompt('selectionSpecialists');
+        $charService = $chatGptService->send();
+        $tagsData = $charService->getTagInfo();
+
+        $ids = array_map(
+            fn($item) => (int) trim($item),
+            explode(',', Arr::get($tagsData, 'ids', ''))
+        );
+        $catalogUsers = CatalogUser::whereIn('id', $ids)->get();
+//        dd($ids, $charService->getHistory(), Arr::get($tagsData, 'description'));
 
         $plan = new BusinessPlan();
         $plan->business_model_id = $this->id;
@@ -127,8 +138,11 @@ class BusinessModel extends Model implements ChatGPTContract
         $plan->m_analysis = $this->market_analysis;
         $plan->investment = $this->current_investors;
         $plan->finance = $this->financial_model;
+        $plan->management = Arr::get($tagsData, 'description');
 
         $plan->save();
+
+        $plan->teams()->sync($catalogUsers->pluck('id'));
 
         return $plan;
     }

@@ -14,6 +14,8 @@ class ChatGPT
         'gpt-4o',
         'gpt-4.5',
         'gpt-4o-mini',
+        'gpt-4o-search-preview',
+        'gpt-4o-mini-search-preview',
         'o1',
         'o1-mini',
         'o3-mini',
@@ -26,7 +28,7 @@ class ChatGPT
     private $lastMessage = null;
     private $error = null;
 
-    public function __construct(\App\Models\ChatGPT $chatGPTModel)
+    public function __construct(?\App\Models\ChatGPT $chatGPTModel = null)
     {
         $this->model = self::MODEL[0];
         $this->chatGPTModel = $chatGPTModel;
@@ -41,12 +43,12 @@ class ChatGPT
         return $this;
     }
 
-    public function write($promt, $ln = true)
+    public function write($prompt, $ln = true)
     {
         if($ln) {
-            $this->write[] = $promt;
+            $this->write[] = $prompt;
         } else {
-            $this->write[count($this->write) - 1 < 0 ? 0 : count($this->write) - 1]  = $promt;
+            $this->write[count($this->write) - 1 < 0 ? 0 : count($this->write) - 1]  = $prompt;
         }
         return $this;
     }
@@ -58,19 +60,19 @@ class ChatGPT
     }
 
 
-    public function send($promt = null, $model = null)
+    public function send($prompt = null, $model = null)
     {
-        if(!$promt && $this->write) {
-            $promt = implode("\n", $this->write);
+        if(!$prompt && $this->write) {
+            $prompt = implode("\n", $this->write);
         }
 
-        $this->history[] = $promt;
+        $this->history[] = $prompt;
 
         try {
             $this->lastMessage = OpenAI::chat()->create([
                 'model' => $model ?? $this->model,
                 'messages' => [
-                    ['role' => 'user', 'content' => $promt],
+                    ['role' => 'user', 'content' => $prompt],
                 ],
             ])->toArray();
 
@@ -84,13 +86,24 @@ class ChatGPT
         return $this;
     }
 
+    public function getAnswer()
+    {
+        return $this->lastMessage;
+    }
+
     public function getHistory($last = 1)
     {
         return $this->history[count($this->history) - $last] ?? null;
     }
 
-    public function toModel() :\App\Models\ChatGPT
+    public function toModel(?\App\Models\ChatGPT $chatGPTModel = null) :?\App\Models\ChatGPT
     {
+        $model = $this->chatGPTModel ?? $chatGPTModel;
+
+        if(!$model) {
+            return null;
+        }
+
         if($this->lastMessage) {
             $message =  $this->getHistory();
             $log_message = null;
@@ -99,19 +112,43 @@ class ChatGPT
             $log_message = $this->error;
         }
 
-        $analysis = Arr::get($this->chatGPTModel->data, 'analysis');
+        $analysis = Arr::get($model->data, 'analysis', []);
 
         if(!$log_message && count($analysis)) {
             $log_message = $message;
             $message = trim(preg_replace('/\{\/?([^\}]*)\}/', '', $message));
         }
 
-        $chat = $this->chatGPTModel->replicate();
+        $chat = $model->replicate();
         $chat->id = null;
-        $chat->parent_id = $this->chatGPTModel->id;
+        $chat->parent_id = $model->id;
         $chat->chat_id = Arr::get($this->lastMessage, 'id', 'no_id_or_error');
         $chat->message = $message;
         $chat->log_message = $log_message;
         return $chat;
+    }
+
+    public function getTagInfo()
+    {
+        $message = $this->getHistory();
+        preg_match_all('/\{\/?([^\}]*)\}/', $message, $preg);
+        $result = [];
+
+        if(count($preg)) {
+            $uniqPreg = array_unique($preg[1]);
+            foreach($uniqPreg as $tag) {
+                $startSearch = "{{$tag}}";
+                $endSearch = "{/{$tag}}";
+                $start = mb_strpos($message, $startSearch);
+                $end = mb_strpos($message, $endSearch);
+
+                if($start !== null && $end !== null){
+                    $calc = $start + strlen($startSearch);
+                    $result[$tag] = trim(mb_substr($message, $calc, $end - $calc));
+                }
+            }
+        }
+
+        return $result;
     }
 }

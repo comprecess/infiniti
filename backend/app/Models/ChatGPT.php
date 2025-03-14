@@ -37,6 +37,8 @@ class ChatGPT extends Model
 
     public $discussionModel = null;
 
+    public $namePrompt = null;
+
     protected $table = 'chat_gpt';
 
     protected $adminColumn = 'admin_id';
@@ -110,7 +112,7 @@ class ChatGPT extends Model
         $chat->write($this->message);
 
         $model = $chat->send()->toModel();
-        $model->save();
+        $model?->save();
 
         $this->log_message = $chat->getHistory(2);
         $this->save();
@@ -191,6 +193,33 @@ class ChatGPT extends Model
             if($value['class'] == $this->model_type) {
                 return $key;
             }
+        }
+
+        return null;
+    }
+
+    public function toPrompt(?string $method = null, mixed $data = null)
+    {
+        $method = $method ?? $this->namePrompt ?? $this->message;
+        if(!$this->discussionModel || !$method) {
+            return null;
+        }
+
+        try {
+            $class = explode("\\", $this->model_type);
+            $class = $class[count($class) - 1];
+            $class = "App\\Services\\ChatGPT\\Prompts\\{$class}";
+            if(!class_exists($class)) {
+                return null;
+            }
+            $class = new $class();
+
+            if(method_exists($class, $method)) {
+                return $class->{$method}($this, $data);
+            }
+
+        }catch (\Exception $e) {
+            return null;
         }
 
         return null;
