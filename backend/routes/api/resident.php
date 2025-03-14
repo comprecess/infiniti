@@ -123,10 +123,12 @@ Route::controller(Resident\Talents\TalentController::class)->prefix('talent')
 Route::controller(Resident\BusinessPlan\BusinessPlanController::class)->prefix('business-plan')
     ->group(function(){
         Route::get('/list', 'list');
+        Route::get('/input-data', 'inputData');
         Route::get('/{plan}', 'item');
         Route::post('/', 'createOrUpdate');
         Route::put('/{plan}', 'createOrUpdate');
         Route::delete('/{plan}', 'delete');
+        Route::match(['put', 'delete'],'/{plan}/team/{id}', 'team');
     });
 
 #BusinessModel
@@ -192,7 +194,8 @@ Route::prefix('chat-gpt')
         Route::get('input-data', 'inputData');
         Route::get('analysis', 'analysis');
         Route::post('message', 'message');
-        Route::get('ready-promt', 'readyPromt');
+        Route::get('ready-prompt', 'readyPrompt');
+        Route::get('test', 'test');
         Route::any('history/{hash}', 'history');
     });
 

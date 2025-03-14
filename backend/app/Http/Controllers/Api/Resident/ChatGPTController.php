@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\Resident;
 
 
 use App\Http\Requests\Resident\ChatGPTRequest;
-use App\Http\Resources\Resident\BusinessPlan\BusinessModelResource;
 use App\Http\Resources\Resident\ChatGPTResource;
 use App\Models\ChatGPT;
 use App\Models\Contracts\ChatGPTContract;
@@ -14,7 +13,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 
 class ChatGPTController extends ResidentController
 {
@@ -42,59 +40,9 @@ class ChatGPTController extends ResidentController
 
         return ChatGPTResource::collection($paginat);
     }
-    public function test()
-    {
-        $test = "{m_analysis}
-
-
-<h2>Анализ рынка для компании</h2>
-
-
-<p>Для успешного запуска и устойчивого развития компании крайне важно провести детальный анализ рынка. Это исследование позволит компании понять основные факторы и тенденции, которые определяют состояние рынка, и выявить как возможности, так и риски, с которыми она может столкнуться.</p>
-
-
-<h3>1. Описание рынка</h3>
-
-<p>Первым шагом является понимание текущего состояния рынка, на котором планирует работать компания. Это включает в себя анализ размера рынка, уровня конкуренции, а также выявление ключевых игроков и основных факторов, влияющих на динамику потребительского спроса.</p>
-
-
-<h3>2. Целевая аудитория</h3>
-
-<p>Необходимо четко определить целевую аудиторию компании, чтобы разработать эффективные маркетинговые стратегии. Это включает в себя изучение демографических, географических и поведенческих аспектов потенциальных клиентов.</p>
-
-
-<h3>3. Анализ конкурентов</h3>
-
-<p>Понимание рыночных позиций, сильных и слабых сторон конкурентов позволит компании разработать уникальные конкурентные преимущества и избежать возможных ошибок.</p>
-
-
-<h3>4. Оценка возможностей и угроз</h3>
-
-<p>Анализ внешних факторов, включая экономические, правовые и технологические изменения, поможет компании оценить возможности для роста, а также предвидеть и подготовиться к возможным угрозам.</p>
-
-
-<h3>5. Прогнозирование развития рынка</h3>
-
-<p>Используя полученные данные, необходимо сделать прогнозы о будущем развитии рынка и адаптировать бизнес-стратегии в соответствии с этими прогнозами, чтобы обеспечить конкурентоспособность и устойчивость компании.</p>
-
-
-<p>Проведение комплексного анализа рынка станет основой для успешного стратегического планирования и принятия бизнес-решений, что обеспечит долгосрочную устойчивость и конкурентоспособность компании.</p>
-
-
-{/m_analysis}
-";
-        $count = 0;
-        $test = trim(preg_replace('/\{\/?([^\}]*)\}/', '', $test, -1,$count));
-
-        dd($test, $count);
-
-        return $test;
-
-    }
 
     public function message(ChatGPTRequest $request)
     {
-//        dd($this->test());
         $chatGPT = $request->getChatGPT()->analysisModelFields();
         $chatGPT->save();
 
@@ -104,11 +52,11 @@ class ChatGPTController extends ResidentController
 
         /******-1/
   /*
-        $promt = 'Твоя задача написать ответ, ';
+        $prompt = 'Твоя задача написать ответ, ';
         $block = [];
 
         if($chatGPT->discussionModel instanceof ChatGPTContract) {
-            $promt .= 'на тему ' . $chatGPT->discussionModel->discussionTopic();
+            $prompt .= 'на тему ' . $chatGPT->discussionModel->discussionTopic();
             if($chatGPT->discussionModel->id) {
                 $block['Свойства и характеристики'] = $chatGPT->discussionModel->modelDescription(config("data.chat_gpt.{$chatGPT->getDiscussionModelName()}"));
             }
@@ -117,7 +65,7 @@ class ChatGPTController extends ResidentController
 
         $analysis = $chatGPT->getAnalysis();
         if(count($analysis)) {
-            $promt .= " по конкретному паттерну [Паттерн]";
+            $prompt .= " по конкретному паттерну [Паттерн]";
             $pattern = "";
             foreach(array_keys($analysis) as $key) {
                 $pattern .= "{{$key}}: Твой текст в разметке html{/{$key}}\n";
@@ -125,34 +73,34 @@ class ChatGPTController extends ResidentController
             $block['Паттерн'] = $pattern;
         }
 
-        $promt .= " исходя из текста [Текст]";
+        $prompt .= " исходя из текста [Текст]";
         $block['Текст'] = $chatGPT->message;
 
         $history = $chatGPT->history();
         if($history?->count()){
-            $promt .= " и истории [История] нашей переписки";
+            $prompt .= " и истории [История] нашей переписки";
             $block['История'] = $history->toChat();
         }
 
-        $promt .= ", не двигаясь вправо влево, не сочиняя что-то свое без лишних движений,";
+        $prompt .= ", не двигаясь вправо влево, не сочиняя что-то свое без лишних движений,";
 
         if(count($analysis)) {
-            $promt .= ' строго соблюдая паттерн.';
+            $prompt .= ' строго соблюдая паттерн.';
         }else{
-            $promt .= ".";
+            $prompt .= ".";
         }
 
-//        $promt .= " Повторюсь проанализируй [Текст] и напиши строго по патерну свой ответ, не дополняя ничего \n";
+//        $prompt .= " Повторюсь проанализируй [Текст] и напиши строго по патерну свой ответ, не дополняя ничего \n";
 */
         /******/
 
-        $promt = 'В поле текст [текст] описаны основне требование для тебя и что пользователь хочет получить. ';
+        $prompt = 'В поле текст [текст] описаны основне требование для тебя и что пользователь хочет получить. ';
         $block['текст'] = $chatGPT->message;
 
         $modelData = config("data.chat_gpt.{$chatGPT->getDiscussionModelName()}");
 
         if($chatGPT->discussionModel instanceof ChatGPTContract) {
-            $promt .= 'Дискуссия ведется по теме: ' . $chatGPT->discussionModel->discussionTopic();
+            $prompt .= 'Дискуссия ведется по теме: ' . $chatGPT->discussionModel->discussionTopic();
             if($chatGPT->discussionModel->id) {
                 $block[$chatGPT->discussionModel->discussionName()] = $chatGPT->discussionModel->modelDescription($modelData);
             }
@@ -161,7 +109,7 @@ class ChatGPTController extends ResidentController
 
         $analysis = $chatGPT->getAnalysis();
         if(count($analysis)) {
-            $promt .= "\nТвой ответ должен выглядеть в виде паттерна [паттерн]";
+            $prompt .= "\nТвой ответ должен выглядеть в виде паттерна [паттерн]";
             $pattern = "";
             foreach(array_keys($analysis) as $key) {
                 $html = Arr::get($modelData, "{$key}.html", false) ? " в разметке html" : "";
@@ -175,10 +123,10 @@ class ChatGPTController extends ResidentController
             $block['История'] = $history->toChat();
         }
 
-        $promt .= "\n";
+        $prompt .= "\n";
         /******/
 
-        $chat->write($promt);
+        $chat->write($prompt);
 
         foreach($block as $name => $value) {
             $chat->write("[{$name}]\n{$value}\n");
@@ -271,8 +219,38 @@ class ChatGPTController extends ResidentController
         return response()->json($jsonResponse);
     }
 
-    public function readyPromt(ChatGPTRequest $request)
+    public function readyPrompt(ChatGPTRequest $request)
     {
-        $chat = $request->getChatGPTDiscussion();
+
+        $chat = $request->getReadyPrompt();
+        $prompt = $chat->toPrompt();
+        $chatGpt = null;
+
+        if($prompt instanceof ChatGPTService) {
+            $chatGpt = $prompt;
+        } elseif(is_string($prompt)) {
+            $chatGpt = new ChatGPTService($chat);
+            $chatGpt->write($prompt);
+        }
+
+        if($prompt === null || $chatGpt === null) {
+            return response()->json(['success' => false, 'message' => 'Prompt by name not found']);
+        }
+
+        $chatGpt->send();
+
+        $response = $chat->toPrompt("{$chat->message}Response", $chatGpt);
+        if($response) {
+            return $response;
+        }
+
+        return response()->json($chatGpt->getTagInfo());
+
+    }
+
+    public function test()
+    {
+        $t = new ChatGPTService();
+        dd($t->send("Как я могу тебе через api передать файлы?",ChatGPTService::MODEL[3])->getAnswer());
     }
 }

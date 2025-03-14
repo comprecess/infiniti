@@ -4,13 +4,14 @@ namespace App\Models\Resident;
 
 use App\Http\Resources\Resident\BusinessPlan\BusinessPlanChatGPTResource;
 use App\Models\Contracts\ChatGPTContract;
+use App\Models\Traits\CatalogUserTeamTrait;
 use App\Models\Traits\ChatGPTTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class BusinessPlan extends Model implements ChatGPTContract
 {
-    use HasFactory, ChatGPTTrait;
+    use HasFactory, ChatGPTTrait, CatalogUserTeamTrait;
 
     public $table = 'app_business_plan';
 

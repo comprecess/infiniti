@@ -6,7 +6,7 @@ namespace App\Http\Requests\Resident;
 use App\Models\ChatGPT;
 use App\Services\ChatGPT as ChatGPTService;
 use Illuminate\Foundation\Http\FormRequest;
-use Nette\Schema\ValidationException;
+use Illuminate\Validation\ValidationException;
 
 class ChatGPTRequest extends FormRequest
 {
@@ -59,13 +59,25 @@ class ChatGPTRequest extends FormRequest
     {
         $model = $this->getModel();
         if(!$model) {
-            throw ValidationException::withMessages(["discussionModel" => __('validation.required', ['attribute' => 'discussionModel'])]);
+            throw ValidationException::withMessages(["discussio1nModel" => __('validation.required', ['attribute' => 'discussionModel'])]);
         }
 
         $chatGPT = $model->chatGPT();
         $chatGPT->chat_model = $this->chatModel ?? ChatGPTService::MODEL[0];
 
         return $chatGPT;
+    }
+
+    public function getReadyPrompt()
+    {
+        if(!$this->namePrompt) {
+            throw ValidationException::withMessages(["namePrompt" => __('validation.required', ['attribute' => 'namePrompt'])]);
+        }
+
+        $chat = $this->getChatGPTDiscussion();
+        $chat->message = $this->namePrompt;
+
+        return $chat;
     }
 
 }

@@ -7,7 +7,6 @@ use App\Http\Resources\Traits\PropValuesTrait;
 use App\Http\Resources\Traits\ToChatTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Arr;
 
 class BusinessModelChatGPTResource extends JsonResource
 {
@@ -22,7 +21,7 @@ class BusinessModelChatGPTResource extends JsonResource
 
     public function toArray(Request $request): array
     {
-        $data = ['title', 'description', 'category', 'industries', 'technologies', 'location', 'full_description', 'market_analysis', 'financial_model', 'current_investors', 'stages_implementation', 'partnership_options'];
+        $data = ['title', 'price', 'description', 'category', 'industries', 'technologies', 'location', 'full_description', 'market_analysis', 'financial_model', 'current_investors', 'stages_implementation', 'partnership_options'];
         $resorce = [];
         foreach($data as $key => $value) {
             $key = is_int($key) ? $value : $key;
@@ -50,6 +49,13 @@ class BusinessModelChatGPTResource extends JsonResource
 //
 //        return implode("\n", $resultArray);
 //    }
+
+    public function namesToChat()
+    {
+        return [
+            'price' => 'Цена'
+        ];
+    }
 
 
 
