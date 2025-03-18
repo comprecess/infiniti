@@ -18,7 +18,7 @@ class TalentResource extends JsonResource
         foreach($this->values as $value) {
             $p = $prop->where('id', $value->prop->id);
             if(!$p->count()) {
-                $prop->push($value->prop);
+                $prop->push(clone $value->prop);
             }
 
             $prop->where('id', $value->prop->id)->each(function(&$item) use($value){
