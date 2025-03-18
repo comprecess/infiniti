@@ -7,6 +7,7 @@ use App\Http\Requests\Interfaces\ConvertingPropertiesInterface;
 use App\Http\Requests\Traits\ConvertingPropertiesTrait;
 use App\Models\FileStorage;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class BusinessPlanCreateRequest extends FormRequest implements ConvertingPropertiesInterface
 {
@@ -19,6 +20,12 @@ class BusinessPlanCreateRequest extends FormRequest implements ConvertingPropert
             'companyName' => "required|string",
             'exSummary' => "required|string",
             'date' => "nullable|date_format:Y-m-d",
+            'teams' => 'nullable|array',
+            'teams.*' => [
+                'required',
+                'integer',
+                Rule::exists('catalog_user', 'id')->where('active', 1)
+            ]
         ];
     }
 
