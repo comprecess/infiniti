@@ -35,7 +35,7 @@ class BusinessPlanResource extends JsonResource
             'investment' => $this->investment,
             'finance' => $this->finance,
             'appendix' => $this->appendix,
-            'teams' => TalentResource::collection($this->teams)
+            'teams' => $this->teams->pluck('id')
         ];
 
         return $data;

@@ -13,12 +13,12 @@ class BusinessPlan
     public function selectionSpecialists($model)
     {
 
-        $businessModel = $model->discussionModel?->businessModel;
-        if($businessModel instanceof \App\Models\BusinessModel\BusinessModel) {
-            $model->setDiscussionModel($businessModel);
-            $redyPrompt = new BusinessModel();
-            return $redyPrompt->selectionSpecialists($model);
-        }
+//        $businessModel = $model->discussionModel?->businessModel;
+//        if($businessModel instanceof \App\Models\BusinessModel\BusinessModel) {
+//            $model->setDiscussionModel($businessModel);
+//            $redyPrompt = new BusinessModel();
+//            return $redyPrompt->selectionSpecialists($model);
+//        }
         $chat = new ChatGPT($model);
 
         $data = config('data.chat_gpt.businessPlan');

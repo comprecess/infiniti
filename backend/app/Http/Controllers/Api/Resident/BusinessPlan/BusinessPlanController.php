@@ -40,8 +40,7 @@ class BusinessPlanController extends BusinessPlanAccessController
     public function createOrUpdate(BusinessPlan $plan, BusinessPlanCreateRequest $request)
     {
         return $this->createOrUpdateCRUD($request, $plan, afterDataSet:function($model, $request){
-//            dd('123');
-//            $model->teams()
+            $model->teams()->sync($request->teams);
         });
     }
 
