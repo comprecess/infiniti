@@ -33,16 +33,21 @@ class BusinessPlanController extends BusinessPlanAccessController
             ->with(['files','values', 'values.prop', 'blockExperience'])
             ->get();
         $data['talents'] = TalentResource::collection($users);
+
+        return response()->json($data);
     }
 
     public function createOrUpdate(BusinessPlan $plan, BusinessPlanCreateRequest $request)
     {
-        return $this->createOrUpdateCRUD($request, $plan);
+        return $this->createOrUpdateCRUD($request, $plan, afterDataSet:function($model, $request){
+//            dd('123');
+//            $model->teams()
+        });
     }
 
     public function item(BusinessPlan $plan)
     {
-        $plan->load(['teams', 'teams.files', 'teams.values', 'teams.values.prop', 'teams.blockExperience']);
+//        $plan->load(['teams', 'teams.files', 'teams.values', 'teams.values.prop', 'teams.blockExperience']);
         return new BusinessPlanResource($plan);
     }
 
