@@ -3,6 +3,7 @@
 namespace App\Models\Resident;
 
 use App\Http\Resources\Resident\BusinessPlan\BusinessPlanChatGPTResource;
+use App\Models\BusinessModel\BusinessModel;
 use App\Models\Contracts\ChatGPTContract;
 use App\Models\Traits\CatalogUserTeamTrait;
 use App\Models\Traits\ChatGPTTrait;
@@ -19,6 +20,11 @@ class BusinessPlan extends Model implements ChatGPTContract
         'updated_at' => 'datetime',
         'date' => 'date',
     ];
+
+    public function businessModel()
+    {
+        return $this->belongsTo(BusinessModel::class, 'business_model_id');
+    }
 
     public function discussionTopic() :string
     {
