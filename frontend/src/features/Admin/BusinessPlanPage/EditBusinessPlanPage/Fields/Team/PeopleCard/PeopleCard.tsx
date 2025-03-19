@@ -1,5 +1,6 @@
 import { TalentInputDataBusinessPlan } from '../../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../../app/router/routes'
+import { PlusIcon } from '../../../../../../../shared/icons/PlusIcon'
 import { TrashIcon } from '../../../../../../../shared/icons/TrashIcon'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Icon } from '../../../../../../../shared/ui/Icon/Icon'
@@ -11,12 +12,16 @@ import { Skills } from './Skills/Skills'
 interface PeopleCardProps {
   talent: TalentInputDataBusinessPlan | undefined
   isRemove?: boolean
-  deleteTalent: (id: number) => void
+  isAdd?: boolean
+  addTalent?: (id: number) => void
+  deleteTalent?: (id: number) => void
 }
 
 export const PeopleCard = ({
   talent,
   isRemove = false,
+  isAdd = false,
+  addTalent,
   deleteTalent,
 }: PeopleCardProps) => {
   if (!talent) {
@@ -75,12 +80,24 @@ export const PeopleCard = ({
       {isRemove && (
         <div
           className={styles.buttonRemove}
-          onClick={() => deleteTalent(talent.id)}
+          onClick={deleteTalent ? () => deleteTalent(talent.id) : () => {}}
         >
           <Icon
             hover={false}
-            icon={<TrashIcon style={styles.icon} />}
-            style={styles.wrapperIcon}
+            icon={<TrashIcon style={styles.iconTrash} />}
+            style={styles.wrapperIconTrash}
+          />
+        </div>
+      )}
+      {isAdd && (
+        <div
+          className={styles.buttonAdd}
+          onClick={addTalent ? () => addTalent(talent.id) : () => {}}
+        >
+          <Icon
+            hover={false}
+            icon={<PlusIcon style={styles.iconPlus} />}
+            style={styles.wrapperIconPlus}
           />
         </div>
       )}

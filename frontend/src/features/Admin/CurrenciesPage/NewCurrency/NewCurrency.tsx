@@ -21,7 +21,7 @@ export const NewCurrency: FC<NewCurrencyProps> = ({
 }) => {
   return (
     <CustomModalWindow
-      maxWidth={'400px'}
+      maxWidth='400px'
       isOpen={modalNewCurrency}
       onClose={handleOpenCloseModal}
     >

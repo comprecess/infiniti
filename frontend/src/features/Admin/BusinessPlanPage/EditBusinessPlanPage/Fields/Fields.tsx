@@ -21,6 +21,7 @@ interface FieldsProps {
   setFormData: Dispatch<
   SetStateAction<Partial<BusinessPlanNewPlanFormData> | null>
   >
+  setModalAddTalent: Dispatch<SetStateAction<boolean>>
   addNewTalentChatGPT: () => void
   deleteTalent: (id: number) => void
 }
@@ -30,6 +31,7 @@ export const Fields: FC<FieldsProps> = ({
   formData,
   inputData,
   setFormData,
+  setModalAddTalent,
   addNewTalentChatGPT,
   deleteTalent,
 }) => {
@@ -185,7 +187,7 @@ export const Fields: FC<FieldsProps> = ({
                 />
               )
             })}
-          <PlusCard />
+          <PlusCard onClick={() => setModalAddTalent(prev => !prev)} />
           <ChatGPTCard addNewTalentChatGPT={addNewTalentChatGPT} />
         </div>
       ) : (

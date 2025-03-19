@@ -9,6 +9,7 @@
   background-color: $brand-800;
   border-radius: 8px;
   user-select: none;
+  box-sizing: border-box;
 }
 
 .header {
@@ -67,7 +68,8 @@
   right: 7px;
 }
 
-.buttonRemove {
+.buttonRemove,
+.buttonAdd {
   position: absolute;
   display: flex;
   left: 88px;
@@ -76,17 +78,34 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  background-color: $cherry-500;
   border-radius: 50%;
   cursor: pointer;
 }
 
-.icon * {
+.buttonRemove {
+  background-color: $cherry-500;
+}
+
+.buttonAdd {
+  background-color: $brand-400;
+}
+
+.iconTrash * {
   width: 18px;
   height: 18px;
 }
 
-.wrapperIcon {
+.wrapperIconTrash {
   width: 18px;
   height: 18px;
+}
+
+.iconPlus * {
+  width: 16px;
+  height: 16px;
+}
+
+.wrapperIconPlus {
+  width: 16px;
+  height: 16px;
 }
