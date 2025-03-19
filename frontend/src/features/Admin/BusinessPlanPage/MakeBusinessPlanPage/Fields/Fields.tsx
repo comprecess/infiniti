@@ -13,7 +13,7 @@ interface FieldsProps {
 
 export interface PartialFieldsPostData
   extends Partial<BusinessPlanNewPlanFormData> {
-  [key: string]: string | number | undefined | null
+  [key: string]: string | number | number[] | undefined | null
 }
 
 export const Fields: FC<FieldsProps> = ({ formData, setFormData }) => {

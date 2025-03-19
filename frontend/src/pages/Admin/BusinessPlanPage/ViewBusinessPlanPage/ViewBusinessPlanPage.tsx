@@ -105,7 +105,7 @@ export const AdminViewBusinessPlanPage = () => {
 
                 return (
                   <Fragment key={key}>
-                    <Item title={title} content={content} />
+                    <Item title={title} content={content as string} />
                     {index < filteredSections.length - 1 && (
                       <div className={styles.divider}>
                         <CustomDivider />
