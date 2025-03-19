@@ -15,6 +15,7 @@ import { putUpdateInfoBusinessPlan } from '../../../../shared/utils/api/Admin/Bu
 import { getReadyPrompt } from '../../../../shared/utils/api/Admin/ChatGPT/GetReadyPrompt'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditBusinessPlanPage.module.scss'
+import { ModalAddTalentTeam } from './ModalAddTalentTeam/ModalAddTalentTeam'
 
 const extractIdFromUrl = (url: string): number | null => {
   const regex = /\/business-plan\/(\d+)$/
@@ -39,6 +40,7 @@ export const AdminEditBusinessPlanPage = () => {
   TalentInputDataBusinessPlan[] | null
   >(null)
 
+  const [modalAddTalent, setModalAddTalent] = useState<boolean>(false)
   const [isLoadingTeam, setIsLoadingTeam] = useState<boolean>(false)
 
   const id = useIdFromUrl()
@@ -57,6 +59,19 @@ export const AdminEditBusinessPlanPage = () => {
       await getInputDataBusinessPlan()
 
     setInputData(response.talents)
+  }
+
+  const addTalent = (id: number) => {
+    if (formData && formData.teams) {
+      if (!formData.teams.includes(id)) {
+        const updatedTeams = [...formData.teams, id]
+
+        setFormData(prevFormData => ({
+          ...prevFormData,
+          teams: updatedTeams,
+        }))
+      }
+    }
   }
 
   const deleteTalent = (id: number) => {
@@ -124,35 +139,48 @@ export const AdminEditBusinessPlanPage = () => {
   }, [id])
 
   return (
-    <div className={styles.wrapper}>
-      {formData && inputData ? (
-        <section className={styles.section}>
-          <RecentCard
-            title='Edit Business Plan'
-            style={styles.recentFullScreen}
-            Component={ButtonBlue}
-            componentProps={{
-              titleNone: true,
-              title: 'Save',
-              style: styles.buttonSave,
-              iconProps: styles.buttonSaveIcon,
-              icon: '/icons/fileWhite.svg',
-              onClick: updateInfoPlan,
-            }}
-          >
-            <Fields
-              isLoadingTeam={isLoadingTeam}
-              formData={formData}
-              inputData={inputData}
-              setFormData={setFormData}
-              addNewTalentChatGPT={addNewTalentChatGPT}
-              deleteTalent={deleteTalent}
-            />
-          </RecentCard>
-        </section>
-      ) : (
-        <LoadingSpinner size='xl' />
+    <>
+      <div className={styles.wrapper}>
+        {formData && inputData ? (
+          <section className={styles.section}>
+            <RecentCard
+              title='Edit Business Plan'
+              style={styles.recentFullScreen}
+              Component={ButtonBlue}
+              componentProps={{
+                titleNone: true,
+                title: 'Save',
+                style: styles.buttonSave,
+                iconProps: styles.buttonSaveIcon,
+                icon: '/icons/fileWhite.svg',
+                onClick: updateInfoPlan,
+              }}
+            >
+              <Fields
+                isLoadingTeam={isLoadingTeam}
+                formData={formData}
+                inputData={inputData}
+                setFormData={setFormData}
+                setModalAddTalent={setModalAddTalent}
+                addNewTalentChatGPT={addNewTalentChatGPT}
+                deleteTalent={deleteTalent}
+              />
+            </RecentCard>
+          </section>
+        ) : (
+          <LoadingSpinner size='xl' />
+        )}
+      </div>
+      {modalAddTalent && inputData && formData && (
+        <ModalAddTalentTeam
+          inputData={inputData}
+          teams={formData.teams}
+          isOpen={modalAddTalent}
+          addTalent={addTalent}
+          deleteTalent={deleteTalent}
+          onClose={() => setModalAddTalent(prev => !prev)}
+        />
       )}
-    </div>
+    </>
   )
 }
