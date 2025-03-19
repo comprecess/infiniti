@@ -129,7 +129,6 @@ export const ModelsList: FC<ModelsListProps> = ({
               </>
             )}
           </div>
-          -SortList-
         </div>
         {modelsList ? (
           <div className={styles.list}>

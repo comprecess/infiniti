@@ -58,7 +58,11 @@ export const BusinessModelCard: FC<BusinessModelCardProps> = ({
         onClick={onMobileCLick}
       >
         <div className={styles.businessModelImg}>
-          <img src={image} alt='BusinessModelImg' />
+          <img
+            src={image}
+            alt='BusinessModelImg'
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
         </div>
         <div className={styles.titleWrapper}>
           <div className={styles.container}>

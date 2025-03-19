@@ -1,0 +1,31 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 213px;
+  height: 350px;
+  border: solid 2px $brand-800;
+  border-radius: 8px;
+}
+
+.circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background-color: $brand-800;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.icon * {
+  width: 24px;
+  height: 24px;
+  fill: $white;
+}
+
+.wrapperIcon {
+  width: 24px;
+  height: 24px;
+}

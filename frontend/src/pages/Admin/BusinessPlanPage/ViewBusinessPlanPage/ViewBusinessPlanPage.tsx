@@ -75,7 +75,10 @@ export const AdminViewBusinessPlanPage = () => {
               alt='Logo'
               className={styles.logo}
             />
-            <span className={styles.title}>BUSINESS PLAN</span>
+            <div className={styles.titleWrapper}>
+              <span className={styles.title}>{fullInfo.companyName}</span>
+              <span className={styles.businessPlan}>BUSINESS PLAN</span>
+            </div>
             <div className={styles.preparedBy}>
               {fullInfo.name && (
                 <span className={styles.name}>{fullInfo.name}</span>

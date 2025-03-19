@@ -93,3 +93,17 @@
 .divider {
   width: 100%;
 }
+
+.titleWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.businessPlan {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.03em;
+}
