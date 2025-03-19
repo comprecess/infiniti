@@ -1,19 +1,38 @@
 import { Dispatch, FC, SetStateAction } from 'react'
 
-import { BusinessPlanNewPlanFormData } from '../../../../../app/constants/constants'
+import {
+  BusinessPlanNewPlanFormData,
+  TalentInputDataBusinessPlan,
+} from '../../../../../app/constants/constants'
+import { ChatGPTIcon } from '../../../../../shared/icons/ChatGPTIcon'
 import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
+import { Icon } from '../../../../../shared/ui/Icon/Icon'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 import styles from './Fields.module.scss'
+import { ChatGPTCard } from './Team/ChatGPTCard/ChatGPTCard'
+import { PeopleCard } from './Team/PeopleCard/PeopleCard'
+import { PlusCard } from './Team/PlusCard/PlusCard'
 
 interface FieldsProps {
+  isLoadingTeam: boolean
   formData: Partial<BusinessPlanNewPlanFormData>
+  inputData: TalentInputDataBusinessPlan[]
   setFormData: Dispatch<
   SetStateAction<Partial<BusinessPlanNewPlanFormData> | null>
   >
+  addNewTalentChatGPT: () => void
+  deleteTalent: (id: number) => void
 }
 
-export const Fields: FC<FieldsProps> = ({ formData, setFormData }) => {
+export const Fields: FC<FieldsProps> = ({
+  isLoadingTeam,
+  formData,
+  inputData,
+  setFormData,
+  addNewTalentChatGPT,
+  deleteTalent,
+}) => {
   const handleChangeInput = (
     field: string,
     value: string | number | undefined | null,
@@ -21,6 +40,7 @@ export const Fields: FC<FieldsProps> = ({ formData, setFormData }) => {
     setFormData(prevFormData => {
       if (!prevFormData) return prevFormData
       if (!(field in prevFormData)) return prevFormData
+      if (field === 'teams') return prevFormData
 
       const updatedFormData: Partial<BusinessPlanNewPlanFormData> = {
         ...prevFormData,
@@ -29,6 +49,7 @@ export const Fields: FC<FieldsProps> = ({ formData, setFormData }) => {
       if (value === '' || value === null || value === undefined) {
         delete updatedFormData[field as keyof BusinessPlanNewPlanFormData]
       } else {
+        //@ts-ignore
         updatedFormData[field as keyof BusinessPlanNewPlanFormData] =
           value as string
       }
@@ -151,6 +172,34 @@ export const Fields: FC<FieldsProps> = ({ formData, setFormData }) => {
           setValue={message => handleChangeInput('management', message)}
         />
       </div>
+      {!isLoadingTeam ? (
+        <div className={styles.teamWrapper}>
+          {formData.teams &&
+            formData.teams.map(id => {
+              return (
+                <PeopleCard
+                  key={id}
+                  isRemove
+                  talent={inputData.find(item => item.id === id)}
+                  deleteTalent={deleteTalent}
+                />
+              )
+            })}
+          <PlusCard />
+          <ChatGPTCard addNewTalentChatGPT={addNewTalentChatGPT} />
+        </div>
+      ) : (
+        <div className={styles.chatGPTLoading}>
+          <Icon
+            hover={false}
+            icon={<ChatGPTIcon style={styles.icon} />}
+            style={styles.wrapperIcon}
+          />
+          <span className={styles.chatGPTLoadingText}>
+            ChatGPT is assembling a Team
+          </span>
+        </div>
+      )}
       <div className={styles.containerItems}>
         <div className={styles.containerItemsTitleRow}>
           <span className={styles.containerItemsTitle}>

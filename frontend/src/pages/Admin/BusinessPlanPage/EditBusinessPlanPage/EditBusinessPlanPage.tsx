@@ -1,13 +1,18 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
-import { BusinessPlanNewPlanFormData } from '../../../../app/constants/constants'
+import {
+  BusinessPlanNewPlanFormData,
+  TalentInputDataBusinessPlan,
+} from '../../../../app/constants/constants'
 import { Fields } from '../../../../features/Admin/BusinessPlanPage/EditBusinessPlanPage/Fields/Fields'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getBusinessPlanInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/GetBusinessPlanInfo'
+import { getInputDataBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/GetInputDataBusinessPlan'
 import { putUpdateInfoBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/PutUpdateInfoBusinessPlan'
+import { getReadyPrompt } from '../../../../shared/utils/api/Admin/ChatGPT/GetReadyPrompt'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditBusinessPlanPage.module.scss'
 
@@ -30,6 +35,11 @@ const useIdFromUrl = () => {
 export const AdminEditBusinessPlanPage = () => {
   const [formData, setFormData] =
     useState<Partial<BusinessPlanNewPlanFormData> | null>(null)
+  const [inputData, setInputData] = useState<
+  TalentInputDataBusinessPlan[] | null
+  >(null)
+
+  const [isLoadingTeam, setIsLoadingTeam] = useState<boolean>(false)
 
   const id = useIdFromUrl()
   const showToast = useCustomToast()
@@ -40,6 +50,47 @@ export const AdminEditBusinessPlanPage = () => {
     const response = await getBusinessPlanInfo(id)
 
     setFormData(response.data)
+  }
+
+  const getInputData = async () => {
+    const response: { talents: TalentInputDataBusinessPlan[] } =
+      await getInputDataBusinessPlan()
+
+    setInputData(response.talents)
+  }
+
+  const deleteTalent = (id: number) => {
+    if (formData && formData.teams) {
+      const updatedTeams = formData.teams.filter(teamId => teamId !== id)
+
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        teams: updatedTeams,
+      }))
+    }
+  }
+
+  const addNewTalentChatGPT = async () => {
+    if (!id) return
+
+    setIsLoadingTeam(true)
+
+    const response: { ids: string; description: string } =
+      await getReadyPrompt(
+        `?namePrompt=selectionSpecialists&discussionModel=businessPlan&discussionId=${id}`,
+      )
+
+    const idsArray = response.ids
+      .split(',')
+      .map(id => parseInt(id.trim(), 10))
+
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      management: response.description,
+      teams: idsArray,
+    }))
+
+    setIsLoadingTeam(false)
   }
 
   const updateInfoPlan = async () => {
@@ -69,11 +120,12 @@ export const AdminEditBusinessPlanPage = () => {
 
   useEffect(() => {
     getInfoPlan()
+    getInputData()
   }, [id])
 
   return (
     <div className={styles.wrapper}>
-      {formData ? (
+      {formData && inputData ? (
         <section className={styles.section}>
           <RecentCard
             title='Edit Business Plan'
@@ -88,7 +140,14 @@ export const AdminEditBusinessPlanPage = () => {
               onClick: updateInfoPlan,
             }}
           >
-            <Fields formData={formData} setFormData={setFormData} />
+            <Fields
+              isLoadingTeam={isLoadingTeam}
+              formData={formData}
+              inputData={inputData}
+              setFormData={setFormData}
+              addNewTalentChatGPT={addNewTalentChatGPT}
+              deleteTalent={deleteTalent}
+            />
           </RecentCard>
         </section>
       ) : (

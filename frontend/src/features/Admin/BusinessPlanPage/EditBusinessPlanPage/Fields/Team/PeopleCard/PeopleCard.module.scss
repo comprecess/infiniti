@@ -1,0 +1,92 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 215px;
+  height: 350px;
+  padding: 12px;
+  background-color: $brand-800;
+  border-radius: 8px;
+  user-select: none;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  cursor: pointer;
+}
+
+.body {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  width: 100%;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  width: 100%;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.name {
+  font-family: $fontSpaceGrotesk;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.specialization {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: -0.03em;
+  text-align: start;
+  color: $gray-300;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.level {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+}
+
+.buttonRemove {
+  position: absolute;
+  display: flex;
+  left: 88px;
+  bottom: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: $cherry-500;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.icon * {
+  width: 18px;
+  height: 18px;
+}
+
+.wrapperIcon {
+  width: 18px;
+  height: 18px;
+}

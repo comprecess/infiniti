@@ -1060,6 +1060,12 @@ export interface TalentEditInfoData {
   property: PropertyArray
 }
 
+export interface TalentInputDataBusinessPlan extends TalentEditInfoData {
+  specialization: string
+  priceDay: string
+  priceHour: string
+}
+
 type PropertyArray = Array<Partial<Property>>
 
 interface Property {
@@ -1133,6 +1139,7 @@ export interface BusinessPlanNewPlanFormData {
   investment: string
   finance: string
   appendix: string
+  teams: number[]
 }
 
 export interface BusinessPlanBusinessModelData {

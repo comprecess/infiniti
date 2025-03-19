@@ -183,6 +183,10 @@ export const Fields: FC<FieldsProps> = ({
               />
             )}
           </div>
+          <span className={styles.infoPicture}>
+            Please upload the image in rectangular format with a resolution
+            of 570x350 pixels or with an aspect ratio of 3:2
+          </span>
         </div>
       </div>
       <div className={styles.containerItems}>
@@ -219,6 +223,10 @@ export const Fields: FC<FieldsProps> = ({
               />
             )}
           </div>
+          <span className={styles.infoPicture}>
+            Please upload the image in rectangular format with a resolution
+            of 730x480 pixels or with an aspect ratio of 3:2
+          </span>
         </div>
       </div>
       <CustomInput
