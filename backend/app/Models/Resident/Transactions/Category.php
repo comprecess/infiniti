@@ -9,6 +9,8 @@ class Category extends Model
 {
     use HasFactory;
 
+    const TYPE = ['Expense', 'Income'];
+
     protected $table = "sys_cats";
 
 }

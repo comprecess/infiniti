@@ -20,6 +20,12 @@ Route::group(['middleware' => Authenticate::class], function(){
     });
 });
 
+Route::prefix('chat-gpt')
+    ->controller(\App\Http\Controllers\Api\Resident\ChatGPTController::class)
+    ->group(function(){
+        Route::get('test', 'test');
+    });
+
 #Авторизация регистрация
 Route::view('login', 'pages.auth.login');
 Route::post('login', [AuthController::class, 'login'])->name('login.post');
