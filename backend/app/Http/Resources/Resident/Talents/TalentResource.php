@@ -37,7 +37,7 @@ class TalentResource extends JsonResource
             'birthDay' => $this->birth_day?->format('Y-m-d'),
             'active' => $this->active ? 1 : 0,
             'property' => TalentPropResource::collection($prop),
-            'blockExperience' => BlockExperienceResorce::collection($this->blockExperience)
+            'blockExperience' => BlockExperienceResource::collection($this->blockExperience)
         ];
         foreach(['specialization', 'priceHour', 'priceDay'] as $idName) {
             $data[$idName] = $this->getPropValues($idName);

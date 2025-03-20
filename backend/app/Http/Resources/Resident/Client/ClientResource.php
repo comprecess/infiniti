@@ -28,6 +28,7 @@ class ClientResource extends JsonResource
             'state' => $this->state,
             'zip' => $this->zip,
             'country' => $this->country,
+            'created' => $this->created_at?->format('d/m/Y')
         ];
     }
 

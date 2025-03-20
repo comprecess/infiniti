@@ -13,6 +13,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use OpenAI\Laravel\Facades\OpenAI;
 
 class ChatGPTController extends ResidentController
 {
@@ -250,7 +251,41 @@ class ChatGPTController extends ResidentController
 
     public function test()
     {
-        $t = new ChatGPTService();
-        dd($t->send("Как я могу тебе через api передать файлы?",ChatGPTService::MODEL[3])->getAnswer());
+//        ob_implicit_flush(false);
+//        ob_end_flush();
+        return response()->stream(function(){
+            $stream =  OpenAI::chat()->createStreamed([
+                'model' => ChatGPTService::MODEL[0],
+                'messages' => [
+                    ['role' => 'user', 'content' => "Придумай любой текст на 50 слов"],
+                ],
+            ]);
+
+
+            foreach ($stream as $response) {
+                $choice = Arr::first($response->choices);
+
+                if (empty($choice->delta->content)) {
+                    continue;
+                }
+
+                echo $choice->delta->content;
+                ob_flush();
+                flush();
+            }
+
+//            for($i = 0; $i < 10; $i++) {
+//                echo "{$i}\n";
+//                ob_flush();
+//                flush();
+//                sleep(1);
+//            }
+
+        }, 200, [
+            'Cache-Control'     => 'no-cache, must-revalidate',
+            'Content-Type'      => 'text/event-stream',
+            'X-Accel-Buffering' => 'no',
+            'Content-Encoding' => 'none',
+        ]);
     }
 }
