@@ -1,4 +1,10 @@
-import { FC, useEffect, useRef, useState } from 'react'
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 
 import { TagItem } from './Tag/TagItem'
 import styles from './TagSelector.module.scss'
@@ -10,12 +16,12 @@ interface TagSelectorProps {
   onTagsChange: (tags: string[]) => void
 }
 
-export const TagSelector: FC<TagSelectorProps> = ({
+export const TagSelector = ({
   title = 'Tags',
   list,
   selectedTags,
   onTagsChange,
-}) => {
+}: TagSelectorProps) => {
   const [tags, setTags] = useState<string[]>(selectedTags)
   const [inputValue, setInputValue] = useState('')
   const [filteredTags, setFilteredTags] = useState<string[]>([])
@@ -24,7 +30,7 @@ export const TagSelector: FC<TagSelectorProps> = ({
   const selectRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value)
     setShowSelect(true)
   }
@@ -37,9 +43,7 @@ export const TagSelector: FC<TagSelectorProps> = ({
     setShowSelect(false)
   }
 
-  const handleInputKeyDown = (
-    e: React.KeyboardEvent<HTMLInputElement>,
-  ) => {
+  const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && inputValue.trim() !== '') {
       e.preventDefault()
       if (!tags.includes(inputValue.trim())) {

@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -11,7 +10,7 @@ interface FormFields {
   email: string
 }
 
-export const ResetPasswordForm: FC = () => {
+export const ResetPasswordForm = () => {
   const { register, handleSubmit } = useForm<FormFields>()
 
   const showToast = useCustomToast()

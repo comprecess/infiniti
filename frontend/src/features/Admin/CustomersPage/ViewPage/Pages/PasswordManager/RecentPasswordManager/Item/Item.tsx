@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../RecentPasswordManager.module.scss'
 import styles from './Item.module.scss'
@@ -10,7 +8,7 @@ interface ItemProps {
   username: string
 }
 
-export const Item: FC<ItemProps> = ({ name, url, username }) => {
+export const Item = ({ name, url, username }: ItemProps) => {
   const openInNewTab = (url: string) => {
     const validUrl = /^https?:\/\//i.test(url) ? url : `https://${url}`
     window.open(validUrl, '_blank', 'noopener,noreferrer')

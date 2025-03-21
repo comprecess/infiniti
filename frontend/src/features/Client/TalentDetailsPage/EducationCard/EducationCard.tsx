@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { TalentData } from '../../../../app/constants/constants'
 import { TextInfoItem } from '../TextInfoItem/TextInfoItem'
 import { TitleCard } from '../TitleCard/TitleCard'
@@ -9,7 +7,7 @@ interface EducationCardProps {
   talentInfo: TalentData
 }
 
-export const EducationCard: FC<EducationCardProps> = ({ talentInfo }) => {
+export const EducationCard = ({ talentInfo }: EducationCardProps) => {
   return (
     <div className={styles.wrapper}>
       <TitleCard title='Education' />

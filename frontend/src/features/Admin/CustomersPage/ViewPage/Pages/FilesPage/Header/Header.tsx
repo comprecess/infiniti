@@ -1,5 +1,5 @@
 import { Select } from '@chakra-ui/react'
-import { FC, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 
 import { ViewFileProps } from '../../../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -10,10 +10,10 @@ interface HeaderProps {
   onChange: (value: number) => void
 }
 
-export const Header: FC<HeaderProps> = ({ groupsList, onChange }) => {
+export const Header = ({ groupsList, onChange }: HeaderProps) => {
   const [value, setValue] = useState<number>(0)
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setValue(parseInt(event.target.value))
   }
 

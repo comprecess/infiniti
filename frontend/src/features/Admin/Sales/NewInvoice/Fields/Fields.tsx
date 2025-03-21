@@ -1,5 +1,5 @@
 import { Textarea } from '@chakra-ui/react'
-import React, { FC, useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
 import {
   SalesBlankData,
@@ -36,7 +36,7 @@ export interface PartialFieldsPostData
   | null
 }
 
-export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
+export const Fields = ({ data, onFormDataChange }: FieldsProps) => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({
     invoiceNum: data.invoiceNum,
     num: data.num,
@@ -343,7 +343,7 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
         <section className={styles.blank}>
           <CustomDivider />
           {formData.blankList.map(blank => (
-            <React.Fragment key={blank.index}>
+            <Fragment key={blank.index}>
               <Blank
                 id={blank.index}
                 amount={blank.amount}
@@ -368,7 +368,7 @@ export const Fields: FC<FieldsProps> = ({ data, onFormDataChange }) => {
                 }
               />
               <CustomDivider />
-            </React.Fragment>
+            </Fragment>
           ))}
         </section>
       )}

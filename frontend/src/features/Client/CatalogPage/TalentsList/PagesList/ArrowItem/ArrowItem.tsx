@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { BackGround } from '../BackGround/BackGround'
 import styles from './ArrowItem.module.scss'
 
@@ -10,12 +8,12 @@ interface ArrowItemProps {
   onClick: () => void
 }
 
-export const ArrowItem: FC<ArrowItemProps> = ({
+export const ArrowItem = ({
   isLeftArrow = true,
   disabled = false,
   size,
   onClick,
-}) => {
+}: ArrowItemProps) => {
   return (
     <BackGround size={size}>
       <button

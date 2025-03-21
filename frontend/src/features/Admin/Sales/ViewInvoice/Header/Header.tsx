@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import {
   FullInfoClient,
   SalesViewOfferData,
@@ -24,7 +22,7 @@ interface HeaderProps {
   client: FullInfoClient
 }
 
-export const Header: FC<HeaderProps> = ({
+export const Header = ({
   title,
   invoiceCode,
   invoiceDate,
@@ -34,7 +32,7 @@ export const Header: FC<HeaderProps> = ({
   totalInvoice,
   client,
   offer,
-}) => {
+}: HeaderProps) => {
   const safeHTMLCompanyAddress = sanitizeMessage(company.companyAddress)
   const safeHTMLProposal = sanitizeMessage(offer?.proposal)
   const safeHTMLNotes = sanitizeMessage(offer?.notes)

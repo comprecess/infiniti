@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useCallback } from 'react'
+import { Dispatch, SetStateAction, useCallback } from 'react'
 
 import {
   PagesMetaData,
@@ -25,12 +25,12 @@ interface TalentsListProps {
   setSort: Dispatch<SetStateAction<{ name: string; type: string }>>
 }
 
-export const TalentsList: FC<TalentsListProps> = ({
+export const TalentsList = ({
   talentsList,
   sort,
   setCurrentPage,
   setSort,
-}) => {
+}: TalentsListProps) => {
   const handlePageChange = useCallback((page: number) => {
     saveSession(userTalentsPageString, page)
     setCurrentPage(page)

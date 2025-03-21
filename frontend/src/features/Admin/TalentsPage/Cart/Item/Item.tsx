@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from 'react'
+import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react'
 
 import { NameIdType } from '../../../../../app/constants/constants'
 import { CrossIcon } from '../../../../../shared/icons/CrossIcon'
@@ -26,7 +26,7 @@ interface ItemProps {
   ) => void
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   idCart,
   idItem,
   amount,
@@ -39,12 +39,12 @@ export const Item: FC<ItemProps> = ({
   total,
   onDelete,
   onChangeItem,
-}) => {
+}: ItemProps) => {
   const [editedAmount, setEditedAmount] = useState<number | ''>(amount)
 
   const amountInputRef = useRef<HTMLInputElement>(null)
 
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setEditedAmount(value === '' ? '' : Number(value))
   }
@@ -66,7 +66,7 @@ export const Item: FC<ItemProps> = ({
     })
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' || e.key === 'Escape') {
       amountInputRef.current?.blur()
     }

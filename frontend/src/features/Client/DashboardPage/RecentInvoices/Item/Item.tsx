@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { Status } from '../../../../../shared/ui/Status/Status'
 import { ManageButtons } from '../../../../Main/RecentCard/ManageButtons/ManageButtons'
 import styleItem from '../RecentInvoices.module.scss'
@@ -14,14 +12,14 @@ interface ItemProps {
   status: string
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   hashtag,
   account,
   amount,
   invoiceDate,
   dueDate,
   status,
-}) => {
+}: ItemProps) => {
   return (
     <div className={styles.wrapper}>
       <a

@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './AccountingItem.module.scss'
 
 interface AccountingItemProps {
@@ -8,11 +6,11 @@ interface AccountingItemProps {
   color?: string
 }
 
-export const AccountingItem: FC<AccountingItemProps> = ({
+export const AccountingItem = ({
   title,
   value,
   color,
-}) => {
+}: AccountingItemProps) => {
   return (
     <div className={styles.wrapper}>
       <span className={styles.title}>{title}</span>

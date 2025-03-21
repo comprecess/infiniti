@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { ChevronDownIcon } from '../../../../../shared/icons/ChevronDownIcon'
 import styles from './BigCard.module.scss'
 
@@ -10,12 +8,12 @@ interface BigCardProps {
   onClick: () => void
 }
 
-export const BigCard: FC<BigCardProps> = ({
+export const BigCard = ({
   icon,
   amount,
   title,
   onClick,
-}) => {
+}: BigCardProps) => {
   return (
     <div className={styles.wrapper} onClick={onClick}>
       <img src={icon} alt='Icon' className={styles.icon} />

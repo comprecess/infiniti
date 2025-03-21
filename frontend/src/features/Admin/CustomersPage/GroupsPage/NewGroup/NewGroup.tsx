@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { CrossIcon } from '../../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
@@ -13,12 +11,12 @@ interface NewGroupProps {
   createNewGroup: () => void
 }
 
-export const NewGroup: FC<NewGroupProps> = ({
+export const NewGroup = ({
   modalNewGroup,
   handleOpenCloseModal,
   handleInputChange,
   createNewGroup,
-}) => {
+}: NewGroupProps) => {
   return (
     <CustomModalWindow
       maxWidth={'400px'}

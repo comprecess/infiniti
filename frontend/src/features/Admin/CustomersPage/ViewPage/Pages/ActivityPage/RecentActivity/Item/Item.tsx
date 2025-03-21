@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 
 import { ConfirmationModal } from '../../../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
@@ -19,7 +19,7 @@ interface ItemProps {
   editActivity: (idType: number, icon: string, message: string) => void
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   id,
   account,
   date,
@@ -30,7 +30,7 @@ export const Item: FC<ItemProps> = ({
   time,
   editActivity,
   deleteSelectedActivity,
-}) => {
+}: ItemProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
   const safeHTML = sanitizeMessage(message)

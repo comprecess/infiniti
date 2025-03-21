@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { ValuesProps } from '../../../../app/constants/constants'
 import { Item } from './Item/Item'
 import styles from './ListInfoItem.module.scss'
@@ -9,7 +7,7 @@ interface InfoItemProps {
   list: ValuesProps[]
 }
 
-export const ListInfoItem: FC<InfoItemProps> = ({ title, list }) => {
+export const ListInfoItem = ({ title, list }: InfoItemProps) => {
   return (
     <div className={styles.wrapper}>
       <span className={styles.title}>{title}</span>

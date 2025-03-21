@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from 'react'
+import { PropsWithChildren } from 'react'
 
 import styles from './BackGround.module.scss'
 
@@ -8,12 +8,12 @@ interface BackGroundProps {
   backGroundActive?: boolean
 }
 
-export const BackGround: FC<PropsWithChildren<BackGroundProps>> = ({
+export const BackGround = ({
   isActive = false,
   children,
   size = 'md',
   backGroundActive = true,
-}) => {
+}: PropsWithChildren<BackGroundProps>) => {
   const sizeClass = size === 'md' ? styles.wrapperMD : styles.wrapperSM
   const stateClass = isActive ? styles.active : styles.disable
   const backGroundNone =

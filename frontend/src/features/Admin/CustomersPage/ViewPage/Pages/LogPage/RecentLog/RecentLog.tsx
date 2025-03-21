@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 
 import { ViewLogTypeData } from '../../../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
@@ -10,7 +10,7 @@ interface RecentLogProps {
   list: ViewLogTypeData[]
 }
 
-export const RecentLog: FC<RecentLogProps> = ({ list }) => {
+export const RecentLog = ({ list }: RecentLogProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -21,14 +21,14 @@ export const RecentLog: FC<RecentLogProps> = ({ list }) => {
       <div className={styles.items}>
         {list.map((item, index) => {
           return (
-            <React.Fragment key={item.id}>
+            <Fragment key={item.id}>
               <Item
                 time={item.time}
                 ip={item.ip}
                 description={item.description}
               />
               {index !== list.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './TitleCard.module.scss'
 
 interface TitleCardProps {
@@ -7,7 +5,7 @@ interface TitleCardProps {
   secondTitle?: string
 }
 
-export const TitleCard: FC<TitleCardProps> = ({ title, secondTitle }) => {
+export const TitleCard = ({ title, secondTitle }: TitleCardProps) => {
   return (
     <div className={styles.wrapper}>
       <h4 className={styles.title}>{title}</h4>

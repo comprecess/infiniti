@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import {
@@ -14,7 +13,7 @@ interface RecentFilesProps {
   files: CustomersFilesData[]
 }
 
-export const RecentFiles: FC<RecentFilesProps> = ({ files }) => {
+export const RecentFiles = ({ files }: RecentFilesProps) => {
   const navigate = useNavigate()
 
   const navigateToCustomer = (name: string, idTalent: number) => {

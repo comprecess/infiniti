@@ -6,7 +6,6 @@ import {
   MenuList,
   Tooltip,
 } from '@chakra-ui/react'
-import { FC } from 'react'
 
 import { EmailIcon } from '../../../../../shared/icons/EmailIcon'
 import { FlagIcon } from '../../../../../shared/icons/FlagIcon'
@@ -26,7 +25,7 @@ interface ButtonsProps {
   selectStage: (stage: string) => void
 }
 
-export const Buttons: FC<ButtonsProps> = ({
+export const Buttons = ({
   stageList,
   blockEditButton,
   previewOffer,
@@ -35,7 +34,7 @@ export const Buttons: FC<ButtonsProps> = ({
   selectPDF,
   convertToInvoice,
   selectStage,
-}) => {
+}: ButtonsProps) => {
   return (
     <div className={styles.wrapper}>
       <Menu isLazy>

@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
@@ -20,7 +19,7 @@ interface SignInFormProps {
   resident?: boolean
 }
 
-export const SignInForm: FC<SignInFormProps> = ({ resident }) => {
+export const SignInForm = ({ resident }: SignInFormProps) => {
   const { register, handleSubmit } = useForm<FormFields>()
 
   const navigate = useNavigate()

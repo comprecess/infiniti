@@ -1,24 +1,24 @@
-import { FC } from 'react'
+import { ReactNode } from 'react'
 
 import styles from './PageItem.module.scss'
 
 interface PageItemProps {
   title: string
-  icon: React.ReactNode
+  icon: ReactNode
   isActive: boolean
   page: string
   type: number | null
   onClick: (namePage: string) => void
 }
 
-export const PageItem: FC<PageItemProps> = ({
+export const PageItem = ({
   title,
   icon,
   isActive,
   page,
   type,
   onClick,
-}) => {
+}: PageItemProps) => {
   const handleOnClick = () => {
     onClick(page)
   }

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 
 import { ConfirmationModal } from '../../../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
@@ -13,12 +13,7 @@ interface ItemProps {
   deleteFile: (idType: number) => void
 }
 
-export const Item: FC<ItemProps> = ({
-  idType,
-  type,
-  title,
-  deleteFile,
-}) => {
+export const Item = ({ idType, type, title, deleteFile }: ItemProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
   const handleOpenConfirmationModal = () => {

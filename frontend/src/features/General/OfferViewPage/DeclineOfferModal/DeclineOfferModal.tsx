@@ -1,5 +1,5 @@
 import { Textarea } from '@chakra-ui/react'
-import { FC, useState } from 'react'
+import { useState } from 'react'
 
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -13,11 +13,11 @@ interface DeclineOfferModalProps {
   decline: (stage: 'Accepted' | 'Decline', message?: string) => void
 }
 
-export const DeclineOfferModal: FC<DeclineOfferModalProps> = ({
+export const DeclineOfferModal = ({
   modalDecline,
   handleOpenCloseModal,
   decline,
-}) => {
+}: DeclineOfferModalProps) => {
   const [formData, setFormData] = useState<{
     message?: string
   }>({})

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC, Fragment } from 'react'
 
 import { ItemsCartProps } from '../../../app/constants/constants'
 import { Item } from '../../../features/Client/BasketPage/Item/Item'
@@ -51,7 +51,7 @@ export const Cart: FC<CartProps> = ({ cart, onDelete }) => {
       <div className={styles.items}>
         {cart.map((order, index) => {
           return (
-            <React.Fragment key={order.id}>
+            <Fragment key={order.id}>
               <Item
                 amount={order.amount}
                 avatar={order.userCatalog.img}
@@ -64,7 +64,7 @@ export const Cart: FC<CartProps> = ({ cart, onDelete }) => {
                 onDelete={() => handleDelete(order.id)}
               />
               {index !== cart.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

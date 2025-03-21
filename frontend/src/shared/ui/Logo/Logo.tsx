@@ -1,12 +1,12 @@
-import { FC } from 'react'
+import { ReactNode } from 'react'
 
 import styles from './Logo.module.scss'
 
 interface LogoProps {
-  logo: React.ReactNode
+  logo: ReactNode
   style?: string
 }
 
-export const Logo: FC<LogoProps> = ({ style, logo }) => {
+export const Logo = ({ style, logo }: LogoProps) => {
   return <div className={`${styles.wrapper} ${style}`}>{logo}</div>
 }

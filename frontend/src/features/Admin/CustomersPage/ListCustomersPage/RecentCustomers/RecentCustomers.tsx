@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react'
+import { Fragment, useCallback, useState } from 'react'
 
 import {
   ListCustomersData,
@@ -16,12 +16,12 @@ interface RecentCustomersProps {
   changeSortName: (sortNameItem: string, sortTypeItem: number) => void
 }
 
-export const RecentCustomers: FC<RecentCustomersProps> = ({
+export const RecentCustomers = ({
   access,
   customersList,
   deleteClient,
   changeSortName,
-}) => {
+}: RecentCustomersProps) => {
   const [sortNumbers, setSortNumbers] = useState<number[]>([
     1, 1, 1, 1, 1, 1,
   ])
@@ -108,7 +108,7 @@ export const RecentCustomers: FC<RecentCustomersProps> = ({
       <div className={styles.items}>
         {customersList.map((item, index) => {
           return (
-            <React.Fragment key={item.id}>
+            <Fragment key={item.id}>
               <Item
                 id={item.id}
                 access={access}
@@ -122,7 +122,7 @@ export const RecentCustomers: FC<RecentCustomersProps> = ({
                 deleteClient={deleteClient}
               />
               {index !== customersList.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

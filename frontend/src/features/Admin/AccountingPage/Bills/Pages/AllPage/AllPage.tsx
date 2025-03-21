@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import { Fragment, useCallback, useState } from 'react'
 
 import { Search } from '../../../../../../shared/ui/Search/Search'
 import { Title } from '../../../../../Main/RecentCard/Title/Title'
@@ -66,7 +66,7 @@ export const AllPage = () => {
         </div>
         <div className={styles.items}>
           {[].map((_item, _index) => {
-            return <React.Fragment key={`id`}>Item</React.Fragment>
+            return <Fragment key={`id`}>Item</Fragment>
           })}
         </div>
       </div>

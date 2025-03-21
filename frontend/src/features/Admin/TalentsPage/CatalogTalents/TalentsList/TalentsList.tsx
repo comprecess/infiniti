@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useCallback } from 'react'
+import { Dispatch, SetStateAction, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -28,14 +28,14 @@ interface TalentsListProps {
   fetchTalents: () => void
 }
 
-export const TalentsList: FC<TalentsListProps> = ({
+export const TalentsList = ({
   talentsList,
   sort,
   setSort,
   setCurrentPage,
   deleteTalent,
   fetchTalents,
-}) => {
+}: TalentsListProps) => {
   const { t } = useTranslation()
 
   const handlePageChange = useCallback((page: number) => {

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import {
@@ -34,7 +34,7 @@ interface HeaderProps {
   postTokenStripeSend: (token: string) => void
 }
 
-export const Header: FC<HeaderProps> = ({
+export const Header = ({
   title,
   invoiceCode,
   invoiceDate,
@@ -48,7 +48,7 @@ export const Header: FC<HeaderProps> = ({
   payList,
   token,
   postTokenStripeSend,
-}) => {
+}: HeaderProps) => {
   const [creditCard, setCreditCard] = useState<boolean>(false)
 
   const [payNow, setPayNow] = useState<

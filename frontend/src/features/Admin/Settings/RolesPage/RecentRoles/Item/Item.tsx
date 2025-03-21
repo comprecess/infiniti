@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 
 import { RolesAccess } from '../../../../../../app/constants/constants'
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
@@ -14,13 +14,13 @@ interface ItemProps {
   deleteSelectedRole: (idRole: number) => void
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   id,
   name,
   access,
   editRole,
   deleteSelectedRole,
-}) => {
+}: ItemProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
   const handleOpenConfirmationModal = () => {

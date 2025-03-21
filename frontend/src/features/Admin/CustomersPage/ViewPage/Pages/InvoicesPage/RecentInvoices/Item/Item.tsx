@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { ViewInvoicesProps } from '../../../../../../../../app/constants/constants'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../../../../../../../shared/ui/Status/Status'
@@ -12,11 +10,11 @@ interface ItemProps {
   navigateToEditInvoice: (id: number) => void
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   item,
   navigateToViewInvoice,
   navigateToEditInvoice,
-}) => {
+}: ItemProps) => {
   const handleNavigateToViewInvoice = () => {
     navigateToViewInvoice(item.id)
   }

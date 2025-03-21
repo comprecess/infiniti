@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import {
   SalesViewInvoiceDocuments,
   SalesViewInvoiceTransactions,
@@ -20,7 +18,7 @@ interface FooterProps {
   documents: SalesViewInvoiceDocuments[]
 }
 
-export const Footer: FC<FooterProps> = ({
+export const Footer = ({
   subtotal,
   tax,
   discount,
@@ -28,7 +26,7 @@ export const Footer: FC<FooterProps> = ({
   note,
   transactions,
   documents,
-}) => {
+}: FooterProps) => {
   const safeHTML = sanitizeMessage(note)
 
   return (

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { ViewCompanyProps } from '../../../../../app/constants/constants'
 import {
@@ -30,12 +30,12 @@ interface ModalWindowCompanyInfoProps {
   openEditModal: (id: number) => void
 }
 
-export const ModalWindowCompanyInfo: FC<ModalWindowCompanyInfoProps> = ({
+export const ModalWindowCompanyInfo = ({
   id,
   modalOpen,
   handleOpenCloseModal,
   openEditModal,
-}) => {
+}: ModalWindowCompanyInfoProps) => {
   const [companyInfo, setCompanyInfo] = useState<ViewCompanyProps | null>(
     null,
   )

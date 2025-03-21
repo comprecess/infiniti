@@ -1,5 +1,5 @@
 import { Textarea } from '@chakra-ui/react'
-import { FC } from 'react'
+import { ChangeEvent, Dispatch, SetStateAction } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -16,7 +16,7 @@ import styles from './Fields.module.scss'
 interface FieldsProps {
   inputData: BusinessModelInputData
   formData: PartialFieldsPostData
-  setFormData: React.Dispatch<React.SetStateAction<PartialFieldsPostData>>
+  setFormData: Dispatch<SetStateAction<PartialFieldsPostData>>
 }
 
 export interface PartialFieldsPostData
@@ -24,11 +24,11 @@ export interface PartialFieldsPostData
   [key: string]: string | number | string[] | File | undefined | null
 }
 
-export const Fields: FC<FieldsProps> = ({
+export const Fields = ({
   inputData,
   formData,
   setFormData,
-}) => {
+}: FieldsProps) => {
   const { t } = useTranslation()
 
   const handleChangeInput = (
@@ -75,7 +75,7 @@ export const Fields: FC<FieldsProps> = ({
           fontWeight='400'
           lineHeight='24px'
           value={formData.description}
-          onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+          onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
             handleChangeInput('description', event.target.value)
           }
         />
@@ -97,7 +97,7 @@ export const Fields: FC<FieldsProps> = ({
           fontWeight='400'
           lineHeight='24px'
           value={formData.fullDescription}
-          onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+          onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
             handleChangeInput('fullDescription', event.target.value)
           }
         />

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 
 import { ClientInvoiceData } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
@@ -10,7 +10,7 @@ interface RecentInvoicesProps {
   invoices: ClientInvoiceData[]
 }
 
-export const RecentInvoices: FC<RecentInvoicesProps> = ({ invoices }) => {
+export const RecentInvoices = ({ invoices }: RecentInvoicesProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -24,7 +24,7 @@ export const RecentInvoices: FC<RecentInvoicesProps> = ({ invoices }) => {
       <div className={styles.items}>
         {invoices.map((invoice, index) => {
           return (
-            <React.Fragment key={'order.id'}>
+            <Fragment key={'order.id'}>
               <Item
                 hashtag={invoice.code}
                 amount={invoice.amount}
@@ -33,7 +33,7 @@ export const RecentInvoices: FC<RecentInvoicesProps> = ({ invoices }) => {
                 status={invoice.status}
               />
               {index !== invoices.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

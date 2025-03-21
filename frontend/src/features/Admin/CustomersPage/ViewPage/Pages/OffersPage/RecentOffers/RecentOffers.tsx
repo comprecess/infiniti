@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { ViewOffersTypeData } from '../../../../../../../app/constants/constants'
@@ -12,7 +12,7 @@ interface RecentOffersProps {
   list: ViewOffersTypeData[]
 }
 
-export const RecentOffers: FC<RecentOffersProps> = ({ list }) => {
+export const RecentOffers = ({ list }: RecentOffersProps) => {
   const navigate = useNavigate()
 
   const navigateToViewOffer = (id: number) => {
@@ -41,14 +41,14 @@ export const RecentOffers: FC<RecentOffersProps> = ({ list }) => {
       <div className={styles.items}>
         {list.map((item, index) => {
           return (
-            <React.Fragment key={item.id}>
+            <Fragment key={item.id}>
               <Item
                 item={item}
                 navigateToViewOffer={navigateToViewOffer}
                 navigateToEditOffer={navigateToEditOffer}
               />
               {index !== list.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

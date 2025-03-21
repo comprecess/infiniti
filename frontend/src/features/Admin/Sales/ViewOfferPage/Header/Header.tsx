@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { FullInfoClient } from '../../../../../app/constants/constants'
 import { sanitizeMessage } from '../../../../../shared/utils/TextEditor/sanitizeMessage'
 import { ContactItem } from '../../ViewInvoice/Header/ContactItem/ContactItem'
@@ -21,7 +19,7 @@ interface HeaderProps {
   client: FullInfoClient
 }
 
-export const Header: FC<HeaderProps> = ({
+export const Header = ({
   subject,
   offerCode,
   stage,
@@ -31,7 +29,7 @@ export const Header: FC<HeaderProps> = ({
   validUntil,
   totalOffer,
   proposal,
-}) => {
+}: HeaderProps) => {
   const safeHTMLCompanyAddress = sanitizeMessage(company.companyAddress)
   const safeHTMLProposal = sanitizeMessage(proposal)
 
@@ -39,7 +37,9 @@ export const Header: FC<HeaderProps> = ({
     <div className={styles.wrapper}>
       <section className={styles.sectionFirst}>
         <div className={styles.offerTitle}>
-          {subject && <h4 className={styles.titleOffer}>{`${subject}`}</h4>}
+          {subject && (
+            <h4 className={styles.titleOffer}>{`${subject}`}</h4>
+          )}
           <h4 className={styles.offerCode}>{`#${offerCode}`}</h4>
           <Status status={stage} />
         </div>
@@ -79,8 +79,12 @@ export const Header: FC<HeaderProps> = ({
             )}
           </div>
           <div className={styles.contactInfo}>
-            {client.phone && <ContactItem title='Phone' value={client.phone} />}
-            {client.email && <ContactItem title='Email' value={client.email} />}
+            {client.phone && (
+              <ContactItem title='Phone' value={client.phone} />
+            )}
+            {client.email && (
+              <ContactItem title='Email' value={client.email} />
+            )}
             {client.customFields.map(field => {
               return (
                 <ContactItem

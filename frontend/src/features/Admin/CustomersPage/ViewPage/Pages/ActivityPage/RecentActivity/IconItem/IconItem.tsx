@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { CheckIcon } from '../../../../../../../../shared/icons/CheckIcon'
 import { CreditCardIcon } from '../../../../../../../../shared/icons/CreditCardIcon'
 import { EnvelopeIcon } from '../../../../../../../../shared/icons/EnvelopeIcon'
@@ -17,7 +15,7 @@ interface IconItemProps {
   nameIcon: string
 }
 
-export const IconItem: FC<IconItemProps> = ({ nameIcon }) => {
+export const IconItem = ({ nameIcon }: IconItemProps) => {
   let icon = null
 
   switch (nameIcon) {

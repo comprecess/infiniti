@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { FC, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
 import { ViewListPagesAndInfo } from '../../../../app/constants/constants'
@@ -28,7 +28,7 @@ const useIdFromUrl = () => {
   return id
 }
 
-export const AdminViewPage: FC = () => {
+export const AdminViewPage = () => {
   const [isOpenSideBar, setIsOpenSideBar] = useState<boolean>(true)
   const [isMobile, setIsMobile] = useState<boolean>(false)
 

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { SalesOfferEmailTemplateData } from '../../../../../app/constants/constants'
 import { CrossIcon } from '../../../../../shared/icons/CrossIcon'
@@ -33,13 +33,13 @@ export interface PartialFormData extends Partial<FormData> {
   [key: string]: string | number | boolean | null | undefined
 }
 
-export const EmailPanel: FC<EmailPanelProps> = ({
+export const EmailPanel = ({
   idOffer,
   template,
   info,
   modalEmailPanel,
   handleOpenCloseModal,
-}) => {
+}: EmailPanelProps) => {
   const [formData, setFormData] = useState<PartialFormData>({})
 
   const showToast = useCustomToast()

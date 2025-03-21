@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './ContactItem.module.scss'
 
 interface ContactItemProps {
@@ -7,7 +5,7 @@ interface ContactItemProps {
   value: string
 }
 
-export const ContactItem: FC<ContactItemProps> = ({ title, value }) => {
+export const ContactItem = ({ title, value }: ContactItemProps) => {
   return (
     <div className={styles.wrapper}>
       <span className={styles.title}>{`${title}:`}</span>

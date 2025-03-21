@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { FiltersState } from '../../../../../../../app/constants/constants'
 import { CustomCheckBox } from '../../../../../../../shared/ui/CustomCheckBox/CustomCheckBox'
 import styles from './Item.module.scss'
@@ -21,12 +19,12 @@ interface SearchItemProps {
   ) => void
 }
 
-export const Item: FC<SearchItemProps> = ({
+export const Item = ({
   categories,
   filters,
   searchItem,
   onCheckboxChange,
-}) => {
+}: SearchItemProps) => {
   let filteredCategories = categories
 
   if (searchItem) {

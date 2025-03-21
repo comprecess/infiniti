@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 
 import { RolesAccess } from '../../../../../app/constants/constants'
 import { ConfirmationModal } from '../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
@@ -21,7 +21,7 @@ interface ItemProps {
   ) => void
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   id,
   access,
   currencyCode,
@@ -30,7 +30,7 @@ export const Item: FC<ItemProps> = ({
   deleteCurrency,
   changeBaseCurrency,
   editCurrency,
-}) => {
+}: ItemProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
   const handleOpenConfirmationModal = () => {

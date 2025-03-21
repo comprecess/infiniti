@@ -1,6 +1,7 @@
 import {
   createContext,
   Dispatch,
+  PropsWithChildren,
   SetStateAction,
   useContext,
   useState,
@@ -26,9 +27,7 @@ export const useChatGPT = () => {
   return context
 }
 
-export const ChatGPTProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const ChatGPTProvider = ({ children }: PropsWithChildren) => {
   const [chatGPTChangeForm, setChatGPTChangeForm] =
     useState<boolean>(false)
 

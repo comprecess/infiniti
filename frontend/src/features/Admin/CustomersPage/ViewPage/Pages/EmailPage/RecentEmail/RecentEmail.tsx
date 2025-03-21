@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 
 import { ViewEmailProps } from '../../../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
@@ -10,7 +10,7 @@ interface RecentEmailProps {
   list: ViewEmailProps[]
 }
 
-export const RecentEmail: FC<RecentEmailProps> = ({ list }) => {
+export const RecentEmail = ({ list }: RecentEmailProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -20,10 +20,10 @@ export const RecentEmail: FC<RecentEmailProps> = ({ list }) => {
       <div className={styles.items}>
         {list.map((item, index) => {
           return (
-            <React.Fragment key={item.id}>
+            <Fragment key={item.id}>
               <Item subject={item.subject} date={item.date} />
               {index !== list.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

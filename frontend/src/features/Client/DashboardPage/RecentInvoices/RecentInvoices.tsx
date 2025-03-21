@@ -1,11 +1,11 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentInvoices.module.scss'
 
-export const RecentInvoices: FC = () => {
+export const RecentInvoices = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -20,7 +20,7 @@ export const RecentInvoices: FC = () => {
       <div className={styles.items}>
         {[].map((_order, index) => {
           return (
-            <React.Fragment key={'order.id'}>
+            <Fragment key={'order.id'}>
               <Item
                 hashtag={'order.hashtag'}
                 account={'order.account'}
@@ -30,7 +30,7 @@ export const RecentInvoices: FC = () => {
                 status={'order.status'}
               />
               {index !== [].length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

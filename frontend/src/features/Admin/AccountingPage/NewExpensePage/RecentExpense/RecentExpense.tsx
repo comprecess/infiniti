@@ -1,4 +1,4 @@
-import React from 'react'
+import { Fragment } from 'react'
 
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
@@ -15,10 +15,10 @@ export const RecentExpense = () => {
       <div className={styles.items}>
         {[].map((_item, index) => {
           return (
-            <React.Fragment key={'item.id'}>
+            <Fragment key={'item.id'}>
               Item
               {index !== [].length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

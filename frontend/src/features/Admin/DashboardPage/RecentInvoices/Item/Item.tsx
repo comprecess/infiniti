@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { Status } from '../../../../../shared/ui/Status/Status'
 import styleItem from '../RecentInvoices.module.scss'
 import styles from './Item.module.scss'
@@ -13,14 +11,14 @@ interface ItemProps {
   status: string
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   hashtag,
   account,
   amount,
   created,
   due,
   status,
-}) => {
+}: ItemProps) => {
   return (
     <div className={styles.wrapper}>
       <span className={`${styleItem.hashtagColumn} ${styles.hashtagItem}`}>

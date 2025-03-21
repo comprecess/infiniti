@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { Status } from '../../../../../shared/ui/Status/Status'
 import styleItem from '../RecentOrders.module.scss'
 import styles from './Item.module.scss'
@@ -11,7 +9,7 @@ interface ItemProps {
   status: string
 }
 
-export const Item: FC<ItemProps> = ({ date, order, amount, status }) => {
+export const Item = ({ date, order, amount, status }: ItemProps) => {
   return (
     <div className={styles.wrapper}>
       <span className={`${styleItem.dateColumn} ${styles.dateItem}`}>

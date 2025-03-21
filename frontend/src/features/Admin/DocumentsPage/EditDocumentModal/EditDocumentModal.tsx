@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 
 import { CustomersFilesData } from '../../../../app/constants/constants'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
@@ -17,11 +17,11 @@ interface EditDocumentModalProps {
   modalOpenClose: () => void
 }
 
-export const EditDocumentModal: FC<EditDocumentModalProps> = ({
+export const EditDocumentModal = ({
   idDocument,
   modalEditDoc,
   modalOpenClose,
-}) => {
+}: EditDocumentModalProps) => {
   const [formData, setFormData] = useState<CustomersFilesData | null>(null)
 
   const showToast = useCustomToast()
@@ -56,9 +56,7 @@ export const EditDocumentModal: FC<EditDocumentModalProps> = ({
     }
   }
 
-  const onChangeCheckBox = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const onChangeCheckBox = (event: ChangeEvent<HTMLInputElement>) => {
     if (formData) {
       const updatedFormData = {
         ...formData,

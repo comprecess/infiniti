@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { ViewOffersTypeData } from '../../../../../../../../app/constants/constants'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../../../../../../../shared/ui/Status/Status'
@@ -12,11 +10,11 @@ interface ItemProps {
   navigateToEditOffer: (id: number) => void
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   item,
   navigateToViewOffer,
   navigateToEditOffer,
-}) => {
+}: ItemProps) => {
   const handleNavigateToViewOffer = () => {
     navigateToViewOffer(item.id)
   }

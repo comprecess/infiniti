@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { FullInfoClient } from '../../../../app/constants/constants'
 import { sanitizeMessage } from '../../../../shared/utils/TextEditor/sanitizeMessage'
 import { ContactItem } from '../../../Admin/Sales/ViewInvoice/Header/ContactItem/ContactItem'
@@ -22,7 +20,7 @@ interface HeaderProps {
   client: FullInfoClient
 }
 
-export const Header: FC<HeaderProps> = ({
+export const Header = ({
   title,
   code,
   dateCreated,
@@ -33,7 +31,7 @@ export const Header: FC<HeaderProps> = ({
   total,
   proposal,
   client,
-}) => {
+}: HeaderProps) => {
   const safeHTMLCompanyAddress = sanitizeMessage(company.companyAddress)
   const safeHTMLProposal = sanitizeMessage(proposal)
 
@@ -68,7 +66,9 @@ export const Header: FC<HeaderProps> = ({
             <>
               <div className={styles.offerToList}>
                 {client.company && (
-                  <span className={styles.offerToItem}>{client.company}</span>
+                  <span className={styles.offerToItem}>
+                    {client.company}
+                  </span>
                 )}
                 {client.account && (
                   <span className={styles.offerToItem}>
@@ -76,7 +76,9 @@ export const Header: FC<HeaderProps> = ({
                   </span>
                 )}
                 {client.address && (
-                  <span className={styles.offerToItem}>{client.address}</span>
+                  <span className={styles.offerToItem}>
+                    {client.address}
+                  </span>
                 )}
                 {client.city && (
                   <span className={styles.offerToItem}>{client.city}</span>

@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { sanitizeMessage } from '../../../../../../shared/utils/TextEditor/sanitizeMessage'
 import styleItem from '../RecentOffers.module.scss'
 import styles from './Item.module.scss'
@@ -13,14 +11,14 @@ interface ItemProps {
   total: number
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   code,
   description,
   price,
   quantity,
   discount,
   total,
-}) => {
+}: ItemProps) => {
   const safeHTML = sanitizeMessage(description)
 
   return (

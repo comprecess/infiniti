@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -36,10 +36,7 @@ export interface PartialFieldsPostData extends Partial<TalentFormData> {
   | null
 }
 
-export const Fields: FC<FieldsProps> = ({
-  inputData,
-  onFormDataChange,
-}) => {
+export const Fields = ({ inputData, onFormDataChange }: FieldsProps) => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({
     timezone: inputData.timezone[0].id,
     gender: inputData.gender[0].id,
@@ -283,7 +280,7 @@ export const Fields: FC<FieldsProps> = ({
           <div className={styles.sectionItems}>
             {formData.blockExperience.map(item => {
               return (
-                <React.Fragment key={item.index}>
+                <Fragment key={item.index}>
                   <ProjectsExperienceItem
                     onRemove={() => handleRemoveExperience(item.index)}
                     onChange={(field, value) =>
@@ -293,7 +290,7 @@ export const Fields: FC<FieldsProps> = ({
                   <div className={styles.divider}>
                     <CustomDivider />
                   </div>
-                </React.Fragment>
+                </Fragment>
               )
             })}
           </div>

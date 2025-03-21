@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { ViewListPagesAndInfo } from '../../../../../app/constants/constants'
@@ -12,11 +12,11 @@ interface SideBarProps {
   openCloseSidebar: () => void
 }
 
-export const SideBar: FC<SideBarProps> = ({
+export const SideBar = ({
   data,
   isActive,
   openCloseSidebar,
-}) => {
+}: SideBarProps) => {
   const [activeItem, setActiveItem] = useState<number>(0)
 
   const location = useLocation()

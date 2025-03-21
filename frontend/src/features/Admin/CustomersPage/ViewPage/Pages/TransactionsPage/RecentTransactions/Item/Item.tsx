@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../RecentTransactions.module.scss'
 import styles from './Item.module.scss'
@@ -14,7 +12,7 @@ interface ItemProps {
   cr: string
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   date,
   account,
   type,
@@ -22,7 +20,7 @@ export const Item: FC<ItemProps> = ({
   description,
   dr,
   cr,
-}) => {
+}: ItemProps) => {
   return (
     <div className={styles.wrapper}>
       <span className={`${styleItem.dateColumn} ${styles.dateItem}`}>

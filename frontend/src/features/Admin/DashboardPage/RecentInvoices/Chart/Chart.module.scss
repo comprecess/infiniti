@@ -27,7 +27,7 @@
 }
 
 .unpaidBar {
-  background-color: $cherry-500;
+  background-color: $amber-500;
 }
 
 .paidBar {
@@ -35,11 +35,11 @@
 }
 
 .partiallyPaidBar {
-  background-color: $amber-500;
+  background-color: $cherry-500;
 }
 
 .unpaidText {
-  color: $cherry-500;
+  color: $amber-500;
 }
 
 .paidText {
@@ -47,5 +47,5 @@
 }
 
 .partiallyPaidText {
-  color: $amber-500;
+  color: $cherry-500;
 }

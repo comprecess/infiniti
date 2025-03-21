@@ -5,7 +5,7 @@ import {
   MenuItem,
   MenuList,
 } from '@chakra-ui/react'
-import { FC, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { TalentData } from '../../../../app/constants/constants'
@@ -30,11 +30,11 @@ interface ModalWindowProps {
   onClose: () => void
 }
 
-export const ModalWindow: FC<ModalWindowProps> = ({
+export const ModalWindow = ({
   talent,
   dividerOrientation,
   onClose,
-}) => {
+}: ModalWindowProps) => {
   const [item, setItem] = useState<string>('priceHour')
   const [unit, setUnit] = useState<string>('Hours (h)')
   const [total, setTotal] = useState<string>('0 €')

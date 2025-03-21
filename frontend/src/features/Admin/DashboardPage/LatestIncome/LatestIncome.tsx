@@ -1,30 +1,17 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { DashboardLatestIncomeExpenseData } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './LatestIncome.module.scss'
 
-const demoData = [
-  {
-    id: 0,
-    date: '19.02.2025',
-    amount: '1,020 $',
-    description: 'Infiniti stream (2031)',
-  },
-  { id: 1, date: '19.02.2025', amount: '4,560 $', description: 'Menu' },
-  { id: 2, date: '19.02.2025', amount: '870 $', description: 'Dedic64' },
-  { id: 3, date: '19.02.2025', amount: '2,130 $', description: 'Zadarma' },
-  {
-    id: 4,
-    date: '19.02.2025',
-    amount: '1,240 $',
-    description: 'Drumeneton',
-  },
-]
+interface LatestIncomeProps {
+  latestIncome: DashboardLatestIncomeExpenseData[]
+}
 
-export const LatestIncome: FC = () => {
+export const LatestIncome = ({ latestIncome }: LatestIncomeProps) => {
   const { t } = useTranslation()
 
   return (
@@ -44,16 +31,16 @@ export const LatestIncome: FC = () => {
         />
       </div>
       <div className={styles.items}>
-        {demoData.map((order, index) => {
+        {latestIncome.map((income, index) => {
           return (
-            <React.Fragment key={order.id}>
+            <Fragment key={index}>
               <Item
-                date={order.date}
-                amount={order.amount}
-                description={order.description}
+                date={income.date}
+                amount={income.amount}
+                description={income.description}
               />
-              {index !== demoData.length - 1 && <CustomDivider />}
-            </React.Fragment>
+              {index !== latestIncome.length - 1 && <CustomDivider />}
+            </Fragment>
           )
         })}
       </div>

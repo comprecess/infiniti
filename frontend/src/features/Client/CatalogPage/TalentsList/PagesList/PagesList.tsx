@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { PagesMetaData } from '../../../../../app/constants/constants'
 import { ArrowItem } from './ArrowItem/ArrowItem'
@@ -12,11 +12,7 @@ interface PagesListProps {
   size?: 'sm' | 'md'
 }
 
-export const PagesList: FC<PagesListProps> = ({
-  meta,
-  size,
-  nextPage,
-}) => {
+export const PagesList = ({ meta, size, nextPage }: PagesListProps) => {
   const [maxVisiblePages, setMaxVisiblePages] = useState<number>(4)
 
   useEffect(() => {

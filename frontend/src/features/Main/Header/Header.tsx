@@ -1,4 +1,4 @@
-import { FC, memo, useEffect, useMemo, useState } from 'react'
+import { memo, useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { CartProps } from '../../../app/constants/constants'
@@ -25,11 +25,11 @@ interface HeaderProps {
   toggleMiniSidebar: () => void
 }
 
-export const Header: FC<HeaderProps> = ({
+export const Header = ({
   isMiniSidebar,
   toggleSidebar,
   toggleMiniSidebar,
-}) => {
+}: HeaderProps) => {
   const [orders, setOrder] = useState<CartProps>()
 
   const navigate = useNavigate()

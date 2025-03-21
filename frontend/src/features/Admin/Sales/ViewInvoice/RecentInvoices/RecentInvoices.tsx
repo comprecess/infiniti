@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 
 import { SalesEditInvoiceBlankData } from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
@@ -10,7 +10,7 @@ interface RecentInvoicesProps {
   blankList: SalesEditInvoiceBlankData[]
 }
 
-export const RecentInvoices: FC<RecentInvoicesProps> = ({ blankList }) => {
+export const RecentInvoices = ({ blankList }: RecentInvoicesProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -25,7 +25,7 @@ export const RecentInvoices: FC<RecentInvoicesProps> = ({ blankList }) => {
         {blankList.length > 0 &&
           blankList.map((item, index) => {
             return (
-              <React.Fragment key={item.id}>
+              <Fragment key={item.id}>
                 <Item
                   code={item.id}
                   item={item.description}
@@ -35,7 +35,7 @@ export const RecentInvoices: FC<RecentInvoicesProps> = ({ blankList }) => {
                   total={item.total}
                 />
                 {index !== blankList.length - 1 && <CustomDivider />}
-              </React.Fragment>
+              </Fragment>
             )
           })}
       </div>

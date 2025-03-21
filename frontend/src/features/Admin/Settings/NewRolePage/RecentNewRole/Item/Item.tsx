@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { SettingsRoleFormData } from '../../../../../../app/constants/constants'
 import { CustomSwitch } from '../../../../../../shared/ui/CustomSwitch/CustomSwitch'
 import styleItem from '../RecentNewRole.module.scss'
@@ -15,7 +13,7 @@ interface ItemProps {
   ) => void
 }
 
-export const Item: FC<ItemProps> = ({ index, name, handleChange }) => {
+export const Item = ({ index, name, handleChange }: ItemProps) => {
   return (
     <div className={styles.wrapper}>
       <span

@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { TalentData } from '../../../../../app/constants/constants'
 import { ListInfoItem } from '../../../../Client/TalentDetailsPage/ListInfoItem/ListInfoItem'
 import { TextInfoItem } from '../../../../Client/TalentDetailsPage/TextInfoItem/TextInfoItem'
@@ -10,9 +8,7 @@ interface AboutTalentCardProps {
   talentInfo: TalentData
 }
 
-export const AboutTalentCard: FC<AboutTalentCardProps> = ({
-  talentInfo,
-}) => {
+export const AboutTalentCard = ({ talentInfo }: AboutTalentCardProps) => {
   const getYearText = (years: number) => {
     if (years === null) return ''
 

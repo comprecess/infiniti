@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 
 import { ViewFileProps } from '../../../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
@@ -11,10 +11,7 @@ interface RecentFilesProps {
   deleteFile: (idType: number) => void
 }
 
-export const RecentFiles: FC<RecentFilesProps> = ({
-  list,
-  deleteFile,
-}) => {
+export const RecentFiles = ({ list, deleteFile }: RecentFilesProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -25,7 +22,7 @@ export const RecentFiles: FC<RecentFilesProps> = ({
       <div className={styles.items}>
         {list.map((item, index) => {
           return (
-            <React.Fragment key={item.id}>
+            <Fragment key={item.id}>
               <Item
                 idType={item.id}
                 type={item.type}
@@ -33,7 +30,7 @@ export const RecentFiles: FC<RecentFilesProps> = ({
                 deleteFile={deleteFile}
               />
               {index !== list.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

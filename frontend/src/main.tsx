@@ -3,7 +3,7 @@ import './i18n'
 
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import React from 'react'
+import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 
 import { App } from './app.tsx'
@@ -73,13 +73,13 @@ async function main() {
   const root = ReactDOM.createRoot(rootElement)
 
   root.render(
-    <React.StrictMode>
+    <StrictMode>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider theme={theme}>
           <App />
         </ChakraProvider>
       </QueryClientProvider>
-    </React.StrictMode>,
+    </StrictMode>,
   )
 }
 

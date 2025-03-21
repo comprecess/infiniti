@@ -1,9 +1,15 @@
 import { useQuery } from '@tanstack/react-query'
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
   DashboardData,
+  DashboardInvoicesStatusesData,
+  DashboardLatestIncomeExpenseData,
+  DashboardNetWorthData,
+  DashboardRecentClientData,
+  DashboardRecentInvoicesData,
+  DashboardRecentProjectsData,
   RolesAccess,
 } from '../../../app/constants/constants'
 import { Calendar } from '../../../features/Admin/DashboardPage/Calendar/Calendar'
@@ -21,15 +27,22 @@ import { getCashFlowInfo } from '../../../shared/utils/api/Admin/Dashboard/GetCa
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './DashboardPage.module.scss'
 
-export const AdminDashboardPage: FC = () => {
+export const AdminDashboardPage = () => {
   const { t } = useTranslation()
 
-  const { data: dataCashFlow } = useQuery({
+  const { data: dataDashboard } = useQuery({
     queryKey: ['cashFlow'],
     queryFn: async () => {
       const response: {
         access: RolesAccess
+        account: DashboardNetWorthData
         cashFlow: DashboardData
+        recentClients: DashboardRecentClientData[]
+        recentProjects: DashboardRecentProjectsData[]
+        invoices: DashboardRecentInvoicesData[]
+        invoiceStatus: DashboardInvoicesStatusesData
+        latestIncome: DashboardLatestIncomeExpenseData[]
+        latestExpense: DashboardLatestIncomeExpenseData[]
         status: boolean
       } = await getCashFlowInfo()
 
@@ -44,93 +57,102 @@ export const AdminDashboardPage: FC = () => {
   }, [])
 
   return (
-    <div className={styles.wrapper}>
-      <section className={styles.sectionFirst}>
-        {dataCashFlow ? (
-          <RecentCard
-            refreshIcon
-            title={t('admin-dashboard-page-card-1-title')}
-            style={`${styles.recentFullScreen} ${styles.zIndex}`}
-          >
-            <CashFlow data={dataCashFlow.cashFlow} />
-          </RecentCard>
-        ) : (
+    <>
+      {dataDashboard ? (
+        <div className={styles.wrapper}>
+          <section className={styles.sectionFirst}>
+            <RecentCard
+              refreshIcon
+              title={t('admin-dashboard-page-card-1-title')}
+              style={`${styles.recentFullScreen} ${styles.zIndex}`}
+            >
+              <CashFlow data={dataDashboard.cashFlow} />
+            </RecentCard>
+          </section>
+          <section className={styles.sectionSecond}>
+            <RecentCard
+              ordinaryIcons
+              title={t('admin-dashboard-page-card-2-title')}
+              style={styles.recentHalf}
+            >
+              <RecentClients recentClients={dataDashboard.recentClients} />
+            </RecentCard>
+            <RecentCard
+              ordinaryIcons
+              title={t('admin-dashboard-page-card-3-title')}
+              style={styles.recentHalf}
+            >
+              <RecentProjects
+                recentProjects={dataDashboard.recentProjects}
+              />
+            </RecentCard>
+          </section>
+          <section className={styles.sectionThird}>
+            <RecentCard
+              ordinaryIcons
+              title={t('admin-dashboard-page-card-4-title')}
+              style={styles.recentHalf}
+            >
+              <RecentInvoices
+                invoices={dataDashboard.invoices}
+                statuses={dataDashboard.invoiceStatus}
+              />
+            </RecentCard>
+            <RecentCard
+              ordinaryIcons
+              title={t('admin-dashboard-page-card-5-title')}
+              style={styles.recentHalf}
+            >
+              <Calendar />
+            </RecentCard>
+          </section>
+          <section className={styles.sectionFourth}>
+            <RecentCard
+              ordinaryIcons
+              title={t('admin-dashboard-page-card-6-title')}
+              style={styles.recentHalf}
+            >
+              <LatestIncome latestIncome={dataDashboard.latestIncome} />
+            </RecentCard>
+            <RecentCard
+              ordinaryIcons
+              title={t('admin-dashboard-page-card-7-title')}
+              style={styles.recentHalf}
+            >
+              <LatestExpense latestExpense={dataDashboard.latestExpense} />
+            </RecentCard>
+          </section>
+          <section className={styles.sectionFifth}>
+            <RecentCard
+              ordinaryIcons
+              title={t('admin-dashboard-page-card-8-title')}
+              style={styles.recentHalf}
+            >
+              <NetWorthAccountBalances account={dataDashboard.account} />
+            </RecentCard>
+            <RecentCard
+              ordinaryIcons
+              title={t('admin-dashboard-page-card-9-title')}
+              style={styles.recentHalf}
+            >
+              <ExpensesCategory />
+            </RecentCard>
+          </section>
+          <section className={styles.sectionSixth}>
+            <RecentCard
+              ordinaryIcons
+              title={t('admin-dashboard-page-card-10-title')}
+              style={styles.recentFullScreen}
+            >
+              <IncomeExpenseMonthly />
+            </RecentCard>
+          </section>
+        </div>
+      ) : (
+        <div className={styles.loading}>
           <LoadingSpinner size='xl' />
-        )}
-      </section>
-      <section className={styles.sectionSecond}>
-        <RecentCard
-          ordinaryIcons
-          title={t('admin-dashboard-page-card-2-title')}
-          style={styles.recentHalf}
-        >
-          <RecentClients />
-        </RecentCard>
-        <RecentCard
-          ordinaryIcons
-          title={t('admin-dashboard-page-card-3-title')}
-          style={styles.recentHalf}
-        >
-          <RecentProjects />
-        </RecentCard>
-      </section>
-      <section className={styles.sectionThird}>
-        <RecentCard
-          ordinaryIcons
-          title={t('admin-dashboard-page-card-4-title')}
-          style={styles.recentHalf}
-        >
-          <RecentInvoices />
-        </RecentCard>
-        <RecentCard
-          ordinaryIcons
-          title={t('admin-dashboard-page-card-5-title')}
-          style={styles.recentHalf}
-        >
-          <Calendar />
-        </RecentCard>
-      </section>
-      <section className={styles.sectionFourth}>
-        <RecentCard
-          ordinaryIcons
-          title={t('admin-dashboard-page-card-6-title')}
-          style={styles.recentHalf}
-        >
-          <LatestIncome />
-        </RecentCard>
-        <RecentCard
-          ordinaryIcons
-          title={t('admin-dashboard-page-card-7-title')}
-          style={styles.recentHalf}
-        >
-          <LatestExpense />
-        </RecentCard>
-      </section>
-      <section className={styles.sectionFifth}>
-        <RecentCard
-          ordinaryIcons
-          title={t('admin-dashboard-page-card-8-title')}
-          style={styles.recentHalf}
-        >
-          <NetWorthAccountBalances />
-        </RecentCard>
-        <RecentCard
-          ordinaryIcons
-          title={t('admin-dashboard-page-card-9-title')}
-          style={styles.recentHalf}
-        >
-          <ExpensesCategory />
-        </RecentCard>
-      </section>
-      <section className={styles.sectionSixth}>
-        <RecentCard
-          ordinaryIcons
-          title={t('admin-dashboard-page-card-10-title')}
-          style={styles.recentFullScreen}
-        >
-          <IncomeExpenseMonthly />
-        </RecentCard>
-      </section>
-    </div>
+        </div>
+      )}
+    </>
   )
 }

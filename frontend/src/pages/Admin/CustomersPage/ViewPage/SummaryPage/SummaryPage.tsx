@@ -1,6 +1,12 @@
 import { Textarea } from '@chakra-ui/react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import {
@@ -148,7 +154,7 @@ export const AdminContactSummaryPage = () => {
   }
 
   const handleTextAreaChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
+    event: ChangeEvent<HTMLTextAreaElement>,
   ) => {
     onChangeInput('notes', event.target.value)
   }

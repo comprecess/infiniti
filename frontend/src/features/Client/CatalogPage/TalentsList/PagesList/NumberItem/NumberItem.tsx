@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { BackGround } from '../BackGround/BackGround'
 import styles from './NumberItem.module.scss'
 
@@ -10,12 +8,12 @@ interface NumberItemProps {
   onClick: () => void
 }
 
-export const NumberItem: FC<NumberItemProps> = ({
+export const NumberItem = ({
   number,
   isActive,
   size = 'md',
   onClick,
-}) => {
+}: NumberItemProps) => {
   const sizeClass = size === 'md' ? styles.numberMD : styles.numberSM
 
   return (

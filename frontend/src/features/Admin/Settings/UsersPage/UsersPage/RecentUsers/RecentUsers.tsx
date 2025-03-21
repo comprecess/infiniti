@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react'
+import { Fragment, useCallback, useState } from 'react'
 
 import {
   RolesAccess,
@@ -17,13 +17,13 @@ interface RecentUsersProps {
   changeSortName: (sortNameItem: string, sortTypeItem: number) => void
 }
 
-export const RecentUsers: FC<RecentUsersProps> = ({
+export const RecentUsers = ({
   data,
   access,
   changeSortName,
   onDeleteUser,
   onEditUser,
-}) => {
+}: RecentUsersProps) => {
   const [sortNumbers, setSortNumbers] = useState<number[]>([1, 1, 1])
 
   const handleSortChange = useCallback(
@@ -78,7 +78,7 @@ export const RecentUsers: FC<RecentUsersProps> = ({
       <div className={styles.items}>
         {data.map((item, index) => {
           return (
-            <React.Fragment key={item.id}>
+            <Fragment key={item.id}>
               <Item
                 id={item.id}
                 avatar={item.img}
@@ -96,7 +96,7 @@ export const RecentUsers: FC<RecentUsersProps> = ({
                 onEditUser={onEditUser}
               />
               {index !== data.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

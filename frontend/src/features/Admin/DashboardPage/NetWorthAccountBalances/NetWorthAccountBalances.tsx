@@ -1,33 +1,28 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { DashboardNetWorthData } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Header } from './Header/Header'
 import { Item } from './Item/Item'
 import styles from './NetWorthAccountBalances.module.scss'
 
-const demoData = [
-  { id: 0, account: 'SBER', balance: '1,020 $' },
-  { id: 1, account: 'Qiwi', balance: '4,560 $' },
-  { id: 2, account: 'Payeer', balance: '870 $' },
-  { id: 3, account: 'Юmoney', balance: '2,130 $' },
-  { id: 4, account: 'UT', balance: '1,240 $' },
-  { id: 5, account: 'Infiniti', balance: '1,020 $' },
-  { id: 6, account: 'Binance', balance: '4,560 $' },
-  { id: 7, account: 'WebMoney', balance: '870 $' },
-  { id: 8, account: 'Wise', balance: '2,130 $' },
-]
+interface NetWorthAccountBalancesProps {
+  account: DashboardNetWorthData
+}
 
-export const NetWorthAccountBalances: FC = () => {
+export const NetWorthAccountBalances = ({
+  account,
+}: NetWorthAccountBalancesProps) => {
   const { t } = useTranslation()
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.card}>
         <Header
-          amount={'4,284 $'}
-          total={'10,000 $'}
+          amount={String(account.netWorth)}
+          total={account.limit}
           name={t('admin-dashboard-page-card-8-mini-title')}
         />
         <div>
@@ -42,12 +37,12 @@ export const NetWorthAccountBalances: FC = () => {
             />
           </div>
           <div className={styles.items}>
-            {demoData.map((order, index) => {
+            {account.list.map((item, index) => {
               return (
-                <React.Fragment key={order.id}>
-                  <Item account={order.account} balance={order.balance} />
-                  {index !== demoData.length - 1 && <CustomDivider />}
-                </React.Fragment>
+                <Fragment key={item.id}>
+                  <Item account={item.name} balance={item.balance} />
+                  {index !== account.list.length - 1 && <CustomDivider />}
+                </Fragment>
               )
             })}
           </div>

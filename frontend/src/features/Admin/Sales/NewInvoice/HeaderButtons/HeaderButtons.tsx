@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import styles from './HeaderButtons.module.scss'
 
@@ -8,10 +6,10 @@ interface HeaderButtonsProps {
   secondButtonClick: (save: 'save' | 'save & invoice') => void
 }
 
-export const HeaderButtons: FC<HeaderButtonsProps> = ({
+export const HeaderButtons = ({
   firstButtonClick,
   secondButtonClick,
-}) => {
+}: HeaderButtonsProps) => {
   return (
     <div className={styles.wrapper}>
       <ButtonBlue

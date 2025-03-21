@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react'
+import { Fragment, useCallback, useState } from 'react'
 
 import { TalentsListCartsData } from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
@@ -11,10 +11,10 @@ interface RecentCartsProps {
   changeSortName: (sortNameItem: string, sortTypeItem: number) => void
 }
 
-export const RecentCarts: FC<RecentCartsProps> = ({
+export const RecentCarts = ({
   cartsList,
   changeSortName,
-}) => {
+}: RecentCartsProps) => {
   const [sortNumbers, setSortNumbers] = useState<number[]>([1, 1, 1, 1])
 
   const handleSortChange = useCallback(
@@ -89,7 +89,7 @@ export const RecentCarts: FC<RecentCartsProps> = ({
           <div className={styles.items}>
             {cartsList.map((item, index) => {
               return (
-                <React.Fragment key={item.id}>
+                <Fragment key={item.id}>
                   <Item
                     image={item.user.img}
                     idCustomer={item.user.id}
@@ -100,7 +100,7 @@ export const RecentCarts: FC<RecentCartsProps> = ({
                     date={item.date}
                   />
                   {index !== cartsList.length - 1 && <CustomDivider />}
-                </React.Fragment>
+                </Fragment>
               )
             })}
           </div>

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 
 import { CrossIcon } from '../../../../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -15,14 +15,14 @@ interface AddFundModalProps {
   onSendValue: (name: string, value: string) => void
 }
 
-export const AddFundModal: FC<AddFundModalProps> = ({
+export const AddFundModal = ({
   title,
   name,
   buttonTitle,
   modalAddFund,
   handleOpenCloseModal,
   onSendValue,
-}) => {
+}: AddFundModalProps) => {
   const [value, setValue] = useState<string>('')
 
   const onChange = (_name: string, value: string | number) => {

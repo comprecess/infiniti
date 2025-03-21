@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useState } from 'react'
+import { PropsWithChildren, useState } from 'react'
 
 import { ChevronDownIcon } from '../../../../../../shared/icons/ChevronDownIcon'
 import { Search } from '../../../../../../shared/ui/Search/Search'
@@ -11,13 +11,13 @@ interface CategoryItemProps {
   handleSearchChange?: (searchItem: string) => void
 }
 
-export const CategoryItem: FC<PropsWithChildren<CategoryItemProps>> = ({
+export const CategoryItem = ({
   title,
   isSearched = false,
   secondName,
   handleSearchChange,
   children,
-}) => {
+}: PropsWithChildren<CategoryItemProps>) => {
   const [isOpened, setIsOpened] = useState<boolean>(false)
 
   const handleClick = () => {

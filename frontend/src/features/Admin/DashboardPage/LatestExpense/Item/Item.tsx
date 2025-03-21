@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styleItem from '../LatestExpense.module.scss'
 import styles from './Item.module.scss'
 
@@ -9,7 +7,7 @@ interface ItemProps {
   description: string
 }
 
-export const Item: FC<ItemProps> = ({ date, amount, description }) => {
+export const Item = ({ date, amount, description }: ItemProps) => {
   return (
     <div className={styles.wrapper}>
       <span className={`${styleItem.dateColumn} ${styles.dateItem}`}>

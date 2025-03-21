@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../../../../../../../shared/ui/Status/Status'
 import styleItem from '../OffersPage.module.scss'
@@ -17,7 +15,7 @@ interface ItemProps {
   onClick: (id: number) => void
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   id,
   code,
   account,
@@ -27,7 +25,7 @@ export const Item: FC<ItemProps> = ({
   validUntil,
   stage,
   onClick,
-}) => {
+}: ItemProps) => {
   const onClickItem = () => {
     onClick(id)
   }

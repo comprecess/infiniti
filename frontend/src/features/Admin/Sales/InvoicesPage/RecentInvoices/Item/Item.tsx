@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 
 import { ViewInvoicesRecentData } from '../../../../../../app/constants/constants'
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
@@ -20,7 +20,7 @@ interface ItemProps extends ViewInvoicesRecentData {
   navigateToSelectInvoice: (idInvoice: number) => void
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   id,
   idAccount,
   code,
@@ -36,7 +36,7 @@ export const Item: FC<ItemProps> = ({
   navigateToViewInvoice,
   navigateToSelectAccount,
   navigateToSelectInvoice,
-}) => {
+}: ItemProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
   const handleOpenConfirmationModal = () => {

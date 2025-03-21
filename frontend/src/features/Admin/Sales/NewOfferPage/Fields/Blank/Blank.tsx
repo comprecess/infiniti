@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { SalesNewInvoiceTaxProps } from '../../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../../../../../shared/ui/CustomInput/CustomInput'
@@ -20,7 +18,7 @@ interface BlankProps {
   onRemove: () => void
 }
 
-export const Blank: FC<BlankProps> = ({
+export const Blank = ({
   id,
   amount,
   price,
@@ -30,7 +28,7 @@ export const Blank: FC<BlankProps> = ({
   totalPrice,
   onChange,
   onRemove,
-}) => {
+}: BlankProps) => {
   const handleOnInputChange = (name: string, value: string | number) => {
     onChange(name, value)
   }

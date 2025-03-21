@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { Chart } from '../Chart/Chart'
 import styles from './Header.module.scss'
 
@@ -9,7 +7,7 @@ interface HeaderProps {
   name: string
 }
 
-export const Header: FC<HeaderProps> = ({ amount, total, name }) => {
+export const Header = ({ amount, total, name }: HeaderProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>

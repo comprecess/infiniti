@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { RolesAccess } from '../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
@@ -11,11 +9,11 @@ interface HeaderButtonsProps {
   secondButtonClick: () => void
 }
 
-export const HeaderButtons: FC<HeaderButtonsProps> = ({
+export const HeaderButtons = ({
   access,
   firstButtonClick,
   secondButtonClick,
-}) => {
+}: HeaderButtonsProps) => {
   return (
     <div className={styles.wrapper}>
       {access && access.create && (

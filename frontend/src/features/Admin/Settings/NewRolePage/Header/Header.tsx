@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 
 import { SettingsRoleFormData } from '../../../../../app/constants/constants'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
@@ -17,7 +17,7 @@ interface HeaderProps {
   >
 }
 
-export const Header: FC<HeaderProps> = ({ formData, setFormData }) => {
+export const Header = ({ formData, setFormData }: HeaderProps) => {
   const handleOnChange = (_field: string, value: string | number) => {
     if (!formData) return
 

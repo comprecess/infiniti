@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 
 import { RolesAccess } from '../../../../../app/constants/constants'
 import { ConfirmationModal } from '../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
@@ -16,7 +16,7 @@ interface CardPlanProps {
   deleteBusinessPlan: (id: number) => void
 }
 
-export const CardPlan: FC<CardPlanProps> = ({
+export const CardPlan = ({
   access,
   idCard,
   title,
@@ -24,7 +24,7 @@ export const CardPlan: FC<CardPlanProps> = ({
   viewBusinessPlan,
   editBusinessPlan,
   deleteBusinessPlan,
-}) => {
+}: CardPlanProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
   const safeHTML = sanitizeMessage(description)

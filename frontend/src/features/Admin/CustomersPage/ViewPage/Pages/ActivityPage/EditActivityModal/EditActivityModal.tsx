@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { IconsListData } from '../../../../../../../app/data/textEditorIcons'
 import { CrossIcon } from '../../../../../../../shared/icons/CrossIcon'
@@ -16,13 +16,13 @@ interface EditActivityModalProps {
   saveInfo: (icon: string, message: string) => void
 }
 
-export const EditActivityModal: FC<EditActivityModalProps> = ({
+export const EditActivityModal = ({
   icon,
   message,
   modalEditActivity,
   handleOpenCloseModal,
   saveInfo,
-}) => {
+}: EditActivityModalProps) => {
   const [value, setValue] = useState<string>('')
   const [image, setImage] = useState<string>('')
 

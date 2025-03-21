@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 
 import styles from './Item.module.scss'
@@ -10,7 +9,7 @@ interface ItemProps {
   sort: () => void
 }
 
-export const Item: FC<ItemProps> = ({ index, name, moveItem, sort }) => {
+export const Item = ({ index, name, moveItem, sort }: ItemProps) => {
   const [{ isDragging }, drag] = useDrag({
     type: 'ITEM',
     item: { index },

@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { IconsListData } from '../../../../../../../app/data/textEditorIcons'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { TextEditor } from '../../../../../../../shared/ui/TextEditor/TextEditor'
@@ -14,13 +12,13 @@ interface TextEditorWrapperProps {
   addNewActivity: () => void
 }
 
-export const TextEditorWrapper: FC<TextEditorWrapperProps> = ({
+export const TextEditorWrapper = ({
   selectedIcon,
   message,
   setSelectedIcon,
   setMessage,
   addNewActivity,
-}) => {
+}: TextEditorWrapperProps) => {
   const addActivity = () => {
     addNewActivity()
     setMessage('')

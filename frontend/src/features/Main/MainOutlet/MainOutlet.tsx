@@ -1,4 +1,4 @@
-import { FC, memo, useCallback, useEffect, useState } from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 
 import { adminSidebarPages } from '../../../app/data/adminSidebarPages'
@@ -19,7 +19,7 @@ interface MainOutletProps {
 
 const MemoizedHeader = memo(Header)
 
-export const MainOutlet: FC<MainOutletProps> = ({ roles }) => {
+export const MainOutlet = ({ roles }: MainOutletProps) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
   const [isMiniSidebar, setIsMiniSidebar] = useState(false)

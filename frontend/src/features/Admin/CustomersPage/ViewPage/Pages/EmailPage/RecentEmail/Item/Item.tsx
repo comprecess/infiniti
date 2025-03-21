@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styleItem from '../RecentEmail.module.scss'
 import styles from './Item.module.scss'
 
@@ -8,7 +6,7 @@ interface ItemProps {
   date: string
 }
 
-export const Item: FC<ItemProps> = ({ subject, date }) => {
+export const Item = ({ subject, date }: ItemProps) => {
   return (
     <div className={styles.wrapper}>
       <span className={`${styleItem.subjectColumn} ${styles.subjectItem}`}>

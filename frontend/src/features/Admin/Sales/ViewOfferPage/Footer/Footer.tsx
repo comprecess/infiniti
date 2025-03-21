@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { sanitizeMessage } from '../../../../../shared/utils/TextEditor/sanitizeMessage'
 import { TotalItem } from '../../ViewInvoice/Footer/TotalItem/TotalItem'
 import styles from './Footer.module.scss'
@@ -12,13 +10,13 @@ interface FooterProps {
   notes: string
 }
 
-export const Footer: FC<FooterProps> = ({
+export const Footer = ({
   subtotal,
   tax,
   discount,
   grandTotal,
   notes,
-}) => {
+}: FooterProps) => {
   const safeHTMLNotes = sanitizeMessage(notes)
 
   return (

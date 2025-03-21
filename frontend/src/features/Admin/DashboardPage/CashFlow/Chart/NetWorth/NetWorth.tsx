@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { ChartLegend } from '../../../../../../shared/ui/ChartLegend/ChartLegend'
@@ -8,7 +7,7 @@ interface NetWorthProps {
   amount: string
 }
 
-export const NetWorth: FC<NetWorthProps> = ({ amount }) => {
+export const NetWorth = ({ amount }: NetWorthProps) => {
   const { t } = useTranslation()
 
   return (

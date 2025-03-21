@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 
 import {
   GroupsListProps,
@@ -16,12 +16,12 @@ interface RecentTableProps {
   editGroup: (id: number, name: string) => void
 }
 
-export const RecentGroups: FC<RecentTableProps> = ({
+export const RecentGroups = ({
   access,
   groupsList,
   deleteGroup,
   editGroup,
-}) => {
+}: RecentTableProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -31,7 +31,7 @@ export const RecentGroups: FC<RecentTableProps> = ({
       <div className={styles.items}>
         {groupsList.map((item, index) => {
           return (
-            <React.Fragment key={item.id}>
+            <Fragment key={item.id}>
               <Item
                 id={item.id}
                 access={access}
@@ -40,7 +40,7 @@ export const RecentGroups: FC<RecentTableProps> = ({
                 editGroup={editGroup}
               />
               {index !== groupsList.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

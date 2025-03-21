@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { NameIdType } from '../../../../app/constants/constants'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import styleItem from '../../../../widgets/BasketCart/Cart/Cart.module.scss'
@@ -22,7 +20,7 @@ interface FormatTimeProps {
   type: NameIdType
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   amount,
   avatar,
   nameEmail,
@@ -32,7 +30,7 @@ export const Item: FC<ItemProps> = ({
   taxesAmount,
   total,
   onDelete,
-}) => {
+}: ItemProps) => {
   const formatTime = ({ amount, type }: FormatTimeProps): string => {
     let unit: string
 

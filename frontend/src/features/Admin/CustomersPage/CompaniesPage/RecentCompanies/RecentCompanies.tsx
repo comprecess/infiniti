@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 
 import {
   CompaniesListProps,
@@ -17,13 +17,13 @@ interface RecentCompaniesProps {
   infoCompany: (id: number) => void
 }
 
-export const RecentCompanies: FC<RecentCompaniesProps> = ({
+export const RecentCompanies = ({
   access,
   companiesList,
   deleteCompany,
   editCompany,
   infoCompany,
-}) => {
+}: RecentCompaniesProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -36,7 +36,7 @@ export const RecentCompanies: FC<RecentCompaniesProps> = ({
       <div className={styles.items}>
         {companiesList.map((item, index) => {
           return (
-            <React.Fragment key={item.id}>
+            <Fragment key={item.id}>
               <Item
                 id={item.id}
                 access={access}
@@ -50,7 +50,7 @@ export const RecentCompanies: FC<RecentCompaniesProps> = ({
                 infoCompany={infoCompany}
               />
               {index !== companiesList.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

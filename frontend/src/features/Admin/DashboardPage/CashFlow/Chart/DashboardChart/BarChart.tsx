@@ -1,6 +1,6 @@
 import './BarChart.scss'
 
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Chart from 'react-apexcharts'
 import { useTranslation } from 'react-i18next'
 
@@ -17,7 +17,7 @@ interface DashboardChartProps {
   data: DataJson
 }
 
-export const BarChart: FC<DashboardChartProps> = ({ data }) => {
+export const BarChart = ({ data }: DashboardChartProps) => {
   const [chartData, setChartData] = useState<any>(null)
 
   const { t } = useTranslation()

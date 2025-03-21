@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
@@ -22,7 +22,7 @@ export interface ItemProps {
   deleteOffer: (idOffer: number) => void
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   id,
   idAccount,
   code,
@@ -36,7 +36,7 @@ export const Item: FC<ItemProps> = ({
   navigateToEditOffer,
   navigateToSelectAccount,
   deleteOffer,
-}) => {
+}: ItemProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
   const handleOpenConfirmationModal = () => {

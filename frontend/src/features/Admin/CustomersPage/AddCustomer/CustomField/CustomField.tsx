@@ -1,5 +1,5 @@
 import { Textarea } from '@chakra-ui/react'
-import { FC } from 'react'
+import { ChangeEvent } from 'react'
 
 import { SettingsCustomFieldsProps } from '../../../../../app/constants/constants'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
@@ -11,9 +11,9 @@ interface CustomFiledProps {
   onChange: (name: string, value: string) => void
 }
 
-export const CustomField: FC<CustomFiledProps> = ({ input, onChange }) => {
+export const CustomField = ({ input, onChange }: CustomFiledProps) => {
   const handleTextAreaChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
+    event: ChangeEvent<HTMLTextAreaElement>,
   ) => {
     onChange(input.name, event.target.value)
   }

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 
 import { CartItem } from '../../../../app/constants/constants'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
@@ -16,7 +16,7 @@ interface CartProps {
   onDelete: () => void
 }
 
-export const Cart: FC<CartProps> = ({ idCart, cart, onDelete }) => {
+export const Cart = ({ idCart, cart, onDelete }: CartProps) => {
   const showToast = useCustomToast()
 
   const handleChangeFields = async (
@@ -77,7 +77,7 @@ export const Cart: FC<CartProps> = ({ idCart, cart, onDelete }) => {
       <div className={styles.items}>
         {cart.map((order, index) => {
           return (
-            <React.Fragment key={order.id}>
+            <Fragment key={order.id}>
               <Item
                 idCart={idCart}
                 idItem={order.id}
@@ -93,7 +93,7 @@ export const Cart: FC<CartProps> = ({ idCart, cart, onDelete }) => {
                 onChangeItem={handleChangeFields}
               />
               {index !== cart.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

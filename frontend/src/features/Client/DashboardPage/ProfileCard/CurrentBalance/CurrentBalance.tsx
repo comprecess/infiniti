@@ -1,14 +1,12 @@
-import { FC } from 'react'
-
 import styles from './CurrentBalance.module.scss'
 
 interface CurrentBalanceProps {
   currentBalance: string
 }
 
-export const CurrentBalance: FC<CurrentBalanceProps> = ({
+export const CurrentBalance = ({
   currentBalance,
-}) => {
+}: CurrentBalanceProps) => {
   return (
     <div className={styles.wrapper}>
       <span className={styles.title}>Current balance</span>

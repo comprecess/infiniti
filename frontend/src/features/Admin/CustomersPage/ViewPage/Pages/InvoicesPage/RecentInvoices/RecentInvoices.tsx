@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { ViewInvoicesProps } from '../../../../../../../app/constants/constants'
@@ -12,7 +12,7 @@ interface RecentInvoicesProps {
   list: ViewInvoicesProps[]
 }
 
-export const RecentInvoices: FC<RecentInvoicesProps> = ({ list }) => {
+export const RecentInvoices = ({ list }: RecentInvoicesProps) => {
   const navigate = useNavigate()
 
   const navigateToViewInvoice = (id: number) => {
@@ -41,14 +41,14 @@ export const RecentInvoices: FC<RecentInvoicesProps> = ({ list }) => {
       <div className={styles.items}>
         {list.map((item, index) => {
           return (
-            <React.Fragment key={item.id}>
+            <Fragment key={item.id}>
               <Item
                 item={item}
                 navigateToViewInvoice={navigateToViewInvoice}
                 navigateToEditInvoice={navigateToEditInvoice}
               />
               {index !== list.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

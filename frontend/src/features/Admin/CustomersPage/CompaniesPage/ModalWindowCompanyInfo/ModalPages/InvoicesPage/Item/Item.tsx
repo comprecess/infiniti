@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../../../../../../../shared/ui/Status/Status'
 import styleItem from '../InvoicesPage.module.scss'
@@ -16,7 +14,7 @@ interface ItemProps {
   onClick: (id: number) => void
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   id,
   code,
   customer,
@@ -25,7 +23,7 @@ export const Item: FC<ItemProps> = ({
   dueDate,
   status,
   onClick,
-}) => {
+}: ItemProps) => {
   const onClickItem = () => {
     onClick(id)
   }

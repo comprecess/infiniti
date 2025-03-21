@@ -1,43 +1,17 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { DashboardRecentClientData } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentClients.module.scss'
 
-const demoData = [
-  {
-    id: 0,
-    avatar: '/cartAvatar.svg',
-    name: 'Alex Vishnyakov',
-    email: 'alex.v1984@gmail.com',
-    created: '19.02.2025',
-  },
-  {
-    id: 1,
-    avatar: '/cartAvatar.svg',
-    name: 'Alex Vishnyakov',
-    email: 'alex.v1984@gmail.com',
-    created: '19.02.2025',
-  },
-  {
-    id: 2,
-    avatar: '/cartAvatar.svg',
-    name: 'Alex Vishnyakov',
-    email: 'alex.v1984@gmail.com',
-    created: '19.02.2025',
-  },
-  {
-    id: 3,
-    avatar: '/cartAvatar.svg',
-    name: 'Alex Vishnyakov',
-    email: 'alex.v1984@gmail.com',
-    created: '19.02.2025',
-  },
-]
+interface RecentClientsProps {
+  recentClients: DashboardRecentClientData[]
+}
 
-export const RecentClients: FC = () => {
+export const RecentClients = ({ recentClients }: RecentClientsProps) => {
   const { t } = useTranslation()
 
   return (
@@ -57,17 +31,21 @@ export const RecentClients: FC = () => {
         />
       </div>
       <div className={styles.items}>
-        {demoData.map((order, index) => {
+        {recentClients.map((client, index) => {
           return (
-            <React.Fragment key={order.id}>
+            <Fragment key={client.id}>
               <Item
-                avatar={order.avatar}
-                name={order.name}
-                email={order.email}
-                created={order.created}
+                name={client.account}
+                email={client.email}
+                created={client.created}
+                avatar={
+                  client.img
+                    ? `${client.img}?width=176&height=176`
+                    : '/profileWithoutAvatar.svg'
+                }
               />
-              {index !== demoData.length - 1 && <CustomDivider />}
-            </React.Fragment>
+              {index !== recentClients.length - 1 && <CustomDivider />}
+            </Fragment>
           )
         })}
       </div>

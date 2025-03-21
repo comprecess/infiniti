@@ -1,22 +1,22 @@
-import { FC } from 'react'
+import { ReactNode } from 'react'
 
 import styles from './Icon.module.scss'
 
 interface IconProps {
-  icon: React.ReactNode
+  icon: ReactNode
   fill?: boolean
   style?: string
   hover?: boolean
   onIconClick?: () => void
 }
 
-export const Icon: FC<IconProps> = ({
+export const Icon = ({
   icon,
   style,
   fill = true,
   hover = true,
   onIconClick,
-}) => {
+}: IconProps) => {
   return (
     <div
       className={

@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './Blocks.module.scss'
 
 interface BlocksProps {
@@ -10,13 +8,13 @@ interface BlocksProps {
   blockBGColor: string
 }
 
-export const Blocks: FC<BlocksProps> = ({
+export const Blocks = ({
   titleAmount,
   status,
   percentage,
   chartBGColor,
   blockBGColor,
-}) => {
+}: BlocksProps) => {
   return (
     <div className={`${styles.wrapper} ${blockBGColor}`}>
       <h4 className={styles.title}>{titleAmount}</h4>

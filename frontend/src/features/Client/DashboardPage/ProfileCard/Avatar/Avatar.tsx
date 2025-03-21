@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './Avatar.module.scss'
 
 interface AvatarProps {
@@ -7,7 +5,7 @@ interface AvatarProps {
   name: string
 }
 
-export const Avatar: FC<AvatarProps> = ({ avatar, name }) => {
+export const Avatar = ({ avatar, name }: AvatarProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.avatar}>

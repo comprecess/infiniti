@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -18,11 +18,11 @@ interface AddDocumentModalProps {
   }) => void
 }
 
-export const AddDocumentModal: FC<AddDocumentModalProps> = ({
+export const AddDocumentModal = ({
   modalAddDoc,
   modalOpenClose,
   handleButtonSave,
-}) => {
+}: AddDocumentModalProps) => {
   const [formData, setFormData] = useState<{
     title?: string
     file?: File

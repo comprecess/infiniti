@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import styles from './Title.module.scss'
 
@@ -17,7 +17,7 @@ interface TitleProps {
   clearSort?: () => void
 }
 
-export const Title: FC<TitleProps> = ({
+export const Title = ({
   title,
   style,
   sorted = false,
@@ -26,7 +26,7 @@ export const Title: FC<TitleProps> = ({
   sortIndex,
   changeSortName,
   clearSort,
-}) => {
+}: TitleProps) => {
   const [currentSortType, setCurrentSortType] = useState<number | null>(
     sortType || null,
   )

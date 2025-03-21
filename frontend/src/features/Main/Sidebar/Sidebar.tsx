@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { Routes } from '../../../app/router/routes'
@@ -33,7 +33,7 @@ interface SidebarProps {
   onClose: () => void
 }
 
-export const Sidebar: FC<SidebarProps> = ({
+export const Sidebar = ({
   pages,
   isMini,
   isOpen,
@@ -41,7 +41,7 @@ export const Sidebar: FC<SidebarProps> = ({
   isAdmin,
   roles,
   onClose,
-}) => {
+}: SidebarProps) => {
   const [newPages, setNewPages] = useState<SidebarPage[] | null>(null)
 
   const location = useLocation()
@@ -199,7 +199,7 @@ export const Sidebar: FC<SidebarProps> = ({
           {newPages &&
             newPages.map(item => {
               return (
-                <React.Fragment key={item.id}>
+                <Fragment key={item.id}>
                   {item.openPaths ? (
                     <OpenItem
                       title={item.name}
@@ -220,7 +220,7 @@ export const Sidebar: FC<SidebarProps> = ({
                       onItemClick={handleNavigate}
                     />
                   )}
-                </React.Fragment>
+                </Fragment>
               )
             })}
         </div>

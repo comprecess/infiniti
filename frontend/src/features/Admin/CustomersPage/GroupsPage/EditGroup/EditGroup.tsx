@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { CrossIcon } from '../../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
@@ -15,14 +13,14 @@ interface EditGroupProps {
   handleInputChange: (name: string, value: string | number) => void
 }
 
-export const EditGroup: FC<EditGroupProps> = ({
+export const EditGroup = ({
   id,
   inputValueName,
   modalEditGroup,
   handleOpenCloseModal,
   editGroup,
   handleInputChange,
-}) => {
+}: EditGroupProps) => {
   const handleEditGroup = () => {
     editGroup(id)
   }

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 
 import { TalentData } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
@@ -10,9 +10,9 @@ interface ProjectsExperienceCardProps {
   talentInfo: TalentData
 }
 
-export const ProjectsExperienceCard: FC<ProjectsExperienceCardProps> = ({
+export const ProjectsExperienceCard = ({
   talentInfo,
-}) => {
+}: ProjectsExperienceCardProps) => {
   const getYearText = (years: number, months: number) => {
     let dataText = ''
 
@@ -27,7 +27,9 @@ export const ProjectsExperienceCard: FC<ProjectsExperienceCardProps> = ({
     return dataText
   }
 
-  const experienceYear = talentInfo.experience ? talentInfo.experience.year : 0
+  const experienceYear = talentInfo.experience
+    ? talentInfo.experience.year
+    : 0
   const experienceMonth = talentInfo.experience
     ? talentInfo.experience.month
     : 0
@@ -40,7 +42,7 @@ export const ProjectsExperienceCard: FC<ProjectsExperienceCardProps> = ({
       />
       {talentInfo.blockExperience.map((item, index) => {
         return (
-          <React.Fragment key={item.id}>
+          <Fragment key={item.id}>
             <Item
               name={item.name}
               position={item.position}
@@ -52,7 +54,7 @@ export const ProjectsExperienceCard: FC<ProjectsExperienceCardProps> = ({
                 <CustomDivider />
               </div>
             )}
-          </React.Fragment>
+          </Fragment>
         )
       })}
     </div>

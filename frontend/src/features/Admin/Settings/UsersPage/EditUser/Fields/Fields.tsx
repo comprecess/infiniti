@@ -1,5 +1,5 @@
 import { Textarea } from '@chakra-ui/react'
-import { FC, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 
 import {
   SettingsEditUserData,
@@ -46,13 +46,13 @@ export interface PartialFieldsEditUserData extends Partial<InfoData> {
   [key: string]: string | number | boolean | undefined | null
 }
 
-export const Fields: FC<FieldsProps> = ({
+export const Fields = ({
   userInfo,
   inputData,
   onFormDataChange,
   updateUserAvatar,
   updateAdditionallyInfoUser,
-}) => {
+}: FieldsProps) => {
   const [formData, setFormData] = useState<PartialFieldsEditUserData>({
     email: userInfo.email,
     fullName: userInfo.fullName,
@@ -79,7 +79,7 @@ export const Fields: FC<FieldsProps> = ({
   }
 
   const handleAvatarChange = async (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: ChangeEvent<HTMLInputElement>,
   ) => {
     const files = event.target.files
 
@@ -163,7 +163,7 @@ export const Fields: FC<FieldsProps> = ({
   }
 
   const handleTextAreaChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
+    event: ChangeEvent<HTMLTextAreaElement>,
   ) => {
     handleChangeInput('summary', event.target.value)
   }

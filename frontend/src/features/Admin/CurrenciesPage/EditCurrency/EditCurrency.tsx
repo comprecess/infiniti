@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
@@ -16,7 +14,7 @@ interface NewCurrencyProps {
   handleInputChange: (name: string, value: string | number) => void
 }
 
-export const EditCurrency: FC<NewCurrencyProps> = ({
+export const EditCurrency = ({
   id,
   inputValueName,
   inputValueRate,
@@ -24,7 +22,7 @@ export const EditCurrency: FC<NewCurrencyProps> = ({
   handleOpenCloseModal,
   editCurrency,
   handleInputChange,
-}) => {
+}: NewCurrencyProps) => {
   const handleEditCurrency = () => {
     editCurrency(id)
   }
