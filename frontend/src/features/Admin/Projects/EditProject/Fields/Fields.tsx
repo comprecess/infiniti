@@ -1,5 +1,4 @@
 import { Textarea } from '@chakra-ui/react'
-import { FC } from 'react'
 
 import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
@@ -8,7 +7,7 @@ import { TagSelector } from '../../../../../shared/ui/TagSelector/TagSelector'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 import styles from './Fields.module.scss'
 
-export const Fields: FC = () => {
+export const Fields = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>

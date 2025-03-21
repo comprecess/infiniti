@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { CompanyData } from '../../../../../app/constants/constants'
 import { CrossIcon } from '../../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -17,14 +15,14 @@ interface ModalWindowCompanyProps {
   handleInputChange: (name: string, value: string | number) => void
 }
 
-export const ModalWindowCompany: FC<ModalWindowCompanyProps> = ({
+export const ModalWindowCompany = ({
   nameWindow,
   modalCompany,
   values,
   handleOpenCloseModal,
   functionCompany,
   handleInputChange,
-}) => {
+}: ModalWindowCompanyProps) => {
   return (
     <CustomModalWindow
       maxWidth={'800px'}

@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { TalentsTag } from '../../../../../../../../shared/ui/TalentsTag/TalentsTag'
 import styles from './Skills.module.scss'
 
@@ -14,7 +12,7 @@ interface ItemProps {
   tags: TagsProps[]
 }
 
-export const Skills: FC<ItemProps> = ({ title, tags }) => {
+export const Skills = ({ title, tags }: ItemProps) => {
   return (
     <div className={styles.wrapper}>
       <span className={styles.title}>{title}</span>

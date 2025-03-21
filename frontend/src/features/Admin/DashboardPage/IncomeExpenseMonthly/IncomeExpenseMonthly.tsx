@@ -1,7 +1,5 @@
-import { FC } from 'react'
-
 import styles from './IncomeExpenseMonthly.module.scss'
 
-export const IncomeExpenseMonthly: FC = () => {
+export const IncomeExpenseMonthly = () => {
   return <div className={styles.wrapper} />
 }

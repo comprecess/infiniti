@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { TouchBackend } from 'react-dnd-touch-backend'
@@ -16,10 +16,10 @@ interface RecentReorderGroupsProps {
   ReRequestGetGroups: (listId: number[]) => void
 }
 
-export const RecentReorderGroups: FC<RecentReorderGroupsProps> = ({
+export const RecentReorderGroups = ({
   groupsList,
   ReRequestGetGroups,
-}) => {
+}: RecentReorderGroupsProps) => {
   const [idList, setIdList] = useState(groupsList.map(item => item.id))
   const [items, setItems] = useState(groupsList)
 

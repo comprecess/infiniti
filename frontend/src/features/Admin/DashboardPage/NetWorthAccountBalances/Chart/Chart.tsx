@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './Chart.module.scss'
 
 interface ChartProps {
@@ -7,11 +5,14 @@ interface ChartProps {
   total: string
 }
 
-export const Chart: FC<ChartProps> = ({ amount, total }) => {
+export const Chart = ({ amount, total }: ChartProps) => {
   const amountValue = parseFloat(amount.replace(/[$,]/g, ''))
   const totalValue = parseFloat(total.replace(/[$,]/g, ''))
 
-  const percentage = (amountValue / totalValue) * 100
+  const percentage =
+    amountValue > totalValue
+      ? (totalValue / totalValue) * 100
+      : (amountValue / totalValue) * 100
 
   return (
     <div className={styles.wrapper}>

@@ -1,5 +1,5 @@
 import { Switch } from '@chakra-ui/react'
-import { FC } from 'react'
+import { ChangeEvent } from 'react'
 
 interface ToggleProps {
   size?: 'sm' | 'md' | 'lg'
@@ -11,13 +11,13 @@ interface ToggleProps {
   ) => void
 }
 
-export const CustomSwitch: FC<ToggleProps> = ({
+export const CustomSwitch = ({
   size = 'md',
   titleOnChange = '',
   isChecked,
   onChange,
-}) => {
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+}: ToggleProps) => {
+  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.target.checked
     onChange(titleOnChange, isChecked)
   }

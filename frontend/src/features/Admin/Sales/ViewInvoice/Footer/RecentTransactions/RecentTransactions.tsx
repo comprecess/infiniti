@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 
 import { SalesViewInvoiceTransactions } from '../../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../../shared/ui/CustomDivider/CustomDivider'
@@ -10,9 +10,9 @@ interface RecentTransactionsProps {
   transactionsList: SalesViewInvoiceTransactions[]
 }
 
-export const RecentTransactions: FC<RecentTransactionsProps> = ({
+export const RecentTransactions = ({
   transactionsList,
-}) => {
+}: RecentTransactionsProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -24,10 +24,10 @@ export const RecentTransactions: FC<RecentTransactionsProps> = ({
       <div className={styles.items}>
         {transactionsList.map((item, index) => {
           return (
-            <React.Fragment key={index}>
+            <Fragment key={index}>
               <Item data={item} />
               {index !== transactionsList.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

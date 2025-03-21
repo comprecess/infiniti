@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './ManageButtons.module.scss'
 
 interface ManageButtonsProps {
@@ -13,11 +11,11 @@ const titlesColors = {
   Delete: styles.buttonDelete,
 }
 
-export const ManageButtons: FC<ManageButtonsProps> = ({
+export const ManageButtons = ({
   firstButtonTitle,
   secondButtonTitle,
   thirdButtonTitle,
-}) => {
+}: ManageButtonsProps) => {
   let titlesStyle = ''
 
   switch (thirdButtonTitle) {

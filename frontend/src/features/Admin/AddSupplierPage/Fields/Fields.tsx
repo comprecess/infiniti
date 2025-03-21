@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 
 import { CustomerInputsData } from '../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -32,7 +32,7 @@ export interface PartialFieldsPostData extends Partial<FieldsPostData> {
   | null
 }
 
-export const Fields: FC<FieldsProps> = ({ data }) => {
+export const Fields = ({ data }: FieldsProps) => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({
     code: data.code,
     type: Array(data.type[1]),

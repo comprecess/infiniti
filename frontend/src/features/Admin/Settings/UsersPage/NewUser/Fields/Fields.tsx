@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { SettingsUserInputData } from '../../../../../../app/constants/constants'
 import { CustomInput } from '../../../../../../shared/ui/CustomInput/CustomInput'
@@ -14,10 +14,11 @@ export interface PartialFieldsNewUserData {
   [key: string]: string | number | boolean | undefined | null
 }
 
-export const Fields: FC<FieldsProps> = ({ inputData, onFormDataChange }) => {
-  const [formData, setFormData] = useState<PartialFieldsNewUserData | null>({
-    role: inputData.role[0].id,
-  })
+export const Fields = ({ inputData, onFormDataChange }: FieldsProps) => {
+  const [formData, setFormData] =
+    useState<PartialFieldsNewUserData | null>({
+      role: inputData.role[0].id,
+    })
 
   const handleChangeInput = (
     field: string,

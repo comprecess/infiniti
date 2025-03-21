@@ -1,5 +1,5 @@
 import { Textarea } from '@chakra-ui/react'
-import { FC, useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../../../../shared/ui/CustomToast/CustomToast'
@@ -16,7 +16,7 @@ interface MemoPageProps {
   id: number
 }
 
-export const MemoPage: FC<MemoPageProps> = ({ id }) => {
+export const MemoPage = ({ id }: MemoPageProps) => {
   const [memo, setMemo] = useState<Memo | null>(null)
 
   const showToast = useCustomToast()
@@ -45,7 +45,7 @@ export const MemoPage: FC<MemoPageProps> = ({ id }) => {
     }
   }
 
-  const onChangeMemo = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const onChangeMemo = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setMemo({
       ...memo,
       notes: event.target.value,

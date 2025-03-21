@@ -3,7 +3,7 @@ import {
   useElements,
   useStripe,
 } from '@stripe/react-stripe-js'
-import { FC, useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 
 import { ButtonBlue } from '../ButtonBlue/ButtonBlue'
 import styles from './CreditCardInput.module.scss'
@@ -24,15 +24,15 @@ interface CreditCardInputProps {
   postTokenStripeSend: (token: string) => void
 }
 
-export const CreditCardInput: FC<CreditCardInputProps> = ({
+export const CreditCardInput = ({
   postTokenStripeSend,
-}) => {
+}: CreditCardInputProps) => {
   const [isStripeReady, setIsStripeReady] = useState<boolean>(false)
 
   const stripe = useStripe()
   const elements = useElements()
 
-  const onSubmit = async (event: React.FormEvent) => {
+  const onSubmit = async (event: FormEvent) => {
     event.preventDefault()
     if (!stripe || !elements) {
       return

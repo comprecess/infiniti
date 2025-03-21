@@ -1,12 +1,12 @@
 import { useColorMode } from '@chakra-ui/react'
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { RouterProvider } from 'react-router-dom'
 
 import { router } from './app/router/router'
 import { LoadingScreen } from './shared/ui/LoadingScreen/LoadingScreen'
 import { getProfileInfo } from './shared/utils/api/GetProfileInfo'
 
-export const App: FC = () => {
+export const App = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [showLoadingScreen, setShowLoadingScreen] = useState(true)
 

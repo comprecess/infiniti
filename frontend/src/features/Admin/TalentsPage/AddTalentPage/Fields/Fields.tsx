@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -25,21 +25,18 @@ interface FieldsProps {
 
 export interface PartialFieldsPostData extends Partial<TalentFormData> {
   [key: string]:
-  | string
-  | number
-  | number[]
-  | string[]
-  | FormData
-  | TalentProjectsExperience[]
-  | boolean
-  | undefined
-  | null
+    | string
+    | number
+    | number[]
+    | string[]
+    | FormData
+    | TalentProjectsExperience[]
+    | boolean
+    | undefined
+    | null
 }
 
-export const Fields: FC<FieldsProps> = ({
-  inputData,
-  onFormDataChange,
-}) => {
+export const Fields = ({ inputData, onFormDataChange }: FieldsProps) => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({
     timezone: inputData.timezone[0].id,
     gender: inputData.gender[0].id,
@@ -65,13 +62,13 @@ export const Fields: FC<FieldsProps> = ({
   const handleChangeInput = (
     field: string,
     value:
-    | string
-    | number
-    | number[]
-    | string[]
-    | boolean
-    | undefined
-    | null,
+      | string
+      | number
+      | number[]
+      | string[]
+      | boolean
+      | undefined
+      | null,
   ) => {
     if (field === 'rate' && typeof value === 'boolean') {
       value = value === true ? 1 : 0
@@ -283,7 +280,7 @@ export const Fields: FC<FieldsProps> = ({
           <div className={styles.sectionItems}>
             {formData.blockExperience.map(item => {
               return (
-                <React.Fragment key={item.index}>
+                <Fragment key={item.index}>
                   <ProjectsExperienceItem
                     onRemove={() => handleRemoveExperience(item.index)}
                     onChange={(field, value) =>
@@ -293,7 +290,7 @@ export const Fields: FC<FieldsProps> = ({
                   <div className={styles.divider}>
                     <CustomDivider />
                   </div>
-                </React.Fragment>
+                </Fragment>
               )
             })}
           </div>

@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react'
+import { Fragment, useCallback, useState } from 'react'
 
 import { ViewInvoicesRecentData } from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
@@ -19,7 +19,7 @@ interface RecentInvoicesProps {
   navigateToSelectInvoice: (idInvoice: number) => void
 }
 
-export const RecentInvoices: FC<RecentInvoicesProps> = ({
+export const RecentInvoices = ({
   invoicesList,
   changeSortName,
   deleteInvoice,
@@ -27,7 +27,7 @@ export const RecentInvoices: FC<RecentInvoicesProps> = ({
   navigateToViewInvoice,
   navigateToSelectAccount,
   navigateToSelectInvoice,
-}) => {
+}: RecentInvoicesProps) => {
   const [sortNumbers, setSortNumbers] = useState<number[]>([
     1, 1, 1, 1, 1, 1, 1,
   ])
@@ -132,7 +132,7 @@ export const RecentInvoices: FC<RecentInvoicesProps> = ({
           <div className={styles.items}>
             {invoicesList.map((item, index) => {
               return (
-                <React.Fragment key={`${item.code}-${index}`}>
+                <Fragment key={`${item.code}-${index}`}>
                   <Item
                     id={item.id}
                     idAccount={item.account.id}
@@ -151,7 +151,7 @@ export const RecentInvoices: FC<RecentInvoicesProps> = ({
                     navigateToSelectInvoice={navigateToSelectInvoice}
                   />
                   {index !== invoicesList.length - 1 && <CustomDivider />}
-                </React.Fragment>
+                </Fragment>
               )
             })}
           </div>

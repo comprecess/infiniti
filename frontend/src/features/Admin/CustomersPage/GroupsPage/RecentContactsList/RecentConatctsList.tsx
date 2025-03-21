@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 
 import { GroupContactsListProps } from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
@@ -10,9 +10,7 @@ interface RecentContactsListProps {
   list: GroupContactsListProps[]
 }
 
-export const RecentContactsList: FC<RecentContactsListProps> = ({
-  list,
-}) => {
+export const RecentContactsList = ({ list }: RecentContactsListProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -26,7 +24,7 @@ export const RecentContactsList: FC<RecentContactsListProps> = ({
       <div className={styles.items}>
         {list.map((item, index) => {
           return (
-            <React.Fragment key={item.id}>
+            <Fragment key={item.id}>
               <Item
                 id={item.id}
                 name={item.account}
@@ -35,7 +33,7 @@ export const RecentContactsList: FC<RecentContactsListProps> = ({
                 phone={item.phone}
               />
               {index !== list.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

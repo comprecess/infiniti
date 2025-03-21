@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { OrdersViewCompany } from '../../../../../../../app/constants/constants'
@@ -14,7 +14,7 @@ interface OrdersPageProps {
   id: number
 }
 
-export const OrdersPage: FC<OrdersPageProps> = ({ id }) => {
+export const OrdersPage = ({ id }: OrdersPageProps) => {
   const [orders, setOrders] = useState<OrdersViewCompany[] | null>(null)
 
   const navigate = useNavigate()
@@ -50,7 +50,7 @@ export const OrdersPage: FC<OrdersPageProps> = ({ id }) => {
             <div className={styles.items}>
               {orders.map((item, index) => {
                 return (
-                  <React.Fragment key={item.id}>
+                  <Fragment key={item.id}>
                     <Item
                       id={item.client.id}
                       orderNum={item.orderNum}
@@ -61,7 +61,7 @@ export const OrdersPage: FC<OrdersPageProps> = ({ id }) => {
                       onClick={handleNavigate}
                     />
                     {index !== orders.length - 1 && <CustomDivider />}
-                  </React.Fragment>
+                  </Fragment>
                 )
               })}
             </div>

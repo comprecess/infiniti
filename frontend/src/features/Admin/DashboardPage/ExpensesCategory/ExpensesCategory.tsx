@@ -1,7 +1,5 @@
-import { FC } from 'react'
-
 import styles from './ExpensesCategory.module.scss'
 
-export const ExpensesCategory: FC = () => {
+export const ExpensesCategory = () => {
   return <div className={styles.wrapper} />
 }

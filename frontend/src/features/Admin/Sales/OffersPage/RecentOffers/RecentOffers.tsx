@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react'
+import { Fragment, useCallback, useState } from 'react'
 
 import { SalesOffersListData } from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
@@ -15,14 +15,14 @@ interface RecentOffersProps {
   deleteOffer: (idOffer: number) => void
 }
 
-export const RecentOffers: FC<RecentOffersProps> = ({
+export const RecentOffers = ({
   offersList,
   changeSortName,
   navigateToViewOffer,
   navigateToEditOffer,
   navigateToSelectAccount,
   deleteOffer,
-}) => {
+}: RecentOffersProps) => {
   const [sortNumbers, setSortNumbers] = useState<number[]>([
     1, 1, 1, 1, 1, 1, 1,
   ])
@@ -119,7 +119,7 @@ export const RecentOffers: FC<RecentOffersProps> = ({
       <div className={styles.items}>
         {offersList.map((item, index) => {
           return (
-            <React.Fragment key={item.id}>
+            <Fragment key={item.id}>
               <Item
                 id={item.id}
                 idAccount={item.account.id}
@@ -136,7 +136,7 @@ export const RecentOffers: FC<RecentOffersProps> = ({
                 deleteOffer={deleteOffer}
               />
               {index !== offersList.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

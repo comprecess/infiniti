@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './CategoriesItem.module.scss'
 
 interface CategoriesItemProps {
@@ -8,11 +6,11 @@ interface CategoriesItemProps {
   onClick: () => void
 }
 
-export const CategoriesItem: FC<CategoriesItemProps> = ({
+export const CategoriesItem = ({
   name,
   isActive,
   onClick,
-}) => {
+}: CategoriesItemProps) => {
   return (
     <div
       className={isActive ? styles.wrapperActive : styles.wrapperDisable}

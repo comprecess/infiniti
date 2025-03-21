@@ -1,25 +1,25 @@
-import React, { FC } from 'react'
+import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import styles from './Item.module.scss'
 
 interface ItemProps {
   title?: string
-  icon?: React.ReactNode
+  icon?: ReactNode
   isActive: boolean
   path: string
   isMini?: boolean
   onItemClick: (pageName: string) => void
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   title,
   icon,
   isActive,
   path,
   isMini,
   onItemClick,
-}) => {
+}: ItemProps) => {
   const { t } = useTranslation()
 
   return (

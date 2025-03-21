@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { ViewActivityTypeData } from '../../../../../../../app/constants/constants'
 import { Item } from './Item/Item'
 import styles from './RecentActivity.module.scss'
@@ -10,11 +8,11 @@ interface RecentActivityProps {
   editActivity: (idType: number, icon: string, message: string) => void
 }
 
-export const RecentActivity: FC<RecentActivityProps> = ({
+export const RecentActivity = ({
   list,
   deleteSelectedActivity,
   editActivity,
-}) => {
+}: RecentActivityProps) => {
   return (
     <div className={styles.wrapper}>
       {list.map(item => {

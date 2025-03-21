@@ -4,6 +4,8 @@
   height: 100%;
   flex-direction: column;
   gap: 40px;
+
+  @include scrollbar;
 }
 
 .sectionFirst,
@@ -40,4 +42,11 @@
 
 .zIndex {
   z-index: 1000;
+}
+
+.loading {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }

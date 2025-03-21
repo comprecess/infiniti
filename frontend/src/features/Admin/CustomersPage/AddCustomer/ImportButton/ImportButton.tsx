@@ -1,9 +1,7 @@
-import { FC } from 'react'
-
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import styles from './ImportButton.module.scss'
 
-export const ImportButton: FC = () => {
+export const ImportButton = () => {
   return (
     <div className={styles.wrapper}>
       <ButtonBlue

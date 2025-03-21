@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { SalesProductOrServiceData } from '../../../../app/constants/constants'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
@@ -19,15 +19,15 @@ interface AddProductOrServiceProps {
   handleOpenCloseModal: () => void
 }
 
-export const AddProductOrService: FC<AddProductOrServiceProps> = ({
+export const AddProductOrService = ({
   serviceList,
   modalOpen,
   addEditServiceBlank,
   addNewServiceBlank,
   handleOpenCloseModal,
-}) => {
+}: AddProductOrServiceProps) => {
   const [services, setService] = useState<
-  SalesProductOrServiceData[] | null
+    SalesProductOrServiceData[] | null
   >(null)
 
   const getServiceOnList = async () => {

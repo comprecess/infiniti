@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { Status } from '../../../../../../../../shared/ui/Status/Status'
 import styleItem from '../OrdersPage.module.scss'
 import styles from './Item.module.scss'
@@ -14,7 +12,7 @@ interface ItemProps {
   onClick: (id: number) => void
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   id,
   orderNum,
   dateAdded,
@@ -22,14 +20,16 @@ export const Item: FC<ItemProps> = ({
   amount,
   status,
   onClick,
-}) => {
+}: ItemProps) => {
   const onClickItem = () => {
     onClick(id)
   }
 
   return (
     <div className={styles.wrapper}>
-      <span className={`${styleItem.hashTagColumn} ${styles.orderNumItem}`}>
+      <span
+        className={`${styleItem.hashTagColumn} ${styles.orderNumItem}`}
+      >
         {orderNum}
       </span>
       <span className={`${styleItem.dateColumn} ${styles.dateAddedItem}`}>

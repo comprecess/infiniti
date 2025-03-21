@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { ChevronDownIcon } from '../../../../shared/icons/ChevronDownIcon'
@@ -15,7 +15,7 @@ export interface openPathsProps {
 
 interface OpenItemProps {
   title?: string
-  icon: React.ReactNode
+  icon: ReactNode
   openPath: openPathsProps[]
   isActive: boolean
   path: string
@@ -23,7 +23,7 @@ interface OpenItemProps {
   onItemClick: (pageName: string) => void
 }
 
-export const OpenItem: FC<OpenItemProps> = ({
+export const OpenItem = ({
   title,
   icon,
   openPath,
@@ -31,7 +31,7 @@ export const OpenItem: FC<OpenItemProps> = ({
   path,
   isMini,
   onItemClick,
-}) => {
+}: OpenItemProps) => {
   const [isOpened, setIsOpened] = useState<boolean>(false)
 
   const { t } = useTranslation()

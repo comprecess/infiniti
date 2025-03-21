@@ -1,11 +1,11 @@
-import { FC, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 
 import { TypeViewCompany } from '../../../../../../app/constants/constants'
 import styles from './SideBarItem.module.scss'
 
 interface SideBarItemProps {
   name: string
-  icon: React.ReactNode
+  icon: ReactNode
   isFirst: boolean
   isLast: boolean
   isActive: boolean
@@ -14,7 +14,7 @@ interface SideBarItemProps {
   onClick: () => void
 }
 
-export const SideBarItem: FC<SideBarItemProps> = ({
+export const SideBarItem = ({
   name,
   icon,
   isFirst,
@@ -23,7 +23,7 @@ export const SideBarItem: FC<SideBarItemProps> = ({
   type,
   allTypes,
   onClick,
-}) => {
+}: SideBarItemProps) => {
   const [numberItems, setNumberItems] = useState<number | null>(null)
 
   const wrapperClass = isActive

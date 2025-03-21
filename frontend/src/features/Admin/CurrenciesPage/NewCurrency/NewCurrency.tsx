@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
@@ -13,12 +11,12 @@ interface NewCurrencyProps {
   handleInputChange: (name: string, value: string | number) => void
 }
 
-export const NewCurrency: FC<NewCurrencyProps> = ({
+export const NewCurrency = ({
   modalNewCurrency,
   handleOpenCloseModal,
   createNewCurrency,
   handleInputChange,
-}) => {
+}: NewCurrencyProps) => {
   return (
     <CustomModalWindow
       maxWidth='400px'

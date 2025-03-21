@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { TypeFiles } from '../../../../../../shared/ui/TypeFiles/TypeFiles'
 import styles from './Item.module.scss'
 
@@ -13,7 +11,7 @@ interface ItemProps {
   navigateToCustomer: (name: string, idTalent: number) => void
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   title,
   typeFile,
   customerId,
@@ -21,7 +19,7 @@ export const Item: FC<ItemProps> = ({
   uploadedAt,
   link,
   navigateToCustomer,
-}) => {
+}: ItemProps) => {
   const handleNavigateToCustomer = () => {
     if (!customerId) return
 

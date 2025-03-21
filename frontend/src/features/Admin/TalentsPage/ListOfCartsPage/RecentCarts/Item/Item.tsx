@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Routes } from '../../../../../../app/router/routes'
@@ -16,7 +15,7 @@ interface ItemProps {
   date: string
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   idCustomer,
   idCart,
   image,
@@ -24,7 +23,7 @@ export const Item: FC<ItemProps> = ({
   specialization,
   price,
   date,
-}) => {
+}: ItemProps) => {
   const navigate = useNavigate()
 
   const handleNavigateToCustomer = (name: string) => {

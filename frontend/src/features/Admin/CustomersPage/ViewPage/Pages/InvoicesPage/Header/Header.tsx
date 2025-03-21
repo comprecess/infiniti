@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { TotalItem } from '../TotalItem/TotalItem'
 import styles from './Header.module.scss'
@@ -11,12 +9,12 @@ interface HeaderProps {
   onClickButton: () => void
 }
 
-export const Header: FC<HeaderProps> = ({
+export const Header = ({
   invoiceAmount,
   paidAmount,
   unPaidAmount,
   onClickButton,
-}) => {
+}: HeaderProps) => {
   return (
     <div className={styles.wrapper}>
       <ButtonBlue

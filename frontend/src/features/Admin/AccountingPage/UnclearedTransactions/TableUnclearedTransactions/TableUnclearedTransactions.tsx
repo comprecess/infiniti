@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import { Fragment, useCallback, useState } from 'react'
 
 import { Title } from '../../../../Main/RecentCard/Title/Title'
 import styles from './TableUnclearedTransactions.module.scss'
@@ -81,7 +81,7 @@ export const TableUnclearedTransactions = () => {
         </div>
         <div className={styles.items}>
           {[].map((_item, _index) => {
-            return <React.Fragment key={`id`}>Item</React.Fragment>
+            return <Fragment key={`id`}>Item</Fragment>
           })}
         </div>
       </div>

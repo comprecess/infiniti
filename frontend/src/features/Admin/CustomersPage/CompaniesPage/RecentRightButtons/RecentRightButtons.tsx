@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { MouseEventHandler } from 'react'
 
 import styles from './RecentRightButtons.module.scss'
 
@@ -6,14 +6,14 @@ interface RecentRightButtonsProps {
   rightButtons?: (name: string) => void
 }
 
-export const RecentRightButtons: FC<RecentRightButtonsProps> = ({
+export const RecentRightButtons = ({
   rightButtons,
-}) => {
+}: RecentRightButtonsProps) => {
   const handleOnClick =
-    (name: string): React.MouseEventHandler<HTMLButtonElement> =>
-      () => {
-        if (rightButtons) rightButtons(name)
-      }
+    (name: string): MouseEventHandler<HTMLButtonElement> =>
+    () => {
+      if (rightButtons) rightButtons(name)
+    }
 
   return (
     <div className={styles.wrapper}>

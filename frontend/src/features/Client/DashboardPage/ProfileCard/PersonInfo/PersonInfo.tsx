@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Item } from './Item/Item'
 import styles from './PersonInfo.module.scss'
@@ -15,7 +13,7 @@ interface PersonInfoProps {
   country: string
 }
 
-export const PersonInfo: FC<PersonInfoProps> = ({
+export const PersonInfo = ({
   personalNumber,
   email,
   businessNumber,
@@ -24,7 +22,7 @@ export const PersonInfo: FC<PersonInfoProps> = ({
   zipCode,
   stateRegion,
   country,
-}) => {
+}: PersonInfoProps) => {
   return (
     <div className={styles.wrapper}>
       <Item

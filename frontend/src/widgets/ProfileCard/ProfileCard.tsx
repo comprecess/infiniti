@@ -1,4 +1,4 @@
-import { FC, useRef } from 'react'
+import { ChangeEvent, FC, useRef } from 'react'
 
 import { UserInfo } from '../../app/constants/constants'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
@@ -25,7 +25,7 @@ export const ProfileCard: FC<ProfileCardProps> = ({
   }
 
   const handleAvatarChange = async (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: ChangeEvent<HTMLInputElement>,
   ) => {
     const files = event.target.files
 

@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { Tab } from '../../../Sales/InvoicesPage/Header/Tabs/Tab/Tab'
 import styles from './Tabs.module.scss'
 
@@ -20,7 +18,7 @@ interface TabsProps {
   setIsActiveTab: (name: string) => void
 }
 
-export const Tabs: FC<TabsProps> = ({ isActiveTab, setIsActiveTab }) => {
+export const Tabs = ({ isActiveTab, setIsActiveTab }: TabsProps) => {
   return (
     <div className={styles.wrapper}>
       {tabsList.map(item => {

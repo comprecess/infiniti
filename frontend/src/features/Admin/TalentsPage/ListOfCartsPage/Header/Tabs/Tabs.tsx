@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { RolesAccess } from '../../../../../../app/constants/constants'
 import { Tab } from './Tab/Tab'
 import styles from './Tabs.module.scss'
@@ -22,11 +20,11 @@ interface TabsProps {
   setIsActiveTab: (name: string) => void
 }
 
-export const Tabs: FC<TabsProps> = ({
+export const Tabs = ({
   access,
   isActiveTab,
   setIsActiveTab,
-}) => {
+}: TabsProps) => {
   const filteredTabs =
     access.all === 1
       ? tabsList

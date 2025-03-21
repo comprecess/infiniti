@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { sanitizeMessage } from '../../../../../shared/utils/TextEditor/sanitizeMessage'
 import styles from './Item.module.scss'
 
@@ -8,7 +6,7 @@ interface ItemProps {
   content: string
 }
 
-export const Item: FC<ItemProps> = ({ title, content }) => {
+export const Item = ({ title, content }: ItemProps) => {
   const safeHTML = sanitizeMessage(content)
 
   return (

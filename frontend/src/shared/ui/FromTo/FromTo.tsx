@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 
 import { FiltersState } from '../../../app/constants/constants'
 import styles from './FromTo.module.scss'
@@ -9,18 +9,18 @@ interface FromToProps {
   placeholderSecond: string
   filters: FiltersState
   propId: string
-  setSelectedFilters: React.Dispatch<React.SetStateAction<FiltersState>>
   title?: string
+  setSelectedFilters: Dispatch<SetStateAction<FiltersState>>
 }
 
-export const FromTo: FC<FromToProps> = ({
+export const FromTo = ({
   title,
   filters,
   propId,
   placeholderFirst,
   placeholderSecond,
   setSelectedFilters,
-}) => {
+}: FromToProps) => {
   const handleInputChange = (index: number, value: string) => {
     const numericValue = value ? parseFloat(value) : null
     setSelectedFilters(prevState => {

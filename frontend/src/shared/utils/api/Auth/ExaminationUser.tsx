@@ -1,7 +1,7 @@
 import {
   cloneElement,
-  FC,
   PropsWithChildren,
+  ReactElement,
   useEffect,
   useState,
 } from 'react'
@@ -23,7 +23,7 @@ interface WithRoles {
   roles?: ChildProps
 }
 
-export const ExaminationUser: FC<PropsWithChildren> = ({ children }) => {
+export const ExaminationUser = ({ children }: PropsWithChildren) => {
   const [userRole, setUserRole] = useState<string>('')
   const [listRoles, setListRoles] = useState<ChildProps>()
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
@@ -77,7 +77,7 @@ export const ExaminationUser: FC<PropsWithChildren> = ({ children }) => {
   }, [isLoading, isAuthenticated, userRole])
 
   if (isAuthenticated && !isLoading && userRole === roles.admin) {
-    return cloneElement(children as React.ReactElement<WithRoles>, {
+    return cloneElement(children as ReactElement<WithRoles>, {
       roles: listRoles,
     })
   }

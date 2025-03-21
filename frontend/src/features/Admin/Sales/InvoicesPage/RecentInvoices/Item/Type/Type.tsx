@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './Type.module.scss'
 
 const typeColors = {
@@ -11,7 +9,7 @@ interface TypeProps {
   type: number
 }
 
-export const Type: FC<TypeProps> = ({ type }) => {
+export const Type = ({ type }: TypeProps) => {
   let typeStyle = ''
 
   switch (type) {

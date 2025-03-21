@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 
 import styles from './CustomInput.module.scss'
 
@@ -15,7 +15,7 @@ interface CustomInputProps {
   onChange: (name: string, value: string | number) => void
 }
 
-export const CustomInput: FC<CustomInputProps> = ({
+export const CustomInput = ({
   id,
   title,
   name,
@@ -26,12 +26,12 @@ export const CustomInput: FC<CustomInputProps> = ({
   readOnly = false,
   styleInput,
   onChange,
-}) => {
+}: CustomInputProps) => {
   const [inputValue, setInputValue] = useState<number | string | null>(
     value,
   )
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value
 
     setInputValue(newValue)

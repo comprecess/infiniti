@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { FieldProps } from '../../../../pages/Admin/SettingsPage/CustomContactFieldsPage/CustomContactFieldsPage'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -23,14 +21,14 @@ interface FieldModalProps {
 
 const types = ['textBox', 'password', 'dropDown', 'textArea']
 
-export const FieldModal: FC<FieldModalProps> = ({
+export const FieldModal = ({
   title,
   modalField,
   filedValues,
   handleOpenCloseModal,
   functionModal,
   handleInputChange,
-}) => {
+}: FieldModalProps) => {
   const convertDefaultValue = (item: number) => {
     if (item === 1) {
       return 'Yes'

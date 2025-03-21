@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 
 import {
   CurrencyProps,
@@ -21,13 +21,13 @@ interface RecentCurrenciesProps {
   ) => void
 }
 
-export const RecentCurrencies: FC<RecentCurrenciesProps> = ({
+export const RecentCurrencies = ({
   access,
   currencyList,
   deleteCurrency,
   changeBaseCurrency,
   editCurrency,
-}) => {
+}: RecentCurrenciesProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -41,7 +41,7 @@ export const RecentCurrencies: FC<RecentCurrenciesProps> = ({
       <div className={styles.items}>
         {currencyList.map((order, index) => {
           return (
-            <React.Fragment key={order.id}>
+            <Fragment key={order.id}>
               <Item
                 id={order.id}
                 access={access}
@@ -53,7 +53,7 @@ export const RecentCurrencies: FC<RecentCurrenciesProps> = ({
                 editCurrency={editCurrency}
               />
               {index !== currencyList.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

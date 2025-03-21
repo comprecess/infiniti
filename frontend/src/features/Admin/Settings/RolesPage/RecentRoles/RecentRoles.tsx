@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 
 import {
   RolesAccess,
@@ -16,12 +16,12 @@ interface RecentRolesProps {
   deleteSelectedRole: (idRole: number) => void
 }
 
-export const RecentRoles: FC<RecentRolesProps> = ({
+export const RecentRoles = ({
   roles,
   access,
   editRole,
   deleteSelectedRole,
-}) => {
+}: RecentRolesProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -31,7 +31,7 @@ export const RecentRoles: FC<RecentRolesProps> = ({
       <div className={styles.items}>
         {roles.map((item, index) => {
           return (
-            <React.Fragment key={item.id}>
+            <Fragment key={item.id}>
               <Item
                 id={item.id}
                 name={item.name}
@@ -40,7 +40,7 @@ export const RecentRoles: FC<RecentRolesProps> = ({
                 deleteSelectedRole={deleteSelectedRole}
               />
               {index !== roles.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

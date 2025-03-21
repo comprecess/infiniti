@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './Tab.module.scss'
 
 interface TabProps {
@@ -9,12 +7,12 @@ interface TabProps {
   setIsActiveTab: (name: string) => void
 }
 
-export const Tab: FC<TabProps> = ({
+export const Tab = ({
   title,
   isActive,
   send,
   setIsActiveTab,
-}) => {
+}: TabProps) => {
   const handleOnClick = () => {
     setIsActiveTab(send)
   }

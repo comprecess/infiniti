@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 
 import { SalesViewInvoiceDocuments } from '../../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../../shared/ui/CustomDivider/CustomDivider'
@@ -11,7 +11,7 @@ interface RecentFilesProps {
   filesList: SalesViewInvoiceDocuments[]
 }
 
-export const RecentFiles: FC<RecentFilesProps> = ({ filesList }) => {
+export const RecentFiles = ({ filesList }: RecentFilesProps) => {
   const authToken = getAuthToken()
 
   return (
@@ -24,10 +24,10 @@ export const RecentFiles: FC<RecentFilesProps> = ({ filesList }) => {
       <div className={styles.items}>
         {filesList.map((item, index) => {
           return (
-            <React.Fragment key={item.id}>
+            <Fragment key={item.id}>
               <Item data={item} authToken={authToken} />
               {index !== filesList.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

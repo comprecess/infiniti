@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../TransactionsPage.module.scss'
 import styles from './Item.module.scss'
@@ -17,7 +15,7 @@ interface ItemProps {
   bal: string
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   code,
   date,
   account,
@@ -27,7 +25,7 @@ export const Item: FC<ItemProps> = ({
   dr,
   cr,
   bal,
-}) => {
+}: ItemProps) => {
   return (
     <div className={styles.wrapper}>
       <span className={`${styleItem.hashTagColumn} ${styles.hashTagItem}`}>

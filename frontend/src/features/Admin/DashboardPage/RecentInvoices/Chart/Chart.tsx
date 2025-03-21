@@ -1,25 +1,16 @@
-import { FC } from 'react'
-
+import { DashboardInvoicesStatusesData } from '../../../../../app/constants/constants'
 import styles from './Chart.module.scss'
 import { Item } from './Item/Item'
 
 interface ChartProps {
   data: string[]
+  statuses: DashboardInvoicesStatusesData
 }
 
-export const Chart: FC<ChartProps> = ({ data }) => {
-  const totalCount = data.length
-  const counts: { [key: string]: number } = {}
-
-  data.forEach(item => {
-    counts[item] = (counts[item] || 0) + 1
-  })
-
-  const chartData = Object.keys(counts).map(key => ({
-    label: key,
-    count: counts[key],
-    percentage: Math.round((counts[key] / totalCount) * 100),
-  }))
+export const Chart = ({ data, statuses }: ChartProps) => {
+  const chartData = Object.entries(statuses)
+    .filter(([, value]) => value > 0)
+    .sort((a, b) => b[1] - a[1])
 
   const getColorText = (label: string): string => {
     const colorMap: { [key: string]: string } = {
@@ -48,22 +39,22 @@ export const Chart: FC<ChartProps> = ({ data }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.labels}>
-        {chartData.map((item, index) => (
+        {chartData.map(([label, percentage], index) => (
           <Item
             key={index}
-            label={item.label}
-            percentage={item.percentage}
-            colorPercentage={getColorText(item.label)}
+            label={label}
+            percentage={percentage}
+            colorPercentage={getColorText(label)}
           />
         ))}
       </div>
       <div className={styles.segments}>
-        {chartData.map((item, index) => (
+        {chartData.map(([label, percentage], index) => (
           <div
             key={index}
-            className={`${styles.segment} ${getColorBG(item.label)}`}
+            className={`${styles.segment} ${getColorBG(label)}`}
             style={{
-              width: `${item.percentage}%`,
+              width: `${percentage}%`,
             }}
           />
         ))}

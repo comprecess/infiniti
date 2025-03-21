@@ -1,4 +1,4 @@
-import { Dispatch, FC, Fragment, SetStateAction, useState } from 'react'
+import { Dispatch, Fragment, SetStateAction, useState } from 'react'
 
 import {
   FiltersData,
@@ -18,12 +18,12 @@ interface FiltersProps {
   setSelectedFilters: Dispatch<SetStateAction<FiltersState>>
 }
 
-export const Filters: FC<FiltersProps> = ({
+export const Filters = ({
   filters,
   selectedFilters,
   setActiveCategory,
   setSelectedFilters,
-}) => {
+}: FiltersProps) => {
   const [searchItems, setSearchItems] = useState<string[]>([])
 
   const handleSearchChange = (index: number, value: string) => {

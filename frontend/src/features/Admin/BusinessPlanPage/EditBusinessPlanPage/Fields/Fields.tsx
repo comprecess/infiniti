@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 
 import {
   BusinessPlanNewPlanFormData,
@@ -26,7 +26,7 @@ interface FieldsProps {
   deleteTalent: (id: number) => void
 }
 
-export const Fields: FC<FieldsProps> = ({
+export const Fields = ({
   isLoadingTeam,
   formData,
   inputData,
@@ -34,7 +34,7 @@ export const Fields: FC<FieldsProps> = ({
   setModalAddTalent,
   addNewTalentChatGPT,
   deleteTalent,
-}) => {
+}: FieldsProps) => {
   const handleChangeInput = (
     field: string,
     value: string | number | undefined | null,

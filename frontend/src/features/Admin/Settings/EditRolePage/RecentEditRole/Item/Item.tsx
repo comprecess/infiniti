@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { SettingsRoleFormData } from '../../../../../../app/constants/constants'
 import { CustomSwitch } from '../../../../../../shared/ui/CustomSwitch/CustomSwitch'
 import styleItem from '../RecentEditRole.module.scss'
@@ -20,7 +18,7 @@ interface ItemProps {
   ) => void
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   index,
   name,
   viewValue,
@@ -29,7 +27,7 @@ export const Item: FC<ItemProps> = ({
   deleteValue,
   allValue,
   handleChange,
-}) => {
+}: ItemProps) => {
   return (
     <div className={styles.wrapper}>
       <span

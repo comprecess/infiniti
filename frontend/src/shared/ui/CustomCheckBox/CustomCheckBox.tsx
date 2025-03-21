@@ -1,17 +1,17 @@
 import { Checkbox } from '@chakra-ui/react'
-import { FC } from 'react'
+import { ChangeEvent } from 'react'
 
 interface CheckBoxProps {
   title: string
-  titleOnChange?: string
+  titleOnChange?: string | null
   isChecked?: boolean
   isIndeterminate?: boolean
   defaultChecked?: boolean
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void
   onInputChange?: (name: string, isChecked: boolean) => void
 }
 
-export const CustomCheckBox: FC<CheckBoxProps> = ({
+export const CustomCheckBox = ({
   title,
   titleOnChange = null,
   isChecked,
@@ -19,8 +19,8 @@ export const CustomCheckBox: FC<CheckBoxProps> = ({
   defaultChecked = false,
   onChange,
   onInputChange,
-}) => {
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+}: CheckBoxProps) => {
+  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (titleOnChange && onInputChange) {
       onInputChange(titleOnChange, event.target.checked)
     } else if (onChange) {

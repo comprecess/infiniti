@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { Search } from '../../../../../shared/ui/Search/Search'
 import { RecentRightButtons } from '../../../CustomersPage/CompaniesPage/RecentRightButtons/RecentRightButtons'
 import styles from './Header.module.scss'
@@ -12,12 +10,12 @@ interface HeaderProps {
   rightButtons: (name: string) => void
 }
 
-export const Header: FC<HeaderProps> = ({
+export const Header = ({
   isActiveTab,
   setIsActiveTab,
   searchChange,
   rightButtons,
-}) => {
+}: HeaderProps) => {
   const handleSearchChange = (searchItem: string) => {
     searchChange(searchItem)
   }

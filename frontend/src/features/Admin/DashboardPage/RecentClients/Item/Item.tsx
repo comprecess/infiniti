@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styleItem from '../RecentClients.module.scss'
 import styles from './Item.module.scss'
 
@@ -10,7 +8,7 @@ interface ItemProps {
   created: string
 }
 
-export const Item: FC<ItemProps> = ({ avatar, name, email, created }) => {
+export const Item = ({ avatar, name, email, created }: ItemProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styleItem.avatarColumn}>

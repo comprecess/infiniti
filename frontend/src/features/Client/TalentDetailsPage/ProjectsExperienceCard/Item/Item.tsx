@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { TextInfoItem } from '../../TextInfoItem/TextInfoItem'
 import styles from './Item.module.scss'
 
@@ -10,12 +8,12 @@ interface ItemProps {
   responsibilities: string
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   position,
   period,
   name,
   responsibilities,
-}) => {
+}: ItemProps) => {
   return (
     <>
       <h5 className={styles.miniTitle}>{name}</h5>

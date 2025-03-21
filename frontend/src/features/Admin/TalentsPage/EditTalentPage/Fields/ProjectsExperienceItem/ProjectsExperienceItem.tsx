@@ -1,5 +1,5 @@
 import { Textarea } from '@chakra-ui/react'
-import { FC } from 'react'
+import { ChangeEvent } from 'react'
 
 import { ButtonBlue } from '../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDataPicker } from '../../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
@@ -16,7 +16,7 @@ interface ProjectsExperienceItemProps {
   onChange: (name: string, value: string | number) => void
 }
 
-export const ProjectsExperienceItem: FC<ProjectsExperienceItemProps> = ({
+export const ProjectsExperienceItem = ({
   company,
   position,
   periodFrom,
@@ -24,13 +24,13 @@ export const ProjectsExperienceItem: FC<ProjectsExperienceItemProps> = ({
   responsibilities,
   removeBlock,
   onChange,
-}) => {
+}: ProjectsExperienceItemProps) => {
   const handleOnInputChange = (name: string, value: string | number) => {
     onChange(name, value)
   }
 
   const handleTextAreaChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
+    event: ChangeEvent<HTMLTextAreaElement>,
   ) => {
     onChange('responsibilities', event.target.value)
   }

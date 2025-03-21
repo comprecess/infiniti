@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 
 import { SalesProductOrServiceData } from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
@@ -17,12 +17,12 @@ interface RecentProductServiceProps {
   onCloseModalWindow: () => void
 }
 
-export const RecentProductService: FC<RecentProductServiceProps> = ({
+export const RecentProductService = ({
   servicesList,
   addEditServiceBlank,
   addNewServiceBlank,
   onCloseModalWindow,
-}) => {
+}: RecentProductServiceProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -34,7 +34,7 @@ export const RecentProductService: FC<RecentProductServiceProps> = ({
         {servicesList.length > 0 &&
           servicesList.map((item, index) => {
             return (
-              <React.Fragment key={item.id}>
+              <Fragment key={item.id}>
                 <Item
                   code={item.id}
                   name={item.name}
@@ -44,7 +44,7 @@ export const RecentProductService: FC<RecentProductServiceProps> = ({
                   onCloseModalWindow={onCloseModalWindow}
                 />
                 {index !== servicesList.length - 1 && <CustomDivider />}
-              </React.Fragment>
+              </Fragment>
             )
           })}
       </div>

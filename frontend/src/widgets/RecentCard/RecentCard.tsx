@@ -9,15 +9,15 @@ interface RecentCardProps {
   style?: string
   refreshIcon?: boolean
   ordinaryIcons?: boolean
-  HeaderComponent?: React.FC<any>
-  PagesComponent?: React.FC<any>
-  Component?: React.FC<any>
+  HeaderComponent?: FC<any>
+  PagesComponent?: FC<any>
+  Component?: FC<any>
   componentProps?: any
   headerProps?: any
   pagesProps?: any
 }
 
-export const RecentCard: FC<PropsWithChildren<RecentCardProps>> = ({
+export const RecentCard = ({
   title,
   style,
   refreshIcon = false,
@@ -29,7 +29,7 @@ export const RecentCard: FC<PropsWithChildren<RecentCardProps>> = ({
   headerProps,
   pagesProps,
   children,
-}) => {
+}: PropsWithChildren<RecentCardProps>) => {
   const [openContent, setOpenContent] = useState<boolean>(false)
 
   const handleChevronClick = () => {

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { CompanyData } from '../../../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -12,7 +12,7 @@ interface SummaryPageProps {
   onClick: (id: number) => void
 }
 
-export const SummaryPage: FC<SummaryPageProps> = ({ id, onClick }) => {
+export const SummaryPage = ({ id, onClick }: SummaryPageProps) => {
   const [summary, setSummary] = useState<CompanyData | null>(null)
 
   const getSummaryPage = async () => {

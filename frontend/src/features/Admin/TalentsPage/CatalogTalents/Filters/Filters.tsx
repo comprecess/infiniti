@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction, useState } from 'react'
+import { Dispatch, Fragment, SetStateAction, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -22,13 +22,13 @@ interface FiltersProps {
   setSelectedFilters: Dispatch<SetStateAction<FiltersState>>
 }
 
-export const Filters: FC<FiltersProps> = ({
+export const Filters = ({
   filters,
   selectedFilters,
   setSelectedFilters,
   setActiveCategory,
   setSort,
-}) => {
+}: FiltersProps) => {
   const [searchItems, setSearchItems] = useState<string[]>([])
 
   const { t } = useTranslation()
@@ -90,7 +90,7 @@ export const Filters: FC<FiltersProps> = ({
           </div>
           <div className={styles.filters}>
             {filters.map((filter, index) => (
-              <React.Fragment key={filter.id}>
+              <Fragment key={filter.id}>
                 {filter.type === 'checkbox' && (
                   <>
                     <CategoryItem
@@ -207,7 +207,7 @@ export const Filters: FC<FiltersProps> = ({
                     <CustomDivider />
                   </>
                 )}
-              </React.Fragment>
+              </Fragment>
             ))}
           </div>
         </>

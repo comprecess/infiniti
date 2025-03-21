@@ -1,61 +1,25 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import {
+  DashboardInvoicesStatusesData,
+  DashboardRecentInvoicesData,
+} from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Chart } from './Chart/Chart'
 import { Item } from './Item/Item'
 import styles from './RecentInvoices.module.scss'
 
-const demoData = [
-  {
-    id: 0,
-    hashtag: 'INV-091820',
-    account: 'Konstantin Rabits',
-    amount: '4,560 $',
-    created: '19.02.2025',
-    due: '19.02.2025',
-    status: 'Unpaid',
-  },
-  {
-    id: 1,
-    hashtag: 'INV-091820',
-    account: 'Konstantin Rabits',
-    amount: '4,560 $',
-    created: '19.02.2025',
-    due: '19.02.2025',
-    status: 'Partially Paid',
-  },
-  {
-    id: 2,
-    hashtag: 'INV-091820',
-    account: 'Konstantin Rabits',
-    amount: '4,560 $',
-    created: '19.02.2025',
-    due: '19.02.2025',
-    status: 'Partially Paid',
-  },
-  {
-    id: 3,
-    hashtag: 'INV-091820',
-    account: 'Konstantin Rabits',
-    amount: '4,560 $',
-    created: '19.02.2025',
-    due: '19.02.2025',
-    status: 'Partially Paid',
-  },
-  {
-    id: 4,
-    hashtag: 'INV-091820',
-    account: 'Konstantin Rabits',
-    amount: '1,020 $',
-    created: '19.02.2025',
-    due: '19.02.2025',
-    status: 'Paid',
-  },
-]
+interface RecentInvoicesProps {
+  invoices: DashboardRecentInvoicesData[]
+  statuses: DashboardInvoicesStatusesData
+}
 
-export const RecentInvoices: FC = () => {
+export const RecentInvoices = ({
+  invoices,
+  statuses,
+}: RecentInvoicesProps) => {
   const { t } = useTranslation()
 
   return (
@@ -86,24 +50,27 @@ export const RecentInvoices: FC = () => {
             />
           </div>
           <div className={styles.items}>
-            {demoData.map((order, index) => {
+            {invoices.map((invoice, index) => {
               return (
-                <React.Fragment key={order.id}>
+                <Fragment key={invoice.id}>
                   <Item
-                    hashtag={order.hashtag}
-                    account={order.account}
-                    amount={order.amount}
-                    created={order.created}
-                    due={order.due}
-                    status={order.status}
+                    hashtag={invoice.code}
+                    account={invoice.account.account}
+                    amount={invoice.amount}
+                    created={invoice.invoiceDate}
+                    due={invoice.dueDate}
+                    status={invoice.status}
                   />
-                  {index !== demoData.length - 1 && <CustomDivider />}
-                </React.Fragment>
+                  {index !== invoices.length - 1 && <CustomDivider />}
+                </Fragment>
               )
             })}
           </div>
         </div>
-        <Chart data={demoData.map(item => item.status)} />
+        <Chart
+          data={invoices.map(item => item.status)}
+          statuses={statuses}
+        />
       </div>
     </div>
   )

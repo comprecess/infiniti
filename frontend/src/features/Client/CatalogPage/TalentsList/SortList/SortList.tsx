@@ -5,7 +5,7 @@ import {
   MenuItem,
   MenuList,
 } from '@chakra-ui/react'
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
 import { ChevronDownIcon } from '../../../../../shared/icons/ChevronDownIcon'
 import { LongArrowDownIcon } from '../../../../../shared/icons/LongArrowDownIcon'
@@ -16,7 +16,7 @@ interface SortListProps {
   setSort: Dispatch<SetStateAction<{ name: string; type: string }>>
 }
 
-export const SortList: FC<SortListProps> = ({ sort, setSort }) => {
+export const SortList = ({ sort, setSort }: SortListProps) => {
   const [item, setItem] = useState<string>('Daily rate (8h) Ascending')
 
   const handleItemClick = (

@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
 import styles from './RecentButtons.module.scss'
@@ -10,11 +8,11 @@ interface RecentButtonsProps {
   secondButtonClick: () => void
 }
 
-export const RecentButtons: FC<RecentButtonsProps> = ({
+export const RecentButtons = ({
   isCanCreate,
   firstButtonClick,
   secondButtonClick,
-}) => {
+}: RecentButtonsProps) => {
   return (
     <div className={styles.wrapper}>
       {isCanCreate && (

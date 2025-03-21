@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, Fragment, useEffect, useRef, useState } from 'react'
 
 import {
   FiltersState,
@@ -22,15 +22,15 @@ import { ProjectsExperienceItem } from './ProjectsExperienceItem/ProjectsExperie
 
 export interface PartialFieldsPostData extends Partial<TalentFormData> {
   [key: string]:
-  | string
-  | FormData
-  | TalentProjectsExperience[]
-  | number[]
-  | string[]
-  | number
-  | boolean
-  | undefined
-  | null
+    | string
+    | FormData
+    | TalentProjectsExperience[]
+    | number[]
+    | string[]
+    | number
+    | boolean
+    | undefined
+    | null
 }
 
 interface FieldsProps {
@@ -41,13 +41,13 @@ interface FieldsProps {
   onFormDataChange: (data: PartialFieldsPostData) => void
 }
 
-export const Fields: FC<FieldsProps> = ({
+export const Fields = ({
   data,
   inputData,
   updateAvatar,
   updateAdditionallyInfoTalent,
   onFormDataChange,
-}) => {
+}: FieldsProps) => {
   /* eslint-disable @typescript-eslint/no-unused-vars */
   const [formData, setFormData] = useState<PartialFieldsPostData>({
     active: data.active,
@@ -157,7 +157,7 @@ export const Fields: FC<FieldsProps> = ({
   }
 
   const handleAvatarChange = async (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: ChangeEvent<HTMLInputElement>,
   ) => {
     const files = event.target.files
 
@@ -186,13 +186,13 @@ export const Fields: FC<FieldsProps> = ({
   const handleChangeInput = (
     field: string,
     value:
-    | string
-    | number
-    | number[]
-    | string[]
-    | boolean
-    | undefined
-    | null,
+      | string
+      | number
+      | number[]
+      | string[]
+      | boolean
+      | undefined
+      | null,
   ) => {
     if (field === 'rate' && typeof value === 'boolean') {
       value = value === true ? 1 : 0
@@ -471,7 +471,7 @@ export const Fields: FC<FieldsProps> = ({
           <div className={styles.sectionItems}>
             {formData.blockExperience.map(item => {
               return (
-                <React.Fragment key={item.index}>
+                <Fragment key={item.index}>
                   <ProjectsExperienceItem
                     company={item.name}
                     position={item.position}
@@ -486,7 +486,7 @@ export const Fields: FC<FieldsProps> = ({
                   <div className={styles.divider}>
                     <CustomDivider />
                   </div>
-                </React.Fragment>
+                </Fragment>
               )
             })}
             <ButtonBlue

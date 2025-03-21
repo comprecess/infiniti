@@ -1,5 +1,5 @@
 import { Textarea } from '@chakra-ui/react'
-import { FC, useRef } from 'react'
+import { ChangeEvent, Dispatch, SetStateAction, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -18,7 +18,7 @@ import styles from './Fields.module.scss'
 interface FieldsProps {
   inputData: BusinessModelInputData
   formData: PartialFieldsPostData
-  setFormData: React.Dispatch<React.SetStateAction<PartialFieldsPostData>>
+  setFormData: Dispatch<SetStateAction<PartialFieldsPostData>>
   removePicture: (data: { [key: string]: number }) => void
   updatePicture: (file: FormData) => void
 }
@@ -28,13 +28,13 @@ export interface PartialFieldsPostData
   [key: string]: string | number | string[] | undefined | null
 }
 
-export const Fields: FC<FieldsProps> = ({
+export const Fields = ({
   inputData,
   formData,
   setFormData,
   removePicture,
   updatePicture,
-}) => {
+}: FieldsProps) => {
   const { t } = useTranslation()
 
   const showToast = useCustomToast()
@@ -50,7 +50,7 @@ export const Fields: FC<FieldsProps> = ({
   }
 
   const handleAvatarChange = async (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: ChangeEvent<HTMLInputElement>,
     key: 'preview' | 'content',
   ) => {
     const files = event.target.files
@@ -122,7 +122,7 @@ export const Fields: FC<FieldsProps> = ({
           fontWeight='400'
           lineHeight='24px'
           defaultValue={formData.description}
-          onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+          onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
             handleChangeInput('description', event.target.value)
           }
         />
@@ -144,7 +144,7 @@ export const Fields: FC<FieldsProps> = ({
           fontWeight='400'
           lineHeight='24px'
           defaultValue={formData.fullDescription}
-          onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+          onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
             handleChangeInput('fullDescription', event.target.value)
           }
         />

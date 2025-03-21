@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { TalentData } from '../../../../../app/constants/constants'
 import { InfoIcon } from '../../../../../shared/icons/InfoIcon'
@@ -19,11 +19,11 @@ interface TalentCardProps {
   showSimilar: () => void
 }
 
-export const TalentCard: FC<TalentCardProps> = ({
+export const TalentCard = ({
   isAdmin = false,
   talent,
   showSimilar,
-}) => {
+}: TalentCardProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [modalWidth, setModalWidth] = useState<string>('800px')
   const [dividerOrientation, setDividerOrientation] =

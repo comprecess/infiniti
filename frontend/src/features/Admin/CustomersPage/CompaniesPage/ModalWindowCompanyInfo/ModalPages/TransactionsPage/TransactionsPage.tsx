@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
 import { TransactionsViewCompany } from '../../../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
@@ -12,9 +12,9 @@ interface TransactionsPageProps {
   id: number
 }
 
-export const TransactionsPage: FC<TransactionsPageProps> = ({ id }) => {
+export const TransactionsPage = ({ id }: TransactionsPageProps) => {
   const [transactions, setTransactions] = useState<
-  TransactionsViewCompany[] | null
+    TransactionsViewCompany[] | null
   >(null)
 
   const getTransactions = async () => {
@@ -38,7 +38,10 @@ export const TransactionsPage: FC<TransactionsPageProps> = ({ id }) => {
               <Title title='Account' style={styles.accountColumn} />
               <Title title='Type' style={styles.typeColumn} />
               <Title title='Amount' style={styles.amountColumn} />
-              <Title title='Description' style={styles.descriptionColumn} />
+              <Title
+                title='Description'
+                style={styles.descriptionColumn}
+              />
               <Title title='Dr.' style={styles.drColumn} />
               <Title title='Cr' style={styles.crColumn} />
               <Title title='Balance' style={styles.balanceColumn} />
@@ -47,7 +50,7 @@ export const TransactionsPage: FC<TransactionsPageProps> = ({ id }) => {
             <div className={styles.items}>
               {transactions.map((item, index) => {
                 return (
-                  <React.Fragment key={item.id}>
+                  <Fragment key={item.id}>
                     <Item
                       code={item.id}
                       date={item.date}
@@ -60,8 +63,10 @@ export const TransactionsPage: FC<TransactionsPageProps> = ({ id }) => {
                       cr={item.cr}
                       bal={item.bal}
                     />
-                    {index !== transactions.length - 1 && <CustomDivider />}
-                  </React.Fragment>
+                    {index !== transactions.length - 1 && (
+                      <CustomDivider />
+                    )}
+                  </Fragment>
                 )
               })}
             </div>

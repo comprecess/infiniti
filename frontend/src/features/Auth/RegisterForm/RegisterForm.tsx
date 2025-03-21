@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
@@ -16,7 +15,7 @@ interface FormFields {
   confirmPassword: string
 }
 
-export const RegisterForm: FC = () => {
+export const RegisterForm = () => {
   const { register, handleSubmit, watch } = useForm<FormFields>()
 
   const navigate = useNavigate()

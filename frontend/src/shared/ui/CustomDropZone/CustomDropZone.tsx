@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 
 import styles from './CustomDropZone.module.scss'
 
@@ -6,7 +6,7 @@ interface CustomDropZoneProps {
   onDrop: (file: File) => void
 }
 
-export const CustomDropZone: FC<CustomDropZoneProps> = ({ onDrop }) => {
+export const CustomDropZone = ({ onDrop }: CustomDropZoneProps) => {
   const [isDragging, setIsDragging] = useState(false)
   const [fileInfo, setFileInfo] = useState<{
     name: string

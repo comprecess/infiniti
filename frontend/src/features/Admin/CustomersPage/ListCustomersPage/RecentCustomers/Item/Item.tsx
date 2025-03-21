@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { RolesAccess } from '../../../../../../app/constants/constants'
@@ -21,7 +21,7 @@ interface ItemProps {
   deleteClient: (idSupplier: number) => void
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   id,
   access,
   image,
@@ -32,7 +32,7 @@ export const Item: FC<ItemProps> = ({
   email,
   phone,
   deleteClient,
-}) => {
+}: ItemProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
   const navigate = useNavigate()

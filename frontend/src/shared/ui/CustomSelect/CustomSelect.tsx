@@ -1,5 +1,5 @@
 import { Select } from '@chakra-ui/react'
-import { FC, useEffect } from 'react'
+import { ChangeEvent, useEffect } from 'react'
 
 import styles from './CustomSelect.module.scss'
 
@@ -17,7 +17,7 @@ interface CustomSelectProps {
   onChange: (name: string, value: number) => void
 }
 
-export const CustomSelect: FC<CustomSelectProps> = ({
+export const CustomSelect = ({
   title,
   idList,
   nameList,
@@ -29,8 +29,8 @@ export const CustomSelect: FC<CustomSelectProps> = ({
   onInputChange = true,
   camelCase = false,
   onChange,
-}) => {
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+}: CustomSelectProps) => {
+  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
     onChange(titleOnChange, Number(event.target.value))
   }
 

@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { Item } from './Item/Item'
 import styles from './MiniCard.module.scss'
 
@@ -9,7 +7,7 @@ interface CardProps {
   expense: string
 }
 
-export const MiniCard: FC<CardProps> = ({ title, income, expense }) => {
+export const MiniCard = ({ title, income, expense }: CardProps) => {
   return (
     <div className={styles.wrapper}>
       <h6 className={styles.title}>{title}</h6>

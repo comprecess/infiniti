@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { SalesViewInvoiceDocuments } from '../../../../../../../app/constants/constants'
 import { CustomMiniButton } from '../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { TypeFiles } from '../../../../../../../shared/ui/TypeFiles/TypeFiles'
@@ -11,13 +9,13 @@ interface ItemProps {
   authToken: string | undefined
 }
 
-export const Item: FC<ItemProps> = ({ data, authToken }) => {
+export const Item = ({ data, authToken }: ItemProps) => {
   const handleDownloadFile = async (link: string) => {
     const headers: HeadersInit =
       data.global === 0
         ? {
-          Authorization: `Bearer ${authToken}`,
-        }
+            Authorization: `Bearer ${authToken}`,
+          }
         : {}
 
     const response = await fetch(link, { headers })

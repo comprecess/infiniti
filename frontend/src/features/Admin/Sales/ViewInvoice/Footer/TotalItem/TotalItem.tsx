@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './TotalItem.module.scss'
 
 interface TotalItemProps {
@@ -7,7 +5,7 @@ interface TotalItemProps {
   value: string
 }
 
-export const TotalItem: FC<TotalItemProps> = ({ title, value }) => {
+export const TotalItem = ({ title, value }: TotalItemProps) => {
   return (
     <div className={styles.wrapper}>
       <span className={styles.title}>{`${title}:`}</span>

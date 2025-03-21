@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styleItem from '../CustomersPage.module.scss'
 import styles from './Item.module.scss'
 
@@ -11,7 +9,7 @@ interface ItemProps {
   onClick: (id: number) => void
 }
 
-export const Item: FC<ItemProps> = ({ code, name, email, phone, onClick }) => {
+export const Item = ({ code, name, email, phone, onClick }: ItemProps) => {
   const onItemClick = () => {
     onClick(code)
   }

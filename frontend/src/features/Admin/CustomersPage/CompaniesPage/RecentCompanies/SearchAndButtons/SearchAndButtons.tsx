@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { Search } from '../../../../../../shared/ui/Search/Search'
 import { RecentRightButtons } from '../../RecentRightButtons/RecentRightButtons'
 import styles from './SearchAndButtons.module.scss'
@@ -9,10 +7,10 @@ interface SearchAndButtonsProps {
   rightButtons?: (name: string) => void
 }
 
-export const SearchAndButtons: FC<SearchAndButtonsProps> = ({
+export const SearchAndButtons = ({
   searchChange,
   rightButtons,
-}) => {
+}: SearchAndButtonsProps) => {
   const handleSearchChange = (searchItem: string) => {
     searchChange(searchItem)
   }

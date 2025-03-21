@@ -1,5 +1,5 @@
 import { Textarea } from '@chakra-ui/react'
-import React, { FC, useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 
 import {
   BlankCalc,
@@ -53,16 +53,16 @@ interface InfoData {
 
 export interface PartialFieldsData extends Partial<InfoData> {
   [key: string]:
-  | string
-  | number
-  | SalesEditInvoiceBlankData[]
-  | BlankCalc
-  | boolean
-  | undefined
-  | null
+    | string
+    | number
+    | SalesEditInvoiceBlankData[]
+    | BlankCalc
+    | boolean
+    | undefined
+    | null
 }
 
-export const Fields: FC<FieldsProps> = ({
+export const Fields = ({
   data,
   blanks,
   inputData,
@@ -71,7 +71,7 @@ export const Fields: FC<FieldsProps> = ({
   removeBlank,
   updateBlank,
   onFormDataChange,
-}) => {
+}: FieldsProps) => {
   const [formData, setFormData] = useState<PartialFieldsData>({
     title: data.title,
     clientId: data.client.id,
@@ -108,12 +108,12 @@ export const Fields: FC<FieldsProps> = ({
   const handleChangeInput = (
     field: string,
     value:
-    | string
-    | number
-    | SalesEditInvoiceBlankData[]
-    | boolean
-    | undefined
-    | null,
+      | string
+      | number
+      | SalesEditInvoiceBlankData[]
+      | boolean
+      | undefined
+      | null,
   ) => {
     let updatedValue = value
 
@@ -340,7 +340,7 @@ export const Fields: FC<FieldsProps> = ({
         <section className={styles.blank}>
           <CustomDivider />
           {formData.blankList.map(blank => (
-            <React.Fragment key={blank.id}>
+            <Fragment key={blank.id}>
               <Blank
                 id={blank.id}
                 amount={blank.amount}
@@ -362,7 +362,7 @@ export const Fields: FC<FieldsProps> = ({
                 }
               />
               <CustomDivider />
-            </React.Fragment>
+            </Fragment>
           ))}
         </section>
       ) : (

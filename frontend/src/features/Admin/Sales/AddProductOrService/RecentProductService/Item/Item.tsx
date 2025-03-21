@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styleItem from '../RecentProductService.module.scss'
 import styles from './Item.module.scss'
 
@@ -16,14 +14,14 @@ interface ItemProps {
   onCloseModalWindow: () => void
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   code,
   name,
   price,
   addEditServiceBlank,
   addNewServiceBlank,
   onCloseModalWindow,
-}) => {
+}: ItemProps) => {
   const handleCheckFunction = () => {
     if (addEditServiceBlank) {
       addEditServiceBlank(code.toString())

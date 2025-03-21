@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
@@ -15,7 +14,7 @@ interface CashFlowProps {
   data: DashboardData
 }
 
-export const CashFlow: FC<CashFlowProps> = ({ data }) => {
+export const CashFlow = ({ data }: CashFlowProps) => {
   const { t } = useTranslation()
 
   const navigate = useNavigate()

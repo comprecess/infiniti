@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react'
+import { Fragment, useCallback, useState } from 'react'
 
 import {
   CustomersFilesData,
@@ -17,12 +17,12 @@ interface RecentDocumentsProps {
   changeSortName: (sortNameItem: string, sortTypeItem: number) => void
 }
 
-export const RecentDocuments: FC<RecentDocumentsProps> = ({
+export const RecentDocuments = ({
   files,
   access,
   deleteFile,
   changeSortName,
-}) => {
+}: RecentDocumentsProps) => {
   const [sortNumbers, setSortNumbers] = useState<number[]>([1, 1])
 
   const authToken = getAuthToken()
@@ -69,7 +69,7 @@ export const RecentDocuments: FC<RecentDocumentsProps> = ({
       <div className={styles.items}>
         {files.map((file, index) => {
           return (
-            <React.Fragment key={file.id}>
+            <Fragment key={file.id}>
               <Item
                 idFile={file.id}
                 authToken={authToken}
@@ -81,7 +81,7 @@ export const RecentDocuments: FC<RecentDocumentsProps> = ({
                 deleteFile={deleteFile}
               />
               {index !== files.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

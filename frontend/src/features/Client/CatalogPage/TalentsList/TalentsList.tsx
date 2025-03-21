@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useCallback } from 'react'
+import { Dispatch, SetStateAction, useCallback } from 'react'
 
 import {
   PagesMetaData,
@@ -15,22 +15,22 @@ import styles from './TalentsList.module.scss'
 
 interface TalentsListProps {
   talentsList:
-  | {
-    data: TalentData[]
-    meta: PagesMetaData
-  }
-  | undefined
+    | {
+        data: TalentData[]
+        meta: PagesMetaData
+      }
+    | undefined
   sort: { name: string; type: string }
   setCurrentPage: Dispatch<SetStateAction<number>>
   setSort: Dispatch<SetStateAction<{ name: string; type: string }>>
 }
 
-export const TalentsList: FC<TalentsListProps> = ({
+export const TalentsList = ({
   talentsList,
   sort,
   setCurrentPage,
   setSort,
-}) => {
+}: TalentsListProps) => {
   const handlePageChange = useCallback((page: number) => {
     saveSession(userTalentsPageString, page)
     setCurrentPage(page)

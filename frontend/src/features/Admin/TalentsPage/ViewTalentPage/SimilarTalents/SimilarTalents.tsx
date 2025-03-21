@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { TalentsProps } from '../../../../../app/constants/constants'
 import { TalentsCard } from '../../../../../widgets/TalentsCard/TalentsCard'
 import styles from './SimilarTalents.module.scss'
@@ -9,10 +7,10 @@ interface SimilarTalentsProps {
   similarTalents: TalentsProps[]
 }
 
-export const SimilarTalents: FC<SimilarTalentsProps> = ({
+export const SimilarTalents = ({
   isAdmin = false,
   similarTalents,
-}) => {
+}: SimilarTalentsProps) => {
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.title}>Similar talents</h2>

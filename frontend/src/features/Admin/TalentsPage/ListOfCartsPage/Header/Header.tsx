@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { RolesAccess } from '../../../../../app/constants/constants'
 import { Search } from '../../../../../shared/ui/Search/Search'
 import styles from './Header.module.scss'
@@ -12,12 +10,12 @@ interface HeaderProps {
   searchChange: (searchItem: string) => void
 }
 
-export const Header: FC<HeaderProps> = ({
+export const Header = ({
   access,
   isActiveTab,
   setIsActiveTab,
   searchChange,
-}) => {
+}: HeaderProps) => {
   const handleSearchChange = (searchItem: string) => {
     searchChange(searchItem)
   }

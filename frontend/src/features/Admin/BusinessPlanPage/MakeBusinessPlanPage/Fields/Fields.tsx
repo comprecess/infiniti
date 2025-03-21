@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 
 import { BusinessPlanNewPlanFormData } from '../../../../../app/constants/constants'
 import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
@@ -8,7 +8,7 @@ import styles from './Fields.module.scss'
 
 interface FieldsProps {
   formData: PartialFieldsPostData
-  setFormData: React.Dispatch<React.SetStateAction<PartialFieldsPostData>>
+  setFormData: Dispatch<SetStateAction<PartialFieldsPostData>>
 }
 
 export interface PartialFieldsPostData
@@ -16,7 +16,7 @@ export interface PartialFieldsPostData
   [key: string]: string | number | number[] | undefined | null
 }
 
-export const Fields: FC<FieldsProps> = ({ formData, setFormData }) => {
+export const Fields = ({ formData, setFormData }: FieldsProps) => {
   const handleChangeInput = (
     field: string,
     value: string | number | undefined | null,

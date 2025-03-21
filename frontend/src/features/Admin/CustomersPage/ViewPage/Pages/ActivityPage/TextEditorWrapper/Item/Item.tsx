@@ -1,22 +1,22 @@
-import { FC } from 'react'
+import { ReactNode } from 'react'
 
 import styles from './Item.module.scss'
 
 interface ItemProps {
-  iconComponent: React.ReactNode
+  iconComponent: ReactNode
   nameIcon: string
   isActive: boolean
   isStroke: boolean
   onClick: (nameIcon: string) => void
 }
 
-export const Item: FC<ItemProps> = ({
+export const Item = ({
   iconComponent,
   nameIcon,
   isActive,
   isStroke,
   onClick,
-}) => {
+}: ItemProps) => {
   const handleClick = () => {
     onClick(nameIcon)
   }
@@ -26,8 +26,8 @@ export const Item: FC<ItemProps> = ({
       ? styles.iconStrokeActive
       : styles.iconFillActive
     : isStroke
-      ? styles.iconStrokeDisable
-      : styles.iconFillDisable
+    ? styles.iconStrokeDisable
+    : styles.iconFillDisable
 
   return (
     <div className={styles.iconButton} onClick={handleClick}>

@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { FileIcon } from '../../../../../../../shared/icons/FileIcon'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../../../../../../shared/ui/CustomInput/CustomInput'
@@ -12,11 +10,11 @@ interface HeaderProps {
   sendEmail: () => void
 }
 
-export const Header: FC<HeaderProps> = ({
+export const Header = ({
   inputTo,
   updateInfo,
   sendEmail,
-}) => {
+}: HeaderProps) => {
   const updateTextEditor = (message: string) => {
     updateInfo('message', message)
   }

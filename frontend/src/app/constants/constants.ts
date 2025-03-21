@@ -1206,3 +1206,54 @@ export interface BusinessModelInputData {
   profitability: ValuesProps[]
   technologies: ValuesProps[]
 }
+
+export interface DashboardRecentClientData {
+  id: number
+  account: string
+  created: string
+  email: string
+  img: string
+}
+
+export interface DashboardRecentProjectsData {
+  id: number
+  budget: string
+  dueDate: string
+  name: string
+  status: string
+}
+
+export interface DashboardRecentInvoicesData {
+  id: number
+  type: number
+  amount: string
+  blockEdit: boolean
+  code: string
+  dueDate: string
+  invoiceDate: string
+  status: string
+  account: { account: string }
+}
+
+export interface DashboardInvoicesStatusesData {
+  Paid: number
+  'Partially Paid': number
+  Unpaid: number
+}
+
+export interface DashboardLatestIncomeExpenseData {
+  account: string
+  amount: string
+  date: string
+  description: string
+}
+
+export interface DashboardNetWorthData {
+  limit: string
+  netWorth: number
+  list: {
+    id: number
+    balance: string
+    name: string
+  }[]
+}

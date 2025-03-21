@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 
 import { ClientOfferData } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
@@ -10,7 +10,7 @@ interface RecentTotalProps {
   offers: ClientOfferData[]
 }
 
-export const RecentTotal: FC<RecentTotalProps> = ({ offers }) => {
+export const RecentTotal = ({ offers }: RecentTotalProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -23,7 +23,7 @@ export const RecentTotal: FC<RecentTotalProps> = ({ offers }) => {
       <div className={styles.items}>
         {offers.map((offer, index) => {
           return (
-            <React.Fragment key={'order.id'}>
+            <Fragment key={'order.id'}>
               <Item
                 subject={offer.subject}
                 amount={offer.total}
@@ -31,7 +31,7 @@ export const RecentTotal: FC<RecentTotalProps> = ({ offers }) => {
                 expiryDate={offer.validUntil}
               />
               {index !== offers.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>

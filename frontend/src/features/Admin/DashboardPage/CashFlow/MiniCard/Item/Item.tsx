@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import styles from './Item.module.scss'
@@ -8,7 +7,7 @@ interface ItemProps {
   amount: string
 }
 
-export const Item: FC<ItemProps> = ({ amount, plus = false }) => {
+export const Item = ({ amount, plus = false }: ItemProps) => {
   const { t } = useTranslation()
 
   return (

@@ -1,55 +1,19 @@
-import React, { FC } from 'react'
+import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { DashboardRecentProjectsData } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentProjects.module.scss'
 
-const demoData = [
-  {
-    id: 0,
-    avatar: '/cartAvatar.svg',
-    name: 'Marketing & Sales Strategy',
-    budget: '1,020 $',
-    status: 'Started',
-    created: '19.02.2025',
-  },
-  {
-    id: 1,
-    avatar: '/cartAvatar.svg',
-    name: 'Dhaba.com — SEO',
-    budget: '4,560 $',
-    status: 'Started',
-    created: '19.02.2025',
-  },
-  {
-    id: 2,
-    avatar: '/cartAvatar.svg',
-    name: 'DMSoftware — SEO',
-    budget: '870 $',
-    status: 'Paused',
-    created: '19.02.2025',
-  },
-  {
-    id: 3,
-    avatar: '/cartAvatar.svg',
-    name: 'QTECH — Website programming',
-    budget: '2,130 $',
-    status: 'Paused',
-    created: '19.02.2025',
-  },
-  {
-    id: 4,
-    avatar: '/cartAvatar.svg',
-    name: 'Metromarkt — BA & Copywriting',
-    budget: '1,240 $',
-    status: 'Completed',
-    created: '19.02.2025',
-  },
-]
+interface RecentProjectsProps {
+  recentProjects: DashboardRecentProjectsData[]
+}
 
-export const RecentProjects: FC = () => {
+export const RecentProjects = ({
+  recentProjects,
+}: RecentProjectsProps) => {
   const { t } = useTranslation()
 
   return (
@@ -73,17 +37,17 @@ export const RecentProjects: FC = () => {
         />
       </div>
       <div className={styles.items}>
-        {demoData.map((order, index) => {
+        {recentProjects.map((project, index) => {
           return (
-            <React.Fragment key={order.id}>
+            <Fragment key={project.id}>
               <Item
-                name={order.name}
-                budget={order.budget}
-                status={order.status}
-                created={order.created}
+                name={project.name}
+                budget={project.budget}
+                status={project.status}
+                created={project.dueDate}
               />
-              {index !== demoData.length - 1 && <CustomDivider />}
-            </React.Fragment>
+              {index !== recentProjects.length - 1 && <CustomDivider />}
+            </Fragment>
           )
         })}
       </div>

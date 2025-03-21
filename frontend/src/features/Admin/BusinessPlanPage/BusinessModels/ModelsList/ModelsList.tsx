@@ -1,6 +1,5 @@
 import {
   Dispatch,
-  FC,
   SetStateAction,
   useCallback,
   useEffect,
@@ -36,12 +35,12 @@ interface ModelsListProps {
   deleteBusinessModel?: (id: number) => void
 }
 
-export const ModelsList: FC<ModelsListProps> = ({
+export const ModelsList = ({
   isAdmin,
   modelsList,
   setCurrentPage,
   deleteBusinessModel,
-}) => {
+}: ModelsListProps) => {
   const [modelsOpen, setModelsOpen] = useState<boolean[]>([])
 
   const navigate = useNavigate()

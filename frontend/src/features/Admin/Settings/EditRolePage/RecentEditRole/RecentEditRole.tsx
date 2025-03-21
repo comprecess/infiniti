@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction } from 'react'
+import { Dispatch, Fragment, SetStateAction } from 'react'
 
 import {
   RolesAccessObjectPermission,
@@ -16,18 +16,18 @@ interface RecentEditRoleProps {
     access: SettingsRoleFormData[]
   } | null
   setFormData: Dispatch<
-  SetStateAction<{
-    name: string
-    access: SettingsRoleFormData[]
-  } | null>
+    SetStateAction<{
+      name: string
+      access: SettingsRoleFormData[]
+    } | null>
   >
 }
 
-export const RecentEditRole: FC<RecentEditRoleProps> = ({
+export const RecentEditRole = ({
   permission,
   formData,
   setFormData,
-}) => {
+}: RecentEditRoleProps) => {
   const handleChange = (
     index: number,
     field: keyof SettingsRoleFormData,
@@ -54,7 +54,7 @@ export const RecentEditRole: FC<RecentEditRoleProps> = ({
       <div className={styles.items}>
         {permission.map((item, index) => {
           return (
-            <React.Fragment key={item.id}>
+            <Fragment key={item.id}>
               <Item
                 index={index}
                 name={item.name}
@@ -66,7 +66,7 @@ export const RecentEditRole: FC<RecentEditRoleProps> = ({
                 handleChange={handleChange}
               />
               {index !== permission.length - 1 && <CustomDivider />}
-            </React.Fragment>
+            </Fragment>
           )
         })}
       </div>
