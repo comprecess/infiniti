@@ -155,11 +155,11 @@ class DashboardController extends ResidentController
 
             #invoiceStatus
             $status = ['Paid', 'Unpaid', 'Partially Paid'];
-            $data = [];
+            $dataPrecent = [];
             foreach ($status as $stat) {
-                $data[$stat] = Invoice::checkAccess('all', 'transactions')->where('status', $stat)->count();
+                $dataPrecent[$stat] = Invoice::checkAccess('all', 'transactions')->where('status', $stat)->count();
             }
-            $data['invoiceStatus'] = array_percentage($data);
+            $data['invoiceStatus'] = array_percentage($dataPrecent);
 
 
             foreach ($table as $key => $value) {
