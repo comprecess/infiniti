@@ -48,13 +48,13 @@ interface InfoData {
 
 export interface PartialFieldsCartToOfferData extends Partial<InfoData> {
   [key: string]:
-    | string
-    | number
-    | SalesBlankData[]
-    | BlankCalc
-    | boolean
-    | undefined
-    | null
+  | string
+  | number
+  | SalesBlankData[]
+  | BlankCalc
+  | boolean
+  | undefined
+  | null
 }
 
 export const Fields = ({

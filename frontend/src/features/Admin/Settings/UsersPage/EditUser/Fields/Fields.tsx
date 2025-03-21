@@ -209,8 +209,8 @@ export const Fields = ({
         value={
           formData.language
             ? inputData.localization.findIndex(
-                language => language.iso_code === formData.language,
-              ) + 1
+              language => language.iso_code === formData.language,
+            ) + 1
             : undefined
         }
         onChange={handleChangeInput}

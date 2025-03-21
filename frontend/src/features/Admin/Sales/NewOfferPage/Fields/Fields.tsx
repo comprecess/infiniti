@@ -28,12 +28,12 @@ export interface FieldsProps {
 export interface PartialFieldsNewOfferData
   extends Partial<SalesNewOfferFormData> {
   [key: string]:
-    | string
-    | number
-    | SalesBlankData[]
-    | boolean
-    | undefined
-    | null
+  | string
+  | number
+  | SalesBlankData[]
+  | boolean
+  | undefined
+  | null
 }
 
 export const Fields = ({ data, onFormDataChange }: FieldsProps) => {

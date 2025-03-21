@@ -17,7 +17,7 @@ interface CustomersPageProps {
 
 export const CustomersPage = ({ id }: CustomersPageProps) => {
   const [customers, setCustomers] = useState<
-    CustomersViewCompany[] | null
+  CustomersViewCompany[] | null
   >(null)
 
   const navigate = useNavigate()

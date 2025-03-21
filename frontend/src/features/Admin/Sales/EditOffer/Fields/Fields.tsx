@@ -50,13 +50,13 @@ interface InfoData {
 
 export interface PartialFieldsPostData extends Partial<InfoData> {
   [key: string]:
-    | string
-    | number
-    | SalesEditInvoiceBlankData[]
-    | BlankCalc
-    | boolean
-    | undefined
-    | null
+  | string
+  | number
+  | SalesEditInvoiceBlankData[]
+  | BlankCalc
+  | boolean
+  | undefined
+  | null
 }
 
 export const Fields = ({
@@ -102,12 +102,12 @@ export const Fields = ({
   const handleChangeInput = (
     field: string,
     value:
-      | string
-      | number
-      | SalesEditInvoiceBlankData[]
-      | boolean
-      | undefined
-      | null,
+    | string
+    | number
+    | SalesEditInvoiceBlankData[]
+    | boolean
+    | undefined
+    | null,
   ) => {
     let updatedValue = value
 

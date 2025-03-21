@@ -28,12 +28,12 @@ interface FieldsProps {
 export interface PartialFieldsPostData
   extends Partial<SalesNewInvoiceFormData> {
   [key: string]:
-    | string
-    | number
-    | SalesBlankData[]
-    | boolean
-    | undefined
-    | null
+  | string
+  | number
+  | SalesBlankData[]
+  | boolean
+  | undefined
+  | null
 }
 
 export const Fields = ({ data, onFormDataChange }: FieldsProps) => {

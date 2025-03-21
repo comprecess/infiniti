@@ -11,9 +11,9 @@ export const RecentRightButtons = ({
 }: RecentRightButtonsProps) => {
   const handleOnClick =
     (name: string): MouseEventHandler<HTMLButtonElement> =>
-    () => {
-      if (rightButtons) rightButtons(name)
-    }
+      () => {
+        if (rightButtons) rightButtons(name)
+      }
 
   return (
     <div className={styles.wrapper}>

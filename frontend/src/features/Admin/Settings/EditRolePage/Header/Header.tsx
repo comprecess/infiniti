@@ -10,10 +10,10 @@ interface HeaderProps {
     access: SettingsRoleFormData[]
   } | null
   setFormData: Dispatch<
-    SetStateAction<{
-      name: string
-      access: SettingsRoleFormData[]
-    } | null>
+  SetStateAction<{
+    name: string
+    access: SettingsRoleFormData[]
+  } | null>
   >
 }
 

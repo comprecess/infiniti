@@ -52,7 +52,7 @@ export const Header = ({
   const [creditCard, setCreditCard] = useState<boolean>(false)
 
   const [payNow, setPayNow] = useState<
-    SalesViewInvoicePayList | undefined
+  SalesViewInvoicePayList | undefined
   >(undefined)
 
   const navigate = useNavigate()
