@@ -1,11 +1,11 @@
-import { FC, PropsWithChildren, useEffect, useState } from 'react'
+import { PropsWithChildren, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { roles } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { getProfileInfo } from '../GetProfileInfo'
 
-export const ExaminationAuth: FC<PropsWithChildren> = ({ children }) => {
+export const ExaminationAuth = ({ children }: PropsWithChildren) => {
   const [isUserRole, setIsUserRole] = useState<string>('')
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(true)

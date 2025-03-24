@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
-export const AdminPluginsPage: FC = () => {
+export const AdminPluginsPage = () => {
   return <div>Admin Plugins Page</div>
 }

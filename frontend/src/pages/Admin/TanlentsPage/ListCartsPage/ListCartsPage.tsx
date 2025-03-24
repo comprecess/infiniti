@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { FC, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import {
   PagesMetaData,
@@ -14,7 +14,7 @@ import { getCartList } from '../../../../shared/utils/api/Admin/Talents/Cart/Get
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './ListCartsPage.module.scss'
 
-export const AdminListCartsPage: FC = () => {
+export const AdminListCartsPage = () => {
   const [page, setPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
   const [sortName, setSortName] = useState<string>('id')

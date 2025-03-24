@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { SettingsUserInputData } from '../../../../../app/constants/constants'
 import {
@@ -13,11 +13,12 @@ import { getUserInputData } from '../../../../../shared/utils/api/Admin/Settings
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './NewUserPage.module.scss'
 
-export const AdminNewUserPage: FC = () => {
-  const [formData, setFormData] = useState<PartialFieldsNewUserData | null>(
+export const AdminNewUserPage = () => {
+  const [formData, setFormData] =
+    useState<PartialFieldsNewUserData | null>(null)
+  const [inputData, setInputData] = useState<SettingsUserInputData | null>(
     null,
   )
-  const [inputData, setInputData] = useState<SettingsUserInputData | null>(null)
 
   const showToast = useCustomToast()
 

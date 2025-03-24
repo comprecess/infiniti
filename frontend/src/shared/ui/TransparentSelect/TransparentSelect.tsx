@@ -1,5 +1,4 @@
 import { Select } from '@chakra-ui/react'
-import { FC } from 'react'
 
 interface TransparentSelectProps {
   options: { value: string; label: string }[]
@@ -7,11 +6,11 @@ interface TransparentSelectProps {
   onChange: (value: string) => void
 }
 
-export const TransparentSelect: FC<TransparentSelectProps> = ({
+export const TransparentSelect = ({
   options,
   value,
   onChange,
-}) => {
+}: TransparentSelectProps) => {
   return (
     <Select
       width='auto'

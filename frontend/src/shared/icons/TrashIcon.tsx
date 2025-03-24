@@ -1,10 +1,8 @@
-import { FC } from 'react'
-
 interface IconProps {
   style?: string
 }
 
-export const TrashIcon: FC<IconProps> = ({ style }) => {
+export const TrashIcon = ({ style }: IconProps) => {
   return (
     <div className={style}>
       <svg

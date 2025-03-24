@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import { RecentInvoices } from '../../../features/Client/DashboardPage/RecentInvoices/RecentInvoices'
 import { RecentOffers } from '../../../features/Client/DashboardPage/RecentOffers/RecentOffers'
@@ -8,7 +8,7 @@ import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import { UserCard } from '../../../widgets/UserCard/UserCard'
 import styles from './DashboardPage.module.scss'
 
-export const ClientDashboardPage: FC = () => {
+export const ClientDashboardPage = () => {
   useEffect(() => {
     document.title = 'infiniti | Dashboard'
   }, [])

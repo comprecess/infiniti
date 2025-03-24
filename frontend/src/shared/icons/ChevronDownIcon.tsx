@@ -1,10 +1,8 @@
-import { FC } from 'react'
-
 interface ChevronDownIconProps {
   style?: string
 }
 
-export const ChevronDownIcon: FC<ChevronDownIconProps> = ({ style }) => {
+export const ChevronDownIcon = ({ style }: ChevronDownIconProps) => {
   return (
     <div className={style}>
       <svg

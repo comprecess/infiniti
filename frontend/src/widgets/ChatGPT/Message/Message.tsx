@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 
 import styles from './Message.module.scss'
 
@@ -9,12 +9,12 @@ interface MessageProps {
   isLoadingMessage?: boolean
 }
 
-export const Message: FC<MessageProps> = ({
+export const Message = ({
   text,
   type,
   timestamp,
   isLoadingMessage = false,
-}) => {
+}: MessageProps) => {
   const [copied, setCopied] = useState(false)
 
   const formatTime = (timestamp: string): string => {

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
   CurrencyProps,
@@ -18,7 +18,7 @@ import { getListOfActive } from '../../../../shared/utils/api/Admin/Currency/Get
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CurrenciesPage.module.scss'
 
-export const AdminCurrenciesPage: FC = () => {
+export const AdminCurrenciesPage = () => {
   const [currenciesList, setCurrenciesList] = useState<
   CurrencyProps[] | null
   >(null)

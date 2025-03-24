@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
-export const AdminPurchasePage: FC = () => {
+export const AdminPurchasePage = () => {
   return <div>Admin Purchase Page</div>
 }

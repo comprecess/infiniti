@@ -5,7 +5,7 @@ import {
   MenuItem,
   MenuList,
 } from '@chakra-ui/react'
-import { FC, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { ChevronDownIcon } from '../../../shared/icons/ChevronDownIcon'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
@@ -21,10 +21,7 @@ interface CountryListProps {
   onChange: (name: string, value: string) => void
 }
 
-export const CountryList: FC<CountryListProps> = ({
-  country,
-  onChange,
-}) => {
+export const CountryList = ({ country, onChange }: CountryListProps) => {
   const [item, setItem] = useState<string>(country || 'Select Country')
   const [allCountries, setAllCountries] = useState<[string, string][]>([])
 

@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { Item } from '../../../features/Client/BasketPage/BasketCart/Item/Item'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDivider } from '../../../shared/ui/CustomDivider/CustomDivider'
@@ -13,13 +11,13 @@ interface BasketProps {
   buttonOnClick?: () => void
 }
 
-export const Basket: FC<BasketProps> = ({
+export const Basket = ({
   isAdmin = false,
   subtotalCost,
   taxesAmount,
   totalPrice,
   buttonOnClick,
-}) => {
+}: BasketProps) => {
   return (
     <div className={styles.wrapper}>
       <h4 className={styles.title}>Your order</h4>

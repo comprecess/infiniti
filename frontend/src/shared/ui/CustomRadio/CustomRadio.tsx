@@ -1,5 +1,4 @@
 import { Radio, RadioGroup, Stack } from '@chakra-ui/react'
-import { FC } from 'react'
 
 import styles from './CustomRadio.module.scss'
 
@@ -11,13 +10,13 @@ interface CustomRadioProps {
   onChange: (value: string) => void
 }
 
-export const CustomRadio: FC<CustomRadioProps> = ({
+export const CustomRadio = ({
   title,
   direction = 'row',
   radioList,
   defaultValue,
   onChange,
-}) => {
+}: CustomRadioProps) => {
   const handleChange = (value: string) => {
     onChange(value)
   }

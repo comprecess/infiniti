@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import {
@@ -18,7 +18,7 @@ import { getListUsers } from '../../../../shared/utils/api/Admin/Settings/Users/
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './UsersPage.module.scss'
 
-export const AdminUsersPage: FC = () => {
+export const AdminUsersPage = () => {
   const [data, setData] = useState<{
     data: SettingsUsersData[]
     meta: PagesMetaData

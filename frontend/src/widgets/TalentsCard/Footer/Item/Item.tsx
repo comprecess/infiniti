@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './Item.module.scss'
 
 interface ItemProps {
@@ -7,7 +5,7 @@ interface ItemProps {
   description: string
 }
 
-export const Item: FC<ItemProps> = ({ title, description }) => {
+export const Item = ({ title, description }: ItemProps) => {
   return (
     <div className={styles.wrapper}>
       <h5 className={styles.title}>{title}</h5>

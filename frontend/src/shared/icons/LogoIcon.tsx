@@ -1,10 +1,8 @@
-import { FC } from 'react'
-
 interface LogoIcon {
   fill?: string
 }
 
-export const LogoIcon: FC<LogoIcon> = ({ fill }) => {
+export const LogoIcon = ({ fill }: LogoIcon) => {
   return (
     <div className={fill}>
       <svg

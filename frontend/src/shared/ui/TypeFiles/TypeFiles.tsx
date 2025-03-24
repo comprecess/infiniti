@@ -1,12 +1,10 @@
-import { FC } from 'react'
-
 import styles from './TypeFiles.module.scss'
 
 interface TypeFilesProps {
   type: string
 }
 
-export const TypeFiles: FC<TypeFilesProps> = ({ type }) => {
+export const TypeFiles = ({ type }: TypeFilesProps) => {
   let typeIcon = ''
 
   switch (type) {

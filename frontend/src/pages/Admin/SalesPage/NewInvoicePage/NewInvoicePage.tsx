@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import {
@@ -15,7 +15,7 @@ import { addNewInvoice } from '../../../../shared/utils/api/Admin/Sales/NewInvoi
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './NewInvoicePage.module.scss'
 
-export const AdminNewInvoicePage: FC = () => {
+export const AdminNewInvoicePage = () => {
   const [formData, setFormData] = useState<
   Partial<SalesNewInvoiceFormData>
   >({})

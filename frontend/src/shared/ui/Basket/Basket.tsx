@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { BasketIcon } from '../../icons/BasketIcon'
 import styles from './Basket.module.scss'
 import { Notification } from './Notification/Notification'
@@ -11,12 +9,12 @@ interface BasketProps {
   onIconClick: () => void
 }
 
-export const Basket: FC<BasketProps> = ({
+export const Basket = ({
   isActive,
   style,
   quantityGoods,
   onIconClick,
-}) => {
+}: BasketProps) => {
   return (
     <div
       className={

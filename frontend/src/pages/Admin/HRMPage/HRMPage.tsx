@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
-export const AdminHRMPage: FC = () => {
+export const AdminHRMPage = () => {
   return <div>Admin HRM Page</div>
 }

@@ -1,10 +1,8 @@
-import { FC } from 'react'
-
 interface RefreshIconProps {
   stroke?: string
 }
 
-export const RefreshIcon: FC<RefreshIconProps> = ({ stroke }) => {
+export const RefreshIcon = ({ stroke }: RefreshIconProps) => {
   return (
     <div className={stroke}>
       <svg

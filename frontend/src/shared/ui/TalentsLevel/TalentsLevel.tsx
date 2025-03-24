@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './TalentsLevel.module.scss'
 
 interface TalentsLevelProps {
@@ -13,7 +11,7 @@ const levelColors = {
   Junior: styles.statusJunior,
 }
 
-export const TalentsLevel: FC<TalentsLevelProps> = ({ title }) => {
+export const TalentsLevel = ({ title }: TalentsLevelProps) => {
   let levelStyle = ''
   let levelIcon = ''
 

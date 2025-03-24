@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import {
@@ -39,7 +39,7 @@ const useParamsFromUrl = () => {
   )
 }
 
-export const AdminCartToOfferPage: FC = () => {
+export const AdminCartToOfferPage = () => {
   const [formData, setFormData] = useState<PartialFieldsCartToOfferData>(
     {},
   )

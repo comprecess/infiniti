@@ -1,5 +1,4 @@
 import { Tag, TagCloseButton, TagLabel } from '@chakra-ui/react'
-import { FC } from 'react'
 
 import styles from './TagItem.module.scss'
 
@@ -8,7 +7,7 @@ interface TagProps {
   onRemove: () => void
 }
 
-export const TagItem: FC<TagProps> = ({ title, onRemove }) => {
+export const TagItem = ({ title, onRemove }: TagProps) => {
   return (
     <Tag height='28px' color='white' backgroundColor='mint.700'>
       <TagLabel className={styles.title}>{title}</TagLabel>

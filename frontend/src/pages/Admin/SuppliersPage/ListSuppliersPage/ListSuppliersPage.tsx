@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import saveAs from 'file-saver'
-import { FC, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import {
@@ -21,7 +21,7 @@ import { getCustomersList } from '../../../../shared/utils/api/Admin/ListCustome
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './ListSuppliersPage.module.scss'
 
-export const AdminListSuppliersPage: FC = () => {
+export const AdminListSuppliersPage = () => {
   const [page, setPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
   const [sortName, setSortName] = useState<string>('id')

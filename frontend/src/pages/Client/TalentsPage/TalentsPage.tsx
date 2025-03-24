@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
   FiltersData,
@@ -19,7 +19,7 @@ import { getUsersListInfo } from '../../../shared/utils/api/Client/Catalog/User/
 import { getSession } from '../../../shared/utils/Saving/Session/GetSession'
 import styles from './TalentsPage.module.scss'
 
-export const ClientTalentsPage: FC = () => {
+export const ClientTalentsPage = () => {
   const [activeCategory, setActiveCategory] = useState(0)
   const [sort, setSort] = useState({ name: 'priceDay', type: 'asc' })
   const [selectedFilters, setSelectedFilters] = useState<FiltersState>({})

@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
   CompaniesListProps,
@@ -21,7 +21,7 @@ import { getCompany } from '../../../../shared/utils/api/Admin/Companies/GetComp
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CompaniesPage.module.scss'
 
-export const AdminCompaniesPage: FC = () => {
+export const AdminCompaniesPage = () => {
   const [filteredCompanies, setFilteredCompanies] = useState<
   CompaniesListProps[] | null
   >(null)

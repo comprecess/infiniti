@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Routes } from '../../../app/router/routes'
@@ -7,7 +7,7 @@ import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { ProjectCard } from '../../../widgets/ProjectCard/ProjectCard'
 import styles from './ProjectsPage.module.scss'
 
-export const AdminProjectsPage: FC = () => {
+export const AdminProjectsPage = () => {
   const navigate = useNavigate()
 
   const navigateToCreateProject = () => {

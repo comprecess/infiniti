@@ -1,10 +1,8 @@
-import { FC } from 'react'
-
 interface IconProps {
   style?: string
 }
 
-export const LifebuoyIcon: FC<IconProps> = ({ style }) => {
+export const LifebuoyIcon = ({ style }: IconProps) => {
   return (
     <div className={style}>
       <svg

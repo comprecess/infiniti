@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './TalentsTag.module.scss'
 
 interface TalentsTagProps {
@@ -7,7 +5,7 @@ interface TalentsTagProps {
   maxWidth?: string
 }
 
-export const TalentsTag: FC<TalentsTagProps> = ({ title, maxWidth }) => {
+export const TalentsTag = ({ title, maxWidth }: TalentsTagProps) => {
   return (
     <div className={styles.wrapper} style={{ maxWidth }}>
       <span className={styles.title}>{title}</span>

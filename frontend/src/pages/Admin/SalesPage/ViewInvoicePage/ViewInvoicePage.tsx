@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import {
@@ -36,7 +36,7 @@ const useIdFromUrl = () => {
   )
 }
 
-export const AdminViewInvoicePage: FC = () => {
+export const AdminViewInvoicePage = () => {
   const [info, setInfo] = useState<SalesViewInvoiceData | null>(null)
 
   const [emailInfo, setEmailInfo] =

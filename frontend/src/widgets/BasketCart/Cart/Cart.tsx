@@ -1,4 +1,4 @@
-import { FC, Fragment } from 'react'
+import { Fragment } from 'react'
 
 import { ItemsCartProps } from '../../../app/constants/constants'
 import { Item } from '../../../features/Client/BasketPage/Item/Item'
@@ -14,7 +14,7 @@ interface CartProps {
   onDelete: () => void
 }
 
-export const Cart: FC<CartProps> = ({ cart, onDelete }) => {
+export const Cart = ({ cart, onDelete }: CartProps) => {
   const showToast = useCustomToast()
 
   const handleDelete = async (id: number) => {

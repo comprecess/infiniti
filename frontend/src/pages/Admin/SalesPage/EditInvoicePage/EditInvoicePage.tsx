@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import {
@@ -41,7 +41,7 @@ const useIdFromUrl = () => {
   )
 }
 
-export const AdminEditInvoicePage: FC = () => {
+export const AdminEditInvoicePage = () => {
   const [formData, setFormData] = useState<PartialFieldsData>({})
   const [data, setData] = useState<SalesEditInvoiceData | null>(null)
   const [inputData, setInputData] =

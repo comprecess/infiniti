@@ -1,5 +1,5 @@
 import saveAs from 'file-saver'
-import { FC, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import {
@@ -20,7 +20,7 @@ import { getListOffers } from '../../../../shared/utils/api/Admin/Sales/Offers/G
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './OffersPage.module.scss'
 
-export const AdminOffersPage: FC = () => {
+export const AdminOffersPage = () => {
   const [offers, setOffers] = useState<{
     data: SalesOffersListData[]
     meta: PagesMetaData

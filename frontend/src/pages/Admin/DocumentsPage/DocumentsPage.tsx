@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import {
   CustomersFilesData,
@@ -18,7 +18,7 @@ import { getCustomersFiles } from '../../../shared/utils/api/Admin/Files/GetCust
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './DocumentsPage.module.scss'
 
-export const AdminDocumentsPage: FC = () => {
+export const AdminDocumentsPage = () => {
   const [addDocModal, setAddDocModal] = useState<boolean>(false)
 
   const [page, setPage] = useState<number>(1)

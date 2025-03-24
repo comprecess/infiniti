@@ -1,7 +1,7 @@
 import './ThemeEditor.scss'
 
 import JoditEditor, { Jodit } from 'jodit-react'
-import { FC, useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 
 import { ChatGPTIcon } from '../../icons/ChatGPTIcon'
 import { postUserMessage } from '../../utils/api/Admin/ChatGPT/PostUserMessage'
@@ -17,13 +17,13 @@ interface TextEditorProps {
   setValue: (message: string) => void
 }
 
-export const TextEditor: FC<TextEditorProps> = ({
+export const TextEditor = ({
   defaultValue = '',
   placeholder = '',
   noFullScreen = false,
   chatGPT = false,
   setValue,
-}) => {
+}: TextEditorProps) => {
   const [isLoadingPrompt, setIsLoadingPrompt] = useState<boolean>(false)
 
   const editor = useRef<Jodit | null>(null)

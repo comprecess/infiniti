@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
-export const AdminUtilitiesPage: FC = () => {
+export const AdminUtilitiesPage = () => {
   return <div>Admin Utilities Page</div>
 }

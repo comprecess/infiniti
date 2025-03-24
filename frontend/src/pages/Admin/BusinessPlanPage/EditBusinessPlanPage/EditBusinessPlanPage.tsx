@@ -12,7 +12,9 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { getBusinessPlanInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/GetBusinessPlanInfo'
 import { getInputDataBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/GetInputDataBusinessPlan'
 import { putUpdateInfoBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/PutUpdateInfoBusinessPlan'
+import { getChatGPTAnalysis } from '../../../../shared/utils/api/Admin/ChatGPT/GetChatGPTAnalysis'
 import { getReadyPrompt } from '../../../../shared/utils/api/Admin/ChatGPT/GetReadyPrompt'
+import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditBusinessPlanPage.module.scss'
 import { ModalAddTalentTeam } from './ModalAddTalentTeam/ModalAddTalentTeam'
@@ -45,6 +47,8 @@ export const AdminEditBusinessPlanPage = () => {
 
   const id = useIdFromUrl()
   const showToast = useCustomToast()
+
+  const { chatGPTChangeForm, setChatGPTChangeForm } = useChatGPT()
 
   const getInfoPlan = async () => {
     if (!id) return
@@ -129,9 +133,32 @@ export const AdminEditBusinessPlanPage = () => {
     }
   }
 
+  const handleGetFormInfo = async () => {
+    const response = await getChatGPTAnalysis(
+      `?discussionModel=businessPlan`,
+    )
+
+    if (!response) return
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { access, status, ...filteredResponse } = response
+
+    setFormData(prevFormData => {
+      const updatedFormData = { ...prevFormData, ...filteredResponse }
+
+      return updatedFormData
+    })
+
+    setChatGPTChangeForm(false)
+  }
+
   useEffect(() => {
     document.title = 'infiniti | Edit Business Plan'
   }, [])
+
+  useEffect(() => {
+    if (chatGPTChangeForm) handleGetFormInfo()
+  }, [chatGPTChangeForm])
 
   useEffect(() => {
     getInfoPlan()

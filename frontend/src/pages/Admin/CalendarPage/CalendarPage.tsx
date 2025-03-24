@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
-export const AdminCalendarPage: FC = () => {
+export const AdminCalendarPage = () => {
   return <div>Admin Calendar Page</div>
 }

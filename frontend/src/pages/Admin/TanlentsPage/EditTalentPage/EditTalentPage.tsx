@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import {
@@ -38,7 +38,7 @@ const useIdFromUrl = () => {
   return id
 }
 
-export const AdminEditTalentPage: FC = () => {
+export const AdminEditTalentPage = () => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({})
 
   const [data, setData] = useState<TalentEditInfoData | null>(null)

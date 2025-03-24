@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './TitlePage.module.scss'
 
 interface TitlePageProps {
@@ -7,7 +5,7 @@ interface TitlePageProps {
   secondTitle?: string
 }
 
-export const TitlePage: FC<TitlePageProps> = ({ title, secondTitle }) => {
+export const TitlePage = ({ title, secondTitle }: TitlePageProps) => {
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.title}>{title}</h2>

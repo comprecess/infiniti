@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
   RolesAccess,
@@ -26,7 +26,7 @@ export interface FieldProps {
   showInvoice: number
 }
 
-export const AdminCustomContactFields: FC = () => {
+export const AdminCustomContactFields = () => {
   const [fields, setFields] = useState<SettingsCustomFieldsProps[] | null>(
     null,
   )

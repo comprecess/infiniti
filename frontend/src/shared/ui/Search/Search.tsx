@@ -1,4 +1,4 @@
-import { ChangeEvent, FC } from 'react'
+import { ChangeEvent } from 'react'
 
 import styles from './Search.module.scss'
 
@@ -7,14 +7,18 @@ interface SearchProps {
   onSearchChange: (searchItem: string) => void
 }
 
-export const Search: FC<SearchProps> = ({ style, onSearchChange }) => {
+export const Search = ({ style, onSearchChange }: SearchProps) => {
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     onSearchChange(e.target.value)
   }
 
   return (
     <div className={`${styles.wrapper} ${style}`}>
-      <img src='/icons/search.svg' alt='Search' className={styles.iconSearch} />
+      <img
+        src='/icons/search.svg'
+        alt='Search'
+        className={styles.iconSearch}
+      />
       <input
         type='text'
         placeholder='Search'

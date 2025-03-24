@@ -1,6 +1,6 @@
 import './Theme.scss'
 
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
 
 import styles from './CustomDataPicker.module.scss'
@@ -12,12 +12,12 @@ interface CustomDataPickerProps {
   onChange: (name: string, value: string) => void
 }
 
-export const CustomDataPicker: FC<CustomDataPickerProps> = ({
+export const CustomDataPicker = ({
   title,
   titleOnChange,
   value = '',
   onChange,
-}) => {
+}: CustomDataPickerProps) => {
   const [date, setDate] = useState<Date | null>(null)
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useRef } from 'react'
+import { ChangeEvent, useRef } from 'react'
 
 import { UserInfo } from '../../app/constants/constants'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
@@ -13,10 +13,10 @@ interface ProfileCardProps {
   onChangeInfo: () => void
 }
 
-export const ProfileCard: FC<ProfileCardProps> = ({
+export const ProfileCard = ({
   talent,
   onChangeInfo,
-}) => {
+}: ProfileCardProps) => {
   const showToast = useCustomToast()
   const inputRef = useRef<HTMLInputElement>(null)
 

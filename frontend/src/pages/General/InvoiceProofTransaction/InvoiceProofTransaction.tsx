@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { SalesViewInvoiceData } from '../../../app/constants/constants'
@@ -29,7 +29,7 @@ const useTokenFromUrl = () => {
   )
 }
 
-export const InvoiceProofTransaction: FC = () => {
+export const InvoiceProofTransaction = () => {
   const [formData, setFormData] = useState<{
     title?: string
     file?: File

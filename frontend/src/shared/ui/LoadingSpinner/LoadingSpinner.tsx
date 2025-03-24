@@ -1,15 +1,14 @@
 import { Spinner } from '@chakra-ui/react'
-import { FC } from 'react'
 
 interface LoadingSpinnerProps {
   color?: string
   size?: string
 }
 
-export const LoadingSpinner: FC<LoadingSpinnerProps> = ({
+export const LoadingSpinner = ({
   color = 'brand.500',
   size = 'lg',
-}) => {
+}: LoadingSpinnerProps) => {
   return (
     <Spinner
       color={color}

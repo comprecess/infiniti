@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { FC, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import {
   CustomersFilesData,
@@ -14,7 +14,7 @@ import { getCustomersFiles } from '../../../../shared/utils/api/Admin/Files/GetC
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './FilesPage.module.scss'
 
-export const AdminFilesPage: FC = () => {
+export const AdminFilesPage = () => {
   const [page, setPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
 

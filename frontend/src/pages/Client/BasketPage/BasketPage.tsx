@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { CartProps } from '../../../app/constants/constants'
@@ -13,7 +13,7 @@ import { Cart } from '../../../widgets/BasketCart/Cart/Cart'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './BasketPage.module.scss'
 
-export const ClientBasketPage: FC = () => {
+export const ClientBasketPage = () => {
   const [orders, setOrder] = useState<CartProps | null>(null)
 
   const navigate = useNavigate()

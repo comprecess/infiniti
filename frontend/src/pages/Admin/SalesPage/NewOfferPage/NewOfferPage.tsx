@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { SalesOfferInputData } from '../../../../app/constants/constants'
@@ -15,7 +15,7 @@ import { addNewOffer } from '../../../../shared/utils/api/Admin/Sales/NewOffer/P
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './NewOfferPage.module.scss'
 
-export const AdminNewOfferPage: FC = () => {
+export const AdminNewOfferPage = () => {
   const [formData, setFormData] = useState<
   Partial<PartialFieldsNewOfferData>
   >({})

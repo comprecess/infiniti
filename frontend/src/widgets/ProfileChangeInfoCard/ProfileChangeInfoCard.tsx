@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 
 import {
   UpdateProfileInfoProps,
@@ -17,10 +17,10 @@ interface ProfileChangeInfoCardProps {
   onChangeInfo: () => void
 }
 
-export const ProfileChangeInfoCard: FC<ProfileChangeInfoCardProps> = ({
+export const ProfileChangeInfoCard = ({
   talent,
   onChangeInfo,
-}) => {
+}: ProfileChangeInfoCardProps) => {
   const [formData, setFormData] = useState<
   Partial<UpdateProfileInfoProps>
   >({

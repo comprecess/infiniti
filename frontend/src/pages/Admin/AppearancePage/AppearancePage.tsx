@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
-export const AdminAppearancePage: FC = () => {
+export const AdminAppearancePage = () => {
   return <div>Admin Appearance Page</div>
 }

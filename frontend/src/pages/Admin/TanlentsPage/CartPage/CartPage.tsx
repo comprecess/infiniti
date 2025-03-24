@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import {
@@ -30,7 +30,7 @@ const useIdFromUrl = () => {
   )
 }
 
-export const AdminCartPage: FC = () => {
+export const AdminCartPage = () => {
   const [data, setData] = useState<{
     access: RolesAccess
     data: TalentsListCartsData

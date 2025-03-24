@@ -1,10 +1,8 @@
-import { FC } from 'react'
-
 interface MoreVertIconProps {
   fill?: string
 }
 
-export const MoreVertIcon: FC<MoreVertIconProps> = ({ fill }) => {
+export const MoreVertIcon = ({ fill }: MoreVertIconProps) => {
   return (
     <div className={fill}>
       <svg

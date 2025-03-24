@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { GroupsListProps } from '../../../../../app/constants/constants'
 import { RecentReorderGroups } from '../../../../../features/Admin/CustomersPage/GroupsPage/RecentReorderGroups/RecentReorderGroups'
@@ -9,7 +9,7 @@ import { sortGroups } from '../../../../../shared/utils/api/Admin/Groups/SortGro
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './ReorderGroupsPage.module.scss'
 
-export const AdminReorderGroupsPage: FC = () => {
+export const AdminReorderGroupsPage = () => {
   const [groups, setGroups] = useState<GroupsListProps[]>([])
 
   const showToast = useCustomToast()

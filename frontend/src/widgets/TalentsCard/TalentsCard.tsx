@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { TalentsProps } from '../../app/constants/constants'
 import { CustomDivider } from '../../shared/ui/CustomDivider/CustomDivider'
 import { Body } from './Body/Body'
@@ -14,12 +12,12 @@ interface TalentsCardProps {
   deleteTalent?: (idTalent: number) => void
 }
 
-export const TalentsCard: FC<TalentsCardProps> = ({
+export const TalentsCard = ({
   talent,
   isAdmin = false,
   addTalentInCart,
   deleteTalent,
-}) => {
+}: TalentsCardProps) => {
   return (
     <div className={styles.wrapper}>
       <Header

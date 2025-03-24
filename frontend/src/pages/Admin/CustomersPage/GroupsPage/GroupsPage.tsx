@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import {
@@ -20,7 +20,7 @@ import { getListGroups } from '../../../../shared/utils/api/Admin/Groups/GetGrou
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './GroupsPage.module.scss'
 
-export const AdminGroupsPage: FC = () => {
+export const AdminGroupsPage = () => {
   const [newGroup, setNewGroup] = useState<boolean>(false)
   const [modalEditGroups, setModalEditGroups] = useState<boolean>(false)
 

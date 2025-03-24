@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import {
@@ -38,7 +38,7 @@ const useIdFromUrl = () => {
   )
 }
 
-export const AdminEditUserPage: FC = () => {
+export const AdminEditUserPage = () => {
   const [formData, setFormData] =
     useState<PartialFieldsEditUserData | null>(null)
 

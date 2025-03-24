@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
   RolesAccess,
@@ -15,7 +15,7 @@ import { getInputDataRoles } from '../../../../../shared/utils/api/Admin/Setting
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './NewRolePage.module.scss'
 
-export const AdminNewRolePage: FC = () => {
+export const AdminNewRolePage = () => {
   const [formData, setFormData] = useState<{
     name: string
     access: SettingsRoleFormData[]

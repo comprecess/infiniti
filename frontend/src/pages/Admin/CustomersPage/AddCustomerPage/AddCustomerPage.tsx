@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { CustomerInputsData } from '../../../../app/constants/constants'
 import { Fields } from '../../../../features/Admin/CustomersPage/AddCustomer/Fields'
@@ -8,7 +8,7 @@ import { getCustomerInputsData } from '../../../../shared/utils/api/Admin/AddCus
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './AddCustomerPage.module.scss'
 
-export const AdminAddCustomerPage: FC = () => {
+export const AdminAddCustomerPage = () => {
   const [data, setData] = useState<CustomerInputsData | null>(null)
 
   const getInputsData = async () => {

@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './InfoItem.module.scss'
 
 interface InfoItemProps {
@@ -7,7 +5,7 @@ interface InfoItemProps {
   description: string
 }
 
-export const InfoItem: FC<InfoItemProps> = ({ title, description }) => {
+export const InfoItem = ({ title, description }: InfoItemProps) => {
   return (
     <div className={styles.wrapper}>
       <span className={styles.title}>{title}</span>
