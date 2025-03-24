@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { TalentsLevel } from '../../../shared/ui/TalentsLevel/TalentsLevel'
 import styles from './Header.module.scss'
 
@@ -11,13 +9,13 @@ interface HeaderProps {
   level: string
 }
 
-export const Header: FC<HeaderProps> = ({
+export const Header = ({
   avatar,
   name,
   specialization,
   location,
   level,
-}) => {
+}: HeaderProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.avatar}>

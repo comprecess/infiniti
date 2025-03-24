@@ -1,10 +1,8 @@
-import { FC } from 'react'
-
 interface IconProps {
   style?: string
 }
 
-export const EditPencilFill: FC<IconProps> = ({ style }) => {
+export const EditPencilFill = ({ style }: IconProps) => {
   return (
     <div className={style}>
       <svg

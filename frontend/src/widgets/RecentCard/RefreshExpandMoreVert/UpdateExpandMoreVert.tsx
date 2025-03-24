@@ -1,11 +1,9 @@
-import { FC } from 'react'
-
 import { ArrowsExpandIcon } from '../../../shared/icons/ArrowsExpandIcon'
 import { MoreVertIcon } from '../../../shared/icons/MoreVertIcon'
 import { RefreshIcon } from '../../../shared/icons/RefreshIcon'
 import styles from './UpdateExpandMoreVert.module.scss'
 
-export const UpdateExpandMoreVert: FC = () => {
+export const UpdateExpandMoreVert = () => {
   return (
     <div className={styles.wrapper}>
       <RefreshIcon stroke={`${styles.strokeHoverIcon} ${styles.icon}`} />

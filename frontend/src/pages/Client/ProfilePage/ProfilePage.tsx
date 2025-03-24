@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { UserInfo } from '../../../app/constants/constants'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
@@ -7,7 +7,7 @@ import { ProfileCard } from '../../../widgets/ProfileCard/ProfileCard'
 import { ProfileChangeInfoCard } from '../../../widgets/ProfileChangeInfoCard/ProfileChangeInfoCard'
 import styles from './ProfilePage.module.scss'
 
-export const ClientProfilePage: FC = () => {
+export const ClientProfilePage = () => {
   const [profileData, setProfileData] = useState<UserInfo>()
 
   const getProfileData = useCallback(async () => {

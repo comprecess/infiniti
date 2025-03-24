@@ -1,4 +1,4 @@
-import { FC, HTMLProps } from 'react'
+import { HTMLProps } from 'react'
 import { RegisterOptions, UseFormRegister } from 'react-hook-form'
 
 import styles from './Input.module.scss'
@@ -15,7 +15,7 @@ interface InputProps extends HTMLProps<HTMLInputElement> {
   validationRules?: RegisterOptions
 }
 
-export const Input: FC<InputProps> = ({
+export const Input = ({
   title,
   placeholder,
   typeInput = 'white',
@@ -25,7 +25,7 @@ export const Input: FC<InputProps> = ({
   disabled = false,
   validationRules,
   register,
-}) => {
+}: InputProps) => {
   return (
     <div className={styles.wrapper}>
       {title && (

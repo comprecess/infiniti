@@ -1,11 +1,11 @@
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import { Fields } from '../../../../features/Admin/Projects/CreateNewProject/Fields/Fields'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CreateNewProject.module.scss'
 
-export const AdminCreateNewProject: FC = () => {
+export const AdminCreateNewProject = () => {
   useEffect(() => {
     document.title = 'infiniti | Create Project'
   }, [])

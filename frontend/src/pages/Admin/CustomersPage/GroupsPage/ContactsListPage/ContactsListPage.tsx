@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { GroupContactsListProps } from '../../../../../app/constants/constants'
@@ -26,7 +26,7 @@ const useIdFromUrl = () => {
   return id
 }
 
-export const AdminContactsListPage: FC = () => {
+export const AdminContactsListPage = () => {
   const [contacts, setContacts] = useState<
   GroupContactsListProps[] | null
   >(null)

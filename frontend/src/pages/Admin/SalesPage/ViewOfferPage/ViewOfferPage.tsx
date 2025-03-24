@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import {
@@ -38,7 +38,7 @@ const useIdFromUrl = () => {
   )
 }
 
-export const AdminViewOfferPage: FC = () => {
+export const AdminViewOfferPage = () => {
   const [info, setInfo] = useState<SalesViewOfferData | null>(null)
 
   const [emailInfo, setEmailInfo] =

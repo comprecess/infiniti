@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { CrossIcon } from '../../icons/CrossIcon'
 import { ButtonBlue } from '../ButtonBlue/ButtonBlue'
 import { ButtonBrand } from '../ButtonBrand/ButtonBrand'
@@ -13,12 +11,12 @@ interface ConfirmationModalProps {
   agree: () => void
 }
 
-export const ConfirmationModal: FC<ConfirmationModalProps> = ({
+export const ConfirmationModal = ({
   title,
   isOpened,
   handleOpenCloseModal,
   agree,
-}) => {
+}: ConfirmationModalProps) => {
   return (
     <CustomModalWindow
       maxWidth={'400px'}

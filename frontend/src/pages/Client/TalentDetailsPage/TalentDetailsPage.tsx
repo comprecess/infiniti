@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { FC, useCallback, useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { TalentData } from '../../../app/constants/constants'
@@ -33,7 +33,7 @@ const useIdFromUrl = () => {
   return id
 }
 
-export const ClientTalentDetailsPage: FC = () => {
+export const ClientTalentDetailsPage = () => {
   const similarTalentsRef = useRef<HTMLDivElement>(null)
 
   const id = useIdFromUrl()

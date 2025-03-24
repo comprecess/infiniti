@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
@@ -16,7 +16,7 @@ import { deleteBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessP
 import { getListBusinessPlans } from '../../../../shared/utils/api/Admin/BusinessPlan/GetListBusinessPlans'
 import styles from './BusinessPlanPage.module.scss'
 
-export const AdminBusinessPlanPage: FC = () => {
+export const AdminBusinessPlanPage = () => {
   const { t } = useTranslation()
 
   const showToast = useCustomToast()

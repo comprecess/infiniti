@@ -6,7 +6,7 @@ import {
   PopoverTrigger,
   useDisclosure,
 } from '@chakra-ui/react'
-import { FC, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import {
@@ -29,7 +29,7 @@ interface ProfileProps {
 
 type ProfileData = UserInfo | AdminInfo
 
-export const Profile: FC<ProfileProps> = ({ isAdmin }) => {
+export const Profile = ({ isAdmin }: ProfileProps) => {
   const [profileData, setProfileData] = useState<ProfileData | null>(null)
 
   const { isOpen, onToggle, onClose } = useDisclosure()

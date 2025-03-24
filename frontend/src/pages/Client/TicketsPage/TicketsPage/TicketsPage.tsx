@@ -1,6 +1,6 @@
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 
-export const ClientTicketsPage: FC = () => {
+export const ClientTicketsPage = () => {
   useEffect(() => {
     document.title = 'infiniti | Tickets'
   }, [])

@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './ChartLegend.module.scss'
 
 interface ChartLegendProps {
@@ -7,7 +5,7 @@ interface ChartLegendProps {
   color: string
 }
 
-export const ChartLegend: FC<ChartLegendProps> = ({ title, color }) => {
+export const ChartLegend = ({ title, color }: ChartLegendProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={`${styles.cube} ${color}`} />

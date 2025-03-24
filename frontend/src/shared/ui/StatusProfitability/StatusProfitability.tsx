@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { LightningIcon } from '../../icons/LightningIcon'
 import styles from './StatusProfitability.module.scss'
 
@@ -13,9 +11,9 @@ const profitabilityColors = {
   veryHigh: styles.veryHigh,
 }
 
-export const StatusProfitability: FC<StatusProfitabilityProps> = ({
+export const StatusProfitability = ({
   profitability,
-}) => {
+}: StatusProfitabilityProps) => {
   let style = ''
 
   switch (profitability) {

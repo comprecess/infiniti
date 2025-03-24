@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './IconText.module.scss'
 
 interface IconTextProps {
@@ -11,14 +9,14 @@ interface IconTextProps {
   onClick?: () => void
 }
 
-export const IconText: FC<IconTextProps> = ({
+export const IconText = ({
   icon,
   text,
   style,
   styleIcon,
   styleText,
   onClick,
-}) => {
+}: IconTextProps) => {
   const handleClick = () => {
     if (onClick) {
       onClick()

@@ -1,10 +1,8 @@
-import { FC } from 'react'
-
 interface PhoneCallIcon {
   style?: string
 }
 
-export const PhoneCallIcon: FC<PhoneCallIcon> = ({ style }) => {
+export const PhoneCallIcon = ({ style }: PhoneCallIcon) => {
   return (
     <div className={style}>
       <svg

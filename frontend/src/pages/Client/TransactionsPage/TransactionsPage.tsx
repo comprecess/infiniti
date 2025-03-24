@@ -1,8 +1,8 @@
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import styles from './TransactionsPage.module.scss'
 
-export const ClientTransactionsPage: FC = () => {
+export const ClientTransactionsPage = () => {
   useEffect(() => {
     document.title = 'infiniti | Transactions'
   }, [])

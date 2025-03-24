@@ -1,12 +1,8 @@
-import { FC } from 'react'
-
 interface ArrowsExpandIconProps {
   stroke?: string
 }
 
-export const ArrowBackGroundIcon: FC<ArrowsExpandIconProps> = ({
-  stroke,
-}) => {
+export const ArrowBackGroundIcon = ({ stroke }: ArrowsExpandIconProps) => {
   return (
     <div className={stroke}>
       <svg

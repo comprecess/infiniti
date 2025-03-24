@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { ClientInvoiceData } from '../../../app/constants/constants'
 import { RecentInvoices } from '../../../features/Client/InvoicesPage/RecentInvoices/RecentInvoices'
@@ -7,7 +7,7 @@ import { getInvoiceOrOffer } from '../../../shared/utils/api/Client/GetInvoiceOr
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './InvoicesPage.module.scss'
 
-export const ClientInvoicesPage: FC = () => {
+export const ClientInvoicesPage = () => {
   const [invoices, setInvoices] = useState<ClientInvoiceData[] | null>(
     null,
   )

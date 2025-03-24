@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 
 import { ValuesProps } from '../../app/constants/constants'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
@@ -27,7 +27,7 @@ interface BusinessModelCardProps {
   onEdit: (id: number) => void
 }
 
-export const BusinessModelCard: FC<BusinessModelCardProps> = ({
+export const BusinessModelCard = ({
   id,
   title,
   image,
@@ -44,7 +44,7 @@ export const BusinessModelCard: FC<BusinessModelCardProps> = ({
   onDelete,
   onConvert,
   onEdit,
-}) => {
+}: BusinessModelCardProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
   const handleOpenConfirmationModal = () => {

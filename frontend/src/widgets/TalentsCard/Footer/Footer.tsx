@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
@@ -21,7 +21,7 @@ interface FooterProps {
   deleteTalent?: (idTalent: number) => void
 }
 
-export const Footer: FC<FooterProps> = ({
+export const Footer = ({
   id,
   inCart,
   dailyRate,
@@ -29,7 +29,7 @@ export const Footer: FC<FooterProps> = ({
   isAdmin,
   addTalentInCart,
   deleteTalent,
-}) => {
+}: FooterProps) => {
   const [modal, setModal] = useState<boolean>(false)
 
   const { t } = useTranslation()

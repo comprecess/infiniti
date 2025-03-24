@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
   FiltersState,
@@ -19,13 +19,13 @@ interface ParentChildrenProps {
   ) => void
 }
 
-export const Indeterminate: FC<ParentChildrenProps> = ({
+export const Indeterminate = ({
   languageTitle,
   isChecked,
   languageLevels,
   filters,
   onCheckboxChange,
-}) => {
+}: ParentChildrenProps) => {
   const initialCheckedState =
     languageLevels?.map(
       level => filters[level.propId]?.includes(level.id) || false,

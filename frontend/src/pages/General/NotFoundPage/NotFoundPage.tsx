@@ -1,11 +1,11 @@
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Routes } from '../../../app/router/routes'
 import { ButtonBrand } from '../../../shared/ui/ButtonBrand/ButtonBrand'
 import styles from './NotFoundPage.module.scss'
 
-export const NotFoundPage: FC = () => {
+export const NotFoundPage = () => {
   const navigate = useNavigate()
 
   const navigateToRoot = () => {

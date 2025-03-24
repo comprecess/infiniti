@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import {
@@ -15,7 +15,7 @@ import { getListRoles } from '../../../../shared/utils/api/Admin/Settings/Roles/
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './RolesPage.module.scss'
 
-export const AdminRolesPage: FC = () => {
+export const AdminRolesPage = () => {
   const [roles, setRoles] = useState<SettingsRolesData[] | null>(null)
 
   const [access, setAccess] = useState<RolesAccess | null>(null)

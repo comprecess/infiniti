@@ -1,10 +1,8 @@
-import { FC } from 'react'
-
 interface InfoIconProps {
   fill?: string
 }
 
-export const InfoIcon: FC<InfoIconProps> = ({ fill }) => {
+export const InfoIcon = ({ fill }: InfoIconProps) => {
   return (
     <div className={fill}>
       <svg

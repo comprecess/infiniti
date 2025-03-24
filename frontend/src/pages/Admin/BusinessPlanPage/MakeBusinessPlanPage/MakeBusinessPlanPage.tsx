@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Routes } from '../../../../app/router/routes'
@@ -12,7 +12,7 @@ import { newBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './MakeBusinessPlanPage.module.scss'
 
-export const AdminMakeBusinessPlanPage: FC = () => {
+export const AdminMakeBusinessPlanPage = () => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({})
 
   const showToast = useCustomToast()

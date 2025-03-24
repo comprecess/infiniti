@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './Status.module.scss'
 
 interface StatusProps {
@@ -25,7 +23,7 @@ const statusColors = {
   Decline: styles.statusDecline,
 }
 
-export const Status: FC<StatusProps> = ({ title, status }) => {
+export const Status = ({ title, status }: StatusProps) => {
   let statusStyle = ''
 
   switch (status) {

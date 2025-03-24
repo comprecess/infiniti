@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import { ArrowsExpandIcon } from '../../../shared/icons/ArrowsExpandIcon'
 import { ChevronIcon } from '../../../shared/icons/ChevronIcon'
 import { MoreVertIcon } from '../../../shared/icons/MoreVertIcon'
@@ -10,10 +8,10 @@ interface ChevronExpandMoreVertProps {
   handleChevronClick: () => void
 }
 
-export const ChevronExpandMoreVert: FC<ChevronExpandMoreVertProps> = ({
+export const ChevronExpandMoreVert = ({
   openContent,
   handleChevronClick,
-}) => {
+}: ChevronExpandMoreVertProps) => {
   return (
     <div className={styles.wrapper}>
       <ChevronIcon

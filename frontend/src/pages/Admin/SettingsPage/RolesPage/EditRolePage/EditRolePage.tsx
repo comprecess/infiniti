@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import {
@@ -33,7 +33,7 @@ const useIdFromUrl = () => {
   )
 }
 
-export const AdminEditRolePage: FC = () => {
+export const AdminEditRolePage = () => {
   const [formData, setFormData] = useState<{
     name: string
     access: SettingsRoleFormData[]

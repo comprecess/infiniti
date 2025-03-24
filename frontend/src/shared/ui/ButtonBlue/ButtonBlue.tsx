@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './ButtonBlue.module.scss'
 
 interface ButtonBlueProps {
@@ -14,7 +12,7 @@ interface ButtonBlueProps {
   onClick?: () => void
 }
 
-export const ButtonBlue: FC<ButtonBlueProps> = ({
+export const ButtonBlue = ({
   title,
   type,
   style,
@@ -24,7 +22,7 @@ export const ButtonBlue: FC<ButtonBlueProps> = ({
   disabled = false,
   titleNone = false,
   onClick,
-}) => {
+}: ButtonBlueProps) => {
   return (
     <button
       type={type}

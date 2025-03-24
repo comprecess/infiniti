@@ -1,8 +1,8 @@
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import styles from './MorePage.module.scss'
 
-export const AdminContactMorePage: FC = () => {
+export const AdminContactMorePage = () => {
   useEffect(() => {
     document.title = 'infiniti | Contact | More'
   }, [])

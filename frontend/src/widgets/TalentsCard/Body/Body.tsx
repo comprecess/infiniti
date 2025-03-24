@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import styles from './Body.module.scss'
@@ -9,7 +8,7 @@ interface BodyProps {
   keySkills: []
 }
 
-export const Body: FC<BodyProps> = ({ industries, keySkills }) => {
+export const Body = ({ industries, keySkills }: BodyProps) => {
   const { t } = useTranslation()
 
   return (

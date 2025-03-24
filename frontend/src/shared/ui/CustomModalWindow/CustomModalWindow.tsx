@@ -1,5 +1,5 @@
 import { Modal, ModalContent, ModalOverlay } from '@chakra-ui/react'
-import { FC, PropsWithChildren } from 'react'
+import { PropsWithChildren } from 'react'
 
 interface CustomModalWindowProps {
   isOpen: boolean
@@ -7,9 +7,12 @@ interface CustomModalWindowProps {
   maxWidth?: string
 }
 
-export const CustomModalWindow: FC<
-PropsWithChildren<CustomModalWindowProps>
-> = ({ isOpen, onClose, maxWidth, children }) => {
+export const CustomModalWindow = ({
+  isOpen,
+  onClose,
+  maxWidth,
+  children,
+}: PropsWithChildren<CustomModalWindowProps>) => {
   return (
     <Modal isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />

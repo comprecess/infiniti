@@ -1,10 +1,8 @@
-import { FC } from 'react'
-
 interface IconProps {
   style?: string
 }
 
-export const LightningIcon: FC<IconProps> = ({ style }) => {
+export const LightningIcon = ({ style }: IconProps) => {
   return (
     <div className={style}>
       <svg

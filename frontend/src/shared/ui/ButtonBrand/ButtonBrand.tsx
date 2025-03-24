@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import styles from './ButtonBrand.module.scss'
 
 interface ButtonBrandProps {
@@ -12,7 +10,7 @@ interface ButtonBrandProps {
   onClick?: () => void
 }
 
-export const ButtonBrand: FC<ButtonBrandProps> = ({
+export const ButtonBrand = ({
   title,
   type,
   style,
@@ -20,7 +18,7 @@ export const ButtonBrand: FC<ButtonBrandProps> = ({
   iconProps,
   titleNone = false,
   onClick,
-}) => {
+}: ButtonBrandProps) => {
   return (
     <button
       type={type}

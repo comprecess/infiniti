@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { SalesViewOfferData } from '../../../app/constants/constants'
@@ -30,7 +30,7 @@ const useTokenFromUrl = () => {
   )
 }
 
-export const OfferViewPage: FC = () => {
+export const OfferViewPage = () => {
   const [info, setInfo] = useState<SalesViewOfferData | null>(null)
 
   const [declineModal, setDeclineModal] = useState<boolean>(false)

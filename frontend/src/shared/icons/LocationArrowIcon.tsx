@@ -1,10 +1,8 @@
-import { FC } from 'react'
-
 interface IconProps {
   style?: string
 }
 
-export const LocationArrowIcon: FC<IconProps> = ({ style }) => {
+export const LocationArrowIcon = ({ style }: IconProps) => {
   return (
     <div className={style}>
       <svg

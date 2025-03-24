@@ -1,10 +1,8 @@
-import { FC } from 'react'
-
 interface CrossIconProps {
   style?: string
 }
 
-export const CrossIcon: FC<CrossIconProps> = ({ style }) => {
+export const CrossIcon = ({ style }: CrossIconProps) => {
   return (
     <div className={style}>
       <svg

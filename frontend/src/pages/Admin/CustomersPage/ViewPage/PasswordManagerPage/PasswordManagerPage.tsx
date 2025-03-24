@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import {
@@ -11,7 +11,7 @@ import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewC
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './PasswordManagerPage.module.scss'
 
-export const AdminContactPasswordManagerPage: FC = () => {
+export const AdminContactPasswordManagerPage = () => {
   const [data, setData] = useState<ViewPasswordManagerTypeData[] | null>(
     null,
   )

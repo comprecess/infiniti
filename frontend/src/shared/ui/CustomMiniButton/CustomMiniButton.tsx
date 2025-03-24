@@ -1,5 +1,4 @@
 import { Tooltip } from '@chakra-ui/react'
-import { FC } from 'react'
 
 import styles from './CustomMiniButton.module.scss'
 
@@ -20,14 +19,14 @@ const buttonStyles = {
   gray: styles.grayWrapper,
 }
 
-export const CustomMiniButton: FC<CustomMiniButtonProps> = ({
+export const CustomMiniButton = ({
   title,
   style,
   icon,
   alt,
   tooltipTitle,
   onClick,
-}) => {
+}: CustomMiniButtonProps) => {
   const buttonClass = buttonStyles[style]
 
   return (

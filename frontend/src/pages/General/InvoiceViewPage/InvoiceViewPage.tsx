@@ -1,6 +1,6 @@
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe, Stripe } from '@stripe/stripe-js'
-import { FC, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { SalesViewInvoiceData } from '../../../app/constants/constants'
@@ -30,7 +30,7 @@ const useTokenFromUrl = () => {
   )
 }
 
-export const InvoiceViewPage: FC = () => {
+export const InvoiceViewPage = () => {
   const [stripePromise, setStripePromise] = useState<Stripe | null>(null)
 
   const [info, setInfo] = useState<SalesViewInvoiceData | null>(null)

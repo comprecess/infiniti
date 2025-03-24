@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { ClientOfferData } from '../../../app/constants/constants'
 import { RecentTotal } from '../../../features/Client/OffersPage/RecentTotal/RecentTotal'
@@ -7,7 +7,7 @@ import { getInvoiceOrOffer } from '../../../shared/utils/api/Client/GetInvoiceOr
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './OffersPage.module.scss'
 
-export const ClientOffersPage: FC = () => {
+export const ClientOffersPage = () => {
   const [offers, setOffers] = useState<ClientOfferData[] | null>(null)
 
   const getOfferList = async () => {

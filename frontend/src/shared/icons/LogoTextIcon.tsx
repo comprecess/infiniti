@@ -1,10 +1,8 @@
-import { FC } from 'react'
-
 interface LogoTextIconProps {
   style?: string
 }
 
-export const LogoTextIcon: FC<LogoTextIconProps> = ({ style }) => {
+export const LogoTextIcon = ({ style }: LogoTextIconProps) => {
   return (
     <div className={style}>
       <svg

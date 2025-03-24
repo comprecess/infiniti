@@ -1,10 +1,8 @@
-import { FC } from 'react'
-
 import { LogoTextIcon } from '../../icons/LogoTextIcon'
 import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner'
 import styles from './LoadingScreen.module.scss'
 
-export const LoadingScreen: FC = () => {
+export const LoadingScreen = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>

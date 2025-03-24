@@ -1,5 +1,3 @@
-import { FC } from 'react'
-
 import {
   FiltersState,
   LanguagesList,
@@ -18,12 +16,12 @@ interface CheckBoxListProps {
   ) => void
 }
 
-export const CustomCheckBoxIndeterminate: FC<CheckBoxListProps> = ({
+export const CustomCheckBoxIndeterminate = ({
   languages,
   filters,
   searchItem,
   onCheckboxChange,
-}) => {
+}: CheckBoxListProps) => {
   let filteredLanguages = languages
 
   if (searchItem) {
