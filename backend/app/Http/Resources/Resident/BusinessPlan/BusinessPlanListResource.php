@@ -18,6 +18,7 @@ class BusinessPlanListResource extends JsonResource
         $data = [
             'id' => $this->id,
             'companyName' => $this->company_name,
+            'file' => $this->getLastFile(true),
             'exSummary' => $this->ex_summary
         ];
 

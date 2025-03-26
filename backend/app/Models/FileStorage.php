@@ -254,6 +254,10 @@ class FileStorage extends Model
             return null;
         }
 
-        return $this->replicate(['model_type' => get_class($model), 'model_id' => $model->id]);
+        $replicate =  $this->replicate(['model_type' => get_class($model), 'model_id' => $model->id]);
+
+        $replicate->model_type = get_class($model);
+        $replicate->model_id = $model->id;
+        return $replicate;
     }
 }

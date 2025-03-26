@@ -20,6 +20,7 @@ class BusinessPlanCreateRequest extends FormRequest implements ConvertingPropert
             'companyName' => "required|string",
             'exSummary' => "required|string",
             'date' => "nullable|date_format:Y-m-d",
+            'file' => 'nullable|image',
             'teams' => 'nullable|array',
             'teams.*' => [
                 'required',

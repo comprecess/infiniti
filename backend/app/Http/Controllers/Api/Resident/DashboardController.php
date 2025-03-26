@@ -137,7 +137,7 @@ class DashboardController extends ResidentController
 
             $data['account'] = [
                 'list' => AccountInfoResource::collection($accounts),
-                'netWorth' => $accountBalances->getNetWorth(),
+                'netWorth' => round($accountBalances->getNetWorth()),
                 'limit' => Config::get('networth_goal', 35000),
             ];
 

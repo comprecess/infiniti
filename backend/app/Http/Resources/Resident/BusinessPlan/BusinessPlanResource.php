@@ -35,7 +35,8 @@ class BusinessPlanResource extends JsonResource
             'investment' => $this->investment,
             'finance' => $this->finance,
             'appendix' => $this->appendix,
-            'teams' => $this->teams->pluck('id')
+            'teams' => $this->teams->pluck('id'),
+            'file' => $this->getLastFile(true),
         ];
 
         return $data;

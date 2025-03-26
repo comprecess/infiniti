@@ -22,7 +22,8 @@ class BusinessPlanController extends BusinessPlanAccessController
 
     public function list(Request $request)
     {
-        $query = BusinessPlan::orderByDesc('id');
+        $query = BusinessPlan::orderByDesc('id')
+        ->with(['files']);
 
         return $this->index($query, BusinessPlanListResource::class);
     }
@@ -41,6 +42,15 @@ class BusinessPlanController extends BusinessPlanAccessController
     {
         return $this->createOrUpdateCRUD($request, $plan, afterDataSet:function($model, $request){
             $model->teams()->sync($request->teams);
+
+            if($request->file) {
+                $files = $model->files;
+                $model->uploads($request->file);
+
+                $files->each(function($item){
+                    $item->delete();
+                });
+            }
         });
     }
 

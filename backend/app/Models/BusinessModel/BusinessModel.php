@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 use App\Models\Catalog\User as CatalogUser;
+use Illuminate\Support\Facades\App;
 
 class BusinessModel extends Model implements ChatGPTContract
 {
@@ -143,6 +144,14 @@ class BusinessModel extends Model implements ChatGPTContract
         $plan->save();
 
         $plan->teams()->sync($catalogUsers->pluck('id'));
+
+        foreach(array_reverse(self::TYPE_IMG) as $value){
+            $file = $this->getFileType($value);
+            if($file->count()) {
+                $file->first()->replicateNewModel($plan)->save();
+                break;
+            }
+        }
 
         return $plan;
     }
