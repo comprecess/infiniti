@@ -1,11 +1,16 @@
 import { Fragment, useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
-import { BusinessPlanNewPlanFormData } from '../../../../app/constants/constants'
+import {
+  BusinessPlanNewPlanFormData,
+  TalentInputDataBusinessPlan,
+} from '../../../../app/constants/constants'
+import { PeopleCard } from '../../../../features/Admin/BusinessPlanPage/EditBusinessPlanPage/Fields/Team/PeopleCard/PeopleCard'
 import { Item } from '../../../../features/Admin/BusinessPlanPage/ViewBusinessPlan/Item/Item'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getBusinessPlanFullInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/GetBusinessPlanFullInfo'
+import { getInputDataBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/GetInputDataBusinessPlan'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './ViewBusinessPlanPage.module.scss'
 
@@ -41,6 +46,9 @@ const sections = [
 export const AdminViewBusinessPlanPage = () => {
   const [fullInfo, setFullInfo] =
     useState<BusinessPlanNewPlanFormData | null>(null)
+  const [inputData, setInputData] = useState<
+  TalentInputDataBusinessPlan[] | null
+  >(null)
 
   const id = useIdFromUrl()
 
@@ -52,12 +60,20 @@ export const AdminViewBusinessPlanPage = () => {
     setFullInfo(response.data)
   }
 
+  const getInputData = async () => {
+    const response: { talents: TalentInputDataBusinessPlan[] } =
+      await getInputDataBusinessPlan()
+
+    setInputData(response.talents)
+  }
+
   useEffect(() => {
     document.title = 'infiniti | View Business Plan'
   }, [])
 
   useEffect(() => {
     getFullInfoBusinessPlan()
+    getInputData()
   }, [id])
 
   const filteredSections = sections.filter(
@@ -67,7 +83,7 @@ export const AdminViewBusinessPlanPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      {fullInfo ? (
+      {fullInfo && inputData ? (
         <section className={styles.section}>
           <div className={styles.header}>
             <img
@@ -106,6 +122,22 @@ export const AdminViewBusinessPlanPage = () => {
                 return (
                   <Fragment key={key}>
                     <Item title={title} content={content as string} />
+                    {key === 'management' && (
+                      <div className={styles.teamWrapper}>
+                        {fullInfo.teams &&
+                          fullInfo.teams.map(id => {
+                            return (
+                              <PeopleCard
+                                key={id}
+                                isRemove
+                                talent={inputData.find(
+                                  item => item.id === id,
+                                )}
+                              />
+                            )
+                          })}
+                      </div>
+                    )}
                     {index < filteredSections.length - 1 && (
                       <div className={styles.divider}>
                         <CustomDivider />

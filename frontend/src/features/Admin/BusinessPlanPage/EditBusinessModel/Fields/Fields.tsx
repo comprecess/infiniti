@@ -289,6 +289,7 @@ export const Fields = ({
         </span>
         <TextEditor
           chatGPT
+          fieldName='marketAnalysis'
           defaultValue={formData.marketAnalysis}
           setValue={message =>
             handleChangeInput('marketAnalysis', message)
@@ -301,6 +302,7 @@ export const Fields = ({
         </span>
         <TextEditor
           chatGPT
+          fieldName='financialModel'
           defaultValue={formData.financialModel}
           setValue={message =>
             handleChangeInput('financialModel', message)
@@ -313,6 +315,7 @@ export const Fields = ({
         </span>
         <TextEditor
           chatGPT
+          fieldName='currentInvestors'
           defaultValue={formData.currentInvestors}
           setValue={message =>
             handleChangeInput('currentInvestors', message)
@@ -325,6 +328,7 @@ export const Fields = ({
         </span>
         <TextEditor
           chatGPT
+          fieldName='stagesOfImplementation'
           defaultValue={formData.stagesOfImplementation}
           setValue={message =>
             handleChangeInput('stagesOfImplementation', message)
@@ -337,6 +341,7 @@ export const Fields = ({
         </span>
         <TextEditor
           chatGPT
+          fieldName='partnershipOptions'
           defaultValue={formData.partnershipOptions}
           setValue={message =>
             handleChangeInput('partnershipOptions', message)

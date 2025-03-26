@@ -1,4 +1,12 @@
-import { ReactNode, useState } from 'react'
+import './OpenItem.scss'
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Portal,
+} from '@chakra-ui/react'
+import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { ChevronDownIcon } from '../../../../shared/icons/ChevronDownIcon'
@@ -20,7 +28,9 @@ interface OpenItemProps {
   isActive: boolean
   path: string
   isMini?: boolean
+  isOpened: boolean
   onItemClick: (pageName: string) => void
+  onToggleOpen: (path: string) => void
 }
 
 export const OpenItem = ({
@@ -30,54 +40,90 @@ export const OpenItem = ({
   isActive,
   path,
   isMini,
+  isOpened,
   onItemClick,
+  onToggleOpen,
 }: OpenItemProps) => {
-  const [isOpened, setIsOpened] = useState<boolean>(false)
-
   const { t } = useTranslation()
 
-  const openPathList = () => {
-    if (!isMini) {
-      setIsOpened(!isOpened)
-    }
-  }
-
   return (
-    <div className={styles.wrapper}>
-      <div
-        className={
-          isActive ? styles.wrapperActive : styles.wrapperNotActive
-        }
-        onClick={() => openPathList()}
-      >
-        <div className={isMini ? styles.itemsIsMini : styles.items}>
-          <div className={styles.leftItems}>
-            <div className={styles.icon}>{icon}</div>
-            {isMini || (
-              <span className={styles.title}>{t(`${title}`)}</span>
-            )}
+    <Popover
+      closeOnBlur
+      placement='right'
+      isOpen={isMini && isOpened}
+      returnFocusOnClose={false}
+      onClose={() => onToggleOpen(path)}
+    >
+      <PopoverTrigger>
+        <div className={styles.wrapper}>
+          <div
+            className={
+              isActive ? styles.wrapperActive : styles.wrapperNotActive
+            }
+            onClick={() => onToggleOpen(path)}
+          >
+            <div className={isMini ? styles.itemsIsMini : styles.items}>
+              <div className={styles.leftItems}>
+                <div className={styles.icon}>{icon}</div>
+                {isMini || (
+                  <span className={styles.title}>{t(`${title}`)}</span>
+                )}
+              </div>
+              {isMini || (
+                <ChevronDownIcon
+                  style={
+                    isOpened
+                      ? styles.isOpenedPathsList
+                      : styles.chevronIcon
+                  }
+                />
+              )}
+            </div>
           </div>
-          {isMini || (
-            <ChevronDownIcon
-              style={
-                isOpened ? styles.isOpenedPathsList : styles.chevronIcon
-              }
-            />
-          )}
+          {!isOpened ||
+            isMini ||
+            openPath.map(item => {
+              return (
+                <Item
+                  key={item.id}
+                  title={item.title}
+                  isActive={false}
+                  path={''}
+                  onItemClick={() => onItemClick(path + '/' + item.path)}
+                />
+              )
+            })}
         </div>
-      </div>
-      {!isOpened ||
-        openPath.map(item => {
-          return (
-            <Item
-              key={item.id}
-              title={item.title}
-              isActive={false}
-              path={''}
-              onItemClick={() => onItemClick(path + '/' + item.path)}
-            />
-          )
-        })}
-    </div>
+      </PopoverTrigger>
+      <Portal>
+        <PopoverContent
+          className={styles.popoverContent}
+          padding={4}
+          _focus={{
+            outline: 'none',
+            boxShadow: '1px 1px 8px #acb2f3',
+            border: 'none',
+          }}
+          _active={{
+            outline: 'none',
+            boxShadow: '1px 1px 8px #acb2f3',
+            border: 'none',
+          }}
+        >
+          {openPath.map(item => {
+            return (
+              <Item
+                key={item.id}
+                title={item.title}
+                isActive={false}
+                isIcon={false}
+                path={''}
+                onItemClick={() => onItemClick(path + '/' + item.path)}
+              />
+            )
+          })}
+        </PopoverContent>
+      </Portal>
+    </Popover>
   )
 }

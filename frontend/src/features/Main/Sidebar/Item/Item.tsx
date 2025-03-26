@@ -6,6 +6,7 @@ import styles from './Item.module.scss'
 interface ItemProps {
   title?: string
   icon?: ReactNode
+  isIcon?: boolean
   isActive: boolean
   path: string
   isMini?: boolean
@@ -15,6 +16,7 @@ interface ItemProps {
 export const Item = ({
   title,
   icon,
+  isIcon = true,
   isActive,
   path,
   isMini,
@@ -29,7 +31,7 @@ export const Item = ({
     >
       <div className={isMini ? styles.itemsIsMini : styles.items}>
         <div className={styles.leftItems}>
-          <div className={styles.icon}>{icon}</div>
+          {isIcon && <div className={styles.icon}>{icon}</div>}
           {isMini || <span className={styles.title}>{t(`${title}`)}</span>}
         </div>
       </div>

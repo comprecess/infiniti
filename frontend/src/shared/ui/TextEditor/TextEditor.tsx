@@ -4,7 +4,7 @@ import JoditEditor, { Jodit } from 'jodit-react'
 import { useMemo, useRef, useState } from 'react'
 
 import { ChatGPTIcon } from '../../icons/ChatGPTIcon'
-import { postUserMessage } from '../../utils/api/Admin/ChatGPT/PostUserMessage'
+import { getReadyPrompt } from '../../utils/api/Admin/ChatGPT/GetReadyPrompt'
 import { sanitizeMessage } from '../../utils/TextEditor/sanitizeMessage'
 import { Icon } from '../Icon/Icon'
 import styles from './TextEditor.module.scss'
@@ -14,6 +14,7 @@ interface TextEditorProps {
   defaultValue?: string
   noFullScreen?: boolean
   chatGPT?: boolean
+  fieldName?: string
   setValue: (message: string) => void
 }
 
@@ -22,6 +23,7 @@ export const TextEditor = ({
   placeholder = '',
   noFullScreen = false,
   chatGPT = false,
+  fieldName,
   setValue,
 }: TextEditorProps) => {
   const [isLoadingPrompt, setIsLoadingPrompt] = useState<boolean>(false)
@@ -51,10 +53,8 @@ export const TextEditor = ({
       }
     }
 
-    const response = await postUserMessage(
-      defaultValue,
-      extraData?.id,
-      extraData?.type,
+    const response = await getReadyPrompt(
+      `?discussionId=${extraData?.id}&discussionModel=${extraData?.type}&message=${fieldName}`,
     )
 
     setIsLoadingPrompt(false)

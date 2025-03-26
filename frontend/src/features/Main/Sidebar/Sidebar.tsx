@@ -42,7 +42,14 @@ export const Sidebar = ({
   roles,
   onClose,
 }: SidebarProps) => {
+  const [touchStartX, setTouchStartX] = useState<number | null>(null)
+  const [touchEndX, setTouchEndX] = useState<number | null>(null)
+
   const [newPages, setNewPages] = useState<SidebarPage[] | null>(null)
+
+  const [isOpenedPages, setIsOpenedPages] = useState<{
+    [key: string]: boolean
+  }>({})
 
   const location = useLocation()
   const sidebarPages = isAdmin
@@ -51,8 +58,23 @@ export const Sidebar = ({
 
   const navigate = useNavigate()
 
+  const handleToggleOpen = (path: string) => {
+    setIsOpenedPages(prevState => {
+      const newState = { ...prevState }
+
+      Object.keys(newState).forEach(key => {
+        newState[key] = false
+      })
+
+      newState[path] = !prevState[path]
+
+      return newState
+    })
+  }
+
   const handleNavigate = useCallback(
     (path: string) => {
+      setIsOpenedPages({})
       navigate(path)
       if (isMobile) onClose()
     },
@@ -65,9 +87,6 @@ export const Sidebar = ({
     },
     [location.pathname, sidebarPages],
   )
-
-  const [touchStartX, setTouchStartX] = useState<number | null>(null)
-  const [touchEndX, setTouchEndX] = useState<number | null>(null)
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStartX(e.touches[0].clientX)
@@ -155,6 +174,12 @@ export const Sidebar = ({
   }
 
   useEffect(() => {
+    if (isMini) {
+      setIsOpenedPages({})
+    }
+  }, [isMini])
+
+  useEffect(() => {
     handleFilterPages()
   }, [pages])
 
@@ -207,8 +232,10 @@ export const Sidebar = ({
                       openPath={item.openPaths}
                       path={item.path}
                       isMini={isMini}
+                      isOpened={isOpenedPages[item.path] || false}
                       isActive={isActivePage(item.path)}
                       onItemClick={handleNavigate}
+                      onToggleOpen={handleToggleOpen}
                     />
                   ) : (
                     <Item

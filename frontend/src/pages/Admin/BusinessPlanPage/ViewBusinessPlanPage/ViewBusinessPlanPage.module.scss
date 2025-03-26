@@ -107,3 +107,11 @@
   line-height: 20px;
   letter-spacing: -0.03em;
 }
+
+.teamWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  width: 100%;
+  flex-wrap: wrap;
+}

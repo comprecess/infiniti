@@ -1119,6 +1119,7 @@ export interface BusinessPlanItemData {
   id: number
   companyName: string
   exSummary: string
+  file: string
 }
 
 export interface BusinessPlanNewPlanFormData {
@@ -1140,6 +1141,8 @@ export interface BusinessPlanNewPlanFormData {
   finance: string
   appendix: string
   teams: number[]
+  file: File
+  fileDelete: number
 }
 
 export interface BusinessPlanBusinessModelData {

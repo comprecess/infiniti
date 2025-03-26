@@ -26,7 +26,7 @@ export const Icon = ({
           } ${style}`
           : `${styles.wrapperStroke} ${
             hover ? styles.wrapperStrokeHover : ''
-          }${style}`
+          } ${style}`
       }
       onClick={onIconClick}
     >
