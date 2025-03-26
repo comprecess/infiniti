@@ -42,7 +42,14 @@ export const Sidebar = ({
   roles,
   onClose,
 }: SidebarProps) => {
+  const [touchStartX, setTouchStartX] = useState<number | null>(null)
+  const [touchEndX, setTouchEndX] = useState<number | null>(null)
+
   const [newPages, setNewPages] = useState<SidebarPage[] | null>(null)
+
+  const [isOpenedPages, setIsOpenedPages] = useState<{
+    [key: string]: boolean
+  }>({})
 
   const location = useLocation()
   const sidebarPages = isAdmin
@@ -51,8 +58,23 @@ export const Sidebar = ({
 
   const navigate = useNavigate()
 
+  const handleToggleOpen = (path: string) => {
+    setIsOpenedPages(prevState => {
+      const newState = { ...prevState }
+
+      Object.keys(newState).forEach(key => {
+        newState[key] = false
+      })
+
+      newState[path] = !prevState[path]
+
+      return newState
+    })
+  }
+
   const handleNavigate = useCallback(
     (path: string) => {
+      setIsOpenedPages({})
       navigate(path)
       if (isMobile) onClose()
     },
@@ -65,9 +87,6 @@ export const Sidebar = ({
     },
     [location.pathname, sidebarPages],
   )
-
-  const [touchStartX, setTouchStartX] = useState<number | null>(null)
-  const [touchEndX, setTouchEndX] = useState<number | null>(null)
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStartX(e.touches[0].clientX)
@@ -91,68 +110,74 @@ export const Sidebar = ({
   const handleFilterPages = () => {
     const newPages = roles
       ? (pages
-        .map(item => {
-          const newItem: SidebarPage = { ...item }
+          .map(item => {
+            const newItem: SidebarPage = { ...item }
 
-          if (newItem.shortName !== undefined) {
-            if (
-              newItem.shortName === 'accounting' &&
-                newItem.openPaths
-            ) {
-              const roleTransactions = roles.transactions
-              const roleBankNCash = roles.bank_n_cash
-              const roleAssets = roles.assets
-
+            if (newItem.shortName !== undefined) {
               if (
-                roleTransactions.view ||
+                newItem.shortName === 'accounting' &&
+                newItem.openPaths
+              ) {
+                const roleTransactions = roles.transactions
+                const roleBankNCash = roles.bank_n_cash
+                const roleAssets = roles.assets
+
+                if (
+                  roleTransactions.view ||
                   roleBankNCash.view ||
                   roleAssets.view
-              ) {
-                newItem.openPaths = newItem.openPaths.filter(page => {
-                  const role =
+                ) {
+                  newItem.openPaths = newItem.openPaths.filter(page => {
+                    const role =
                       page.shortName === 'transactions'
                         ? roleTransactions
                         : page.shortName === 'bank_n_cash'
-                          ? roleBankNCash
-                          : page.shortName === 'assets'
-                            ? roleAssets
-                            : null
+                        ? roleBankNCash
+                        : page.shortName === 'assets'
+                        ? roleAssets
+                        : null
 
-                  if (role) {
-                    return page.create ? role.create : role.view
-                  }
+                    if (role) {
+                      return page.create ? role.create : role.view
+                    }
 
-                  return false
-                })
+                    return false
+                  })
+                } else {
+                  return null
+                }
               } else {
-                return null
-              }
-            } else {
-              const roleView = roles[newItem.shortName]
+                const roleView = roles[newItem.shortName]
 
-              if (newItem.openPaths && roleView && roleView.view === 1) {
-                newItem.openPaths = newItem.openPaths.filter(page => {
-                  if (page.create === false) {
-                    return true
-                  }
+                if (newItem.openPaths && roleView && roleView.view === 1) {
+                  newItem.openPaths = newItem.openPaths.filter(page => {
+                    if (page.create === false) {
+                      return true
+                    }
 
-                  return page.create && roleView.create
-                })
-              }
+                    return page.create && roleView.create
+                  })
+                }
 
-              if (!(roleView && roleView.view === 1)) {
-                return null
+                if (!(roleView && roleView.view === 1)) {
+                  return null
+                }
               }
             }
-          }
 
-          return newItem
-        })
-        .filter(item => item !== null) as SidebarPage[])
+            return newItem
+          })
+          .filter(item => item !== null) as SidebarPage[])
       : pages
 
     setNewPages(newPages)
   }
+
+  useEffect(() => {
+    if (isMini) {
+      setIsOpenedPages({})
+    }
+  }, [isMini])
 
   useEffect(() => {
     handleFilterPages()
@@ -207,8 +232,10 @@ export const Sidebar = ({
                       openPath={item.openPaths}
                       path={item.path}
                       isMini={isMini}
+                      isOpened={isOpenedPages[item.path] || false}
                       isActive={isActivePage(item.path)}
                       onItemClick={handleNavigate}
+                      onToggleOpen={handleToggleOpen}
                     />
                   ) : (
                     <Item

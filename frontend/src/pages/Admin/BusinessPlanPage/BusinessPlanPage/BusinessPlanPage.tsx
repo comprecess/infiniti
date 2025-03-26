@@ -98,6 +98,7 @@ export const AdminBusinessPlanPage = () => {
                   idCard={plan.id}
                   title={plan.companyName}
                   description={plan.exSummary}
+                  picture={plan.file}
                   viewBusinessPlan={handleNavigateViewBusinessPlan}
                   editBusinessPlan={handleNavigateEditBusinessPlan}
                   deleteBusinessPlan={deletePlan}

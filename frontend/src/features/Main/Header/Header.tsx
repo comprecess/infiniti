@@ -15,7 +15,6 @@ import { getOrdersInCart } from '../../../shared/utils/api/Client/Cart/GetOrders
 import { ChatGPT } from '../../../widgets/ChatGPT/ChatGPT'
 import styles from './Header.module.scss'
 
-const IconMemo = memo(Icon)
 const BasketMemo = memo(Basket)
 const ProfileMemo = memo(Profile)
 
@@ -60,23 +59,23 @@ export const Header = ({
   return (
     <div className={styles.wrapper}>
       <div className={styles.itemsLeft}>
-        <IconMemo
+        <Icon
           fill={false}
           style={isMiniSidebar ? styles.reverseIcon : ''}
           icon={<ChevronsLeftIcon />}
           onIconClick={toggleMiniSidebar}
         />
-        <IconMemo icon={<LockIcon />} />
+        <Icon icon={<LockIcon />} />
       </div>
       <div className={styles.itemsRight}>
         {isAdmin ? (
           <>
             <ChatGPT />
-            <IconMemo
+            <Icon
               icon={<NotificationIndicatorIcon />}
               onIconClick={() => {}}
             />
-            <IconMemo icon={<NoteIcon />} onIconClick={() => {}} />
+            <Icon icon={<NoteIcon />} onIconClick={() => {}} />
           </>
         ) : (
           <BasketMemo
@@ -89,7 +88,7 @@ export const Header = ({
           />
         )}
         <ProfileMemo />
-        <IconMemo
+        <Icon
           fill={false}
           icon={<MenuIcon />}
           onIconClick={toggleSidebar}

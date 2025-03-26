@@ -1,4 +1,3 @@
-import { PartialFieldsPostData } from '../../../../../features/Admin/BusinessPlanPage/MakeBusinessPlanPage/Fields/Fields'
 import { getAuthToken } from '../../GetAuthToken'
 
 interface Response {
@@ -7,11 +6,21 @@ interface Response {
 }
 
 export const newBusinessPlan = async (
-  formData: PartialFieldsPostData,
+  formData: any,
 ): Promise<Response> => {
   const authToken = getAuthToken()
 
   if (authToken) {
+    const form = new FormData()
+
+    Object.keys(formData).forEach(key => {
+      const value = formData[key]
+
+      if (value !== undefined && value !== null) {
+        form.append(key, value)
+      }
+    })
+
     try {
       const response = await fetch(
         import.meta.env.VITE_MAIN_DOMAIN +
@@ -19,11 +28,10 @@ export const newBusinessPlan = async (
         {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
             Accept: 'application/json',
             Authorization: `Bearer ${authToken}`,
           },
-          body: JSON.stringify({ ...formData }),
+          body: form,
         },
       )
 

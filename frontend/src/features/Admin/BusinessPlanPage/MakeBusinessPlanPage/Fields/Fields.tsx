@@ -1,8 +1,10 @@
-import { Dispatch, SetStateAction } from 'react'
+import { ChangeEvent, Dispatch, SetStateAction, useRef } from 'react'
 
 import { BusinessPlanNewPlanFormData } from '../../../../../app/constants/constants'
+import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
+import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 import styles from './Fields.module.scss'
 
@@ -13,10 +15,46 @@ interface FieldsProps {
 
 export interface PartialFieldsPostData
   extends Partial<BusinessPlanNewPlanFormData> {
-  [key: string]: string | number | number[] | undefined | null
+  [key: string]: string | number | number[] | File | undefined | null
 }
 
 export const Fields = ({ formData, setFormData }: FieldsProps) => {
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const showToast = useCustomToast()
+
+  const handleButtonUploadContent = () => {
+    inputRef.current?.click()
+  }
+
+  const handlePictureChange = async (
+    event: ChangeEvent<HTMLInputElement>,
+    key: string,
+  ) => {
+    const files = event.target.files
+
+    if (files && files.length > 0) {
+      if (
+        !['image/jpeg', 'image/jpg', 'image/png', 'image/bmp'].includes(
+          files[0].type,
+        )
+      ) {
+        showToast({
+          title: 'Error',
+          description: 'Only JPEG and PNG images are allowed',
+          status: 'error',
+        })
+
+        return
+      }
+
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        [key]: files[0],
+      }))
+    }
+  }
+
   const handleChangeInput = (
     field: string,
     value: string | number | undefined | null,
@@ -83,6 +121,42 @@ export const Fields = ({ formData, setFormData }: FieldsProps) => {
         onChange={handleChangeInput}
       />
       <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>Picture</span>
+        <div className={styles.pictureContainer}>
+          <img
+            alt='Avatar'
+            className={styles.preview}
+            src={
+              formData.file
+                ? URL.createObjectURL(formData.file)
+                : '/test_3.jpeg'
+            }
+          />
+          <div className={styles.buttonsContainer}>
+            <div className={styles.uploadPicture}>
+              <ButtonBlue
+                title='Upload picture'
+                style={styles.buttonUpload}
+                onClick={handleButtonUploadContent}
+              />
+              <input
+                ref={inputRef}
+                type='file'
+                style={{ display: 'none' }}
+                onChange={event => handlePictureChange(event, 'file')}
+              />
+            </div>
+            {formData.file && (
+              <ButtonBlue
+                title='Remove picture'
+                style={styles.buttonRemove}
+                onClick={() => handleChangeInput('file', null)}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+      <div className={styles.containerItems}>
         <div className={styles.containerItemsTitleRow}>
           <span className={styles.containerItemsTitle}>
             Executive Summary
@@ -93,6 +167,7 @@ export const Fields = ({ formData, setFormData }: FieldsProps) => {
         </div>
         <TextEditor
           chatGPT
+          fieldName='exSummary'
           defaultValue={formData.exSummary}
           setValue={message => handleChangeInput('exSummary', message)}
         />
@@ -108,6 +183,7 @@ export const Fields = ({ formData, setFormData }: FieldsProps) => {
         </div>
         <TextEditor
           chatGPT
+          fieldName='description'
           defaultValue={formData.description}
           setValue={message => handleChangeInput('description', message)}
         />
@@ -123,6 +199,7 @@ export const Fields = ({ formData, setFormData }: FieldsProps) => {
         </div>
         <TextEditor
           chatGPT
+          fieldName='mAnalysis'
           defaultValue={formData.mAnalysis}
           setValue={message => handleChangeInput('mAnalysis', message)}
         />
@@ -138,6 +215,7 @@ export const Fields = ({ formData, setFormData }: FieldsProps) => {
         </div>
         <TextEditor
           chatGPT
+          fieldName='management'
           defaultValue={formData.management}
           setValue={message => handleChangeInput('management', message)}
         />
@@ -153,6 +231,7 @@ export const Fields = ({ formData, setFormData }: FieldsProps) => {
         </div>
         <TextEditor
           chatGPT
+          fieldName='product'
           defaultValue={formData.product}
           setValue={message => handleChangeInput('product', message)}
         />
@@ -168,6 +247,7 @@ export const Fields = ({ formData, setFormData }: FieldsProps) => {
         </div>
         <TextEditor
           chatGPT
+          fieldName='marketing'
           defaultValue={formData.marketing}
           setValue={message => handleChangeInput('marketing', message)}
         />
@@ -182,6 +262,7 @@ export const Fields = ({ formData, setFormData }: FieldsProps) => {
         </div>
         <TextEditor
           chatGPT
+          fieldName='budget'
           defaultValue={formData.budget}
           setValue={message => handleChangeInput('budget', message)}
         />
@@ -197,6 +278,7 @@ export const Fields = ({ formData, setFormData }: FieldsProps) => {
         </div>
         <TextEditor
           chatGPT
+          fieldName='investment'
           defaultValue={formData.investment}
           setValue={message => handleChangeInput('investment', message)}
         />
@@ -212,6 +294,7 @@ export const Fields = ({ formData, setFormData }: FieldsProps) => {
         </div>
         <TextEditor
           chatGPT
+          fieldName='finance'
           defaultValue={formData.finance}
           setValue={message => handleChangeInput('finance', message)}
         />
@@ -225,6 +308,7 @@ export const Fields = ({ formData, setFormData }: FieldsProps) => {
         </div>
         <TextEditor
           chatGPT
+          fieldName='appendix'
           defaultValue={formData.appendix}
           setValue={message => handleChangeInput('appendix', message)}
         />

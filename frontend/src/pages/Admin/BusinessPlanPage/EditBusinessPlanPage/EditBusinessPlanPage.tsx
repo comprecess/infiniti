@@ -39,7 +39,7 @@ export const AdminEditBusinessPlanPage = () => {
   const [formData, setFormData] =
     useState<Partial<BusinessPlanNewPlanFormData> | null>(null)
   const [inputData, setInputData] = useState<
-  TalentInputDataBusinessPlan[] | null
+    TalentInputDataBusinessPlan[] | null
   >(null)
 
   const [modalAddTalent, setModalAddTalent] = useState<boolean>(false)
@@ -137,6 +137,8 @@ export const AdminEditBusinessPlanPage = () => {
     const response = await getChatGPTAnalysis(
       `?discussionModel=businessPlan`,
     )
+
+    console.log(response)
 
     if (!response) return
 

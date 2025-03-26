@@ -11,6 +11,7 @@ interface CardPlanProps {
   idCard: number
   title: string
   description: string
+  picture: string
   viewBusinessPlan: (id: number) => void
   editBusinessPlan: (id: number) => void
   deleteBusinessPlan: (id: number) => void
@@ -21,6 +22,7 @@ export const CardPlan = ({
   idCard,
   title,
   description,
+  picture,
   viewBusinessPlan,
   editBusinessPlan,
   deleteBusinessPlan,
@@ -49,7 +51,11 @@ export const CardPlan = ({
   return (
     <>
       <div className={styles.wrapper}>
-        <img src='/test_3.jpeg' alt='Logo' className={styles.logo} />
+        <img
+          src={picture ?? '/test_3.jpeg'}
+          alt='Logo'
+          className={styles.logo}
+        />
         <div className={styles.content}>
           <div className={styles.texts}>
             <span className={styles.title}>{title}</span>

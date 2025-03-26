@@ -1,4 +1,3 @@
-import { BusinessPlanNewPlanFormData } from '../../../../../app/constants/constants'
 import { getAuthToken } from '../../GetAuthToken'
 
 interface Response {
@@ -8,24 +7,37 @@ interface Response {
 
 export const putUpdateInfoBusinessPlan = async (
   id: number,
-  formData: Partial<BusinessPlanNewPlanFormData>,
+  formData: any,
 ): Promise<Response> => {
   const authToken = getAuthToken()
 
   if (authToken) {
+    const form = new FormData()
+
+    Object.keys(formData).forEach(key => {
+      const value = formData[key]
+
+      if (Array.isArray(value)) {
+        value.forEach(item => {
+          form.append(`${key}[]`, item)
+        })
+      } else if (value !== undefined && value !== null) {
+        form.append(key, value)
+      }
+    })
+
     try {
       const response = await fetch(
         `${import.meta.env.VITE_MAIN_DOMAIN}${
           import.meta.env.VITE_BUSINESS_PLAN_UPDATE_INFO
         }${id}`,
         {
-          method: 'PUT',
+          method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
             Accept: 'application/json',
             Authorization: `Bearer ${authToken}`,
           },
-          body: JSON.stringify({ ...formData }),
+          body: form,
         },
       )
 
