@@ -126,7 +126,7 @@ Route::controller(Resident\BusinessPlan\BusinessPlanController::class)->prefix('
         Route::get('/input-data', 'inputData');
         Route::get('/{plan}', 'item');
         Route::post('/', 'createOrUpdate');
-        Route::put('/{plan}', 'createOrUpdate');
+        Route::match(['put', 'post'],'/{plan}', 'createOrUpdate');
         Route::delete('/{plan}', 'delete');
 //        Route::match(['put', 'delete'],'/{plan}/team/{id}', 'team');
     });
