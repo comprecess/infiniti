@@ -110,64 +110,64 @@ export const Sidebar = ({
   const handleFilterPages = () => {
     const newPages = roles
       ? (pages
-          .map(item => {
-            const newItem: SidebarPage = { ...item }
+        .map(item => {
+          const newItem: SidebarPage = { ...item }
 
-            if (newItem.shortName !== undefined) {
-              if (
-                newItem.shortName === 'accounting' &&
+          if (newItem.shortName !== undefined) {
+            if (
+              newItem.shortName === 'accounting' &&
                 newItem.openPaths
-              ) {
-                const roleTransactions = roles.transactions
-                const roleBankNCash = roles.bank_n_cash
-                const roleAssets = roles.assets
+            ) {
+              const roleTransactions = roles.transactions
+              const roleBankNCash = roles.bank_n_cash
+              const roleAssets = roles.assets
 
-                if (
-                  roleTransactions.view ||
+              if (
+                roleTransactions.view ||
                   roleBankNCash.view ||
                   roleAssets.view
-                ) {
-                  newItem.openPaths = newItem.openPaths.filter(page => {
-                    const role =
+              ) {
+                newItem.openPaths = newItem.openPaths.filter(page => {
+                  const role =
                       page.shortName === 'transactions'
                         ? roleTransactions
                         : page.shortName === 'bank_n_cash'
-                        ? roleBankNCash
-                        : page.shortName === 'assets'
-                        ? roleAssets
-                        : null
+                          ? roleBankNCash
+                          : page.shortName === 'assets'
+                            ? roleAssets
+                            : null
 
-                    if (role) {
-                      return page.create ? role.create : role.view
-                    }
+                  if (role) {
+                    return page.create ? role.create : role.view
+                  }
 
-                    return false
-                  })
-                } else {
-                  return null
-                }
+                  return false
+                })
               } else {
-                const roleView = roles[newItem.shortName]
+                return null
+              }
+            } else {
+              const roleView = roles[newItem.shortName]
 
-                if (newItem.openPaths && roleView && roleView.view === 1) {
-                  newItem.openPaths = newItem.openPaths.filter(page => {
-                    if (page.create === false) {
-                      return true
-                    }
+              if (newItem.openPaths && roleView && roleView.view === 1) {
+                newItem.openPaths = newItem.openPaths.filter(page => {
+                  if (page.create === false) {
+                    return true
+                  }
 
-                    return page.create && roleView.create
-                  })
-                }
+                  return page.create && roleView.create
+                })
+              }
 
-                if (!(roleView && roleView.view === 1)) {
-                  return null
-                }
+              if (!(roleView && roleView.view === 1)) {
+                return null
               }
             }
+          }
 
-            return newItem
-          })
-          .filter(item => item !== null) as SidebarPage[])
+          return newItem
+        })
+        .filter(item => item !== null) as SidebarPage[])
       : pages
 
     setNewPages(newPages)

@@ -21,7 +21,7 @@ interface FieldsProps {
   formData: Partial<BusinessPlanNewPlanFormData>
   inputData: TalentInputDataBusinessPlan[]
   setFormData: Dispatch<
-    SetStateAction<Partial<BusinessPlanNewPlanFormData> | null>
+  SetStateAction<Partial<BusinessPlanNewPlanFormData> | null>
   >
   setModalAddTalent: Dispatch<SetStateAction<boolean>>
   addNewTalentChatGPT: () => void
