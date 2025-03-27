@@ -22,8 +22,10 @@ use App\Models\Resident\Transactions\Category;
 use App\Models\Resident\Transactions\Transaction;
 use App\Models\Users\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class DashboardController extends ResidentController
 {
@@ -103,7 +105,7 @@ class DashboardController extends ResidentController
         });
 
         $data = [
-            'cashFlow' => $cashFlow
+            'cashFlow' => $cashFlow,
         ];
 
         $dataCache = Cache::remember('dash_all_' . $id, config('cache.time.1hour'), function() use($table) {
@@ -176,6 +178,10 @@ class DashboardController extends ResidentController
         });
 
         $data = array_merge($data, $dataCache);
+
+        if(Arr::get($data, 'account.netWorth', null) === null){
+            Log::alert('***netWorth*** its NULL');
+        }
 
 
         return response()->json($data);

@@ -149,7 +149,7 @@ class ChatGPT extends Model
                         $searchText[$column][] = ['position' => $length, 'word' => $word];
 
                     }
-                } while (($position = mb_strpos($text, $word)) !== false);
+                } while (($position = mb_strpos(strtolower($text), $word)) !== false);
             }
 
         }
@@ -198,7 +198,7 @@ class ChatGPT extends Model
         return null;
     }
 
-    public function toPrompt(?string $method = null, mixed $data = null)
+    public function toPrompt(?string $method = null, mixed $data = null, $request = null)
     {
         $method = $method ?? $this->namePrompt ?? $this->message;
         if(!$this->discussionModel || !$method) {
@@ -215,7 +215,7 @@ class ChatGPT extends Model
             $class = new $class();
 
             if(method_exists($class, $method)) {
-                return $class->{$method}($this, $data);
+                return $class->{$method}($this, $data, $request);
             }
 
         }catch (\Exception $e) {

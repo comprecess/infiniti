@@ -17,6 +17,7 @@ class ChatGPTRequest extends FormRequest
             'discussionId' => 'nullable',
             'discussionModel' => 'nullable|in:' . implode(',',array_keys(ChatGPT::DISCUSSION_MODEL)),
             'chatModel' => 'nullable|in:' . implode(',',ChatGPTService::MODEL),
+            'data' => 'nullable|array'
         ];
 
         if($this->method() !== 'GET') {
@@ -75,7 +76,8 @@ class ChatGPTRequest extends FormRequest
         }
 
         $chat = $this->getChatGPTDiscussion();
-        $chat->message = $this->namePrompt;
+        $chat->message = $this->message;
+        $chat->namePrompt = $this->namePrompt;
 
         return $chat;
     }

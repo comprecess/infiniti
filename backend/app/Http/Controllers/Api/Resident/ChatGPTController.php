@@ -193,7 +193,7 @@ class ChatGPTController extends ResidentController
 
         $answer = $answerQuery->first();
 
-        $analysis = Arr::get($answer->data, 'analysis');
+        $analysis = Arr::get($answer?->data ?? [], 'analysis');
         $chat = $answer->child;
 
         if($analysis && $chat) {
@@ -212,9 +212,10 @@ class ChatGPTController extends ResidentController
         $resource = $newModel->getResourceChat();
         $jsonResponse = json_decode((new $resource($newModel))->toJson(), true);
         foreach($jsonResponse as $key => $value) {
-            if(!$value) {
-                unset($jsonResponse[$key]);
+            if($value) {
+                $jsonResponse[snakeCaseToPascalCase($key)] = $value;
             }
+            unset($jsonResponse[$key]);
         }
 
         return response()->json($jsonResponse);
@@ -224,7 +225,7 @@ class ChatGPTController extends ResidentController
     {
 
         $chat = $request->getReadyPrompt();
-        $prompt = $chat->toPrompt();
+        $prompt = $chat->toPrompt(request: $request);
         $chatGpt = null;
 
         if($prompt instanceof ChatGPTService) {
@@ -240,7 +241,7 @@ class ChatGPTController extends ResidentController
 
         $chatGpt->send();
 
-        $response = $chat->toPrompt("{$chat->message}Response", $chatGpt);
+        $response = $chat->toPrompt("{$chat->message}Response", $chatGpt, $request);
         if($response) {
             return $response;
         }
