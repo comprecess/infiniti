@@ -36,11 +36,11 @@ export const router = createBrowserRouter([
   {
     path: Routes.adminPages,
     element: (
-      <ExaminationUser>
-        <ChatGPTProvider>
+      <ChatGPTProvider>
+        <ExaminationUser>
           <MainOutlet />
-        </ChatGPTProvider>
-      </ExaminationUser>
+        </ExaminationUser>
+      </ChatGPTProvider>
     ),
     children: [
       { path: Routes.dashboard, element: Pages.adminDashboardPage },

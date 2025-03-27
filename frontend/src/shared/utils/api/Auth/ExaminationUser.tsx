@@ -15,6 +15,10 @@ interface ChildProps {
   listRoles?: {
     [key: string]: {
       view: number
+      edit: number
+      create: number
+      delete: number
+      all: number
     }
   }
 }
