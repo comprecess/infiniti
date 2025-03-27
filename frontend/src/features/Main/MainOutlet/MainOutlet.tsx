@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useState } from 'react'
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 
 import { adminSidebarPages } from '../../../app/data/adminSidebarPages'
@@ -20,16 +20,21 @@ interface MainOutletProps {
 const MemoizedHeader = memo(Header)
 
 export const MainOutlet = ({ roles }: MainOutletProps) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
-  const [isMobile, setIsMobile] = useState(false)
-  const [isMiniSidebar, setIsMiniSidebar] = useState(false)
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true)
+  const [isMobile, setIsMobile] = useState<boolean>(false)
+  const [isMiniSidebar, setIsMiniSidebar] = useState<boolean>(false)
 
-  const [isReady, setIsReady] = useState(false)
+  const [isReady, setIsReady] = useState<boolean>(false)
+
+  const [isSidebarLocked, setIsSidebarLocked] = useState<boolean>(false)
+  const [sidebarHeight, setSidebarHeight] = useState<number>(0)
 
   const location = useLocation()
 
   const isAdmin = location.pathname.includes(Routes.adminPages)
   const sidebarPages = isAdmin ? adminSidebarPages : clientSidebarPages
+
+  const sidebarRef = useRef<HTMLDivElement | null>(null)
 
   const toggleSidebar = useCallback(() => {
     setIsSidebarOpen(prevState => !prevState)
@@ -65,6 +70,14 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
     }
   }, [isSidebarOpen, isMobile])
 
+  useEffect(() => {
+    if (sidebarRef.current && isSidebarOpen && isSidebarLocked) {
+      console.log(sidebarRef.current.clientHeight)
+
+      setSidebarHeight(sidebarRef.current.clientHeight)
+    }
+  }, [isSidebarLocked, isSidebarOpen, location.pathname])
+
   return (
     <div className={!isReady ? styles.wrapperLoading : styles.wrapper}>
       {!isReady ? (
@@ -72,12 +85,14 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
       ) : (
         <div className={styles.items}>
           <Sidebar
+            ref={sidebarRef}
             pages={sidebarPages}
             isMini={isMiniSidebar}
             isMobile={isMobile}
             isOpen={isSidebarOpen}
             isAdmin={isAdmin}
             roles={roles}
+            isLocked={isSidebarLocked}
             onClose={toggleSidebar}
           />
           <div
@@ -90,12 +105,17 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
             }
           >
             <MemoizedHeader
+              isSidebarLocked={isSidebarLocked}
               isMiniSidebar={isMiniSidebar}
+              setIsSidebarLocked={setIsSidebarLocked}
               toggleMiniSidebar={toggleMiniSidebar}
               toggleSidebar={toggleSidebar}
             />
           </div>
           <main
+            style={{
+              minHeight: `${sidebarHeight}px`,
+            }}
             className={
               isSidebarOpen
                 ? isMiniSidebar

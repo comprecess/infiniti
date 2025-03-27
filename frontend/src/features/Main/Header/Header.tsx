@@ -1,4 +1,11 @@
-import { memo, useEffect, useMemo, useState } from 'react'
+import {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { CartProps } from '../../../app/constants/constants'
@@ -20,12 +27,16 @@ const ProfileMemo = memo(Profile)
 
 interface HeaderProps {
   isMiniSidebar: boolean
+  isSidebarLocked: boolean
+  setIsSidebarLocked: Dispatch<SetStateAction<boolean>>
   toggleSidebar: () => void
   toggleMiniSidebar: () => void
 }
 
 export const Header = ({
   isMiniSidebar,
+  isSidebarLocked,
+  setIsSidebarLocked,
   toggleSidebar,
   toggleMiniSidebar,
 }: HeaderProps) => {
@@ -65,7 +76,11 @@ export const Header = ({
           icon={<ChevronsLeftIcon />}
           onIconClick={toggleMiniSidebar}
         />
-        <Icon icon={<LockIcon />} />
+        <Icon
+          icon={<LockIcon />}
+          style={isSidebarLocked ? styles.iconActive : ''}
+          onIconClick={() => setIsSidebarLocked(prev => !prev)}
+        />
       </div>
       <div className={styles.itemsRight}>
         {isAdmin ? (

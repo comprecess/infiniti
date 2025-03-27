@@ -7,8 +7,8 @@ import { LoadingScreen } from './shared/ui/LoadingScreen/LoadingScreen'
 import { getProfileInfo } from './shared/utils/api/GetProfileInfo'
 
 export const App = () => {
-  const [isLoading, setIsLoading] = useState(true)
-  const [showLoadingScreen, setShowLoadingScreen] = useState(true)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [showLoadingScreen, setShowLoadingScreen] = useState<boolean>(true)
 
   const { setColorMode } = useColorMode()
 

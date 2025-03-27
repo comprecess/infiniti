@@ -66,7 +66,7 @@ export const adminSidebarPages = [
     ],
 
     // Access
-    shortName: 'talents',
+    shortName: 'talent',
   },
   {
     id: 2,
