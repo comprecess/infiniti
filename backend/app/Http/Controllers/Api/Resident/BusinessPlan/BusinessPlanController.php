@@ -43,9 +43,11 @@ class BusinessPlanController extends BusinessPlanAccessController
         return $this->createOrUpdateCRUD($request, $plan, afterDataSet:function($model, $request){
             $model->teams()->sync($request->teams);
 
-            if($request->file) {
+            if($request->file || $request->fileDelete) {
                 $files = $model->files;
-                $model->uploads($request->file);
+                if($request->file) {
+                    $model->uploads($request->file);
+                }
 
                 $files->each(function($item){
                     $item->delete();
