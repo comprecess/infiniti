@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -52,6 +53,12 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'message' => 'Not Found',
             ], 404);
+        }
+
+        if($exception instanceof ThrottleRequestsException) {
+            return response()->json([
+                'message' => 'Limit request',
+            ], 509);
         }
 
         if($exception instanceof HttpException && in_array($exception->getStatusCode(), array_keys($message))) {
