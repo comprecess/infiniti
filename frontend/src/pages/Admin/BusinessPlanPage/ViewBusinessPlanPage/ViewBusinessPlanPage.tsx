@@ -47,7 +47,7 @@ export const AdminViewBusinessPlanPage = () => {
   const [fullInfo, setFullInfo] =
     useState<BusinessPlanNewPlanFormData | null>(null)
   const [inputData, setInputData] = useState<
-  TalentInputDataBusinessPlan[] | null
+    TalentInputDataBusinessPlan[] | null
   >(null)
 
   const id = useIdFromUrl()
@@ -129,7 +129,6 @@ export const AdminViewBusinessPlanPage = () => {
                             return (
                               <PeopleCard
                                 key={id}
-                                isRemove
                                 talent={inputData.find(
                                   item => item.id === id,
                                 )}

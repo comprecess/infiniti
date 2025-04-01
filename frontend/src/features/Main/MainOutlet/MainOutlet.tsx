@@ -27,7 +27,8 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
   const [isReady, setIsReady] = useState<boolean>(false)
 
   const [isSidebarLocked, setIsSidebarLocked] = useState<boolean>(false)
-  const [sidebarHeight, setSidebarHeight] = useState<number>(0)
+
+  const sidebarHeight = 1452
 
   const location = useLocation()
 
@@ -70,14 +71,6 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
     }
   }, [isSidebarOpen, isMobile])
 
-  useEffect(() => {
-    if (sidebarRef.current && isSidebarOpen && isSidebarLocked) {
-      console.log(sidebarRef.current.clientHeight)
-
-      setSidebarHeight(sidebarRef.current.clientHeight)
-    }
-  }, [isSidebarLocked, isSidebarOpen, location.pathname])
-
   return (
     <div className={!isReady ? styles.wrapperLoading : styles.wrapper}>
       {!isReady ? (
@@ -113,9 +106,13 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
             />
           </div>
           <main
-            style={{
-              minHeight: `${sidebarHeight}px`,
-            }}
+            style={
+              isSidebarLocked
+                ? {
+                    minHeight: `${sidebarHeight}px`,
+                  }
+                : {}
+            }
             className={
               isSidebarOpen
                 ? isMiniSidebar
