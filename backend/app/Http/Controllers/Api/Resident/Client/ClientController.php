@@ -41,6 +41,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use Illuminate\Http\Request;
 
 class ClientController extends MainClientController
 {
@@ -436,8 +437,11 @@ class ClientController extends MainClientController
         $this->client->documents()/*->where('ib_doc_rel.id', $requestData->id)*/->detach([$requestData->id]);
     }
 
-    public function test()
+    public function test(Request $request)
     {
+//        dd(file_get_contents("php://input", "+r"));
+//        dd($request->getContent());
+
 //        $invoice = Invoice::find(69);
 ////        return view('emails.create-pay', ['invoice' => $invoice]);
 //        $redis = Redis::connections();

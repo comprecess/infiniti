@@ -46,8 +46,8 @@ class DashboardController extends ResidentController
             'invoices' => ['model' => Invoice::class, 'resource' => InvoiceListResource::class, 'with' => ['user', 'user.files', 'user.companyClient', 'user.group']],
         ];
 
-        $id = auth()->id();
-        $cashFlow = Cache::remember('dash_' . $id, config('cache.time.1hour'), function(){
+//        $id = auth()->id();
+//        $cashFlow = Cache::remember('dash_' . $id, config('cache.time.1hour'), function(){
             $cashFlow = [];
 
             $cashFlow['client'] = Client::hasType()->checkAccess(...self::ACCESS)->count();
@@ -101,15 +101,15 @@ class DashboardController extends ResidentController
 
             }
 
-            return $cashFlow;
-        });
+//            return $cashFlow;
+//        });
 
         $data = [
             'cashFlow' => $cashFlow,
         ];
 
-        $dataCache = Cache::remember('dash_all_' . $id, config('cache.time.1hour'), function() use($table) {
-            $data = [];
+//        $dataCache = Cache::remember('dash_all_' . $id, config('cache.time.1hour'), function() use($table) {
+            $dataCache = [];
             /*
             $currentMonth = Carbon::now();
             $currentMonth->setDay(1);
@@ -124,7 +124,7 @@ class DashboardController extends ResidentController
                 return $item->type == Transaction::TYPE[1];
             });
 
-            $data['incomeVsExpense'] = ['income' => $income->profit(), 'expense' => $expense->expense()];
+            $dataCache['incomeVsExpense'] = ['income' => $income->profit(), 'expense' => $expense->expense()];
             */
             /*
                     $cats = Category::where('type', Category::TYPE[0])
@@ -132,12 +132,12 @@ class DashboardController extends ResidentController
                         ->limit(10)
                         ->get();
 
-                    $data['expenseCats'] = CategoryInfoResource::collection($cats);
+                    $dataCache['expenseCats'] = CategoryInfoResource::collection($cats);
             */
             $accounts = Account::checkAccess('all', 'bank_n_cash')->get();
             $accountBalances = Transaction::checkAccess('all', 'bank_n_cash')->get();
 
-            $data['account'] = [
+            $dataCache['account'] = [
                 'list' => AccountInfoResource::collection($accounts),
                 'netWorth' => round($accountBalances->getNetWorth()),
                 'limit' => Config::get('networth_goal', 35000),
@@ -151,7 +151,7 @@ class DashboardController extends ResidentController
                     ->orderBy('id', 'desc')
                     ->get();
 
-                $data[$name] = TransactionResource::collection($query);
+                $dataCache[$name] = TransactionResource::collection($query);
             }
 
 
@@ -161,7 +161,7 @@ class DashboardController extends ResidentController
             foreach ($status as $stat) {
                 $dataPrecent[$stat] = Invoice::checkAccess('all', 'transactions')->where('status', $stat)->count();
             }
-            $data['invoiceStatus'] = array_percentage($dataPrecent);
+            $dataCache['invoiceStatus'] = array_percentage($dataPrecent);
 
 
             foreach ($table as $key => $value) {
@@ -171,17 +171,13 @@ class DashboardController extends ResidentController
                 if(isset($value['with'])) {
                     $query->with($value['with']);
                 }
-                $data[$key] = $resource::collection($query->get());
+                $dataCache[$key] = $resource::collection($query->get());
             }
 
-            return $data;
-        });
+//            return $dataCache;
+//        });
 
         $data = array_merge($data, $dataCache);
-
-        if(Arr::get($data, 'account.netWorth', null) === null){
-            Log::alert('***netWorth*** its NULL');
-        }
 
 
         return response()->json($data);
