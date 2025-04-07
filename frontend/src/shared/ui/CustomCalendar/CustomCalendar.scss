@@ -1,0 +1,121 @@
+[data-vc-date] {
+  padding-left: 0.0625rem;
+}
+
+.vc-date__btn {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 0.875rem;
+  border-radius: 0.625rem;
+}
+
+.event-indicator {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: $cherry-600;
+  border-radius: 50%;
+}
+
+[data-vc-theme='dark'].vc {
+  background-color: $brand-900;
+}
+
+[data-vc-theme='dark'] .vc-date__btn {
+  background-color: $brand-800;
+  color: $gray-300;
+}
+
+[data-vc-theme='dark']
+  .vc-date[data-vc-date-holiday][data-vc-date-selected]
+  .vc-date__btn,
+[data-vc-theme='dark']
+  .vc-date[data-vc-date-weekend][data-vc-date-selected]
+  .vc-date__btn {
+  background-color: $cherry-500 !important;
+}
+
+[data-vc-theme='dark']
+  .vc-date[data-vc-date-weekend][data-vc-date-selected]
+  .vc-date__btn:hover {
+  background-color: $cherry-500 !important;
+}
+
+[data-vc-theme='dark'] .vc-date[data-vc-date-weekend] .vc-date__btn {
+  color: $cherry-500 !important;
+}
+
+[data-vc-theme='dark'] .vc-week__day[data-vc-week-day-off] {
+  color: $cherry-500;
+}
+
+[data-vc-theme='dark'] .vc-month:hover {
+  color: $gray-300;
+}
+
+[data-vc-theme='dark'] .vc-year:hover {
+  color: $gray-300;
+}
+
+[data-vc-theme='dark'] .vc-date[data-vc-date-selected] .vc-date__btn {
+  background-color: $brand-500 !important;
+  color: $white !important;
+}
+
+[data-vc-theme='dark'] .vc-date[data-vc-date-weekend] .vc-date__btn:hover {
+  background-color: $gray-600;
+}
+
+[data-vc-theme='dark'] .vc-date__btn:hover {
+  background-color: $gray-500;
+}
+
+[data-vc-theme='dark'] .vc-date[data-vc-date-weekend] .vc-date__btn:hover {
+  background-color: $gray-500;
+}
+
+[data-vc-theme='dark']
+  .vc-date[data-vc-date-selected]
+  .vc-date__btn:hover {
+  background-color: $brand-500;
+}
+
+[data-vc-theme='dark'] .vc-date[data-vc-date-today] .vc-date__btn {
+  background-color: rgb(48, 63, 225, 0.2);
+  color: $brand-400;
+}
+
+[data-vc-theme='dark'] .vc-date[data-vc-date-today] .vc-date__btn:hover {
+  color: $brand-400;
+}
+
+[data-vc-theme='dark'] .vc-years__year {
+  background-color: $brand-800;
+}
+
+[data-vc-theme='dark'] .vc-years__year:hover {
+  background-color: $gray-600;
+}
+
+[data-vc-theme='dark'] .vc-months__month {
+  background-color: $brand-800;
+}
+
+[data-vc-theme='dark'] .vc-months__month:hover {
+  background-color: $gray-600;
+}
+
+[data-vc-theme='dark'] .vc-months__month[data-vc-months-month-selected] {
+  background-color: $gray-400;
+}
+
+[data-vc-theme='dark']
+  .vc-months__month[data-vc-months-month-selected]:hover {
+  background-color: $gray-400;
+}
+
+[data-vc='calendar'] {
+  border-radius: 0 0 0 0;
+}

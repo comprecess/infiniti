@@ -17,12 +17,14 @@ interface TalentCardProps {
   isAdmin?: boolean
   talent: TalentData
   showSimilar: () => void
+  onPhone: () => void
 }
 
 export const TalentCard = ({
   isAdmin = false,
   talent,
   showSimilar,
+  onPhone,
 }: TalentCardProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [modalWidth, setModalWidth] = useState<string>('800px')
@@ -69,7 +71,7 @@ export const TalentCard = ({
           </div>
           <div className={styles.nameAndCall}>
             <span className={styles.name}>{talent.name}</span>
-            <div className={styles.callIconWrapper}>
+            <div className={styles.callIconWrapper} onClick={onPhone}>
               <PhoneCallIcon style={styles.callIcon} />
             </div>
           </div>

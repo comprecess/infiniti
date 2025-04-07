@@ -47,7 +47,7 @@ export const AdminViewBusinessPlanPage = () => {
   const [fullInfo, setFullInfo] =
     useState<BusinessPlanNewPlanFormData | null>(null)
   const [inputData, setInputData] = useState<
-    TalentInputDataBusinessPlan[] | null
+  TalentInputDataBusinessPlan[] | null
   >(null)
 
   const id = useIdFromUrl()
