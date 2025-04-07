@@ -1,0 +1,69 @@
+import { useEffect, useState } from 'react'
+
+import i18n from '../../i18n'
+import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
+import { CustomCalendar } from '../../shared/ui/CustomCalendar/CustomCalendar'
+import { CustomDivider } from '../../shared/ui/CustomDivider/CustomDivider'
+import { CustomModalWindow } from '../../shared/ui/CustomModalWindow/CustomModalWindow'
+import { CustomTimePicker } from '../../shared/ui/CustomTimePicker/CustomTimePicker'
+import styles from './CreatingCallModal.module.scss'
+
+interface CreatingCallModalProps {
+  isOpen: boolean
+  onClose: () => void
+}
+
+export const CreatingCallModal = ({
+  isOpen,
+  onClose,
+}: CreatingCallModalProps) => {
+  const [selectedDates, setSelectedDates] = useState<string[] | null>(null)
+
+  const [isMobile, setIsMobile] = useState<boolean>(false)
+
+  console.log(selectedDates)
+
+  useEffect(() => {
+    const handleResize = () => {
+      const isMobileView = window.innerWidth <= 1000
+
+      setIsMobile(isMobileView)
+    }
+
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
+
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  return (
+    <CustomModalWindow
+      isOpen={isOpen}
+      maxWidth={isMobile ? '335px' : '670px'}
+      padding='0px'
+      backgroundColor='transparent'
+      onClose={onClose}
+    >
+      <div className={styles.titleWrapper}>
+        <span className={styles.title}>Select a date for the call</span>
+      </div>
+      <CustomDivider />
+      <CustomCalendar
+        dates={null}
+        config={{
+          type: isMobile ? 'default' : 'multiple',
+          selectionDatesMode: 'single',
+          locale: i18n.language,
+          onClickDate(self) {
+            setSelectedDates(self.context.selectedDates)
+          },
+        }}
+      />
+      <div className={styles.footer}>
+        <CustomTimePicker title='Time' setSelectedTime={() => {}} />
+        <ButtonBlue title='Create a Call' style={styles.buttonSubmit} />
+      </div>
+    </CustomModalWindow>
+  )
+}

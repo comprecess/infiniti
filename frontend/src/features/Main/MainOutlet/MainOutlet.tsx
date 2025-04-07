@@ -109,8 +109,8 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
             style={
               isSidebarLocked
                 ? {
-                    minHeight: `${sidebarHeight}px`,
-                  }
+                  minHeight: `${sidebarHeight}px`,
+                }
                 : {}
             }
             className={

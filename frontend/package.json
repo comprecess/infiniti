@@ -10,16 +10,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@base-ui-components/react": "^1.0.0-alpha.7",
     "@chakra-ui/anatomy": "^2.2.2",
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@mui/material": "^7.0.1",
+    "@mui/system": "5.15.14",
+    "@mui/x-date-pickers": "^7.28.3",
     "@stripe/react-stripe-js": "^3.0.0",
     "@stripe/stripe-js": "^5.2.0",
     "@tanstack/react-query": "^5.64.1",
     "@types/dompurify": "^3.0.5",
     "@types/react-dnd": "^3.0.2",
     "apexcharts": "^3.54.1",
+    "dayjs": "^1.11.13",
     "dompurify": "^3.1.6",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react": "^7.34.1",
@@ -41,7 +46,8 @@
     "react-i18next": "^15.2.0",
     "react-input-mask": "^2.0.4",
     "react-router-dom": "^6.22.3",
-    "sass": "^1.74.1"
+    "sass": "^1.74.1",
+    "vanilla-calendar-pro": "^3.0.3"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

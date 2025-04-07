@@ -19,7 +19,11 @@ export const Header = ({
   return (
     <div className={styles.wrapper}>
       <div className={styles.avatar}>
-        <img src={avatar} alt='Profile Avatar' />
+        <img
+          src={avatar}
+          alt='Avatar'
+          style={{ width: '56px', height: '56px' }}
+        />
       </div>
       <div className={styles.texts}>
         <h5 className={styles.name}>{name}</h5>

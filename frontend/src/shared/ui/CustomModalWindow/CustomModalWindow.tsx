@@ -5,18 +5,29 @@ interface CustomModalWindowProps {
   isOpen: boolean
   onClose: () => void
   maxWidth?: string
+  padding?: string
+  backgroundColor?: string
+  borderRadius?: string
 }
 
 export const CustomModalWindow = ({
   isOpen,
   onClose,
   maxWidth,
+  backgroundColor,
+  borderRadius,
+  padding,
   children,
 }: PropsWithChildren<CustomModalWindowProps>) => {
   return (
     <Modal isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent maxWidth={maxWidth}>{children}</ModalContent>
+      <ModalContent
+        maxWidth={maxWidth}
+        style={{ padding, backgroundColor, borderRadius }}
+      >
+        {children}
+      </ModalContent>
     </Modal>
   )
 }

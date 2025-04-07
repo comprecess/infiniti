@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { TalentData } from '../../../../app/constants/constants'
@@ -13,6 +13,7 @@ import { ChevronDownIcon } from '../../../../shared/icons/ChevronDownIcon'
 import { ButtonBrand } from '../../../../shared/ui/ButtonBrand/ButtonBrand'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getUserInfo } from '../../../../shared/utils/api/Client/Catalog/User/GetUserInfo'
+import { CreatingCallModal } from '../../../../widgets/CreatingCallModal/CreatingCallModal'
 import styles from './ViewTalentPage.module.scss'
 
 const extractIdFromUrl = (url: string): number | null => {
@@ -34,6 +35,8 @@ const useIdFromUrl = () => {
 }
 
 export const AdminViewTalentPage = () => {
+  const [isCreatingCall, setIsCreatingCall] = useState<boolean>(false)
+
   const similarTalentsRef = useRef<HTMLDivElement>(null)
 
   const id = useIdFromUrl()
@@ -86,51 +89,58 @@ export const AdminViewTalentPage = () => {
   }, [])
 
   return (
-    <div className={styles.wrapper}>
-      {talentInfo && talentInfo.data ? (
-        <>
-          <section className={styles.section}>
-            <div className={styles.item}>
-              <div
-                className={styles.buttonBack}
-                onClick={handleNavigateBack}
-              >
-                <ChevronDownIcon style={styles.buttonBackIcon} />
-                <span className={styles.buttonBackText}>Back</span>
+    <>
+      <div className={styles.wrapper}>
+        {talentInfo && talentInfo.data ? (
+          <>
+            <section className={styles.section}>
+              <div className={styles.item}>
+                <div
+                  className={styles.buttonBack}
+                  onClick={handleNavigateBack}
+                >
+                  <ChevronDownIcon style={styles.buttonBackIcon} />
+                  <span className={styles.buttonBackText}>Back</span>
+                </div>
               </div>
-            </div>
-          </section>
-          <section className={styles.section}>
-            <div className={styles.listItems}>
-              <TalentCard
-                isAdmin
-                talent={talentInfo.data}
-                showSimilar={scrollToSimilarTalents}
-              />
-              <div className={styles.info}>
-                <AboutTalentCard talentInfo={talentInfo.data} />
-                <ProjectsExperienceCard talentInfo={talentInfo.data} />
-                <EducationCard talentInfo={talentInfo.data} />
-              </div>
-            </div>
-          </section>
-          <section ref={similarTalentsRef} className={styles.section}>
-            <section className={styles.item}>
-              <SimilarTalents
-                isAdmin
-                similarTalents={talentInfo.data.similar}
-              />
             </section>
-          </section>
-          <section className={styles.section}>
-            <div className={styles.item}>
-              <ButtonBrand title='Back to top' onClick={scrollToTop} />
-            </div>
-          </section>
-        </>
-      ) : (
-        <LoadingSpinner size='xl' />
-      )}
-    </div>
+            <section className={styles.section}>
+              <div className={styles.listItems}>
+                <TalentCard
+                  isAdmin
+                  talent={talentInfo.data}
+                  showSimilar={scrollToSimilarTalents}
+                  onPhone={() => setIsCreatingCall(prev => !prev)}
+                />
+                <div className={styles.info}>
+                  <AboutTalentCard talentInfo={talentInfo.data} />
+                  <ProjectsExperienceCard talentInfo={talentInfo.data} />
+                  <EducationCard talentInfo={talentInfo.data} />
+                </div>
+              </div>
+            </section>
+            <section ref={similarTalentsRef} className={styles.section}>
+              <section className={styles.item}>
+                <SimilarTalents
+                  isAdmin
+                  similarTalents={talentInfo.data.similar}
+                />
+              </section>
+            </section>
+            <section className={styles.section}>
+              <div className={styles.item}>
+                <ButtonBrand title='Back to top' onClick={scrollToTop} />
+              </div>
+            </section>
+          </>
+        ) : (
+          <LoadingSpinner size='xl' />
+        )}
+      </div>
+      <CreatingCallModal
+        isOpen={isCreatingCall}
+        onClose={() => setIsCreatingCall(prev => !prev)}
+      />
+    </>
   )
 }
