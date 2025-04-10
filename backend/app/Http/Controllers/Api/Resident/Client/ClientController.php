@@ -37,6 +37,8 @@ use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
 use App\Services\Tools\Countries;
+use App\Services\Zoom\Requests\MeetingData;
+use App\Services\Zoom\Zoom;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
@@ -439,6 +441,10 @@ class ClientController extends MainClientController
 
     public function test(Request $request)
     {
+//        dd(base64_encode('YQlxZFIESmatppocfCyNKg:5A3Sk0TZmNJWsNArGqWFPvAPNfUjeb0T'));
+//        $zoom = new Zoom();
+        dd((new MeetingData())->toArray());
+
 //        dd(file_get_contents("php://input", "+r"));
 //        dd($request->getContent());
 
@@ -448,6 +454,6 @@ class ClientController extends MainClientController
 //        dd($redis);
 //        event(new \App\Events\User\CreateOrder($invoice));
 
-    ChatGPT::test();
+//    ChatGPT::test();
     }
 }

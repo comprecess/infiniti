@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Contracts\FilterBusinessModelContract;
 use App\Contracts\FilterContract;
+use App\Contracts\MeetingContract;
 use App\Models\Users\Client;
 use App\Services\Currency\Contract\CurrencyServiceContract;
 use App\Services\Currency\CurrencyFreaks;
@@ -11,6 +12,7 @@ use App\Services\Filter;
 use App\Services\FilterBusinessModel;
 use App\Services\Pay\Contract\PayContract;
 use App\Services\Pay\Pay;
+use App\Services\ZoomMeeting;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -23,7 +25,8 @@ class AppServiceProvider extends ServiceProvider
         FilterContract::class => Filter::class,
         FilterBusinessModelContract::class => FilterBusinessModel::class,
         PayContract::class => Pay::class,
-        CurrencyServiceContract::class => CurrencyFreaks::class
+        CurrencyServiceContract::class => CurrencyFreaks::class,
+        MeetingContract::class => ZoomMeeting::class
     ];
 
     /**

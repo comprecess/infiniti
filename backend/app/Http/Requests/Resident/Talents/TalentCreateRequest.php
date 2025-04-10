@@ -29,6 +29,7 @@ class TalentCreateRequest extends FormRequest implements ConvertingPropertiesInt
 
         $rules = [
             'name' => 'required',
+            'name' => 'nullable|email',
 //            'clientId' => 'required|integer|exists:crm_accounts,id',
 //            'ownerId' => 'required|integer|exists:sys_users,id',
             'specialization' => "required",
@@ -61,6 +62,7 @@ class TalentCreateRequest extends FormRequest implements ConvertingPropertiesInt
     {
         return [
             'name',
+            'email',
             'active',
             'ownerId' => 'id_admin',
             'clientId' => 'id_client',

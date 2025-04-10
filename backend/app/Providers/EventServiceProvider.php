@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\Catalog\MeetingCreate;
 use App\Events\User\CreateOrder;
 use App\Events\UserIsAuthorized;
+use App\Listeners\Catalog\MeetingSendEmail;
+use App\Listeners\Catalog\MeetingServiceCreate;
 use App\Listeners\CheckCart;
 use App\Listeners\Order\SendEmail;
 use Illuminate\Auth\Events\Registered;
@@ -27,6 +30,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         CreateOrder::class => [
             SendEmail::class
+        ],
+        MeetingCreate::class => [
+            MeetingServiceCreate::class,
+//            MeetingSendEmail::class
         ]
     ];
 

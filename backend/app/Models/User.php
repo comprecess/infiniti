@@ -7,6 +7,7 @@ use App\Events\UserIsAuthorized;
 use App\Models\Catalog\Cart as CatalogCart;
 use App\Models\Traits\AuthPasswordTrait;
 use App\Models\Traits\FileStorageTrait;
+use App\Models\Users\Admin;
 use App\Models\Users\Interfaces\LoginIntarface;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -131,6 +132,24 @@ class User extends Authenticatable
     public function getAvatar($isLink = false)
     {
         return $this->getLastFile($isLink);
+    }
+
+    public function getEmail()
+    {
+        if($this instanceof Admin) {
+            return $this->username;
+        }
+
+        return $this->email;
+    }
+
+    public function getName()
+    {
+        if($this instanceof Admin) {
+            return $this->fullname;
+        }
+
+        return $this->account;
     }
 
 
