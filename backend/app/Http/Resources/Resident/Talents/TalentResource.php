@@ -32,6 +32,7 @@ class TalentResource extends JsonResource
         $data = [
             'id' => $this->id,
             'name' => $this->name,
+            'email' => $this->email,
             'img' => $this->getLastFile(true) ?? "",
 //            'client' => new ClientResource($this->user),
             'birthDay' => $this->birth_day?->format('Y-m-d'),
