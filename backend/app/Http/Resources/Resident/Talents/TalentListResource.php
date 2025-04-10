@@ -20,6 +20,7 @@ class TalentListResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'email' => $this->email,
             'img' => $this->getLastFile(true) ?? "",
 //            'client' => new ClientResource($this->user),
             'specialization' => $this->getPropValues('specialization'),
