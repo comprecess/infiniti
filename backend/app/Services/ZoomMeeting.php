@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\Log;
 class ZoomMeeting implements MeetingContract
 {
 
-    public function create(Meeting $model, string $title = null, string $description = null, $listUsers = [])
+    public function create(Meeting $model)
     {
+        logger("test");
         $meetingData = new MeetingData();
         $meeting = new \App\Services\Zoom\Meeting();
         $users = [];
@@ -24,6 +25,8 @@ class ZoomMeeting implements MeetingContract
 
         $modelMeet = $model->model;
         if(!$modelMeet || !($modelMeet instanceof \App\Models\Contracts\MeetingContract)) {
+            $model->create_data = ['error' => "Error model"];
+            $model->save();
             return false;
         }
 
@@ -42,6 +45,8 @@ class ZoomMeeting implements MeetingContract
 
         if(count($users) < 2) {
             return false;
+            $model->create_data = ['error' => "users count: " . count($users)];
+            $model->save();
         }
 
 
