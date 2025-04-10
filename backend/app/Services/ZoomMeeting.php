@@ -7,14 +7,12 @@ namespace App\Services;
 use App\Contracts\MeetingContract;
 use App\Models\Meeting;
 use App\Services\Zoom\Requests\MeetingData;
-use Illuminate\Support\Facades\Log;
 
 class ZoomMeeting implements MeetingContract
 {
 
     public function create(Meeting $model)
     {
-        logger("test");
         $meetingData = new MeetingData();
         $meeting = new \App\Services\Zoom\Meeting();
         $users = [];
@@ -44,9 +42,9 @@ class ZoomMeeting implements MeetingContract
         }
 
         if(count($users) < 2) {
-            return false;
             $model->create_data = ['error' => "users count: " . count($users)];
             $model->save();
+            return false;
         }
 
 
