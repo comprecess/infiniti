@@ -17,7 +17,7 @@ class Role extends Model
 
     const ACCESS_METHOD = [
           'view' => ['GET', 'HEADER'],
-          'edit' => ['PUT'],
+          'edit' => ['PUT', 'PATCH'],
           'create' => ['POST'],
           'delete' => ['DELETE'],
     ];

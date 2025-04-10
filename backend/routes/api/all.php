@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CatalogController;
 use App\Http\Controllers\Api\BusinessModelController;
+use App\Http\Controllers\Api\MeetingController;
 
 #catalog
 Route::group(['prefix' => 'catalog'], function(){
@@ -28,5 +29,11 @@ Route::controller(BusinessModelController::class)
         Route::get('item/{model}', 'item');
     });
 
-
+#business_model
+Route::controller(MeetingController::class)
+    ->prefix('meeting')
+    ->group(function(){
+        Route::post('{name}/{id?}', 'create')->whereIn('name', MeetingController::MEET_TYPE);
+        Route::get('employment/{name}/{id?}', 'employment')->whereIn('name', MeetingController::MEET_TYPE);
+    });
 

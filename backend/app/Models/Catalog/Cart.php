@@ -2,6 +2,7 @@
 
 namespace App\Models\Catalog;
 
+use App\Models\Contracts\MeetingContract;
 use App\Models\Resident\Invoices\Offer;
 use App\Models\Resident\Settings\Tax;
 use App\Models\Traits\ModelToCartTrait;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\User as UserCrm;
 
-class Cart extends Model
+class Cart extends Model implements MeetingContract
 {
     use HasFactory, SoftDeletes, CurrencyTrait;
 
@@ -144,5 +145,36 @@ class Cart extends Model
         $new->delete();
 
         return $new;
+    }
+    public function getUsersCatalog()
+    {
+        $users = collect([]);
+        $items = $this->items()->with(['userCatalog', 'userCatalog.employmentNow'])->get();
+        $items->each(function($item) use($users){
+            $users->push($item->userCatalog);
+        });
+
+        return $users;
+    }
+
+    public function getUsersToMeeting(): array
+    {
+        $users = $this->getUsersCatalog();
+        return $users->pluck('name','email');
+    }
+
+    public function getTitleToMeeting() :?string
+    {
+        return __('meeting.cart');
+    }
+
+    public function getDescriptionToMeeting() :?string
+    {
+        return __('meeting.cart');
+    }
+
+    public function getNameRoomToMeeting(): ?string
+    {
+        return "cart-" . $this->id;
     }
 }

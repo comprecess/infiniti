@@ -3,6 +3,7 @@
 namespace App\Models\Catalog;
 
 use App\Contracts\FilterContract;
+use App\Models\Contracts\MeetingContract;
 use App\Models\Resident\BusinessPlan;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\FileStorageTrait;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 
-class User extends Model
+class User extends Model implements MeetingContract
 {
     use HasFactory, CurrencyTrait, SoftDeletes, FileStorageTrait;
 
@@ -57,6 +58,16 @@ class User extends Model
     public function businessPlanTeams()
     {
         return $this->morphedByMany(BusinessPlan::class, 'model', 'catalog_team');
+    }
+
+    public function employment()
+    {
+        return $this->hasMany(UserEmployment::class, 'id_catalog_user');
+    }
+
+    public function employmentNow()
+    {
+        return $this->hasMany(UserEmployment::class, 'id_catalog_user')->where('from', ">", now());
     }
 
     public function scopeActive($query) :void
@@ -231,4 +242,28 @@ class User extends Model
 
     }
 
+    public function getUsersCatalog()
+    {
+        return collect([$this]);
+    }
+
+    public function getUsersToMeeting(): array
+    {
+        return [$this->email => $this->name];
+    }
+
+    public function getTitleToMeeting() :?string
+    {
+        return __('meeting.individual', ['id' => $this->id]);
+    }
+
+    public function getDescriptionToMeeting() :?string
+    {
+        return __('meeting.individual', ['id' => $this->id]);
+    }
+
+    public function getNameRoomToMeeting(): ?string
+    {
+        return "individual-" . $this->id;
+    }
 }

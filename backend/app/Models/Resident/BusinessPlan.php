@@ -5,13 +5,14 @@ namespace App\Models\Resident;
 use App\Http\Resources\Resident\BusinessPlan\BusinessPlanChatGPTResource;
 use App\Models\BusinessModel\BusinessModel;
 use App\Models\Contracts\ChatGPTContract;
+use App\Models\Contracts\MeetingContract;
 use App\Models\Traits\CatalogUserTeamTrait;
 use App\Models\Traits\ChatGPTTrait;
 use App\Models\Traits\FileStorageTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BusinessPlan extends Model implements ChatGPTContract
+class BusinessPlan extends Model implements ChatGPTContract, MeetingContract
 {
     use HasFactory, ChatGPTTrait, CatalogUserTeamTrait, FileStorageTrait;
 
@@ -47,5 +48,30 @@ class BusinessPlan extends Model implements ChatGPTContract
     public function getResourceChat()
     {
         return BusinessPlanChatGPTResource::class;
+    }
+
+    public function getUsersCatalog()
+    {
+        return $this->teams()->with(['teams.employmentNow'])->get();
+    }
+
+    public function getUsersToMeeting(): array
+    {
+        return $this->getUsersCatalog->pluck('name', 'email');
+    }
+
+    public function getTitleToMeeting(): ?string
+    {
+        return __('meeting.business_plan', ['id' => $this->id]);
+    }
+
+    public function getDescriptionToMeeting(): ?string
+    {
+        return strip_tags($this->description);
+    }
+
+    public function getNameRoomToMeeting(): ?string
+    {
+        return "business_plan-" . $this->id;
     }
 }
