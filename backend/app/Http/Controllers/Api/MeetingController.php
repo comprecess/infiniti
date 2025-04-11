@@ -70,14 +70,14 @@ class MeetingController extends Controller
 
         $users = $model->getUsersCatalog();
         foreach ($users as $user) {
-            foreach($user->employmentNow as $employment) {
+            foreach($user->employmentNow()->orderBy('from', 'asc')->get() as $employment) {
                 if($request->timezone) {
-                    $usersData[$user->id] = [
+                    $usersData[$user->id][] = [
                         'from' => $employment->from->setTimezone($request->timezone)->format(MeetingRequest::FORMAT_DATE),
                         'to' => $employment->to->setTimezone($request->timezone)->format(MeetingRequest::FORMAT_DATE),
                     ];
                 } else {
-                    $usersData[$user->id] = [
+                    $usersData[$user->id][] = [
                         'from' => $employment->from->format(MeetingRequest::FORMAT_DATE),
                         'to' => $employment->to->format(MeetingRequest::FORMAT_DATE),
                     ];
