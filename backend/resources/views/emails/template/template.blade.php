@@ -16,13 +16,13 @@
         * {
             margin: 0;
             padding: 0;
-            color: #fff;
+            color: #fff !important;
             box-sizing: border-box;
             font-family: Inter,sans-serif;
         }
         .body{
-            background-color: #0f1119;
-            color: #fff;
+            background-color: #0f1119 !important;
+            color: #fff !important;
         }
         .main{
             padding: 20px 20px 40px;
@@ -32,75 +32,75 @@
             height: 50px;
         }
         svg path{
-            fill: #fff;
+            fill: #fff !important;
         }
         .content{
             margin: 20px 0;
             position: relative;
             padding: 16px 32px;
             border-radius: 8px;
-            background-color: #151720;
+            background-color: #151720 !important;
             overflow: hidden;
         }
         a{
             color: #666984 !important;
         }
         .footer{
-            color: #666984;
-            font-size: 12px;
+            color: #666984 !important;
+            font-size: 12px !important;
         }
 
         @media (prefers-color-scheme: dark) {
             * {
-                color: #fff;
+                color: #fff !important;
             }
 
             .body{
-                background-color: #0f1119;
-                color: #fff;
+                background-color: #0f1119 !important;
+                color: #fff !important;
             }
 
             svg path{
-                fill: #fff;
+                fill: #fff !important;
             }
 
             .content{
-                background-color: #151720;
+                background-color: #151720 !important;
             }
 
             a{
                 color: #666984 !important;
             }
             .footer{
-                color: #666984;
-                font-size: 12px;
+                color: #666984 !important;
+                font-size: 12px !important;
             }
         }
 
         @media (prefers-color-scheme: light) {
             * {
-                color: #fff;
+                color: #fff !important;
             }
 
             .body{
-                background-color: #0f1119;
-                color: #fff;
+                background-color: #0f1119 !important;
+                color: #fff !important;
             }
 
             svg path{
-                fill: #fff;
+                fill: #fff !important;
             }
 
             .content{
-                background-color: #151720;
+                background-color: #151720 !important;
             }
 
             a{
                 color: #666984 !important;
             }
             .footer{
-                color: #666984;
-                font-size: 12px;
+                color: #666984 !important;
+                font-size: 12px !important;
             }
         }
     </style>
