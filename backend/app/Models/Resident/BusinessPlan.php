@@ -52,7 +52,7 @@ class BusinessPlan extends Model implements ChatGPTContract, MeetingContract
 
     public function getUsersCatalog()
     {
-        return $this->teams()->with(['teams.employmentNow'])->get();
+        return $this->teams()->with(['employmentNow'])->get();
     }
 
     public function getUsersToMeeting(): array

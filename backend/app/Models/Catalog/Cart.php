@@ -160,7 +160,7 @@ class Cart extends Model implements MeetingContract
     public function getUsersToMeeting(): array
     {
         $users = $this->getUsersCatalog();
-        return $users->pluck('name','email');
+        return $users->pluck('name','email')->toArray();
     }
 
     public function getTitleToMeeting() :?string
