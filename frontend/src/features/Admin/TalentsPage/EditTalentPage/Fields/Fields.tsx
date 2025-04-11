@@ -145,6 +145,7 @@ export const Fields = ({
       index,
     })),
     name: data.name,
+    email: data.email,
   })
 
   const [selectedFilters, setSelectedFilters] = useState<FiltersState>({})
@@ -332,6 +333,14 @@ export const Fields = ({
         id='name'
         name='name'
         value={formData.name}
+        onChange={handleChangeInput}
+      />
+      <CustomInput
+        title='Email'
+        type='text'
+        id='email'
+        name='email'
+        value={formData.email}
         onChange={handleChangeInput}
       />
       <div className={styles.avatarContainer}>

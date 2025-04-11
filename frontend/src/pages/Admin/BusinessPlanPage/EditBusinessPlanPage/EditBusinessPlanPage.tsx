@@ -1,3 +1,4 @@
+import { Dayjs } from 'dayjs'
 import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
@@ -14,7 +15,9 @@ import { getInputDataBusinessPlan } from '../../../../shared/utils/api/Admin/Bus
 import { putUpdateInfoBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/PutUpdateInfoBusinessPlan'
 import { getChatGPTAnalysis } from '../../../../shared/utils/api/Admin/ChatGPT/GetChatGPTAnalysis'
 import { getReadyPrompt } from '../../../../shared/utils/api/Admin/ChatGPT/GetReadyPrompt'
+import { postCreateNewMeeting } from '../../../../shared/utils/api/Admin/Meeting/PostCreateNewMeeting'
 import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
+import { CreatingCallModal } from '../../../../widgets/CreatingCallModal/CreatingCallModal'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditBusinessPlanPage.module.scss'
 import { ModalAddTalentTeam } from './ModalAddTalentTeam/ModalAddTalentTeam'
@@ -43,6 +46,7 @@ export const AdminEditBusinessPlanPage = () => {
   >(null)
 
   const [modalAddTalent, setModalAddTalent] = useState<boolean>(false)
+  const [isCreatingCall, setIsCreatingCall] = useState<boolean>(false)
   const [isLoadingTeam, setIsLoadingTeam] = useState<boolean>(false)
 
   const id = useIdFromUrl()
@@ -152,6 +156,42 @@ export const AdminEditBusinessPlanPage = () => {
     setChatGPTChangeForm(false)
   }
 
+  const createMeetingWithBusinessPlan = async (
+    dates: string[] | null,
+    selectedTime: Dayjs | null,
+  ) => {
+    if (id === null || dates === null || selectedTime === null) return
+
+    const time = selectedTime.format('HH:mm')
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+    const updatedDates = dates.map(dateStr => {
+      return `${dateStr} ${time}`
+    })
+
+    const response = await postCreateNewMeeting(
+      'business-plan',
+      updatedDates[0],
+      timeZone,
+      id,
+    )
+
+    if (response.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully created a meeting in Zoom',
+        status: 'success',
+      })
+      setIsCreatingCall(prev => !prev)
+    } else {
+      showToast({
+        title: 'Error',
+        description: response.message,
+        status: 'error',
+      })
+    }
+  }
+
   useEffect(() => {
     document.title = 'infiniti | Edit Business Plan'
   }, [])
@@ -191,6 +231,7 @@ export const AdminEditBusinessPlanPage = () => {
                 setModalAddTalent={setModalAddTalent}
                 addNewTalentChatGPT={addNewTalentChatGPT}
                 deleteTalent={deleteTalent}
+                setIsCreatingCall={setIsCreatingCall}
               />
             </RecentCard>
           </section>
@@ -208,6 +249,11 @@ export const AdminEditBusinessPlanPage = () => {
           onClose={() => setModalAddTalent(prev => !prev)}
         />
       )}
+      <CreatingCallModal
+        isOpen={isCreatingCall}
+        onClose={() => setIsCreatingCall(prev => !prev)}
+        onClick={createMeetingWithBusinessPlan}
+      />
     </>
   )
 }

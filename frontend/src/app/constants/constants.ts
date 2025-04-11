@@ -993,6 +993,7 @@ export interface TalentsData {
 
 export interface TalentFormData {
   name: string
+  email: string
   file: FormData | null
   birthDay: string
   priceDay: number
@@ -1055,6 +1056,7 @@ export interface TalentEditInfoData {
   active: number
   img: string
   name: string
+  email: string
   blockExperience: TalentProjectsExperience[]
   birthDay: string
   property: PropertyArray

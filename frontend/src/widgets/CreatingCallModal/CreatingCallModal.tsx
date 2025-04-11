@@ -1,3 +1,4 @@
+import { Dayjs } from 'dayjs'
 import { useEffect, useState } from 'react'
 
 import i18n from '../../i18n'
@@ -11,17 +12,21 @@ import styles from './CreatingCallModal.module.scss'
 interface CreatingCallModalProps {
   isOpen: boolean
   onClose: () => void
+  onClick: (
+    selectedDates: string[] | null,
+    selectedTime: Dayjs | null,
+  ) => void
 }
 
 export const CreatingCallModal = ({
   isOpen,
   onClose,
+  onClick,
 }: CreatingCallModalProps) => {
   const [selectedDates, setSelectedDates] = useState<string[] | null>(null)
+  const [selectedTime, setSelectedTime] = useState<Dayjs | null>(null)
 
   const [isMobile, setIsMobile] = useState<boolean>(false)
-
-  console.log(selectedDates)
 
   useEffect(() => {
     const handleResize = () => {
@@ -61,8 +66,16 @@ export const CreatingCallModal = ({
         }}
       />
       <div className={styles.footer}>
-        <CustomTimePicker title='Time' setSelectedTime={() => {}} />
-        <ButtonBlue title='Create a Call' style={styles.buttonSubmit} />
+        <CustomTimePicker
+          title='Time'
+          selectedTime={selectedTime}
+          setSelectedTime={setSelectedTime}
+        />
+        <ButtonBlue
+          title='Create a Call'
+          style={styles.buttonSubmit}
+          onClick={() => onClick(selectedDates, selectedTime)}
+        />
       </div>
     </CustomModalWindow>
   )
