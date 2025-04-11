@@ -8,6 +8,7 @@ use App\Models\Catalog\UserEmployment;
 use App\Models\Meeting;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
 class MeetingEmployment implements ShouldQueue
@@ -31,7 +32,7 @@ class MeetingEmployment implements ShouldQueue
         $meeting = $event->getMeeting();
         $meeting->refresh();
 
-        if(!$meeting->service_response) {
+        if(!$meeting->service_response || Arr::get($meeting->service_response ?? [], 'data.id')) {
             return;
         }
 

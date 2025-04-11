@@ -4,6 +4,7 @@ namespace App\Listeners\Catalog;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
 
 class MeetingSendEmail implements ShouldQueue
@@ -24,7 +25,7 @@ class MeetingSendEmail implements ShouldQueue
         $meeting = $event->getMeeting();
         $meeting->refresh();
 
-        if(!$meeting->service_response) {
+        if(!$meeting->service_response || Arr::get($meeting->service_response ?? [], 'data.id')) {
             return;
         }
 
