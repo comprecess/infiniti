@@ -4,6 +4,7 @@ namespace App\Listeners\Catalog;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Mail;
 
 class MeetingSendEmail implements ShouldQueue
 {
@@ -20,6 +21,19 @@ class MeetingSendEmail implements ShouldQueue
      */
     public function handle(object $event): void
     {
-        dump('321');
+        $meeting = $event->getMeeting();
+        $meeting->refresh();
+
+        if(!$meeting->service_response) {
+            return;
+        }
+
+        $users = $meeting->model->getUsersCatalog();
+
+        Mail::to($meeting->owner->getEmail())
+            ->bcc($users->pluck('email')->toArray())
+            ->send(new \App\Mail\Catalog\MeetingReminder($meeting));
+
+
     }
 }
