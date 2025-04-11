@@ -85,6 +85,6 @@ class MeetingController extends Controller
             }
         }
 
-        response()->json(['data' => $usersData]);
+        return response()->json(['data' => $usersData]);
     }
 }
