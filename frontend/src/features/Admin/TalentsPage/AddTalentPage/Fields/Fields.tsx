@@ -179,6 +179,13 @@ export const Fields = ({ inputData, onFormDataChange }: FieldsProps) => {
         name='name'
         onChange={handleChangeInput}
       />
+      <CustomInput
+        title={`${t('admin-talents-add-talent-page-input-19')}`}
+        type='text'
+        id='email'
+        name='email'
+        onChange={handleChangeInput}
+      />
       <CustomDataPicker
         title={`${t('admin-talents-add-talent-page-input-2')}`}
         titleOnChange='birthDay'

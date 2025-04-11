@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { Dayjs } from 'dayjs'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -11,7 +12,10 @@ import { SimilarTalents } from '../../../../features/Admin/TalentsPage/ViewTalen
 import { TalentCard } from '../../../../features/Admin/TalentsPage/ViewTalentPage/TalentCard/TalentCard'
 import { ChevronDownIcon } from '../../../../shared/icons/ChevronDownIcon'
 import { ButtonBrand } from '../../../../shared/ui/ButtonBrand/ButtonBrand'
+import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { getDatesTalentBusy } from '../../../../shared/utils/api/Admin/Meeting/GetDatesTalentBusy'
+import { postCreateNewMeeting } from '../../../../shared/utils/api/Admin/Meeting/PostCreateNewMeeting'
 import { getUserInfo } from '../../../../shared/utils/api/Client/Catalog/User/GetUserInfo'
 import { CreatingCallModal } from '../../../../widgets/CreatingCallModal/CreatingCallModal'
 import styles from './ViewTalentPage.module.scss'
@@ -41,6 +45,7 @@ export const AdminViewTalentPage = () => {
 
   const id = useIdFromUrl()
   const navigate = useNavigate()
+  const showToast = useCustomToast()
 
   const handleNavigateBack = () => {
     if (window.history.length - 3 <= 0) {
@@ -64,6 +69,18 @@ export const AdminViewTalentPage = () => {
     }, 0)
   }, [])
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { data: _talentDatesBusy } = useQuery({
+    queryKey: ['datesBusy', id],
+    queryFn: async () => {
+      if (id === null) return
+
+      const response = await getDatesTalentBusy(id, 'individual')
+
+      return response
+    },
+  })
+
   const { data: talentInfo } = useQuery({
     queryKey: ['talents', id],
     queryFn: async () => {
@@ -82,6 +99,42 @@ export const AdminViewTalentPage = () => {
     },
     placeholderData: previousData => previousData,
   })
+
+  const createMeetingWithTalent = async (
+    dates: string[] | null,
+    selectedTime: Dayjs | null,
+  ) => {
+    if (id === null || dates === null || selectedTime === null) return
+
+    const time = selectedTime.format('HH:mm')
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+    const updatedDates = dates.map(dateStr => {
+      return `${dateStr} ${time}`
+    })
+
+    const response = await postCreateNewMeeting(
+      'individual',
+      updatedDates[0],
+      timeZone,
+      id,
+    )
+
+    if (response.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully created a meeting in Zoom',
+        status: 'success',
+      })
+      setIsCreatingCall(prev => !prev)
+    } else {
+      showToast({
+        title: 'Error',
+        description: response.message,
+        status: 'error',
+      })
+    }
+  }
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -140,6 +193,7 @@ export const AdminViewTalentPage = () => {
       <CreatingCallModal
         isOpen={isCreatingCall}
         onClose={() => setIsCreatingCall(prev => !prev)}
+        onClick={createMeetingWithTalent}
       />
     </>
   )

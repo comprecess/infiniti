@@ -25,11 +25,13 @@ const theme = createTheme({
 
 interface CustomTimePickerProps {
   title: string
+  selectedTime: Dayjs | null
   setSelectedTime: Dispatch<SetStateAction<Dayjs | null>>
 }
 
 export const CustomTimePicker = ({
   title,
+  selectedTime,
   setSelectedTime,
 }: CustomTimePickerProps) => {
   return (
@@ -42,6 +44,7 @@ export const CustomTimePicker = ({
           <div className={styles.container}>
             {title && <span className={styles.title}>{title}</span>}
             <TimeField
+              value={selectedTime}
               format='HH:mm'
               style={{
                 height: '48px',
