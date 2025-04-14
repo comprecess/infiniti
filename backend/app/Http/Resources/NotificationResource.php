@@ -21,10 +21,10 @@ class NotificationResource extends JsonResource
         }
 
         $dateActive = $this->date_active;
-        $createdAt = $this->date_active;
+        $createdAt = $this->created_at;
         if($request->timezone) {
-            $dateActive?->setTimezonr($request->timezone);
-            $createdAt->setTimezonr($request->timezone);
+            $dateActive?->setTimezone($request->timezone);
+            $createdAt->setTimezone($request->timezone);
         }
 
         return [
