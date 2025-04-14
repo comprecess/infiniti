@@ -25,7 +25,7 @@ class MeetingSendEmail implements ShouldQueue
         $meeting = $event->getMeeting();
         $meeting->refresh();
 
-        if(!$meeting->service_response || Arr::get($meeting->service_response ?? [], 'data.id')) {
+        if($meeting->responseFail()) {
             return;
         }
 

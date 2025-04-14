@@ -8,6 +8,7 @@ use App\Models\Traits\NotificationTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
 
 class Meeting extends Model
 {
@@ -49,5 +50,10 @@ class Meeting extends Model
     {
         $date = $this->date->setTimezone($this->timezone);
         return ['date' => $date->toRfc2822String()];
+    }
+
+    public function responseFail()
+    {
+        return !$this->service_response || !Arr::get($this->service_response ?? [], 'data.id', null);
     }
 }

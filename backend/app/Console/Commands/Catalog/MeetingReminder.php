@@ -51,7 +51,7 @@ class MeetingReminder extends Command
 
             $meetings->each(function($meeting) use($hour){
                 if(
-                    !Arr::get($meeting->service_response ?? [], 'data.id', null)
+                    $meeting->responseFail()
                     || !$meeting->model
                 ) {
                     Log::alert("meeting-reminder id [{$meeting->id}] not send");
