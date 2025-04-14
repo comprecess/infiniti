@@ -29,7 +29,7 @@ class NotificationController extends Controller
         return $this->index($not, NotificationResource::class, true);
     }
 
-    public function saw(NotificationRequest $request)
+    public function viewed(NotificationRequest $request)
     {
         User::getAuth()
             ->notifications()

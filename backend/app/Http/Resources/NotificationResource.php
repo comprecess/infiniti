@@ -20,11 +20,18 @@ class NotificationResource extends JsonResource
             $date = $this->date_active > now();
         }
 
+        $dateActive = $this->date_active;
+        $createdAt = $this->date_active;
+        if($request->timezone) {
+            $dateActive?->setTimezonr($request->timezone);
+            $createdAt->setTimezonr($request->timezone);
+        }
+
         return [
             'id' => $this->id,
             'message' => $this->getMessage(),
-            'dateActive' => $this->date_active?->format("Y-m-d H:i:s"),
-            'dateCreate' => $this->created_at?->format("Y-m-d H:i:s"),
+            'dateActive' => $dateActive?->format("Y-m-d H:i:s"),
+            'dateCreate' => $createdAt?->format("Y-m-d H:i:s"),
             'viewed' => $this->viewed,
             'status' => $this->viewed == 0 || $date,
         ];

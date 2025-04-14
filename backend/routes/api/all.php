@@ -43,6 +43,6 @@ Route::controller(NotificationController::class)
     ->prefix('notification')
     ->group(function(){
         Route::get('/', 'list');
-        Route::put('/saw', 'saw');
+        Route::put('/viewed', 'viewed');
     });
 
