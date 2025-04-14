@@ -7,7 +7,7 @@ use App\Models\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class MeetingNotification
+class MeetingNotification implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -22,12 +22,17 @@ class MeetingNotification
      */
     public function handle(MeetingCreate $event): void
     {
-        $model = $event->getMeeting();
+        $meeting = $event->getMeeting();
+        $meeting->refresh();
+
+        if($meeting->responseFail()) {
+            return;
+        }
 
         $not = new Notification();
-        $not->setUser($model->owner);
-        $not->setModel($model);
-        $not->date_active = $model->date;
+        $not->setUser($meeting->owner);
+        $not->setModel($meeting);
+        $not->date_active = $meeting->date;
         $not->save();
 
     }
