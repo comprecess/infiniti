@@ -1,7 +1,3 @@
-[data-vc-date] {
-  padding-left: 0.0625rem;
-}
-
 .vc-date__btn {
   width: 2.5rem;
   height: 2.5rem;
@@ -9,14 +5,16 @@
   border-radius: 0.625rem;
 }
 
-.event-indicator {
-  position: absolute;
-  top: 0.25rem;
-  right: 0.25rem;
-  width: 0.5rem;
-  height: 0.5rem;
-  background-color: $cherry-600;
-  border-radius: 50%;
+.vc-date__popup {
+  width: 100px !important;
+}
+
+[data-vc='column'] {
+  min-width: 250px !important;
+}
+
+[data-vc-date] {
+  padding-left: 0.5px;
 }
 
 [data-vc-theme='dark'].vc {

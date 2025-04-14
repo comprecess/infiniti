@@ -9,8 +9,19 @@ import { CustomModalWindow } from '../../shared/ui/CustomModalWindow/CustomModal
 import { CustomTimePicker } from '../../shared/ui/CustomTimePicker/CustomTimePicker'
 import styles from './CreatingCallModal.module.scss'
 
+export interface TimeSlot {
+  from: string
+  to: string
+}
+
+export interface TimeSlotsById {
+  [key: number]: TimeSlot[]
+}
+
 interface CreatingCallModalProps {
+  id: number
   isOpen: boolean
+  datesEmployment: TimeSlotsById
   onClose: () => void
   onClick: (
     selectedDates: string[] | null,
@@ -19,7 +30,9 @@ interface CreatingCallModalProps {
 }
 
 export const CreatingCallModal = ({
+  id,
   isOpen,
+  datesEmployment,
   onClose,
   onClick,
 }: CreatingCallModalProps) => {
@@ -45,7 +58,7 @@ export const CreatingCallModal = ({
   return (
     <CustomModalWindow
       isOpen={isOpen}
-      maxWidth={isMobile ? '335px' : '670px'}
+      maxWidth={isMobile ? '340px' : '665px'}
       padding='0px'
       backgroundColor='transparent'
       onClose={onClose}
@@ -56,6 +69,7 @@ export const CreatingCallModal = ({
       <CustomDivider />
       <CustomCalendar
         dates={null}
+        datesEmployment={datesEmployment[id]}
         config={{
           type: isMobile ? 'default' : 'multiple',
           selectionDatesMode: 'single',

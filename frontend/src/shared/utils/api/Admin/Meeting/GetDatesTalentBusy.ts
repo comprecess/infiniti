@@ -3,6 +3,7 @@ import { getAuthToken } from '../../GetAuthToken'
 export const getDatesTalentBusy = async (
   meetingId: number,
   meetingName: 'individual',
+  timeZone: string,
 ) => {
   const authToken = getAuthToken()
 
@@ -11,7 +12,7 @@ export const getDatesTalentBusy = async (
       const url =
         import.meta.env.VITE_MAIN_DOMAIN +
         import.meta.env.VITE_GET_TALENTS_DATES_BUSY +
-        `${meetingName}/${meetingId}`
+        `${meetingName}/${meetingId}?timezone=${timeZone}`
 
       const response = await fetch(url, {
         method: 'GET',
