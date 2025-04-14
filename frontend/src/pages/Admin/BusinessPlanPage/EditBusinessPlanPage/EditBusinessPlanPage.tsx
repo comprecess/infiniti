@@ -42,7 +42,7 @@ export const AdminEditBusinessPlanPage = () => {
   const [formData, setFormData] =
     useState<Partial<BusinessPlanNewPlanFormData> | null>(null)
   const [inputData, setInputData] = useState<
-  TalentInputDataBusinessPlan[] | null
+    TalentInputDataBusinessPlan[] | null
   >(null)
 
   const [modalAddTalent, setModalAddTalent] = useState<boolean>(false)
@@ -249,11 +249,15 @@ export const AdminEditBusinessPlanPage = () => {
           onClose={() => setModalAddTalent(prev => !prev)}
         />
       )}
-      <CreatingCallModal
-        isOpen={isCreatingCall}
-        onClose={() => setIsCreatingCall(prev => !prev)}
-        onClick={createMeetingWithBusinessPlan}
-      />
+      {id && (
+        <CreatingCallModal
+          id={id}
+          isOpen={isCreatingCall}
+          datesEmployment={[]}
+          onClose={() => setIsCreatingCall(prev => !prev)}
+          onClick={createMeetingWithBusinessPlan}
+        />
+      )}
     </>
   )
 }

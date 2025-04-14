@@ -17,7 +17,10 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { getDatesTalentBusy } from '../../../../shared/utils/api/Admin/Meeting/GetDatesTalentBusy'
 import { postCreateNewMeeting } from '../../../../shared/utils/api/Admin/Meeting/PostCreateNewMeeting'
 import { getUserInfo } from '../../../../shared/utils/api/Client/Catalog/User/GetUserInfo'
-import { CreatingCallModal } from '../../../../widgets/CreatingCallModal/CreatingCallModal'
+import {
+  CreatingCallModal,
+  TimeSlotsById,
+} from '../../../../widgets/CreatingCallModal/CreatingCallModal'
 import styles from './ViewTalentPage.module.scss'
 
 const extractIdFromUrl = (url: string): number | null => {
@@ -69,13 +72,16 @@ export const AdminViewTalentPage = () => {
     }, 0)
   }, [])
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data: _talentDatesBusy } = useQuery({
+  const { data: talentDatesBusy } = useQuery({
     queryKey: ['datesBusy', id],
     queryFn: async () => {
       if (id === null) return
 
-      const response = await getDatesTalentBusy(id, 'individual')
+      const response: { data: TimeSlotsById } = await getDatesTalentBusy(
+        id,
+        'individual',
+        Intl.DateTimeFormat().resolvedOptions().timeZone,
+      )
 
       return response
     },
@@ -190,11 +196,15 @@ export const AdminViewTalentPage = () => {
           <LoadingSpinner size='xl' />
         )}
       </div>
-      <CreatingCallModal
-        isOpen={isCreatingCall}
-        onClose={() => setIsCreatingCall(prev => !prev)}
-        onClick={createMeetingWithTalent}
-      />
+      {talentDatesBusy && id && (
+        <CreatingCallModal
+          id={id}
+          isOpen={isCreatingCall}
+          datesEmployment={talentDatesBusy.data}
+          onClose={() => setIsCreatingCall(prev => !prev)}
+          onClick={createMeetingWithTalent}
+        />
+      )}
     </>
   )
 }

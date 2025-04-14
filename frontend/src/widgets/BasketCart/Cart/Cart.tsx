@@ -123,7 +123,9 @@ export const Cart = ({ cart, onDelete }: CartProps) => {
         </div>
       </div>
       <CreatingCallModal
+        id={0}
         isOpen={isCreatingCall}
+        datesEmployment={[]}
         onClose={() => setIsCreatingCall(prev => !prev)}
         onClick={createMeetingWithCart}
       />

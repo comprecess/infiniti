@@ -29,17 +29,21 @@ export const AuthOutlet = () => {
             <div className={styles.wrapperLeft}>
               <div className={styles.greetings}>
                 <h1 className={styles.title} contentEditable={false}>
-                  Namasté digital@goo.ru
+                  Namasté
                 </h1>
                 <span className={styles.description}>
-                  We&apos;re decentralized IT teams. We help to realize the
-                  talents of our residents, create IT products for the
-                  global market and lead our clients to their financial
-                  goals by shortest possible way.
+                  We’re decentralized IT teams, built to move fast and
+                  deliver results. We help our residents grow, build
+                  products for the global market, and guide our clients
+                  toward their financial goals — as efficiently as
+                  possible.
                 </span>
                 <span className={styles.description}>
-                  We create product of your dream in an incubation ambience
-                  full of digital care.
+                  Think of us as your product incubator — focused,
+                  flexible, and fully digital.
+                </span>
+                <span className={styles.description}>
+                  If you can dream it, we’ll help you build it.
                 </span>
               </div>
             </div>
