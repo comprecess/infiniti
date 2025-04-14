@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CatalogController;
 use App\Http\Controllers\Api\BusinessModelController;
 use App\Http\Controllers\Api\MeetingController;
+use App\Http\Controllers\Api\NotificationController;
 
 #catalog
 Route::group(['prefix' => 'catalog'], function(){
@@ -35,5 +36,13 @@ Route::controller(MeetingController::class)
     ->group(function(){
         Route::post('{name}/{id?}', 'create')->whereIn('name', MeetingController::MEET_TYPE);
         Route::get('employment/{name}/{id?}', 'employment')->whereIn('name', MeetingController::MEET_TYPE);
+    });
+
+#notification
+Route::controller(NotificationController::class)
+    ->prefix('notification')
+    ->group(function(){
+        Route::get('/', 'list');
+        Route::put('/saw', 'saw');
     });
 

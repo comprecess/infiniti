@@ -73,6 +73,11 @@ class User extends Authenticatable
         return $this->morphOne(CatalogCart::class, 'user');
     }
 
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'user');
+    }
+
     public function userCheckPassword($password)
     {
         if($this->checkPassword($password)) {

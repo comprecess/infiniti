@@ -6,6 +6,7 @@ use App\Events\Catalog\MeetingCreate;
 use App\Events\User\CreateOrder;
 use App\Events\UserIsAuthorized;
 use App\Listeners\Catalog\MeetingEmployment;
+use App\Listeners\Catalog\MeetingNotification;
 use App\Listeners\Catalog\MeetingSendEmail;
 use App\Listeners\Catalog\MeetingServiceCreate;
 use App\Listeners\CheckCart;
@@ -35,7 +36,8 @@ class EventServiceProvider extends ServiceProvider
         MeetingCreate::class => [
             MeetingServiceCreate::class,
             MeetingEmployment::class,
-            MeetingSendEmail::class
+            MeetingSendEmail::class,
+            MeetingNotification::class
         ]
     ];
 
