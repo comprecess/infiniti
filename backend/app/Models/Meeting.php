@@ -4,13 +4,14 @@ namespace App\Models;
 
 use App\Models\Traits\CatalogUserEmploymentTrait;
 use App\Models\Traits\CatalogUserTeamTrait;
+use App\Models\Traits\NotificationTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Meeting extends Model
 {
-    use HasFactory, SoftDeletes, CatalogUserTeamTrait, CatalogUserEmploymentTrait;
+    use HasFactory, SoftDeletes, CatalogUserTeamTrait, CatalogUserEmploymentTrait, NotificationTrait;
 
     const TIME = 40;
 
@@ -23,7 +24,7 @@ class Meeting extends Model
 
     public function model()
     {
-        return $this->morphTo('meeting');
+        return $this->morphTo('meeting')->withTrashed();
     }
 
     public function owner()
@@ -42,5 +43,11 @@ class Meeting extends Model
     {
         $this->meeting_type = $model::class;
         $this->meeting_id = $model->id;
+    }
+
+    public function notificationData()
+    {
+        $date = $this->date->setTimezone($this->timezone);
+        return ['date' => $date->toRfc2822String()];
     }
 }

@@ -7,6 +7,8 @@ use App\Models\Resident\Settings\Currency;
 use App\Services\Currency\Contract\CurrencyServiceContract;
 use App\Services\Currency\Dto;
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class MeetingReminder extends Command
@@ -34,7 +36,8 @@ class MeetingReminder extends Command
     {
         foreach([1,24] as $hour) {
             $time = now();
-            $start = $time->subHours($hour);
+            $time->setSeconds(0);
+            $start = $time->addHours($hour);
             $end = (clone $start)->addHours(self::HOUR_TIME);
             $meetings = Meeting::where('date', '>', $start)
                 ->where('date', '<=', $end)
@@ -42,7 +45,18 @@ class MeetingReminder extends Command
                 ->with(['model', 'owner'])
                 ->get();
 
+            if($meetings->count()) {
+                Log::alert("Meeting-reminder start: " . $start->formad("Y-m-d H:i:s"), $meetings->pluck('id')->toArray());
+            }
+
             $meetings->each(function($meeting) use($hour){
+                if(
+                    !Arr::get($meeting->service_response ?? [], 'data.id', null)
+                    || !$meeting->model
+                ) {
+                    Log::alert("meeting-reminder id [{$meeting->id}] not send");
+                    return true;
+                }
                 $users = $meeting->model->getUsersCatalog();
                 Mail::to($meeting->owner->getEmail())
                     ->bcc($users->pluck('email')->toArray())

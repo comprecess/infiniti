@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Catalog\User as UserCatalog;
 use \App\Models\Contracts\MeetingContract as MeetingContractModel;
+use Illuminate\Validation\ValidationException;
 
 class MeetingController extends Controller
 {
@@ -48,6 +49,17 @@ class MeetingController extends Controller
     {
         $meetingModel = new Meeting();
         $model = $this->getModel($request);
+
+        $users = $model->getUsersToMeeting();
+        if(!$users) {
+            throw ValidationException::withMessages(['talent' => "Talents not found"]);
+        }
+
+        foreach($model->getUsersToMeeting() as $email => $name) {
+            if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                throw ValidationException::withMessages(['noEmail' => "Talent: \"{$name}\" no email"]);
+            }
+        }
 
         $meetingModel->setModel($model);
         $meetingModel->setUser();

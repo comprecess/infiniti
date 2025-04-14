@@ -57,7 +57,7 @@ class BusinessPlan extends Model implements ChatGPTContract, MeetingContract
 
     public function getUsersToMeeting(): array
     {
-        return $this->getUsersCatalog->pluck('name', 'email');
+        return $this->getUsersCatalog()->pluck('name', 'email')->toArray();
     }
 
     public function getTitleToMeeting(): ?string
