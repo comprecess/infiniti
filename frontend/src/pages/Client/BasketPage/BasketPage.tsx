@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -6,10 +7,12 @@ import { Routes } from '../../../app/router/routes'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { getDatesTeamBusy } from '../../../shared/utils/api/Admin/Meeting/GetDatesTeamBusy'
 import { getConvertToInvoice } from '../../../shared/utils/api/Client/Basket/GetConvertToInvoice'
 import { getOrdersInCart } from '../../../shared/utils/api/Client/Cart/GetOrdersInCart'
 import { Basket } from '../../../widgets/BasketCart/Basket/Basket'
 import { Cart } from '../../../widgets/BasketCart/Cart/Cart'
+import { TimeSlotsById } from '../../../widgets/CreatingCallModal/CreatingCallModal'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './BasketPage.module.scss'
 
@@ -19,14 +22,33 @@ export const ClientBasketPage = () => {
   const navigate = useNavigate()
   const showToast = useCustomToast()
 
-  const handleNavigateToInvoice = (token: string) => {
-    navigate(`/${Routes.public}/${Routes.invoice}/${Routes.view}/${token}`)
-  }
+  const { data: teamDatesBusy } = useQuery({
+    queryKey: ['datesBusy'],
+    queryFn: async () => {
+      if (orders?.items === undefined) return
+
+      const teamIdsQuery = orders.items
+        .map(item => `ids[]=${item.userCatalog.id}`)
+        .join('&')
+
+      const response: { data: TimeSlotsById } = await getDatesTeamBusy(
+        teamIdsQuery,
+        Intl.DateTimeFormat().resolvedOptions().timeZone,
+      )
+
+      return response.data
+    },
+    enabled: (orders?.items.length ?? 0) > 0,
+  })
 
   const getOrders = async () => {
     const ordersResponse: CartProps = await getOrdersInCart()
 
     setOrder(ordersResponse)
+  }
+
+  const handleNavigateToInvoice = (token: string) => {
+    navigate(`/${Routes.public}/${Routes.invoice}/${Routes.view}/${token}`)
   }
 
   const convertBasketToInvoice = async () => {
@@ -57,7 +79,7 @@ export const ClientBasketPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      {orders ? (
+      {orders && teamDatesBusy ? (
         <>
           <div className={styles.title}>
             <TitlePage
@@ -67,7 +89,11 @@ export const ClientBasketPage = () => {
           </div>
           <section className={styles.sectionFirst}>
             <RecentCard style={styles.cart}>
-              <Cart cart={orders.items} onDelete={handleDeleteOrder} />
+              <Cart
+                cart={orders.items}
+                datesEmployment={teamDatesBusy}
+                onDelete={handleDeleteOrder}
+              />
             </RecentCard>
             <Basket
               subtotalCost={orders.subTotal}

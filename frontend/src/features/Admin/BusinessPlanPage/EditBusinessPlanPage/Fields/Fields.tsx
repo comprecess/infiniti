@@ -293,15 +293,17 @@ export const Fields = ({
           </span>
         </div>
       )}
-      <div className={styles.wrapperFirstButton}>
-        <div className={styles.wrapperSecondButton}>
-          <ButtonBlue
-            title='Create a Call'
-            style={styles.buttonCreateCall}
-            onClick={() => setIsCreatingCall(prev => !prev)}
-          />
+      {formData.teams && formData.teams?.length > 0 && (
+        <div className={styles.wrapperFirstButton}>
+          <div className={styles.wrapperSecondButton}>
+            <ButtonBlue
+              title='Create a Call'
+              style={styles.buttonCreateCall}
+              onClick={() => setIsCreatingCall(prev => !prev)}
+            />
+          </div>
         </div>
-      </div>
+      )}
       <div className={styles.containerItems}>
         <div className={styles.containerItemsTitleRow}>
           <span className={styles.containerItemsTitle}>

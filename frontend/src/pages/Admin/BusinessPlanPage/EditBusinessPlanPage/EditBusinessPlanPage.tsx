@@ -1,3 +1,4 @@
+import { useQuery } from '@tanstack/react-query'
 import { Dayjs } from 'dayjs'
 import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -15,9 +16,13 @@ import { getInputDataBusinessPlan } from '../../../../shared/utils/api/Admin/Bus
 import { putUpdateInfoBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/PutUpdateInfoBusinessPlan'
 import { getChatGPTAnalysis } from '../../../../shared/utils/api/Admin/ChatGPT/GetChatGPTAnalysis'
 import { getReadyPrompt } from '../../../../shared/utils/api/Admin/ChatGPT/GetReadyPrompt'
+import { getDatesTeamBusy } from '../../../../shared/utils/api/Admin/Meeting/GetDatesTeamBusy'
 import { postCreateNewMeeting } from '../../../../shared/utils/api/Admin/Meeting/PostCreateNewMeeting'
 import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
-import { CreatingCallModal } from '../../../../widgets/CreatingCallModal/CreatingCallModal'
+import {
+  CreatingCallModal,
+  TimeSlotsById,
+} from '../../../../widgets/CreatingCallModal/CreatingCallModal'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditBusinessPlanPage.module.scss'
 import { ModalAddTalentTeam } from './ModalAddTalentTeam/ModalAddTalentTeam'
@@ -42,7 +47,7 @@ export const AdminEditBusinessPlanPage = () => {
   const [formData, setFormData] =
     useState<Partial<BusinessPlanNewPlanFormData> | null>(null)
   const [inputData, setInputData] = useState<
-    TalentInputDataBusinessPlan[] | null
+  TalentInputDataBusinessPlan[] | null
   >(null)
 
   const [modalAddTalent, setModalAddTalent] = useState<boolean>(false)
@@ -68,6 +73,25 @@ export const AdminEditBusinessPlanPage = () => {
 
     setInputData(response.talents)
   }
+
+  const { data: teamDatesBusy } = useQuery({
+    queryKey: ['datesBusy'],
+    queryFn: async () => {
+      if (formData?.teams === undefined) return
+
+      const teamIdsQuery = formData.teams
+        .map(id => `ids[]=${id}`)
+        .join('&')
+
+      const response: { data: TimeSlotsById } = await getDatesTeamBusy(
+        teamIdsQuery,
+        Intl.DateTimeFormat().resolvedOptions().timeZone,
+      )
+
+      return response.data
+    },
+    enabled: (formData?.teams?.length ?? 0) > 0,
+  })
 
   const addTalent = (id: number) => {
     if (formData && formData.teams) {
@@ -119,7 +143,13 @@ export const AdminEditBusinessPlanPage = () => {
   const updateInfoPlan = async () => {
     if (!id || formData === null) return
 
-    const response = await putUpdateInfoBusinessPlan(id, formData)
+    const cleanedFormData = { ...formData }
+
+    if (typeof cleanedFormData.file === 'string') {
+      delete cleanedFormData.file
+    }
+
+    const response = await putUpdateInfoBusinessPlan(id, cleanedFormData)
 
     if (response.status) {
       showToast({
@@ -249,11 +279,10 @@ export const AdminEditBusinessPlanPage = () => {
           onClose={() => setModalAddTalent(prev => !prev)}
         />
       )}
-      {id && (
+      {teamDatesBusy && (
         <CreatingCallModal
-          id={id}
           isOpen={isCreatingCall}
-          datesEmployment={[]}
+          datesEmployment={teamDatesBusy}
           onClose={() => setIsCreatingCall(prev => !prev)}
           onClick={createMeetingWithBusinessPlan}
         />
