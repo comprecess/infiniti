@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Catalog;
 
-use App\Models\Catalog\Cart;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EmploymentRequest extends FormRequest
@@ -18,6 +17,8 @@ class EmploymentRequest extends FormRequest
 
         return [
             'timezone' => 'nullable|timezone:all',
+            'ids' => 'nullable|array',
+            'ids.*' => 'required|integer|exists:catalog_user,id'
         ];
     }
 }
