@@ -19,7 +19,6 @@ export interface TimeSlotsById {
 }
 
 interface CreatingCallModalProps {
-  id: number
   isOpen: boolean
   datesEmployment: TimeSlotsById
   onClose: () => void
@@ -30,7 +29,6 @@ interface CreatingCallModalProps {
 }
 
 export const CreatingCallModal = ({
-  id,
   isOpen,
   datesEmployment,
   onClose,
@@ -40,6 +38,9 @@ export const CreatingCallModal = ({
   const [selectedTime, setSelectedTime] = useState<Dayjs | null>(null)
 
   const [isMobile, setIsMobile] = useState<boolean>(false)
+
+  const allDatesEmployment: TimeSlot[] =
+    Object.values(datesEmployment).flat()
 
   useEffect(() => {
     const handleResize = () => {
@@ -69,7 +70,7 @@ export const CreatingCallModal = ({
       <CustomDivider />
       <CustomCalendar
         dates={null}
-        datesEmployment={datesEmployment[id]}
+        datesEmployment={allDatesEmployment}
         config={{
           type: isMobile ? 'default' : 'multiple',
           selectionDatesMode: 'single',

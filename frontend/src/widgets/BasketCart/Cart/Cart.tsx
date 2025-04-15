@@ -10,15 +10,19 @@ import { CustomDivider } from '../../../shared/ui/CustomDivider/CustomDivider'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { postCreateNewMeeting } from '../../../shared/utils/api/Admin/Meeting/PostCreateNewMeeting'
 import { deleteOrderInCart } from '../../../shared/utils/api/Client/Cart/DeleteOrdernInCart'
-import { CreatingCallModal } from '../../CreatingCallModal/CreatingCallModal'
+import {
+  CreatingCallModal,
+  TimeSlotsById,
+} from '../../CreatingCallModal/CreatingCallModal'
 import styles from './Cart.module.scss'
 
 interface CartProps {
   cart: ItemsCartProps[]
+  datesEmployment: TimeSlotsById
   onDelete: () => void
 }
 
-export const Cart = ({ cart, onDelete }: CartProps) => {
+export const Cart = ({ cart, datesEmployment, onDelete }: CartProps) => {
   const [isCreatingCall, setIsCreatingCall] = useState<boolean>(false)
 
   const showToast = useCustomToast()
@@ -123,9 +127,8 @@ export const Cart = ({ cart, onDelete }: CartProps) => {
         </div>
       </div>
       <CreatingCallModal
-        id={0}
         isOpen={isCreatingCall}
-        datesEmployment={[]}
+        datesEmployment={datesEmployment}
         onClose={() => setIsCreatingCall(prev => !prev)}
         onClick={createMeetingWithCart}
       />

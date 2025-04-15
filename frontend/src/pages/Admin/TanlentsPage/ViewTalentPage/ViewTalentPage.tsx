@@ -196,9 +196,8 @@ export const AdminViewTalentPage = () => {
           <LoadingSpinner size='xl' />
         )}
       </div>
-      {talentDatesBusy && id && (
+      {talentDatesBusy && (
         <CreatingCallModal
-          id={id}
           isOpen={isCreatingCall}
           datesEmployment={talentDatesBusy.data}
           onClose={() => setIsCreatingCall(prev => !prev)}
