@@ -7,13 +7,16 @@ use App\Events\User\CreateOrder;
 use App\Http\Controllers\Api\Resident\Sale\OfferController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Catalog\CartRequest;
+use App\Http\Requests\Catalog\EmploymentRequest;
 use App\Http\Requests\Catalog\ListRequest;
+use App\Http\Requests\MeetingRequest;
 use App\Http\Resources\Catalog\CartResorce;
 use App\Http\Resources\Catalog\PropertyResorce;
 use App\Http\Resources\Catalog\UsersResorce;
 use App\Models\Catalog\Cart;
 use App\Models\Catalog\Prop;
 use App\Models\Catalog\User;
+use App\Models\Catalog\UserEmployment;
 use App\Models\Catalog\Value;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Invoices\Offer;
@@ -111,6 +114,33 @@ class CatalogController extends Controller
             $catalogUser->inCart = $items?->where('id_catalog_user', $catalogUser->id)->count();
         }
         return new UsersResorce($catalogUser);
+    }
+
+    public function employment(EmploymentRequest $request)
+    {
+        $usersData = [];
+        $model = User::with(['employmentNow']);
+        if($request->ids) {
+            $model->whereIn('id', $request->ids);
+        }
+
+        foreach ($model->get() as $user) {
+            foreach($user->employmentNow()->orderBy('from', 'asc')->get() as $employment) {
+                if($request->timezone) {
+                    $usersData[$user->id][] = [
+                        'from' => $employment->from->setTimezone($request->timezone)->format(MeetingRequest::FORMAT_DATE),
+                        'to' => $employment->to->setTimezone($request->timezone)->format(MeetingRequest::FORMAT_DATE),
+                    ];
+                } else {
+                    $usersData[$user->id][] = [
+                        'from' => $employment->from->format(MeetingRequest::FORMAT_DATE),
+                        'to' => $employment->to->format(MeetingRequest::FORMAT_DATE),
+                    ];
+                }
+            }
+        }
+
+        return response()->json(['data' => $usersData]);
     }
 
     public function addCart(CartRequest $request)
