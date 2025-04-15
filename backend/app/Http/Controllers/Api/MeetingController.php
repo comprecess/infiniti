@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Contracts\MeetingContract as MeetingContractService;
 use App\Events\Catalog\MeetingCreate;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Catalog\EmploymentRequest;
 use App\Http\Requests\MeetingRequest;
 use App\Models\Meeting;
 use App\Models\Resident\BusinessPlan;
@@ -75,7 +76,7 @@ class MeetingController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function employment(Request $request)
+    public function employment(EmploymentRequest $request)
     {
         $usersData = [];
         $model = $this->getModel($request);
