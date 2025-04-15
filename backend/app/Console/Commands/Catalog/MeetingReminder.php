@@ -46,7 +46,7 @@ class MeetingReminder extends Command
                 ->get();
 
             if($meetings->count()) {
-                Log::alert("Meeting-reminder start: " . $start->formad("Y-m-d H:i:s"), $meetings->pluck('id')->toArray());
+                Log::alert("Meeting-reminder start: " . $start->format("Y-m-d H:i:s"), $meetings->pluck('id')->toArray());
             }
 
             $meetings->each(function($meeting) use($hour){
