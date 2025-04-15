@@ -42,7 +42,7 @@ class MeetingReminder extends Command
             $meetings = Meeting::where('date', '>', $start)
                 ->where('date', '<=', $end)
                 ->whereNotNull('service_response')
-                ->with(['model', 'owner'])
+                ->with(['owner'])
                 ->get();
 
             if($meetings->count()) {
@@ -50,16 +50,15 @@ class MeetingReminder extends Command
             }
 
             $meetings->each(function($meeting) use($hour){
+                $model = $meeting->model;
                 if(
                     $meeting->responseFail()
-                    || !$meeting->model
+                    || !$model
                 ) {
-                    Log::alert($meeting->responseFail() ? true : false);
-                    Log::alert(!$meeting->model ? true : false);
                     Log::alert("meeting-reminder id [{$meeting->id}] not send");
                     return true;
                 }
-                $users = $meeting->model->getUsersCatalog();
+                $users = $model->getUsersCatalog();
                 Mail::to($meeting->owner->getEmail())
                     ->bcc($users->pluck('email')->toArray())
                     ->send(new \App\Mail\Catalog\MeetingReminder($meeting, $hour));
