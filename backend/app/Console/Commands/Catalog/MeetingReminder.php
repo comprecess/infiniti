@@ -54,6 +54,8 @@ class MeetingReminder extends Command
                     $meeting->responseFail()
                     || !$meeting->model
                 ) {
+                    Log::alert($meeting->responseFail() ? true : false);
+                    Log::alert(!$meeting->model ? true : false);
                     Log::alert("meeting-reminder id [{$meeting->id}] not send");
                     return true;
                 }
