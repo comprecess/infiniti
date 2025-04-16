@@ -21,6 +21,9 @@ export const NotificationProfile = () => {
   Notifications[] | null
   >(null)
 
+  const [hasUnreadNotifications, setHasUnreadNotifications] =
+    useState<boolean>(false)
+
   const { isOpen, onToggle, onClose } = useDisclosure()
 
   const handleGetNotifications = async () => {
@@ -29,6 +32,14 @@ export const NotificationProfile = () => {
     const response: { data: Notifications[] } = await getNotifications(
       timeZone,
     )
+
+    if (response.data) {
+      const hasUnread = response.data.some(
+        notification => notification.viewed === 0,
+      )
+
+      setHasUnreadNotifications(hasUnread)
+    }
 
     setNotifications(response.data)
   }
@@ -53,6 +64,20 @@ export const NotificationProfile = () => {
     }
   }, [isOpen])
 
+  useEffect(() => {
+    if (isOpen) {
+      return
+    }
+
+    const interval = setInterval(() => {
+      handleGetNotifications()
+    }, 60000)
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [isOpen])
+
   return (
     <Popover
       closeOnBlur
@@ -65,6 +90,7 @@ export const NotificationProfile = () => {
         <div className={styles.wrapper}>
           <Icon
             icon={<NotificationIndicatorIcon />}
+            style={hasUnreadNotifications ? styles.iconNotification : ''}
             onIconClick={onToggle}
           />
         </div>
