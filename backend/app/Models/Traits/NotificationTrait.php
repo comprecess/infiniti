@@ -5,6 +5,7 @@ namespace App\Models\Traits;
 
 
 use App\Models\Meeting;
+use Illuminate\Support\Arr;
 
 trait NotificationTrait
 {
@@ -17,10 +18,16 @@ trait NotificationTrait
     {
         $data = [];
         $class = explode("\\", $this::class);
+        $tag = "";
         if(method_exists($this, 'notificationData')) {
             $data = $this->notificationData();
+            $tag = Arr::get($data, 'tagLang', "");
         }
-        return __('notification.'. $class[count($class) - 1], $data);
+
+        if($tag) {
+            $tag .=".";
+        }
+        return __("notification.{$tag}". $class[count($class) - 1], $data);
     }
 
 

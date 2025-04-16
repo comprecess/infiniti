@@ -48,12 +48,19 @@ class Meeting extends Model
 
     public function notificationData()
     {
+        $noFail = !$this->responseFail();
         $date = $this->date->setTimezone($this->timezone);
-        return ['date' => $date->toRfc2822String()];
+        $link = $noFail ? $this->getJson('data.join_url', '') : "";
+        return ['date' => $date->toRfc2822String(), 'tagLang' => $noFail ? '': 'fail', 'link' => $link];
     }
 
     public function responseFail()
     {
         return !$this->service_response || !Arr::get($this->service_response ?? [], 'data.id', null);
+    }
+
+    public function getJson($data, $default = null, $name = 'service_response')
+    {
+        return Arr::get($this->{$name}, $data, $default);
     }
 }
