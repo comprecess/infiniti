@@ -14,12 +14,12 @@ import { ChevronsLeftIcon } from '../../../shared/icons/ChevronsLeftIcon'
 import { LockIcon } from '../../../shared/icons/LockIcon'
 import { MenuIcon } from '../../../shared/icons/MenuIcon'
 import { NoteIcon } from '../../../shared/icons/NoteIcon'
-import { NotificationIndicatorIcon } from '../../../shared/icons/NotificationIndicatorIcon'
 import { Basket } from '../../../shared/ui/Basket/Basket'
 import { Icon } from '../../../shared/ui/Icon/Icon'
 import { Profile } from '../../../shared/ui/Profile/Profile'
 import { getOrdersInCart } from '../../../shared/utils/api/Client/Cart/GetOrdersInCart'
 import { ChatGPT } from '../../../widgets/ChatGPT/ChatGPT'
+import { NotificationProfile } from '../../../widgets/NotificationProfile/NotificationProfile'
 import styles from './Header.module.scss'
 
 const BasketMemo = memo(Basket)
@@ -86,10 +86,7 @@ export const Header = ({
         {isAdmin ? (
           <>
             <ChatGPT />
-            <Icon
-              icon={<NotificationIndicatorIcon />}
-              onIconClick={() => {}}
-            />
+            <NotificationProfile />
             <Icon icon={<NoteIcon />} onIconClick={() => {}} />
           </>
         ) : (
