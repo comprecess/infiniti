@@ -26,7 +26,7 @@ class NotificationController extends Controller
             $not->having('typeSort', 0);
         }
 
-        return $this->index($not, NotificationResource::class, true);
+        return $this->index($not, NotificationResource::class, $type);
     }
 
     public function viewed(NotificationRequest $request)
