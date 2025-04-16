@@ -1262,3 +1262,12 @@ export interface DashboardNetWorthData {
     name: string
   }[]
 }
+
+export interface Notifications {
+  id: 4
+  dateActive: string
+  dateCreate: string
+  message: string
+  status: boolean
+  viewed: number
+}

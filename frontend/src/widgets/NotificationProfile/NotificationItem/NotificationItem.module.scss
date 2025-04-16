@@ -1,0 +1,50 @@
+.wrapperDisable,
+.wrapperActive {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 8px 12px;
+  user-select: none;
+  background-color: $brand-800;
+  transition: all 0.5s ease;
+}
+
+.wrapperActive {
+  border: 1px solid $brand-500;
+}
+
+.message {
+  font-size: 14px;
+  line-height: 20px;
+
+  p {
+    font-size: 15px;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    font-size: 15px;
+    color: $brand-500;
+    text-decoration: underline;
+  }
+
+  ol,
+  li {
+    margin-left: 14px;
+    list-style-position: inside;
+    font-size: 15px;
+  }
+}
+
+.time {
+  font-size: 10px;
+  color: $gray-100;
+  bottom: 5px;
+  right: 10px;
+  user-select: none;
+  text-align: end;
+}

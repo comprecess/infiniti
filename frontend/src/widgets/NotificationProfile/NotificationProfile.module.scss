@@ -1,0 +1,24 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  user-select: none;
+}
+
+.notifications {
+  font-size: 16px;
+  line-height: 21px;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+  user-select: none;
+}
+
+.notificationsList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  padding-right: 4px;
+  overflow-y: auto;
+}

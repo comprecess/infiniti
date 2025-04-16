@@ -215,8 +215,8 @@ export const ChatGPT = () => {
   return (
     <Popover
       closeOnBlur
-      isOpen={isOpen}
       placement='bottom-end'
+      isOpen={isOpen}
       returnFocusOnClose={false}
       onClose={onClose}
     >
