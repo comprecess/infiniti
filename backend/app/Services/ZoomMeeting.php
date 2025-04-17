@@ -49,7 +49,8 @@ class ZoomMeeting implements MeetingContract
 
 
         $meetingData->duration = Meeting::TIME;
-        $meetingData->schedule_for = $email;
+//        $meetingData->schedule_for = $email;
+        $meetingData->schedule_for = env('ZOOM_ACCOUNT_EMAIL', null);
         $meetingData->agenda = $description;
         $meetingData->topic = $title;
         $meetingData->start_time = $model->date->format("Y-m-d\TH:i:s\Z");
