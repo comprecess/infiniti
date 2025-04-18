@@ -274,6 +274,8 @@ class TalentController extends TalentsController
         if($userCart->id != $user->id && !$user->checkAccess()) {
             abort(403);
         }
+        $cart->load(['itemsActive', 'itemsActive.userCatalog', 'user']);
+
         return new CartListResource($cart);
     }
 
