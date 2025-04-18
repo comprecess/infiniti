@@ -71,3 +71,22 @@
   text-align: right;
   justify-content: end;
 }
+
+.wrapperFirstButton {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.wrapperSecondButton {
+  @include mobileBreakpoint('max', $bpS) {
+    width: 100%;
+  }
+}
+
+.buttonCreateCall {
+  height: 44px;
+}
