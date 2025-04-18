@@ -46,11 +46,19 @@ class Cart extends Model implements MeetingContract
         return $this->hasMany(CartItem::class, 'id_catalog_cart');
     }
 
+    public function itemsActive()
+    {
+        return $this->hasMany(CartItem::class, 'id_catalog_cart')
+            ->select('catalog_cart_item.*')
+            ->leftJoin('catalog_user', 'catalog_user.id', '=', 'catalog_cart_item.id_catalog_user')
+            ->whereNull('catalog_user.deleted_at');
+    }
+
     public function user()
     {
-        if(!$this->user_type || !$this->user_id) {
-            return null;
-        }
+//        if(!$this->user_type || !$this->user_id) {
+//            return null;
+//        }
         return $this->morphTo('user');
     }
 
