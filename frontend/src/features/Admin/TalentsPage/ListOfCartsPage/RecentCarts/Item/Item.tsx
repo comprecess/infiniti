@@ -6,7 +6,6 @@ import styleItem from '../RecentCarts.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
-  idCustomer: number
   idCart: number
   image: string
   name: string
@@ -16,7 +15,6 @@ interface ItemProps {
 }
 
 export const Item = ({
-  idCustomer,
   idCart,
   image,
   name,
@@ -26,10 +24,10 @@ export const Item = ({
 }: ItemProps) => {
   const navigate = useNavigate()
 
-  const handleNavigateToCustomer = (name: string) => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${idCustomer}/${name}`,
-    )
+  const handleNavigateToCustomer = () => {
+    //navigate(
+    //  `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${idCustomer}/${name}`,
+    //)
   }
 
   const handleNavigateToCart = () => {
@@ -54,7 +52,7 @@ export const Item = ({
       </div>
       <div
         className={`${styleItem.nameColumn} ${styles.nameCodeItem}`}
-        onClick={() => handleNavigateToCustomer(Routes.summary)}
+        onClick={() => {}}
       >
         <span className={styles.nameItem}>{name}</span>
       </div>

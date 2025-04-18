@@ -92,7 +92,6 @@ export const RecentCarts = ({
                 <Fragment key={item.id}>
                   <Item
                     image={item.user.img}
-                    idCustomer={item.user.id}
                     idCart={item.id}
                     name={item.user.account}
                     specialization={item.specializations}
