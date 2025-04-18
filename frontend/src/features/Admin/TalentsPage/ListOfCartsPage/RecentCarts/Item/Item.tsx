@@ -24,12 +24,6 @@ export const Item = ({
 }: ItemProps) => {
   const navigate = useNavigate()
 
-  const handleNavigateToCustomer = () => {
-    //navigate(
-    //  `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${idCustomer}/${name}`,
-    //)
-  }
-
   const handleNavigateToCart = () => {
     navigate(
       `/${Routes.adminPages}/${Routes.talents}/${Routes.list}/${Routes.carts}/${Routes.cart}/${idCart}`,
