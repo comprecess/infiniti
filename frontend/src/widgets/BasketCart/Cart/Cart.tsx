@@ -18,7 +18,7 @@ import styles from './Cart.module.scss'
 
 interface CartProps {
   cart: ItemsCartProps[]
-  datesEmployment: TimeSlotsById
+  datesEmployment: TimeSlotsById | undefined
   onDelete: () => void
 }
 
@@ -126,12 +126,14 @@ export const Cart = ({ cart, datesEmployment, onDelete }: CartProps) => {
           )}
         </div>
       </div>
-      <CreatingCallModal
-        isOpen={isCreatingCall}
-        datesEmployment={datesEmployment}
-        onClose={() => setIsCreatingCall(prev => !prev)}
-        onClick={createMeetingWithCart}
-      />
+      {datesEmployment && (
+        <CreatingCallModal
+          isOpen={isCreatingCall}
+          datesEmployment={datesEmployment}
+          onClose={() => setIsCreatingCall(prev => !prev)}
+          onClick={createMeetingWithCart}
+        />
+      )}
     </>
   )
 }

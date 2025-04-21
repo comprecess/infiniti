@@ -89,7 +89,7 @@ export const AdminCartPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      {data && teamDatesBusy ? (
+      {data ? (
         <>
           <div className={styles.title}>
             <TitlePage
