@@ -20,7 +20,7 @@ import { Item } from './Item/Item'
 interface CartProps {
   idCart: number
   cart: CartItem[]
-  datesEmployment: TimeSlotsById
+  datesEmployment: TimeSlotsById | undefined
   onDelete: () => void
 }
 
@@ -133,7 +133,7 @@ export const Cart = ({
                   idCart={idCart}
                   idItem={order.id}
                   amount={order.amount}
-                  avatar={order.talent.img}
+                  avatar={order.talent?.img}
                   nameEmail={order.talent.name}
                   profession={order.talent.specialization}
                   nameIdType={order.nameType}
@@ -160,12 +160,14 @@ export const Cart = ({
           )}
         </div>
       </div>
-      <CreatingCallModal
-        isOpen={isCreatingCall}
-        datesEmployment={datesEmployment}
-        onClose={() => setIsCreatingCall(prev => !prev)}
-        onClick={createMeetingWithCart}
-      />
+      {datesEmployment && (
+        <CreatingCallModal
+          isOpen={isCreatingCall}
+          datesEmployment={datesEmployment}
+          onClose={() => setIsCreatingCall(prev => !prev)}
+          onClick={createMeetingWithCart}
+        />
+      )}
     </>
   )
 }

@@ -79,7 +79,7 @@ export const ClientBasketPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      {orders && teamDatesBusy ? (
+      {orders ? (
         <>
           <div className={styles.title}>
             <TitlePage

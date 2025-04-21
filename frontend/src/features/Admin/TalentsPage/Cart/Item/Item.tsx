@@ -11,7 +11,7 @@ interface ItemProps {
   idCart: number
   idItem: number
   amount: number
-  avatar: string
+  avatar: string | null
   nameEmail: string
   profession: string
   nameIdType: NameIdType
