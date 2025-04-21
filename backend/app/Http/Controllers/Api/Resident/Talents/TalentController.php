@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Api\Resident\Talents;
 
 
+use App\Events\Resident\Talents\DeleteTalent;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Talents\CartListRequest;
 use App\Http\Requests\Resident\Talents\CartRequest;
@@ -183,6 +184,7 @@ class TalentController extends TalentsController
 
     public function delete(User $user)
     {
+        event(new DeleteTalent($user));
         return $this->deleteCRUD($user);
     }
 
@@ -274,7 +276,7 @@ class TalentController extends TalentsController
         if($userCart->id != $user->id && !$user->checkAccess()) {
             abort(403);
         }
-        $cart->load(['itemsActive', 'itemsActive.userCatalog', 'user']);
+        $cart->load(['itemsActive', 'items.userCatalog', 'user', 'items.userCatalog.values']);
 
         return new CartListResource($cart);
     }

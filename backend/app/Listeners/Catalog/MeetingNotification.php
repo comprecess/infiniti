@@ -25,9 +25,9 @@ class MeetingNotification implements ShouldQueue
         $meeting = $event->getMeeting();
         $meeting->refresh();
 
-        if($meeting->responseFail()) {
-            return;
-        }
+//        if($meeting->responseFail()) {
+//            return;
+//        }
 
         $not = new Notification();
         $not->setUser($meeting->owner);

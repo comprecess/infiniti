@@ -85,6 +85,8 @@ class Handler extends ExceptionHandler
             ], 500);
         }
 
+        Log::alert($request->getRequestUri());
+
         return parent::render($request, $exception);
     }
 }

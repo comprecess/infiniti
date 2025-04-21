@@ -10,6 +10,10 @@ class Tag extends Model
 {
     use HasFactory;
 
+    const TYPE = [
+        'Contacts', 'Expense', 'Income', 'Transfer', 'Client'
+    ];
+
     public $timestamps = false;
 
     protected $table = "sys_tags";
