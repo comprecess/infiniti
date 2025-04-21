@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Events\Catalog\MeetingCreate;
+use App\Events\Resident\Talents\DeleteTalent;
 use App\Events\User\CreateOrder;
 use App\Events\UserIsAuthorized;
 use App\Listeners\Catalog\MeetingEmployment;
@@ -11,6 +12,7 @@ use App\Listeners\Catalog\MeetingSendEmail;
 use App\Listeners\Catalog\MeetingServiceCreate;
 use App\Listeners\CheckCart;
 use App\Listeners\Order\SendEmail;
+use App\Listeners\Resident\Talents\DeleteCatalogItem;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -33,12 +35,17 @@ class EventServiceProvider extends ServiceProvider
         CreateOrder::class => [
             SendEmail::class
         ],
+        /** Создание встречи*/
         MeetingCreate::class => [
             MeetingServiceCreate::class,
             MeetingEmployment::class,
             MeetingSendEmail::class,
             MeetingNotification::class
-        ]
+        ],
+        /** Удаление таланта  */
+        DeleteTalent::class => [
+            DeleteCatalogItem::class
+        ],
     ];
 
     /**

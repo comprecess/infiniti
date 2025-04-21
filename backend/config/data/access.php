@@ -19,5 +19,8 @@ use \App\Http\Controllers\Api\Resident;
         ],
         'business_plan' => [
             Resident\BusinessPlan\BusinessPlanAccessController::class
+        ],
+        'transactions' => [
+            Resident\Transactions\TransactionsAccessController::class
         ]
     ];

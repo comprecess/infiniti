@@ -40,7 +40,7 @@ class CartListResource extends JsonResource
             'subTax' => number_format($this->sub_tax, 2, '.', ''),
             'date' => $this->updated_at->format('d/m/Y'),
             'secret' => $this->secret,
-            'cartItems' => CartItemResource::collection($this->itemsActive)
+            'cartItems' => CartItemResource::collection($this->items)
         ];
     }
 

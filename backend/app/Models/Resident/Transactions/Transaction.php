@@ -9,6 +9,7 @@ use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Traits\CollectionTrait;
 use App\Models\Traits\CurrencyTrait;
+use App\Models\Traits\HelperTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\Traits\UserTrait;
 use App\Models\Users\Admin;
@@ -19,7 +20,7 @@ use Illuminate\Support\Facades\Log;
 
 class Transaction extends Model implements InsertDefaultValueInterface
 {
-    use HasFactory, CurrencyTrait, CollectionTrait, UserTrait, InsertDefaultValueTrait;
+    use HasFactory, CurrencyTrait, CollectionTrait, UserTrait, InsertDefaultValueTrait, HelperTrait;
 
     const TYPE = ['Income', 'Expense', 'Out', 'In', 'Equity'];
 
@@ -28,6 +29,8 @@ class Transaction extends Model implements InsertDefaultValueInterface
     const EXPENSE_TYPE = ['Expense', 'Out'];
 
     const TYPE_NON = 'Uncleared';
+
+    const STATUS = ['Cleared','Uncleared','Reconciled','Void'];
 
     protected $table = "sys_transactions";
 
@@ -59,6 +62,10 @@ class Transaction extends Model implements InsertDefaultValueInterface
     public function account()
     {
         return $this->belongsTo(Account::class, 'account_id');
+    }
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'company_id');
     }
 
     public static function byAdmin(callable $callable = null)

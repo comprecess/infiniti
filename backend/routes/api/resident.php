@@ -143,6 +143,19 @@ Route::controller(Resident\BusinessPlan\BusinessModelController::class)->prefix(
         Route::match(['put', 'post'],'/{model}/update', 'update');
     });
 
+#transactions
+Route::controller(Resident\Transactions\TransactionsController::class)
+    ->prefix('transactions')
+    ->group(function(){
+        Route::get('/input-data', 'inputData');
+        Route::post('/', 'createOrUpdate');
+        /*Route::put('/{model}', 'createOrUpdate');
+        Route::get('/{model}', 'item');
+        Route::get('/{model}/to-plan', 'toPlan');
+        Route::delete('/{model}', 'delete');
+        Route::match(['put', 'post'],'/{model}/update', 'update');*/
+    });
+
 #settings
 Route::group(['prefix' => 'settings'], function(){
     #admin

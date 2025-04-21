@@ -13,4 +13,9 @@ class Category extends Model
 
     protected $table = "sys_cats";
 
+    public function scopeIncome($query) :void
+    {
+        $query->where('type', self::TYPE[1]);
+    }
+
 }
