@@ -43,6 +43,14 @@ class TalentController extends TalentsController
        delete as deleteCRUD;
     }
 
+    public function roleAccess($request)
+    {
+        if($request->getMethod() == "DELETE" && strpos($request->getUri(), 'resident/talent/cart') !== false && $request->route('cart')?->id == auth()->user()->myCart?->id) {
+            return true;
+        }
+        return null;
+    }
+
     public function getDocumentVariables(): DocumentVariables
     {
         $columns = [
@@ -265,6 +273,11 @@ class TalentController extends TalentsController
         $request->sortModel($query);
 
         $query->with(['items', 'items.userCatalog', 'items.userCatalog.values']);
+
+        #проверка ну удаление талантов и пустоту корзины
+        $query->whereRaw("(SELECT COUNT(*) FROM `catalog_cart_item` JOIN `catalog_user` ON `catalog_user`.`id` = `catalog_cart_item`.`id_catalog_user` WHERE catalog_cart_item.id_catalog_cart = catalog_cart.id AND `catalog_user`.`deleted_at` IS NULL) > 0");
+
+        dd($query->toRawSql());
 
         return $this->index($query, CartListResource::class, true);
     }

@@ -64,7 +64,8 @@ class Role extends Model
         //system
         if(method_exists($class, 'roleAccess')) {
             if(($result = $class->roleAccess($request, $getList)) !== null) {
-                return RoleAccess::systemAccess($result);
+                return $result;
+//                return RoleAccess::systemAccess($result);
             }
         }
 
