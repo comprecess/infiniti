@@ -18,7 +18,7 @@ class MeetingRequest extends FormRequest
     {
 //        $timezone = array_keys(config('data.timezone', []));
         return [
-            'timezone' => 'required|timezone:all',
+            'timezone' => 'required',
             'date' => 'required|date_format:' . self::FORMAT_DATE,
         ];
     }
