@@ -65,6 +65,7 @@ class TransactionsController extends TransactionsAccessController
             ->with(['company'])
             ->checkAccess(...['all', 'transactions'])
             ->orderByDesc('id')
+            ->limit(20)
             ->get();
 
         return response()->json([
