@@ -9,8 +9,10 @@ use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Traits\CollectionTrait;
 use App\Models\Traits\CurrencyTrait;
+use App\Models\Traits\FileStorageTrait;
 use App\Models\Traits\HelperTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
+use App\Models\Traits\TagsTrait;
 use App\Models\Traits\UserTrait;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
@@ -20,7 +22,13 @@ use Illuminate\Support\Facades\Log;
 
 class Transaction extends Model implements InsertDefaultValueInterface
 {
-    use HasFactory, CurrencyTrait, CollectionTrait, UserTrait, InsertDefaultValueTrait, HelperTrait;
+    use HasFactory, CurrencyTrait, CollectionTrait, UserTrait, InsertDefaultValueTrait, HelperTrait, FileStorageTrait, TagsTrait;
+
+    /**
+     * Income - поступление
+     * Expense - отчесление
+     * Out - перевод
+     */
 
     const TYPE = ['Income', 'Expense', 'Out', 'In', 'Equity'];
 

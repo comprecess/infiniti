@@ -35,15 +35,25 @@ class Tag extends Model
             ->get();
     }
 
-    public function setTag(array $data)
+    public static function setTag(array|string $data, $data_string_separator = ',', $type = null)
     {
         $tags = collect([]);
+        if(!is_array($data)) {
+            $data = explode($data_string_separator, $data);
+        }
+
         foreach($data as $value) {
-            $tag = self::where('text', $value)->first();
+            $value = trim($value);
+            $tagQuery = self::where('text', $value);
+            if($type){
+                $tagQuery->where('type', $type);
+            }
+
+            $tag = $tagQuery->first();
             if(!$tag) {
                 $tag = new self();
                 $tag->text = $value;
-                $tag->type = $this->aliasName ?? self::class;
+                $tag->type = $type;
                 $tag->save();
             }
             $tags->push($tag);

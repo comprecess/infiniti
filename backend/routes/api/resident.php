@@ -150,6 +150,7 @@ Route::controller(Resident\Transactions\TransactionsController::class)
         Route::get('/input-data', 'inputData');
         Route::post('/', 'createOrUpdate');
         Route::put('/{transaction}', 'createOrUpdate');
+        Route::post('transfer', 'transfer');
         /*Route::put('/{model}', 'createOrUpdate');
         Route::get('/{model}', 'item');
         Route::get('/{model}/to-plan', 'toPlan');

@@ -19,7 +19,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
-class TransactionsCreateRequest extends FormRequest implements ConvertingPropertiesInterface, ModelInterface
+class TransferRequest extends FormRequest implements ConvertingPropertiesInterface, ModelInterface
 {
     use ConvertingPropertiesTrait, ModelTrait;
 
@@ -31,58 +31,25 @@ class TransactionsCreateRequest extends FormRequest implements ConvertingPropert
 
     public function rules(): array
     {
-        $request = app(TransactionsTypeRequest::class);
-        $type = $request->getType();
-
-        $status = [Transaction::STATUS[0], Transaction::STATUS[1]];
-        if($this->referralLink) {
-            if(Transaction::where('ref', $this->referralLink)
-                ->where('type', $type)
-                ->where('date', $this->date)
-                ->count()
-            ){
-                throw ValidationException::withMessages(['referralLink' => "A transaction has been opened for this link and date."]);
-            }
-        }
-
         $rules = [
-//            'account' => [
-//                'required',
-//                'integer',
-//                Rule::exists('sys_accounts', 'id')
-////                Rule::exists('sys_accounts', 'id')->where('active', 1)
-//            ],
-//            'currency' => [
-//                'required',
-//                'integer',
-//                Rule::exists('sys_currencies', 'id')
-//            ],
             'referralLink' => 'nullable',
-            'code' => 'nullable',
             'tags' => 'nullable|array',
             'tags.*' => 'required|string',
             'date' => 'required|date_format:Y-m-d',
             'amount' => 'required|decimal:2',
             'attachments' => 'nullable',
             'description' => 'required',
-            'status' => 'required|in:' . implode(',', $status),
-            'file' => 'nullable|extensions:jepg,jpg,png,pdf,doc,docx,xml,xmlx',
+//            'type' => 'nullable|in:' . implode(',', [Transaction::TYPE[2]]),
 
         ];
 
         $this->setRule($rules)
-            ->applyModel('account', true)
-            ->applyModel('currency', true)
-            ->applyModel('payMethods')
-            ->applyModel('category', false, 'id', function($rule){
-                $rule->where('type', Category::TYPE[1]);
+            ->applyModel('fromAccount', true, dopRule: function(&$ruleList){
+                $ruleList[] = 'different:to_account';
             })
-            ->applyModel('company')
-            ->applyModel('staff')
-            ->applyModel('client')
-    ;
-
-
+            ->applyModel('toAccount', true)
+            ->applyModel('currency', true)
+            ->applyModel('payMethods');
 
         return $rules;
     }
@@ -94,16 +61,9 @@ class TransactionsCreateRequest extends FormRequest implements ConvertingPropert
             'referralLink' => 'ref',
             'currency' => 'currency_iso_code',
             'payMethods' => 'method',
-            'category' => 'cat_id',
-            'code',
             'date',
             'amount',
-            'attachments',
             'description',
-            'status',
-            'company' => 'company_id',
-            'staff' => 'staff_id',
-            'client' => 'payerid'
         ];
     }
 
@@ -112,8 +72,6 @@ class TransactionsCreateRequest extends FormRequest implements ConvertingPropert
         $columModelSet = [
             'currency' => ['iso_code', null],
             'payMethods' => ['name', null],
-            'client' => ['id', 0],
-            'company' => ['id', 0],
         ];
         $value = [];
 
@@ -129,13 +87,10 @@ class TransactionsCreateRequest extends FormRequest implements ConvertingPropert
     public function getListPropertiesModel(): array
     {
         return [
-            'account' => Account::class,
+            'fromAccount' => Account::class,
+            'toAccount' => Account::class,
             'currency' => Currency::class,
             'payMethods' => PayMethods::class,
-            'category' => Category::class,
-            'company' => Company::class,
-            'staff' => Admin::class,
-            'client' => Client::class
         ];
     }
 

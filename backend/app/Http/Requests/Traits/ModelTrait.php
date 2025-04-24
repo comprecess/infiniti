@@ -22,7 +22,7 @@ trait ModelTrait
         return $this->myRule;
     }
 
-    public function applyModel($nameColumn, $required = false, $nameTableColumn = 'id', callable $callable = null)
+    public function applyModel($nameColumn, $required = false, $nameTableColumn = 'id', callable $callable = null, callable $dopRule = null)
     {
         if(!($this instanceof ModelInterface)) {
             return false;
@@ -46,6 +46,13 @@ trait ModelTrait
 
         if($required) {
             $this->myRule[$nameColumn][] = 'required';
+        }
+
+        if(is_callable($dopRule)) {
+            $data = $dopRule($this->myRule[$nameColumn]);
+            if(is_array($data)) {
+                $this->myRule[$nameColumn] = $data;
+            }
         }
 
         return $this;
