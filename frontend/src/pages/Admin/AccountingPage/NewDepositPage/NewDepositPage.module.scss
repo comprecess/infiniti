@@ -3,6 +3,8 @@
   flex-direction: column;
   gap: 40px;
   width: 100%;
+
+  @include scrollbar;
 }
 
 .section {
@@ -23,6 +25,12 @@
   @include mobileBreakpoint('max', $bpXL) {
     max-width: 100%;
   }
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
 .cardSecond {

@@ -1,10 +1,16 @@
 import { Fragment } from 'react'
 
+import { AccountingTransactions } from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
+import { Item } from './Item/Item'
 import styles from './RecentDeposits.module.scss'
 
-export const RecentDeposits = () => {
+interface RecentDepositsProps {
+  transactions: AccountingTransactions[]
+}
+
+export const RecentDeposits = ({ transactions }: RecentDepositsProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -13,11 +19,11 @@ export const RecentDeposits = () => {
         <Title title='Amount' style={styles.amountColumn} />
       </div>
       <div className={styles.items}>
-        {[].map((_item, index) => {
+        {transactions.map((item, index) => {
           return (
-            <Fragment key={'item.id'}>
-              Item
-              {index !== [].length - 1 && <CustomDivider />}
+            <Fragment key={item.id}>
+              <Item transaction={item} />
+              {index !== transactions.length - 1 && <CustomDivider />}
             </Fragment>
           )
         })}
