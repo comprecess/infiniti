@@ -1,25 +1,83 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
+import {
+  AccountingDepositExpenseForm,
+  AccountingInputData,
+} from '../../../../app/constants/constants'
 import { AddDepositFields } from '../../../../features/Admin/AccountingPage/NewDepositPage/AddDepositFields/AddDepositFields'
 import { RecentDeposits } from '../../../../features/Admin/AccountingPage/NewDepositPage/RecentDeposits/RecentDeposits'
+import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
+import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { getAccountingInputData } from '../../../../shared/utils/api/Admin/Accounting/GetAccountingInputData'
+import { postAddNewTransaction } from '../../../../shared/utils/api/Admin/Accounting/PostAddNewTransaction'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './NewDepositPage.module.scss'
 
 export const AdminNewDepositPage = () => {
+  const [form, setForm] = useState<Partial<AccountingDepositExpenseForm>>(
+    {},
+  )
+  const [inputData, setInputData] = useState<AccountingInputData | null>(
+    null,
+  )
+
+  const showToast = useCustomToast()
+
+  const getInputData = async () => {
+    const response: AccountingInputData = await getAccountingInputData()
+
+    setInputData(response)
+  }
+
   useEffect(() => {
     document.title = 'infiniti | New Deposit'
   }, [])
 
+  const addNewTransaction = async () => {
+    const response = await postAddNewTransaction(form, 'Income')
+
+    if (response.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully created a transaction',
+        status: 'success',
+      })
+      await getInputData()
+    } else {
+      showToast({
+        title: 'Error',
+        description: response.message,
+        status: 'error',
+      })
+    }
+  }
+
+  useEffect(() => {
+    getInputData()
+  }, [])
+
   return (
     <div className={styles.wrapper}>
-      <section className={styles.section}>
-        <RecentCard style={styles.cardFirst} title='Add Deposit'>
-          <AddDepositFields />
-        </RecentCard>
-        <RecentCard style={styles.cardSecond} title='Recent Deposits'>
-          <RecentDeposits />
-        </RecentCard>
-      </section>
+      {inputData ? (
+        <section className={styles.section}>
+          <RecentCard style={styles.cardFirst} title='Add Deposit'>
+            <AddDepositFields
+              inputData={inputData}
+              setForm={setForm}
+              addNewTransaction={addNewTransaction}
+            />
+          </RecentCard>
+          {inputData.access.view === 1 && inputData.transaction && (
+            <RecentCard style={styles.cardSecond} title='Recent Deposits'>
+              <RecentDeposits transactions={inputData.transaction} />
+            </RecentCard>
+          )}
+        </section>
+      ) : (
+        <div className={styles.loading}>
+          <LoadingSpinner size='xl' />
+        </div>
+      )}
     </div>
   )
 }

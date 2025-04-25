@@ -922,9 +922,9 @@ export interface DashboardData {
   }
   newWorth: string
   graph: DashboardDataJson
-  client: 36
-  company: 11
-  leads: 18
+  client: number
+  company: number
+  leads: number
 }
 
 interface DashboardDataEntry {
@@ -1264,10 +1264,64 @@ export interface DashboardNetWorthData {
 }
 
 export interface Notifications {
-  id: 4
+  id: number
   dateActive: string
   dateCreate: string
   message: string
   status: boolean
   viewed: number
+}
+
+export interface AccountingInputData {
+  transaction?: AccountingTransactions[]
+  access: RolesAccess
+  account: { id: number; balance: string; name: string }[]
+  category: {
+    id: number
+    amount: string
+    name: string
+  }[]
+  client: { id: number; account: string }[]
+  code: string
+  currency: CurrencyProps[]
+  company: CompaniesListProps[]
+  tags: { id: number; name: string; type: string }[]
+  payMethods: {
+    id: number
+    name: string
+  }[]
+  staff: {
+    id: number
+    account: string
+    businessNumber: string
+    email: string
+  }[]
+  status: string[]
+}
+
+export interface AccountingTransactions {
+  id: number
+  account: string
+  amount: string
+  code: string
+  company: number
+  description: string
+}
+
+export interface AccountingDepositExpenseForm {
+  type: 'Income' | 'Expense'
+  referralLink: string
+  code: string
+  tags: string[]
+  date: string
+  amount: number
+  description: string
+  status: string
+  account: number
+  currency: number
+  payMethods: number
+  category: number
+  company: number
+  staff: number
+  client: number
 }

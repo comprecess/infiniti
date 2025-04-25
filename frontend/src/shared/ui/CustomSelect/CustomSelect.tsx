@@ -47,7 +47,7 @@ export const CustomSelect = ({
   }
 
   const checkValue = () => {
-    if (value && onInputChange) {
+    if (value !== undefined && onInputChange) {
       onChange(titleOnChange, value)
     }
   }
