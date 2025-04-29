@@ -37,7 +37,7 @@ export const AdminNewExpensePage = () => {
     if (response.status) {
       showToast({
         title: 'Successfully',
-        description: 'You have successfully created a transaction',
+        description: 'You have successfully created a Expense',
         status: 'success',
       })
       await getInputData()

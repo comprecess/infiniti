@@ -1325,3 +1325,16 @@ export interface AccountingDepositExpenseForm {
   staff: number
   client: number
 }
+
+export interface AccountingTransferForm {
+  type: 'Out'
+  referralLink: string
+  tags: string[]
+  date: string
+  amount: number
+  description: string
+  fromAccount: number
+  toAccount: number
+  currency: number
+  payMethods: number
+}

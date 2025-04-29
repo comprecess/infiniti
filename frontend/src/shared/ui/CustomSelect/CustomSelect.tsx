@@ -64,7 +64,7 @@ export const CustomSelect = ({
         fontSize='17px'
         fontWeight='400'
         lineHeight='24px'
-        color='gray.400'
+        color='#55586e'
         placeholder={placeholder}
         size={size}
         height={height ? height : undefined}
@@ -76,7 +76,11 @@ export const CustomSelect = ({
       >
         {nameList.map((item, index) => {
           return (
-            <option key={idList[index]} value={idList[index]}>
+            <option
+              key={idList[index]}
+              value={idList[index]}
+              style={{ color: 'white' }}
+            >
               {camelCase ? camelCaseToTitleCase(item) : item}
             </option>
           )
