@@ -151,6 +151,10 @@ Route::controller(Resident\Transactions\TransactionsController::class)
         Route::post('/', 'createOrUpdate');
         Route::put('/{transaction}', 'createOrUpdate');
         Route::post('transfer', 'transfer');
+        Route::get('bill', 'bill');
+        Route::get('bill/all', 'billAll');
+        Route::post('bill', 'billCreateOrUpdate');
+        Route::match(['put', 'post'],'bill/{bill}', 'billCreateOrUpdate');
         /*Route::put('/{model}', 'createOrUpdate');
         Route::get('/{model}', 'item');
         Route::get('/{model}/to-plan', 'toPlan');

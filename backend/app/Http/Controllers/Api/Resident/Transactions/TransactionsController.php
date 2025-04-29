@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Resident\Transactions;
 
 
 use App\Http\Controllers\Api\Traits\CRUD;
+use App\Http\Requests\Resident\Transactions\BillCreateRequest;
 use App\Http\Requests\Resident\Transactions\TransactionsCreateRequest;
 use App\Http\Requests\Resident\Transactions\TransactionsTypeRequest;
 use App\Http\Requests\Resident\Transactions\TransferRequest;
@@ -14,6 +15,7 @@ use App\Http\Resources\Resident\Invoices\AccountInfoResource;
 use App\Http\Resources\Resident\Invoices\CategoryInfoResource;
 use App\Http\Resources\Resident\Invoices\PayMethodsResource;
 use App\Http\Resources\Resident\Settings\CurrencyResource;
+use App\Http\Resources\Resident\Transactions\BillsResource;
 use App\Http\Resources\Resident\Transactions\TransactionsResource;
 use App\Http\Resources\Resident\Settings\TagResource;
 use App\Http\Resources\Users\AdminListResource;
@@ -23,6 +25,7 @@ use App\Models\Resident\Client\Company;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\Tag;
 use App\Models\Resident\Transactions\Account;
+use App\Models\Resident\Transactions\Bill;
 use App\Models\Resident\Transactions\Category;
 use App\Models\Resident\Transactions\PayMethods;
 use App\Models\Resident\Transactions\Transaction;
@@ -180,6 +183,39 @@ class TransactionsController extends TransactionsAccessController
             $to->currency_rate = $currency->rate;
             $to->save();
         });
+    }
+
+    public function bill()
+    {
+        $days = 30;
+        $today = now();
+
+        $bills_upcoming = Bill::whereBetween('next_date', [$today, (clone $today)->addDays($days)])
+            ->with(['account', 'getCurrencyIso', 'client', 'category'])
+            ->orderBy('next_date', 'asc')
+            ->get();
+
+        $bills_past_due = Bill::whereBetween('next_date', [
+            $today,
+            (clone $today)->subDays($days),
+        ])
+            ->with(['account', 'getCurrencyIso', 'client', 'category'])
+            ->orderBy('next_date', 'asc')
+            ->where('is_paid', 0)
+            ->get();
+
+        return response()->json(['billsUpcoming' => BillsResource::collection($bills_upcoming), 'billsPastDue' => BillsResource::collection($bills_past_due)]);
+    }
+
+    public function billAll()
+    {
+        $bills = Bill::orderBy('next_date', 'asc');
+        return $this->index($bills, BillsResource::class);
+    }
+
+    public function billCreateOrUpdate(BillCreateRequest $request, Bill $model)
+    {
+        return $this->createOrUpdateCRUD($request, $model);
     }
 
 }
