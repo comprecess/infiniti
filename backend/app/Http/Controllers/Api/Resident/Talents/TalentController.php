@@ -277,7 +277,6 @@ class TalentController extends TalentsController
         #проверка ну удаление талантов и пустоту корзины
         $query->whereRaw("(SELECT COUNT(*) FROM `catalog_cart_item` JOIN `catalog_user` ON `catalog_user`.`id` = `catalog_cart_item`.`id_catalog_user` WHERE catalog_cart_item.id_catalog_cart = catalog_cart.id AND `catalog_user`.`deleted_at` IS NULL) > 0");
 
-        dd($query->toRawSql());
 
         return $this->index($query, CartListResource::class, true);
     }
