@@ -29,17 +29,13 @@ export const AdminNewDepositPage = () => {
     setInputData(response)
   }
 
-  useEffect(() => {
-    document.title = 'infiniti | New Deposit'
-  }, [])
-
   const addNewTransaction = async () => {
     const response = await postAddNewTransaction(form, 'Income')
 
     if (response.status) {
       showToast({
         title: 'Successfully',
-        description: 'You have successfully created a transaction',
+        description: 'You have successfully created a Deposit',
         status: 'success',
       })
       await getInputData()
@@ -51,6 +47,10 @@ export const AdminNewDepositPage = () => {
       })
     }
   }
+
+  useEffect(() => {
+    document.title = 'infiniti | New Deposit'
+  }, [])
 
   useEffect(() => {
     getInputData()

@@ -1,7 +1,7 @@
 import { getAuthToken } from '../../GetAuthToken'
 
 export const getAccountingInputData = async (
-  type?: 'Income' | 'Expense',
+  type?: 'Income' | 'Expense' | 'Out',
 ) => {
   const authToken = getAuthToken()
 
