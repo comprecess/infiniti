@@ -5,6 +5,10 @@
   font-family: $fontMain;
 }
 
+body {
+  overflow: hidden !important;
+}
+
 html body[data-scroll-locked] {
   margin-right: 0px !important;
 }
