@@ -28,14 +28,14 @@ trait CRUD
         return new DocumentVariables();
     }
 
-    public function index(mixed $model, string $resorce, bool $paginate = false)
+    public function index(mixed $model, string $resource, bool $paginate = false)
     {
         if(is_string($model)) {
             $model = $model::query();
         }
 
         if($document = request()->input('document')) {
-            $documentData = (new FactoryDocument($model, $resorce, $this->getDocumentVariables()))->creator($document);
+            $documentData = (new FactoryDocument($model, $resource, $this->getDocumentVariables()))->creator($document);
             if($documentData !== null) {
                 return $documentData;
             }
@@ -47,7 +47,7 @@ trait CRUD
             $model = $model->get();
         }
 
-        return $resorce::collection($model);
+        return $resource::collection($model);
     }
 
     public function createOrUpdate(FormRequest $request, Model $model, ?callable $setDataModel = null, ?callable $afterDataSet = null)

@@ -46,17 +46,6 @@ class TransactionsCreateRequest extends FormRequest implements ConvertingPropert
         }
 
         $rules = [
-//            'account' => [
-//                'required',
-//                'integer',
-//                Rule::exists('sys_accounts', 'id')
-////                Rule::exists('sys_accounts', 'id')->where('active', 1)
-//            ],
-//            'currency' => [
-//                'required',
-//                'integer',
-//                Rule::exists('sys_currencies', 'id')
-//            ],
             'referralLink' => 'nullable',
             'code' => 'nullable',
             'tags' => 'nullable|array',
@@ -74,15 +63,12 @@ class TransactionsCreateRequest extends FormRequest implements ConvertingPropert
             ->applyModel('account', true)
             ->applyModel('currency', true)
             ->applyModel('payMethods')
-            ->applyModel('category', false, 'id', function($rule){
-                $rule->where('type', Category::TYPE[1]);
+            ->applyModel('category', false, 'id', function($rule) use($type){
+                $rule->where('type', $type);
             })
             ->applyModel('company')
             ->applyModel('staff')
-            ->applyModel('client')
-    ;
-
-
+            ->applyModel('client');
 
         return $rules;
     }

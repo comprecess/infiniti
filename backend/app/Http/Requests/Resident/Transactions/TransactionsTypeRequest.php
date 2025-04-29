@@ -18,7 +18,7 @@ class TransactionsTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => 'nullable|in:' . implode(',', [Transaction::TYPE[0], Transaction::TYPE[1]])
+            'type' => 'nullable|in:' . implode(',', [Transaction::TYPE[0], Transaction::TYPE[1], Transaction::TYPE[2]])
         ];
     }
 
