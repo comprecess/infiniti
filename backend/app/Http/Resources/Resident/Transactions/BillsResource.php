@@ -19,7 +19,7 @@ class BillsResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'nextDate' => $this->next_date,
+            'nextDate' => $this->next_date->format('Y-m-d'),
             'recurringType' => $this->recurring_type,
             'currency' => new CurrencyResource($this->getCurrencyIso),
             'amount' => $this->printPrice('net_amount'),
