@@ -86,7 +86,7 @@ class TransactionsController extends TransactionsAccessController
 
         $client = Client::with(['files', 'companyClient', 'group'])->get();
         $account = Account::all();
-        $category = Category::orderBy('sorder', 'asc')->get();
+        $category = Category::orderBy('sorder', 'asc');
         if(!in_array($type, ['Out'])) {
             $category->where('type', $type);
         }
