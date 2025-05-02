@@ -127,7 +127,8 @@ class TransactionsController extends TransactionsAccessController
             'code' => $code_prefix . Transaction::getNextNum(),
             'status' => [Transaction::STATUS[0], Transaction::STATUS[1]],
             'company' => CompanyResource::collection($company),
-            'transactionTypes' => TransactionsListRequest::TYPE
+            'transactionTypes' => TransactionsListRequest::TYPE,
+            'recurringType' => Bill::RECURRING_TYPE
         ]);
     }
 
