@@ -18,6 +18,8 @@ use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class Transaction extends Model implements InsertDefaultValueInterface
@@ -238,4 +240,55 @@ class Transaction extends Model implements InsertDefaultValueInterface
 
         return $transaction;
     }
+
+    public function setAccount(Account $account)
+    {
+        $this->account = $account->account;
+        $this->account_id = $account->id;
+    }
+
+    public function setAmount(string $type, float|int $amount)
+    {
+        if(in_array($type, self::TYPE)) {
+            $this->type = $type;
+            $this->amount = $amount;
+            if (in_array($type, self::INCOME_TYPE)) {
+                $this->cr = $amount;
+            } else {
+                $this->dr = $amount;
+            }
+        }
+
+    }
+
+    public static function getBalance(?Currency $currency = null, ?callable $callableQuery = null)
+    {
+        $newData = [];
+        $currencyBuf = [];
+        $query = DB::table((new self())->getTable())
+            ->selectRaw('`account_id`, `type`, `currency_iso_code`, SUM(amount) as amount')
+            ->groupBy(['account_id', 'type', 'currency_iso_code'])
+            ->orderBy('account_id', 'asc');
+        if(is_callable($callableQuery)) {
+            $callableQuery($query);
+        }
+        $data = $query->get();
+
+        $data->each(function($item) use(&$newData, $currency, &$currencyBuf){
+            if(!isset($currencyBuf[$item->currency_iso_code])) {
+                $currencyBuf[$item->currency_iso_code] = Currency::getAndCreate($item->currency_iso_code, true);
+            }
+
+            $transaction = new self();
+            $transaction->currency_iso_code = $item->currency_iso_code;
+            $transaction->amount = $item->amount;
+            $key = "{$item->account_id}.{$item->type}";
+            $amount = Arr::get($newData, $key, 0);
+            Arr::set($newData, $key, $transaction->transformPrice('amount', $currency) + $amount);
+        });
+
+        return $newData;
+    }
+
+
 }

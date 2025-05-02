@@ -73,7 +73,7 @@ class CurrencyController extends SettingsController
 
     public function delete(Request $request, Currency $currency)
     {
-        if($currency->isdefault) {
+        if($currency->isdefault || $currency->iso_code == Currency::BASE) {
             throw ValidationException::withMessages(["isdefault" => 'Unable to delete current item']);
         }
         $currency->delete();
