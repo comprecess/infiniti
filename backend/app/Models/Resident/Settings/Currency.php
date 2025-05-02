@@ -49,7 +49,7 @@ class Currency extends Model
         });
     }
 
-    public static function getAndCreate(string $isoCode)
+    public static function getAndCreate(string $isoCode, bool $hard = false)
     {
         $isoCode = strtoupper($isoCode);
         $currency = self::where('iso_code', $isoCode)->withTrashed()->first();
@@ -58,6 +58,11 @@ class Currency extends Model
         }
 
         $info = Arr::get(config('data.currency'), $isoCode, null);
+
+        if(!$info && $hard) {
+            throw new \Exception("Currency iso:{$isoCode} not exists");
+        }
+
         if($info) {
             $currency = new self();
             $currency->cname = $isoCode;

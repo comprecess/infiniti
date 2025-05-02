@@ -2,6 +2,7 @@
 
 namespace App\Models\Resident\Transactions;
 
+use App\Models\Resident\Settings\Currency;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\UserTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,5 +15,22 @@ class Account extends Model
     protected $table = "sys_accounts";
 
     protected $adminColumn = 'owner_id';
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'account_id');
+    }
+
+    public static function getBalance(?Currency $currency = null)
+    {
+        $accaunts = Account::all();
+        $balance = Transaction::getBalance($currency);
+        $accaunts->each(function($item) use($balance, $currency){
+            $item->balance = $balance[$item->id] ?? null;
+            $item->balance_currency = $currency;
+        });
+
+        return $accaunts;
+    }
 
 }

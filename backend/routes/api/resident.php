@@ -147,6 +147,7 @@ Route::controller(Resident\BusinessPlan\BusinessModelController::class)->prefix(
 Route::controller(Resident\Transactions\TransactionsController::class)
     ->prefix('transactions')
     ->group(function(){
+        Route::get('/list', 'list');
         Route::get('/input-data', 'inputData');
         Route::post('/', 'createOrUpdate');
         Route::put('/{transaction}', 'createOrUpdate');
@@ -155,6 +156,14 @@ Route::controller(Resident\Transactions\TransactionsController::class)
         Route::get('bill/all', 'billAll');
         Route::post('bill', 'billCreateOrUpdate');
         Route::match(['put', 'post'],'bill/{bill}', 'billCreateOrUpdate');
+
+        Route::controller(Resident\Transactions\AccountController::class)
+            ->prefix('account')
+            ->group(function(){
+                Route::get('/list', 'list');
+                Route::get('/input-data', 'inputData');
+                Route::post('/', 'create');
+            });
         /*Route::put('/{model}', 'createOrUpdate');
         Route::get('/{model}', 'item');
         Route::get('/{model}/to-plan', 'toPlan');

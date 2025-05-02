@@ -7,8 +7,11 @@ namespace App\Http\Controllers\Api\Resident\Transactions;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Transactions\BillCreateRequest;
 use App\Http\Requests\Resident\Transactions\TransactionsCreateRequest;
+use App\Http\Requests\Resident\Transactions\TransactionsListRequest;
 use App\Http\Requests\Resident\Transactions\TransactionsTypeRequest;
 use App\Http\Requests\Resident\Transactions\TransferRequest;
+use App\Http\Resources\Resident\Client\ClientExcelResource;
+use App\Http\Resources\Resident\Client\ClientPdfResource;
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\Client\CompanyResource;
 use App\Http\Resources\Resident\Invoices\AccountInfoResource;
@@ -16,6 +19,7 @@ use App\Http\Resources\Resident\Invoices\CategoryInfoResource;
 use App\Http\Resources\Resident\Invoices\PayMethodsResource;
 use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Http\Resources\Resident\Transactions\BillsResource;
+use App\Http\Resources\Resident\Transactions\TransactionsListResource;
 use App\Http\Resources\Resident\Transactions\TransactionsResource;
 use App\Http\Resources\Resident\Settings\TagResource;
 use App\Http\Resources\Users\AdminListResource;
@@ -32,6 +36,9 @@ use App\Models\Resident\Transactions\Transaction;
 use App\Models\User;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
+use App\Services\Document\DocumentVariables;
+use Illuminate\Support\Arr;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class TransactionsController extends TransactionsAccessController
 {
@@ -39,10 +46,36 @@ class TransactionsController extends TransactionsAccessController
         createOrUpdate as createOrUpdateCRUD;
     }
 
+    const ACCESS = ['all', 'transactions'];
+
     private function getType()
     {
         $request = app(TransactionsTypeRequest::class);
         return $request->getType();
+    }
+
+    public function getDocumentVariables(): DocumentVariables
+    {
+        $columns = [
+            'code' => 'Code',
+            'date' => 'Date',
+            'account' => 'Account',
+            'type' => 'Type',
+            'amount' => 'Amount',
+            'description' => 'Description'
+        ];
+
+        $varibles = new DocumentVariables();
+
+        $varibles->nameDocument = "Transactions";
+        $varibles->header = "Transactions - Infiniti";
+
+        $varibles->columns = $columns;
+        $varibles->excelView = 'document.excel.resident-transactions';
+        $varibles->resource = TransactionsListResource::class;
+
+
+        return $varibles;
     }
 
 
@@ -53,11 +86,22 @@ class TransactionsController extends TransactionsAccessController
 
         $client = Client::with(['files', 'companyClient', 'group'])->get();
         $account = Account::all();
-        $category = Category::income()->orderBy('sorder', 'asc')->get();
+        $category = Category::orderBy('sorder', 'asc')->get();
+        if(!in_array($type, ['Out'])) {
+            $category->where('type', $type);
+        }
+        $category = $category->get();
         $paymethods = PayMethods::orderBy('sorder', 'asc')->get();
 
         if(isset($newTypeTag[$typeTag])) {
             $typeTag = $newTypeTag[$typeTag];
+        }
+
+        $code_prefix = 'INC-';
+        if($type == Transaction::TYPE[0]) {
+            $code_prefix = Config::get('invoice_code_prefix');
+        }elseif($type == Transaction::TYPE[1]){
+            $code_prefix = Config::get('expense_code_prefix');
         }
 
         $tags = Tag::where('type', $typeTag)->get();
@@ -66,7 +110,7 @@ class TransactionsController extends TransactionsAccessController
         $company = Company::all();
         $transaction = Transaction::where('type', $type)
             ->with(['company'])
-            ->checkAccess(...['all', 'transactions'])
+            ->checkAccess(...self::ACCESS)
             ->orderByDesc('id')
             ->limit(20)
             ->get();
@@ -80,9 +124,10 @@ class TransactionsController extends TransactionsAccessController
             'transaction' => TransactionsResource::collection($transaction),
             'staff' => AdminListResource::collection($staff),
             'currency' => CurrencyResource::collection($currency),
-            'code' => Config::get('invoice_code_prefix') . Transaction::getNextNum(),
+            'code' => $code_prefix . Transaction::getNextNum(),
             'status' => [Transaction::STATUS[0], Transaction::STATUS[1]],
             'company' => CompanyResource::collection($company),
+            'transactionTypes' => TransactionsListRequest::TYPE
         ]);
     }
 
@@ -216,6 +261,59 @@ class TransactionsController extends TransactionsAccessController
     public function billCreateOrUpdate(BillCreateRequest $request, Bill $model)
     {
         return $this->createOrUpdateCRUD($request, $model);
+    }
+
+    public function list(TransactionsListRequest $request)
+    {
+        $transactionQuery = Transaction::checkAccess(...self::ACCESS);
+        $data = $request->all();
+
+        if($type = Arr::get($data, 'filter.type')) {
+            if($type == TransactionsListRequest::TYPE[2]) {
+                $transactionQuery->whereIn('type', [Transaction::TYPE[2], Transaction::TYPE[3]]);
+            }else{
+                $transactionQuery->where('type', $type);
+            }
+        }
+
+        if($status = Arr::get($data, 'filter.status')) {
+            $transactionQuery->where('status', $status);
+        }
+
+        if($search = Arr::get($data, 'filter.search')) {
+            $transactionQuery->where(function($query) use($search){
+                $query->where('id', $search)
+                    ->orWhere('code', $search)
+                    ->orWhere('account', $search)
+                    ->orWhere('type', $search)
+                    ->orWhere('amount', $search)
+                    ->orWhere('description', $search);
+            });
+        }
+
+        if($account = $request->getModel('filter.account')) {
+            $transactionQuery->where('account_id', $account->id);
+        }
+
+        if($category = $request->getModel('filter.category')) {
+            $transactionQuery->where('account_id', $category->id);
+        }
+
+        if($client = $request->getModel('filter.client')) {
+            $transactionQuery->where(function($query) use($client){
+                $query->where('payerid', $client->id)->orWhere('payeeid', $client->id);
+            });
+        }
+
+        if($date = $request->getDate()) {
+            $transactionQuery->whereBetween('date', $date);
+        }
+
+        $transactionQuery->with(['getCurrencyIso']);
+
+        $request->sortModel($transactionQuery);
+
+        return $this->index($transactionQuery, TransactionsListResource::class, true);
     }
 
 }

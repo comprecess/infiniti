@@ -102,6 +102,7 @@ trait CurrencyTrait
         return $this->rateSum;
     }
 
+    /** Перевод валюты*/
     public function transformPrice(string $nameColumn, ?Currency $currencyTransform = null, $print = false)
     {
         $price = (float) $this->{$nameColumn};
