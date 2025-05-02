@@ -292,6 +292,11 @@ class TransactionsController extends TransactionsAccessController
         return $this->createOrUpdateCRUD($request, $model);
     }
 
+    public function billDelete(Bill $model)
+    {
+        return $this->delete($model);
+    }
+
     public function list(TransactionsListRequest $request)
     {
         $transactionQuery = Transaction::checkAccess(...self::ACCESS);
