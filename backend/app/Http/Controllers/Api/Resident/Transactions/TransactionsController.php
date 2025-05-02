@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\Resident\Transactions;
 
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Transactions\BillCreateRequest;
+use App\Http\Requests\Resident\Transactions\BillListRequest;
 use App\Http\Requests\Resident\Transactions\TransactionsCreateRequest;
 use App\Http\Requests\Resident\Transactions\TransactionsListRequest;
 use App\Http\Requests\Resident\Transactions\TransactionsTypeRequest;
@@ -231,31 +232,58 @@ class TransactionsController extends TransactionsAccessController
         });
     }
 
-    public function bill()
+    public function bill(BillListRequest $request)
     {
         $days = 30;
         $today = now();
 
-        $bills_upcoming = Bill::whereBetween('next_date', [$today, (clone $today)->addDays($days)])
+        $billsUpcomingQuery = Bill::whereBetween('next_date', [$today, (clone $today)->addDays($days)])
             ->with(['account', 'getCurrencyIso', 'client', 'category'])
-            ->orderBy('next_date', 'asc')
-            ->get();
+            ->orderBy('next_date', 'asc');
 
-        $bills_past_due = Bill::whereBetween('next_date', [
+        $billsPastDueQuery = Bill::whereBetween('next_date', [
             (clone $today)->subDays($days),
             $today,
         ])
             ->with(['account', 'getCurrencyIso', 'client', 'category'])
             ->orderBy('next_date', 'asc')
-            ->where('is_paid', 0)
-            ->get();
+            ->where('is_paid', 0);
+
+        if($search = Arr::get($request->all(), 'filter.search')){
+            $billsUpcomingQuery->where(function($query) use($search){
+                $query->where('id', 'like', "%{$search}%")
+                    ->orWhere('title', 'like', "%{$search}%")
+                    ->orWhere('website', 'like', "%{$search}%")
+                ;
+            });
+
+            $billsPastDueQuery->where(function($query) use($search){
+                $query->where('id', 'like', "%{$search}%")
+                    ->orWhere('title', 'like', "%{$search}%")
+                    ->orWhere('website', 'like', "%{$search}%")
+                ;
+            });
+        }
+
+        $bills_upcoming = $billsUpcomingQuery->get();
+        $bills_past_due = $billsPastDueQuery->get();
 
         return response()->json(['billsUpcoming' => BillsResource::collection($bills_upcoming), 'billsPastDue' => BillsResource::collection($bills_past_due)]);
     }
 
-    public function billAll()
+    public function billAll(BillListRequest $request)
     {
         $bills = Bill::orderBy('next_date', 'asc');
+
+        if($search = Arr::get($request->all(), 'filter.search')){
+            $bills->where(function($query) use($search){
+                $query->where('id', 'like', "%{$search}%")
+                    ->orWhere('title', 'like', "%{$search}%")
+                    ->orWhere('website', 'like', "%{$search}%")
+                ;
+            });
+        }
+
         return $this->index($bills, BillsResource::class);
     }
 
