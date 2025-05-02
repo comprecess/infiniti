@@ -241,8 +241,8 @@ class TransactionsController extends TransactionsAccessController
             ->get();
 
         $bills_past_due = Bill::whereBetween('next_date', [
-            $today,
             (clone $today)->subDays($days),
+            $today,
         ])
             ->with(['account', 'getCurrencyIso', 'client', 'category'])
             ->orderBy('next_date', 'asc')
