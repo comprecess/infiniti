@@ -5,21 +5,24 @@ namespace App\Http\Controllers\Api\Resident\Transactions;
 
 
 use App\Http\Controllers\Api\Traits\CRUD;
-use App\Http\Requests\Resident\Transactions\AccountCreateRequest;
+use App\Http\Requests\Resident\Transactions\AccountRequest;
 use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Http\Resources\Resident\Transactions\AccountListResource;
+use App\Http\Resources\Resident\Transactions\AccountResource;
 use App\Http\Resources\Users\AdminListResource;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Transactions\Account;
 use App\Models\Resident\Transactions\Transaction;
 use App\Models\User;
 use App\Models\Users\Admin;
+use Illuminate\Database\Eloquent\Model;
 
 
 class AccountController extends TransactionsAccessController
 {
     use CRUD {
         createOrUpdate as createOrUpdateCRUD;
+        delete as deleteCRUD;
     }
 
     public function list()
@@ -69,32 +72,47 @@ class AccountController extends TransactionsAccessController
         ]);
     }
 
-    public function create(AccountCreateRequest $request)
+    public function createOrUpdate(AccountRequest $request, Account $account)
     {
-        return $this->createOrUpdateCRUD($request, new Account(), null, function($model, $request){
-            if($request->balance) {
-                foreach($request->balance as $value){
-                    $amount = $value['amount'];
-                    if(!$amount) {
-                        continue;
-                    }
-                    $currency = Currency::find($value['currency']);
+        return $this->createOrUpdateCRUD($request, $account, function($model, $request, $isNew){
+            $model->sorder = 1;
+        }, function($model, $request, $isNew){
+            if($isNew){
+                if($request->balance) {
+                    foreach($request->balance as $value){
+                        $amount = $value['amount'];
+                        if(!$amount) {
+                            continue;
+                        }
+                        $currency = Currency::find($value['currency']);
 
-                    $transaction = Transaction::newDefault();
-                    $transaction->setAccount($model);
-                    $transaction->setCurrency($currency);
-                    $transaction->setAmount(Transaction::TYPE[4], $amount);
-                    $transaction->description = 'Opening balance';
-                    $transaction->date = now();
-                    $transaction->aid = User::getAuth()->id;
-                    $transaction->source = 'Opening balance';
-                    $transaction->save();
+                        $transaction = Transaction::newDefault();
+                        $transaction->setAccount($model);
+                        $transaction->setCurrency($currency);
+                        $transaction->setAmount(Transaction::TYPE[4], $amount);
+                        $transaction->description = 'Opening balance';
+                        $transaction->date = now();
+                        $transaction->aid = User::getAuth()->id;
+                        $transaction->source = 'Opening balance';
+                        $transaction->save();
+                    }
                 }
+            }else{
+                Transaction::where('account_id', $model->id)->update(['account', $model->account]);
             }
 
         });
     }
 
+    public function item(Account $account)
+    {
+        return new AccountResource($account);
+    }
+
+    public function delete(Account $account)
+    {
+        return $this->deleteCRUD($account);
+    }
 
 
 }

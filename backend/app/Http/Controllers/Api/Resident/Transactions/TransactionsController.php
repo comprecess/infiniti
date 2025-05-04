@@ -11,8 +11,6 @@ use App\Http\Requests\Resident\Transactions\TransactionsCreateRequest;
 use App\Http\Requests\Resident\Transactions\TransactionsListRequest;
 use App\Http\Requests\Resident\Transactions\TransactionsTypeRequest;
 use App\Http\Requests\Resident\Transactions\TransferRequest;
-use App\Http\Resources\Resident\Client\ClientExcelResource;
-use App\Http\Resources\Resident\Client\ClientPdfResource;
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\Client\CompanyResource;
 use App\Http\Resources\Resident\Invoices\AccountInfoResource;
@@ -39,7 +37,6 @@ use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
 use Illuminate\Support\Arr;
-use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class TransactionsController extends TransactionsAccessController
 {
@@ -315,6 +312,7 @@ class TransactionsController extends TransactionsAccessController
         }
 
         if($search = Arr::get($data, 'filter.search')) {
+            $search = "%{$search}%";
             $transactionQuery->where(function($query) use($search){
                 $query->where('id', $search)
                     ->orWhere('code', $search)

@@ -158,18 +158,31 @@ Route::controller(Resident\Transactions\TransactionsController::class)
         Route::match(['put', 'post'],'bill/{bill}', 'billCreateOrUpdate');
         Route::delete('bill,{bill}', 'billDelete');
 
+        #account
         Route::controller(Resident\Transactions\AccountController::class)
             ->prefix('account')
             ->group(function(){
                 Route::get('/list', 'list');
                 Route::get('/input-data', 'inputData');
-                Route::post('/', 'create');
+                Route::post('/', 'createOrUpdate');
+                Route::put('/{account}', 'createOrUpdate');
+                Route::get('/{account}', 'item');
+                Route::delete('/{account}', 'delete');
             });
-        /*Route::put('/{model}', 'createOrUpdate');
-        Route::get('/{model}', 'item');
-        Route::get('/{model}/to-plan', 'toPlan');
-        Route::delete('/{model}', 'delete');
-        Route::match(['put', 'post'],'/{model}/update', 'update');*/
+
+        #asset
+        Route::controller(Resident\Transactions\AssetController::class)
+            ->prefix('asset')
+            ->group(function(){
+                Route::get('/list', 'list');
+                Route::get('/input-data', 'inputData');
+                Route::post('/category', 'categoryCreate');
+                Route::delete('/category/{category}', 'categoryDelete');
+                Route::post('/', 'createOrUpdate');
+                Route::put('/{asset}', 'createOrUpdate');
+                Route::get('/{asset}', 'item');
+                Route::delete('/{asset}', 'delete');
+            });
     });
 
 #settings
