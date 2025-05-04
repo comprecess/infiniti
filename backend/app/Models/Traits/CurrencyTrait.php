@@ -5,7 +5,6 @@ namespace App\Models\Traits;
 
 
 use App\Models\Resident\Settings\Currency;
-use Illuminate\Support\Number;
 use NumberFormatter;
 
 trait CurrencyTrait

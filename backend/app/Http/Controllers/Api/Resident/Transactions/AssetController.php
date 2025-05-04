@@ -5,28 +5,15 @@ namespace App\Http\Controllers\Api\Resident\Transactions;
 
 
 use App\Http\Controllers\Api\Traits\CRUD;
-use App\Http\Requests\Resident\Transactions\AccountRequest;
 use App\Http\Requests\Resident\Transactions\AssetCategoryCreateRequest;
 use App\Http\Requests\Resident\Transactions\AssetCreateRequest;
 use App\Http\Requests\Resident\Transactions\AssetListRequest;
-use App\Http\Requests\Resident\Transactions\TransactionsListRequest;
-use App\Http\Resources\Resident\Settings\CurrencyResource;
-use App\Http\Resources\Resident\Transactions\AccountListResource;
-use App\Http\Resources\Resident\Transactions\AccountResource;
 use App\Http\Resources\Resident\Transactions\AsseResource;
 use App\Http\Resources\Resident\Transactions\AssetCategoryTreeResource;
 use App\Http\Resources\Resident\Transactions\AssetListResource;
-use App\Http\Resources\Resident\Transactions\TransactionsListResource;
-use App\Http\Resources\Users\AdminListResource;
-use App\Models\Resident\Settings\Currency;
-use App\Models\Resident\Transactions\Account;
 use App\Models\Resident\Transactions\Asset;
 use App\Models\Resident\Transactions\AssetCategory;
-use App\Models\Resident\Transactions\Transaction;
-use App\Models\User;
-use App\Models\Users\Admin;
 use App\Services\Document\DocumentVariables;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
 

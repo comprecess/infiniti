@@ -6,18 +6,10 @@ use App\Http\Requests\Interfaces\ConvertingPropertiesInterface;
 use App\Http\Requests\Interfaces\ModelInterface;
 use App\Http\Requests\Traits\ConvertingPropertiesTrait;
 use App\Http\Requests\Traits\ModelTrait;
-use App\Models\BusinessModel\Prop;
-use App\Models\Resident\Client\Company;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Transactions\Account;
-use App\Models\Resident\Transactions\Category;
 use App\Models\Resident\Transactions\PayMethods;
-use App\Models\Resident\Transactions\Transaction;
-use App\Models\Users\Admin;
-use App\Models\Users\Client;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
 
 class TransferRequest extends FormRequest implements ConvertingPropertiesInterface, ModelInterface
 {

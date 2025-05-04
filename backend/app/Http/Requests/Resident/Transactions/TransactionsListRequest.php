@@ -10,7 +10,6 @@ use App\Models\Resident\Transactions\Account;
 use App\Models\Resident\Transactions\Category;
 use App\Models\Resident\Transactions\Transaction;
 use App\Models\Users\Client;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 
 class TransactionsListRequest extends DocumentRequest implements ModelInterface

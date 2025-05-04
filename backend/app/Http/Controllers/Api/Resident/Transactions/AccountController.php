@@ -15,7 +15,6 @@ use App\Models\Resident\Transactions\Account;
 use App\Models\Resident\Transactions\Transaction;
 use App\Models\User;
 use App\Models\Users\Admin;
-use Illuminate\Database\Eloquent\Model;
 
 
 class AccountController extends TransactionsAccessController

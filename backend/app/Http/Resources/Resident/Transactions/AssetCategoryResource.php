@@ -2,9 +2,6 @@
 
 namespace App\Http\Resources\Resident\Transactions;
 
-
-use App\Http\Resources\Resident\Client\CompanyResource;
-use App\Models\Config;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
