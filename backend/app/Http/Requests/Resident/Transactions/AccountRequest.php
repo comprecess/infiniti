@@ -6,20 +6,12 @@ use App\Http\Requests\Interfaces\ConvertingPropertiesInterface;
 use App\Http\Requests\Interfaces\ModelInterface;
 use App\Http\Requests\Traits\ConvertingPropertiesTrait;
 use App\Http\Requests\Traits\ModelTrait;
-use App\Models\BusinessModel\Prop;
-use App\Models\Resident\Client\Company;
 use App\Models\Resident\Settings\Currency;
-use App\Models\Resident\Transactions\Account;
-use App\Models\Resident\Transactions\Category;
-use App\Models\Resident\Transactions\PayMethods;
-use App\Models\Resident\Transactions\Transaction;
 use App\Models\Users\Admin;
-use App\Models\Users\Client;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
 
-class AccountCreateRequest extends FormRequest implements ConvertingPropertiesInterface, ModelInterface
+class AccountRequest extends FormRequest implements ConvertingPropertiesInterface, ModelInterface
 {
     use ConvertingPropertiesTrait, ModelTrait;
 
@@ -38,19 +30,23 @@ class AccountCreateRequest extends FormRequest implements ConvertingPropertiesIn
             'contactPerson' => 'nullable',
             'contactPhone' => 'nullable',
             'url' => 'nullable',
-            'balance' => 'nullable|array',
-            'balance.*.amount' => 'required|numeric',
-            'balance.*.currency' => [
-                'required',
-                'integer',
-                Rule::exists('sys_currencies', 'id')
-            ],
-//            'balance' => 'nullable|numeric',
-
         ];
 
-        $this->setRule($rules)
-            ->applyModel('owner', true);
+        if($this->getMethod() == 'POST') {
+            $rules = array_merge($rules, [
+                'balance' => 'nullable|array',
+                'balance.*.amount' => 'required|numeric',
+                'balance.*.currency' => [
+                    'required',
+                    'integer',
+                    Rule::exists('sys_currencies', 'id')
+                ],
+            ]);
+
+            $this->setRule($rules)
+                ->applyModel('owner', true);
+        }
+
 
         return $rules;
     }
@@ -58,15 +54,20 @@ class AccountCreateRequest extends FormRequest implements ConvertingPropertiesIn
 
     public function getListProperties(): array
     {
-        return [
+        $list =  [
             'name' => 'account',
             'description',
             'accountNumber' => 'account_number',
             'contactPerson' => 'contact_person',
             'contactPhone' => 'contact_phone',
             'url' => 'ib_url',
-            'owner' => 'owner_id'
         ];
+
+        if($this->getMethod() == 'POST') {
+            $list['owner'] = 'owner_id';
+        }
+
+        return $list;
     }
 
     public function getListPropertiesModel(): array
