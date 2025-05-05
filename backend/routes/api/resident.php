@@ -156,6 +156,7 @@ Route::controller(Resident\Transactions\TransactionsController::class)
         Route::get('bill/all', 'billAll');
         Route::post('bill', 'billCreateOrUpdate');
         Route::match(['put', 'post'],'bill/{bill}', 'billCreateOrUpdate');
+        Route::put('bill/{bill}/paid', 'billPaid');
         Route::delete('bill,{bill}', 'billDelete');
 
         #account
