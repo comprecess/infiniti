@@ -262,6 +262,7 @@ class TransactionsController extends TransactionsAccessController
             });
         }
 
+
         $bills_upcoming = $billsUpcomingQuery->get();
         $bills_past_due = $billsPastDueQuery->get();
 
@@ -280,6 +281,8 @@ class TransactionsController extends TransactionsAccessController
                 ;
             });
         }
+
+        $request->sortModel($bills);
 
         return $this->index($bills, BillsResource::class);
     }
