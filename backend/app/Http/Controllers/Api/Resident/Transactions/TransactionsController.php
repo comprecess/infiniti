@@ -262,6 +262,10 @@ class TransactionsController extends TransactionsAccessController
             });
         }
 
+        $with = ['getCurrencyIso', 'account', 'client','category'];
+        $billsUpcomingQuery->with($with);
+        $billsPastDueQuery->with($with);
+
 
         $bills_upcoming = $billsUpcomingQuery->get();
         $bills_past_due = $billsPastDueQuery->get();
@@ -281,7 +285,7 @@ class TransactionsController extends TransactionsAccessController
                 ;
             });
         }
-
+        $bills->with(['getCurrencyIso', 'account', 'client','category']);
         $request->sortModel($bills);
 
         return $this->index($bills, BillsResource::class);

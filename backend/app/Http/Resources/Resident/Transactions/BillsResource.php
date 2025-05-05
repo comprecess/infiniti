@@ -25,7 +25,7 @@ class BillsResource extends JsonResource
             'amount' => $this->printPrice('net_amount'),
             'amountFloat' => $this->net_amount,
             'account' => new AccountInfoResource($this->account),
-            'client' => new ClientInfoResource($this->account),
+            'client' => new ClientInfoResource($this->client),
             'category' => new CategoryInfoResource($this->category),
             'website' => $this->website,
             'isPaid' => $this->is_paid
