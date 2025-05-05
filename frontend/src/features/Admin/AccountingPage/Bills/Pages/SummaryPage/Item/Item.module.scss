@@ -1,0 +1,81 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  border: 2px solid $brand-800;
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 4px;
+  align-items: end;
+  justify-content: space-between;
+
+  @include mobileBreakpoint('max', $bpM) {
+    align-items: start;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+.date {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 23px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $gray-300;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $white;
+}
+
+.amount {
+  font-family: $fontSpaceGrotesk;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 34px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $white;
+}
+
+.inConnection {
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $white;
+}
+
+.recurringType {
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $gray-300;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 8px;
+  justify-content: end;
+}

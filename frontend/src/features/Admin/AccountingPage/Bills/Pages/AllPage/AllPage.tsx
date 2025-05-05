@@ -1,34 +1,45 @@
 import { Fragment, useCallback, useState } from 'react'
 
+import { AccountingBillsData } from '../../../../../../app/constants/constants'
+import { CustomDivider } from '../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Search } from '../../../../../../shared/ui/Search/Search'
 import { Title } from '../../../../../Main/RecentCard/Title/Title'
 import styles from './AllPage.module.scss'
+import { Item } from './Item/Item'
 
-export const AllPage = () => {
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-  const [_sortName, setSortName] = useState<string>('title')
-  const [_sortType, setSortType] = useState<number>(1)
-  const [sortNumbers, setSortNumbers] = useState<number[]>([1, 1, 1])
+interface AllPageProps {
+  bills: AccountingBillsData[]
+  changeSort: (sortNameItem: string, sortTypeItem: number) => void
+  setSearch: (searchItem: string) => void
+  deleteBill: (idBill: number) => void
+}
+
+export const AllPage = ({
+  bills,
+  changeSort,
+  setSearch,
+  deleteBill,
+}: AllPageProps) => {
+  const [sortNumbers, setSortNumbers] = useState<number[]>([0, 0, 0])
 
   const handleSortChange = useCallback(
     (index: number, sortNameItem: string, sortTypeItem: number) => {
       setSortNumbers(prevSortNumbers =>
-        prevSortNumbers.map((_num, i) => (i === index ? sortTypeItem : 1)),
+        prevSortNumbers.map((_num, i) => (i === index ? sortTypeItem : 0)),
       )
-      setSortName(sortNameItem)
-      setSortType(sortTypeItem)
+      changeSort(sortNameItem, sortTypeItem)
     },
-    [],
+    [changeSort],
   )
 
   const clearSort = () => {
-    setSortNumbers(new Array(7).fill(1))
+    setSortNumbers(new Array(7).fill(0))
   }
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.search}>
-        <Search onSearchChange={() => {}} />
+        <Search onSearchChange={setSearch} />
       </div>
       <div className={styles.wrapperAll}>
         <div className={styles.columns}>
@@ -57,7 +68,7 @@ export const AllPage = () => {
             title='Next Due Date'
             style={styles.dueColumn}
             sortType={sortNumbers[2]}
-            sortName='due'
+            sortName='nextDate'
             sortIndex={2}
             changeSortName={handleSortChange}
             clearSort={clearSort}
@@ -65,8 +76,13 @@ export const AllPage = () => {
           <Title title='Manage' style={styles.manageColumn} />
         </div>
         <div className={styles.items}>
-          {[].map((_item, _index) => {
-            return <Fragment key={`id`}>Item</Fragment>
+          {bills.map((item, index) => {
+            return (
+              <Fragment key={item.id}>
+                <Item {...item} deleteBill={deleteBill} />
+                {index !== bills.length - 1 && <CustomDivider />}
+              </Fragment>
+            )
           })}
         </div>
       </div>

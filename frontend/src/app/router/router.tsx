@@ -240,6 +240,10 @@ export const router = createBrowserRouter([
             element: Pages.adminBillsPage,
           },
           {
+            path: `${Routes.bills}/${Routes.edit}/${Routes.bill}/:id`,
+            element: Pages.adminEditBillPage,
+          },
+          {
             path: Routes.newAccount,
             element: Pages.adminNewAccountPage,
           },

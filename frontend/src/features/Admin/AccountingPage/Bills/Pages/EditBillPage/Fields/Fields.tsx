@@ -3,38 +3,46 @@ import { Dispatch, SetStateAction } from 'react'
 import {
   AccountingBillsForm,
   AccountingInputData,
-} from '../../../../../../app/constants/constants'
-import { ButtonBlue } from '../../../../../../shared/ui/ButtonBlue/ButtonBlue'
-import { CustomDataPicker } from '../../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
-import { CustomInput } from '../../../../../../shared/ui/CustomInput/CustomInput'
-import { CustomSelect } from '../../../../../../shared/ui/CustomSelect/CustomSelect'
-import styles from './AddABillPage.module.scss'
+} from '../../../../../../../app/constants/constants'
+import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
+import { CustomDataPicker } from '../../../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
+import { CustomInput } from '../../../../../../../shared/ui/CustomInput/CustomInput'
+import { CustomSelect } from '../../../../../../../shared/ui/CustomSelect/CustomSelect'
+import styles from './Fields.module.scss'
 
-interface AddABillPageProps {
+interface FieldsProps {
   inputData: AccountingInputData
-  setForm: Dispatch<SetStateAction<Partial<AccountingBillsForm>>>
-  addNewBill: () => void
+  form: AccountingBillsForm
+  setForm: Dispatch<SetStateAction<AccountingBillsForm | null>>
+  editBill: () => void
 }
 
-export const AddABillPage = ({
+export const Fields = ({
   inputData,
+  form,
   setForm,
-  addNewBill,
-}: AddABillPageProps) => {
+  editBill,
+}: FieldsProps) => {
   const handleChangeInput = (
     field: string,
     value: string | number | string[] | undefined | null,
   ) => {
-    if (field === 'amount' && typeof value === 'string') {
-      value = parseInt(value).toFixed(2)
-    } else if (field === 'recurringType' && typeof value === 'number') {
-      value = inputData.recurringType[value]
-    }
+    setForm(prevFormData => {
+      if (!prevFormData) return prevFormData
 
-    setForm(prevFormData => ({
-      ...prevFormData,
-      [field]: value,
-    }))
+      let newValue = value
+
+      if (field === 'amount' && typeof value === 'string') {
+        newValue = parseFloat(value).toFixed(2)
+      } else if (field === 'recurringType' && typeof value === 'number') {
+        newValue = inputData.recurringType[value]
+      }
+
+      return {
+        ...prevFormData,
+        [field]: newValue ?? '',
+      }
+    })
   }
 
   return (
@@ -44,28 +52,35 @@ export const AddABillPage = ({
         type='text'
         id='title'
         name='title'
+        value={form.title}
+        onInputChange={false}
         onChange={handleChangeInput}
       />
       <div className={styles.containerRowFour}>
         <CustomDataPicker
           title='Next Due Date'
           titleOnChange='nextDate'
+          value={form.nextDate}
           onChange={handleChangeInput}
         />
         <CustomSelect
           title='Repeat Every'
           titleOnChange='recurringType'
-          value={0}
           idList={inputData.recurringType.map((_item, index) => index)}
           nameList={inputData.recurringType.map(item => item)}
+          value={inputData.recurringType.findIndex(
+            item => item === form.recurringType,
+          )}
+          onInputChange={false}
           onChange={handleChangeInput}
         />
         <CustomSelect
           title='Currency'
           titleOnChange='currency'
-          value={inputData.currency[0].id}
+          value={form.currency}
           idList={inputData.currency.map(currency => currency.id)}
           nameList={inputData.currency.map(currency => currency.code)}
+          onInputChange={false}
           onChange={handleChangeInput}
         />
         <CustomInput
@@ -73,6 +88,7 @@ export const AddABillPage = ({
           type='text'
           id='amount'
           name='amount'
+          value={form.amountFloat}
           onChange={handleChangeInput}
         />
       </div>
@@ -80,26 +96,29 @@ export const AddABillPage = ({
         <CustomSelect
           title='From Account'
           titleOnChange='account'
-          value={inputData.account[0].id}
+          value={form.account}
           idList={inputData.account.map(item => item.id)}
           nameList={inputData.account.map(item => item.name)}
+          onInputChange={false}
           onChange={handleChangeInput}
         />
         <CustomSelect
           title='Payee'
           titleOnChange='client'
-          value={inputData.client[0].id}
+          value={form.client}
           idList={inputData.client.map(item => item.id)}
           nameList={inputData.client.map(item => item.account)}
+          onInputChange={false}
           onChange={handleChangeInput}
         />
       </div>
       <CustomSelect
         title='Category'
         titleOnChange='category'
-        value={inputData.category[0].id}
+        value={form.category}
         idList={inputData.category.map(currency => currency.id)}
         nameList={inputData.category.map(currency => currency.name)}
+        onInputChange={false}
         onChange={handleChangeInput}
       />
       <CustomInput
@@ -107,12 +126,14 @@ export const AddABillPage = ({
         type='text'
         id='website'
         name='website'
+        value={form.website}
+        onInputChange={false}
         onChange={handleChangeInput}
       />
       <ButtonBlue
         title='Save'
         style={styles.buttonSave}
-        onClick={addNewBill}
+        onClick={editBill}
       />
     </div>
   )
