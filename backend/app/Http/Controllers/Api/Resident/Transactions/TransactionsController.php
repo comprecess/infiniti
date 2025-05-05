@@ -287,6 +287,11 @@ class TransactionsController extends TransactionsAccessController
         return $this->index($bills, BillsResource::class);
     }
 
+    public function billItem(Bill $bill)
+    {
+        return new BillsResource($bill);
+    }
+
     public function billCreateOrUpdate(BillCreateRequest $request, Bill $bill)
     {
         return $this->createOrUpdateCRUD($request, $bill);
