@@ -284,20 +284,20 @@ class TransactionsController extends TransactionsAccessController
         return $this->index($bills, BillsResource::class);
     }
 
-    public function billCreateOrUpdate(BillCreateRequest $request, Bill $model)
+    public function billCreateOrUpdate(BillCreateRequest $request, Bill $bill)
     {
-        return $this->createOrUpdateCRUD($request, $model);
+        return $this->createOrUpdateCRUD($request, $bill);
     }
 
-    public function billDelete(Bill $model)
+    public function billDelete(Bill $bill)
     {
-        return $this->delete($model);
+        return $this->delete($bill);
     }
 
-    public function billPaid(Bill $model)
+    public function billPaid(Bill $bill)
     {
-        $model->is_paid = 1;
-        $model->save();
+        $bill->is_paid = 1;
+        $bill->save();
         return $this->defResponse();
     }
 
