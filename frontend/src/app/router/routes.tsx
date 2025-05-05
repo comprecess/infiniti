@@ -1,6 +1,7 @@
 import { AdminAccountsPage } from '../../pages/Admin/AccountingPage/AccountsPage/AccountsPage'
 import { AdminAssetsPage } from '../../pages/Admin/AccountingPage/AssetsPage/AssetsPage'
 import { AdminBillsPage } from '../../pages/Admin/AccountingPage/BillsPage/BillsPage'
+import { AdminEditBillPage } from '../../pages/Admin/AccountingPage/BillsPage/EditBill/EditBill'
 import { AdminNewAccountPage } from '../../pages/Admin/AccountingPage/NewAccountPage/NewAccountPage'
 import { AdminNewDepositPage } from '../../pages/Admin/AccountingPage/NewDepositPage/NewDepositPage'
 import { AdminNewExpensePage } from '../../pages/Admin/AccountingPage/NewExpensePage/NewExpensePage'
@@ -174,6 +175,7 @@ export const Routes = {
   businessModel: 'business-model',
   transfer: 'transfer',
   bills: 'bills',
+  bill: 'bill',
   email: 'email',
   log: 'log',
   edit: 'edit',
@@ -259,6 +261,7 @@ export const Pages = {
   adminAccountsPage: <AdminAccountsPage />,
   adminAssetsPage: <AdminAssetsPage />,
   adminBillsPage: <AdminBillsPage />,
+  adminEditBillPage: <AdminEditBillPage />,
   adminContactsListPage: <AdminContactsListPage />,
   adminReorderGroupsPage: <AdminReorderGroupsPage />,
   adminNewAccountPage: <AdminNewAccountPage />,

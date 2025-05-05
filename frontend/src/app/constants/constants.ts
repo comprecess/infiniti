@@ -1281,6 +1281,7 @@ export interface AccountingInputData {
     amount: string
     name: string
   }[]
+  recurringType: string[]
   client: { id: number; account: string }[]
   code: string
   currency: CurrencyProps[]
@@ -1337,4 +1338,27 @@ export interface AccountingTransferForm {
   toAccount: number
   currency: number
   payMethods: number
+}
+
+export interface AccountingBillsData {
+  id: number
+  title: string
+  amount: string
+  nextDate: string
+  recurringType: string
+  isPaid: number
+  website: string
+}
+
+export interface AccountingBillsForm {
+  title: string
+  nextDate: string
+  amount: number
+  amountFloat: number
+  recurringType: string
+  currency: number
+  account: number
+  client: number
+  category: number
+  website: string
 }
