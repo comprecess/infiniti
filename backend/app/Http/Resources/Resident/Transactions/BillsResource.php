@@ -28,6 +28,7 @@ class BillsResource extends JsonResource
             'client' => new ClientInfoResource($this->account),
             'category' => new CategoryInfoResource($this->category),
             'website' => $this->website,
+            'isPaid' => $this->is_paid
         ];
     }
 

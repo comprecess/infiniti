@@ -294,6 +294,13 @@ class TransactionsController extends TransactionsAccessController
         return $this->delete($model);
     }
 
+    public function billPaid(Bill $model)
+    {
+        $model->is_paid = 1;
+        $model->save();
+        return $this->defResponse();
+    }
+
     public function list(TransactionsListRequest $request)
     {
         $transactionQuery = Transaction::checkAccess(...self::ACCESS);
