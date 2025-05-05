@@ -13,7 +13,7 @@ class Bill extends Model
 
     const RECURRING_TYPE = ['Monthly', 'Yearly'];
 
-    protected $currencyColumnName = 'cyrrency';
+    protected $currencyColumnName = 'currency';
     protected $clientColumn = 'contact_id';
 
     protected $casts = [
