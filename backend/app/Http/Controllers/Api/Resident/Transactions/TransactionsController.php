@@ -271,7 +271,7 @@ class TransactionsController extends TransactionsAccessController
 
     public function billAll(BillListRequest $request)
     {
-        $bills = Bill::orderBy('next_date', 'asc');
+        $bills = Bill::query();
 
         if($search = Arr::get($request->all(), 'filter.search')){
             $bills->where(function($query) use($search){
