@@ -29,4 +29,17 @@ class AccountListRequest extends DocumentRequest
         ];
     }
 
+    public function search(): array
+    {
+        return [
+            'id',
+            'sys_accounts.account',
+            'sys_accounts.description',
+            'sys_accounts.account_number',
+            'sys_accounts.contact_person',
+            'sys_accounts.contact_phone',
+            'sys_accounts.ib_url',
+        ];
+    }
+
 }

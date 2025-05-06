@@ -36,7 +36,7 @@ class AccountController extends TransactionsAccessController
         /*    ->joinSub(Transaction::getQueryBalance(), 'transaction', function($join){
                 $join->on('sys_accounts.id', '=','transaction.account_id');
             })*/;
-        if($search = Arr::get($request->all(), 'filter.search')){
+        /*if($search = Arr::get($request->all(), 'filter.search')){
             $search = "%{$search}%";
             $accountQuery->where(function($query) use($search){
                 $query->where('id','like', $search)
@@ -47,9 +47,11 @@ class AccountController extends TransactionsAccessController
                     ->orWhere('sys_accounts.contact_phone', 'like', $search)
                     ->orWhere('sys_accounts.ib_url', 'like', $search);
                 });
-        }
-        $request->sortModel($accountQuery);
-        $balances = Account::getBalance($currency, $accountQuery->get());
+        }*/
+        $request->sortModel($accountQuery)->searchModel($accountQuery);
+        $accountQuery = $accountQuery->paginate($request->input('amount') ?? 6);
+
+        $balances = Account::getBalance($currency, $accountQuery);
 
         $balanceAll = $balanceTotal = [];
         foreach(Transaction::TYPE as $type){
@@ -65,6 +67,8 @@ class AccountController extends TransactionsAccessController
             $transactionPrint->amount = $val;
             $balanceTotal[$key] = $transactionPrint->printPrice('amount', $currency);
         }
+
+//        return  AccountListResource::collection($balances);
 
         return response()->json(
             [
