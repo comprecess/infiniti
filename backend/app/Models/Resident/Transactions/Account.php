@@ -21,10 +21,10 @@ class Account extends Model
         return $this->hasMany(Transaction::class, 'account_id');
     }
 
-    public static function getBalance(?Currency $currency = null)
+    public static function getBalance(?Currency $currency = null, $accountQuery = null, ?callable $callableQuery = null)
     {
-        $accaunts = Account::all();
-        $balance = Transaction::getBalance($currency);
+        $accaunts = $accountQuery ?? Account::all();
+        $balance = Transaction::getBalance($currency, $callableQuery);
         $accaunts->each(function($item) use($balance, $currency){
             $item->balance = $balance[$item->id] ?? null;
             $item->balance_currency = $currency;

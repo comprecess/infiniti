@@ -261,14 +261,19 @@ class Transaction extends Model implements InsertDefaultValueInterface
 
     }
 
+    public static function getQueryBalance()
+    {
+        return DB::table((new self())->getTable())
+            ->selectRaw('`account_id`, `type`, `currency_iso_code`, SUM(amount) as amount')
+            ->groupBy(['account_id', 'type', 'currency_iso_code'])
+            ->orderBy('account_id', 'asc');
+    }
+
     public static function getBalance(?Currency $currency = null, ?callable $callableQuery = null)
     {
         $newData = [];
         $currencyBuf = [];
-        $query = DB::table((new self())->getTable())
-            ->selectRaw('`account_id`, `type`, `currency_iso_code`, SUM(amount) as amount')
-            ->groupBy(['account_id', 'type', 'currency_iso_code'])
-            ->orderBy('account_id', 'asc');
+        $query = self::getQueryBalance();
         if(is_callable($callableQuery)) {
             $callableQuery($query);
         }

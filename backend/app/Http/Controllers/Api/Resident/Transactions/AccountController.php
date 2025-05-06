@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Resident\Transactions;
 
 
 use App\Http\Controllers\Api\Traits\CRUD;
+use App\Http\Requests\Resident\Transactions\AccountListRequest;
 use App\Http\Requests\Resident\Transactions\AccountRequest;
 use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Http\Resources\Resident\Transactions\AccountListResource;
@@ -15,6 +16,7 @@ use App\Models\Resident\Transactions\Account;
 use App\Models\Resident\Transactions\Transaction;
 use App\Models\User;
 use App\Models\Users\Admin;
+use Illuminate\Support\Arr;
 
 
 class AccountController extends TransactionsAccessController
@@ -24,12 +26,30 @@ class AccountController extends TransactionsAccessController
         delete as deleteCRUD;
     }
 
-    public function list()
+    public function list(AccountListRequest $request)
     {
         $transactionPrint = new Transaction();
         $currency = Currency::getDefault();
-        $balances = Account::getBalance($currency);
         $transactionPrint->setCurrency($currency);
+
+        $accountQuery = Account::query()
+        /*    ->joinSub(Transaction::getQueryBalance(), 'transaction', function($join){
+                $join->on('sys_accounts.id', '=','transaction.account_id');
+            })*/;
+        if($search = Arr::get($request->all(), 'filter.search')){
+            $search = "%{$search}%";
+            $accountQuery->where(function($query) use($search){
+                $query->where('id','like', $search)
+                    ->orWhere('sys_accounts.account', 'like', $search)
+                    ->orWhere('sys_accounts.description', 'like', $search)
+                    ->orWhere('sys_accounts.account_number', 'like', $search)
+                    ->orWhere('sys_accounts.contact_person', 'like', $search)
+                    ->orWhere('sys_accounts.contact_phone', 'like', $search)
+                    ->orWhere('sys_accounts.ib_url', 'like', $search);
+                });
+        }
+        $request->sortModel($accountQuery);
+        $balances = Account::getBalance($currency, $accountQuery->get());
 
         $balanceAll = $balanceTotal = [];
         foreach(Transaction::TYPE as $type){
