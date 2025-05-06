@@ -95,7 +95,7 @@ class ChatGPTController extends ResidentController
 */
         /******/
 
-        $prompt = 'В поле текст [текст] описаны основне требование для тебя и что пользователь хочет получить. ';
+        $prompt = 'В поле текст [текст] описаны основне требование для тебя и что пользователь хочет получить. Определи на каком языке написан [текст] и дай ответ на том же языке';
         $block['текст'] = $chatGPT->message;
 
         $modelData = config("data.chat_gpt.{$chatGPT->getDiscussionModelName()}");
