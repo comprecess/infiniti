@@ -188,7 +188,8 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
             return $this->total - $this->credit;
         }
 
-        return $this->credit;
+//        return $this->credit;
+        return $this->total;
     }
 
     public function getDueAmount()
