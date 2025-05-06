@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Resident;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 
 
@@ -22,6 +23,13 @@ class DocumentRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function sort() :array
+    {
+        return [
+
+        ];
+    }
+
+    public function search() :array
     {
         return [
 
@@ -54,7 +62,26 @@ class DocumentRequest extends FormRequest
         } else {
             $model->orderBy($sort[$this->sort['name'] ?? 'id'], $desc ? "desc" : 'asc');
         }
+
+        return $this;
     }
+
+    public function searchModel($model)
+    {
+        $aearchColumn = $this->search();
+        if(($search = Arr::get($this->all(), 'filter.search')) && $aearchColumn){
+            $search = "%{$search}%";
+            $model->where(function($query) use($search, $aearchColumn){
+                foreach($aearchColumn as $column) {
+                    $query->orWhere($column,'like', $search);
+                }
+            });
+        }
+
+        return $this;
+    }
+
+
 
 
 }
