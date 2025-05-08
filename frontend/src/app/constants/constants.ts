@@ -1362,3 +1362,34 @@ export interface AccountingBillsForm {
   category: number
   website: string
 }
+
+export interface AccountingAccountsData {
+  id: number
+  name: string
+  balance: {
+    Equity: string
+    Expense: string
+    Income: string
+    Total: string
+  }
+}
+
+export interface AccountingAccountsInputData {
+  currency: { id: number; code: string; isdefault: number; rate: string }[]
+  owner: {
+    id: number
+    account: string
+    businessNumber: string
+    email: string
+  }[]
+}
+
+export interface AccountingAccountsForm {
+  name: string
+  description: string
+  accountNumber: string
+  contactPerson: string
+  contactPhone: string
+  url: string
+  balance: { amount: string; currency: number }[]
+}

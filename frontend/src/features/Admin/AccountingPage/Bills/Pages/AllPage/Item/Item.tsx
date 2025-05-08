@@ -35,7 +35,7 @@ export const Item = ({
     handleOpenConfirmationModal()
   }
 
-  const navigateToAddNewBill = () => {
+  const navigateToEditBill = () => {
     navigate(
       `/${Routes.adminPages}/${Routes.accounting}/${Routes.bills}/${Routes.edit}/${Routes.bill}/${id}`,
     )
@@ -59,7 +59,7 @@ export const Item = ({
             icon='/icons/edit.svg'
             alt='Edit'
             tooltipTitle='Edit'
-            onClick={navigateToAddNewBill}
+            onClick={navigateToEditBill}
           />
           <CustomMiniButton
             style='cherry'

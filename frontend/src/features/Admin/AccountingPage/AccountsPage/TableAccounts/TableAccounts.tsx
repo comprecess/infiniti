@@ -1,27 +1,36 @@
 import { Fragment, useCallback, useState } from 'react'
 
+import { AccountingAccountsData } from '../../../../../app/constants/constants'
+import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
+import { Item } from './Item/Item'
 import styles from './TableAccounts.module.scss'
 
-export const TableAccounts = () => {
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-  const [_sortName, setSortName] = useState<string>('account')
-  const [_sortType, setSortType] = useState<number>(1)
-  const [sortNumbers, setSortNumbers] = useState<number[]>([1, 1, 1, 1, 1])
+interface TableAccountsProps {
+  accounts: AccountingAccountsData[]
+  changeSort: (sortNameItem: string, sortTypeItem: number) => void
+  deleteAccount: (id: number) => void
+}
+
+export const TableAccounts = ({
+  accounts,
+  changeSort,
+  deleteAccount,
+}: TableAccountsProps) => {
+  const [sortNumbers, setSortNumbers] = useState<number[]>([0, 0, 0, 0, 0])
 
   const handleSortChange = useCallback(
     (index: number, sortNameItem: string, sortTypeItem: number) => {
       setSortNumbers(prevSortNumbers =>
-        prevSortNumbers.map((_num, i) => (i === index ? sortTypeItem : 1)),
+        prevSortNumbers.map((_num, i) => (i === index ? sortTypeItem : 0)),
       )
-      setSortName(sortNameItem)
-      setSortType(sortTypeItem)
+      changeSort(sortNameItem, sortTypeItem)
     },
-    [],
+    [changeSort],
   )
 
   const clearSort = () => {
-    setSortNumbers(new Array(7).fill(1))
+    setSortNumbers(new Array(7).fill(0))
   }
 
   return (
@@ -33,7 +42,7 @@ export const TableAccounts = () => {
             title='Account'
             style={styles.accountColumn}
             sortType={sortNumbers[0]}
-            sortName='account'
+            sortName='name'
             sortIndex={0}
             changeSortName={handleSortChange}
             clearSort={clearSort}
@@ -51,8 +60,18 @@ export const TableAccounts = () => {
           <Title title='Manage' style={styles.manageColumn} />
         </div>
         <div className={styles.items}>
-          {[].map((_item, _index) => {
-            return <Fragment key={`id`}>Item</Fragment>
+          {accounts.map((item, index) => {
+            return (
+              <Fragment key={item.id}>
+                <Item
+                  id={item.id}
+                  name={item.name}
+                  balance={item.balance}
+                  deleteAccount={deleteAccount}
+                />
+                {index !== accounts.length - 1 && <CustomDivider />}
+              </Fragment>
+            )
           })}
         </div>
       </div>
