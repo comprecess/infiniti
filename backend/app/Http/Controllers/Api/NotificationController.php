@@ -50,14 +50,15 @@ class NotificationController extends Controller
     public function subscribePush(PushRequest $request)
     {
         $user = User::getAuth();
-        if(!($push = $user->push)){
+        if(!$user->push){
             $push = new Push();
             $push->setUser($user);
+
+            $subscription = $request->subscription;
+            $push->endpoint = Arr::get($subscription, 'endpoint');
+            $push->keys = Arr::get($subscription, 'keys');
+            $push->save();
         }
-        $subscription = $request->subscription;
-        $push->endpoint = Arr::get($subscription, 'endpoint');
-        $push->keys = Arr::get($subscription, 'keys');
-        $push->save();
 
         return response()->json(['success' => true]);
     }
@@ -68,6 +69,7 @@ class NotificationController extends Controller
         $push = Push::findOrFail($id);
 
         \App\Services\Push::send($push, 'Test', 'test');
+        return response()->json(['success' => true]);
     }
 
 }
