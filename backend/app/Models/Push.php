@@ -20,7 +20,9 @@ class Push extends Model
 
     protected $fillable = [
         'endpoint',
-        'keys'
+        'keys',
+        'user_type',
+        'user_id'
     ];
 
     public function user()
