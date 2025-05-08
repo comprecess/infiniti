@@ -47,5 +47,7 @@ Route::controller(NotificationController::class)
     ->group(function(){
         Route::get('/', 'list');
         Route::put('/viewed', 'viewed');
+        Route::get('/push/public-key', 'getKeyPush');
+        Route::post('/push/subscribe', 'subscribePush');
     });
 

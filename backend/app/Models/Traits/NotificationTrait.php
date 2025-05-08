@@ -30,5 +30,11 @@ trait NotificationTrait
         return __("notification.{$tag}". $class[count($class) - 1], $data);
     }
 
+    public function notificationGetTitle()
+    {
+        $class = explode("\\", $this::class);
+        return __("notification.title.". $class[count($class) - 1]);
+    }
+
 
 }

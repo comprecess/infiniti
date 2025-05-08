@@ -5,8 +5,10 @@ namespace App\Models;
 
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Services\Push as PushService;
 
 class Notification extends Model
 {
@@ -54,12 +56,42 @@ class Notification extends Model
         }
     }
 
+    public function getTitle()
+    {
+        if($this->model) {
+            return $this->model->notificationGetTitle();
+        }
+
+        if($this->type) {
+            return __('notification.title.type', $this->data ?? []);
+        }
+
+    }
+
     public function scopeMyQuery($query)
     {
         $date = now();
         $dateViewed = now()->addHours(24);
         $query->selectRaw("*, IF((notifications.viewed = 0 OR notifications.updated_at < '".$dateViewed->format('Y-m-d H:i:s')."') OR notifications.date_active > '".$date->format('Y-m-d H:i:s')."', 0,1) AS typeSort")
             ->orderByRaw('typeSort asc, notifications.id desc');
+    }
+
+    public function send(User $user, ?Model $model = null, ?Carbon $dateActive = null, $message = null, $type = null, ?array $data = null, bool $isPush = true)
+    {
+        $not = new Notification();
+        $not->setUser($user);
+        $not->setModel($model);
+        $not->date_active = $dateActive;
+        $not->message = $message;
+        $not->type = $type;
+        $not->data = $data;
+        $not->save();
+
+        if(($push = $user->push) && $isPush) {
+            PushService::send($push, $not->getTitle(), $not->getMessage());
+        }
+
+        return $this;
     }
 
 }
