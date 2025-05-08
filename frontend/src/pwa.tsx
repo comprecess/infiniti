@@ -31,11 +31,25 @@ async function registerPushNotifications() {
 
     console.log('✅ Service Worker зарегистрирован:')
 
-    // Запрашиваем разрешение на уведомления
-    const permission = await Notification.requestPermission()
+    let permission = localStorage.getItem('notificationPermission')
+
+    if (!permission) {
+      // Запрашиваем разрешение, если нет сохраненного
+      permission = await Notification.requestPermission()
+
+      localStorage.setItem('notificationPermission', permission)
+    }
 
     if (permission !== 'granted') {
       console.error('❌ Пользователь не дал разрешение на уведомления')
+
+      // Если разрешение отклонено, отписываем пользователя от уведомлений
+      const subscription = await registration.pushManager.getSubscription()
+
+      if (subscription) {
+        await subscription.unsubscribe()
+        console.log('❌ Уведомления отключены')
+      }
 
       return
     }
@@ -61,6 +75,7 @@ async function registerPushNotifications() {
     await postKeyPush(subscription)
 
     console.log('✅ Подписка успешно отправлена на сервер')
+    console.log('Текущее состояние разрешения:', Notification.permission)
   } catch (error) {
     console.error('❌ Ошибка при регистрации push-уведомлений:', error)
   }

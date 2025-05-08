@@ -923,7 +923,7 @@ export const adminSidebarPages = [
       {
         id: 0,
         title: 'admin-sidebar-subsidiary-page-general-settings',
-        path: '',
+        path: Routes.generalSettings,
 
         // Access
         create: false,
