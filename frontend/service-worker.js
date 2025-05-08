@@ -1,4 +1,4 @@
-const CACHE_NAME = 'infiniti-v1'
+const CACHE_NAME = 'infiniti-v2'
 
 const ASSETS_TO_CACHE = ['/index.html']
 
