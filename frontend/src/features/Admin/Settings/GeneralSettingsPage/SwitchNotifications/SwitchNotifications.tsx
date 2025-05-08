@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
 
 import { CustomSwitch } from '../../../../../shared/ui/CustomSwitch/CustomSwitch'
+import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import styles from './SwitchNotifications.module.scss'
 
 export const SwitchNotifications = () => {
   const [permission, setPermission] =
     useState<NotificationPermission | null>(null)
+
+  const showToast = useCustomToast()
 
   const requestNotificationPermission = async () => {
     try {
@@ -23,13 +26,21 @@ export const SwitchNotifications = () => {
     if (isEnabled) {
       await requestNotificationPermission()
 
-      console.log('✅ Уведомления подключены')
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully enabled notifications',
+        status: 'success',
+      })
     } else {
       setPermission('denied')
 
       localStorage.setItem('notificationPermission', 'denied')
 
-      console.log('❌ Уведомления отклонены')
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully disabled notifications',
+        status: 'success',
+      })
     }
   }
 
