@@ -8,6 +8,7 @@ function urlBase64ToUint8Array(base64String: string): Uint8Array {
     .replace(/_/g, '/')
   const rawData = window.atob(base64)
   const outputArray = new Uint8Array(rawData.length)
+
   for (let i = 0; i < rawData.length; ++i) {
     outputArray[i] = rawData.charCodeAt(i)
   }
@@ -44,6 +45,8 @@ async function registerPushNotifications() {
 
     if (!vapidKeyResponse || !vapidKeyResponse.key) {
       console.error('❌ Не удалось получить VAPID ключ')
+
+      return
     }
 
     const { key: publicKey } = vapidKeyResponse
