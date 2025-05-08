@@ -10,6 +10,7 @@ use App\Http\Resources\NotificationResource;
 use App\Models\Push;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 
 class NotificationController extends Controller
@@ -53,11 +54,20 @@ class NotificationController extends Controller
             $push = new Push();
             $push->setUser($user);
         }
-        $push->endpoint = $request->endpoint;
-        $push->keys = $request->keys;
+        $keys = $request->keys;
+        $push->endpoint = Arr::get($keys, 'endpoint');
+        $push->keys = Arr::get($keys, 'keys');
         $push->save();
 
         return response()->json(['success' => true]);
+    }
+
+    public function test(Request $request)
+    {
+        $id = (int) $request->id;
+        $push = Push::findOrFail($id);
+
+        \App\Services\Push::send($push, 'Test', 'test');
     }
 
 }
