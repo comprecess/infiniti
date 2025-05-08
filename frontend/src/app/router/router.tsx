@@ -403,6 +403,10 @@ export const router = createBrowserRouter([
             element: Pages.adminLocalizationPage,
           },
           {
+            path: Routes.generalSettings,
+            element: Pages.adminGeneralSettingsPage,
+          },
+          {
             index: true,
             element: (
               <Navigate
