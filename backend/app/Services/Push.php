@@ -33,7 +33,7 @@ class Push
             'contentEncoding' => 'aes128gcm',
         ]);
 
-        $webPush->sendOneNotification(
+        return $webPush->sendOneNotification(
             $subscription,
             \json_encode([
                 'title' => $title,
