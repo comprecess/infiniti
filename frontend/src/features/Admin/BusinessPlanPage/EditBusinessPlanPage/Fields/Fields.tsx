@@ -21,7 +21,7 @@ interface FieldsProps {
   formData: Partial<BusinessPlanNewPlanFormData>
   inputData: TalentInputDataBusinessPlan[]
   setFormData: Dispatch<
-  SetStateAction<Partial<BusinessPlanNewPlanFormData> | null>
+    SetStateAction<Partial<BusinessPlanNewPlanFormData> | null>
   >
   setIsCreatingCall: Dispatch<SetStateAction<boolean>>
   setModalAddTalent: Dispatch<SetStateAction<boolean>>
@@ -174,7 +174,7 @@ export const Fields = ({
                 ? typeof formData.file === 'string'
                   ? formData.file
                   : URL.createObjectURL(formData.file)
-                : '/test_3.jpeg'
+                : '/businessPlan.jpeg'
             }
           />
           <div className={styles.buttonsContainer}>

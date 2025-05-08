@@ -129,7 +129,7 @@ export const Fields = ({ formData, setFormData }: FieldsProps) => {
             src={
               formData.file
                 ? URL.createObjectURL(formData.file)
-                : '/test_3.jpeg'
+                : '/businessPlan.jpeg'
             }
           />
           <div className={styles.buttonsContainer}>

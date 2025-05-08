@@ -52,7 +52,7 @@ export const CardPlan = ({
     <>
       <div className={styles.wrapper}>
         <img
-          src={picture ?? '/test_3.jpeg'}
+          src={picture ?? '/businessPlan.jpeg'}
           alt='Logo'
           className={styles.logo}
         />
