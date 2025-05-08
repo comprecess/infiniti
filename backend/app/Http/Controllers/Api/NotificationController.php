@@ -68,6 +68,7 @@ class NotificationController extends Controller
         $push = Push::findOrFail($id);
 
         \App\Services\Push::send($push, 'Test', 'test');
+        return response()->json(['success' => true]);
     }
 
 }
