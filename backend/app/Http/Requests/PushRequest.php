@@ -16,9 +16,9 @@ class PushRequest extends FormRequest
     {
 //        $timezone = array_keys(config('data.timezone', []));
         return [
-            'keys.endpoint' => 'required',
-            'keys.keys.auth' => 'required',
-            'keys.keys.p256dh' => 'required',
+            'subscription.endpoint' => 'required',
+            'subscription.keys.auth' => 'required',
+            'subscription.keys.p256dh' => 'required',
         ];
     }
 }

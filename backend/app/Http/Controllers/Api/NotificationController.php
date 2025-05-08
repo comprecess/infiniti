@@ -54,9 +54,9 @@ class NotificationController extends Controller
             $push = new Push();
             $push->setUser($user);
         }
-        $keys = $request->keys;
-        $push->endpoint = Arr::get($keys, 'endpoint');
-        $push->keys = Arr::get($keys, 'keys');
+        $subscription = $request->subscription;
+        $push->endpoint = Arr::get($subscription, 'endpoint');
+        $push->keys = Arr::get($subscription, 'keys');
         $push->save();
 
         return response()->json(['success' => true]);
