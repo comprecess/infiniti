@@ -30,9 +30,26 @@ export const SwitchNotifications = () => {
 
   useEffect(() => {
     const checkStatus = async () => {
-      const permission = await getNotificationStatus()
+      const maxRetries = 3
+      let attempts = 0
 
-      setPermission(permission)
+      while (attempts < maxRetries) {
+        try {
+          const permission = await getNotificationStatus()
+          setPermission(permission)
+
+          return
+        } catch (error) {
+          attempts++
+          console.error(`❌ Попытка ${attempts} не удалась:`, error)
+          await new Promise(res => setTimeout(res, 1000))
+        }
+      }
+
+      console.error(
+        '❌ Не удалось получить статус уведомлений после 3 попыток',
+      )
+      setPermission('default')
     }
 
     checkStatus()
