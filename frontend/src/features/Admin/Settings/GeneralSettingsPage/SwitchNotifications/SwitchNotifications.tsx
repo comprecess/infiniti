@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import { handleNotifications } from '../../../../../initOneSignal'
 import { CustomSwitch } from '../../../../../shared/ui/CustomSwitch/CustomSwitch'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import styles from './SwitchNotifications.module.scss'
@@ -10,35 +11,21 @@ export const SwitchNotifications = () => {
 
   const showToast = useCustomToast()
 
-  const requestNotificationPermission = async () => {
-    try {
-      const permissionResult = await Notification.requestPermission()
-
-      setPermission(permissionResult)
-
-      localStorage.setItem('notificationPermission', permissionResult)
-    } catch (error) {
-      console.error('Ошибка при запросе разрешения:', error)
-    }
-  }
-
   const handleSwitchChange = async (isEnabled: boolean) => {
     if (isEnabled) {
-      await requestNotificationPermission()
+      await handleNotifications(true)
 
       showToast({
-        title: 'Successfully',
-        description: 'You have successfully enabled notifications',
+        title: 'Уведомления включены',
+        description: 'Вы успешно включили уведомления',
         status: 'success',
       })
     } else {
-      setPermission('denied')
-
-      localStorage.setItem('notificationPermission', 'denied')
+      await handleNotifications(false)
 
       showToast({
-        title: 'Successfully',
-        description: 'You have successfully disabled notifications',
+        title: 'Уведомления отключены',
+        description: 'Вы успешно отключили уведомления',
         status: 'success',
       })
     }

@@ -7,6 +7,7 @@ import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 
 import { App } from './app.tsx'
+import { initOneSignal } from './initOneSignal.ts'
 import { checkboxTheme } from './shared/themes/CheckBox.ts'
 import { menuTheme } from './shared/themes/MenuList.ts'
 import { modalTheme } from './shared/themes/Modal.ts'
@@ -84,3 +85,7 @@ async function main() {
 }
 
 main()
+
+window.addEventListener('load', () => {
+  initOneSignal()
+})
