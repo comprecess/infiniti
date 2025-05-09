@@ -18,6 +18,15 @@ return new class extends Migration
             $table->json('keys');
             $table->timestamps();
         });
+        /*
+         Schema::dropIfExists('push_subscriptions');
+        Schema::create('push_subscriptions', function (Blueprint $table) {
+            $table->id();
+            $table->morphs('user');
+            $table->string('hash')->unique();
+            $table->timestamps();
+        });
+         * */
     }
 
     /**

@@ -1,18 +1,19 @@
 <?php
 
 
-namespace App\Services;
+namespace App\Services\Push;
 
 
+use App\Services\Push\Contracts\PushContract;
 use Illuminate\Support\Arr;
 use Minishlink\WebPush\Subscription;
 use Minishlink\WebPush\WebPush;
 use App\Models\Push as PushModel;
 
-class Push
+class Firebase extends Push implements PushContract
 {
 
-    public static function send(PushModel $model, $title, $message)
+    public function send(PushModel $model, $title, $message)
     {
         $user = $model->user;
         $auth = [

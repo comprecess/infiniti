@@ -12,6 +12,8 @@ use App\Services\Filter;
 use App\Services\FilterBusinessModel;
 use App\Services\Pay\Contract\PayContract;
 use App\Services\Pay\Pay;
+use App\Services\Push\Contracts\PushContract;
+use App\Services\Push\OneSignal;
 use App\Services\ZoomMeeting;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -26,7 +28,11 @@ class AppServiceProvider extends ServiceProvider
         FilterBusinessModelContract::class => FilterBusinessModel::class,
         PayContract::class => Pay::class,
         CurrencyServiceContract::class => CurrencyFreaks::class,
-        MeetingContract::class => ZoomMeeting::class
+        #Meering
+        MeetingContract::class => ZoomMeeting::class,
+        #Push
+        PushContract::class => OneSignal::class
+
     ];
 
     /**

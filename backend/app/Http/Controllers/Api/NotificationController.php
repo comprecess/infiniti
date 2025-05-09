@@ -44,29 +44,21 @@ class NotificationController extends Controller
 
     public function getKeyPush()
     {
-        return response()->json(['key' => env('VAPID_PUBLIC_KEY')]);
+//        return response()->json(['key' => env('VAPID_PUBLIC_KEY')]);
+        return response()->json(['key' => env('ONESIGNAL_APP_ID')]);
     }
 
     public function subscribePush(PushRequest $request)
     {
         $user = User::getAuth();
-//        if(!$user->push){
-//            $push = new Push();
-//            $push->setUser($user);
-//
-//            $subscription = $request->subscription;
-//            $push->endpoint = Arr::get($subscription, 'endpoint');
-//            $push->keys = Arr::get($subscription, 'keys');
-//            $push->save();
-//        }
 
         $subscription = $request->subscription;
         Push::updateOrCreate(
-            ['endpoint' => Arr::get($subscription, 'endpoint')],
+            ['endpoint' => Arr::get($subscription, 'userId')],
             [
-                'keys' => Arr::get($subscription, 'keys'),
                 'user_type' => $user::class,
-                'user_id' => $user->id
+                'user_id' => $user->id,
+                'keys' => []
             ]
         );
 

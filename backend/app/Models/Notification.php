@@ -8,7 +8,6 @@ use App\Models\Users\Client;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Services\Push as PushService;
 
 class Notification extends Model
 {
@@ -88,7 +87,7 @@ class Notification extends Model
         $not->save();
 
         if(($push = $user->push) && $isPush) {
-            PushService::send($push, $not->getTitle(), $not->getMessage());
+
         }
 
         return $this;
