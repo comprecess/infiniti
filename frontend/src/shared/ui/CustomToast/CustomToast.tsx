@@ -2,7 +2,7 @@ import { useToast, UseToastOptions } from '@chakra-ui/react'
 
 interface ToastProps {
   title: string
-  description: string
+  description?: string
   status: 'info' | 'warning' | 'success' | 'error'
 }
 

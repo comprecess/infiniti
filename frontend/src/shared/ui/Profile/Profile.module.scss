@@ -66,3 +66,18 @@
     background-color: lighten($color: $brand-800, $amount: 8%);
   }
 }
+
+.notifications {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.notificationsOn {
+  color: $mint-500;
+}
+
+.notificationsOff {
+  color: $cherry-500;
+}
