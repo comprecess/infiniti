@@ -171,6 +171,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        \Berkayk\OneSignal\OneSignalServiceProvider::class
     ])->toArray(),
 
     /*
@@ -187,7 +188,8 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        'authtime' => \App\Http\Middleware\Auth\AuthenticateLastTime::class
+        'authtime' => \App\Http\Middleware\Auth\AuthenticateLastTime::class,
+        'OneSignal' => \Berkayk\OneSignal\OneSignalFacade::class
     ])->toArray(),
 
     'rtl' => env('RTL', 0),

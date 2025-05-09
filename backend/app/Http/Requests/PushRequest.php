@@ -14,11 +14,13 @@ class PushRequest extends FormRequest
      */
     public function rules(): array
     {
-//        $timezone = array_keys(config('data.timezone', []));
         return [
-            'subscription.endpoint' => 'required',
+            'subscription.userId' => 'required',
+            /*
+             'subscription.endpoint' => 'required',
             'subscription.keys.auth' => 'required',
             'subscription.keys.p256dh' => 'required',
+             * */
         ];
     }
 }
