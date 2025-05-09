@@ -16,6 +16,7 @@ export const SwitchNotifications = () => {
 
   const handleSwitchChange = async (isEnabled: boolean) => {
     const newPermission = await handleNotifications(isEnabled)
+
     setPermission(newPermission)
 
     showToast({
@@ -36,18 +37,16 @@ export const SwitchNotifications = () => {
       if (stored) {
         setPermission(stored)
       } else {
-        const nativePermission = Notification.permission
-
-        // Проверим, активна ли подписка
         await initOneSignal()
+
         window.OneSignal.push(() => {
           window.OneSignal.isPushNotificationsEnabled().then(
             (enabled: boolean) => {
-              setPermission(enabled ? 'granted' : nativePermission)
-              localStorage.setItem(
-                'notificationPermission',
-                enabled ? 'granted' : nativePermission,
-              )
+              const result = enabled ? 'granted' : Notification.permission
+
+              setPermission(result)
+
+              localStorage.setItem('notificationPermission', result)
             },
           )
         })
