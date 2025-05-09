@@ -7,6 +7,7 @@ namespace App\Services\Push;
 use App\Services\Push\Contracts\PushContract;
 use App\Models\Push as PushModel;
 use Berkayk\OneSignal\OneSignalClient;
+use Illuminate\Support\Facades\Log;
 
 
 class OneSignal extends Push implements PushContract
@@ -18,6 +19,7 @@ class OneSignal extends Push implements PushContract
 //            $message,
 //            $model->hash
 //        );
+        Log::alert('****OneSignal****', [$model->id, $model->hash]);
         $onesignal = new OneSignalClient(
             env('ONESIGNAL_APP_ID'),
             env('ONESIGNAL_REST_API_KEY'),
