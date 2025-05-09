@@ -106,26 +106,67 @@ export const initOneSignal = async () => {
   }
 }
 
-export const handleNotifications = async (isEnabled: boolean) => {
+export const handleNotifications = async (
+  isEnabled: boolean,
+): Promise<NotificationPermission> => {
   if (isEnabled) {
     const permission = await Notification.requestPermission()
 
     if (permission === 'granted') {
       await initOneSignal()
 
-      localStorage.setItem('notificationPermission', 'granted')
-    } else {
-      console.log('❌ Разрешение на уведомления отклонено')
+      return new Promise(resolve => {
+        window.OneSignal.push(() => {
+          window.OneSignal.showSlidedownPrompt()
 
+          // Подпишемся на изменения
+          window.OneSignal.on(
+            'subscriptionChange',
+            async (isSubscribed: boolean) => {
+              console.log('🔁 subscriptionChange:', isSubscribed)
+
+              if (isSubscribed) {
+                try {
+                  const userId = await window.OneSignal.getUserId()
+                  console.log('👤 Получен userId из OneSignal:', userId)
+
+                  const res = await postKeyPush(userId)
+
+                  if (!res.status)
+                    throw new Error(
+                      `❌ Сервер вернул статус ${res.status}`,
+                    )
+
+                  localStorage.setItem('notificationPermission', 'granted')
+                } catch (error) {
+                  console.error(
+                    '❌ Ошибка при сохранении Player ID:',
+                    error,
+                  )
+                }
+
+                resolve('granted')
+              } else {
+                resolve('default')
+              }
+            },
+          )
+        })
+      })
+    } else {
       localStorage.setItem('notificationPermission', 'denied')
+
+      return permission
     }
   } else {
     if (window.OneSignal) {
-      window.OneSignal.push(function () {
+      window.OneSignal.push(() => {
         window.OneSignal.setSubscription(false)
       })
     }
 
     localStorage.setItem('notificationPermission', 'denied')
+
+    return 'denied'
   }
 }

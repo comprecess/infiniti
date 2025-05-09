@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 
-import { handleNotifications } from '../../../../../initOneSignal'
+import {
+  handleNotifications,
+  initOneSignal,
+} from '../../../../../initOneSignal'
 import { CustomSwitch } from '../../../../../shared/ui/CustomSwitch/CustomSwitch'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import styles from './SwitchNotifications.module.scss'
@@ -12,33 +15,46 @@ export const SwitchNotifications = () => {
   const showToast = useCustomToast()
 
   const handleSwitchChange = async (isEnabled: boolean) => {
-    if (isEnabled) {
-      await handleNotifications(true)
+    const newPermission = await handleNotifications(isEnabled)
+    setPermission(newPermission)
 
-      showToast({
-        title: 'Уведомления включены',
-        description: 'Вы успешно включили уведомления',
-        status: 'success',
-      })
-    } else {
-      await handleNotifications(false)
-
-      showToast({
-        title: 'Уведомления отключены',
-        description: 'Вы успешно отключили уведомления',
-        status: 'success',
-      })
-    }
+    showToast({
+      title: isEnabled ? 'Уведомления включены' : 'Уведомления отключены',
+      description: isEnabled
+        ? 'You have successfully enabled notifications'
+        : 'You have successfully disabled notifications',
+      status: 'success',
+    })
   }
 
   useEffect(() => {
-    const storedPermission = localStorage.getItem('notificationPermission')
+    const checkPermission = async () => {
+      const stored = localStorage.getItem(
+        'notificationPermission',
+      ) as NotificationPermission | null
 
-    if (storedPermission) {
-      setPermission(storedPermission as NotificationPermission)
-    } else {
-      setPermission(Notification.permission)
+      if (stored) {
+        setPermission(stored)
+      } else {
+        const nativePermission = Notification.permission
+
+        // Проверим, активна ли подписка
+        await initOneSignal()
+        window.OneSignal.push(() => {
+          window.OneSignal.isPushNotificationsEnabled().then(
+            (enabled: boolean) => {
+              setPermission(enabled ? 'granted' : nativePermission)
+              localStorage.setItem(
+                'notificationPermission',
+                enabled ? 'granted' : nativePermission,
+              )
+            },
+          )
+        })
+      }
     }
+
+    checkPermission()
   }, [])
 
   return (
