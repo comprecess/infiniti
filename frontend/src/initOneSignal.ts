@@ -52,45 +52,52 @@ export const initOneSignal = async () => {
       return
     }
 
-    const { key: appId } = response
+    const { key: app_id } = response
 
     window.OneSignal = window.OneSignal || []
 
     window.OneSignal.push(function () {
       try {
         window.OneSignal.init({
-          appId,
+          app_id,
           notifyButton: {
             enable: true,
           },
           allowLocalhostAsSecureOrigin: true,
         })
 
-        const permission = localStorage.getItem('notificationPermission')
+        window.OneSignal.isPushNotificationsEnabled(
+          (isEnabled: boolean) => {
+            console.log('📶 Подписка активна:', isEnabled)
 
-        if (permission === 'granted') {
-          window.OneSignal.getUserId().then(async function (
-            userId: string,
-          ) {
-            console.log('👤 Получен userId из OneSignal:', userId)
+            if (isEnabled) {
+              window.OneSignal.getUserId().then(async (userId: string) => {
+                console.log('👤 Получен userId из OneSignal:', userId)
 
-            try {
-              const res = await postKeyPush(userId)
+                try {
+                  const res = await postKeyPush(userId)
 
-              if (!res.status) {
-                throw new Error(`❌ Сервер вернул статус ${res.status}`)
-              }
+                  if (!res.status) {
+                    throw new Error(
+                      `❌ Сервер вернул статус ${res.status}`,
+                    )
+                  }
 
-              console.log('✅ Player ID успешно сохранён')
-            } catch (error) {
-              console.error('❌ Ошибка при сохранении Player ID:', error)
+                  console.log('✅ Player ID успешно сохранён')
+                } catch (error) {
+                  console.error(
+                    '❌ Ошибка при сохранении Player ID:',
+                    error,
+                  )
+                }
+              })
+            } else {
+              console.log(
+                '🔕 Пользователь не подписан — пропуск отправки Player ID',
+              )
             }
-          })
-        } else {
-          console.log(
-            '🔕 Уведомления не разрешены — пропуск отправки Player ID',
-          )
-        }
+          },
+        )
 
         isOneSignalInitialized = true
         console.log('✅ OneSignal инициализирован')
