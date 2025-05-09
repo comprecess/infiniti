@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 
 import { getKeyPush } from './shared/utils/api/Push/GetKeyPush'
+import { postKeyPush } from './shared/utils/api/Push/PostKeyPush'
 
 declare global {
   interface Window {
@@ -73,15 +74,9 @@ export const initOneSignal = async () => {
             userId: string,
           ) {
             try {
-              const res = await fetch('/save-player-id', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ player_id: userId }),
-              })
+              const res = await postKeyPush(userId)
 
-              if (!res.ok) {
+              if (!res.status) {
                 throw new Error(`❌ Сервер вернул статус ${res.status}`)
               }
 
