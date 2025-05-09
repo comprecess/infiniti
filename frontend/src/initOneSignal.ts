@@ -56,13 +56,17 @@ export const initOneSignal = async () => {
   window.OneSignal = window.OneSignal || []
 
   window.OneSignal.push(function () {
-    window.OneSignal.init({
-      appId,
-      notifyButton: {
-        enable: true,
-      },
-      allowLocalhostAsSecureOrigin: true,
-    })
+    try {
+      window.OneSignal.init({
+        appId,
+        notifyButton: {
+          enable: true,
+        },
+        allowLocalhostAsSecureOrigin: true,
+      })
+    } catch (error) {
+      console.error('❌ Ошибка при инициализации OneSignal:', error)
+    }
   })
 
   window.OneSignal.push(function () {
