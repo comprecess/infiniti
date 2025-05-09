@@ -205,7 +205,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
             <span className={styles.modalItem}>Change Password</span>
             {permission && (
               <div
-                className={styles.notifications}
+                className={`${styles.modalItem} ${styles.notifications}`}
                 onClick={() =>
                   handleSwitchChange(permission !== 'granted')
                 }
