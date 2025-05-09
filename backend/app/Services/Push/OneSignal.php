@@ -19,14 +19,14 @@ class OneSignal extends Push implements PushContract
 //            $message,
 //            $model->hash
 //        );
-        Log::alert('****OneSignal****', [$model->id, $model->hash]);
+        Log::alert('****OneSignal****', [$model->id, $model->endpoint]);
         $onesignal = new OneSignalClient(
             env('ONESIGNAL_APP_ID'),
             env('ONESIGNAL_REST_API_KEY'),
             env('ONESIGNAL_USER_AUTH_KEY'),
         );
 
-        $onesignal->sendNotificationToUser($message, $model->hash);
+        $onesignal->sendNotificationToUser($message, $model->endpoint);
     }
 
 }
