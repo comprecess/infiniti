@@ -210,7 +210,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
                   handleSwitchChange(permission !== 'granted')
                 }
               >
-                <span className={styles.modalItem}>Notifications</span>
+                <span>Notifications</span>
                 <span
                   className={
                     permission === 'granted'
