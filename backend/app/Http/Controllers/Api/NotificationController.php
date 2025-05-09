@@ -53,9 +53,8 @@ class NotificationController extends Controller
     {
         $user = User::getAuth();
 
-        $subscription = $request->subscription;
         Push::updateOrCreate(
-            ['endpoint' => Arr::get($subscription, 'userId')],
+            ['endpoint' => $request->subscription],
             [
                 'user_type' => $user::class,
                 'user_id' => $user->id,
