@@ -1,4 +1,3 @@
-import { SwitchNotifications } from '../../../../features/Admin/Settings/GeneralSettingsPage/SwitchNotifications/SwitchNotifications'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './GeneralSettingsPage.module.scss'
 
@@ -10,9 +9,7 @@ export const AdminGeneralSettingsPage = () => {
           style={styles.recentFullScreen}
           title='General Settings'
         >
-          <div className={styles.fields}>
-            <SwitchNotifications />
-          </div>
+          <div className={styles.fields}>Content</div>
         </RecentCard>
       </section>
     </div>

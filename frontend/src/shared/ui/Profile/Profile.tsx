@@ -16,10 +16,15 @@ import {
   UserInfo,
 } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
+import {
+  getNotificationStatus,
+  handleNotifications,
+} from '../../../initOneSignal'
 import { getCookies } from '../../utils/Saving/Cookies/GetCookies'
 import { removeCookies } from '../../utils/Saving/Cookies/RemoveCookies'
 import { getSession } from '../../utils/Saving/Session/GetSession'
 import { removeSession } from '../../utils/Saving/Session/RemoveSession'
+import { useCustomToast } from '../CustomToast/CustomToast'
 import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner'
 import styles from './Profile.module.scss'
 
@@ -32,9 +37,13 @@ type ProfileData = UserInfo | AdminInfo
 export const Profile = ({ isAdmin }: ProfileProps) => {
   const [profileData, setProfileData] = useState<ProfileData | null>(null)
 
+  const [permission, setPermission] =
+    useState<NotificationPermission | null>(null)
+
   const { isOpen, onToggle, onClose } = useDisclosure()
 
   const navigate = useNavigate()
+  const showToast = useCustomToast()
 
   const fetchProfileData = useCallback(() => {
     const profileData = getSession(profileInfoString) as ProfileData
@@ -58,6 +67,47 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
 
     navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
   }
+
+  const handleSwitchChange = async (isEnabled: boolean) => {
+    const newPermission = await handleNotifications(isEnabled)
+
+    setPermission(newPermission)
+
+    showToast({
+      title: isEnabled ? 'Уведомления включены' : 'Уведомления отключены',
+      description: isEnabled
+        ? 'You have successfully enabled notifications'
+        : 'You have successfully disabled notifications',
+      status: 'success',
+    })
+  }
+
+  useEffect(() => {
+    const checkStatus = async () => {
+      const maxRetries = 5
+      let attempts = 0
+
+      while (attempts < maxRetries) {
+        try {
+          const permission = await getNotificationStatus()
+          setPermission(permission)
+
+          return
+        } catch (error) {
+          attempts++
+          console.error(`❌ Попытка ${attempts} не удалась:`, error)
+          await new Promise(res => setTimeout(res, 1000))
+        }
+      }
+
+      console.error(
+        '❌ Не удалось получить статус уведомлений после 3 попыток',
+      )
+      setPermission('default')
+    }
+
+    checkStatus()
+  }, [])
 
   useEffect(() => {
     fetchProfileData()
@@ -156,6 +206,23 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
           >
             <span className={styles.modalItem}>Edit Profile</span>
             <span className={styles.modalItem}>Change Password</span>
+            {permission && (
+              <div
+                className={styles.modalItem}
+                style={{
+                  display: 'flex',
+                  width: '100%',
+                  justifyContent: 'space-between',
+                  padding: '8px',
+                }}
+                onClick={() =>
+                  handleSwitchChange(permission !== 'granted')
+                }
+              >
+                <span>Notifications</span>
+                <span>{permission === 'granted' ? 'On' : 'Off'}</span>
+              </div>
+            )}
             <span className={styles.modalItem} onClick={logout}>
               Logout
             </span>
