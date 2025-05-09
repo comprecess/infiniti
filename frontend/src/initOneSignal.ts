@@ -56,8 +56,6 @@ export const initOneSignal = async () => {
 
     window.OneSignal = window.OneSignal || []
 
-    let isInitialized = false
-
     window.OneSignal.push(function () {
       try {
         window.OneSignal.init({
@@ -67,21 +65,18 @@ export const initOneSignal = async () => {
           },
           allowLocalhostAsSecureOrigin: true,
         })
-        isInitialized = true
-      } catch (error) {
-        console.error('❌ Ошибка при инициализации OneSignal:', error)
-      }
-    })
 
-    if (isInitialized) {
-      window.OneSignal.push(function () {
         window.OneSignal.on(
           'subscriptionChange',
           function (isSubscribed: boolean) {
+            console.log('🔔 Событие subscriptionChange:', isSubscribed)
+
             if (isSubscribed) {
               window.OneSignal.getUserId().then(async function (
                 userId: string,
               ) {
+                console.log('👤 Получен userId:', userId)
+
                 try {
                   const res = await postKeyPush(userId)
 
@@ -102,13 +97,13 @@ export const initOneSignal = async () => {
             }
           },
         )
-      })
 
-      isOneSignalInitialized = true
-      console.log('✅ OneSignal инициализирован')
-    } else {
-      console.error('❌ Ошибка при инициализации OneSignal')
-    }
+        isOneSignalInitialized = true
+        console.log('✅ OneSignal инициализирован')
+      } catch (error) {
+        console.error('❌ Ошибка при инициализации OneSignal:', error)
+      }
+    })
   } catch (error) {
     console.error(
       '❌ Ошибка при загрузке OneSignal SDK или получении данных:',
