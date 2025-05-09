@@ -11,6 +11,14 @@ declare global {
 
 let isOneSignalInitialized = false
 
+const waitForOneSignalInit = (): Promise<void> => {
+  return new Promise(resolve => {
+    window.OneSignal.push(() => {
+      resolve()
+    })
+  })
+}
+
 const loadOneSignalScript = (): Promise<void> => {
   return new Promise((resolve, reject) => {
     const existingScript = document.querySelector(
@@ -53,10 +61,12 @@ export const initOneSignal = async () => {
         notifyButton: { enable: true },
         allowLocalhostAsSecureOrigin: true,
       })
-
-      isOneSignalInitialized = true
-      console.log('✅ OneSignal инициализирован')
     })
+
+    await waitForOneSignalInit()
+
+    isOneSignalInitialized = true
+    console.log('✅ OneSignal инициализирован')
   } catch (error) {
     console.error('❌ Ошибка инициализации OneSignal:', error)
   }
