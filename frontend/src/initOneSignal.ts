@@ -58,7 +58,6 @@ export const initOneSignal = async () => {
     window.OneSignal.push(() => {
       window.OneSignal.init({
         appId,
-        notifyButton: { enable: true },
         allowLocalhostAsSecureOrigin: true,
       })
     })
