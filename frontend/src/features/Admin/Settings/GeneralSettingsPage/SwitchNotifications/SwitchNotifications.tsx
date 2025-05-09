@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 
 import {
+  getNotificationStatus,
   handleNotifications,
-  initOneSignal,
 } from '../../../../../initOneSignal'
 import { CustomSwitch } from '../../../../../shared/ui/CustomSwitch/CustomSwitch'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
@@ -30,21 +30,9 @@ export const SwitchNotifications = () => {
 
   useEffect(() => {
     const checkStatus = async () => {
-      await initOneSignal()
+      const permission = await getNotificationStatus()
 
-      window.OneSignal.push(async () => {
-        const isEnabled =
-          await window.OneSignal.isPushNotificationsEnabled()
-        const permission = Notification.permission
-
-        if (permission === 'granted' && isEnabled) {
-          setPermission('granted')
-        } else if (permission === 'denied') {
-          setPermission('denied')
-        } else {
-          setPermission('default')
-        }
-      })
+      setPermission(permission)
     }
 
     checkStatus()
