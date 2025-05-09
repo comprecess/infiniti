@@ -75,9 +75,6 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
 
     showToast({
       title: isEnabled ? 'Уведомления включены' : 'Уведомления отключены',
-      description: isEnabled
-        ? 'You have successfully enabled notifications'
-        : 'You have successfully disabled notifications',
       status: 'success',
     })
   }
@@ -208,19 +205,21 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
             <span className={styles.modalItem}>Change Password</span>
             {permission && (
               <div
-                className={styles.modalItem}
-                style={{
-                  display: 'flex',
-                  width: '100%',
-                  justifyContent: 'space-between',
-                  padding: '8px',
-                }}
+                className={styles.notifications}
                 onClick={() =>
                   handleSwitchChange(permission !== 'granted')
                 }
               >
-                <span>Notifications</span>
-                <span>{permission === 'granted' ? 'On' : 'Off'}</span>
+                <span className={styles.modalItem}>Notifications</span>
+                <span
+                  className={
+                    permission === 'granted'
+                      ? styles.notificationsOn
+                      : styles.notificationsOff
+                  }
+                >
+                  {permission === 'granted' ? 'On' : 'Off'}
+                </span>
               </div>
             )}
             <span className={styles.modalItem} onClick={logout}>
