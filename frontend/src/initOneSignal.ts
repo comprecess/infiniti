@@ -111,7 +111,6 @@ export const handleNotifications = async (
     })
 
     await savePlayerId()
-    localStorage.setItem('notificationPermission', 'granted')
 
     return 'granted'
   } else {
@@ -122,7 +121,6 @@ export const handleNotifications = async (
     })
 
     await removePlayerId()
-    localStorage.setItem('notificationPermission', 'denied')
 
     return 'denied'
   }
