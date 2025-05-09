@@ -66,37 +66,31 @@ export const initOneSignal = async () => {
           allowLocalhostAsSecureOrigin: true,
         })
 
-        window.OneSignal.on(
-          'subscriptionChange',
-          function (isSubscribed: boolean) {
-            console.log('🔔 Событие subscriptionChange:', isSubscribed)
+        const permission = localStorage.getItem('notificationPermission')
 
-            if (isSubscribed) {
-              window.OneSignal.getUserId().then(async function (
-                userId: string,
-              ) {
-                console.log('👤 Получен userId:', userId)
+        if (permission === 'granted') {
+          window.OneSignal.getUserId().then(async function (
+            userId: string,
+          ) {
+            console.log('👤 Получен userId из OneSignal:', userId)
 
-                try {
-                  const res = await postKeyPush(userId)
+            try {
+              const res = await postKeyPush(userId)
 
-                  if (!res.status) {
-                    throw new Error(
-                      `❌ Сервер вернул статус ${res.status}`,
-                    )
-                  }
+              if (!res.status) {
+                throw new Error(`❌ Сервер вернул статус ${res.status}`)
+              }
 
-                  console.log('✅ Player ID успешно сохранён')
-                } catch (error) {
-                  console.error(
-                    '❌ Ошибка при сохранении Player ID:',
-                    error,
-                  )
-                }
-              })
+              console.log('✅ Player ID успешно сохранён')
+            } catch (error) {
+              console.error('❌ Ошибка при сохранении Player ID:', error)
             }
-          },
-        )
+          })
+        } else {
+          console.log(
+            '🔕 Уведомления не разрешены — пропуск отправки Player ID',
+          )
+        }
 
         isOneSignalInitialized = true
         console.log('✅ OneSignal инициализирован')
