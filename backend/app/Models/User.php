@@ -78,7 +78,7 @@ class User extends Authenticatable
         return $this->morphMany(Notification::class, 'user');
     }
 
-    public function push()
+    public function pushSubscriptions()
     {
         return $this->morphMany(Push::class, 'user');
     }
