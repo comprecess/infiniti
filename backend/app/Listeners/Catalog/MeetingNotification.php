@@ -4,6 +4,7 @@ namespace App\Listeners\Catalog;
 
 use App\Events\Catalog\MeetingCreate;
 use App\Models\Notification;
+use App\Services\Push\Contracts\PushContract;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -28,6 +29,7 @@ class MeetingNotification implements ShouldQueue
 //        if($meeting->responseFail()) {
 //            return;
 //        }
+        $push = app(PushContract::class);
 
         $not = new Notification();
         $not->setUser($meeting->owner);
