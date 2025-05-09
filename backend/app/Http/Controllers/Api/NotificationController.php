@@ -9,6 +9,7 @@ use App\Http\Requests\PushRequest;
 use App\Http\Resources\NotificationResource;
 use App\Models\Push;
 use App\Models\User;
+use App\Services\Push\Contracts\PushContract;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -69,9 +70,8 @@ class NotificationController extends Controller
     {
         $id = (int) $request->id;
         $push = Push::findOrFail($id);
-
-        $responce = \App\Services\Push::send($push, 'Test', 'test');
-//        dd($responce);
+        $test = app(PushContract::class);
+        $test->send($push, 'Test', 'test');
         return response()->json(['success' => true]);
     }
 
