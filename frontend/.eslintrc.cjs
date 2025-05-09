@@ -13,7 +13,7 @@ module.exports = {
     '*.d.ts',
     '*.mjs',
     'vite.config.ts',
-    'service-worker.js',
+    'OneSignalSDKWorker.js',
   ],
   parser: '@typescript-eslint/parser',
   plugins: [
