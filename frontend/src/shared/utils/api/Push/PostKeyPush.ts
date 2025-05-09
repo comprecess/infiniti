@@ -6,7 +6,7 @@ interface Response {
 }
 
 export const postKeyPush = async (
-  subscription: PushSubscription,
+  subscription: any,
 ): Promise<Response> => {
   const authToken = getAuthToken()
 
