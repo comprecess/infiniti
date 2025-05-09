@@ -29,31 +29,25 @@ export const SwitchNotifications = () => {
   }
 
   useEffect(() => {
-    const checkPermission = async () => {
-      const stored = localStorage.getItem(
-        'notificationPermission',
-      ) as NotificationPermission | null
+    const checkStatus = async () => {
+      await initOneSignal()
 
-      if (stored) {
-        setPermission(stored)
-      } else {
-        await initOneSignal()
+      window.OneSignal.push(async () => {
+        const isEnabled =
+          await window.OneSignal.isPushNotificationsEnabled()
+        const permission = Notification.permission
 
-        window.OneSignal.push(() => {
-          window.OneSignal.isPushNotificationsEnabled().then(
-            (enabled: boolean) => {
-              const result = enabled ? 'granted' : Notification.permission
-
-              setPermission(result)
-
-              localStorage.setItem('notificationPermission', result)
-            },
-          )
-        })
-      }
+        if (permission === 'granted' && isEnabled) {
+          setPermission('granted')
+        } else if (permission === 'denied') {
+          setPermission('denied')
+        } else {
+          setPermission('default')
+        }
+      })
     }
 
-    checkPermission()
+    checkStatus()
   }, [])
 
   return (
