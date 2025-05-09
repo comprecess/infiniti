@@ -19,7 +19,7 @@ export const postKeyPush = async (userId: any): Promise<Response> => {
             Accept: 'application/json',
             Authorization: `Bearer ${authToken}`,
           },
-          body: JSON.stringify({ subscription: { userId } }),
+          body: JSON.stringify({ subscription: userId }),
         },
       )
 
