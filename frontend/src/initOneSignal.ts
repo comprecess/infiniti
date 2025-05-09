@@ -69,14 +69,26 @@ export const initOneSignal = async () => {
       'subscriptionChange',
       function (isSubscribed: boolean) {
         if (isSubscribed) {
-          window.OneSignal.getUserId().then(function (userId: string) {
-            fetch('/save-player-id', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ player_id: userId }),
-            })
+          window.OneSignal.getUserId().then(async function (
+            userId: string,
+          ) {
+            try {
+              const res = await fetch('/save-player-id', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ player_id: userId }),
+              })
+
+              if (!res.ok) {
+                throw new Error(`❌ Сервер вернул статус ${res.status}`)
+              }
+
+              console.log('✅ Player ID успешно сохранён')
+            } catch (error) {
+              console.error('❌ Ошибка при сохранении Player ID:', error)
+            }
           })
         }
       },
