@@ -128,24 +128,14 @@ export const handleNotifications = async (
 
 export const getNotificationStatus =
   async (): Promise<NotificationPermission> => {
-    try {
-      await initOneSignal()
+    await initOneSignal()
 
-      await new Promise<void>(resolve => {
-        window.OneSignal.push(() => resolve())
-      })
+    const isEnabled = await window.OneSignal.isPushNotificationsEnabled()
+    const permission = Notification.permission
 
-      const isEnabled = await window.OneSignal.isPushNotificationsEnabled()
-      const permission = Notification.permission
-
-      if (permission === 'granted' && isEnabled) {
-        return 'granted'
-      }
-
-      return permission
-    } catch (error) {
-      console.error('❌ Ошибка при получении статуса уведомлений:', error)
-
-      return 'default'
+    if (permission === 'granted' && isEnabled) {
+      return 'granted'
     }
+
+    return permission
   }
