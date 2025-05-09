@@ -5,9 +5,7 @@ interface Response {
   message: string
 }
 
-export const postKeyPush = async (
-  subscription: any,
-): Promise<Response> => {
+export const postKeyPush = async (userId: any): Promise<Response> => {
   const authToken = getAuthToken()
 
   if (authToken) {
@@ -21,7 +19,7 @@ export const postKeyPush = async (
             Accept: 'application/json',
             Authorization: `Bearer ${authToken}`,
           },
-          body: JSON.stringify({ subscription }),
+          body: JSON.stringify({ subscription: userId }),
         },
       )
 
