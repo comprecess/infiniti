@@ -106,25 +106,14 @@ export const handleNotifications = async (
 
     await initOneSignal()
 
-    return new Promise(resolve => {
-      window.OneSignal.push(() => {
-        window.OneSignal.showSlidedownPrompt()
-
-        window.OneSignal.on(
-          'subscriptionChange',
-          async (subscribed: boolean) => {
-            console.log('🔁 subscriptionChange:', subscribed)
-
-            if (subscribed) {
-              await savePlayerId()
-              resolve('granted')
-            } else {
-              resolve('default')
-            }
-          },
-        )
-      })
+    window.OneSignal.push(() => {
+      window.OneSignal.setSubscription(true)
     })
+
+    await savePlayerId()
+    localStorage.setItem('notificationPermission', 'granted')
+
+    return 'granted'
   } else {
     await initOneSignal()
 
@@ -133,6 +122,7 @@ export const handleNotifications = async (
     })
 
     await removePlayerId()
+    localStorage.setItem('notificationPermission', 'denied')
 
     return 'denied'
   }
