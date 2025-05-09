@@ -52,14 +52,14 @@ export const initOneSignal = async () => {
       return
     }
 
-    const { key: app_id } = response
+    const { key: appId } = response
 
     window.OneSignal = window.OneSignal || []
 
     window.OneSignal.push(function () {
       try {
         window.OneSignal.init({
-          app_id,
+          appId,
           notifyButton: {
             enable: true,
           },
