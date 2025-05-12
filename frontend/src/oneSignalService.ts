@@ -1,6 +1,7 @@
 import OneSignal from 'react-onesignal'
 
 import { getKeyPush } from './shared/utils/api/Push/GetKeyPush'
+import { postKeyPush } from './shared/utils/api/Push/PostKeyPush'
 
 export const initPushNotifications = async (): Promise<void> => {
   try {
@@ -16,17 +17,24 @@ export const initPushNotifications = async (): Promise<void> => {
       appId,
       allowLocalhostAsSecureOrigin: true,
       autoResubscribe: true,
-      welcomeNotification: {
-        title: 'Добро пожаловать!',
-        message: 'Вы подписались на уведомления!',
-        url: '/',
-      },
     })
 
     OneSignal.Slidedown.promptPush()
 
-    console.log('✅ OneSignal инициализирован и уведомления запрашиваются')
+    if (typeof window !== 'undefined' && window.OneSignal) {
+      const userId = await (window as any).OneSignal?.getUserId()
+
+      if (userId) {
+        await postKeyPush(userId)
+
+        localStorage.setItem('push_key_sent', 'true')
+      } else {
+        localStorage.setItem('push_key_sent', 'false')
+      }
+    } else {
+      localStorage.setItem('push_key_sent', 'false')
+    }
   } catch (err) {
-    console.error('❌ Ошибка при инициализации OneSignal:', err)
+    localStorage.setItem('push_key_sent', 'false')
   }
 }
