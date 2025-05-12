@@ -17,8 +17,9 @@ import {
 } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import {
-  getNotificationStatus,
-  handleNotifications,
+  initOneSignal,
+  subscribeToPush,
+  unsubscribeFromPush,
 } from '../../../initOneSignal'
 import { getCookies } from '../../utils/Saving/Cookies/GetCookies'
 import { removeCookies } from '../../utils/Saving/Cookies/RemoveCookies'
@@ -36,9 +37,9 @@ type ProfileData = UserInfo | AdminInfo
 
 export const Profile = ({ isAdmin }: ProfileProps) => {
   const [profileData, setProfileData] = useState<ProfileData | null>(null)
-
   const [permission, setPermission] =
     useState<NotificationPermission | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
   const { isOpen, onToggle, onClose } = useDisclosure()
 
@@ -55,6 +56,33 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     }
   }, [isAdmin])
 
+  const handleNotificationToggle = async (enabled: boolean) => {
+    setIsLoading(true)
+    try {
+      if (enabled) {
+        const result = await subscribeToPush()
+        setPermission(result)
+        if (result === 'granted') {
+          showToast({ title: 'Уведомления включены', status: 'success' })
+        } else {
+          showToast({ title: 'Разрешение не получено', status: 'warning' })
+        }
+      } else {
+        await unsubscribeFromPush()
+        setPermission('denied')
+        showToast({ title: 'Уведомления отключены', status: 'info' })
+      }
+    } catch (err) {
+      console.error('❌ Notification toggle error:', err)
+      showToast({
+        title: 'Ошибка управления уведомлениями',
+        status: 'error',
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   const logout = () => {
     const sessionToken = getSession(authTokenString)
     const authToken = getCookies(authTokenString)
@@ -68,46 +96,28 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
   }
 
-  const handleSwitchChange = async (isEnabled: boolean) => {
-    const newPermission = await handleNotifications(isEnabled)
-
-    setPermission(newPermission)
-
-    showToast({
-      title: isEnabled ? 'Уведомления включены' : 'Уведомления отключены',
-      status: 'success',
-    })
-  }
-
-  useEffect(() => {
-    const checkStatus = async () => {
-      const maxRetries = 5
-      let attempts = 0
-
-      while (attempts < maxRetries) {
-        try {
-          const permission = await getNotificationStatus()
-          setPermission(permission)
-
-          return
-        } catch (error) {
-          attempts++
-          console.error(`❌ Попытка ${attempts} не удалась:`, error)
-          await new Promise(res => setTimeout(res, 1000))
-        }
-      }
-
-      console.error(
-        '❌ Не удалось получить статус уведомлений после 3 попыток',
-      )
-      setPermission('default')
-    }
-
-    checkStatus()
-  }, [])
-
   useEffect(() => {
     fetchProfileData()
+
+    const checkPermission = async () => {
+      try {
+        await initOneSignal()
+
+        const enabled = await window.OneSignal.isPushNotificationsEnabled()
+        const perm = Notification.permission
+
+        if (enabled && perm === 'granted') {
+          setPermission('granted')
+        } else {
+          setPermission(perm)
+        }
+      } catch (err) {
+        console.error('Ошибка при проверке статуса уведомлений', err)
+        setPermission('default')
+      }
+    }
+
+    checkPermission()
   }, [fetchProfileData])
 
   return (
@@ -207,7 +217,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
               <div
                 className={`${styles.modalItem} ${styles.notifications}`}
                 onClick={() =>
-                  handleSwitchChange(permission !== 'granted')
+                  handleNotificationToggle(permission !== 'granted')
                 }
               >
                 <span>Notifications</span>

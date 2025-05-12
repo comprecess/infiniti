@@ -21,7 +21,7 @@ interface FieldsProps {
   formData: Partial<BusinessPlanNewPlanFormData>
   inputData: TalentInputDataBusinessPlan[]
   setFormData: Dispatch<
-    SetStateAction<Partial<BusinessPlanNewPlanFormData> | null>
+  SetStateAction<Partial<BusinessPlanNewPlanFormData> | null>
   >
   setIsCreatingCall: Dispatch<SetStateAction<boolean>>
   setModalAddTalent: Dispatch<SetStateAction<boolean>>
