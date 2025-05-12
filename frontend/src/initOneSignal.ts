@@ -7,26 +7,12 @@ declare global {
   }
 }
 
-let isOneSignalInitialized = false
+let isInitialized = false
 
-const waitForOneSignalInit = (): Promise<void> => {
-  return new Promise(resolve => {
-    window.OneSignal.push(() => {
-      resolve()
-    })
-  })
-}
-
-const loadOneSignalScript = (): Promise<void> => {
+const loadSDK = (): Promise<void> => {
   return new Promise((resolve, reject) => {
-    const existingScript = document.querySelector(
-      'script[src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"]',
-    )
-
-    if (existingScript) {
-      resolve()
-
-      return
+    if (document.querySelector('script[src*="OneSignalSDK.js"]')) {
+      return resolve()
     }
 
     const script = document.createElement('script')
@@ -34,25 +20,27 @@ const loadOneSignalScript = (): Promise<void> => {
     script.async = true
     script.onload = () => resolve()
     script.onerror = () =>
-      reject(new Error('❌ Не удалось загрузить OneSignal SDK'))
+      reject(new Error('❌ OneSignal SDK load failed'))
 
     document.body.appendChild(script)
   })
 }
 
-export const initOneSignal = async () => {
-  if (isOneSignalInitialized) return
+const waitForInit = (): Promise<void> => {
+  return new Promise(resolve => {
+    window.OneSignal.push(() => resolve())
+  })
+}
+
+export const initOneSignal = async (): Promise<void> => {
+  if (isInitialized) return
 
   try {
-    await loadOneSignalScript()
+    await loadSDK()
 
-    const response = await getKeyPush()
+    const { key: appId } = (await getKeyPush()) || {}
 
-    if (!response?.key) {
-      throw new Error('❌ Не удалось получить appId от сервера')
-    }
-
-    const appId = response.key
+    if (!appId) throw new Error('❌ No appId returned from server')
 
     window.OneSignal = window.OneSignal || []
 
@@ -60,84 +48,44 @@ export const initOneSignal = async () => {
       window.OneSignal.init({
         appId,
         allowLocalhostAsSecureOrigin: true,
-        notifyButton: {
-          enable: true, // <-- это включает плавающую кнопку
-        },
+        notifyButton: { enable: false },
       })
     })
 
-    await waitForOneSignalInit()
-
-    isOneSignalInitialized = true
-    console.log('✅ OneSignal инициализирован')
-  } catch (error) {
-    console.error('❌ Ошибка инициализации OneSignal:', error)
+    await waitForInit()
+    isInitialized = true
+    console.log('✅ OneSignal initialized')
+  } catch (err) {
+    console.error('❌ OneSignal init error:', err)
   }
 }
 
-const savePlayerId = async () => {
-  try {
-    const userId = await window.OneSignal.getUserId()
+export const subscribeToPush =
+  async (): Promise<NotificationPermission> => {
+    await initOneSignal()
 
-    if (!userId) throw new Error('User ID не получен')
+    const permission = await Notification.requestPermission()
+    if (permission !== 'granted') return permission
 
-    const res = await postKeyPush(userId)
-
-    if (!res.status) throw new Error(`Сервер вернул статус ${res.status}`)
-
-    console.log('✅ Player ID успешно сохранён')
-    localStorage.setItem('notificationPermission', 'granted')
-  } catch (error) {
-    console.error('❌ Ошибка при сохранении Player ID:', error)
-  }
-}
-
-const removePlayerId = async () => {
-  try {
+    await window.OneSignal.setSubscription(true)
     const userId = await window.OneSignal.getUserId()
 
     if (userId) {
-      // await deleteKeyPush(userId)
-      console.log('🗑️ Player ID удалён')
+      await postKeyPush(userId)
+      console.log('✅ Player ID sent to backend')
     }
-  } catch (error) {
-    console.error('❌ Ошибка при удалении Player ID:', error)
-  } finally {
-    localStorage.setItem('notificationPermission', 'denied')
-  }
-}
-
-export const handleNotifications = async (
-  isEnabled: boolean,
-): Promise<NotificationPermission> => {
-  if (isEnabled) {
-    const permission = await Notification.requestPermission()
-
-    if (permission !== 'granted') {
-      localStorage.setItem('notificationPermission', 'denied')
-
-      return permission
-    }
-
-    await initOneSignal()
-
-    window.OneSignal.push(() => {
-      window.OneSignal.setSubscription(true)
-    })
-
-    await savePlayerId()
 
     return 'granted'
-  } else {
-    await initOneSignal()
+  }
 
-    window.OneSignal.push(() => {
-      window.OneSignal.setSubscription(false)
-    })
+export const unsubscribeFromPush = async (): Promise<void> => {
+  await initOneSignal()
+  await window.OneSignal.setSubscription(false)
 
-    await removePlayerId()
-
-    return 'denied'
+  const userId = await window.OneSignal.getUserId()
+  if (userId) {
+    console.log('🗑️ Player ID unsubscribed:', userId)
+    // Optionally: await deleteKeyPush(userId)
   }
 }
 
@@ -148,7 +96,7 @@ export const getNotificationStatus =
     const isEnabled = await window.OneSignal.isPushNotificationsEnabled()
     const permission = Notification.permission
 
-    if (permission === 'granted' && isEnabled) {
+    if (isEnabled && permission === 'granted') {
       return 'granted'
     }
 
