@@ -80,12 +80,9 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   }
 
   const logout = async () => {
-    try {
-      await initOneSignal()
-      await window.OneSignal.setSubscription(false)
-    } catch (err) {
-      console.warn('⚠️ Ошибка отключения OneSignal при выходе', err)
-    }
+    await initOneSignal()
+
+    await window.OneSignal.setSubscription(false)
 
     const sessionToken = getSession(authTokenString)
     const authToken = getCookies(authTokenString)
