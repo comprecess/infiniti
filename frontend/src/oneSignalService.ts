@@ -24,18 +24,18 @@ export const initPushNotifications = async (): Promise<void> => {
       await window.OneSignal.init({
         appId,
       })
+
+      const userId = await window.OneSignal.getUserId()
+
+      if (userId) {
+        await postKeyPush(userId)
+        localStorage.setItem('push_key_sent', 'true')
+      } else {
+        localStorage.setItem('push_key_sent', 'false')
+      }
+
+      window.OneSignal.Slidedown.promptPush?.()
     })
-
-    const userId = await window.OneSignal.getUserId()
-
-    if (userId) {
-      await postKeyPush(userId)
-      localStorage.setItem('push_key_sent', 'true')
-    } else {
-      localStorage.setItem('push_key_sent', 'false')
-    }
-
-    window.OneSignal.Slidedown.promptPush?.()
   } catch (err) {
     console.error('❌ Ошибка при инициализации OneSignal:', err)
     localStorage.setItem('push_key_sent', 'false')
