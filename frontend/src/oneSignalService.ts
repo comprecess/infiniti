@@ -19,29 +19,31 @@ export const initPushNotifications = async (): Promise<void> => {
       return
     }
 
-    window.OneSignalDeferred = window.OneSignalDeferred || []
-    window.OneSignalDeferred.push(async function () {
-      await window.OneSignal.init({
+    window.OneSignal = window.OneSignal || []
+
+    window.OneSignal.push(function () {
+      window.OneSignal.init({
         appId,
+        allowLocalhostAsSecureOrigin: true,
       })
-    })
 
-    window.OneSignal.Slidedown.promptPush?.()
+      window.OneSignal.getUserId().then(async function (userId: string) {
+        console.log('👤 Получен userId из OneSignal:', userId)
 
-    window.OneSignal.getUserId().then(async function (userId: string) {
-      console.log('👤 Получен userId из OneSignal:', userId)
+        try {
+          const res = await postKeyPush(userId)
 
-      try {
-        const res = await postKeyPush(userId)
+          if (!res.status) {
+            throw new Error(`❌ Сервер вернул статус ${res.status}`)
+          }
 
-        if (!res.status) {
-          throw new Error(`❌ Сервер вернул статус ${res.status}`)
+          console.log('✅ Player ID успешно сохранён')
+        } catch (error) {
+          console.error('❌ Ошибка при сохранении Player ID:', error)
         }
+      })
 
-        console.log('✅ Player ID успешно сохранён')
-      } catch (error) {
-        console.error('❌ Ошибка при сохранении Player ID:', error)
-      }
+      window.OneSignal.Slidedown.promptPush?.()
     })
   } catch (err) {
     console.error('❌ Ошибка при инициализации OneSignal:', err)
