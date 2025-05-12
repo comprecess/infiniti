@@ -39,7 +39,6 @@ export const initOneSignal = async (): Promise<void> => {
     await loadSDK()
 
     const { key: appId } = (await getKeyPush()) || {}
-
     if (!appId) throw new Error('❌ No appId returned from server')
 
     window.OneSignal = window.OneSignal || []
@@ -73,14 +72,18 @@ export const subscribeToPush =
     const permission = await Notification.requestPermission()
     if (permission !== 'granted') return permission
 
-    window.OneSignal.push(() => {
-      window.OneSignal.registerForPushNotifications()
-    })
+    const isSubscribed = await window.OneSignal.getSubscription()
+    if (!isSubscribed) {
+      window.OneSignal.push(() => {
+        window.OneSignal.showNativePrompt()
+      })
+    }
 
     const userId = await window.OneSignal.getUserId()
     if (userId) {
       await postKeyPush(userId)
-      console.log('✅ Player ID sent to backend')
+      await window.OneSignal.login(userId)
+      console.log('✅ Player ID sent and logged in')
     }
 
     return 'granted'
@@ -88,13 +91,12 @@ export const subscribeToPush =
 
 export const unsubscribeFromPush = async (): Promise<void> => {
   await initOneSignal()
-
   await window.OneSignal.setSubscription(false)
 
   const userId = await window.OneSignal.getUserId()
   if (userId) {
-    console.log('🗑️ Player ID unsubscribed:', userId)
-    // optionally: await deleteKeyPush(userId)
+    await window.OneSignal.logout()
+    console.log('🗑️ Player ID unsubscribed and logged out:', userId)
   }
 }
 
@@ -102,16 +104,11 @@ export const getNotificationStatus =
   async (): Promise<NotificationPermission> => {
     await initOneSignal()
 
-    const [isEnabled, isSubscribed] = await Promise.all([
-      window.OneSignal.isPushNotificationsEnabled(),
-      window.OneSignal.getSubscription(),
-    ])
-
+    const isSubscribed = await window.OneSignal.getSubscription()
     const permission = Notification.permission
 
-    if (permission === 'granted' && isEnabled && isSubscribed) {
-      return 'granted'
-    }
+    if (permission === 'granted' && isSubscribed) return 'granted'
+    if (permission === 'denied') return 'denied'
 
     return 'default'
   }

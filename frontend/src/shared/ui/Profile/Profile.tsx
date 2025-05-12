@@ -17,6 +17,7 @@ import {
 } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import {
+  getNotificationStatus,
   initOneSignal,
   subscribeToPush,
   unsubscribeFromPush,
@@ -81,17 +82,14 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
 
   const logout = async () => {
     await initOneSignal()
-
     await window.OneSignal.setSubscription(false)
+    await window.OneSignal.logout()
 
     const sessionToken = getSession(authTokenString)
     const authToken = getCookies(authTokenString)
 
-    if (sessionToken) {
-      removeSession(authTokenString)
-    } else if (authToken) {
-      removeCookies(authTokenString)
-    }
+    if (sessionToken) removeSession(authTokenString)
+    if (authToken) removeCookies(authTokenString)
 
     navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
   }
@@ -101,20 +99,8 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
 
     const checkPermission = async () => {
       try {
-        await initOneSignal()
-
-        const [isEnabled, isSubscribed] = await Promise.all([
-          window.OneSignal.isPushNotificationsEnabled(),
-          window.OneSignal.getSubscription(),
-        ])
-
-        const perm = Notification.permission
-
-        if (perm === 'granted' && isEnabled && isSubscribed) {
-          setPermission('granted')
-        } else {
-          setPermission('denied')
-        }
+        const perm = await getNotificationStatus()
+        setPermission(perm)
       } catch (err) {
         console.error('Ошибка при проверке статуса уведомлений', err)
         setPermission('default')
