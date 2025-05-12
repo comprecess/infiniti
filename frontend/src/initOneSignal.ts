@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 import { getKeyPush } from './shared/utils/api/Push/GetKeyPush'
 import { postKeyPush } from './shared/utils/api/Push/PostKeyPush'
 
@@ -49,16 +47,22 @@ export const initOneSignal = async () => {
     await loadOneSignalScript()
 
     const response = await getKeyPush()
-    if (!response?.key)
+
+    if (!response?.key) {
       throw new Error('❌ Не удалось получить appId от сервера')
+    }
 
     const appId = response.key
+
     window.OneSignal = window.OneSignal || []
 
     window.OneSignal.push(() => {
       window.OneSignal.init({
         appId,
         allowLocalhostAsSecureOrigin: true,
+        notifyButton: {
+          enable: true, // <-- это включает плавающую кнопку
+        },
       })
     })
 
@@ -74,9 +78,11 @@ export const initOneSignal = async () => {
 const savePlayerId = async () => {
   try {
     const userId = await window.OneSignal.getUserId()
+
     if (!userId) throw new Error('User ID не получен')
 
     const res = await postKeyPush(userId)
+
     if (!res.status) throw new Error(`Сервер вернул статус ${res.status}`)
 
     console.log('✅ Player ID успешно сохранён')
