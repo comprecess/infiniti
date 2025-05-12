@@ -39,7 +39,6 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   const [profileData, setProfileData] = useState<ProfileData | null>(null)
   const [permission, setPermission] =
     useState<NotificationPermission | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
 
   const { isOpen, onToggle, onClose } = useDisclosure()
 
@@ -57,7 +56,6 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   }, [isAdmin])
 
   const handleNotificationToggle = async (enabled: boolean) => {
-    setIsLoading(true)
     try {
       if (enabled) {
         const result = await subscribeToPush()
@@ -78,8 +76,6 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
         title: 'Ошибка управления уведомлениями',
         status: 'error',
       })
-    } finally {
-      setIsLoading(false)
     }
   }
 
