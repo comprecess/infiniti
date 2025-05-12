@@ -3,6 +3,12 @@ import OneSignal from 'react-onesignal'
 import { getKeyPush } from './shared/utils/api/Push/GetKeyPush'
 import { postKeyPush } from './shared/utils/api/Push/PostKeyPush'
 
+declare module 'react-onesignal' {
+  interface IOneSignalOneSignal {
+    getUserId: () => Promise<string | null>
+  }
+}
+
 export const initPushNotifications = async (): Promise<void> => {
   try {
     const { key: appId } = (await getKeyPush()) || {}
@@ -19,9 +25,9 @@ export const initPushNotifications = async (): Promise<void> => {
       autoResubscribe: true,
     })
 
-    await window.OneSignal?.Slidedown?.promptPush?.()
+    OneSignal.Slidedown.promptPush?.()
 
-    const userId = await (window as any).OneSignal?.getUserId()
+    const userId = await window.OneSignal?.getUserId()
 
     if (userId) {
       await postKeyPush(userId)
