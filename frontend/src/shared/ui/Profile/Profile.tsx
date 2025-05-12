@@ -153,7 +153,6 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
           >
             <span className={styles.modalItem}>Edit Profile</span>
             <span className={styles.modalItem}>Change Password</span>
-            <span>{localStorage.getItem('push_key_sent')}</span>
             {/* {permission && (
               <div
                 className={`${styles.modalItem} ${styles.notifications}`}
