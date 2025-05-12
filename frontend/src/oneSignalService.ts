@@ -22,31 +22,46 @@ export const initPushNotifications = async (): Promise<void> => {
     window.OneSignal = window.OneSignal || []
 
     window.OneSignal.push(function () {
-      window.OneSignal.init({
-        appId,
-        allowLocalhostAsSecureOrigin: true,
-      })
-
-      window.OneSignal.getUserId().then(async function (userId: string) {
-        console.log('👤 Получен userId из OneSignal:', userId)
-
-        try {
-          const res = await postKeyPush(userId)
-
-          if (!res.status) {
-            throw new Error(`❌ Сервер вернул статус ${res.status}`)
-          }
-
-          console.log('✅ Player ID успешно сохранён')
-        } catch (error) {
-          console.error('❌ Ошибка при сохранении Player ID:', error)
-        }
-      })
-
-      window.OneSignal.Slidedown.promptPush?.()
+      try {
+        window.OneSignal.init({
+          appId,
+          notifyButton: {
+            enable: true,
+          },
+          allowLocalhostAsSecureOrigin: true,
+        })
+      } catch (error) {
+        console.error('❌ Ошибка при инициализации OneSignal:', error)
+      }
     })
+
+    window.OneSignal.push(function () {
+      window.OneSignal.on(
+        'subscriptionChange',
+        function (isSubscribed: boolean) {
+          if (isSubscribed) {
+            window.OneSignal.getUserId().then(async function (
+              userId: string,
+            ) {
+              try {
+                const res = await postKeyPush(userId)
+
+                if (!res.status) {
+                  throw new Error(`❌ Сервер вернул статус ${res.status}`)
+                }
+
+                console.log('✅ Player ID успешно сохранён')
+              } catch (error) {
+                console.error('❌ Ошибка при сохранении Player ID:', error)
+              }
+            })
+          }
+        },
+      )
+    })
+
+    window.OneSignal.Slidedown.promptPush?.()
   } catch (err) {
     console.error('❌ Ошибка при инициализации OneSignal:', err)
-    localStorage.setItem('push_key_sent', 'false')
   }
 }
