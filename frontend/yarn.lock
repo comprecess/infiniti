@@ -4269,6 +4269,11 @@ react-onclickoutside@^6.13.0:
   resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-6.13.1.tgz#1f5e0241c08784b6e65745d91aca0d700c548a89"
   integrity sha512-LdrrxK/Yh9zbBQdFbMTXPp3dTSN9B+9YJQucdDu3JNKRrbdU+H+/TVONJoWtOwy4II8Sqf1y/DTI6w/vGPYW0w==
 
+react-onesignal@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/react-onesignal/-/react-onesignal-3.2.2.tgz#3bd81da64bb9ca4e9a6da874107153ab5d06dc70"
+  integrity sha512-FW3izV4VFY2qNbbuXdSJ/BCnF50qYFZMzDEVOSGmV3LEQ75CnjWhYx/gVRNcRrFfk2QroRh+99+sIYViJQq5xQ==
+
 react-refresh@^0.14.0:
   version "0.14.0"
   resolved "https://registry.npmjs.org/react-refresh/-/react-refresh-0.14.0.tgz"
