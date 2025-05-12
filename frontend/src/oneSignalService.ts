@@ -19,52 +19,23 @@ export const initPushNotifications = async (): Promise<void> => {
       return
     }
 
-    window.OneSignal = window.OneSignal || []
-
-    window.OneSignal.push(function () {
-      try {
-        window.OneSignal.init({
-          appId,
-          notifyButton: {
-            enable: true,
-          },
-          allowLocalhostAsSecureOrigin: true,
-        })
-
-        window.OneSignal.on(
-          'subscriptionChange',
-          function (isSubscribed: boolean) {
-            if (isSubscribed) {
-              window.OneSignal.getUserId().then(async function (
-                userId: string,
-              ) {
-                try {
-                  const res = await postKeyPush(userId)
-
-                  if (!res.status) {
-                    throw new Error(
-                      `❌ Сервер вернул статус ${res.status}`,
-                    )
-                  }
-
-                  console.log('✅ Player ID успешно сохранён')
-                } catch (error) {
-                  console.error(
-                    '❌ Ошибка при сохранении Player ID:',
-                    error,
-                  )
-                }
-              })
-            }
-          },
-        )
-
-        window.OneSignal.Slidedown?.promptPush?.()
-      } catch (error) {
-        console.error('❌ Ошибка при инициализации OneSignal:', error)
-      }
+    window.OneSignalDeferred = window.OneSignalDeferred || []
+    window.OneSignalDeferred.push(async function () {
+      await window.OneSignal.init({
+        appId,
+      })
     })
+
+    const userId = window.OneSignal.getUserId()
+
+    if (userId) {
+      await postKeyPush(userId)
+      localStorage.setItem('push_key_sent', 'true')
+    } else {
+      localStorage.setItem('push_key_sent', 'false')
+    }
   } catch (err) {
     console.error('❌ Ошибка при инициализации OneSignal:', err)
+    localStorage.setItem('push_key_sent', 'false')
   }
 }
