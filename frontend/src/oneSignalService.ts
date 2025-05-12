@@ -26,7 +26,7 @@ export const initPushNotifications = async (): Promise<void> => {
       })
     })
 
-    const userId = window.OneSignal.getUserId()
+    const userId = await window.OneSignal.getUserId()
 
     if (userId) {
       await postKeyPush(userId)
