@@ -19,18 +19,18 @@ export const initPushNotifications = async (): Promise<void> => {
       autoResubscribe: true,
     })
 
-    OneSignal.Slidedown.promptPush()
+    await window.OneSignal?.Slidedown?.promptPush?.()
 
-    const userId = OneSignal.User.externalId
+    const userId = await (window as any).OneSignal?.getUserId()
 
     if (userId) {
       await postKeyPush(userId)
-
       localStorage.setItem('push_key_sent', 'true')
     } else {
       localStorage.setItem('push_key_sent', 'false')
     }
   } catch (err) {
+    console.error('❌ Ошибка при инициализации OneSignal:', err)
     localStorage.setItem('push_key_sent', 'false')
   }
 }
