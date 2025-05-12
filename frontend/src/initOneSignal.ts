@@ -49,6 +49,11 @@ export const initOneSignal = async (): Promise<void> => {
         appId,
         allowLocalhostAsSecureOrigin: true,
         notifyButton: { enable: false },
+        welcomeNotification: {
+          title: 'Добро пожаловать!',
+          message: 'Вы подписались на уведомления!',
+          url: '/',
+        },
       })
     })
 

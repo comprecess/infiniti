@@ -79,7 +79,14 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     }
   }
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await initOneSignal()
+      await window.OneSignal.setSubscription(false)
+    } catch (err) {
+      console.warn('⚠️ Ошибка отключения OneSignal при выходе', err)
+    }
+
     const sessionToken = getSession(authTokenString)
     const authToken = getCookies(authTokenString)
 
@@ -99,13 +106,17 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
       try {
         await initOneSignal()
 
-        const enabled = await window.OneSignal.isPushNotificationsEnabled()
+        const [isEnabled, isSubscribed] = await Promise.all([
+          window.OneSignal.isPushNotificationsEnabled(),
+          window.OneSignal.getSubscription(),
+        ])
+
         const perm = Notification.permission
 
-        if (enabled && perm === 'granted') {
+        if (perm === 'granted' && isEnabled && isSubscribed) {
           setPermission('granted')
         } else {
-          setPermission(perm)
+          setPermission('denied')
         }
       } catch (err) {
         console.error('Ошибка при проверке статуса уведомлений', err)
