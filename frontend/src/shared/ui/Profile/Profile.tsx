@@ -16,17 +16,10 @@ import {
   UserInfo,
 } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
-import {
-  getNotificationStatus,
-  initOneSignal,
-  subscribeToPush,
-  unsubscribeFromPush,
-} from '../../../initOneSignal'
 import { getCookies } from '../../utils/Saving/Cookies/GetCookies'
 import { removeCookies } from '../../utils/Saving/Cookies/RemoveCookies'
 import { getSession } from '../../utils/Saving/Session/GetSession'
 import { removeSession } from '../../utils/Saving/Session/RemoveSession'
-import { useCustomToast } from '../CustomToast/CustomToast'
 import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner'
 import styles from './Profile.module.scss'
 
@@ -38,13 +31,10 @@ type ProfileData = UserInfo | AdminInfo
 
 export const Profile = ({ isAdmin }: ProfileProps) => {
   const [profileData, setProfileData] = useState<ProfileData | null>(null)
-  const [permission, setPermission] =
-    useState<NotificationPermission | null>(null)
 
   const { isOpen, onToggle, onClose } = useDisclosure()
 
   const navigate = useNavigate()
-  const showToast = useCustomToast()
 
   const fetchProfileData = useCallback(() => {
     const profileData = getSession(profileInfoString) as ProfileData
@@ -56,35 +46,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     }
   }, [isAdmin])
 
-  const handleNotificationToggle = async (enabled: boolean) => {
-    try {
-      if (enabled) {
-        const result = await subscribeToPush()
-        setPermission(result)
-        if (result === 'granted') {
-          showToast({ title: 'Уведомления включены', status: 'success' })
-        } else {
-          showToast({ title: 'Разрешение не получено', status: 'warning' })
-        }
-      } else {
-        await unsubscribeFromPush()
-        setPermission('denied')
-        showToast({ title: 'Уведомления отключены', status: 'info' })
-      }
-    } catch (err) {
-      console.error('❌ Notification toggle error:', err)
-      showToast({
-        title: 'Ошибка управления уведомлениями',
-        status: 'error',
-      })
-    }
-  }
-
   const logout = async () => {
-    await initOneSignal()
-    await window.OneSignal.setSubscription(false)
-    await window.OneSignal.logout()
-
     const sessionToken = getSession(authTokenString)
     const authToken = getCookies(authTokenString)
 
@@ -96,18 +58,6 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
 
   useEffect(() => {
     fetchProfileData()
-
-    const checkPermission = async () => {
-      try {
-        const perm = await getNotificationStatus()
-        setPermission(perm)
-      } catch (err) {
-        console.error('Ошибка при проверке статуса уведомлений', err)
-        setPermission('default')
-      }
-    }
-
-    checkPermission()
   }, [fetchProfileData])
 
   return (
@@ -203,7 +153,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
           >
             <span className={styles.modalItem}>Edit Profile</span>
             <span className={styles.modalItem}>Change Password</span>
-            {permission && (
+            {/* {permission && (
               <div
                 className={`${styles.modalItem} ${styles.notifications}`}
                 onClick={() =>
@@ -221,7 +171,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
                   {permission === 'granted' ? 'On' : 'Off'}
                 </span>
               </div>
-            )}
+            )} */}
             <span className={styles.modalItem} onClick={logout}>
               Logout
             </span>
