@@ -22,7 +22,7 @@ export const initPushNotifications = async (): Promise<void> => {
     OneSignal.Slidedown.promptPush()
 
     if (typeof window !== 'undefined' && window.OneSignal) {
-      const userId = await (window as any).OneSignal?.getUserId()
+      const userId = OneSignal.User.externalId
 
       if (userId) {
         await postKeyPush(userId)
