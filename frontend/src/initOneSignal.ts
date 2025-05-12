@@ -48,6 +48,7 @@ export const initOneSignal = async (): Promise<void> => {
       window.OneSignal.init({
         appId,
         allowLocalhostAsSecureOrigin: true,
+        autoResubscribe: true,
         notifyButton: { enable: false },
         welcomeNotification: {
           title: 'Добро пожаловать!',
@@ -72,9 +73,11 @@ export const subscribeToPush =
     const permission = await Notification.requestPermission()
     if (permission !== 'granted') return permission
 
-    await window.OneSignal.setSubscription(true)
-    const userId = await window.OneSignal.getUserId()
+    window.OneSignal.push(() => {
+      window.OneSignal.registerForPushNotifications()
+    })
 
+    const userId = await window.OneSignal.getUserId()
     if (userId) {
       await postKeyPush(userId)
       console.log('✅ Player ID sent to backend')
@@ -85,12 +88,13 @@ export const subscribeToPush =
 
 export const unsubscribeFromPush = async (): Promise<void> => {
   await initOneSignal()
+
   await window.OneSignal.setSubscription(false)
 
   const userId = await window.OneSignal.getUserId()
   if (userId) {
     console.log('🗑️ Player ID unsubscribed:', userId)
-    // Optionally: await deleteKeyPush(userId)
+    // optionally: await deleteKeyPush(userId)
   }
 }
 
@@ -98,12 +102,16 @@ export const getNotificationStatus =
   async (): Promise<NotificationPermission> => {
     await initOneSignal()
 
-    const isEnabled = await window.OneSignal.isPushNotificationsEnabled()
+    const [isEnabled, isSubscribed] = await Promise.all([
+      window.OneSignal.isPushNotificationsEnabled(),
+      window.OneSignal.getSubscription(),
+    ])
+
     const permission = Notification.permission
 
-    if (isEnabled && permission === 'granted') {
+    if (permission === 'granted' && isEnabled && isSubscribed) {
       return 'granted'
     }
 
-    return permission
+    return 'default'
   }
