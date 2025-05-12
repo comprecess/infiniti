@@ -21,16 +21,12 @@ export const initPushNotifications = async (): Promise<void> => {
 
     OneSignal.Slidedown.promptPush()
 
-    if (typeof window !== 'undefined' && window.OneSignal) {
-      const userId = OneSignal.User.externalId
+    const userId = OneSignal.User.externalId
 
-      if (userId) {
-        await postKeyPush(userId)
+    if (userId) {
+      await postKeyPush(userId)
 
-        localStorage.setItem('push_key_sent', 'true')
-      } else {
-        localStorage.setItem('push_key_sent', 'false')
-      }
+      localStorage.setItem('push_key_sent', 'true')
     } else {
       localStorage.setItem('push_key_sent', 'false')
     }
