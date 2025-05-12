@@ -59,7 +59,7 @@ export const initPushNotifications = async (): Promise<void> => {
           },
         )
 
-        window.OneSignal.Slidedown.promptPush?.()
+        window.OneSignal.Slidedown?.promptPush?.()
       } catch (error) {
         console.error('❌ Ошибка при инициализации OneSignal:', error)
       }
