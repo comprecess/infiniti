@@ -28,18 +28,10 @@ export const initPushNotifications = async (): Promise<void> => {
         notifyButton: { enable: false },
       })
 
-      // Запрос на разрешение
-      const permission = await OneSignal.Notifications.requestPermission()
-      console.log('🔔 Разрешение на пуши:', permission)
+      OneSignal.Slidedown.promptPush()
 
-      // Получаем userId
-      const user = await OneSignal.User.get()
-      const userId = user.id
-      console.log('✅ OneSignal userId:', userId)
-
-      // Проверяем статус
-      const isPushEnabled = await OneSignal.Notifications.isPushEnabled()
-      console.log('🔔 Push разрешён:', isPushEnabled)
+      const token = await OneSignal.User.getKeyPush()
+      console.log('📬 Push token:', token)
     })
 
     console.log('✅ OneSignal инициализация запущена')
