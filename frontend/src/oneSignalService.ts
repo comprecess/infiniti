@@ -109,3 +109,13 @@ export const unSubscribeOneSignal = () => {
     console.log('🔕 Пользователь отписан от уведомлений')
   })
 }
+
+export const getOneSignalSubscriptionStatus = (): Promise<boolean> => {
+  return new Promise(resolve => {
+    window.OneSignal.push(() => {
+      window.OneSignal.isPushNotificationsEnabled((isEnabled: boolean) => {
+        resolve(isEnabled)
+      })
+    })
+  })
+}
