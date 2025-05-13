@@ -69,22 +69,29 @@ export const initOneSignal = async () => {
         allowLocalhostAsSecureOrigin: true,
       })
 
-      // Показываем пользователю промт
-      window.OneSignal.Slidedown.promptPush()
+      // Ждём полной инициализации SDK
+      window.OneSignal.on('initialized', async () => {
+        console.log('📦 OneSignal полностью инициализирован')
 
-      // Обрабатываем изменение подписки
-      window.OneSignal.on(
-        'subscriptionChange',
-        async (isSubscribed: boolean) => {
-          console.log('🔄 Изменение подписки:', isSubscribed)
-          if (isSubscribed) {
-            await savePlayerId()
-          }
-        },
-      )
+        // Теперь безопасно вызывать promptPush
+        if (window.OneSignal.Slidedown) {
+          window.OneSignal.Slidedown.promptPush()
+        }
 
-      isOneSignalInitialized = true
-      console.log('✅ OneSignal инициализирован')
+        // Обработка подписки
+        window.OneSignal.on(
+          'subscriptionChange',
+          async (isSubscribed: boolean) => {
+            console.log('🔄 Изменение подписки:', isSubscribed)
+            if (isSubscribed) {
+              await savePlayerId()
+            }
+          },
+        )
+
+        isOneSignalInitialized = true
+        console.log('✅ OneSignal инициализирован')
+      })
     })
   } catch (error) {
     console.error('❌ Ошибка инициализации OneSignal:', error)
