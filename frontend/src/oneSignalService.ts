@@ -30,7 +30,7 @@ export const initPushNotifications = async (): Promise<void> => {
 
       OneSignal.Slidedown.promptPush()
 
-      const token = await OneSignal.User.PushSubscription.getToken()
+      const token = await OneSignal.User.getKeyPush()
       console.log('📬 Push token:', token)
     })
 
