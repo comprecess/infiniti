@@ -50,5 +50,6 @@ Route::controller(NotificationController::class)
         Route::get('/push/public-key', 'getKeyPush');
         Route::get('/push/test', 'test');
         Route::post('/push/subscribe', 'subscribePush');
+        Route::delete('/push/unsubscribed', 'unsubscribedPush');
     });
 
