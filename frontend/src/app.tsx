@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { RouterProvider } from 'react-router-dom'
 
 import { router } from './app/router/router'
-import { initPushNotifications } from './oneSignalService'
+import { initOneSignal } from './oneSignalService'
 import { LoadingScreen } from './shared/ui/LoadingScreen/LoadingScreen'
 import { getProfileInfo } from './shared/utils/api/GetProfileInfo'
 
@@ -15,7 +15,7 @@ export const App = () => {
 
   useEffect(() => {
     const init = async () => {
-      await initPushNotifications()
+      await initOneSignal()
       await getProfileInfo()
       setIsLoading(false)
       setColorMode('dark')
