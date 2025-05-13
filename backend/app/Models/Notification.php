@@ -70,8 +70,8 @@ class Notification extends Model
     public function scopeMyQuery($query)
     {
         $date = now();
-        $dateViewed = now()->addHours(24);
-        $query->selectRaw("*, IF((notifications.viewed = 0 OR notifications.updated_at < '".$dateViewed->format('Y-m-d H:i:s')."') OR notifications.date_active > '".$date->format('Y-m-d H:i:s')."', 0,1) AS typeSort")
+        $dateViewed = now()->subHours(24);
+        $query->selectRaw("*, IF((notifications.viewed = 0 OR notifications.updated_at > '".$dateViewed->format('Y-m-d H:i:s')."') OR notifications.date_active > '".$date->format('Y-m-d H:i:s')."', 0,1) AS typeSort")
             ->orderByRaw('typeSort asc, notifications.id desc');
     }
 
