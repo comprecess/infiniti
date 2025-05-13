@@ -22,7 +22,7 @@ export const App = () => {
     }
     init()
 
-    setTimeout(() => setShowLoadingScreen(false), 1500)
+    setTimeout(() => setShowLoadingScreen(false), 2000)
   }, [])
 
   if (isLoading || showLoadingScreen) {
