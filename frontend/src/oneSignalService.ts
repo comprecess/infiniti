@@ -32,24 +32,6 @@ export const initOneSignal = async () => {
           allowLocalhostAsSecureOrigin: true,
         })
 
-        window.OneSignal.isPushNotificationsEnabled(() => {
-          window.OneSignal.getUserId().then(async (userId: string) => {
-            console.log('👤 Получен userId из OneSignal:', userId)
-
-            try {
-              const res = await postKeyPush(userId)
-
-              if (!res.status) {
-                throw new Error(`❌ Сервер вернул статус ${res.status}`)
-              }
-
-              console.log('✅ Player ID успешно сохранён')
-            } catch (error) {
-              console.error('❌ Ошибка при сохранении Player ID:', error)
-            }
-          })
-        })
-
         console.log('✅ OneSignal инициализирован')
       } catch (error) {
         console.error('❌ Ошибка при инициализации OneSignal:', error)
