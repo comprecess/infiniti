@@ -9,8 +9,6 @@ declare global {
   }
 }
 
-let isOneSignalInitialized = false
-
 const loadOneSignalScript = (): Promise<void> => {
   return new Promise((resolve, reject) => {
     const existingScript = document.querySelector(
@@ -50,8 +48,6 @@ const savePlayerId = async () => {
 }
 
 export const initOneSignal = async () => {
-  if (isOneSignalInitialized) return
-
   try {
     await loadOneSignalScript()
 
@@ -89,7 +85,6 @@ export const initOneSignal = async () => {
           },
         )
 
-        isOneSignalInitialized = true
         console.log('✅ OneSignal инициализирован')
       })
     })
