@@ -21,16 +21,14 @@ export const initPushNotifications = async (): Promise<void> => {
     window.OneSignalDeferred = window.OneSignalDeferred || []
 
     window.OneSignalDeferred.push(async function () {
-      const OneSignal = window.OneSignal
-
-      await OneSignal.init({
+      await window.OneSignal.init({
         appId,
         notifyButton: { enable: false },
       })
 
-      OneSignal.Slidedown.promptPush()
+      window.OneSignal.Slidedown.promptPush()
 
-      const token = await OneSignal.User.getKeyPush()
+      const token = await window.OneSignal.User.PushSubscription.getToken()
       console.log('📬 Push token:', token)
     })
 
