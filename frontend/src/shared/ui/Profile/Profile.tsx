@@ -16,6 +16,11 @@ import {
   UserInfo,
 } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
+import {
+  getOneSignalSubscriptionStatus,
+  subscribeOneSignal,
+  unSubscribeOneSignal,
+} from '../../../oneSignalService'
 import { getCookies } from '../../utils/Saving/Cookies/GetCookies'
 import { removeCookies } from '../../utils/Saving/Cookies/RemoveCookies'
 import { getSession } from '../../utils/Saving/Session/GetSession'
@@ -31,6 +36,7 @@ type ProfileData = UserInfo | AdminInfo
 
 export const Profile = ({ isAdmin }: ProfileProps) => {
   const [profileData, setProfileData] = useState<ProfileData | null>(null)
+  const [isSubscribed, setIsSubscribed] = useState<boolean | null>(null)
 
   const { isOpen, onToggle, onClose } = useDisclosure()
 
@@ -56,8 +62,23 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
   }
 
+  const toggleNotificationSubscription = async (
+    isSubscribed: boolean,
+    setIsSubscribed: (value: boolean) => void,
+  ) => {
+    if (isSubscribed) {
+      await unSubscribeOneSignal()
+    } else {
+      await subscribeOneSignal()
+    }
+
+    const updatedStatus = await getOneSignalSubscriptionStatus()
+    setIsSubscribed(updatedStatus)
+  }
+
   useEffect(() => {
     fetchProfileData()
+    getOneSignalSubscriptionStatus().then(setIsSubscribed)
   }, [fetchProfileData])
 
   return (
@@ -153,25 +174,28 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
           >
             <span className={styles.modalItem}>Edit Profile</span>
             <span className={styles.modalItem}>Change Password</span>
-            {/* {permission && (
+            {isSubscribed !== null && (
               <div
                 className={`${styles.modalItem} ${styles.notifications}`}
                 onClick={() =>
-                  handleNotificationToggle(permission !== 'granted')
+                  toggleNotificationSubscription(
+                    isSubscribed,
+                    setIsSubscribed,
+                  )
                 }
               >
                 <span>Notifications</span>
                 <span
                   className={
-                    permission === 'granted'
+                    isSubscribed === true
                       ? styles.notificationsOn
                       : styles.notificationsOff
                   }
                 >
-                  {permission === 'granted' ? 'On' : 'Off'}
+                  {isSubscribed === true ? 'On' : 'Off'}
                 </span>
               </div>
-            )} */}
+            )}
             <span className={styles.modalItem} onClick={logout}>
               Logout
             </span>
