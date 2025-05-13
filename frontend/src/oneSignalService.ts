@@ -19,13 +19,22 @@ export const initPushNotifications = async (): Promise<void> => {
     }
 
     window.OneSignalDeferred = window.OneSignalDeferred || []
-    window.OneSignalDeferred.push(async function () {
-      await window.OneSignal.init({
+    window.OneSignalDeferred.push(async function (OneSignal: any) {
+      await OneSignal.init({
         appId,
+        notifyButton: { enable: false },
       })
+
+      await OneSignal.showSlidedownPrompt()
+
+      const userId = await OneSignal.user.getId()
+      console.log('✅ OneSignal userId:', userId)
+
+      const isPushEnabled = await OneSignal.user.isPushEnabled()
+      console.log('🔔 Push разрешён:', isPushEnabled)
     })
 
-    window.OneSignal.Slidedown.promptPush?.()
+    console.log('✅ OneSignal успешно инициализирован (SDK v16)')
   } catch (err) {
     console.error('❌ Ошибка при инициализации OneSignal:', err)
   }
