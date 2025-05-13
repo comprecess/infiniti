@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-
+import { deleteKeyPush } from './shared/utils/api/Push/DeleteKeyPush'
 import { getKeyPush } from './shared/utils/api/Push/GetKeyPush'
 import { postKeyPush } from './shared/utils/api/Push/PostKeyPush'
 
@@ -9,33 +8,8 @@ declare global {
   }
 }
 
-const loadOneSignalScript = (): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    const existingScript = document.querySelector(
-      'script[src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"]',
-    )
-
-    if (existingScript) {
-      resolve()
-
-      return
-    }
-
-    const script = document.createElement('script')
-    script.src = 'https://cdn.onesignal.com/sdks/OneSignalSDK.js'
-    script.async = true
-    script.onload = () => resolve()
-    script.onerror = () =>
-      reject(new Error('❌ Не удалось загрузить OneSignal SDK'))
-
-    document.body.appendChild(script)
-  })
-}
-
 export const initOneSignal = async () => {
   try {
-    await loadOneSignalScript()
-
     const response = await getKeyPush()
 
     if (!response || !response.key) {
@@ -87,4 +61,51 @@ export const initOneSignal = async () => {
       error,
     )
   }
+}
+
+export const subscribeOneSignal = () => {
+  window.OneSignal.push(() => {
+    window.OneSignal.isPushNotificationsEnabled(() => {
+      window.OneSignal.getUserId().then(async (userId: string) => {
+        console.log('👤 Получен userId из OneSignal:', userId)
+
+        try {
+          const res = await postKeyPush(userId)
+
+          if (!res.status) {
+            throw new Error(`❌ Сервер вернул статус ${res.status}`)
+          }
+
+          console.log('✅ Player ID успешно сохранён')
+        } catch (error) {
+          console.error('❌ Ошибка при сохранении Player ID:', error)
+        }
+      })
+    })
+
+    console.log('🔕 Пользователь подписался на уведомления')
+  })
+}
+
+export const unSubscribeOneSignal = () => {
+  window.OneSignal.push(() => {
+    window.OneSignal.setSubscription(false)
+    window.OneSignal.getUserId().then(async (userId: string) => {
+      console.log('👤 User ID:', userId)
+
+      try {
+        const res = await deleteKeyPush(userId)
+
+        if (!res.status) {
+          throw new Error(`❌ Сервер вернул статус ${res.status}`)
+        }
+
+        console.log('✅ Player ID успешно удалён с сервера')
+      } catch (error) {
+        console.error('❌ Ошибка при удалении Player ID:', error)
+      }
+    })
+
+    console.log('🔕 Пользователь отписан от уведомлений')
+  })
 }
