@@ -28,8 +28,13 @@ export const initPushNotifications = async (): Promise<void> => {
 
       window.OneSignal.Slidedown.promptPush()
 
-      const token = await window.OneSignal.User.getOnesignalId()
-      console.log('📬 Push token:', token)
+      window.OneSignal.getUserId()
+        .then((userId: string) => {
+          console.log('📬 Push token:', userId)
+        })
+        .catch((err: any) => {
+          console.error('❌ Ошибка при получении Push токена:', err)
+        })
     })
 
     console.log('✅ OneSignal инициализация запущена')
