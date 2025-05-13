@@ -3,7 +3,7 @@ import { getKeyPush } from './shared/utils/api/Push/GetKeyPush'
 declare global {
   interface Window {
     OneSignal: any
-    OneSignalDeferred: any
+    OneSignalDeferred: any[]
   }
 }
 
@@ -19,26 +19,30 @@ export const initPushNotifications = async (): Promise<void> => {
     }
 
     window.OneSignalDeferred = window.OneSignalDeferred || []
-    window.OneSignalDeferred.push(async function (OneSignal: any) {
+
+    window.OneSignalDeferred.push(async function () {
+      const OneSignal = window.OneSignal
+
       await OneSignal.init({
         appId,
         notifyButton: { enable: false },
       })
 
-      // ⚠️ SDK v16 — новый способ запроса разрешений
+      // Запрос на разрешение
       const permission = await OneSignal.Notifications.requestPermission()
       console.log('🔔 Разрешение на пуши:', permission)
 
-      // ✅ Получаем ID подписки (subscription ID)
-      const userId = await OneSignal.User.getId()
+      // Получаем userId
+      const user = await OneSignal.User.get()
+      const userId = user.id
       console.log('✅ OneSignal userId:', userId)
 
-      // Проверка, включены ли пуши
+      // Проверяем статус
       const isPushEnabled = await OneSignal.Notifications.isPushEnabled()
-      console.log('🔔 Пуш разрешён:', isPushEnabled)
+      console.log('🔔 Push разрешён:', isPushEnabled)
     })
 
-    console.log('✅ OneSignal успешно инициализирован (SDK v16)')
+    console.log('✅ OneSignal инициализация запущена')
   } catch (err) {
     console.error('❌ Ошибка при инициализации OneSignal:', err)
   }
