@@ -25,13 +25,17 @@ export const initPushNotifications = async (): Promise<void> => {
         notifyButton: { enable: false },
       })
 
-      window.OneSignal.Slidedown.promptPush?.()
+      // ⚠️ SDK v16 — новый способ запроса разрешений
+      const permission = await OneSignal.Notifications.requestPermission()
+      console.log('🔔 Разрешение на пуши:', permission)
 
-      const userId = await window.OneSignal.user.getId()
+      // ✅ Получаем ID подписки (subscription ID)
+      const userId = await OneSignal.User.getId()
       console.log('✅ OneSignal userId:', userId)
 
-      const isPushEnabled = await window.OneSignal.user.isPushEnabled()
-      console.log('🔔 Push разрешён:', isPushEnabled)
+      // Проверка, включены ли пуши
+      const isPushEnabled = await OneSignal.Notifications.isPushEnabled()
+      console.log('🔔 Пуш разрешён:', isPushEnabled)
     })
 
     console.log('✅ OneSignal успешно инициализирован (SDK v16)')
