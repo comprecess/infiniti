@@ -25,7 +25,7 @@ export const initPushNotifications = async (): Promise<void> => {
         notifyButton: { enable: false },
       })
 
-      window.OneSignal.showSlidedownPrompt()
+      window.OneSignal.Slidedown.promptPush?.()
 
       const userId = await window.OneSignal.user.getId()
       console.log('✅ OneSignal userId:', userId)
