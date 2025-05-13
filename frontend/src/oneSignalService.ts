@@ -1,4 +1,5 @@
 import { getKeyPush } from './shared/utils/api/Push/GetKeyPush'
+import { postKeyPush } from './shared/utils/api/Push/PostKeyPush'
 
 declare global {
   interface Window {
@@ -28,13 +29,19 @@ export const initPushNotifications = async (): Promise<void> => {
 
       window.OneSignal.Slidedown.promptPush()
 
-      window.OneSignal.getUserId()
-        .then((userId: string) => {
-          console.log('📬 Push token:', userId)
-        })
-        .catch((err: any) => {
-          console.error('❌ Ошибка при получении Push токена:', err)
-        })
+      try {
+        const userId = await window.OneSignal.getUserId()
+        if (!userId) throw new Error('User ID не получен')
+
+        const res = await postKeyPush(userId)
+        if (!res.status)
+          throw new Error(`Сервер вернул статус ${res.status}`)
+
+        console.log('✅ Player ID успешно сохранён')
+        localStorage.setItem('notificationPermission', 'granted')
+      } catch (error) {
+        console.error('❌ Ошибка при сохранении Player ID:', error)
+      }
     })
 
     console.log('✅ OneSignal инициализация запущена')
