@@ -72,8 +72,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
       subscribeOneSignal()
     }
 
-    const updatedStatus = await getOneSignalSubscriptionStatus()
-    setIsSubscribed(updatedStatus)
+    getOneSignalSubscriptionStatus().then(setIsSubscribed)
   }
 
   useEffect(() => {
