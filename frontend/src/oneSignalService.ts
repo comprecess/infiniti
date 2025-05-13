@@ -29,19 +29,31 @@ export const initPushNotifications = async (): Promise<void> => {
 
       window.OneSignal.Slidedown.promptPush()
 
-      try {
-        const userId = await window.OneSignal.getUserId()
-        if (!userId) throw new Error('User ID не получен')
+      window.OneSignal.isPushNotificationsEnabled((isEnabled: boolean) => {
+        console.log('📶 Подписка активна:', isEnabled)
 
-        const res = await postKeyPush(userId)
-        if (!res.status)
-          throw new Error(`Сервер вернул статус ${res.status}`)
+        if (isEnabled) {
+          window.OneSignal.getUserId().then(async (userId: string) => {
+            console.log('👤 Получен userId из OneSignal:', userId)
 
-        console.log('✅ Player ID успешно сохранён')
-        localStorage.setItem('notificationPermission', 'granted')
-      } catch (error) {
-        console.error('❌ Ошибка при сохранении Player ID:', error)
-      }
+            try {
+              const res = await postKeyPush(userId)
+
+              if (!res.status) {
+                throw new Error(`❌ Сервер вернул статус ${res.status}`)
+              }
+
+              console.log('✅ Player ID успешно сохранён')
+            } catch (error) {
+              console.error('❌ Ошибка при сохранении Player ID:', error)
+            }
+          })
+        } else {
+          console.log(
+            '🔕 Пользователь не подписан — пропуск отправки Player ID',
+          )
+        }
+      })
     })
 
     console.log('✅ OneSignal инициализация запущена')
