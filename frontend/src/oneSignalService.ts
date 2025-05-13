@@ -65,25 +65,33 @@ export const initOneSignal = async () => {
 
 export const subscribeOneSignal = () => {
   window.OneSignal.push(() => {
-    window.OneSignal.isPushNotificationsEnabled(() => {
-      window.OneSignal.getUserId().then(async (userId: string) => {
-        console.log('👤 Получен userId из OneSignal:', userId)
-
-        try {
-          const res = await postKeyPush(userId)
-
-          if (!res.status) {
-            throw new Error(`❌ Сервер вернул статус ${res.status}`)
-          }
-
-          console.log('✅ Player ID успешно сохранён')
-        } catch (error) {
-          console.error('❌ Ошибка при сохранении Player ID:', error)
-        }
-      })
+    window.OneSignal.registerForPushNotifications({
+      modalPrompt: true,
     })
 
-    console.log('🔕 Пользователь подписался на уведомления')
+    window.OneSignal.on(
+      'subscriptionChange',
+      async function (isSubscribed: boolean) {
+        console.log('🔄 Subscription state changed:', isSubscribed)
+
+        if (isSubscribed) {
+          const userId = await window.OneSignal.getUserId()
+          console.log('👤 Новый userId:', userId)
+
+          try {
+            const res = await postKeyPush(userId)
+
+            if (!res.status) {
+              throw new Error(`❌ Сервер вернул статус ${res.status}`)
+            }
+
+            console.log('✅ Player ID успешно сохранён')
+          } catch (error) {
+            console.error('❌ Ошибка при сохранении Player ID:', error)
+          }
+        }
+      },
+    )
   })
 }
 

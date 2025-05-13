@@ -67,9 +67,9 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     setIsSubscribed: (value: boolean) => void,
   ) => {
     if (isSubscribed) {
-      await unSubscribeOneSignal()
+      unSubscribeOneSignal()
     } else {
-      await subscribeOneSignal()
+      subscribeOneSignal()
     }
 
     const updatedStatus = await getOneSignalSubscriptionStatus()
