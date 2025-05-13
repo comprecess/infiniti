@@ -28,7 +28,7 @@ export const initPushNotifications = async (): Promise<void> => {
 
       window.OneSignal.Slidedown.promptPush()
 
-      const token = await window.OneSignal.User.PushSubscription.getToken()
+      const token = await window.OneSignal.User.getOnesignalId()
       console.log('📬 Push token:', token)
     })
 
