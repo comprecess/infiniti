@@ -15,7 +15,7 @@ export const patchSetUserSettings = async (
       const response = await fetch(
         import.meta.env.VITE_MAIN_DOMAIN + import.meta.env.VITE_POST_PUSH,
         {
-          method: 'POST',
+          method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',

@@ -1,5 +1,4 @@
 import { authTokenString } from '../../../../app/constants/constants'
-import { initOneSignal } from '../../../../oneSignalService'
 import { saveCookies } from '../../Saving/Cookies/SaveCookies'
 
 interface RegisterUserResponse {
@@ -36,8 +35,6 @@ export const registerUser = async (
     const data: RegisterUserResponse = await response.json()
 
     saveCookies(authTokenString, data.token, 30)
-
-    await initOneSignal()
 
     return data
   } catch (error) {
