@@ -14,7 +14,8 @@ export const patchSetUserSettings = async (
     try {
       const response = await fetch(
         import.meta.env.VITE_MAIN_DOMAIN +
-          import.meta.env.VITE_GET_USER_SETTINGS,
+          import.meta.env.VITE_GET_USER_SETTINGS +
+          `?push=${object.push}`,
         {
           method: 'PATCH',
           headers: {
@@ -22,7 +23,6 @@ export const patchSetUserSettings = async (
             Accept: 'application/json',
             Authorization: `Bearer ${authToken}`,
           },
-          body: JSON.stringify({ object }),
         },
       )
 
