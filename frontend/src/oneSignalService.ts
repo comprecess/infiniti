@@ -1,3 +1,4 @@
+import { patchSetUserSettings } from './shared/utils/api/PatchSetUserSettings'
 import { getKeyPush } from './shared/utils/api/Push/GetKeyPush'
 import { postKeyPush } from './shared/utils/api/Push/PostKeyPush'
 
@@ -44,7 +45,7 @@ export const initOneSignal = async () => {
   }
 }
 
-export const subscribeOneSignal = async () => {
+export const subscribeOneSignal = async (isSubscribed: boolean) => {
   await initOneSignal()
 
   window.OneSignal.push(() => {
@@ -52,28 +53,23 @@ export const subscribeOneSignal = async () => {
       modalPrompt: true,
     })
 
-    window.OneSignal.on(
-      'subscriptionChange',
-      async function (isSubscribed: boolean) {
-        console.log('🔄 Subscription state changed:', isSubscribed)
+    window.OneSignal.on('subscriptionChange', async function () {
+      const userId = await window.OneSignal.getUserId()
+      console.log('👤 Новый userId:', userId)
 
-        if (isSubscribed) {
-          const userId = await window.OneSignal.getUserId()
-          console.log('👤 Новый userId:', userId)
+      try {
+        const res = await postKeyPush(userId)
 
-          try {
-            const res = await postKeyPush(userId)
-
-            if (!res.status) {
-              throw new Error(`❌ Сервер вернул статус ${res.status}`)
-            }
-
-            console.log('✅ Player ID успешно сохранён')
-          } catch (error) {
-            console.error('❌ Ошибка при сохранении Player ID:', error)
-          }
+        if (!res.status) {
+          throw new Error(`❌ Сервер вернул статус ${res.status}`)
         }
-      },
-    )
+
+        console.log('✅ Player ID успешно сохранён')
+      } catch (error) {
+        console.error('❌ Ошибка при сохранении Player ID:', error)
+      }
+    })
   })
+
+  await patchSetUserSettings({ push: isSubscribed })
 }
