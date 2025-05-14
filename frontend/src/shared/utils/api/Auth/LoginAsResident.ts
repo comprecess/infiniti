@@ -1,4 +1,5 @@
 import { authTokenString } from '../../../../app/constants/constants'
+import { initOneSignal } from '../../../../oneSignalService'
 import { saveCookies } from '../../Saving/Cookies/SaveCookies'
 
 interface LoginResidentResponse {
@@ -28,6 +29,8 @@ export const loginResident = async (
     const data: LoginResidentResponse = await response.json()
 
     saveCookies(authTokenString, data.token, 30)
+
+    await initOneSignal()
 
     return data
   } catch (error) {
