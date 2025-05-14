@@ -182,7 +182,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
               <div
                 className={`${styles.modalItem} ${styles.notifications}`}
                 onClick={() =>
-                  toggleNotificationSubscription(isSubscribed)
+                  toggleNotificationSubscription(!isSubscribed)
                 }
               >
                 <span>Notifications</span>
