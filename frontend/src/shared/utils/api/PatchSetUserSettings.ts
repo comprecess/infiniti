@@ -1,18 +1,19 @@
-import { getAuthToken } from '../GetAuthToken'
+import { getAuthToken } from './GetAuthToken'
 
 interface Response {
   status: boolean
   message: string
 }
 
-export const deleteKeyPush = async (userId: any): Promise<Response> => {
+export const patchSetUserSettings = async (
+  object: any,
+): Promise<Response> => {
   const authToken = getAuthToken()
 
   if (authToken) {
     try {
       const response = await fetch(
-        import.meta.env.VITE_MAIN_DOMAIN +
-          import.meta.env.VITE_DELETE_PUSH,
+        import.meta.env.VITE_MAIN_DOMAIN + import.meta.env.VITE_POST_PUSH,
         {
           method: 'POST',
           headers: {
@@ -20,7 +21,7 @@ export const deleteKeyPush = async (userId: any): Promise<Response> => {
             Accept: 'application/json',
             Authorization: `Bearer ${authToken}`,
           },
-          body: JSON.stringify({ subscription: userId }),
+          body: JSON.stringify({ ...object }),
         },
       )
 
