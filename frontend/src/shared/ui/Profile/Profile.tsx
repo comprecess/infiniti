@@ -18,6 +18,7 @@ import {
 import { Routes } from '../../../app/router/routes'
 import { subscribeOneSignal } from '../../../oneSignalService'
 import { getUserSettings } from '../../utils/api/GetUserSettings'
+import { patchSetUserSettings } from '../../utils/api/PatchSetUserSettings'
 import { getCookies } from '../../utils/Saving/Cookies/GetCookies'
 import { removeCookies } from '../../utils/Saving/Cookies/RemoveCookies'
 import { getSession } from '../../utils/Saving/Session/GetSession'
@@ -66,9 +67,17 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   }
 
   const toggleNotificationSubscription = async (isSubscribed: boolean) => {
-    await subscribeOneSignal(isSubscribed)
-
-    fetchPushNotifications()
+    try {
+      await subscribeOneSignal()
+    } catch (error) {
+      console.error(
+        '❌ Ошибка при загрузке OneSignal SDK или получении данных:',
+        error,
+      )
+    } finally {
+      await patchSetUserSettings({ push: isSubscribed })
+      fetchPushNotifications()
+    }
   }
 
   useEffect(() => {

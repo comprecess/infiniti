@@ -22,7 +22,7 @@ export const patchSetUserSettings = async (
             Accept: 'application/json',
             Authorization: `Bearer ${authToken}`,
           },
-          body: JSON.stringify({ ...object }),
+          body: JSON.stringify({ object }),
         },
       )
 
