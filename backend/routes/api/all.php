@@ -5,6 +5,16 @@ use App\Http\Controllers\Api\CatalogController;
 use App\Http\Controllers\Api\BusinessModelController;
 use App\Http\Controllers\Api\MeetingController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\UserController;
+
+#user settings
+Route::controller(UserController::class)
+    ->prefix('user')
+    ->group(function(){
+        Route::get('setting', 'setting');
+        Route::patch('setting', 'settingUpdate');
+        Route::post('setting', 'settingUpdate');
+    });
 
 #catalog
 Route::controller(CatalogController::class)

@@ -83,6 +83,11 @@ class User extends Authenticatable
         return $this->morphMany(Push::class, 'user');
     }
 
+    public function settings()
+    {
+        return $this->morphMany(UserSettings::class, 'user');
+    }
+
     public function userCheckPassword($password)
     {
         if($this->checkPassword($password)) {

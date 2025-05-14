@@ -87,7 +87,7 @@ class Notification extends Model
         $not->save();
 
         if(($push = $user->push) && $isPush) {
-
+            #Отправляем пушь уведомление
         }
 
         return $this;
