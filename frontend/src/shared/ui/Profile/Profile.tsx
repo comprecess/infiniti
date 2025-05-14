@@ -16,11 +16,9 @@ import {
   UserInfo,
 } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
-import {
-  getOneSignalSubscriptionStatus,
-  subscribeOneSignal,
-  unSubscribeOneSignal,
-} from '../../../oneSignalService'
+import { subscribeOneSignal } from '../../../oneSignalService'
+import { getUserSettings } from '../../utils/api/GetUserSettings'
+import { patchSetUserSettings } from '../../utils/api/PatchSetUserSettings'
 import { getCookies } from '../../utils/Saving/Cookies/GetCookies'
 import { removeCookies } from '../../utils/Saving/Cookies/RemoveCookies'
 import { getSession } from '../../utils/Saving/Session/GetSession'
@@ -42,7 +40,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
 
   const navigate = useNavigate()
 
-  const fetchProfileData = useCallback(() => {
+  const fetchProfileData = useCallback(async () => {
     const profileData = getSession(profileInfoString) as ProfileData
 
     if (isAdmin) {
@@ -51,6 +49,12 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
       setProfileData(profileData as UserInfo)
     }
   }, [isAdmin])
+
+  const fetchPushNotifications = useCallback(async () => {
+    const { push }: { push: boolean } = await getUserSettings()
+
+    setIsSubscribed(push)
+  }, [])
 
   const logout = async () => {
     const sessionToken = getSession(authTokenString)
@@ -62,23 +66,17 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
   }
 
-  const toggleNotificationSubscription = async (
-    isSubscribed: boolean,
-    setIsSubscribed: (value: boolean) => void,
-  ) => {
-    if (isSubscribed) {
-      unSubscribeOneSignal()
-    } else {
-      subscribeOneSignal()
-    }
+  const toggleNotificationSubscription = async (isSubscribed: boolean) => {
+    await subscribeOneSignal()
+    await patchSetUserSettings({ push: isSubscribed })
 
-    getOneSignalSubscriptionStatus().then(setIsSubscribed)
+    fetchPushNotifications()
   }
 
   useEffect(() => {
     fetchProfileData()
-    getOneSignalSubscriptionStatus().then(setIsSubscribed)
-  }, [fetchProfileData])
+    fetchPushNotifications()
+  }, [fetchProfileData, fetchPushNotifications])
 
   return (
     <Popover
@@ -177,10 +175,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
               <div
                 className={`${styles.modalItem} ${styles.notifications}`}
                 onClick={() =>
-                  toggleNotificationSubscription(
-                    isSubscribed,
-                    setIsSubscribed,
-                  )
+                  toggleNotificationSubscription(isSubscribed)
                 }
               >
                 <span>Notifications</span>

@@ -1,4 +1,3 @@
-import { deleteKeyPush } from './shared/utils/api/Push/DeleteKeyPush'
 import { getKeyPush } from './shared/utils/api/Push/GetKeyPush'
 import { postKeyPush } from './shared/utils/api/Push/PostKeyPush'
 
@@ -45,7 +44,9 @@ export const initOneSignal = async () => {
   }
 }
 
-export const subscribeOneSignal = () => {
+export const subscribeOneSignal = async () => {
+  await initOneSignal()
+
   window.OneSignal.push(() => {
     window.OneSignal.registerForPushNotifications({
       modalPrompt: true,
@@ -74,38 +75,5 @@ export const subscribeOneSignal = () => {
         }
       },
     )
-  })
-}
-
-export const unSubscribeOneSignal = () => {
-  window.OneSignal.push(() => {
-    window.OneSignal.setSubscription(false)
-    window.OneSignal.getUserId().then(async (userId: string) => {
-      console.log('👤 User ID:', userId)
-
-      try {
-        const res = await deleteKeyPush(userId)
-
-        if (!res.status) {
-          throw new Error(`❌ Сервер вернул статус ${res.status}`)
-        }
-
-        console.log('✅ Player ID успешно удалён с сервера')
-      } catch (error) {
-        console.error('❌ Ошибка при удалении Player ID:', error)
-      }
-    })
-
-    console.log('🔕 Пользователь отписан от уведомлений')
-  })
-}
-
-export const getOneSignalSubscriptionStatus = (): Promise<boolean> => {
-  return new Promise(resolve => {
-    window.OneSignal.push(() => {
-      window.OneSignal.isPushNotificationsEnabled((isEnabled: boolean) => {
-        resolve(isEnabled)
-      })
-    })
   })
 }
