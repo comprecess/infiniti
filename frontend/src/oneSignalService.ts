@@ -1,4 +1,3 @@
-import { patchSetUserSettings } from './shared/utils/api/PatchSetUserSettings'
 import { getKeyPush } from './shared/utils/api/Push/GetKeyPush'
 import { postKeyPush } from './shared/utils/api/Push/PostKeyPush'
 
@@ -45,7 +44,7 @@ export const initOneSignal = async () => {
   }
 }
 
-export const subscribeOneSignal = async (isSubscribed: boolean) => {
+export const subscribeOneSignal = async () => {
   await initOneSignal()
 
   window.OneSignal.push(() => {
@@ -70,6 +69,4 @@ export const subscribeOneSignal = async (isSubscribed: boolean) => {
       }
     })
   })
-
-  await patchSetUserSettings({ push: isSubscribed })
 }
