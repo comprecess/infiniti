@@ -13,7 +13,8 @@ export const patchSetUserSettings = async (
   if (authToken) {
     try {
       const response = await fetch(
-        import.meta.env.VITE_MAIN_DOMAIN + import.meta.env.VITE_POST_PUSH,
+        import.meta.env.VITE_MAIN_DOMAIN +
+          import.meta.env.VITE_GET_USER_SETTINGS,
         {
           method: 'PATCH',
           headers: {
