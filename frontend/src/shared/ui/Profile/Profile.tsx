@@ -67,14 +67,19 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   }
 
   const toggleNotificationSubscription = async (isSubscribed: boolean) => {
-    try {
-      await subscribeOneSignal()
-    } catch (error) {
-      console.error(
-        '❌ Ошибка при загрузке OneSignal SDK или получении данных:',
-        error,
-      )
-    } finally {
+    if (isSubscribed) {
+      try {
+        await subscribeOneSignal()
+      } catch (error) {
+        console.error(
+          '❌ Ошибка при загрузке OneSignal SDK или получении данных:',
+          error,
+        )
+      } finally {
+        await patchSetUserSettings({ push: isSubscribed })
+        fetchPushNotifications()
+      }
+    } else {
       await patchSetUserSettings({ push: isSubscribed })
       fetchPushNotifications()
     }
