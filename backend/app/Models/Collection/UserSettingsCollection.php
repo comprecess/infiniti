@@ -44,7 +44,7 @@ class UserSettingsCollection extends Collection
     {
         $settings = [];
         foreach($this->getListDefSettings() as $name => $default){
-            $settings[$name] = $this->typeData($default[1], $this->where('name', $name)->first()?->value) ?? $default[0];
+            $settings[$name] = $this->typeData($default[1], $this->where('name', $name)->first()?->value ?? $default[0]);
         }
 
         return $settings;
