@@ -10,6 +10,7 @@ use App\Http\Requests\MeetingRequest;
 use App\Models\Meeting;
 use App\Models\Resident\BusinessPlan;
 use App\Models\User;
+use App\Services\Zoom\Timezone;
 use Illuminate\Http\Request;
 use App\Models\Catalog\User as UserCatalog;
 use \App\Models\Contracts\MeetingContract as MeetingContractModel;
@@ -48,6 +49,9 @@ class MeetingController extends Controller
 
     public function create(MeetingRequest $request)
     {
+        $tz = new Timezone();
+        $tz->searchTimezone($request->timezone['name'], $request->getTimeTimezone('timezone.date'));
+        dd($request->timezone['name'], $request->getTimeTimezone('timezone.date'));
         $meetingModel = new Meeting();
         $model = $this->getModel($request);
 
@@ -64,7 +68,8 @@ class MeetingController extends Controller
 
         $meetingModel->setModel($model);
         $meetingModel->setUser();
-        $meetingModel->timezone = $request->timezone;
+        $meetingModel->timezone = $request->timezone['name'];
+        $meetingModel->timezone_time = $request->getTimeTimezone('timezone.date');
         $meetingModel->date_timezone = $request->date;
         $meetingModel->date = $request->getDateArbitr();
         $meetingModel->save();
