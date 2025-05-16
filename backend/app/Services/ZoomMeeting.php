@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Contracts\MeetingContract;
 use App\Models\Meeting;
 use App\Services\Zoom\Requests\MeetingData;
+use App\Services\Zoom\Timezone;
 
 class ZoomMeeting implements MeetingContract
 {
@@ -47,14 +48,14 @@ class ZoomMeeting implements MeetingContract
             return false;
         }
 
-
+        $timezone = (new Timezone())->searchTimezone($model->timezone, $model->timezone_time);
         $meetingData->duration = Meeting::TIME;
 //        $meetingData->schedule_for = $email;
         $meetingData->schedule_for = env('ZOOM_ACCOUNT_EMAIL', null);
         $meetingData->agenda = $description;
         $meetingData->topic = $title;
         $meetingData->start_time = $model->date->format("Y-m-d\TH:i:s\Z");
-        $meetingData->timezone = $model->timezone;
+        $meetingData->timezone = $timezone;
         $meetingData->pushArr('settings.authentication_exception', $users)
             ->pushArr('settings.contact_email', $email)
             ->pushArr('settings.contact_name', $name)
