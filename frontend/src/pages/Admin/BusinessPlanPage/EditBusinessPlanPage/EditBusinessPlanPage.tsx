@@ -193,7 +193,7 @@ export const AdminEditBusinessPlanPage = () => {
     if (id === null || dates === null || selectedTime === null) return
 
     const time = selectedTime.format('HH:mm')
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
     const updatedDates = dates.map(dateStr => {
       return `${dateStr} ${time}`
@@ -202,7 +202,10 @@ export const AdminEditBusinessPlanPage = () => {
     const response = await postCreateNewMeeting(
       'business-plan',
       updatedDates[0],
-      timeZone,
+      {
+        date: time,
+        name: userTimeZone,
+      },
       id,
     )
 

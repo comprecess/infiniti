@@ -53,17 +53,16 @@ export const Cart = ({ cart, datesEmployment, onDelete }: CartProps) => {
     if (dates === null || selectedTime === null) return
 
     const time = selectedTime.format('HH:mm')
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
     const updatedDates = dates.map(dateStr => {
       return `${dateStr} ${time}`
     })
 
-    const response = await postCreateNewMeeting(
-      'cart',
-      updatedDates[0],
-      timeZone,
-    )
+    const response = await postCreateNewMeeting('cart', updatedDates[0], {
+      date: time,
+      name: userTimeZone,
+    })
 
     if (response.status) {
       showToast({

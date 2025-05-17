@@ -1,27 +1,34 @@
 import { Fragment, useCallback, useState } from 'react'
 
+import { AccountingTransactionsData } from '../../../../../app/constants/constants'
+import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
+import { Item } from './Item/Item'
 import styles from './TableUnclearedTransactions.module.scss'
 
-export const TableUnclearedTransactions = () => {
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-  const [_sortName, setSortName] = useState<string>('id')
-  const [_sortType, setSortType] = useState<number>(1)
-  const [sortNumbers, setSortNumbers] = useState<number[]>([1, 1, 1, 1, 1])
+interface TableUnclearedTransactionsProps {
+  transactions: AccountingTransactionsData[]
+  changeSort: (sortNameItem: string, sortTypeItem: number) => void
+}
+
+export const TableUnclearedTransactions = ({
+  transactions,
+  changeSort,
+}: TableUnclearedTransactionsProps) => {
+  const [sortNumbers, setSortNumbers] = useState<number[]>([0, 0, 0, 0, 0])
 
   const handleSortChange = useCallback(
     (index: number, sortNameItem: string, sortTypeItem: number) => {
       setSortNumbers(prevSortNumbers =>
-        prevSortNumbers.map((_num, i) => (i === index ? sortTypeItem : 1)),
+        prevSortNumbers.map((_num, i) => (i === index ? sortTypeItem : 0)),
       )
-      setSortName(sortNameItem)
-      setSortType(sortTypeItem)
+      changeSort(sortNameItem, sortTypeItem)
     },
-    [],
+    [changeSort],
   )
 
   const clearSort = () => {
-    setSortNumbers(new Array(7).fill(1))
+    setSortNumbers(new Array(7).fill(0))
   }
 
   return (
@@ -80,8 +87,13 @@ export const TableUnclearedTransactions = () => {
           />
         </div>
         <div className={styles.items}>
-          {[].map((_item, _index) => {
-            return <Fragment key={`id`}>Item</Fragment>
+          {transactions.map((item, index) => {
+            return (
+              <Fragment key={item.id}>
+                <Item {...item} />
+                {index !== transactions.length - 1 && <CustomDivider />}
+              </Fragment>
+            )
           })}
         </div>
       </div>

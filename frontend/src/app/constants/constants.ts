@@ -1393,3 +1393,15 @@ export interface AccountingAccountsForm {
   url: string
   balance: { amount: string; currency: number }[]
 }
+
+export interface AccountingTransactionsData {
+  id: number
+  account: string
+  amount: string
+  code: string
+  cr: string
+  date: string
+  description: string
+  dr: string
+  type: string
+}

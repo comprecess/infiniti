@@ -113,7 +113,7 @@ export const AdminViewTalentPage = () => {
     if (id === null || dates === null || selectedTime === null) return
 
     const time = selectedTime.format('HH:mm')
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
     const updatedDates = dates.map(dateStr => {
       return `${dateStr} ${time}`
@@ -122,7 +122,10 @@ export const AdminViewTalentPage = () => {
     const response = await postCreateNewMeeting(
       'individual',
       updatedDates[0],
-      timeZone,
+      {
+        date: time,
+        name: userTimeZone,
+      },
       id,
     )
 
