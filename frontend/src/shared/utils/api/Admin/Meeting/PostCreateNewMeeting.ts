@@ -8,7 +8,10 @@ interface Response {
 export const postCreateNewMeeting = async (
   meetingName: 'cart' | 'individual' | 'business-plan',
   date: string,
-  timezone: string,
+  timezone: {
+    date: string
+    name: string
+  },
   meetingId?: number,
 ): Promise<Response> => {
   const authToken = getAuthToken()
