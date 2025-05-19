@@ -333,12 +333,12 @@ class TransactionsController extends TransactionsAccessController
         if($search = Arr::get($data, 'filter.search')) {
             $search = "%{$search}%";
             $transactionQuery->where(function($query) use($search){
-                $query->where('id', $search)
-                    ->orWhere('code', $search)
-                    ->orWhere('account', $search)
-                    ->orWhere('type', $search)
-                    ->orWhere('amount', $search)
-                    ->orWhere('description', $search);
+                $query->where('id', 'like', $search)
+                    ->orWhere('code', 'like', $search)
+                    ->orWhere('account', 'like', $search)
+                    ->orWhere('type', 'like', $search)
+                    ->orWhere('amount', 'like', $search)
+                    ->orWhere('description', 'like', $search);
             });
         }
 
