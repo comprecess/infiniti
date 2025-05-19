@@ -64,7 +64,7 @@ Route::get('/document/{token}', [\App\Http\Controllers\Api\Resident\DocumentCont
     ->name('document_load');
 
 #zoom webhook
-Route::any('zoom/webhook',[\App\Http\Controllers\Api\ZoomWebhookController::class, 'index']);
+Route::any('zoom/webhook',[\App\Services\Zoom\WebHook::class, 'index']);
 
 
 #test
