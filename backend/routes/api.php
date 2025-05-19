@@ -63,6 +63,9 @@ Route::get('/pdf/{name}/token/{token}', [\App\Http\Controllers\Api\PdfController
 Route::get('/document/{token}', [\App\Http\Controllers\Api\Resident\DocumentController::class, 'load'])
     ->name('document_load');
 
+#zoom webhook
+Route::any('zoom/webhook',[\App\Http\Controllers\Api\ZoomWebhookController::class, 'index']);
+
 
 #test
 Route::post('test/list', [\App\Http\Controllers\Api\Resident\Client\ClientController::class, 'test']);
