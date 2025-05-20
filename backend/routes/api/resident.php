@@ -170,6 +170,7 @@ Route::controller(Resident\Transactions\TransactionsController::class)
                 Route::put('/{account}', 'createOrUpdate');
                 Route::get('/{account}', 'item');
                 Route::delete('/{account}', 'delete');
+                Route::post('/{account}/equity', 'equity');
             });
 
         #asset

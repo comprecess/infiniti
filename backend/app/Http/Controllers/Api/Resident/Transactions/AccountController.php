@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Resident\Transactions;
 
 
 use App\Http\Controllers\Api\Traits\CRUD;
+use App\Http\Requests\Resident\Transactions\AccountEquityRequest;
 use App\Http\Requests\Resident\Transactions\AccountListRequest;
 use App\Http\Requests\Resident\Transactions\AccountRequest;
 use App\Http\Resources\Resident\Settings\CurrencyResource;
@@ -101,6 +102,8 @@ class AccountController extends TransactionsAccessController
             $model->sorder = 1;
         }, function($model, $request, $isNew){
             if($isNew){
+                $this->createEquity($model, $request->balance);
+                /*
                 if($request->balance) {
                     foreach($request->balance as $value){
                         $amount = $value['amount'];
@@ -120,6 +123,7 @@ class AccountController extends TransactionsAccessController
                         $transaction->save();
                     }
                 }
+                */
             }else{
                 Transaction::where('account_id', $model->id)->update(['account', $model->account]);
             }
@@ -127,14 +131,42 @@ class AccountController extends TransactionsAccessController
         });
     }
 
+    private function createEquity(Account $model, $balance)
+    {
+        if($balance) {
+            foreach($balance as $value){
+                $amount = $value['amount'];
+                if(!$amount) {
+                    continue;
+                }
+                $currency = Currency::find($value['currency']);
+
+                $transaction = Transaction::newDefault();
+                $transaction->setAccount($model);
+                $transaction->setCurrency($currency);
+                $transaction->setAmount(Transaction::TYPE[4], $amount);
+                $transaction->description = $transaction->source = 'Opening balance';
+                $transaction->aid = User::getAuth()->id;
+                $transaction->save();
+            }
+        }
+    }
+
     public function item(Account $account)
     {
+        $account->load(['transactions']);
         return new AccountResource($account);
     }
 
     public function delete(Account $account)
     {
         return $this->deleteCRUD($account);
+    }
+
+    public function equity(AccountEquityRequest $request, Account $account)
+    {
+        $this->createEquity($account, $request->balance);
+        return $this->defResponse();
     }
 
 
