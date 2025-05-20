@@ -25,7 +25,7 @@ class AccountEquityRequest extends FormRequest
     {
         return [
                 'balance' => 'nullable|array',
-                'balance.*.amount' => 'required|numeric',
+                'balance.*.amount' => 'numeric',
                 'balance.*.currency' => [
                     'required',
                     'integer',
