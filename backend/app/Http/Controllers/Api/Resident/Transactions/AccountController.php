@@ -125,7 +125,7 @@ class AccountController extends TransactionsAccessController
                 }
                 */
             }else{
-                Transaction::where('account_id', $model->id)->update(['account', $model->account]);
+                Transaction::where('account_id', $model->id)->update(['account' => $model->account]);
             }
 
         });
