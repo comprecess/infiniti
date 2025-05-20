@@ -1,0 +1,41 @@
+.header {
+  display: flex;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+  color: $white;
+}
+
+.title {
+  font-family: $fontSpaceGrotesk;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.cross {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  transition: 0.3s ease;
+  cursor: pointer;
+
+  &:hover * {
+    stroke: $gray-200;
+  }
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 12px;
+}
+
+.buttonSubmit {
+  margin-top: 12px;
+}

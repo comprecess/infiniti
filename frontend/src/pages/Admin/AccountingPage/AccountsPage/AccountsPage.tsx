@@ -2,7 +2,10 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { AccountingAccountsData } from '../../../../app/constants/constants'
+import {
+  AccountingAccountsData,
+  AccountingAccountsInputData,
+} from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { TableAccounts } from '../../../../features/Admin/AccountingPage/AccountsPage/TableAccounts/TableAccounts'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -10,11 +13,16 @@ import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { Search } from '../../../../shared/ui/Search/Search'
 import { deleteAccount } from '../../../../shared/utils/api/Admin/Accounting/DeleteAccount'
+import { getAccountsInputData } from '../../../../shared/utils/api/Admin/Accounting/GetAccountsInputData'
 import { getAllAccounts } from '../../../../shared/utils/api/Admin/Accounting/GetAllAccounts'
+import { postRecordInitialBalance } from '../../../../shared/utils/api/Admin/Accounting/PostRecordInitialBalance'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './AccountsPage.module.scss'
 
 export const AdminAccountsPage = () => {
+  const [inputData, setInputData] =
+    useState<AccountingAccountsInputData | null>(null)
+
   const [search, setSearch] = useState<string>('')
   const [sortName, setSortName] = useState<string>('name')
   const [sortType, setSortType] = useState<number>(0)
@@ -39,10 +47,17 @@ export const AdminAccountsPage = () => {
     placeholderData: previousData => previousData,
   })
 
-  const handleDeleteAccount = async (id: number) => {
-    const response = await deleteAccount(id)
+  const getInputData = async () => {
+    const response: AccountingAccountsInputData =
+      await getAccountsInputData()
 
-    if (response.status) {
+    setInputData(response)
+  }
+
+  const handleDeleteAccount = async (id: number) => {
+    const { status, message } = await deleteAccount(id)
+
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully deleted Account',
@@ -52,7 +67,31 @@ export const AdminAccountsPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: response.message,
+        description: message,
+        status: 'error',
+      })
+    }
+  }
+
+  const addRecordInitialBalanceAccount = async (
+    id: number,
+    form: {
+      balance: { amount: string; currency: number }[]
+    },
+  ) => {
+    const { status, message } = await postRecordInitialBalance(id, form)
+
+    if (status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully made an opening balance entry',
+        status: 'success',
+      })
+      queryClient.invalidateQueries({ queryKey: ['accountsList'] })
+    } else {
+      showToast({
+        title: 'Error',
+        description: message,
         status: 'error',
       })
     }
@@ -74,11 +113,13 @@ export const AdminAccountsPage = () => {
 
   useEffect(() => {
     document.title = 'infiniti | Accounts'
+
+    getInputData()
   }, [])
 
   return (
     <div className={styles.wrapper}>
-      {accounts ? (
+      {accounts && inputData ? (
         <section className={styles.section}>
           <RecentCard
             style={styles.recentFullScreen}
@@ -98,9 +139,13 @@ export const AdminAccountsPage = () => {
             }}
           >
             <TableAccounts
+              inputData={inputData}
               accounts={accounts}
               changeSort={changeSort}
               deleteAccount={handleDeleteAccount}
+              addRecordInitialBalanceAccount={
+                addRecordInitialBalanceAccount
+              }
             />
           </RecentCard>
         </section>

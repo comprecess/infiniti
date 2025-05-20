@@ -248,6 +248,10 @@ export const router = createBrowserRouter([
             element: Pages.adminNewAccountPage,
           },
           {
+            path: `${Routes.edit}/${Routes.account}/:id`,
+            element: Pages.adminEditAccountPage,
+          },
+          {
             path: Routes.newDeposit,
             element: Pages.adminNewDepositPage,
           },

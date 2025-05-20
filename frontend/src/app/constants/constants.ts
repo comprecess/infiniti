@@ -1394,6 +1394,15 @@ export interface AccountingAccountsForm {
   balance: { amount: string; currency: number }[]
 }
 
+export interface AccountingAccountForm {
+  accountNumber: string
+  contactPerson: string
+  contactPhone: string
+  description: string
+  name: string
+  url: string
+}
+
 export interface AccountingTransactionsData {
   id: number
   account: string
