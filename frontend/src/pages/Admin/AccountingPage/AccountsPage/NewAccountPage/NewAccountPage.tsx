@@ -4,15 +4,15 @@ import { useNavigate } from 'react-router-dom'
 import {
   AccountingAccountsForm,
   AccountingAccountsInputData,
-} from '../../../../app/constants/constants'
-import { Routes } from '../../../../app/router/routes'
-import { NewAccountFields } from '../../../../features/Admin/AccountingPage/NewAccount/NewAccountFields/NewAccountFields'
-import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
-import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
-import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getAccountsInputData } from '../../../../shared/utils/api/Admin/Accounting/GetAccountsInputData'
-import { postCreateNewAccount } from '../../../../shared/utils/api/Admin/Accounting/PostCreateNewAccount'
-import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
+} from '../../../../../app/constants/constants'
+import { Routes } from '../../../../../app/router/routes'
+import { NewAccountFields } from '../../../../../features/Admin/AccountingPage/NewAccount/NewAccountFields/NewAccountFields'
+import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
+import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
+import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { getAccountsInputData } from '../../../../../shared/utils/api/Admin/Accounting/GetAccountsInputData'
+import { postCreateNewAccount } from '../../../../../shared/utils/api/Admin/Accounting/PostCreateNewAccount'
+import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './NewAccountPage.module.scss'
 
 export const AdminNewAccountPage = () => {

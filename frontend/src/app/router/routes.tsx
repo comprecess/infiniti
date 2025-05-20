@@ -1,8 +1,9 @@
 import { AdminAccountsPage } from '../../pages/Admin/AccountingPage/AccountsPage/AccountsPage'
+import { AdminEditAccountPage } from '../../pages/Admin/AccountingPage/AccountsPage/EditAccountPage/EditAccountPage'
+import { AdminNewAccountPage } from '../../pages/Admin/AccountingPage/AccountsPage/NewAccountPage/NewAccountPage'
 import { AdminAssetsPage } from '../../pages/Admin/AccountingPage/AssetsPage/AssetsPage'
 import { AdminBillsPage } from '../../pages/Admin/AccountingPage/BillsPage/BillsPage'
 import { AdminEditBillPage } from '../../pages/Admin/AccountingPage/BillsPage/EditBill/EditBill'
-import { AdminNewAccountPage } from '../../pages/Admin/AccountingPage/NewAccountPage/NewAccountPage'
 import { AdminNewDepositPage } from '../../pages/Admin/AccountingPage/NewDepositPage/NewDepositPage'
 import { AdminNewExpensePage } from '../../pages/Admin/AccountingPage/NewExpensePage/NewExpensePage'
 import { AdminTransferPage } from '../../pages/Admin/AccountingPage/TransferPage/TransferPage'
@@ -133,6 +134,7 @@ export const Routes = {
   businessPlans: 'business-plans',
   reorder: 'reorder',
   role: 'role',
+  account: 'account',
   accounting: 'accounting',
   sales: 'sales',
   currencies: 'currencies',
@@ -267,6 +269,7 @@ export const Pages = {
   adminContactsListPage: <AdminContactsListPage />,
   adminReorderGroupsPage: <AdminReorderGroupsPage />,
   adminNewAccountPage: <AdminNewAccountPage />,
+  adminEditAccountPage: <AdminEditAccountPage />,
   adminNewDepositPage: <AdminNewDepositPage />,
   adminNewExpensePage: <AdminNewExpensePage />,
   adminTransferPage: <AdminTransferPage />,

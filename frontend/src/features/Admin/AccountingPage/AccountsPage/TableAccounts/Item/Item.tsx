@@ -1,9 +1,13 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
+import { AccountingAccountsInputData } from '../../../../../../app/constants/constants'
+import { Routes } from '../../../../../../app/router/routes'
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../TableAccounts.module.scss'
 import styles from './Item.module.scss'
+import { RecordInitialModal } from './RecordInitialModal/RecordInitialModal'
 
 interface ItemProps {
   id: number
@@ -14,19 +18,54 @@ interface ItemProps {
     Income: string
     Total: string
   }
+  inputData: AccountingAccountsInputData
+  addRecordInitialBalanceAccount: (
+    id: number,
+    form: {
+      balance: { amount: string; currency: number }[]
+    },
+  ) => void
   deleteAccount: (id: number) => void
 }
 
-export const Item = ({ id, name, balance, deleteAccount }: ItemProps) => {
+export const Item = ({
+  id,
+  name,
+  balance,
+  inputData,
+  addRecordInitialBalanceAccount,
+  deleteAccount,
+}: ItemProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
+  const [modalRecordInitial, setModalRecordInitial] =
+    useState<boolean>(false)
+
+  const navigate = useNavigate()
 
   const handleOpenConfirmationModal = () => {
     setModalDelete(state => !state)
   }
 
+  const handleOpenRecordInitialModal = () => {
+    setModalRecordInitial(state => !state)
+  }
+
+  const handleNavigateEditAccount = () => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.accounting}/${Routes.edit}/${Routes.account}/${id}`,
+    )
+  }
+
   const handleDeleteAccount = () => {
     deleteAccount(id)
     handleOpenConfirmationModal()
+  }
+
+  const handleRecordInitialBalanceAccount = (form: {
+    balance: { amount: string; currency: number }[]
+  }) => {
+    addRecordInitialBalanceAccount(id, form)
+    handleOpenRecordInitialModal()
   }
 
   return (
@@ -51,14 +90,14 @@ export const Item = ({ id, name, balance, deleteAccount }: ItemProps) => {
             icon='/icons/plus.svg'
             alt='Record initial balance'
             tooltipTitle='Record initial balance'
-            onClick={() => {}}
+            onClick={handleOpenRecordInitialModal}
           />
           <CustomMiniButton
             style='amber'
             icon='/icons/edit.svg'
             alt='Edit'
             tooltipTitle='Edit'
-            onClick={() => {}}
+            onClick={handleNavigateEditAccount}
           />
           <CustomMiniButton
             style='cherry'
@@ -74,6 +113,14 @@ export const Item = ({ id, name, balance, deleteAccount }: ItemProps) => {
           isOpened={modalDelete}
           handleOpenCloseModal={handleOpenConfirmationModal}
           agree={handleDeleteAccount}
+        />
+      )}
+      {modalRecordInitial && (
+        <RecordInitialModal
+          inputData={inputData}
+          isOpened={modalRecordInitial}
+          handleOpenCloseModal={handleOpenRecordInitialModal}
+          agree={handleRecordInitialBalanceAccount}
         />
       )}
     </>

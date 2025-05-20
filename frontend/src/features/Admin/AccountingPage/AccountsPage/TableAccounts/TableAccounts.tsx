@@ -1,6 +1,9 @@
 import { Fragment, useCallback, useState } from 'react'
 
-import { AccountingAccountsData } from '../../../../../app/constants/constants'
+import {
+  AccountingAccountsData,
+  AccountingAccountsInputData,
+} from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
@@ -8,14 +11,23 @@ import styles from './TableAccounts.module.scss'
 
 interface TableAccountsProps {
   accounts: AccountingAccountsData[]
+  inputData: AccountingAccountsInputData
   changeSort: (sortNameItem: string, sortTypeItem: number) => void
   deleteAccount: (id: number) => void
+  addRecordInitialBalanceAccount: (
+    id: number,
+    form: {
+      balance: { amount: string; currency: number }[]
+    },
+  ) => void
 }
 
 export const TableAccounts = ({
   accounts,
+  inputData,
   changeSort,
   deleteAccount,
+  addRecordInitialBalanceAccount,
 }: TableAccountsProps) => {
   const [sortNumbers, setSortNumbers] = useState<number[]>([0, 0, 0, 0, 0])
 
@@ -67,7 +79,11 @@ export const TableAccounts = ({
                   id={item.id}
                   name={item.name}
                   balance={item.balance}
+                  inputData={inputData}
                   deleteAccount={deleteAccount}
+                  addRecordInitialBalanceAccount={
+                    addRecordInitialBalanceAccount
+                  }
                 />
                 {index !== accounts.length - 1 && <CustomDivider />}
               </Fragment>
