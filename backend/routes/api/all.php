@@ -43,7 +43,7 @@ Route::controller(BusinessModelController::class)
         Route::get('item/{model}', 'item');
     });
 
-#business_model
+#meeting
 Route::controller(MeetingController::class)
     ->prefix('meeting')
     ->group(function(){

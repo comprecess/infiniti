@@ -6,12 +6,14 @@ namespace App\Http\Controllers\Api\Traits;
 
 
 use App\Http\Requests\Interfaces\ConvertingPropertiesInterface;
+use App\Http\Resources\Contracts\CRUDCollectionContract;
+use App\Http\Resources\Resident\Transactions\AssetListResource;
 use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Services\Document\DocumentVariables;
 use App\Services\Document\FactoryDocument;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\DB;
 
 trait CRUD
@@ -28,7 +30,7 @@ trait CRUD
         return new DocumentVariables();
     }
 
-    public function index(mixed $model, string $resource, bool $paginate = false)
+    public function index(mixed $model, string $resource, bool $paginate = false, array $data = [])
     {
         if(is_string($model)) {
             $model = $model::query();
@@ -45,6 +47,17 @@ trait CRUD
             $model = $model->paginate(request()->input($this->getNamePrePage()) ?? $this->page);
         } else {
             $model = $model->get();
+        }
+
+        if($data) {
+            $resorceObject = new $resource($model);
+            if($resorceObject instanceof CRUDCollectionContract) {
+                $resorceObject->setData($data);
+                return $resorceObject;
+            }
+        }
+        if($resource instanceof ResourceCollection){
+            return $resource;
         }
 
         return $resource::collection($model);

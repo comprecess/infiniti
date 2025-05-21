@@ -36,17 +36,11 @@ class WebHook extends Controller
             }
         }
 
-        return response()->json(['success' => false], 404);
+        return response()->json(['success' => true], 200);
     }
 
     protected function indexMethod()
     {
         return response()->json(['success' => false], 404);
     }
-
-//    public function endpointUrlValidation(Request $request)
-//    {
-//        $key = Arr::get($request->payload, 'plainToken');
-//        return response()->json(['plainToken' => $key, 'encryptedToken' => $this->createSecret($key)]);
-//    }
 }
