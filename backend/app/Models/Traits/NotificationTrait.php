@@ -5,13 +5,19 @@ namespace App\Models\Traits;
 
 
 use App\Models\Meeting;
+use App\Models\Notification;
 use Illuminate\Support\Arr;
 
 trait NotificationTrait
 {
+//    public function notification()
+//    {
+//        return $this->morphMany(Meeting::class, 'meeting')->orderByDesc('id');
+//    }
+
     public function notification()
     {
-        return $this->morphMany(Meeting::class, 'meeting')->orderByDesc('id');
+        return $this->morphMany(Notification::class, 'model')->orderByDesc('id');
     }
 
     public function notificationGetMessage()

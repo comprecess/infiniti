@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Contracts\MeetingContract as MeetingContractService;
 use App\Events\Catalog\MeetingCreate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Catalog\EmploymentRequest;
@@ -11,7 +10,6 @@ use App\Models\Meeting;
 use App\Models\Resident\BusinessPlan;
 use App\Models\User;
 use App\Services\Zoom\Timezone;
-use Illuminate\Http\Request;
 use App\Models\Catalog\User as UserCatalog;
 use \App\Models\Contracts\MeetingContract as MeetingContractModel;
 use Illuminate\Validation\ValidationException;
@@ -51,7 +49,6 @@ class MeetingController extends Controller
     {
         $tz = new Timezone();
         $tz->searchTimezone($request->timezone['name'], $request->getTimeTimezone('timezone.date'));
-        dd($request->timezone['name'], $request->getTimeTimezone('timezone.date'));
         $meetingModel = new Meeting();
         $model = $this->getModel($request);
 

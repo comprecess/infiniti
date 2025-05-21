@@ -11,6 +11,7 @@ use App\Http\Requests\Resident\Transactions\AssetListRequest;
 use App\Http\Resources\Resident\Transactions\AsseResource;
 use App\Http\Resources\Resident\Transactions\AssetCategoryTreeResource;
 use App\Http\Resources\Resident\Transactions\AssetListResource;
+use App\Http\Resources\Resident\Transactions\AssetListResourceCollection;
 use App\Models\Resident\Transactions\Asset;
 use App\Models\Resident\Transactions\AssetCategory;
 use App\Services\Document\DocumentVariables;
@@ -57,20 +58,23 @@ class AssetController extends TransactionsAccessController
             $query->where('category_id', $category);
         }
 
+        $total = (new Asset())->printPrice($query->get()->sum('price'));
+
         if($search = Arr::get($data, 'filter.search')) {
             $search = "%{$search}%";
             $query->where(function($query) use($search){
-                $query->where('id', $search)
-                    ->orWhere('name', $search)
-                    ->orWhere('serial', $search)
-                    ->orWhere('notes', $search)
-                    ->orWhere('price', $search);
+                $query->where('id', 'like', $search)
+                    ->orWhere('name', 'like', $search)
+                    ->orWhere('serial', 'like', $search)
+                    ->orWhere('notes', 'like', $search)
+                    ->orWhere('price', 'like', $search);
             });
         }
 
         $request->sortModel($query);
 
-        return $this->index($query, AssetListResource::class, true);
+
+        return $this->index($query, AssetListResourceCollection::class, true, ['total' => $total]);
     }
 
     public function inputData()
