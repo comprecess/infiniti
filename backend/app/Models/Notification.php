@@ -5,6 +5,7 @@ namespace App\Models;
 
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
+use App\Services\Push\Contracts\PushContract;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
 class Notification extends Model
 {
     use HasFactory;
+
+    const ACTIVE_HOUR = 24;
 
     protected $casts = [
         'date_active' => 'datetime',
@@ -21,6 +24,11 @@ class Notification extends Model
     public function model()
     {
         return $this->morphTo('model');
+    }
+
+    public function modelTrashed()
+    {
+        return $this->morphTo('model')->withTrashed();
     }
 
     public function user()
@@ -42,8 +50,11 @@ class Notification extends Model
 
     public function getMessage()
     {
-        if($this->model) {
-            return $this->model->notificationGetMessage();
+        if($model = $this->modelTrashed) {
+            $message = $model->getMessage($this);
+            if($message !== null) {
+                return $message;
+            }
         }
 
         if($this->type) {
@@ -52,6 +63,16 @@ class Notification extends Model
 
         if($this->message) {
             return $this->message;
+        }
+    }
+
+    public function getPushMessage()
+    {
+        if($model = $this->modelTrashed) {
+            $message = $model->getPushMessage($this);
+            if($message !== null) {
+                return $message;
+            }
         }
     }
 
@@ -67,19 +88,28 @@ class Notification extends Model
 
     }
 
-    public function scopeMyQuery($query)
+    public function scopeMyActive($query)
     {
         $date = now();
-        $dateViewed = now()->subHours(24);
+        $dateViewed = now()->subHours(self::ACTIVE_HOUR);
         $query->selectRaw("*, IF((notifications.viewed = 0 OR notifications.updated_at > '".$dateViewed->format('Y-m-d H:i:s')."') OR notifications.date_active > '".$date->format('Y-m-d H:i:s')."', 0,1) AS typeSort")
             ->orderByRaw('typeSort asc, notifications.id desc');
     }
 
-    public function send(User $user, ?Model $model = null, ?Carbon $dateActive = null, $message = null, $type = null, ?array $data = null, bool $isPush = true)
+    public function isActive()
+    {
+        $date = now();
+        $dateViewed = now()->subHours(self::ACTIVE_HOUR);
+        return ($this->viewed == 0 || $this->updated_at > $dateViewed) || $this->date_active > $date;
+    }
+
+    public static function createMain(User $user, ?Model $model = null, ?Carbon $dateActive = null, $message = null, $type = null, ?array $data = null, bool $isPush = true)
     {
         $not = new Notification();
         $not->setUser($user);
-        $not->setModel($model);
+        if($model) {
+            $not->setModel($model);
+        }
         $not->date_active = $dateActive;
         $not->message = $message;
         $not->type = $type;
@@ -88,9 +118,31 @@ class Notification extends Model
 
         if(($push = $user->push) && $isPush) {
             #Отправляем пушь уведомление
+            self::sendPush($user, $not->getPushMessage());
         }
 
-        return $this;
+        return $not;
     }
+
+    public static function sendPush(User $user, $message, $title = 'push')
+    {
+        $puser = app(PushContract::class);
+        $puser->sendUser($user, $title, $message);
+    }
+
+    #обновить или создать активные по модели
+    public static function updateActiveAndCreateByModel(User $user, ?Model $model, ?Carbon $dateActive = null, $message = null, $type = null, ?array $data = null, bool $isPush = true)
+    {
+        $notification = $model->notification()->myActive()->first();
+        if($notification) {
+            $notification->viewed = 0;
+            $notification->date_active = $dateActive;
+            self::sendPush($user, $notification->getPushMessage());
+        } else {
+            self::createMain($user, $model, $dateActive, $message, $type, $data , $isPush);
+        }
+
+    }
+
 
 }

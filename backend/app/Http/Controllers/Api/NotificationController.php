@@ -23,7 +23,7 @@ class NotificationController extends Controller
         $type = $request->type == 'all';
         $not = User::getAuth()
             ->notifications()
-            ->myQuery()
+            ->myActive()
             ->with(['model']);
 
         if(!$type) {
