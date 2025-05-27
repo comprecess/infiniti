@@ -8,9 +8,9 @@ import styles from './Item.module.scss'
 
 export interface ItemProps {
   id: number
-  idAccount: number
+  idAccount: number | null
   code: string
-  account: string
+  account: string | null
   subject: string
   amount: string
   dateCreated: string
@@ -52,6 +52,8 @@ export const Item = ({
   }
 
   const handleNavigateToSelectAccount = () => {
+    if (!idAccount) return
+
     navigateToSelectAccount(idAccount)
   }
 
@@ -73,7 +75,7 @@ export const Item = ({
           className={`${styleItem.accountColumn} ${styles.accountItem}`}
           onClick={handleNavigateToSelectAccount}
         >
-          {account}
+          {account ? account : `-`}
         </span>
         <span
           className={`${styleItem.subjectColumn} ${styles.subjectItem}`}

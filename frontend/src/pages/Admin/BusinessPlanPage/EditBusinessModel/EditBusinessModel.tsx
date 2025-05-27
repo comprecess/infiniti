@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation } from 'react-router-dom'
 
 import {
   BusinessModelInputData,
@@ -20,24 +19,9 @@ import { putUpdateModelInfo } from '../../../../shared/utils/api/Admin/BusinessP
 import { removePictureBusinessModel } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/RemovePictureBusinessModel'
 import { getChatGPTAnalysis } from '../../../../shared/utils/api/Admin/ChatGPT/GetChatGPTAnalysis'
 import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
+import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditBusinessModel.module.scss'
-
-const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/business-model\/(\d+)$/
-  const match = url.match(regex)
-
-  return match ? parseInt(match[1], 10) : null
-}
-
-const useIdFromUrl = () => {
-  const location = useLocation()
-
-  return useMemo(
-    () => extractIdFromUrl(location.pathname),
-    [location.pathname],
-  )
-}
 
 export const AdminEditBusinessModel = () => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({})
@@ -47,7 +31,7 @@ export const AdminEditBusinessModel = () => {
   const { t } = useTranslation()
   const { chatGPTChangeForm, setChatGPTChangeForm } = useChatGPT()
 
-  const id = useIdFromUrl()
+  const id = useIdFromUrl('business-model')
   const showToast = useCustomToast()
 
   const getModelData = async () => {

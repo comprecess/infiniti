@@ -7,6 +7,7 @@ import { CustomMiniButton } from '../../shared/ui/CustomMiniButton/CustomMiniBut
 import { StatusProfitability } from '../../shared/ui/StatusProfitability/StatusProfitability'
 import { Item } from '../TalentsCard/Body/Item/Item'
 import styles from './BusinessModelCard.module.scss'
+import { ConvertModal } from './ConvertModal/ConvertModal'
 
 interface BusinessModelCardProps {
   id: number
@@ -23,7 +24,6 @@ interface BusinessModelCardProps {
   onMobileCLick: () => void
   onNavigate: (id: number) => void
   onDelete: (id: number) => void
-  onConvert: (id: number) => void
   onEdit: (id: number) => void
 }
 
@@ -42,13 +42,17 @@ export const BusinessModelCard = ({
   onMobileCLick,
   onNavigate,
   onDelete,
-  onConvert,
   onEdit,
 }: BusinessModelCardProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
+  const [modalConvert, setModalConvert] = useState<boolean>(false)
 
   const handleOpenConfirmationModal = () => {
     setModalDelete(state => !state)
+  }
+
+  const handleOpenConvertModal = () => {
+    setModalConvert(state => !state)
   }
 
   return (
@@ -109,7 +113,7 @@ export const BusinessModelCard = ({
                       icon='/icons/fileMove.svg'
                       tooltipTitle='Convert to Business Plan'
                       alt='Convert'
-                      onClick={() => onConvert(id)}
+                      onClick={handleOpenConvertModal}
                     />
                     <CustomMiniButton
                       style='cherry'
@@ -136,6 +140,13 @@ export const BusinessModelCard = ({
           isOpened={modalDelete}
           handleOpenCloseModal={handleOpenConfirmationModal}
           agree={() => onDelete(id)}
+        />
+      )}
+      {modalConvert && (
+        <ConvertModal
+          id={id}
+          isOpened={modalConvert}
+          handleOpenCloseModal={handleOpenConvertModal}
         />
       )}
     </>

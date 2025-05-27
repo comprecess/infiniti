@@ -2,6 +2,8 @@ import { AdminAccountsPage } from '../../pages/Admin/AccountingPage/AccountsPage
 import { AdminEditAccountPage } from '../../pages/Admin/AccountingPage/AccountsPage/EditAccountPage/EditAccountPage'
 import { AdminNewAccountPage } from '../../pages/Admin/AccountingPage/AccountsPage/NewAccountPage/NewAccountPage'
 import { AdminAssetsPage } from '../../pages/Admin/AccountingPage/AssetsPage/AssetsPage'
+import { AdminEditAssetPage } from '../../pages/Admin/AccountingPage/AssetsPage/EditAssetPage/EditAssetPage'
+import { AdminNewAssetPage } from '../../pages/Admin/AccountingPage/AssetsPage/NewAssetPage/NewAssetPage'
 import { AdminBillsPage } from '../../pages/Admin/AccountingPage/BillsPage/BillsPage'
 import { AdminEditBillPage } from '../../pages/Admin/AccountingPage/BillsPage/EditBill/EditBill'
 import { AdminNewDepositPage } from '../../pages/Admin/AccountingPage/NewDepositPage/NewDepositPage'
@@ -173,6 +175,7 @@ export const Routes = {
   knowledgeBase: 'knowledge-base',
   tickets: 'tickets',
   groups: 'groups',
+  asset: 'asset',
   newDeposit: 'newdeposit',
   newExpense: 'newexpense',
   businessModels: 'business-models',
@@ -264,6 +267,8 @@ export const Pages = {
   adminEditBusinessModel: <AdminEditBusinessModel />,
   adminAccountsPage: <AdminAccountsPage />,
   adminAssetsPage: <AdminAssetsPage />,
+  adminNewAssetPage: <AdminNewAssetPage />,
+  adminEditAssetPage: <AdminEditAssetPage />,
   adminBillsPage: <AdminBillsPage />,
   adminEditBillPage: <AdminEditBillPage />,
   adminContactsListPage: <AdminContactsListPage />,

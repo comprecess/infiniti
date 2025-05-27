@@ -9,37 +9,34 @@
 
 .section {
   display: flex;
+  flex-direction: row;
+  gap: 20px;
   width: 100%;
   justify-content: center;
-}
 
-.recentFullScreen {
-  max-width: $maxContentSize;
-}
-
-.container {
-  display: flex;
-  flex-direction: row;
-  gap: 12px;
-  width: 100%;
-
-  @include mobileBreakpoint('max', $bpL) {
+  @include mobileBreakpoint('max', $bpXL) {
     flex-direction: column;
-    gap: 24px;
   }
 }
 
-.buttonsAndTable {
+.cardFirst {
+  max-width: 357px;
+
+  @include mobileBreakpoint('max', $bpXL) {
+    max-width: 100%;
+  }
+}
+
+.cardSecond {
+  max-width: 1170px;
+
+  @include mobileBreakpoint('max', $bpXL) {
+    max-width: 100%;
+  }
+}
+
+.loading {
   display: flex;
-  flex-direction: column;
-  gap: 24px;
+  justify-content: center;
   width: 100%;
-}
-
-.filters {
-  width: 300px;
-
-  @include mobileBreakpoint('max', $bpL) {
-    width: 100%;
-  }
 }

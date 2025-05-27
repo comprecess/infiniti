@@ -28,7 +28,7 @@ export const TableUnclearedTransactions = ({
   )
 
   const clearSort = () => {
-    setSortNumbers(new Array(7).fill(0))
+    setSortNumbers(new Array(5).fill(0))
   }
 
   return (

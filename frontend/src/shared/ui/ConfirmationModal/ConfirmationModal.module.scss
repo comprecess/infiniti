@@ -1,12 +1,12 @@
-.header {
-  display: flex;
-}
-
 .wrapper {
   display: flex;
   flex-direction: column;
   gap: 38px;
   color: $white;
+}
+
+.header {
+  display: flex;
 }
 
 .title {

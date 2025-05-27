@@ -1,37 +1,19 @@
-import { useEffect, useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 import { GroupContactsListProps } from '../../../../../app/constants/constants'
 import { RecentContactsList } from '../../../../../features/Admin/CustomersPage/GroupsPage/RecentContactsList/RecentConatctsList'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getContactsList } from '../../../../../shared/utils/api/Admin/Groups/GetContactsList'
+import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
 import styles from './ContactsListPage.module.scss'
-
-const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/(\d+)$/
-  const match = url.match(regex)
-
-  return match ? parseInt(match[1], 10) : null
-}
-
-const useIdFromUrl = () => {
-  const location = useLocation()
-
-  const id = useMemo(
-    () => extractIdFromUrl(location.pathname),
-    [location.pathname],
-  )
-
-  return id
-}
 
 export const AdminContactsListPage = () => {
   const [contacts, setContacts] = useState<
   GroupContactsListProps[] | null
   >(null)
 
-  const id = useIdFromUrl()
+  const id = useIdFromUrl('list')
 
   const getContacts = async () => {
     if (id !== null) {

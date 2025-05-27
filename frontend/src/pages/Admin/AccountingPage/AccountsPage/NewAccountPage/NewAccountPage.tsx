@@ -20,8 +20,8 @@ export const AdminNewAccountPage = () => {
   const [inputData, setInputData] =
     useState<AccountingAccountsInputData | null>(null)
 
-  const showToast = useCustomToast()
   const navigate = useNavigate()
+  const showToast = useCustomToast()
 
   const getInputData = async () => {
     const response: AccountingAccountsInputData =
@@ -31,12 +31,12 @@ export const AdminNewAccountPage = () => {
   }
 
   const handleCreateNewAccount = async () => {
-    const response = await postCreateNewAccount(form)
+    const { status, message } = await postCreateNewAccount(form)
 
-    if (response.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
-        description: 'You have successfully created a new Account.',
+        description: 'You have successfully created a new Account',
         status: 'success',
       })
       navigate(
@@ -45,7 +45,7 @@ export const AdminNewAccountPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: response.message,
+        description: message,
         status: 'error',
       })
     }

@@ -62,14 +62,12 @@ export const PagesList = ({ meta, size, nextPage }: PagesListProps) => {
       i <= meta.last_page;
       i++
     ) {
-      const link = meta.links[i]
-
-      if (link && i > 0) {
+      if (i > 0) {
         pages.push(
           <NumberItem
             key={`page-${i}`}
             number={i}
-            isActive={link.active}
+            isActive={meta.current_page === i}
             size={size}
             onClick={() => nextPage(i)}
           />,

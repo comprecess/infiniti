@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { Dayjs } from 'dayjs'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { TalentData } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
@@ -17,36 +17,19 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { getDatesTalentBusy } from '../../../../shared/utils/api/Admin/Meeting/GetDatesTalentBusy'
 import { postCreateNewMeeting } from '../../../../shared/utils/api/Admin/Meeting/PostCreateNewMeeting'
 import { getUserInfo } from '../../../../shared/utils/api/Client/Catalog/User/GetUserInfo'
+import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import {
   CreatingCallModal,
   TimeSlotsById,
 } from '../../../../widgets/CreatingCallModal/CreatingCallModal'
 import styles from './ViewTalentPage.module.scss'
 
-const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/talent\/(\d+)/
-  const match = url.match(regex)
-
-  return match ? parseInt(match[1], 10) : null
-}
-
-const useIdFromUrl = () => {
-  const location = useLocation()
-
-  const id = useMemo(
-    () => extractIdFromUrl(location.pathname),
-    [location.pathname],
-  )
-
-  return id
-}
-
 export const AdminViewTalentPage = () => {
   const [isCreatingCall, setIsCreatingCall] = useState<boolean>(false)
 
   const similarTalentsRef = useRef<HTMLDivElement>(null)
 
-  const id = useIdFromUrl()
+  const id = useIdFromUrl('talent')
   const navigate = useNavigate()
   const showToast = useCustomToast()
 

@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { AccountingAccountForm } from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
@@ -9,29 +9,14 @@ import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getInfoSelectedAccount } from '../../../../../shared/utils/api/Admin/Accounting/GetInfoSelectedAccount'
 import { putAccountSelectedInfo } from '../../../../../shared/utils/api/Admin/Accounting/PutAccountSelectedInfo'
+import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './EditAccountPage.module.scss'
-
-const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/account\/(\d+)$/
-  const match = url.match(regex)
-
-  return match ? parseInt(match[1], 10) : null
-}
-
-const useIdFromUrl = () => {
-  const location = useLocation()
-
-  return useMemo(
-    () => extractIdFromUrl(location.pathname),
-    [location.pathname],
-  )
-}
 
 export const AdminEditAccountPage = () => {
   const [form, setForm] = useState<AccountingAccountForm | null>(null)
 
-  const id = useIdFromUrl()
+  const id = useIdFromUrl('account')
   const showToast = useCustomToast()
   const navigate = useNavigate()
 

@@ -40,6 +40,21 @@
   width: 100%;
 }
 
+.idColumn {
+  max-width: 80px;
+}
+
+.dateColumn,
+.accountColumn {
+  max-width: 110px;
+}
+
+.drColumn,
+.crColumn {
+  max-width: 120px;
+}
+
 .manageColumn {
+  max-width: 80px;
   justify-content: end;
 }

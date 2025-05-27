@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { useCallback, useEffect, useMemo, useRef } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useCallback, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { TalentData } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
@@ -13,31 +13,13 @@ import { ChevronDownIcon } from '../../../shared/icons/ChevronDownIcon'
 import { ButtonBrand } from '../../../shared/ui/ButtonBrand/ButtonBrand'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getUserInfo } from '../../../shared/utils/api/Client/Catalog/User/GetUserInfo'
+import { useIdFromUrl } from '../../../shared/utils/usefulMethods'
 import styles from './TalentDetailsPage.module.scss'
-
-const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/talent\/(\d+)/
-  const match = url.match(regex)
-
-  return match ? parseInt(match[1], 10) : null
-}
-
-const useIdFromUrl = () => {
-  const location = useLocation()
-
-  const id = useMemo(
-    () => extractIdFromUrl(location.pathname),
-    [location.pathname],
-  )
-
-  return id
-}
 
 export const ClientTalentDetailsPage = () => {
   const similarTalentsRef = useRef<HTMLDivElement>(null)
 
-  const id = useIdFromUrl()
-
+  const id = useIdFromUrl('talent')
   const navigate = useNavigate()
 
   const handleNavigateBack = () => {
