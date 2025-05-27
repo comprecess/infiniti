@@ -4,3 +4,11 @@
   gap: 24px;
   width: 100%;
 }
+
+.categoriesList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  justify-content: center;
+}

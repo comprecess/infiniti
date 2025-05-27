@@ -1,5 +1,4 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import saveAs from 'file-saver'
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -18,6 +17,7 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { deleteClient } from '../../../../shared/utils/api/Admin/ListCustomers/DeleteClient'
 import { getDocumentFileCustomers } from '../../../../shared/utils/api/Admin/ListCustomers/GetDocumentFileCustomers'
 import { getCustomersList } from '../../../../shared/utils/api/Admin/ListCustomers/GetListCustomers'
+import { downloadDocument } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './ListSuppliersPage.module.scss'
 
@@ -25,7 +25,7 @@ export const AdminListSuppliersPage = () => {
   const [page, setPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
   const [sortName, setSortName] = useState<string>('id')
-  const [sortType, setSortType] = useState<number>(1)
+  const [sortType, setSortType] = useState<number>(0)
 
   const navigate = useNavigate()
   const showToast = useCustomToast()
@@ -60,35 +60,25 @@ export const AdminListSuppliersPage = () => {
     [],
   )
 
-  const documentOnChange = useCallback(
+  const downloadFile = useCallback(
     async (documentItem: string) => {
       // eslint-disable-next-line max-len
       const urlOptions = `?type=Supplier&page=${page}&filter[search]=${search}&sort[name]=${sortName}&sort[type]=${sortType}&document=${documentItem}`
 
       const downloadInitiated = await getDocumentFileCustomers(urlOptions)
 
-      if (downloadInitiated instanceof Blob) {
-        const contentType = downloadInitiated.type
+      const { status } = await downloadDocument(
+        downloadInitiated,
+        'Suppliers',
+      )
 
-        if (contentType === 'application/pdf') {
-          saveAs(downloadInitiated, 'Suppliers-Infiniti.pdf')
-        } else if (
-          contentType ===
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        ) {
-          saveAs(downloadInitiated, 'Suppliers-Infiniti.xlsx')
-        } else if (contentType === 'text/plain') {
-          saveAs(downloadInitiated, 'Suppliers-Infiniti.csv')
-        } else if (contentType === 'text/html') {
-          const htmlText = await downloadInitiated.text()
-          await navigator.clipboard.writeText(htmlText)
-          showToast({
-            title: 'Successfully',
-            description:
-              'You have successfully copied information to the clipboard',
-            status: 'success',
-          })
-        }
+      if (status && documentItem === 'copy') {
+        showToast({
+          title: 'Successfully',
+          description:
+            'You have successfully copied information to the clipboard',
+          status: 'success',
+        })
       }
     },
     [page, search, sortName, sortType],
@@ -138,7 +128,7 @@ export const AdminListSuppliersPage = () => {
           }}
           headerProps={{
             searchChange: setSearch,
-            rightButtons: documentOnChange,
+            rightButtons: downloadFile,
           }}
           pagesProps={
             suppliers

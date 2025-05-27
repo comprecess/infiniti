@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 import {
   TalentEditInfoData,
@@ -17,26 +16,9 @@ import { putUpdateTalentInfo } from '../../../../shared/utils/api/Admin/Talents/
 import { updateAdditionallyTalentInfo } from '../../../../shared/utils/api/Admin/Talents/EditTalent/UpdateAdditionallyTalentInfo'
 import { updateTalentAvatar } from '../../../../shared/utils/api/Admin/Talents/EditTalent/UpdateTalentAvatar'
 import { getTalentsInputData } from '../../../../shared/utils/api/Admin/Talents/GetTalentsInputData'
+import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditTalentPage.module.scss'
-
-const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/talent\/(\d+)/
-  const match = url.match(regex)
-
-  return match ? parseInt(match[1], 10) : null
-}
-
-const useIdFromUrl = () => {
-  const location = useLocation()
-
-  const id = useMemo(
-    () => extractIdFromUrl(location.pathname),
-    [location.pathname],
-  )
-
-  return id
-}
 
 export const AdminEditTalentPage = () => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({})
@@ -44,7 +26,7 @@ export const AdminEditTalentPage = () => {
   const [data, setData] = useState<TalentEditInfoData | null>(null)
   const [inputData, setInputData] = useState<TalentsInputData | null>(null)
 
-  const id = useIdFromUrl()
+  const id = useIdFromUrl('talent')
   const showToast = useCustomToast()
 
   const getInfoTalent = async () => {

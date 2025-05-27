@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 import {
   SalesBlanks,
@@ -22,24 +21,9 @@ import { getInfoSelectedOffer } from '../../../../shared/utils/api/Admin/Sales/E
 import { removeBlankOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/RemoveBlankOffer'
 import { updateBlankOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/UpdateBlankOffer'
 import { getOfferInputData } from '../../../../shared/utils/api/Admin/Sales/NewOffer/GetOfferInputData'
+import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditOfferPage.module.scss'
-
-const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/offer\/(\d+)$/
-  const match = url.match(regex)
-
-  return match ? parseInt(match[1], 10) : null
-}
-
-const useIdFromUrl = () => {
-  const location = useLocation()
-
-  return useMemo(
-    () => extractIdFromUrl(location.pathname),
-    [location.pathname],
-  )
-}
 
 export const AdminEditOfferPage = () => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({})
@@ -49,7 +33,7 @@ export const AdminEditOfferPage = () => {
   )
   const [blanks, setBlanks] = useState<SalesBlanks | null>(null)
 
-  const id = useIdFromUrl()
+  const id = useIdFromUrl('offer')
   const showToast = useCustomToast()
 
   const getInfoOffer = async () => {

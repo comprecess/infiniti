@@ -1,4 +1,3 @@
-import saveAs from 'file-saver'
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -17,6 +16,7 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { deleteOffer } from '../../../../shared/utils/api/Admin/Sales/Offers/DeleteOffer'
 import { getDocumentsOffers } from '../../../../shared/utils/api/Admin/Sales/Offers/GetDocumentsOffers'
 import { getListOffers } from '../../../../shared/utils/api/Admin/Sales/Offers/GetListOffers'
+import { downloadDocument } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './OffersPage.module.scss'
 
@@ -30,7 +30,7 @@ export const AdminOffersPage = () => {
   const [page, setPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
   const [sortName, setSortName] = useState<string>('id')
-  const [sortType, setSortType] = useState<number>(1)
+  const [sortType, setSortType] = useState<number>(0)
   const [options, setOptions] = useState<string>('')
 
   const navigate = useNavigate()
@@ -81,35 +81,25 @@ export const AdminOffersPage = () => {
     setPage(pageItem)
   }, [])
 
-  const documentOnChange = useCallback(
+  const downloadFile = useCallback(
     async (documentItem: string) => {
       // eslint-disable-next-line max-len
       const urlOptions = `?page=${page}&filter[search]=${search}&sort[name]=${sortName}&sort[type]=${sortType}&document=${documentItem}`
 
       const downloadInitiated = await getDocumentsOffers(urlOptions)
 
-      if (downloadInitiated instanceof Blob) {
-        const contentType = downloadInitiated.type
+      const { status } = await downloadDocument(
+        downloadInitiated,
+        'Offers',
+      )
 
-        if (contentType === 'application/pdf') {
-          saveAs(downloadInitiated, 'Offers-Infiniti.pdf')
-        } else if (
-          contentType ===
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        ) {
-          saveAs(downloadInitiated, 'Offers-Infiniti.xlsx')
-        } else if (contentType === 'text/plain') {
-          saveAs(downloadInitiated, 'Offers-Infiniti.csv')
-        } else if (contentType === 'text/html') {
-          const htmlText = await downloadInitiated.text()
-          await navigator.clipboard.writeText(htmlText)
-          showToast({
-            title: 'Successfully',
-            description:
-              'You have successfully copied information to the clipboard',
-            status: 'success',
-          })
-        }
+      if (status && documentItem === 'copy') {
+        showToast({
+          title: 'Successfully',
+          description:
+            'You have successfully copied information to the clipboard',
+          status: 'success',
+        })
       }
     },
     [page, search, sortName, sortType],
@@ -193,7 +183,7 @@ export const AdminOffersPage = () => {
             }
             headerProps={{
               searchChange: searchOnChange,
-              rightButtons: documentOnChange,
+              rightButtons: downloadFile,
             }}
             pagesProps={{
               meta: offers.meta,

@@ -1,5 +1,4 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import saveAs from 'file-saver'
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -23,6 +22,7 @@ import { getInvoicesDocuments } from '../../../../shared/utils/api/Admin/Sales/I
 import { getList } from '../../../../shared/utils/api/Admin/Sales/Invoices/GetList'
 import { getStat } from '../../../../shared/utils/api/Admin/Sales/Invoices/GetStat'
 import { stopRecurringAndClone } from '../../../../shared/utils/api/Admin/Sales/Invoices/StopRecurringAndClone'
+import { downloadDocument } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './InvoicesPage.module.scss'
 
@@ -30,7 +30,7 @@ export const AdminInvoicesPage = () => {
   const [page, setPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
   const [sortName, setSortName] = useState<string>('code')
-  const [sortType, setSortType] = useState<number>(1)
+  const [sortType, setSortType] = useState<number>(0)
   const [filterStatus, setFilterStatus] = useState<string>('Unpaid')
 
   const navigate = useNavigate()
@@ -134,35 +134,25 @@ export const AdminInvoicesPage = () => {
     }
   }
 
-  const documentOnChange = useCallback(
+  const downloadFile = useCallback(
     async (documentItem: string) => {
       // eslint-disable-next-line max-len
       const urlOptions = `?page=${page}&filter[search]=${search}&filter[status]=${filterStatus}&sort[name]=${sortName}&sort[type]=${sortType}&document=${documentItem}`
 
       const downloadInitiated = await getInvoicesDocuments(urlOptions)
 
-      if (downloadInitiated instanceof Blob) {
-        const contentType = downloadInitiated.type
+      const { status } = await downloadDocument(
+        downloadInitiated,
+        'Invoices',
+      )
 
-        if (contentType === 'application/pdf') {
-          saveAs(downloadInitiated, 'Invoices-Infiniti.pdf')
-        } else if (
-          contentType ===
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        ) {
-          saveAs(downloadInitiated, 'Invoices-Infiniti.xlsx')
-        } else if (contentType === 'text/plain') {
-          saveAs(downloadInitiated, 'Invoices-Infiniti.csv')
-        } else if (contentType === 'text/html') {
-          const htmlText = await downloadInitiated.text()
-          await navigator.clipboard.writeText(htmlText)
-          showToast({
-            title: 'Successfully',
-            description:
-              'You have successfully copied information to the clipboard',
-            status: 'success',
-          })
-        }
+      if (status && documentItem === 'copy') {
+        showToast({
+          title: 'Successfully',
+          description:
+            'You have successfully copied information to the clipboard',
+          status: 'success',
+        })
       }
     },
     [page, search, sortName, sortType, filterStatus],
@@ -240,7 +230,7 @@ export const AdminInvoicesPage = () => {
             isActiveTab: filterStatus,
             setIsActiveTab: setFilterStatus,
             searchChange: setSearch,
-            rightButtons: documentOnChange,
+            rightButtons: downloadFile,
           }}
           pagesProps={
             invoicesData

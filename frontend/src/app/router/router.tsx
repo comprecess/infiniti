@@ -236,6 +236,14 @@ export const router = createBrowserRouter([
             element: Pages.adminAssetsPage,
           },
           {
+            path: `${Routes.assets}/${Routes.add}/${Routes.new}/${Routes.asset}`,
+            element: Pages.adminNewAssetPage,
+          },
+          {
+            path: `${Routes.assets}/${Routes.edit}/${Routes.asset}/:id`,
+            element: Pages.adminEditAssetPage,
+          },
+          {
             path: Routes.bills,
             element: Pages.adminBillsPage,
           },

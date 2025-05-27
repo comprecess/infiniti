@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import {
   SalesOfferEmailTemplateData,
@@ -19,24 +19,9 @@ import { getInfoSelectedOffer } from '../../../../shared/utils/api/Admin/Sales/E
 import { convertOfferToInvoice } from '../../../../shared/utils/api/Admin/Sales/Offers/ConvertToInvoice'
 import { getOfferEmailTemplate } from '../../../../shared/utils/api/Admin/Sales/Offers/GetOfferEmailTemplates'
 import { changeOfferStage } from '../../../../shared/utils/api/Admin/Sales/Offers/OfferChangeStage'
+import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './ViewOfferPage.module.scss'
-
-const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/view\/(\d+)$/
-  const match = url.match(regex)
-
-  return match ? parseInt(match[1], 10) : null
-}
-
-const useIdFromUrl = () => {
-  const location = useLocation()
-
-  return useMemo(
-    () => extractIdFromUrl(location.pathname),
-    [location.pathname],
-  )
-}
 
 export const AdminViewOfferPage = () => {
   const [info, setInfo] = useState<SalesViewOfferData | null>(null)
@@ -49,7 +34,7 @@ export const AdminViewOfferPage = () => {
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
     useState<boolean>(false)
 
-  const id = useIdFromUrl()
+  const id = useIdFromUrl('view')
   const showToast = useCustomToast()
   const navigate = useNavigate()
 

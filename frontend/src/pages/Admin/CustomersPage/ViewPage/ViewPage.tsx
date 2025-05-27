@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { useEffect, useMemo, useState } from 'react'
-import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Outlet, useNavigate } from 'react-router-dom'
 
 import { ViewListPagesAndInfo } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
@@ -8,25 +8,8 @@ import { SideBar } from '../../../../features/Admin/CustomersPage/ViewPage/SideB
 import { ArrowBackGroundIcon } from '../../../../shared/icons/ArrowBackGroundIcon'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getListPagesAndInfo } from '../../../../shared/utils/api/Admin/ViewContact/GetListPagesAndInfo'
+import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import styles from './ViewPage.module.scss'
-
-const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/view\/(\d+)/
-  const match = url.match(regex)
-
-  return match ? parseInt(match[1], 10) : null
-}
-
-const useIdFromUrl = () => {
-  const location = useLocation()
-
-  const id = useMemo(
-    () => extractIdFromUrl(location.pathname),
-    [location.pathname],
-  )
-
-  return id
-}
 
 export const AdminViewPage = () => {
   const [isOpenSideBar, setIsOpenSideBar] = useState<boolean>(true)
@@ -35,8 +18,8 @@ export const AdminViewPage = () => {
   const [touchStartX, setTouchStartX] = useState<number | null>(null)
   const [touchEndX, setTouchEndX] = useState<number | null>(null)
 
+  const id = useIdFromUrl('view')
   const navigate = useNavigate()
-  const id = useIdFromUrl()
 
   const handleOpenCloseSidebar = () => {
     setIsOpenSideBar(!isOpenSideBar)

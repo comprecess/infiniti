@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import {
   SalesInvoiceEmailTemplateData,
@@ -17,24 +17,9 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { getInfoSelectedInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/GetInfoSelectedInvoice'
 import { getInvoiceEmailTemplate } from '../../../../shared/utils/api/Admin/Sales/Invoices/GetEmailTemplate'
 import { changeInvoiceStatus } from '../../../../shared/utils/api/Admin/Sales/Invoices/InvoiceChangeStage'
+import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './ViewInvoicePage.module.scss'
-
-const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/view\/(\d+)$/
-  const match = url.match(regex)
-
-  return match ? parseInt(match[1], 10) : null
-}
-
-const useIdFromUrl = () => {
-  const location = useLocation()
-
-  return useMemo(
-    () => extractIdFromUrl(location.pathname),
-    [location.pathname],
-  )
-}
 
 export const AdminViewInvoicePage = () => {
   const [info, setInfo] = useState<SalesViewInvoiceData | null>(null)
@@ -44,7 +29,7 @@ export const AdminViewInvoicePage = () => {
   const [emailTemplate, setEmailTemplate] = useState<string>('')
   const [emailPanel, setEmailPanel] = useState<boolean>(false)
 
-  const id = useIdFromUrl()
+  const id = useIdFromUrl('view')
   const showToast = useCustomToast()
   const navigate = useNavigate()
 

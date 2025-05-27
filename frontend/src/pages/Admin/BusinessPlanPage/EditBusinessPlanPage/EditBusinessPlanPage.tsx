@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { Dayjs } from 'dayjs'
-import { useEffect, useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 import {
   BusinessPlanNewPlanFormData,
@@ -19,6 +18,7 @@ import { getReadyPrompt } from '../../../../shared/utils/api/Admin/ChatGPT/GetRe
 import { getDatesTeamBusy } from '../../../../shared/utils/api/Admin/Meeting/GetDatesTeamBusy'
 import { postCreateNewMeeting } from '../../../../shared/utils/api/Admin/Meeting/PostCreateNewMeeting'
 import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
+import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import {
   CreatingCallModal,
   TimeSlotsById,
@@ -26,22 +26,6 @@ import {
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditBusinessPlanPage.module.scss'
 import { ModalAddTalentTeam } from './ModalAddTalentTeam/ModalAddTalentTeam'
-
-const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/business-plan\/(\d+)$/
-  const match = url.match(regex)
-
-  return match ? parseInt(match[1], 10) : null
-}
-
-const useIdFromUrl = () => {
-  const location = useLocation()
-
-  return useMemo(
-    () => extractIdFromUrl(location.pathname),
-    [location.pathname],
-  )
-}
 
 export const AdminEditBusinessPlanPage = () => {
   const [formData, setFormData] =
@@ -54,7 +38,7 @@ export const AdminEditBusinessPlanPage = () => {
   const [isCreatingCall, setIsCreatingCall] = useState<boolean>(false)
   const [isLoadingTeam, setIsLoadingTeam] = useState<boolean>(false)
 
-  const id = useIdFromUrl()
+  const id = useIdFromUrl('business-plan')
   const showToast = useCustomToast()
 
   const { chatGPTChangeForm, setChatGPTChangeForm } = useChatGPT()

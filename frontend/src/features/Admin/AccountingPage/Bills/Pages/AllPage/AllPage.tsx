@@ -33,7 +33,7 @@ export const AllPage = ({
   )
 
   const clearSort = () => {
-    setSortNumbers(new Array(7).fill(0))
+    setSortNumbers(new Array(3).fill(0))
   }
 
   return (

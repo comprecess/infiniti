@@ -1274,6 +1274,7 @@ export interface Notifications {
 
 export interface AccountingInputData {
   transaction?: AccountingTransactions[]
+  transactionTypes: string[]
   access: RolesAccess
   account: { id: number; balance: string; name: string }[]
   category: {
@@ -1282,7 +1283,7 @@ export interface AccountingInputData {
     name: string
   }[]
   recurringType: string[]
-  client: { id: number; account: string }[]
+  client: { id: number; account: string; email: string }[]
   code: string
   currency: CurrencyProps[]
   company: CompaniesListProps[]
@@ -1413,4 +1414,38 @@ export interface AccountingTransactionsData {
   description: string
   dr: string
   type: string
+}
+
+export interface AccountingAssetsInputData {
+  category: AccountingAssetsInputDataCategory[]
+}
+
+export interface AccountingAssetsInputDataCategory {
+  id: number
+  name: string
+  children: []
+}
+
+export interface AccountingAssetsData {
+  total: string
+  data: AccountingAssetsDataData[]
+  meta: PagesMetaData
+}
+
+export interface AccountingAssetsDataData {
+  id: number
+  datePurchased: string
+  name: string
+  price: string
+  supportedUntil: string
+}
+
+export interface AccountingNewAssetForm {
+  name: string
+  datePurchased: string
+  supportedUntil: string
+  price: string
+  serial: string
+  notes: string
+  category: number
 }

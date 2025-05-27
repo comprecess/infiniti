@@ -1,5 +1,4 @@
-import { Fragment, useEffect, useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Fragment, useEffect, useState } from 'react'
 
 import {
   BusinessPlanNewPlanFormData,
@@ -11,24 +10,9 @@ import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getBusinessPlanFullInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/GetBusinessPlanFullInfo'
 import { getInputDataBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/GetInputDataBusinessPlan'
+import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './ViewBusinessPlanPage.module.scss'
-
-const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/business-plan\/(\d+)$/
-  const match = url.match(regex)
-
-  return match ? parseInt(match[1], 10) : null
-}
-
-const useIdFromUrl = () => {
-  const location = useLocation()
-
-  return useMemo(
-    () => extractIdFromUrl(location.pathname),
-    [location.pathname],
-  )
-}
 
 const sections = [
   { key: 'exSummary', title: 'Executive Summary' },
@@ -50,7 +34,7 @@ export const AdminViewBusinessPlanPage = () => {
   TalentInputDataBusinessPlan[] | null
   >(null)
 
-  const id = useIdFromUrl()
+  const id = useIdFromUrl('business-plan')
 
   const getFullInfoBusinessPlan = async () => {
     if (!id) return

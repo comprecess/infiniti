@@ -24,13 +24,13 @@ export const RecentOffers = ({
   deleteOffer,
 }: RecentOffersProps) => {
   const [sortNumbers, setSortNumbers] = useState<number[]>([
-    1, 1, 1, 1, 1, 1, 1,
+    0, 0, 0, 0, 0, 0, 0,
   ])
 
   const handleSortChange = useCallback(
     (index: number, sortNameItem: string, sortTypeItem: number) => {
       setSortNumbers(prevSortNumbers =>
-        prevSortNumbers.map((_num, i) => (i === index ? sortTypeItem : 1)),
+        prevSortNumbers.map((_num, i) => (i === index ? sortTypeItem : 0)),
       )
       changeSortName(sortNameItem, sortTypeItem)
     },
@@ -38,7 +38,7 @@ export const RecentOffers = ({
   )
 
   const clearSort = () => {
-    setSortNumbers(new Array(7).fill(1))
+    setSortNumbers(new Array(7).fill(0))
   }
 
   return (
@@ -122,9 +122,9 @@ export const RecentOffers = ({
             <Fragment key={item.id}>
               <Item
                 id={item.id}
-                idAccount={item.account.id}
+                idAccount={item.account ? item.account.id : null}
+                account={item.account ? item.account.account : null}
                 code={item.code}
-                account={item.account.account}
                 subject={item.subject}
                 amount={item.total}
                 dateCreated={item.dateCreated}

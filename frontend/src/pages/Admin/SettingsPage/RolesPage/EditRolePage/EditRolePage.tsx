@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 import {
   RolesAccess,
@@ -14,24 +13,9 @@ import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getInfoRole } from '../../../../../shared/utils/api/Admin/Settings/EditRole/GetInfoRole'
 import { postChangedRole } from '../../../../../shared/utils/api/Admin/Settings/EditRole/PostChangedRole'
+import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './EditRolePage.module.scss'
-
-const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/role\/(\d+)$/
-  const match = url.match(regex)
-
-  return match ? parseInt(match[1], 10) : null
-}
-
-const useIdFromUrl = () => {
-  const location = useLocation()
-
-  return useMemo(
-    () => extractIdFromUrl(location.pathname),
-    [location.pathname],
-  )
-}
 
 export const AdminEditRolePage = () => {
   const [formData, setFormData] = useState<{
@@ -43,7 +27,7 @@ export const AdminEditRolePage = () => {
   RolesAccessObjectPermission[] | null
   >(null)
 
-  const id = useIdFromUrl()
+  const id = useIdFromUrl('role')
   const showToast = useCustomToast()
 
   const getInfo = async () => {

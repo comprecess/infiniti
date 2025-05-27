@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 import {
   SettingsEditUserData,
@@ -19,24 +18,9 @@ import { updateAdditionallyUserInfo } from '../../../../../shared/utils/api/Admi
 import { updateSelectedUserInfo } from '../../../../../shared/utils/api/Admin/Settings/Users/EditUser/UpdateSelectedUserInfo'
 import { updateAvatarUser } from '../../../../../shared/utils/api/Admin/Settings/Users/EditUser/UpdateUserAvatar'
 import { getUserInputData } from '../../../../../shared/utils/api/Admin/Settings/Users/NewUser/GetUserInputData'
+import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './EditUserPage.module.scss'
-
-const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/user\/(\d+)$/
-  const match = url.match(regex)
-
-  return match ? parseInt(match[1], 10) : null
-}
-
-const useIdFromUrl = () => {
-  const location = useLocation()
-
-  return useMemo(
-    () => extractIdFromUrl(location.pathname),
-    [location.pathname],
-  )
-}
 
 export const AdminEditUserPage = () => {
   const [formData, setFormData] =
@@ -49,7 +33,7 @@ export const AdminEditUserPage = () => {
     null,
   )
 
-  const id = useIdFromUrl()
+  const id = useIdFromUrl('user')
   const showToast = useCustomToast()
 
   const getUserData = async () => {

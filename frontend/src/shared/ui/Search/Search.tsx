@@ -4,10 +4,15 @@ import styles from './Search.module.scss'
 
 interface SearchProps {
   style?: string
+  searchValue?: string
   onSearchChange: (searchItem: string) => void
 }
 
-export const Search = ({ style, onSearchChange }: SearchProps) => {
+export const Search = ({
+  style,
+  searchValue,
+  onSearchChange,
+}: SearchProps) => {
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     onSearchChange(e.target.value)
   }
@@ -21,6 +26,7 @@ export const Search = ({ style, onSearchChange }: SearchProps) => {
       />
       <input
         type='text'
+        value={searchValue}
         placeholder='Search'
         className={styles.input}
         onChange={handleSearchChange}

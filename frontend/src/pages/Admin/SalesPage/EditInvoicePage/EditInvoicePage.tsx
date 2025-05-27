@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 import {
   SalesBlanks,
@@ -22,24 +21,9 @@ import { getInfoSelectedInvoice } from '../../../../shared/utils/api/Admin/Sales
 import { removeBlankInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/RemoveBlank'
 import { updateBlankInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/UpdateBlank'
 import { getInvoiceInputData } from '../../../../shared/utils/api/Admin/Sales/NewInvoice/GetInvoiceInputData'
+import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditInvoicePage.module.scss'
-
-const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/invoice\/(\d+)$/
-  const match = url.match(regex)
-
-  return match ? parseInt(match[1], 10) : null
-}
-
-const useIdFromUrl = () => {
-  const location = useLocation()
-
-  return useMemo(
-    () => extractIdFromUrl(location.pathname),
-    [location.pathname],
-  )
-}
 
 export const AdminEditInvoicePage = () => {
   const [formData, setFormData] = useState<PartialFieldsData>({})
@@ -48,7 +32,7 @@ export const AdminEditInvoicePage = () => {
     useState<SalesNewInvoiceInputData | null>(null)
   const [blanks, setBlanks] = useState<SalesBlanks | null>(null)
 
-  const id = useIdFromUrl()
+  const id = useIdFromUrl('invoice')
   const showToast = useCustomToast()
 
   const getInfoInvoice = async () => {

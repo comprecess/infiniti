@@ -27,16 +27,16 @@
   }
 }
 
-.loading {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
 .cardSecond {
   max-width: 1000px;
 
   @include mobileBreakpoint('max', $bpXL) {
     max-width: 100%;
   }
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }

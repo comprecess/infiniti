@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { useEffect, useMemo } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { BusinessPlanBusinessModelData } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
@@ -13,26 +13,11 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { StatusProfitability } from '../../../../shared/ui/StatusProfitability/StatusProfitability'
 import { getModelInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/GetModelInfo'
 import { sanitizeMessage } from '../../../../shared/utils/TextEditor/sanitizeMessage'
+import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import styles from './ViewBusinessModel.module.scss'
 
-const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/business-model\/(\d+)$/
-  const match = url.match(regex)
-
-  return match ? parseInt(match[1], 10) : null
-}
-
-const useIdFromUrl = () => {
-  const location = useLocation()
-
-  return useMemo(
-    () => extractIdFromUrl(location.pathname),
-    [location.pathname],
-  )
-}
-
 export const AdminViewBusinessModel = () => {
-  const id = useIdFromUrl()
+  const id = useIdFromUrl('business-model')
   const navigate = useNavigate()
 
   const { data: model } = useQuery({

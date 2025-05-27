@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { useEffect, useMemo, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import {
   RolesAccess,
@@ -12,26 +12,11 @@ import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getDatesTeamBusy } from '../../../../shared/utils/api/Admin/Meeting/GetDatesTeamBusy'
 import { getOrdersSelectedCart } from '../../../../shared/utils/api/Admin/Talents/Cart/GetOrdersSelectedCart'
+import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { Basket } from '../../../../widgets/BasketCart/Basket/Basket'
 import { TimeSlotsById } from '../../../../widgets/CreatingCallModal/CreatingCallModal'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CartPage.module.scss'
-
-const extractIdFromUrl = (url: string): number | null => {
-  const regex = /\/cart\/(\d+)$/
-  const match = url.match(regex)
-
-  return match ? parseInt(match[1], 10) : null
-}
-
-const useIdFromUrl = () => {
-  const location = useLocation()
-
-  return useMemo(
-    () => extractIdFromUrl(location.pathname),
-    [location.pathname],
-  )
-}
 
 export const AdminCartPage = () => {
   const [data, setData] = useState<{
@@ -39,7 +24,7 @@ export const AdminCartPage = () => {
     data: TalentsListCartsData
   } | null>(null)
 
-  const id = useIdFromUrl()
+  const id = useIdFromUrl('cart')
   const navigate = useNavigate()
 
   const getOrders = async () => {

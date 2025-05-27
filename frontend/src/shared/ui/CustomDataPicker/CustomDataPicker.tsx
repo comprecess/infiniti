@@ -20,14 +20,6 @@ export const CustomDataPicker = ({
 }: CustomDataPickerProps) => {
   const [date, setDate] = useState<Date | null>(null)
 
-  useEffect(() => {
-    if (value) {
-      const parsedDate = new Date(value)
-
-      setDate(isNaN(parsedDate.getTime()) ? null : parsedDate)
-    }
-  }, [value])
-
   const handleOnChange = (newDate: Date | null) => {
     if (newDate) {
       setDate(newDate)
@@ -39,8 +31,19 @@ export const CustomDataPicker = ({
       const formattedDate = `${year}-${month}-${day}`
 
       onChange(titleOnChange, formattedDate)
+    } else {
+      setDate(null)
+      onChange(titleOnChange, '')
     }
   }
+
+  useEffect(() => {
+    if (value) {
+      const parsedDate = new Date(value)
+
+      setDate(isNaN(parsedDate.getTime()) ? null : parsedDate)
+    }
+  }, [value])
 
   return (
     <div className={styles.wrapper}>
