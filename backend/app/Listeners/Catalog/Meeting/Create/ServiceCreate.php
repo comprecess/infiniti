@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Listeners\Catalog;
+namespace App\Listeners\Catalog\Meeting\Create;
 
 use App\Contracts\MeetingContract;
 use App\Events\Catalog\MeetingCreate;
@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
 
-class MeetingServiceCreate implements ShouldQueue
+class ServiceCreate implements ShouldQueue
 {
     /**
      * Create the event listener.

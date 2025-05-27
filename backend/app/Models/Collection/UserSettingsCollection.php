@@ -19,7 +19,7 @@ class UserSettingsCollection extends Collection
         $user = $this->getUser();
 
         $settings = [
-            'push' => [(bool) $user->pushSubscriptions()->count(), 'bool']
+            'push' => [(bool) $user?->pushSubscriptions()?->count(), 'bool']
         ];
 
         return $settings;

@@ -94,7 +94,7 @@ class AssetController extends TransactionsAccessController
 
     public function categoryDelete(AssetCategory $category)
     {
-        return $this->delete($category);
+        return $this->deleteCRUD($category);
     }
 
     public function createOrUpdate(AssetCreateRequest $request, Asset $asset)

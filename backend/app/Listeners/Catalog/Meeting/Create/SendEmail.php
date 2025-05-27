@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Listeners\Catalog;
+namespace App\Listeners\Catalog\Meeting\Create;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
 
-class MeetingSendEmail implements ShouldQueue
+class SendEmail implements ShouldQueue
 {
     /**
      * Create the event listener.

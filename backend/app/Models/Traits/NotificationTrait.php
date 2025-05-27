@@ -20,26 +20,26 @@ trait NotificationTrait
         return $this->morphMany(Notification::class, 'model')->orderByDesc('id');
     }
 
-    public function notificationGetMessage()
+    public function getMessage(Notification $notification)
     {
-        $data = [];
-        $class = explode("\\", $this::class);
-        $tag = "";
-        if(method_exists($this, 'notificationData')) {
-            $data = $this->notificationData();
-            $tag = Arr::get($data, 'tagLang', "");
+        if(method_exists($this, 'notificationMessage')) {
+            return $this->notificationMessage($notification);
         }
-
-        if($tag) {
-            $tag .=".";
-        }
-        return __("notification.{$tag}". $class[count($class) - 1], $data);
+        return null;
     }
 
     public function notificationGetTitle()
     {
         $class = explode("\\", $this::class);
         return __("notification.title.". $class[count($class) - 1]);
+    }
+
+    public function getPushMessage(Notification $notification)
+    {
+        if(method_exists($this, 'notificationPushMessage')) {
+            return $this->notificationPushMessage($notification);
+        }
+        return null;
     }
 
 

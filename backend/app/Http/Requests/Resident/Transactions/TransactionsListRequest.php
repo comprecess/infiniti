@@ -33,7 +33,9 @@ class TransactionsListRequest extends DocumentRequest implements ModelInterface
             'account' => 'sys_transactions.account',
             'type' => 'sys_transactions.type',
             'amount' => 'sys_transactions.amount',
-            'description' => 'sys_transactions.description'
+            'description' => 'sys_transactions.description',
+            'dr' => 'sys_transactions.dr',
+            'cr' => 'sys_transactions.cr',
         ];
     }
 

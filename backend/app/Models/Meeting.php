@@ -21,6 +21,7 @@ class Meeting extends Model
         'date_timezone' => 'datetime',
         'service_response' => 'json',
         'create_data' => 'json',
+        'service_update' => 'json',
     ];
 
     public function model()
@@ -46,12 +47,29 @@ class Meeting extends Model
         $this->meeting_id = $model->id;
     }
 
-    public function notificationData()
+    public function notificationMessage($notification)
     {
-        $noFail = !$this->responseFail();
-        $date = $this->date->setTimezone($this->timezone);
-        $link = $noFail ? $this->getJson('data.join_url', '') : "";
-        return ['date' => $date->toRfc2822String(), 'tagLang' => $noFail ? '': 'fail', 'link' => $link];
+        if($this->deleted_at) {
+            return __("notification.delete.Meeting");
+        } else {
+            $tag = $this->responseFail() ? 'fail.' : '';
+            $date = $this->date->setTimezone($this->timezone);
+            $link = $this->getJson('data.join_url', '');
+
+            return __("notification.{$tag}Meeting", ['date' => $date->toRfc2822String(), 'link' => $link]);
+        }
+
+    }
+
+    public function notificationPushMessage($notification)
+    {
+        if($this->deleted_at) {
+            return __("notification.push.delete.Meeting");
+        }elseif ($this->service_update){
+            return __("notification.push.update.Meeting");
+        } else {
+            return __("notification.push.create.Meeting");
+        }
     }
 
     public function responseFail()

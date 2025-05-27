@@ -2,14 +2,11 @@
 
 namespace App\Providers;
 
-use App\Events\Catalog\MeetingCreate;
+use App\Events\Catalog;
 use App\Events\Resident\Talents\DeleteTalent;
 use App\Events\User\CreateOrder;
 use App\Events\UserIsAuthorized;
-use App\Listeners\Catalog\MeetingEmployment;
-use App\Listeners\Catalog\MeetingNotification;
-use App\Listeners\Catalog\MeetingSendEmail;
-use App\Listeners\Catalog\MeetingServiceCreate;
+use App\Listeners\Catalog\Meeting;
 use App\Listeners\CheckCart;
 use App\Listeners\Order\SendEmail;
 use App\Listeners\Resident\Talents\DeleteCatalogItem;
@@ -36,11 +33,16 @@ class EventServiceProvider extends ServiceProvider
             SendEmail::class
         ],
         /** Создание встречи*/
-        MeetingCreate::class => [
-            MeetingServiceCreate::class,
-            MeetingEmployment::class,
-            MeetingSendEmail::class,
-            MeetingNotification::class
+        Catalog\MeetingCreate::class => [
+            Meeting\Create\ServiceCreate::class,
+            Meeting\Create\Employment::class,
+            Meeting\Create\SendEmail::class,
+            Meeting\Create\Notification::class
+        ],
+        /** Обновление встречи или удаление */
+        Catalog\MeetingUpdate::class => [
+            Meeting\SendEmail::class,
+            Meeting\Notification::class,
         ],
         /** Удаление таланта  */
         DeleteTalent::class => [
