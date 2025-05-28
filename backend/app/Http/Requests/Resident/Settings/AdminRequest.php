@@ -60,7 +60,6 @@ class AdminRequest extends FormRequest implements ConvertingPropertiesInterface
             'dateHired' => 'date_hired',
             'payFrequency' => 'pay_frequency',
             'summary',
-            'language'
         ];
     }
 }

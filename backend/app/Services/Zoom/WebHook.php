@@ -21,7 +21,11 @@ class WebHook extends Controller
 
     public function index(Request $request)
     {
+        /** test */
         Log::alert('***Zoom webhook***', $request->all());
+        return response()->json(['success' => true], 200);
+        /** test */
+
         $data = $request->all();
 
         if ($event = Arr::get($data, 'event')) {

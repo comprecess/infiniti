@@ -11,6 +11,7 @@ use App\Http\Requests\Resident\Settings\AdminUpdateRequest;
 use App\Http\Resources\Resident\Settings\Admin\AdminListResource;
 use App\Http\Resources\Resident\Settings\DepartmentResource;
 use App\Http\Resources\Resident\Settings\RoleResource;
+use App\Models\Log;
 use App\Models\Resident\Settings\Department;
 use App\Models\Resident\Settings\Role;
 use App\Models\Users\Admin;
@@ -68,11 +69,11 @@ class AdminController extends SettingsController
 
     public function createOrUpdate(Admin $resident, AdminRequest $request)
     {
-
+        $oldModel = clone $resident;
         return $this->createOrUpdateCRUD(
             $request,
             $resident,
-            function($model, $request, $isNew){
+            function($model, $request, $isNew) use($oldModel){
                 $role = Role::getForSelect()->where('id', $request->role)->first();
                 if($request->password) {
                     $model->setNewPassword($request->password);
@@ -81,6 +82,10 @@ class AdminController extends SettingsController
                 $model->role = $role->rname;
                 $model->country = $request->country ? (Countries::list()[$request->country] ?? null) : null;
 
+                if($request->language) {
+                    $model->language = $request->language;
+                }
+
 
                 if(!$isNew) {
                     $putList = [
@@ -88,10 +93,28 @@ class AdminController extends SettingsController
                         'amount',
                     ];
                     $request->setModel($model, true, $putList);
+
+                    $this->logEdit($model, $oldModel);
                 }
 
             }
         );
+    }
+
+    private function logEdit($newModel, $oldModel)
+    {
+        $newModel = $newModel->toArray();
+        $oldModel = $oldModel->toArray();
+        $new = [];
+
+        foreach($newModel as $key => $value) {
+            $valueOld = Arr::get($oldModel, $key);
+            if($value != $valueOld) {
+                $new[] = "{$key}: {$valueOld} -> {$value}";
+            }
+        }
+
+        Log::send("Edit resident. Updated data:[".implode('; ', $new)."]");
     }
 
     public function item(Admin $resident)
