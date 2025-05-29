@@ -23,7 +23,7 @@ class WebHook extends Controller
     {
         /** test */
         Log::alert('***Zoom webhook***', $request->all());
-        return response()->json(['success' => true], 200);
+//        return response()->json(['success' => true], 200);
         /** test */
 
         $data = $request->all();

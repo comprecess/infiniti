@@ -25,6 +25,19 @@ class Timezone
         return $name ?? $time ?? $list['+00:00'][0];
     }
 
+    public function timeByTimezone($timezone)
+    {
+        $list = $this->getListTimezone();
+        foreach($list as $t => $tList){
+            foreach($tList as $nameTimezone){
+                if($nameTimezone == $timezone) {
+                    return $t;
+                }
+            }
+        }
+        return null;
+    }
+
 
     public function getListTimezone()
     {
