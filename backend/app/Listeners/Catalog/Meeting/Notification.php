@@ -22,7 +22,7 @@ class Notification implements ShouldQueue
     /**
      * Handle the event.
      */
-    public function handle(MeetingDelete $event): void
+    public function handle(object $event): void
     {
         $meeting = $event->getMeeting();
         $meeting->refresh();
