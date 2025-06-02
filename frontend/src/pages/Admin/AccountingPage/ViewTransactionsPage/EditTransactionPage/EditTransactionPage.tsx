@@ -8,7 +8,8 @@ import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './EditTransactionPage.module.scss'
 
 export const AdminEditTransactionPage = () => {
-  const [form, setForm] = useState<AccountingTransactionsForm | null>(null)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [form, _setForm] = useState<AccountingTransactionsForm | null>(null)
 
   return (
     <div className={styles.wrapper}>
