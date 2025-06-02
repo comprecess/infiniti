@@ -252,7 +252,7 @@ export const router = createBrowserRouter([
             element: Pages.adminEditBillPage,
           },
           {
-            path: Routes.newAccount,
+            path: `${Routes.new}/${Routes.account}`,
             element: Pages.adminNewAccountPage,
           },
           {
@@ -260,11 +260,11 @@ export const router = createBrowserRouter([
             element: Pages.adminEditAccountPage,
           },
           {
-            path: Routes.newDeposit,
+            path: `${Routes.new}/${Routes.deposit}`,
             element: Pages.adminNewDepositPage,
           },
           {
-            path: Routes.newExpense,
+            path: `${Routes.new}/${Routes.expense}`,
             element: Pages.adminNewExpensePage,
           },
           {
@@ -276,8 +276,12 @@ export const router = createBrowserRouter([
             element: Pages.adminUnclearedTransactionsPage,
           },
           {
-            path: Routes.viewTransactions,
+            path: `${Routes.view}/${Routes.transactions}`,
             element: Pages.adminViewTransactionsPage,
+          },
+          {
+            path: `${Routes.edit}/${Routes.transaction}/:id`,
+            element: Pages.adminEditTransactionPage,
           },
           {
             index: true,
@@ -476,7 +480,7 @@ export const router = createBrowserRouter([
         path: Routes.tickets,
         children: [
           {
-            path: Routes.openNewTicket,
+            path: `${Routes.new}/${Routes.ticket}`,
             element: Pages.clientOpenNewTicketPage,
           },
           { path: Routes.tickets, element: Pages.clientTicketsPage },

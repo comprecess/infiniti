@@ -6,7 +6,6 @@
 
   @include mobileBreakpoint('max', $bpL) {
     overflow-x: auto;
-    white-space: nowrap;
   }
 }
 
@@ -16,7 +15,6 @@
 
   @include mobileBreakpoint('max', $bpL) {
     overflow-x: auto;
-    white-space: nowrap;
   }
 }
 
@@ -55,6 +53,6 @@
 }
 
 .manageColumn {
-  max-width: 80px;
+  max-width: 140px;
   justify-content: end;
 }

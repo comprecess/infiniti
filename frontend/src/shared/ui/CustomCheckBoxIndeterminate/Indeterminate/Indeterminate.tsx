@@ -12,6 +12,7 @@ interface ParentChildrenProps {
   isChecked: boolean
   filters: FiltersState
   languageLevels?: ValuesProps[]
+  customStyles?: boolean
   onCheckboxChange: (
     propId: string,
     value: number,
@@ -24,6 +25,7 @@ export const Indeterminate = ({
   isChecked,
   languageLevels,
   filters,
+  customStyles = false,
   onCheckboxChange,
 }: ParentChildrenProps) => {
   const initialCheckedState =
@@ -79,7 +81,19 @@ export const Indeterminate = ({
   const isIndeterminate = checkedItems.some(Boolean) && !allChecked
 
   return (
-    <>
+    <div
+      className={!customStyles ? styles.wrapper : ''}
+      style={
+        customStyles
+          ? {
+              width: 'fit-content',
+              padding: '8px',
+              backgroundColor: '#1b1e29',
+              borderRadius: '8px',
+            }
+          : {}
+      }
+    >
       <CustomCheckBox
         title={languageTitle}
         isChecked={allChecked}
@@ -96,6 +110,6 @@ export const Indeterminate = ({
           />
         ))}
       </div>
-    </>
+    </div>
   )
 }

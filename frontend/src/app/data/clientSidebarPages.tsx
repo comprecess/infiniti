@@ -111,7 +111,7 @@ export const clientSidebarPages = [
       {
         id: 0,
         title: 'client-sidebar-subsidiary-page-new-ticket',
-        path: Routes.openNewTicket,
+        path: `${Routes.new}/${Routes.ticket}`,
 
         // Access
         create: false,

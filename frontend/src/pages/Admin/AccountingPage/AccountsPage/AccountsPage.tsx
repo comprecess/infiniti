@@ -107,7 +107,7 @@ export const AdminAccountsPage = () => {
 
   const handleNavigateNewAccount = () => {
     navigate(
-      `/${Routes.adminPages}/${Routes.accounting}/${Routes.newAccount}`,
+      `/${Routes.adminPages}/${Routes.accounting}/${Routes.new}/${Routes.account}`,
     )
   }
 

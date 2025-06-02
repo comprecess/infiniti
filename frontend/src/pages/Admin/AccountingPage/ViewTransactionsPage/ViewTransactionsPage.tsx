@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 
 import {
@@ -12,6 +12,7 @@ import { RecentRightButtons } from '../../../../features/Admin/CustomersPage/Com
 import { PagesList } from '../../../../features/Client/CatalogPage/TalentsList/PagesList/PagesList'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { deleteTransaction } from '../../../../shared/utils/api/Admin/Accounting/DeleteTransaction'
 import { getAccountingInputData } from '../../../../shared/utils/api/Admin/Accounting/GetAccountingInputData'
 import { getListTransactions } from '../../../../shared/utils/api/Admin/Accounting/GetListTransactions'
 import { getTransactionsDocuments } from '../../../../shared/utils/api/Admin/Accounting/GetTransactionsDocuments'
@@ -36,6 +37,7 @@ export const AdminViewTransactionsPage = () => {
   const [filterDateTo, setFilterDateTo] = useState<string>('')
 
   const showToast = useCustomToast()
+  const queryClient = useQueryClient()
 
   const { data: viewTransactions } = useQuery({
     queryKey: [
@@ -132,6 +134,25 @@ export const AdminViewTransactionsPage = () => {
     [page, sortName, sortType, filterType],
   )
 
+  const handleDeleteTransaction = async (id: number) => {
+    const response = await deleteTransaction(id)
+
+    if (response.status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully deleted Transaction',
+        status: 'success',
+      })
+      queryClient.invalidateQueries({ queryKey: ['viewTransactionsList'] })
+    } else {
+      showToast({
+        title: 'Error',
+        description: response.message,
+        status: 'error',
+      })
+    }
+  }
+
   const changeSort = useCallback(
     (sortNameItem: string, sortTypeItem: number) => {
       setSortName(sortNameItem)
@@ -172,16 +193,17 @@ export const AdminViewTransactionsPage = () => {
             pagesProps={
               viewTransactions
                 ? {
-                  meta: viewTransactions?.meta,
-                  nextPage: setPage,
-                  size: 'sm',
-                }
+                    meta: viewTransactions?.meta,
+                    nextPage: setPage,
+                    size: 'sm',
+                  }
                 : undefined
             }
           >
             <TableTransactions
               transactions={viewTransactions.data}
               changeSort={changeSort}
+              deleteTransaction={handleDeleteTransaction}
             />
           </RecentCard>
         </section>
