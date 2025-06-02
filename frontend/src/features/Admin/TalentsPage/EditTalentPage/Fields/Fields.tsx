@@ -457,6 +457,7 @@ export const Fields = ({
           <div className={styles.containerItems}>
             <span className={styles.containerItemsTitle}>Language</span>
             <CustomCheckBoxIndeterminate
+              customStyles
               languages={inputData.language[0].children}
               filters={selectedFilters}
               onCheckboxChange={handleLanguageChange}

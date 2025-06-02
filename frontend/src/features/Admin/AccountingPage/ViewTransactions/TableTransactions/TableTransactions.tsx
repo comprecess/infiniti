@@ -9,11 +9,13 @@ import styles from './TableTransactions.module.scss'
 interface TableTransactionsProps {
   transactions: AccountingTransactionsData[]
   changeSort: (sortNameItem: string, sortTypeItem: number) => void
+  deleteTransaction: (id: number) => void
 }
 
 export const TableTransactions = ({
   transactions,
   changeSort,
+  deleteTransaction,
 }: TableTransactionsProps) => {
   const [sortNumbers, setSortNumbers] = useState<number[]>([
     0, 0, 0, 0, 0, 0,
@@ -103,7 +105,7 @@ export const TableTransactions = ({
           {transactions.map((item, index) => {
             return (
               <Fragment key={item.id}>
-                <Item {...item} />
+                <Item {...item} deleteTransaction={deleteTransaction} />
                 {index !== transactions.length - 1 && <CustomDivider />}
               </Fragment>
             )

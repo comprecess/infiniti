@@ -1,3 +1,5 @@
+import classNames from 'classnames'
+
 import {
   FiltersState,
   LanguagesList,
@@ -9,6 +11,7 @@ interface CheckBoxListProps {
   languages: LanguagesList[]
   filters: FiltersState
   searchItem?: string
+  customStyles?: boolean
   onCheckboxChange: (
     propId: string,
     value: number,
@@ -20,6 +23,7 @@ export const CustomCheckBoxIndeterminate = ({
   languages,
   filters,
   searchItem,
+  customStyles = false,
   onCheckboxChange,
 }: CheckBoxListProps) => {
   let filteredLanguages = languages
@@ -31,7 +35,11 @@ export const CustomCheckBoxIndeterminate = ({
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={classNames(styles.wrapper, {
+        [styles.custom]: customStyles,
+      })}
+    >
       {filteredLanguages.map(language => {
         const isChecked =
           filters[language.id]?.includes(language.id) || false
@@ -43,6 +51,7 @@ export const CustomCheckBoxIndeterminate = ({
             languageLevels={language.values}
             isChecked={isChecked}
             filters={filters}
+            customStyles={customStyles}
             onCheckboxChange={onCheckboxChange}
           />
         )

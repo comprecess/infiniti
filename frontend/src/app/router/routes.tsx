@@ -10,6 +10,7 @@ import { AdminNewDepositPage } from '../../pages/Admin/AccountingPage/NewDeposit
 import { AdminNewExpensePage } from '../../pages/Admin/AccountingPage/NewExpensePage/NewExpensePage'
 import { AdminTransferPage } from '../../pages/Admin/AccountingPage/TransferPage/TransferPage'
 import { AdminUnclearedTransactionsPage } from '../../pages/Admin/AccountingPage/UnclearedTransactionsPage/UnclearedTransactionsPage'
+import { AdminEditTransactionPage } from '../../pages/Admin/AccountingPage/ViewTransactionsPage/EditTransactionPage/EditTransactionPage'
 import { AdminViewTransactionsPage } from '../../pages/Admin/AccountingPage/ViewTransactionsPage/ViewTransactionsPage'
 import { AdminAppearancePage } from '../../pages/Admin/AppearancePage/AppearancePage'
 import { AdminBusinessModelsPage } from '../../pages/Admin/BusinessPlanPage/BusinessModelsPage/BusinessModelsPage'
@@ -176,8 +177,8 @@ export const Routes = {
   tickets: 'tickets',
   groups: 'groups',
   asset: 'asset',
-  newDeposit: 'newdeposit',
-  newExpense: 'newexpense',
+  deposit: 'deposit',
+  expense: 'expense',
   businessModels: 'business-models',
   businessModel: 'business-model',
   transfer: 'transfer',
@@ -190,12 +191,10 @@ export const Routes = {
   passwordManager: 'password-manager',
   activity: 'activity',
   contacts: 'contacts',
-  viewTransactions: 'viewtransactions',
   unclearedTransactions: 'uncleared-transactions',
   accounts: 'accounts',
-  newAccount: 'newaccount',
   assets: 'assets',
-  openNewTicket: 'opennewticket',
+  ticket: 'ticket',
   profile: 'profile',
   basket: 'cart',
   list: 'list',
@@ -280,6 +279,7 @@ export const Pages = {
   adminTransferPage: <AdminTransferPage />,
   adminUnclearedTransactionsPage: <AdminUnclearedTransactionsPage />,
   adminViewTransactionsPage: <AdminViewTransactionsPage />,
+  adminEditTransactionPage: <AdminEditTransactionPage />,
   adminPurchasePage: <AdminPurchasePage />,
   adminProjectsPage: <AdminProjectsPage />,
   adminLeadsPage: <AdminLeadsPage />,

@@ -171,7 +171,7 @@ export const adminSidebarPages = [
       {
         id: 0,
         title: 'admin-sidebar-subsidiary-page-new-deposit',
-        path: Routes.newDeposit,
+        path: `${Routes.new}/${Routes.deposit}`,
 
         // Access
         create: true,
@@ -180,7 +180,7 @@ export const adminSidebarPages = [
       {
         id: 1,
         title: 'admin-sidebar-subsidiary-page-new-expense',
-        path: Routes.newExpense,
+        path: `${Routes.new}/${Routes.expense}`,
 
         // Access
         create: true,
@@ -207,7 +207,7 @@ export const adminSidebarPages = [
       {
         id: 4,
         title: 'admin-sidebar-subsidiary-page-view-transactions',
-        path: Routes.viewTransactions,
+        path: `${Routes.view}/${Routes.transactions}`,
 
         // Access
         create: false,
@@ -234,7 +234,7 @@ export const adminSidebarPages = [
       {
         id: 7,
         title: 'admin-sidebar-subsidiary-page-new-account',
-        path: Routes.newAccount,
+        path: `${Routes.new}/${Routes.account}`,
 
         // Access
         create: true,

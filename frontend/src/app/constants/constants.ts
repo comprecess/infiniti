@@ -1449,3 +1449,17 @@ export interface AccountingNewAssetForm {
   notes: string
   category: number
 }
+
+export interface AccountingTransactionsForm {
+  account: number
+  date: string
+  description: string
+  amount: string
+  category: number
+  tags: string[]
+  company: number
+  client: number
+  staff: number
+  payMethods: number
+  referralLink: string
+}
