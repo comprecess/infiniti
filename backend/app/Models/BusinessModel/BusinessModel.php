@@ -95,7 +95,7 @@ class BusinessModel extends Model implements ChatGPTContract
 
         $topic = "бизнес-модель. \n";
         if($this->id) {
-            $topic .= 'Орентируйся на свойства и харктеристики ['.$name.'] этой бизнес-модели.';
+            $topic .= 'Ориентируйся на свойства и харктеристики ['.$name.'] этой бизнес-модели.';
         }
 
         return $topic;

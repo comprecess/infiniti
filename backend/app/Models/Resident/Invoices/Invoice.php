@@ -225,4 +225,13 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
             );
         }
     }
+
+    public function transactionRemove(Transaction $transaction)
+    {
+        /** Тут возможно нужно делать перерасчет в валютах*/
+        if($transaction->iid == $this->id) {
+            $this->credit -= $transaction->amount;
+            $this->save();
+        }
+    }
 }

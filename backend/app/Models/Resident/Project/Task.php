@@ -9,7 +9,11 @@ class Task extends Model
 {
     use HasFactory;
 
+    const STATUS = ['Not Started', 'In Progress', 'Completed', 'Deferred', 'Waiting', 'Archived'];
+    const STATUS_COMPLETED = [self::STATUS[2], self::STATUS[5]];
+
     protected $table = 'sys_tasks';
+
 
 
 }
