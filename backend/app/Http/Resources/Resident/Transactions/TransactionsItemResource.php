@@ -5,6 +5,7 @@ namespace App\Http\Resources\Resident\Transactions;
 
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\Client\CompanyResource;
+use App\Http\Resources\Resident\Invoices\AccountInfoResource;
 use App\Http\Resources\Resident\Invoices\PayMethodsResource;
 use App\Http\Resources\Resident\Settings\TagResource;
 use App\Http\Resources\Users\AdminListResource;
@@ -30,7 +31,8 @@ class TransactionsItemResource extends JsonResource
             'staff' => new AdminListResource($this->staff),
             'payMethods' => new PayMethodsResource($this->getPayMethods()),
             'ref' => $this->ref,
-            'publicId' => $this->vid
+            'publicId' => $this->vid,
+            'account' => new AccountInfoResource($this->accountModel),
         ];
     }
 
