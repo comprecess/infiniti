@@ -59,6 +59,7 @@ class TransactionsUpdateRequest extends FormRequest implements ConvertingPropert
             ->applyModel('category', false, 'id', function($rule) use($type){
                 $rule->where('type', $type);
             })
+            ->applyModel('company')
             ->applyModel('staff')
             ->applyModel('client');
 
@@ -72,6 +73,7 @@ class TransactionsUpdateRequest extends FormRequest implements ConvertingPropert
             'referralLink' => 'ref',
             'payMethods' => 'method',
             'category' => 'cat_id',
+            'company' => 'company_id',
             'date',
             'attachments',
             'description',
@@ -102,6 +104,7 @@ class TransactionsUpdateRequest extends FormRequest implements ConvertingPropert
         return [
             'payMethods' => PayMethods::class,
             'category' => Category::class,
+            'company' => Company::class,
             'staff' => Admin::class,
             'client' => Client::class
         ];
