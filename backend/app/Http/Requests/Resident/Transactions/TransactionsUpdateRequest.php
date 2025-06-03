@@ -75,7 +75,6 @@ class TransactionsUpdateRequest extends FormRequest implements ConvertingPropert
             'date',
             'attachments',
             'description',
-            'status',
             'staff' => 'staff_id',
             'client' => 'payerid'
         ];

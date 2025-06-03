@@ -381,7 +381,7 @@ class TransactionsController extends TransactionsAccessController
         }
 
         if($category = $request->getModel('filter.category')) {
-            $transactionQuery->where('account_id', $category->id);
+            $transactionQuery->where('cat_id', $category->id);
         }
 
         if($client = $request->getModel('filter.client')) {
