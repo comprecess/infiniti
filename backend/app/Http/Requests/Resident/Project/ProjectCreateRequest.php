@@ -8,11 +8,9 @@ use App\Http\Requests\Traits\ConvertingPropertiesTrait;
 use App\Http\Requests\Traits\ModelTrait;
 use App\Models\Resident\Project\Project;
 use App\Models\Resident\Settings\Currency;
-use App\Models\Resident\Transactions\Transaction;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\ValidationException;
 
 class ProjectCreateRequest extends FormRequest implements ConvertingPropertiesInterface, ModelInterface
 {
@@ -34,6 +32,9 @@ class ProjectCreateRequest extends FormRequest implements ConvertingPropertiesIn
             'status' => 'required|in:' . implode(',', Project::STATUS),
             'type' => 'required|in:' . implode(',', Project::TYPE),
             'teamMember' => 'nullable|array',
+            'teamMember.*' => 'required|integer|exists:sys_users,id',
+            'budget' => 'nullable|numeric',
+            'description' => 'nullable',
 
         ];
 
@@ -50,19 +51,19 @@ class ProjectCreateRequest extends FormRequest implements ConvertingPropertiesIn
     public function getListProperties(): array
     {
         return [
-            'referralLink' => 'ref',
-            'currency' => 'currency_iso_code',
-            'payMethods' => 'method',
-            'category' => 'cat_id',
-            'code',
-            'date',
-            'amount',
-            'attachments',
-            'description',
+            'name',
+            'summary',
+            'owner' => 'admin_id',
+            'staff' => 'project_manager_id',
+            'client' => 'contact_id',
+            'startDate' => 'start_date',
+            'dueDate' => 'due_date',
+            'type' => 'billing_type',
             'status',
-            'company' => 'company_id',
-            'staff' => 'staff_id',
-            'client' => 'payerid'
+            'currency',
+            'budget',
+            'description',
+            'teamMember' => 'members'
         ];
     }
 

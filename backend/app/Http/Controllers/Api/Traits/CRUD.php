@@ -20,6 +20,8 @@ trait CRUD
 {
     protected $page = 6;
 
+    protected $isPud = false;
+
     public function getNamePrePage() :string
     {
         return 'amount';
@@ -72,7 +74,7 @@ trait CRUD
         }
 
         if($request instanceof ConvertingPropertiesInterface) {
-            $request->setModel($model);
+            $request->setModel($model, $this->isPud);
         }
 
         if(is_callable($setDataModel)) {
