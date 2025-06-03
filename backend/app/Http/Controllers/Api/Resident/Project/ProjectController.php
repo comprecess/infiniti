@@ -8,13 +8,11 @@ use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Transactions\BillCreateRequest;
 use App\Http\Requests\Resident\Transactions\BillListRequest;
 use App\Http\Requests\Resident\Transactions\TransactionsCreateRequest;
-use App\Http\Requests\Resident\Transactions\TransactionsListRequest;
 use App\Http\Requests\Resident\Transactions\TransferRequest;
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\Project\ProjectListResource;
 use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Http\Resources\Resident\Transactions\BillsResource;
-use App\Http\Resources\Resident\Transactions\TransactionsListResource;
 use App\Http\Resources\Users\AdminListResource;
 use App\Models\Resident\Project\Project;
 use App\Models\Resident\Settings\Currency;
@@ -42,7 +40,8 @@ class ProjectController extends ProjectAccessController
             'client' => ClientResource::collection($client),
             'staff' => AdminListResource::collection($staff),
             'currency' => CurrencyResource::collection($currency),
-
+            'status' => Project::STATUS,
+            'type' => Project::TYPE
         ]);
     }
 

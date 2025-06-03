@@ -30,6 +30,7 @@ class TransactionsItemResource extends JsonResource
             'staff' => new AdminListResource($this->staff),
             'payMethods' => new PayMethodsResource($this->getPayMethods()),
             'ref' => $this->ref,
+            'publicId' => $this->vid
         ];
     }
 

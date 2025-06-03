@@ -6,17 +6,13 @@ use App\Http\Requests\Interfaces\ConvertingPropertiesInterface;
 use App\Http\Requests\Interfaces\ModelInterface;
 use App\Http\Requests\Traits\ConvertingPropertiesTrait;
 use App\Http\Requests\Traits\ModelTrait;
-use App\Models\BusinessModel\Prop;
 use App\Models\Resident\Client\Company;
-use App\Models\Resident\Settings\Currency;
-use App\Models\Resident\Transactions\Account;
 use App\Models\Resident\Transactions\Category;
 use App\Models\Resident\Transactions\PayMethods;
 use App\Models\Resident\Transactions\Transaction;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class TransactionsUpdateRequest extends FormRequest implements ConvertingPropertiesInterface, ModelInterface
@@ -32,12 +28,15 @@ class TransactionsUpdateRequest extends FormRequest implements ConvertingPropert
     public function rules(): array
     {
         $request = app(TransactionsTypeRequest::class);
-        $type = $request->getType();
+        $type = $typeLink = $request->getType();
+        $transaction = $this->route('transaction');
+        if($transaction->id) {
+            $typeLink = $transaction->type;
+        }
 
-        $status = [Transaction::STATUS[0], Transaction::STATUS[1]];
         if($this->referralLink) {
             if(Transaction::where('ref', $this->referralLink)
-                ->where('type', $type)
+                ->where('type', $typeLink)
                 ->where('date', $this->date)
                 ->count()
             ){
@@ -47,13 +46,11 @@ class TransactionsUpdateRequest extends FormRequest implements ConvertingPropert
 
         $rules = [
             'referralLink' => 'nullable',
-            'code' => 'nullable',
             'tags' => 'nullable|array',
             'tags.*' => 'required|string',
             'date' => 'required|date_format:Y-m-d',
             'attachments' => 'nullable',
             'description' => 'required',
-            'status' => 'required|in:' . implode(',', $status),
 
         ];
 
@@ -62,7 +59,6 @@ class TransactionsUpdateRequest extends FormRequest implements ConvertingPropert
             ->applyModel('category', false, 'id', function($rule) use($type){
                 $rule->where('type', $type);
             })
-            ->applyModel('company')
             ->applyModel('staff')
             ->applyModel('client');
 
@@ -76,13 +72,10 @@ class TransactionsUpdateRequest extends FormRequest implements ConvertingPropert
             'referralLink' => 'ref',
             'payMethods' => 'method',
             'category' => 'cat_id',
-            'code',
             'date',
-            'amount',
             'attachments',
             'description',
             'status',
-            'company' => 'company_id',
             'staff' => 'staff_id',
             'client' => 'payerid'
         ];
@@ -93,7 +86,6 @@ class TransactionsUpdateRequest extends FormRequest implements ConvertingPropert
         $columModelSet = [
             'payMethods' => ['name', null],
             'client' => ['id', 0],
-            'company' => ['id', 0],
         ];
         $value = [];
 
@@ -111,7 +103,6 @@ class TransactionsUpdateRequest extends FormRequest implements ConvertingPropert
         return [
             'payMethods' => PayMethods::class,
             'category' => Category::class,
-            'company' => Company::class,
             'staff' => Admin::class,
             'client' => Client::class
         ];

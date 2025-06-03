@@ -40,6 +40,7 @@ use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
 use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
 
 class TransactionsController extends TransactionsAccessController
 {
@@ -138,6 +139,14 @@ class TransactionsController extends TransactionsAccessController
         return new TransactionsItemResource($transaction);
     }
 
+    public function publicVid(Request $request)
+    {
+        $id = $request->route('id');
+
+        $transaction = Transaction::where('vid', $id)->orderBy('id', 'desc')->firstOrFail();
+        return new TransactionsItemResource($transaction);
+    }
+
     public function createOrUpdate(Transaction $transaction)
     {
         $type = $this->getType();
@@ -150,6 +159,9 @@ class TransactionsController extends TransactionsAccessController
         }
 
         return $this->createOrUpdateCRUD($request, $transaction, function($model, $request, $isNew) use ($type){
+            if(!$isNew) {
+                $type = $model->type;
+            }
             $amount = $request->getAmount();
             if($request->tags) {
                 Tag::setTag(data: $request->tags, type: $type);

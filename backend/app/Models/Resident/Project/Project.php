@@ -12,7 +12,9 @@ class Project extends Model
 {
     use HasFactory, UserTrait, CurrencyTrait;
 
-    const STATUS = ['Started','Completed'];
+    const STATUS = ['Draft','Started','Completed'];
+
+    const TYPE = ['Internal Project', 'Hourly Rate', 'Fixed Rate'];
 
     protected $table = 'clx_projects';
 
