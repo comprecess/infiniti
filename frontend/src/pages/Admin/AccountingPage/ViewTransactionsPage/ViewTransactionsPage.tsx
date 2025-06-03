@@ -86,7 +86,7 @@ export const AdminViewTransactionsPage = () => {
 
   const getInputData = async () => {
     const response: AccountingInputData = await getAccountingInputData(
-      'Expense',
+      'Income',
     )
 
     setInputData(response)
@@ -193,10 +193,10 @@ export const AdminViewTransactionsPage = () => {
             pagesProps={
               viewTransactions
                 ? {
-                    meta: viewTransactions?.meta,
-                    nextPage: setPage,
-                    size: 'sm',
-                  }
+                  meta: viewTransactions?.meta,
+                  nextPage: setPage,
+                  size: 'sm',
+                }
                 : undefined
             }
           >

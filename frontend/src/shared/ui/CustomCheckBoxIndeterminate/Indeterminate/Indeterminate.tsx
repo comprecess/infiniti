@@ -86,11 +86,11 @@ export const Indeterminate = ({
       style={
         customStyles
           ? {
-              width: 'fit-content',
-              padding: '8px',
-              backgroundColor: '#1b1e29',
-              borderRadius: '8px',
-            }
+            width: 'fit-content',
+            padding: '8px',
+            backgroundColor: '#1b1e29',
+            borderRadius: '8px',
+          }
           : {}
       }
     >

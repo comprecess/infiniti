@@ -14,6 +14,7 @@ interface CustomSelectProps {
   height?: string
   onInputChange?: boolean
   camelCase?: boolean
+  readOnly?: boolean
   onChange: (name: string, value: number) => void
 }
 
@@ -26,11 +27,14 @@ export const CustomSelect = ({
   size = 'md',
   value,
   height,
+  readOnly = false,
   onInputChange = true,
   camelCase = false,
   onChange,
 }: CustomSelectProps) => {
   const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    if (readOnly) return
+
     onChange(titleOnChange, Number(event.target.value))
   }
 
@@ -60,6 +64,7 @@ export const CustomSelect = ({
     <div className={styles.wrapper}>
       {title && <h3 className={styles.title}>{title}</h3>}
       <Select
+        pointerEvents={readOnly ? 'none' : 'auto'}
         defaultValue={value}
         fontSize='17px'
         fontWeight='400'

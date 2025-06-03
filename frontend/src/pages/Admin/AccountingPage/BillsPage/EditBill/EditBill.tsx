@@ -58,9 +58,9 @@ export const AdminEditBillPage = () => {
   const handleEditBillSubmit = async () => {
     if (!id || !form) return
 
-    const response = await putEditBill(id, form)
+    const { status, message } = await putEditBill(id, form)
 
-    if (response.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully changed Bill',
@@ -69,7 +69,7 @@ export const AdminEditBillPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: response.message,
+        description: message,
         status: 'error',
       })
     }
