@@ -2,15 +2,18 @@
 
 namespace App\Models\Resident\Project;
 
+use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Traits\CurrencyTrait;
+use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\Traits\UserTrait;
+use App\Models\User;
 use App\Models\Users\Admin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
+class Project extends Model implements InsertDefaultValueInterface
 {
-    use HasFactory, UserTrait, CurrencyTrait;
+    use HasFactory, UserTrait, CurrencyTrait, InsertDefaultValueTrait;
 
     const STATUS = ['Draft','Started','Completed'];
 
@@ -56,6 +59,13 @@ class Project extends Model
         }
 
         return Admin::whereIn('id', $this->members)->with(['files', 'myRole'])->get();
+    }
+
+    public function getDefault(): array
+    {
+        return [
+            'admin_id' => [User::getAuth()->id],
+        ];
     }
 
 

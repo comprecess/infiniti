@@ -5,24 +5,15 @@ namespace App\Http\Controllers\Api\Resident\Project;
 
 
 use App\Http\Controllers\Api\Traits\CRUD;
-use App\Http\Requests\Resident\Transactions\BillCreateRequest;
-use App\Http\Requests\Resident\Transactions\BillListRequest;
-use App\Http\Requests\Resident\Transactions\TransactionsCreateRequest;
-use App\Http\Requests\Resident\Transactions\TransferRequest;
+use App\Http\Requests\Resident\Project\ProjectCreateRequest;
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\Project\ProjectListResource;
 use App\Http\Resources\Resident\Settings\CurrencyResource;
-use App\Http\Resources\Resident\Transactions\BillsResource;
 use App\Http\Resources\Users\AdminListResource;
 use App\Models\Resident\Project\Project;
 use App\Models\Resident\Settings\Currency;
-use App\Models\Resident\Settings\Tag;
-use App\Models\Resident\Transactions\Bill;
-use App\Models\Resident\Transactions\Transaction;
-use App\Models\User;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
-use Illuminate\Support\Arr;
 
 class ProjectController extends ProjectAccessController
 {
@@ -56,11 +47,17 @@ class ProjectController extends ProjectAccessController
         return ProjectListResource::collection($projectQuery->get());
     }
 
-    public function createOrUpdate(Transaction $transaction, TransactionsCreateRequest $request)
+    public function createOrUpdate(Project $project, ProjectCreateRequest $request)
     {
-
+        $this->isPud = true;
+        if($project->id) {
+            $project = Project::newDefault();
+        }
+        return $this->createOrUpdateCRUD($request, $project/*, function($model, $request){
+            $model->members = $request->teamMember;
+        }*/);
     }
-
+/*
     public function transfer(TransferRequest $request)
     {
         $from = Transaction::newDefault();
@@ -187,7 +184,7 @@ class ProjectController extends ProjectAccessController
         $bill->save();
         return $this->defResponse();
     }
-
+*/
 
 
 }
