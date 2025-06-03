@@ -7,6 +7,8 @@ use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Resident\Client\Company;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Settings\Currency;
+use App\Models\Resident\Settings\Tag;
+use App\Models\Traits\BootTrait;
 use App\Models\Traits\CollectionTrait;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\FileStorageTrait;
@@ -18,13 +20,14 @@ use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class Transaction extends Model implements InsertDefaultValueInterface
 {
-    use HasFactory, CurrencyTrait, CollectionTrait, UserTrait, InsertDefaultValueTrait, HelperTrait, FileStorageTrait, TagsTrait;
+    use HasFactory, CurrencyTrait, CollectionTrait, UserTrait, InsertDefaultValueTrait, HelperTrait, FileStorageTrait, TagsTrait, BootTrait, SoftDeletes;
 
     /**
      * Income - поступление
@@ -52,6 +55,18 @@ class Transaction extends Model implements InsertDefaultValueInterface
         'date' => 'date',
     ];
 
+    protected $fillable = [
+        'cat_id',
+    ];
+
+    public static function deletedEvent($model)
+    {
+
+        $model->accountModel?->transactionRemove($model);
+        $model->invoice?->transactionRemove($model);
+        $model->purchase?->transactionRemove($model);
+    }
+
     //Плательщик
     public function payerUser()
     {
@@ -64,12 +79,38 @@ class Transaction extends Model implements InsertDefaultValueInterface
         return $this->belongsTo(Client::class, 'payeeid');
     }
 
+    public function staff()
+    {
+        return $this->belongsTo(Admin::class, 'staff_id');
+    }
+
+    public function payMethods()
+    {
+        return $this->belongsTo(Admin::class, 'staff_id');
+    }
+
     public function invoice()
     {
         return $this->belongsTo(Invoice::class, 'iid');
     }
 
-    public function account()
+    public function purchase()
+    {
+        return $this->belongsTo(Purchase::class, 'purchase_id');
+    }
+
+    public function categoryName()
+    {
+        return $this->hasOne(Category::class, 'name', 'category')
+            ->where('type', $this->type);
+    }
+
+    public function categoryModel()
+    {
+        return $this->belongsTo(Category::class, 'cat_id');
+    }
+
+    public function accountModel()
     {
         return $this->belongsTo(Account::class, 'account_id');
     }
@@ -293,6 +334,17 @@ class Transaction extends Model implements InsertDefaultValueInterface
         });
 
         return $newData;
+    }
+
+    public function getTagModel()
+    {
+        $tags = explode(',', $this->tags);
+        return Tag::whereIn('text', $tags)->where('type', $this->type)->get();
+    }
+
+    public function getPayMethods()
+    {
+        return PayMethods::where('name', $this->method)->first();
     }
 
 

@@ -4,12 +4,14 @@ namespace App\Providers;
 
 use App\Events\Catalog;
 use App\Events\Resident\Talents\DeleteTalent;
+use App\Events\Resident;
 use App\Events\User\CreateOrder;
 use App\Events\UserIsAuthorized;
 use App\Listeners\Catalog\Meeting;
 use App\Listeners\CheckCart;
 use App\Listeners\Order\SendEmail;
 use App\Listeners\Resident\Talents\DeleteCatalogItem;
+use App\Listeners;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -48,6 +50,10 @@ class EventServiceProvider extends ServiceProvider
         DeleteTalent::class => [
             DeleteCatalogItem::class
         ],
+        /** Удаление транзакции */
+        Resident\Transactions\Delete::class => [
+            Listeners\Resident\Transaction\CalculateCategory::class
+        ]
     ];
 
     /**

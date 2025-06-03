@@ -4,12 +4,14 @@
 namespace App\Http\Controllers\Api\Resident\Transactions;
 
 
+use App\Events\Resident\Transactions\Delete;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Transactions\BillCreateRequest;
 use App\Http\Requests\Resident\Transactions\BillListRequest;
 use App\Http\Requests\Resident\Transactions\TransactionsCreateRequest;
 use App\Http\Requests\Resident\Transactions\TransactionsListRequest;
 use App\Http\Requests\Resident\Transactions\TransactionsTypeRequest;
+use App\Http\Requests\Resident\Transactions\TransactionsUpdateRequest;
 use App\Http\Requests\Resident\Transactions\TransferRequest;
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\Client\CompanyResource;
@@ -18,6 +20,7 @@ use App\Http\Resources\Resident\Invoices\CategoryInfoResource;
 use App\Http\Resources\Resident\Invoices\PayMethodsResource;
 use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Http\Resources\Resident\Transactions\BillsResource;
+use App\Http\Resources\Resident\Transactions\TransactionsItemResource;
 use App\Http\Resources\Resident\Transactions\TransactionsListResource;
 use App\Http\Resources\Resident\Transactions\TransactionsResource;
 use App\Http\Resources\Resident\Settings\TagResource;
@@ -37,6 +40,7 @@ use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
 use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
 
 class TransactionsController extends TransactionsAccessController
 {
@@ -130,17 +134,35 @@ class TransactionsController extends TransactionsAccessController
         ]);
     }
 
-    public function createOrUpdate(Transaction $transaction, TransactionsCreateRequest $request)
+    public function item(Transaction $transaction)
+    {
+        return new TransactionsItemResource($transaction);
+    }
+
+    public function publicVid(Request $request)
+    {
+        $id = $request->route('id');
+
+        $transaction = Transaction::where('vid', $id)->orderBy('id', 'desc')->firstOrFail();
+        return new TransactionsItemResource($transaction);
+    }
+
+    public function createOrUpdate(Transaction $transaction)
     {
         $type = $this->getType();
 
         if(!$transaction?->id) {
             $transaction = Transaction::newDefault();
+            $request = app(TransactionsCreateRequest::class);
+        } else {
+            $request = app(TransactionsUpdateRequest::class);
         }
 
-        return $this->createOrUpdateCRUD($request, $transaction, function($model, $request) use ($type){
+        return $this->createOrUpdateCRUD($request, $transaction, function($model, $request, $isNew) use ($type){
+            if(!$isNew) {
+                $type = $model->type;
+            }
             $amount = $request->getAmount();
-            $currency = $request->getModel('currency');
             if($request->tags) {
                 Tag::setTag(data: $request->tags, type: $type);
                 $model->tags = implode(',',$request->tags);
@@ -152,23 +174,27 @@ class TransactionsController extends TransactionsAccessController
                 $category->save();
             }
 
-            $account = $request->getModel('account');
-            if($account) {
-                $model->account = $account->account;
-                $model->account_id = $account->id;
-            }
-
-            $model->type = $type;
-            if($type == Transaction::TYPE[0]) {
-                $model->cr = $amount;
-            }else{
-                $model->dr = $amount;
-            }
             $model->category = $request->getModel('category')?->name ?? null;
             $model->aid = User::getAuth()->id;
-            $model->currency_iso_code = $currency->iso_code;
-            $model->currency = $currency->id;
-            $model->currency_rate = $currency->rate;
+            if($isNew){
+                $currency = $request->getModel('currency');
+                $model->currency_iso_code = $currency->iso_code;
+                $model->currency = $currency->id;
+                $model->currency_rate = $currency->rate;
+
+                $model->type = $type;
+                if($type == Transaction::TYPE[0]) {
+                    $model->cr = $amount;
+                }else{
+                    $model->dr = $amount;
+                }
+
+                $account = $request->getModel('account');
+                if($account) {
+                    $model->account = $account->account;
+                    $model->account_id = $account->id;
+                }
+            }
         }, function($model, $request, $isNew) use($type){
             if($request->file) {
                 if(!$isNew) {
@@ -176,7 +202,8 @@ class TransactionsController extends TransactionsAccessController
                 }
                 $model->uploads($request->file);
             }
-            Log::send('New '.$type.': ' .
+            $edit = $isNew ? 'New' : 'Edit';
+            Log::send($edit.' '.$type.': ' .
                 $request->description .
                 ' [TrID: ' .
                 $model->id .
@@ -184,6 +211,13 @@ class TransactionsController extends TransactionsAccessController
                 $request->getAmount() .
                 ']');
         });
+    }
+
+    public function delete(Transaction $transaction)
+    {
+        $transaction->delete();
+        event(new Delete($transaction));
+        return $this->defResponse();
     }
 
     public function transfer(TransferRequest $request)

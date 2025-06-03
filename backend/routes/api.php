@@ -63,6 +63,9 @@ Route::get('/pdf/{name}/token/{token}', [\App\Http\Controllers\Api\PdfController
 Route::get('/document/{token}', [\App\Http\Controllers\Api\Resident\DocumentController::class, 'load'])
     ->name('document_load');
 
+#transaction
+Route::get('transaction/{id}', [\App\Http\Controllers\Api\Resident\Transactions\TransactionsController::class, 'publicVid']);
+
 #zoom webhook
 Route::any('zoom/webhook',[\App\Services\Zoom\WebHook::class, 'index']);
 

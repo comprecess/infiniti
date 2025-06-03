@@ -151,6 +151,8 @@ Route::controller(Resident\Transactions\TransactionsController::class)
         Route::get('/input-data', 'inputData');
         Route::post('/', 'createOrUpdate');
         Route::put('/{transaction}', 'createOrUpdate');
+        Route::delete('/{transaction}', 'delete');
+        Route::get('/{transaction}', 'item');
         Route::post('transfer', 'transfer');
         Route::get('bill', 'bill');
         Route::get('bill/all', 'billAll');
@@ -186,6 +188,20 @@ Route::controller(Resident\Transactions\TransactionsController::class)
                 Route::get('/{asset}', 'item');
                 Route::delete('/{asset}', 'delete');
             });
+    });
+
+
+#Project
+Route::controller(Resident\Project\ProjectController::class)->prefix('project')
+    ->group(function(){
+        Route::get('/list', 'list');
+        Route::get('/input-data', 'inputData');
+        Route::post('/', 'createOrUpdate');
+        Route::put('/{model}', 'createOrUpdate');
+        Route::get('/{model}', 'item');
+        Route::get('/{model}/to-plan', 'toPlan');
+        Route::delete('/{model}', 'delete');
+        Route::match(['put', 'post'],'/{model}/update', 'update');
     });
 
 #settings

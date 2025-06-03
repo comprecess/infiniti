@@ -21,6 +21,11 @@ class Account extends Model
         return $this->hasMany(Transaction::class, 'account_id');
     }
 
+    public function balances()
+    {
+        return $this->hasMany(AccountBalances::class, 'account_id');
+    }
+
     public static function getBalance(?Currency $currency = null, $accountQuery = null, ?callable $callableQuery = null)
     {
         $accaunts = $accountQuery ?? Account::all();
@@ -31,6 +36,29 @@ class Account extends Model
         });
 
         return $accaunts;
+    }
+
+    public function transactionRemove(Transaction $transaction)
+    {
+        /** Тут возможно нужно делать перерасчет в валютах*/
+        if($transaction->cr) {
+            $this->balance -= $transaction->cr;
+        } else {
+            $this->balance += $transaction->dr;
+        }
+
+        $this->save();
+        $currency = Currency::getDefault();
+
+        $balance = $this->balances()->where('currency_id', $currency->id)->first();
+        if($balance) {
+            if($transaction->cr) {
+                $balance->balance -= $transaction->cr;
+            } else {
+                $balance->balance += $transaction->dr;
+            }
+            $balance->save();
+        }
     }
 
 }
