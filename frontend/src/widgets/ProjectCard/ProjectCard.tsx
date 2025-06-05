@@ -1,10 +1,15 @@
+import { ProjectsData } from '../../app/constants/constants'
 import { CustomMiniButton } from '../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styles from './ProjectCard.module.scss'
 
-export const ProjectCard = () => {
+interface ProjectCardProps {
+  project: ProjectsData
+}
+
+export const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
     <div className={styles.wrapper}>
-      <span className={styles.title}>-Title-</span>
+      <span className={styles.title}>{project.name}</span>
       <div className={styles.profile}>
         <img
           src='/profileWithoutAvatar.svg'
