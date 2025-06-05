@@ -25,8 +25,9 @@
 
 .projectsList {
   display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
   width: 100%;
-  justify-content: start;
   max-width: $maxContentSize;
 }
 
@@ -37,4 +38,10 @@
   @include mobileBreakpoint('max', $bpS) {
     width: 60px;
   }
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }

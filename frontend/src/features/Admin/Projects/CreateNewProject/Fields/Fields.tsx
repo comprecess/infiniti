@@ -1,5 +1,10 @@
 import { Textarea } from '@chakra-ui/react'
+import { ChangeEvent, Dispatch, SetStateAction } from 'react'
 
+import {
+  ProjectsInputData,
+  ProjectsNewProjectForm,
+} from '../../../../../app/constants/constants'
 import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
@@ -7,7 +12,56 @@ import { TagSelector } from '../../../../../shared/ui/TagSelector/TagSelector'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 import styles from './Fields.module.scss'
 
-export const Fields = () => {
+interface FieldsProps {
+  inputData: ProjectsInputData
+  setForm: Dispatch<SetStateAction<Partial<ProjectsNewProjectForm>>>
+}
+
+export const Fields = ({ inputData, setForm }: FieldsProps) => {
+  const handleChangeInput = (
+    field: string,
+    value: string | number | number[] | string[] | undefined | null,
+  ) => {
+    if (field === 'type' && typeof value === 'number') {
+      value = inputData.type[value]
+    } else if (field === 'status' && typeof value === 'number') {
+      value = inputData.status[value]
+    } else if (
+      field === 'client' &&
+      typeof value === 'number' &&
+      value === 0
+    ) {
+      value = null
+    } else if (
+      field === 'owner' &&
+      typeof value === 'number' &&
+      value === 0
+    ) {
+      value = null
+    } else if (
+      field === 'staff' &&
+      typeof value === 'number' &&
+      value === 0
+    ) {
+      value = null
+    } else if (field === 'teamMember') {
+      value = (value as string[])
+        .map(account => {
+          const staffMember = inputData.staff.find(
+            staff => staff.account === account,
+          )
+
+          return staffMember ? staffMember.id : null
+        })
+        .filter(id => id !== null) as number[]
+    }
+
+    setForm(prevFormData => ({
+      ...prevFormData,
+      [field]: value,
+    }))
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -17,7 +71,7 @@ export const Fields = () => {
             type='text'
             id='name'
             name='name'
-            onChange={() => {}}
+            onChange={handleChangeInput}
           />
           <div className={styles.containerItems}>
             <span className={styles.containerItemsTitle}>Summary</span>
@@ -33,80 +87,92 @@ export const Fields = () => {
               fontSize='16px'
               fontWeight='400'
               lineHeight='24px'
+              onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
+                handleChangeInput('summary', event.target.value)
+              }
             />
           </div>
           <CustomSelect
             title='Type'
             titleOnChange='type'
-            idList={[]}
-            nameList={[]}
-            onChange={() => {}}
+            value={0}
+            idList={inputData.type.map((_item, index) => index)}
+            nameList={inputData.type.map(item => item)}
+            onChange={handleChangeInput}
           />
           <CustomInput
             title='Budget'
-            type='text'
+            type='number'
             id='budget'
             name='budget'
-            onChange={() => {}}
+            onChange={handleChangeInput}
           />
           <TagSelector
-            list={[]}
+            title='Team Members'
+            list={inputData.staff.map(item => item.account)}
             selectedTags={[]}
-            onTagsChange={() => {}}
+            onTagsChange={tags => handleChangeInput('teamMember', tags)}
           />
         </section>
         <section className={styles.section}>
           <CustomSelect
             title='Customer'
-            titleOnChange='customer'
-            idList={[]}
-            nameList={[]}
-            onChange={() => {}}
+            titleOnChange='client'
+            placeholder='Not Selected'
+            idList={inputData.client.map(item => item.id)}
+            nameList={inputData.client.map(item => item.account)}
+            onChange={handleChangeInput}
           />
           <CustomSelect
             title='Owner'
             titleOnChange='owner'
-            idList={[]}
-            nameList={[]}
-            onChange={() => {}}
+            placeholder='Not Selected'
+            idList={inputData.staff.map(item => item.id)}
+            nameList={inputData.staff.map(item => item.account)}
+            onChange={handleChangeInput}
           />
           <CustomSelect
             title='Currency'
             titleOnChange='currency'
-            idList={[]}
-            nameList={[]}
-            onChange={() => {}}
+            value={inputData.currency[0].id}
+            idList={inputData.currency.map(item => item.id)}
+            nameList={inputData.currency.map(item => item.code)}
+            onChange={handleChangeInput}
           />
           <CustomSelect
             title='Status'
             titleOnChange='status'
-            idList={[]}
-            nameList={[]}
-            onChange={() => {}}
+            value={0}
+            idList={inputData.status.map((_item, index) => index)}
+            nameList={inputData.status.map(item => item)}
+            onChange={handleChangeInput}
           />
           <CustomSelect
             title='Project Manager'
-            titleOnChange='projectManager'
-            idList={[]}
-            nameList={[]}
-            onChange={() => {}}
+            titleOnChange='staff'
+            placeholder='Not Selected'
+            idList={inputData.staff.map(item => item.id)}
+            nameList={inputData.staff.map(item => item.account)}
+            onChange={handleChangeInput}
           />
           <CustomDataPicker
             title='Start Date'
             titleOnChange='startDate'
-            onChange={() => {}}
+            onChange={handleChangeInput}
           />
           <CustomDataPicker
             title='Due Date'
             titleOnChange='dueDate'
-            onChange={() => {}}
+            onChange={handleChangeInput}
           />
         </section>
       </div>
       <section className={styles.footerTextEditor}>
         <div className={styles.containerItems}>
           <span className={styles.containerItemsTitle}>Details</span>
-          <TextEditor setValue={() => {}} />
+          <TextEditor
+            setValue={message => handleChangeInput('description', message)}
+          />
         </div>
       </section>
     </div>

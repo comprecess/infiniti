@@ -1463,3 +1463,32 @@ export interface AccountingTransactionsForm {
   payMethods: number
   referralLink: string
 }
+
+export interface ProjectsInputData {
+  client: { id: number; account: string }[]
+  staff: { id: number; account: string }[]
+  currency: { id: number; code: string }[]
+  status: string[]
+  type: string[]
+}
+
+export interface ProjectsNewProjectForm {
+  name: string
+  summary: string
+  startDate: string
+  dueDate: string
+  status: string
+  type: string
+  budget: string
+  description: string
+  teamMember: number[]
+  owner: number
+  currency: number
+  staff: number
+  client: number
+}
+
+export interface ProjectsData {
+  id: number
+  name: string
+}
