@@ -55,6 +55,8 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
 
     protected $adminColumn = 'aid';
 
+    protected $documentName = 'invoice';
+
     public $collection = InvoiceCollection::class;
 
     protected $casts = [

@@ -4,16 +4,18 @@ namespace App\Models\Resident\Project;
 
 use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Traits\CurrencyTrait;
+use App\Models\Traits\DocumentTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\Traits\UserTrait;
 use App\Models\User;
 use App\Models\Users\Admin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model implements InsertDefaultValueInterface
 {
-    use HasFactory, UserTrait, CurrencyTrait, InsertDefaultValueTrait;
+    use HasFactory, UserTrait, CurrencyTrait, InsertDefaultValueTrait, SoftDeletes, DocumentTrait;
 
     const STATUS = ['Draft','Started','Completed'];
 
@@ -24,6 +26,8 @@ class Project extends Model implements InsertDefaultValueInterface
     protected $adminColumn = 'admin_id';
 
     protected $currencyColumnName = 'currency';
+
+    public $documentName = 'project';
 
     protected $casts = [
         'start_date' => 'date',

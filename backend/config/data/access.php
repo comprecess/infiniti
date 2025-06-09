@@ -25,5 +25,8 @@ use \App\Http\Controllers\Api\Resident;
         ],
         'projects' => [
             Resident\Project\ProjectAccessController::class
+        ],
+        'tasks' => [
+            Resident\Task\TaskAccessController::class
         ]
     ];

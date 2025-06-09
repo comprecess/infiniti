@@ -10,7 +10,13 @@ trait DocumentTrait
 {
     public function documents()
     {
-        return $this->belongsToMany(Document::class, 'ib_doc_rel', 'rid', 'did')
+        $belongs = $this->belongsToMany(Document::class, 'ib_doc_rel', 'rid', 'did')
             ->withPivot(['rtype', 'can_download']);
+
+        if($this->documentName) {
+            $belongs->where('ib_doc_rel.rtype', $this->documentName);
+        }
+
+        return $belongs;
     }
 }

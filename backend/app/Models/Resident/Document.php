@@ -3,11 +3,13 @@
 namespace App\Models\Resident;
 
 use App\Models\Contracts\InsertDefaultValueInterface;
+use App\Models\Resident\Invoices\Invoice;
 use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\Traits\UserTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\FileStorageTrait;
+use App\Models\Resident\Project\Project;
 
 class Document extends Model implements InsertDefaultValueInterface
 {
@@ -15,6 +17,11 @@ class Document extends Model implements InsertDefaultValueInterface
 
     const TYPE_CONTACT = 'contact';
     const TYPE_PROJECT = 'project';
+
+    const WITH_MODEL = [
+        'invoice' => Invoice::class,
+        'project' => Project::class
+    ];
 
     public $table = 'sys_documents';
 

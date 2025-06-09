@@ -8,8 +8,8 @@ class DocumentFileRequest extends DocumentRequest
     public function sort() :array
     {
         return [
-            'id' => 'id',
-            'title' => 'title'
+            'id' => 'sys_documents.id',
+            'title' => 'sys_documents.title'
         ];
     }
 
