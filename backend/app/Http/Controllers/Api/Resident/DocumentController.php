@@ -34,14 +34,29 @@ class DocumentController extends ResidentController
         if(($search = Arr::get($requestAll, 'filter.search')) !== null) {
             $query->where(function($q) use ($search){
                 $search = "%" . $search . "%";
-                $q->where('title', 'like', $search);
+                $q->where('sys_documents.title', 'like', $search);
             });
         }
 
         if(($type = Arr::get($requestAll, 'filter.type')) !== null) {
 
             if($type == 'client') {
-                $query->where('cid', '!=', 0);
+                $query->where('sys_documents.cid', '!=', 0);
+            }
+
+        }
+
+        if(($with = Arr::get($requestAll, 'filter.with')) !== null) {
+            if(($object = Arr::get($with, 'object')) !== null) {
+                $query->join('ib_doc_rel', 'ib_doc_rel.did', '=', 'sys_documents.id')
+                    ->where(function($q) use($with, $object){
+                        $q->where('ib_doc_rel.rtype', $object);
+
+                        if(($objectId = Arr::get($with, 'id')) !== null) {
+                            $q->where('ib_doc_rel.rid', $objectId);
+                }
+                    });
+
             }
 
         }
@@ -61,7 +76,12 @@ class DocumentController extends ResidentController
             function($model, $request, $isNew){
                 $fileStorage = $model->uploads($request->file);
                 $model->file_mime_type = $fileStorage->ext;
+                $model->is_global = (bool) $request->global;
                 $model->save();
+
+                if($modelObject = $request->getModel()) {
+                    $modelObject->documents()->attach($model->id, ['rtype' => $modelObject->documentName]);
+                }
             }
         );
     }

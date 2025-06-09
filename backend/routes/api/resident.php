@@ -197,11 +197,26 @@ Route::controller(Resident\Project\ProjectController::class)->prefix('project')
         Route::get('/list', 'list');
         Route::get('/input-data', 'inputData');
         Route::post('/', 'createOrUpdate');
-        Route::put('/{model}', 'createOrUpdate');
-        Route::get('/{model}', 'item');
+        Route::put('/{project}', 'createOrUpdate');
+        Route::delete('/{project}', 'delete');
+        Route::match(['get', 'put', 'post', 'delete'], '/{project}/{type}/{id?}', 'view');
+        /*Route::get('/{model}', 'item');
         Route::get('/{model}/to-plan', 'toPlan');
-        Route::delete('/{model}', 'delete');
-        Route::match(['put', 'post'],'/{model}/update', 'update');
+        Route::match(['put', 'post'],'/{model}/update', 'update');*/
+    });
+
+#Task
+Route::controller(Resident\Task\TaskController::class)->prefix('task')
+    ->group(function(){
+//        Route::get('/list', 'list');
+//        Route::get('/input-data', 'inputData');
+        Route::post('/', 'createOrUpdate');
+        Route::put('/{task}', 'createOrUpdate');
+        Route::delete('/{task}', 'delete');
+//        Route::match(['get', 'put', 'post', 'delete'], '/{project}/{type}/{id?}', 'view');
+        /*Route::get('/{model}', 'item');
+        Route::get('/{model}/to-plan', 'toPlan');
+        Route::match(['put', 'post'],'/{model}/update', 'update');*/
     });
 
 #settings

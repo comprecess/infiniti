@@ -27,7 +27,10 @@ use Illuminate\Support\Facades\Log;
 
 class Transaction extends Model implements InsertDefaultValueInterface
 {
-    use HasFactory, CurrencyTrait, CollectionTrait, UserTrait, InsertDefaultValueTrait, HelperTrait, FileStorageTrait, TagsTrait, BootTrait, SoftDeletes;
+    use HasFactory, CurrencyTrait, CollectionTrait, UserTrait, InsertDefaultValueTrait, HelperTrait, TagsTrait, BootTrait, SoftDeletes;
+    use FileStorageTrait {
+        deletedEvent as deleteEventFileStorage;
+    }
 
     /**
      * Income - поступление
@@ -61,7 +64,7 @@ class Transaction extends Model implements InsertDefaultValueInterface
 
     public static function deletedEvent($model)
     {
-
+        self::deleteEventFileStorage($model);
         $model->accountModel?->transactionRemove($model);
         $model->invoice?->transactionRemove($model);
         $model->purchase?->transactionRemove($model);

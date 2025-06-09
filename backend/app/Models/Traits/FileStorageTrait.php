@@ -5,6 +5,7 @@ namespace App\Models\Traits;
 
 
 use App\Models\FileStorage;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\File;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
@@ -79,5 +80,12 @@ trait FileStorageTrait
     {
         $fileStorage = new FileStorage();
         return $fileStorage->uplodsUrl($this, $url);
+    }
+
+    public static function deletedEvent($model)
+    {
+        if(!in_array(SoftDeletes::class,class_uses($model))) {
+            $model->deleteAllFiles();
+        }
     }
 }

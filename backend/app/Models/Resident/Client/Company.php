@@ -23,11 +23,12 @@ class Company extends Model
     {
         return $this->hasMany(Client::class, 'cid');
     }
-
+/*
     public static function deletedEvent($item)
     {
         $item->deleteAllFiles();
     }
+*/
 
     public static function getForSelect()
     {
