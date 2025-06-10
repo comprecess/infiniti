@@ -1491,4 +1491,13 @@ export interface ProjectsNewProjectForm {
 export interface ProjectsData {
   id: number
   name: string
+  budget: string | null
+  budgetCurrency: string
+  admin: { account: string; img: string }
+  status: string
+  summary: string
+  members?: { id: number; img: string }[]
+  completed?: { completed: number; percent: number; total: number }
+  startDate: string
+  dueDate: string
 }

@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -6,13 +6,17 @@ import { ProjectsData } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
+import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { deleteProject } from '../../../shared/utils/api/Admin/Projects/DeleteProject'
 import { getProjectsList } from '../../../shared/utils/api/Admin/Projects/GetProjectsList'
 import { ProjectCard } from '../../../widgets/ProjectCard/ProjectCard'
 import styles from './ProjectsPage.module.scss'
 
 export const AdminProjectsPage = () => {
   const navigate = useNavigate()
+  const showToast = useCustomToast()
+  const queryClient = useQueryClient()
 
   const navigateToCreateProject = () => {
     navigate(
@@ -29,6 +33,25 @@ export const AdminProjectsPage = () => {
     },
     placeholderData: previousData => previousData,
   })
+
+  const handleDeleteProject = async (id: number) => {
+    const { status, message } = await deleteProject(id)
+
+    if (status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully deleted the Project',
+        status: 'success',
+      })
+      queryClient.invalidateQueries({ queryKey: ['projectsList'] })
+    } else {
+      showToast({
+        title: 'Error',
+        description: message,
+        status: 'error',
+      })
+    }
+  }
 
   useEffect(() => {
     document.title = 'infiniti | Projects'
@@ -52,7 +75,11 @@ export const AdminProjectsPage = () => {
         <section className={styles.sectionFirst}>
           <div className={styles.projectsList}>
             {projects.data.map(project => (
-              <ProjectCard key={project.id} project={project} />
+              <ProjectCard
+                key={project.id}
+                project={project}
+                deleteProject={handleDeleteProject}
+              />
             ))}
           </div>
         </section>
