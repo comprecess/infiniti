@@ -49,7 +49,46 @@ export const ProjectCard = ({
               <div className={styles.description}>{project.summary}</div>
             )}
           </div>
-          <div className={styles.date}>-Date-</div>
+          <div className={styles.dateList}>
+            <div className={styles.date}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: '4px',
+                }}
+              >
+                <img
+                  src='/icons/calendar.svg'
+                  alt='calendar'
+                  className={styles.dateImgStart}
+                />
+                <span className={styles.dateText}>Start Date</span>
+              </div>
+              <span className={styles.description}>
+                {project.startDate}
+              </span>
+            </div>
+            <div className={styles.date}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  gap: '4px',
+                }}
+              >
+                <img
+                  src='/icons/calendar.svg'
+                  alt='calendar'
+                  className={styles.dateImgDue}
+                />
+                <span className={styles.dateText}>Due Date</span>
+              </div>
+              <span className={styles.description}>{project.dueDate}</span>
+            </div>
+          </div>
           {project.members && project.members.length > 0 && (
             <div className={styles.profiles}>
               {project.members.map(member => (
@@ -69,10 +108,10 @@ export const ProjectCard = ({
           {project.completed && project.completed.total > 0 && (
             <div className={styles.chart}>
               <div className={styles.chartTexts}>
-                <span className={styles.description}>
+                <span className={styles.amount}>
                   {`${project.completed.percent}% tasks completed`}
                 </span>
-                <span className={styles.description}>
+                <span className={styles.amount}>
                   {`${project.completed.completed}/${project.completed.total}`}
                 </span>
               </div>
