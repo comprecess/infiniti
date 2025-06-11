@@ -62,7 +62,14 @@
 }
 
 .description {
-  font-family: $fontSpaceGrotesk;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.03em;
+  color: $gray-200;
+}
+
+.amount {
   font-size: 15px;
   font-weight: 400;
   line-height: 21px;
@@ -116,4 +123,31 @@
   height: 20px;
   background-color: $brand-400;
   border-radius: 4px;
+}
+
+.dateList {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.date {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.dateText {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: -0.03em;
+}
+
+.dateImgStart,
+.dateImgDue {
+  width: 16px;
+  height: 16px;
 }
