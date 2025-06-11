@@ -95,7 +95,7 @@ export const ProjectCard = ({
                 <img
                   key={member.id}
                   alt='Avatar'
-                  className={styles.avatar}
+                  className={styles.member}
                   src={
                     member.img !== ''
                       ? `${member.img}?width=176&height=176`
