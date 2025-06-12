@@ -100,8 +100,8 @@ class InvoiceController extends SaleController
     {
 
         #ДОСТУП
-
-        $invoice = Invoice::query()
+        $invoice = Invoice::query();
+        /*$invoice = Invoice::query()
             ->select('sys_invoices.*')
             ->leftJoin('crm_accounts', 'crm_accounts.id', '=', 'sys_invoices.userid')
             ->leftJoin('sys_companies', 'sys_companies.id', '=', 'crm_accounts.cid')
@@ -127,7 +127,9 @@ class InvoiceController extends SaleController
         }
         $invoice->checkAccess();
 
-        $request->sortModel($invoice);
+        $request->sortModel($invoice);*/
+        $invoice->checkAccess();
+        $request->filter($invoice);
 
         return $this->index($invoice, InvoiceListResource::class, true);
     }

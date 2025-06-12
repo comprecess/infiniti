@@ -6,6 +6,7 @@ use App\Models\Collection\TransactionCollection;
 use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Resident\Client\Company;
 use App\Models\Resident\Invoices\Invoice;
+use App\Models\Resident\Project\Project;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\Tag;
 use App\Models\Traits\BootTrait;
@@ -120,6 +121,11 @@ class Transaction extends Model implements InsertDefaultValueInterface
     public function company()
     {
         return $this->belongsTo(Company::class, 'company_id');
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id');
     }
 
     public static function byAdmin(callable $callable = null)

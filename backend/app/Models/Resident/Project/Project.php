@@ -3,6 +3,8 @@
 namespace App\Models\Resident\Project;
 
 use App\Models\Contracts\InsertDefaultValueInterface;
+use App\Models\Resident\Invoices\Invoice;
+use App\Models\Resident\Transactions\Transaction;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\DocumentTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
@@ -38,6 +40,16 @@ class Project extends Model implements InsertDefaultValueInterface
     public function tasks()
     {
         return $this->hasMany(Task::class, 'pid');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'project_id');
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'pid');
     }
 
     public function getTaskCompleted()

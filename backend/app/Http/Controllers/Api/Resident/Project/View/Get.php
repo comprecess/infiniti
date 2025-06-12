@@ -4,13 +4,21 @@
 namespace App\Http\Controllers\Api\Resident\Project\View;
 
 
+use App\Http\Controllers\Api\Resident\Project\CalendarController;
+use App\Http\Controllers\Api\Resident\Sale\InvoiceController;
+use App\Http\Controllers\Api\Resident\Transactions\TransactionsController;
 use App\Http\Controllers\Api\Traits\CRUD;
+use App\Http\Requests\Resident\Invoices\InvoiceListRequest;
 use App\Http\Requests\Resident\Project\View\FilesListRequest;
+use App\Http\Requests\Resident\Transactions\TransactionsListRequest;
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\DocumentResource;
+use App\Http\Resources\Resident\Invoices\InvoiceListResource;
 use App\Http\Resources\Resident\Project\ProjectListResource;
 use App\Http\Resources\Resident\Project\View\TaskResource;
+use App\Http\Resources\Resident\Transactions\TransactionsListResource;
 use App\Models\Resident\Project\Task;
+use App\Models\Resident\Transactions\Transaction;
 use App\Models\Users\Client;
 
 class Get extends View
@@ -53,6 +61,85 @@ class Get extends View
 
         return $this->index($query, DocumentResource::class, true);
 
+    }
+
+    public function expenses()
+    {
+        if($result = $this->urlToMethod()) {
+            return $result;
+        }
+
+        $request = app(TransactionsListRequest::class);
+        $query = $this->model->transactions();
+        $request->filter($query);
+
+        return $this->index($query, TransactionsListResource::class, true);
+    }
+
+    public function expensesInputData()
+    {
+        return redirect()->action(
+            [TransactionsController::class, 'inputData'],
+            ['type' => Transaction::TYPE[1]]
+        );
+    }
+
+    public function invoices()
+    {
+        if($result = $this->urlToMethod()) {
+            return $result;
+        }
+
+        $request = app(InvoiceListRequest::class);
+        $query = $this->model->invoices();
+
+        $request->filter($query);
+        return $this->index($query, InvoiceListResource::class, true);
+    }
+
+    public function invoicesInputData()
+    {
+        return redirect()->action(
+            [InvoiceController::class, 'inputData']
+        );
+    }
+
+    public function timelog()
+    {
+        return redirect()->action(
+            [CalendarController::class, 'list'],
+            $this->request->all()
+        );
+    }
+
+    public function analytics()
+    {
+        $now = now();
+        $day7Complate = [];
+        $statusCount = [];
+        for($i=0; $i < 7; $i++) {
+            $date = $now->copy();
+            $date->subDays($i);
+            $date = $date->format('Y-m-d');
+
+            $tasks = $this->model
+                ->tasks()
+                ->whereIn('status', Task::STATUS_COMPLETED)
+                ->where('date_finished', $date)
+                ->count();
+
+            $day7Complate[$date] = $tasks;
+        }
+
+        $tasks = $this->model->tasks;
+        foreach(Task::STATUS as $status) {
+            $statusCount[$status] = $tasks->where('status', $status)->count();
+        }
+
+        return response()->json([
+            'lastCompleted' => $day7Complate,
+            'statusCount' => $statusCount
+        ]);
     }
 
 }

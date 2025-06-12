@@ -24,6 +24,7 @@ class Task extends Model implements InsertDefaultValueInterface
     protected $casts = [
         'started' => 'date',
         'due_date' => 'date',
+        'date_finished' => 'date',
     ];
 
     public function project()

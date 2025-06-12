@@ -19,7 +19,7 @@ abstract class View
         $request = request();
         $classList = [
             Get::class => ['get'],
-            Edit::class => ['post', 'put', 'patch'],
+            Edit::class => ['post'/*, 'put', 'patch'*/],
             Delete::class => ['delete']
         ];
 

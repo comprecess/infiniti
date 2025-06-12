@@ -63,3 +63,14 @@ Route::controller(NotificationController::class)
         Route::get('/push/test', 'test');
     });
 
+#calendar
+Route::controller(\App\Http\Controllers\Api\Resident\Project\CalendarController::class)
+    ->prefix('calendar')
+    ->group(function(){
+        Route::get('/', 'list');
+        Route::post('/', 'createOrUpdate');
+        Route::put('/{calendar}', 'createOrUpdate');
+        Route::delete('/{calendar}', 'delete');
+        Route::get('/{calendar}', 'item');
+    });
+

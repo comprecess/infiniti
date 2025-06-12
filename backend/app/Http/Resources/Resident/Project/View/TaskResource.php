@@ -24,7 +24,9 @@ class TaskResource extends JsonResource
             'status' => $this->status,
             'created' => $this->started?->diffForHumans(),
             'dueDate' => $this->due_date?->format($format),
-            'description' => $this->description
+            'description' => $this->description,
+            'start' => $this->started?->format('Y-m-d'),
+            'end' => $this->due_date?->format('Y-m-d'),
         ];
 
 
