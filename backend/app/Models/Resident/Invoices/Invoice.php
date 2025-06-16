@@ -6,6 +6,7 @@ use App\Http\Requests\Resident\Invoices\InvoiceRequest;
 use App\Models\Collection\InvoiceCollection;
 use App\Models\Config;
 use App\Models\Contracts\InsertDefaultValueInterface;
+use App\Models\Resident\Project\Project;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Transactions\Transaction;
 use App\Models\Traits\CollectionTrait;
@@ -94,6 +95,11 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
     public function transaction()
     {
         return $this->hasMany(Transaction::class, 'iid');
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'pid');
     }
 
     public function setCheckPublicAttribute($value)

@@ -4,14 +4,17 @@ namespace App\Http\Requests\Resident\Invoices;
 
 
 use App\Http\Requests\Interfaces\ConvertingPropertiesInterface;
+use App\Http\Requests\Interfaces\ModelInterface;
 use App\Http\Requests\Traits\ConvertingPropertiesTrait;
+use App\Http\Requests\Traits\ModelTrait;
+use App\Models\Resident\Project\Project;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 
 
-class InvoiceRequest extends FormRequest implements ConvertingPropertiesInterface
+class InvoiceRequest extends FormRequest implements ConvertingPropertiesInterface, ModelInterface
 {
-    use ConvertingPropertiesTrait;
+    use ConvertingPropertiesTrait, ModelTrait;
 
 
     const STATUS = [
@@ -50,6 +53,9 @@ class InvoiceRequest extends FormRequest implements ConvertingPropertiesInterfac
             }
         }
 
+        $this->setRule($rules)
+            ->applyModel('project');
+
         return $rules;
     }
 
@@ -64,7 +70,15 @@ class InvoiceRequest extends FormRequest implements ConvertingPropertiesInterfac
             'num' => 'cn',
             'receiptNumber' => 'receipt_number',
             'showQuantity' => 'show_quantity_as',
-            'checkPublic' => 'check_public'
+            'checkPublic' => 'check_public',
+            'project' => 'pid'
+        ];
+    }
+
+    public function getListPropertiesModel(): array
+    {
+        return [
+            'project' => Project::class
         ];
     }
 }

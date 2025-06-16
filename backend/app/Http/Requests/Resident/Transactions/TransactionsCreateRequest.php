@@ -8,6 +8,7 @@ use App\Http\Requests\Traits\ConvertingPropertiesTrait;
 use App\Http\Requests\Traits\ModelTrait;
 use App\Models\BusinessModel\Prop;
 use App\Models\Resident\Client\Company;
+use App\Models\Resident\Project\Project;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Transactions\Account;
 use App\Models\Resident\Transactions\Category;
@@ -68,7 +69,8 @@ class TransactionsCreateRequest extends FormRequest implements ConvertingPropert
             })
             ->applyModel('company')
             ->applyModel('staff')
-            ->applyModel('client');
+            ->applyModel('client')
+            ->applyModel('project');
 
         return $rules;
     }
@@ -89,7 +91,8 @@ class TransactionsCreateRequest extends FormRequest implements ConvertingPropert
             'status',
             'company' => 'company_id',
             'staff' => 'staff_id',
-            'client' => 'payerid'
+            'client' => 'payerid',
+            'project' => 'project_id'
         ];
     }
 
@@ -121,7 +124,8 @@ class TransactionsCreateRequest extends FormRequest implements ConvertingPropert
             'category' => Category::class,
             'company' => Company::class,
             'staff' => Admin::class,
-            'client' => Client::class
+            'client' => Client::class,
+            'project' => Project::class
         ];
     }
 

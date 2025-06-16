@@ -75,4 +75,55 @@ class TransactionsListRequest extends DocumentRequest implements ModelInterface
             return [];
         }
     }
+
+    public function filter($transactionQuery)
+    {
+        $data = $this->all();
+
+        if($type = Arr::get($data, 'filter.type')) {
+            if($type == TransactionsListRequest::TYPE[2]) {
+                $transactionQuery->whereIn('type', [Transaction::TYPE[2], Transaction::TYPE[3]]);
+            }else{
+                $transactionQuery->where('type', $type);
+            }
+        }
+
+        if($status = Arr::get($data, 'filter.status')) {
+            $transactionQuery->where('status', $status);
+        }
+
+        if($search = Arr::get($data, 'filter.search')) {
+            $search = "%{$search}%";
+            $transactionQuery->where(function($query) use($search){
+                $query->where('id', 'like', $search)
+                    ->orWhere('code', 'like', $search)
+                    ->orWhere('account', 'like', $search)
+                    ->orWhere('type', 'like', $search)
+                    ->orWhere('amount', 'like', $search)
+                    ->orWhere('description', 'like', $search);
+            });
+        }
+
+        if($account = $this->getModel('filter.account')) {
+            $transactionQuery->where('account_id', $account->id);
+        }
+
+        if($category = $this->getModel('filter.category')) {
+            $transactionQuery->where('cat_id', $category->id);
+        }
+
+        if($client = $this->getModel('filter.client')) {
+            $transactionQuery->where(function($query) use($client){
+                $query->where('payerid', $client->id)->orWhere('payeeid', $client->id);
+            });
+        }
+
+        if($date = $this->getDate()) {
+            $transactionQuery->whereBetween('date', $date);
+        }
+
+        $transactionQuery->with(['getCurrencyIso']);
+
+        $this->sortModel($transactionQuery);
+    }
 }

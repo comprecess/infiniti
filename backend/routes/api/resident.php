@@ -149,6 +149,8 @@ Route::controller(Resident\Transactions\TransactionsController::class)
     ->group(function(){
         Route::get('/list', 'list');
         Route::get('/input-data', 'inputData');
+//        Route::match(['post', 'put'], '/{transaction?}', 'createOrUpdate');
+        Route::post('/create', 'create');
         Route::post('/', 'createOrUpdate');
         Route::put('/{transaction}', 'createOrUpdate');
         Route::delete('/{transaction}', 'delete');

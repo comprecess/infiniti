@@ -17,7 +17,7 @@ class TaskController extends TaskAccessController
 
     public function createOrUpdate(Task $task, TaskCreateRequest $request)
     {
-        $this->isPud = true;
+        $this->isPut = true;
         if($task->id) {
             $task = Task::newDefault();
         }

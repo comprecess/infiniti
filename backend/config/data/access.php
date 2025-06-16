@@ -28,5 +28,8 @@ use \App\Http\Controllers\Api\Resident;
         ],
         'tasks' => [
             Resident\Task\TaskAccessController::class
+        ],
+        'calendar' => [
+            Resident\Project\CalendarController::class
         ]
     ];

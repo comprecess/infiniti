@@ -147,6 +147,12 @@ class TransactionsController extends TransactionsAccessController
         return new TransactionsItemResource($transaction);
     }
 
+    public function create()
+    {
+        dd('123');
+        return $this->createOrUpdate(new Transaction());
+    }
+
     public function createOrUpdate(Transaction $transaction)
     {
         $type = $this->getType();
@@ -350,7 +356,8 @@ class TransactionsController extends TransactionsAccessController
     public function list(TransactionsListRequest $request)
     {
         $transactionQuery = Transaction::checkAccess(...self::ACCESS);
-        $data = $request->all();
+        $request->filter($transactionQuery);
+        /*$data = $request->all();
 
         if($type = Arr::get($data, 'filter.type')) {
             if($type == TransactionsListRequest::TYPE[2]) {
@@ -396,7 +403,7 @@ class TransactionsController extends TransactionsAccessController
 
         $transactionQuery->with(['getCurrencyIso']);
 
-        $request->sortModel($transactionQuery);
+        $request->sortModel($transactionQuery);*/
 
         return $this->index($transactionQuery, TransactionsListResource::class, true);
     }

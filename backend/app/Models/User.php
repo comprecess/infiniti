@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Events\UserIsAuthorized;
 use App\Models\Catalog\Cart as CatalogCart;
+use App\Models\Resident\Project\Calendar;
 use App\Models\Traits\AuthPasswordTrait;
 use App\Models\Traits\FileStorageTrait;
 use App\Models\Users\Admin;
@@ -86,6 +87,11 @@ class User extends Authenticatable
     public function settings()
     {
         return $this->morphMany(UserSettings::class, 'user');
+    }
+
+    public function calendar()
+    {
+        return $this->hasMany(Calendar::class, $this instanceof Admin ? 'aid' : 'cid');
     }
 
     public function userCheckPassword($password)
