@@ -202,8 +202,8 @@ Route::controller(Resident\Project\ProjectController::class)->prefix('project')
         Route::put('/{project}', 'createOrUpdate');
         Route::delete('/{project}', 'delete');
         Route::match(['get', 'put', 'post', 'delete'], '/{project}/{type}/{id?}', 'view');
-        /*Route::get('/{model}', 'item');
-        Route::get('/{model}/to-plan', 'toPlan');
+        Route::get('/{project}', 'item');
+        /*Route::get('/{model}/to-plan', 'toPlan');
         Route::match(['put', 'post'],'/{model}/update', 'update');*/
     });
 

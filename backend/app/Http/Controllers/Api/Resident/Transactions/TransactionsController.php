@@ -149,7 +149,6 @@ class TransactionsController extends TransactionsAccessController
 
     public function create()
     {
-        dd('123');
         return $this->createOrUpdate(new Transaction());
     }
 
