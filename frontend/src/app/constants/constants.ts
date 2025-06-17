@@ -1482,6 +1482,7 @@ export interface ProjectsNewProjectForm {
   budget: string
   description: string
   teamMember: number[]
+  members: number[]
   owner: number
   currency: number
   staff: number

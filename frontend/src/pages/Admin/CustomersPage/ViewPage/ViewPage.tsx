@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 import { ViewListPagesAndInfo } from '../../../../app/constants/constants'
+import { ContactInfoSideBarData } from '../../../../app/data/contactInfoSideBar'
 import { Routes } from '../../../../app/router/routes'
 import { SideBar } from '../../../../features/Admin/CustomersPage/ViewPage/SideBar/SideBar'
 import { ArrowBackGroundIcon } from '../../../../shared/icons/ArrowBackGroundIcon'
@@ -12,8 +13,9 @@ import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import styles from './ViewPage.module.scss'
 
 export const AdminViewPage = () => {
-  const [isOpenSideBar, setIsOpenSideBar] = useState<boolean>(true)
+  const [isOpenSideBar, setIsOpenSideBar] = useState<boolean>(false)
   const [isMobile, setIsMobile] = useState<boolean>(false)
+  const [isInitialized, setIsInitialized] = useState<boolean>(false)
 
   const [touchStartX, setTouchStartX] = useState<number | null>(null)
   const [touchEndX, setTouchEndX] = useState<number | null>(null)
@@ -66,6 +68,7 @@ export const AdminViewPage = () => {
 
       setIsMobile(isMobileView)
       setIsOpenSideBar(!isMobileView)
+      setIsInitialized(true)
     }
 
     handleResize()
@@ -82,6 +85,10 @@ export const AdminViewPage = () => {
       document.body.style.overflow = ''
     }
   }, [isOpenSideBar, isMobile])
+
+  if (!isInitialized) {
+    return null
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -109,6 +116,7 @@ export const AdminViewPage = () => {
               <div className={styles.sideBarOverFlow}>
                 <SideBar
                   data={pagesInfo}
+                  pages={ContactInfoSideBarData}
                   isActive={isMobile && isOpenSideBar}
                   openCloseSidebar={handleOpenCloseSidebar}
                 />
