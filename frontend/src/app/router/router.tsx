@@ -372,6 +372,21 @@ export const router = createBrowserRouter([
         path: `${Routes.projects}/${Routes.edit}/${Routes.project}/:id`,
         element: Pages.adminEditProject,
       },
+      {
+        path: `${Routes.projects}/${Routes.view}/${Routes.project}/:id`,
+        element: Pages.adminViewProjectPage,
+        children: [
+          {
+            path: '*',
+            index: true,
+            element: <Navigate replace to={To.summary()} />,
+          },
+          {
+            index: true,
+            element: <Navigate replace to={To.summary()} />,
+          },
+        ],
+      },
       { path: Routes.leads, element: Pages.adminLeadsPage },
       { path: Routes.sms, element: Pages.adminSMSPage },
       { path: Routes.support, element: Pages.adminSupportPage },

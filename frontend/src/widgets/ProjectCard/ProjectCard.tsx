@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { ProjectsData } from '../../app/constants/constants'
+import { Routes } from '../../app/router/routes'
 import { ConfirmationModal } from '../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../shared/ui/Status/Status'
@@ -17,8 +19,22 @@ export const ProjectCard = ({
 }: ProjectCardProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
+  const navigate = useNavigate()
+
   const handleOpenConfirmationModal = () => {
     setModalDelete(state => !state)
+  }
+
+  const handleNavigateToEditProject = () => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.projects}/${Routes.edit}/${Routes.project}/${project.id}`,
+    )
+  }
+
+  const handleNavigateToViewProject = () => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.projects}/${Routes.view}/${Routes.project}/${project.id}/summary`,
+    )
   }
 
   return (
@@ -132,13 +148,14 @@ export const ProjectCard = ({
             icon='/icons/view.svg'
             alt='View'
             tooltipTitle='View'
+            onClick={handleNavigateToViewProject}
           />
           <CustomMiniButton
             style='amber'
             icon='/icons/edit.svg'
             alt='Edit'
             tooltipTitle='Edit'
-            onClick={() => {}}
+            onClick={handleNavigateToEditProject}
           />
           <CustomMiniButton
             style='cherry'

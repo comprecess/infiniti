@@ -24,10 +24,11 @@
 }
 
 .projectsList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 16px;
   width: 100%;
+  align-items: start;
   max-width: $maxContentSize;
 }
 

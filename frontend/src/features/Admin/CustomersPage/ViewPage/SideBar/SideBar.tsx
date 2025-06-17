@@ -2,18 +2,25 @@ import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { ViewListPagesAndInfo } from '../../../../../app/constants/constants'
-import { ContactInfoSideBarData } from '../../../../../app/data/contactInfoSideBar'
 import { PageItem } from './PageItem/PageItem'
 import styles from './SideBar.module.scss'
 
 interface SideBarProps {
-  data: ViewListPagesAndInfo
+  data?: ViewListPagesAndInfo
+  pages: {
+    id: number
+    name: string
+    page: string
+    type: string
+    icon: React.ReactNode
+  }[]
   isActive: boolean
   openCloseSidebar: () => void
 }
 
 export const SideBar = ({
   data,
+  pages,
   isActive,
   openCloseSidebar,
 }: SideBarProps) => {
@@ -31,7 +38,7 @@ export const SideBar = ({
   const currentPage = getCurrentPage(location.pathname).toLocaleLowerCase()
 
   const getTypeValue = (key: string) => {
-    const value = data.type[key]
+    const value = data?.type[key]
 
     return value
   }
@@ -46,24 +53,32 @@ export const SideBar = ({
     <div
       className={isActive ? styles.wrapperActive : styles.wrapperDisable}
     >
-      <div className={styles.avatar}>
-        <img
-          alt='Avatar'
-          src={
-            data.img
-              ? `${data.img}?width=176&height=176`
-              : '/profileWithoutAvatar.svg'
-          }
-        />
-      </div>
-      <div className={styles.info}>
-        <span className={styles.email} contentEditable={false}>
-          {data.email}
-        </span>
-        {data.phone && <span className={styles.phone}>{data.phone}</span>}
-      </div>
+      {data && (
+        <>
+          <div className={styles.avatar}>
+            <img
+              alt='Avatar'
+              src={
+                data.img
+                  ? `${data.img}?width=176&height=176`
+                  : '/profileWithoutAvatar.svg'
+              }
+            />
+          </div>
+          <div className={styles.info}>
+            {data.email && (
+              <span className={styles.email} contentEditable={false}>
+                {data.email}
+              </span>
+            )}
+            {data.phone && (
+              <span className={styles.phone}>{data.phone}</span>
+            )}
+          </div>
+        </>
+      )}
       <div className={styles.pagesList}>
-        {ContactInfoSideBarData.map((item, index) => {
+        {pages.map((item, index) => {
           const isActive = getCurrentPage(item.page) === currentPage
 
           return (
@@ -73,7 +88,7 @@ export const SideBar = ({
               icon={item.icon}
               page={item.page}
               isActive={isActive}
-              type={getTypeValue(item.type)}
+              type={getTypeValue(item.type) ?? null}
               onClick={() => handleItemClick(index, item.page)}
             />
           )
