@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Resident\Project\View\View;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Project\ProjectCreateRequest;
 use App\Http\Resources\Resident\Client\ClientResource;
+use App\Http\Resources\Resident\Project\ProjectItemResource;
 use App\Http\Resources\Resident\Project\ProjectListResource;
 use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Http\Resources\Users\AdminListResource;
@@ -72,6 +73,11 @@ class ProjectController extends ProjectAccessController
         }
 
         return $viewResponce;
+    }
+
+    public function item(Project $project)
+    {
+        return new ProjectItemResource($project);
     }
 
 }

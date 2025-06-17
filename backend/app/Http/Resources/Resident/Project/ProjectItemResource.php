@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Http\Resources\Resident\Project;
+
+use App\Http\Resources\Resident\Settings\CurrencyResource;
+use App\Http\Resources\UserResource;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class ProjectItemResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        $format = "Y-m-d";
+        $resorce = [
+            'id' => $this->id,
+            'name' => $this->name,
+            'owner' => new UserResource($this->admin),
+            'staff' => new UserResource($this->manager),
+            'client' => new UserResource($this->client),
+            'type' => $this->billing_type,
+            'status' => $this->status,
+            'summary' => $this->summary,
+            'budget' => $this->budget,
+            'currency' => new CurrencyResource($this->getCurrencyIso),
+            'description' => $this->description,
+            'startDate' => $this->start_date?->format($format),
+            'dueDate' => $this->due_date?->format($format),
+            'members' => UserResource::collection($this->getMembers())
+        ];
+
+        return $resorce;
+    }
+}

@@ -26,6 +26,7 @@ class Project extends Model implements InsertDefaultValueInterface
     protected $table = 'clx_projects';
 
     protected $adminColumn = 'admin_id';
+    protected $clientColumn = 'contact_id';
 
     protected $currencyColumnName = 'currency';
 
@@ -50,6 +51,11 @@ class Project extends Model implements InsertDefaultValueInterface
     public function invoices()
     {
         return $this->hasMany(Invoice::class, 'pid');
+    }
+
+    public function manager()
+    {
+        return $this->belongsTo(Admin::class, 'project_manager_id');
     }
 
     public function getTaskCompleted()
