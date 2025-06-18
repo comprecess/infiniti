@@ -31,8 +31,8 @@ class ProjectCreateRequest extends FormRequest implements ConvertingPropertiesIn
             'dueDate' => 'nullable|date_format:Y-m-d',
             'status' => 'required|in:' . implode(',', Project::STATUS),
             'type' => 'required|in:' . implode(',', Project::TYPE),
-            'teamMember' => 'nullable|array',
-            'teamMember.*' => 'required|integer|exists:sys_users,id',
+            'members' => 'nullable|array',
+            'members.*' => 'required|integer|exists:sys_users,id',
             'budget' => 'nullable|numeric',
             'description' => 'nullable',
 
@@ -63,7 +63,7 @@ class ProjectCreateRequest extends FormRequest implements ConvertingPropertiesIn
             'currency',
             'budget',
             'description',
-            'teamMember' => 'members'
+            'members'
         ];
     }
 

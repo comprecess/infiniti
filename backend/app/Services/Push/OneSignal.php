@@ -34,9 +34,9 @@ class OneSignal extends Push implements PushContract
         }
     }
 
-    public function send(PushModel $model, $title, $message)
+    public function send(PushModel $model, $title, $message, $url = null)
     {
-        $this->onesignal->sendNotificationToUser($message, $model->endpoint);
+        $this->onesignal->sendNotificationToUser($message, $model->endpoint, $url);
     }
 
     public function test()

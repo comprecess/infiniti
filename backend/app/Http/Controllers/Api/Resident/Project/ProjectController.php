@@ -53,7 +53,7 @@ class ProjectController extends ProjectAccessController
     public function createOrUpdate(Project $project, ProjectCreateRequest $request)
     {
         $this->isPut = true;
-        if($project->id) {
+        if(!$project->id) {
             $project = Project::newDefault();
         }
         return $this->createOrUpdateCRUD($request, $project);

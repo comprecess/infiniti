@@ -13,7 +13,7 @@ use App\Models\Push as PushModel;
 class Firebase extends Push implements PushContract
 {
 
-    public function send(PushModel $model, $title, $message)
+    public function send(PushModel $model, $title, $message, $url = null)
     {
         $user = $model->user;
         $auth = [
