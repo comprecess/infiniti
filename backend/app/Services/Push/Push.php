@@ -11,7 +11,7 @@ use App\Services\Push\Contracts\PushContract;
 
 abstract class Push implements PushContract
 {
-    public function send(PushModel $model, $title, $message)
+    public function send(PushModel $model, $title, $message, $url = null)
     {
 
     }
