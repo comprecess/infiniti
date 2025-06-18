@@ -74,6 +74,9 @@ class NotificationController extends Controller
     public function test(Request $request)
     {
         $id = (int) $request->id;
+        $message = $request->title ?? 'Test';
+        $message = $request->message ?? 'test';
+        $url = $request->url;
         $push = Push::findOrFail($id);
         $test = app(PushContract::class);
         $test->send($push, 'Test', 'test');
