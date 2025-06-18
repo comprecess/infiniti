@@ -25,12 +25,12 @@ class OneSignal extends Push implements PushContract
         );
     }
 
-    public function sendUser(User $user, string $title, string $message)
+    public function sendUser(User $user, string $title, string $message, $url = null)
     {
         $sub = $user->pushSubscriptions;
         $pushSend = UserSettings::get('push', $user);
         if($sub->count() && $pushSend) {
-            $this->onesignal->sendNotificationToUser($message, $sub->pluck('endpoint')->toArray());
+            $this->onesignal->sendNotificationToUser($message, $sub->pluck('endpoint')->toArray(), $url);
         }
     }
 

@@ -67,7 +67,13 @@ class NotificationController extends Controller
 
     public function unsubscribedPush(PushRequest $request)
     {
-        Push::where('endpoint', $request->subscription)->delete();
+        $user = User::getAuth();
+        $pushSubscriptions = $user->pushSubscriptions;
+        foreach($pushSubscriptions as $push){
+            $push->delete();
+        }
+
+
         return response()->json(['success' => true]);
     }
 

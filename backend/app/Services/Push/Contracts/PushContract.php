@@ -6,6 +6,6 @@ use App\Models\Push;
 
 interface PushContract
 {
-    public function sendUser(User $user,string $title, string $message);
+    public function sendUser(User $user,string $title, string $message, ?string $url = null);
     public function send(Push $push, string $title, string $message, ?string $url = null);
 }

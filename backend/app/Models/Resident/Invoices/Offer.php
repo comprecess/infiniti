@@ -153,4 +153,9 @@ class Offer extends Model implements InsertDefaultValueInterface
         return frontLink('/admin/sales/offer/view/' . $this->id);
     }
 
+    public function getPublicUrl()
+    {
+        return frontLink("/public/offer/view/{$this->vtoken}");
+    }
+
 }

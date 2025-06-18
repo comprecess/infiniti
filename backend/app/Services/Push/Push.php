@@ -16,13 +16,13 @@ abstract class Push implements PushContract
 
     }
 
-    public function sendUser(User $user, string $title, string $message)
+    public function sendUser(User $user, string $title, string $message, $url = null)
     {
         $pushSend = UserSettings::get('push', $user);
         if($pushSend) {
             $user->pushSubscriptions()
-                ->each(function($item) use($title, $message){
-                    $this->send($item, $title, $message);
+                ->each(function($item) use($title, $message, $url){
+                    $this->send($item, $title, $message, $url);
                 });
         }
     }
