@@ -23,6 +23,7 @@ class OfferListResource extends JsonResource
             'validUntil' => $this->validuntil?->format($format),
             'dateCreated' => $this->datecreated?->format($format),
             'stage' => $this->stage,
+            'public' => $this->vtoken
         ];
     }
 

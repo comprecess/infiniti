@@ -21,5 +21,9 @@
             'update' => [
                 'Meeting' => "The meeting details have been updated.",
             ],
+        ],
+        'Offer' => [
+            'action' => '<p>You need to perform an action on the offer :code, Details: <a href=\":link\">:link</a></p>',
+            'actionPush' => 'You need to perform an action on the offer :code',
         ]
     ];

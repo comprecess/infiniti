@@ -22,6 +22,7 @@ class InvoiceListResource extends JsonResource
             'status' => $this->status,
             'blockEdit' => $this->blockEdit(),
             'type' => $this->r ? 1 : 0,
+            'public' => $this->vtoken
         ];
     }
 

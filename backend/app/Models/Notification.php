@@ -124,10 +124,10 @@ class Notification extends Model
         return $not;
     }
 
-    public static function sendPush(User $user, $message, $title = 'push')
+    public static function sendPush(User $user, $message, $title = 'push', $url = null)
     {
         $puser = app(PushContract::class);
-        $puser->sendUser($user, $title, $message);
+        $puser->sendUser($user, $title, $message, $url);
     }
 
     #обновить или создать активные по модели
