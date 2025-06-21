@@ -26,23 +26,26 @@ trait HelperTrait
         return str_pad($nextID, Config::get('number_pad', 5), '0', STR_PAD_LEFT);
     }
 
-    public function setRandomNum($nameColumn, $col = 6, $unicke = false)
+    public function setRandomNum($nameColumn, $col = 6, $unicke = false, $onlyNum = false)
     {
-        $random = $this->randomNum($col);
+        $random = $this->randomNum($col, $onlyNum);
         if($unicke) {
             $i = 0;
             while ($i < 1000) {
                 if(self::where($nameColumn, $random)->count() == 0) {
                     break;
                 }
-                $random = $this->randomNum($col);
+                $random = $this->randomNum($col, $onlyNum);
             }
         }
         $this->{$nameColumn} = $random;
     }
 
-    public function randomNum($col = 6)
+    public function randomNum($col = 6, $onlyNum = false)
     {
-        return substr(str_shuffle(str_repeat('0123456789', $col)), 0, $col);
+        if($onlyNum) {
+            return substr(str_shuffle(str_repeat('0123456789', $col)), 0, $col);
+        }
+        return substr(md5(time() . rand(1, 1000)),0, $col);
     }
 }

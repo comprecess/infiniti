@@ -38,7 +38,7 @@ class ExpiredOffer extends Command
             if($day < 4 || !($day % 7)) {
                 $user = $offer->user;
                 $url = $offer->getPublicUrl();
-                Notification::createMain(user: $user, message: __('notification.Offer.action', ['code' => $offer->getCode(), 'link' => $url]));
+                Notification::createMain(user: $user, message: __('notification.Offer.action', ['code' => $offer->getCode(), 'link' => $url]),data: ['offer' => $offer->id]);
                 Notification::sendPush(user: $user, message: __('notification.Offer.actionPush', ['code' => $offer->getCode()]), url: $url);
             }
         }

@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\Catalog\MeetingReminder;
 use App\Console\Commands\SetCurrency;
+use App\Console\Commands\Talents\NewTalent;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -17,6 +18,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command(SetCurrency::class)->daily();
         $schedule->command(MeetingReminder::class)->hourly();
+        $schedule->command(NewTalent::class)->weeklyOn(5, '3:00');
     }
 
     /**

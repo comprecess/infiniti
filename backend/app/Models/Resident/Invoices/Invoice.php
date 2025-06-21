@@ -2,9 +2,7 @@
 
 namespace App\Models\Resident\Invoices;
 
-use App\Http\Requests\Resident\Invoices\InvoiceRequest;
 use App\Models\Collection\InvoiceCollection;
-use App\Models\Config;
 use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Resident\Project\Project;
 use App\Models\Resident\Settings\Currency;
@@ -24,7 +22,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 
 class Invoice extends Model implements InsertDefaultValueInterface, PayModelContract
 {
@@ -32,6 +29,10 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
 
     const STATUS = [
         'Unpaid', 'Paid', 'Partially Paid', 'Cancelled'
+    ];
+
+    const DUEDATE = [
+        3, 5, 7, 10, 15, 30, 45, 60
     ];
 
     const REPEAT = [
@@ -180,7 +181,7 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
         if($this->duedate == $this->date) {
             return null;
         }
-        $search = array_search($this->date->diff($this->duedate)->days, InvoiceRequest::DUEDATE);
+        $search = array_search($this->date->diff($this->duedate)->days, self::DUEDATE);
 
         return $search === false ? null : $search;
     }
@@ -241,5 +242,10 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
             $this->credit -= $transaction->amount;
             $this->save();
         }
+    }
+
+    public function getPublicUrl()
+    {
+        return frontLink("/public/invoice/view/{$this->vtoken}");
     }
 }

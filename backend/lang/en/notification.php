@@ -25,5 +25,12 @@
         'Offer' => [
             'action' => '<p>You need to perform an action on the offer :code, Details: <a href=\":link\">:link</a></p>',
             'actionPush' => 'You need to perform an action on the offer :code',
+        ],
+        'Invoice' => [
+            'action' => '<p>You have been invoiced for :summa. <br>Please pay by :date.<br>Invoice: <a href=\":link\">:link</a></p>',
+            'actionPush' => 'You have been invoiced for :summa. Please pay by :date.',
+        ],
+        'CatalogUser' => [
+            'newCount' => 'In the last :day days were added: :count talent',
         ]
     ];
