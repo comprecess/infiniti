@@ -4,6 +4,7 @@ interface ManageButtonsProps {
   firstButtonTitle?: string
   secondButtonTitle?: string
   thirdButtonTitle?: string
+  firstClick?: () => void
 }
 
 const titlesColors = {
@@ -15,6 +16,7 @@ export const ManageButtons = ({
   firstButtonTitle,
   secondButtonTitle,
   thirdButtonTitle,
+  firstClick,
 }: ManageButtonsProps) => {
   let titlesStyle = ''
 
@@ -29,9 +31,19 @@ export const ManageButtons = ({
 
   return (
     <div className={styles.wrapper}>
-      <button className={styles.buttonFirst}>{firstButtonTitle}</button>
-      <button className={styles.buttonSecond}>{secondButtonTitle}</button>
-      <button className={titlesStyle}>{thirdButtonTitle}</button>
+      {firstButtonTitle && (
+        <button className={styles.buttonFirst} onClick={firstClick}>
+          {firstButtonTitle}
+        </button>
+      )}
+      {secondButtonTitle && (
+        <button className={styles.buttonSecond}>
+          {secondButtonTitle}
+        </button>
+      )}
+      {thirdButtonTitle && (
+        <button className={titlesStyle}>{thirdButtonTitle}</button>
+      )}
     </div>
   )
 }
