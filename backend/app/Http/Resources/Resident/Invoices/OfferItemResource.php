@@ -43,7 +43,7 @@ class OfferItemResource extends JsonResource implements ListInterface
             'pdf' => route('pdf', ['name' => 'offer', 'token' => $this->vtoken]),
             'checkPublic' => $this->check_public,
             'status' => [
-                "publicButton" => $this->status()->actionPublic()
+                "publicButton" => $this->status()->actionPublicStage()
             ],
             'blankCalc' => [
                 'price' => $items->summPrice(),

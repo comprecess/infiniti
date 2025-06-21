@@ -86,7 +86,9 @@ class PetitionController extends Controller
     {
         list($type, $model) = $this->getDataByToken();
         $user = $this->isAuth(false);
-        if(!$model->status()->actionPublic()) {
+        //Проверить статус а именно корзину
+//        if(!$model->status()->actionPublic()) {
+        if(!$model->status()->actionPublicStage()) {
             throw ValidationException::withMessages(["offer" => "It is not possible to change the status"]);
         }
 
