@@ -65,7 +65,7 @@ class NotificationController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function unsubscribedPush(PushRequest $request)
+    public function unsubscribedPush()
     {
         $user = User::getAuth();
         $pushSubscriptions = $user->pushSubscriptions;
