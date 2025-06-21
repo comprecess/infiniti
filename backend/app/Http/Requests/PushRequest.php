@@ -15,8 +15,8 @@ class PushRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'subscription' => 'required',
             /*
+            'subscription' => 'required',
              'subscription.endpoint' => 'required',
             'subscription.keys.auth' => 'required',
             'subscription.keys.p256dh' => 'required',
