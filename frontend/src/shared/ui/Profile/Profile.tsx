@@ -19,6 +19,7 @@ import { Routes } from '../../../app/router/routes'
 import { subscribeOneSignal } from '../../../oneSignalService'
 import { getUserSettings } from '../../utils/api/GetUserSettings'
 import { patchSetUserSettings } from '../../utils/api/PatchSetUserSettings'
+import { postPushUnsubscribed } from '../../utils/api/Push/PostpushUnsubscribed'
 import { getCookies } from '../../utils/Saving/Cookies/GetCookies'
 import { removeCookies } from '../../utils/Saving/Cookies/RemoveCookies'
 import { getSession } from '../../utils/Saving/Session/GetSession'
@@ -61,7 +62,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     const authToken = getCookies(authTokenString)
 
     try {
-      const result = await patchSetUserSettings({ push: false })
+      const result = await postPushUnsubscribed()
 
       if (!result.status) {
         console.error('Failed to update user settings:', result.message)
