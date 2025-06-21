@@ -1,27 +1,36 @@
+import { Routes } from '../../../../../app/router/routes'
 import { ManageButtons } from '../../../../Main/RecentCard/ManageButtons/ManageButtons'
 import styleItem from '../RecentTotal.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
   subject: string
-  amount: string
+  total: string
   dateCreated: string
-  expiryDate: string
+  validUntil: string
+  public: string
 }
 
 export const Item = ({
   subject,
-  amount,
+  total,
   dateCreated,
-  expiryDate,
+  validUntil,
+  public: publicCode,
 }: ItemProps) => {
+  const handleNavigateToView = () => {
+    const url = `/${Routes.public}/${Routes.offer}/${Routes.view}/${publicCode}`
+
+    window.open(url, '_blank')
+  }
+
   return (
     <div className={styles.wrapper}>
       <span className={`${styleItem.subjectColumn} ${styles.subjectItem}`}>
         {subject}
       </span>
       <span className={`${styleItem.amountColumn} ${styles.amountItem}`}>
-        {amount}
+        {total}
       </span>
       <span
         className={`${styleItem.dateCreatedColumn} ${styles.dateCreatedItem}`}
@@ -31,13 +40,13 @@ export const Item = ({
       <span
         className={`${styleItem.expiryDateColumn} ${styles.expiryDateItem}`}
       >
-        {expiryDate}
+        {validUntil}
       </span>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
         <ManageButtons
           firstButtonTitle='View'
-          secondButtonTitle='Print'
           thirdButtonTitle='Delete'
+          firstClick={handleNavigateToView}
         />
       </div>
     </div>

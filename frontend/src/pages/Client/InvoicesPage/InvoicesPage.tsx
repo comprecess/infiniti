@@ -26,9 +26,6 @@ export const ClientInvoicesPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      {/* <section className={styles.section}>
-        <div className={styles.item}>Chart</div>
-      </section> */}
       {invoices ? (
         <section className={styles.section}>
           <RecentCard

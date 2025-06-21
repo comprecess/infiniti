@@ -82,6 +82,7 @@ export interface ClientInvoiceData {
   invoiceDate: string
   status: string
   type: number
+  public: string
 }
 export interface ClientOfferData {
   id: number
@@ -91,6 +92,7 @@ export interface ClientOfferData {
   subject: string
   total: string
   validUntil: string
+  public: string
 }
 
 export interface UserInfo {

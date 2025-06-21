@@ -23,13 +23,8 @@ export const RecentTotal = ({ offers }: RecentTotalProps) => {
       <div className={styles.items}>
         {offers.map((offer, index) => {
           return (
-            <Fragment key={'order.id'}>
-              <Item
-                subject={offer.subject}
-                amount={offer.total}
-                dateCreated={offer.dateCreated}
-                expiryDate={offer.validUntil}
-              />
+            <Fragment key={offer.id}>
+              <Item {...offer} />
               {index !== offers.length - 1 && <CustomDivider />}
             </Fragment>
           )

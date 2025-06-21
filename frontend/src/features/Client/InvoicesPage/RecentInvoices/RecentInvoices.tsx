@@ -24,14 +24,8 @@ export const RecentInvoices = ({ invoices }: RecentInvoicesProps) => {
       <div className={styles.items}>
         {invoices.map((invoice, index) => {
           return (
-            <Fragment key={'order.id'}>
-              <Item
-                hashtag={invoice.code}
-                amount={invoice.amount}
-                invoiceDate={invoice.invoiceDate}
-                dueDate={invoice.dueDate}
-                status={invoice.status}
-              />
+            <Fragment key={invoice.id}>
+              <Item {...invoice} />
               {index !== invoices.length - 1 && <CustomDivider />}
             </Fragment>
           )

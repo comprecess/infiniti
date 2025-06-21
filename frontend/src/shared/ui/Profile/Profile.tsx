@@ -60,6 +60,8 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     const sessionToken = getSession(authTokenString)
     const authToken = getCookies(authTokenString)
 
+    await patchSetUserSettings({ push: false })
+
     if (sessionToken) removeSession(authTokenString)
     if (authToken) removeCookies(authTokenString)
 
