@@ -60,12 +60,23 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     const sessionToken = getSession(authTokenString)
     const authToken = getCookies(authTokenString)
 
-    await patchSetUserSettings({ push: false })
+    try {
+      const result = await patchSetUserSettings({ push: false })
 
-    if (sessionToken) removeSession(authTokenString)
-    if (authToken) removeCookies(authTokenString)
+      if (!result.status) {
+        console.error('Failed to update user settings:', result.message)
+      }
 
-    navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
+      if (sessionToken) removeSession(authTokenString)
+      if (authToken) removeCookies(authTokenString)
+
+      navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
+    } catch (error) {
+      console.error('Error during logout:', error)
+      if (sessionToken) removeSession(authTokenString)
+      if (authToken) removeCookies(authTokenString)
+      navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
+    }
   }
 
   const toggleNotificationSubscription = async (isSubscribed: boolean) => {
