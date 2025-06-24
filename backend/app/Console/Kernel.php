@@ -3,6 +3,8 @@
 namespace App\Console;
 
 use App\Console\Commands\Catalog\MeetingReminder;
+use App\Console\Commands\Invoices\ExpiredInvoice;
+use App\Console\Commands\Invoices\ExpiredOffer;
 use App\Console\Commands\SetCurrency;
 use App\Console\Commands\Talents\NewTalent;
 use Illuminate\Console\Scheduling\Schedule;
@@ -18,6 +20,8 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command(SetCurrency::class)->daily();
         $schedule->command(MeetingReminder::class)->hourly();
+        $schedule->command(ExpiredInvoice::class)->daily();
+        $schedule->command(ExpiredOffer::class)->daily();
         $schedule->command(NewTalent::class)->weeklyOn(5, '3:00');
     }
 
