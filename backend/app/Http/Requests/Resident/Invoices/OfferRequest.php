@@ -20,7 +20,7 @@ class OfferRequest extends FormRequest implements ConvertingPropertiesInterface
         $rules = [
             'clientId' => "required|exists:crm_accounts,id",
             'subject' => "required",
-            'proposal' => "required",
+            'proposal' => "nullable",
             'stage' => "required|in:" . implode(",", Offer::STAGE),
             'dateCreated' => 'required|date_format:Y-m-d',
             'validUntil' => 'required|date_format:Y-m-d',
