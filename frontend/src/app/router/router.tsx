@@ -377,6 +377,10 @@ export const router = createBrowserRouter([
         element: Pages.adminViewProjectPage,
         children: [
           {
+            path: Routes.summary,
+            element: Pages.adminProjectsSummaryPage,
+          },
+          {
             path: '*',
             index: true,
             element: <Navigate replace to={To.summary()} />,
