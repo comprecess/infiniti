@@ -36,6 +36,7 @@ type ProfileData = UserInfo | AdminInfo
 export const Profile = ({ isAdmin }: ProfileProps) => {
   const [profileData, setProfileData] = useState<ProfileData | null>(null)
   const [isSubscribed, setIsSubscribed] = useState<boolean | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
 
   const { isOpen, onToggle, onClose } = useDisclosure()
 
@@ -52,20 +53,25 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   }, [isAdmin])
 
   const fetchPushNotifications = useCallback(async () => {
-    const { push }: { push: boolean } = await getUserSettings()
-
-    setIsSubscribed(push)
-  }, [])
+    if (isMobile) {
+      const { push }: { push: boolean } = await getUserSettings()
+      setIsSubscribed(push)
+    } else {
+      setIsSubscribed(null)
+    }
+  }, [isMobile])
 
   const logout = async () => {
     const sessionToken = getSession(authTokenString)
     const authToken = getCookies(authTokenString)
 
     try {
-      const result = await postPushUnsubscribed()
+      if (isMobile) {
+        const result = await postPushUnsubscribed()
 
-      if (!result.status) {
-        console.error('Failed to update user settings:', result.message)
+        if (!result.status) {
+          console.error('Failed to update user settings:', result.message)
+        }
       }
 
       if (sessionToken) removeSession(authTokenString)
@@ -100,9 +106,34 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   }
 
   useEffect(() => {
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent.toLowerCase()
+      const isMobileUserAgent =
+        /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+          userAgent,
+        )
+
+      const hasTouch =
+        'ontouchstart' in window || navigator.maxTouchPoints > 0
+
+      const isSmallScreen = window.innerWidth <= 768
+      const isPortrait = window.matchMedia(
+        '(orientation: portrait)',
+      ).matches
+
+      const mobileCheck =
+        isMobileUserAgent && hasTouch && isSmallScreen && isPortrait
+
+      setIsMobile(mobileCheck)
+    }
+
+    checkMobile()
+  }, [])
+
+  useEffect(() => {
     fetchProfileData()
     fetchPushNotifications()
-  }, [fetchProfileData, fetchPushNotifications])
+  }, [fetchProfileData, fetchPushNotifications, isMobile])
 
   return (
     <Popover
@@ -197,7 +228,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
           >
             <span className={styles.modalItem}>Edit Profile</span>
             <span className={styles.modalItem}>Change Password</span>
-            {isSubscribed !== null && (
+            {isMobile && isSubscribed !== null && (
               <div
                 className={`${styles.modalItem} ${styles.notifications}`}
                 onClick={() =>

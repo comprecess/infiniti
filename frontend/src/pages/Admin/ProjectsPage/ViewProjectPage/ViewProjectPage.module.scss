@@ -15,10 +15,17 @@
 
 .container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 25px;
   width: 100%;
   max-width: $maxContentSize;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+  width: 100%;
 }
 
 .sidebarOverlay {
@@ -101,6 +108,7 @@
   transition: all 0.2s ease;
 
   @include mobileBreakpoint('min', $bpXL + 1) {
+    gap: 0;
     width: calc(100% - 262px);
   }
 }
@@ -111,4 +119,17 @@
   font-weight: 500;
   line-height: 32px;
   letter-spacing: -0.03em;
+}
+
+.titleStatus {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }

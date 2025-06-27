@@ -59,6 +59,11 @@ export interface ViewPageContext {
   idType: number
 }
 
+export interface ProjectViewPageContext {
+  idProject: number
+  projectInfo: ProjectsData
+}
+
 export interface UpdateProfileInfoProps {
   account: string
   email: string

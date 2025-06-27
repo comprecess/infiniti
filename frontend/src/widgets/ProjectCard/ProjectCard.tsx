@@ -67,42 +67,49 @@ export const ProjectCard = ({
           </div>
           <div className={styles.dateList}>
             <div className={styles.date}>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: '4px',
-                }}
-              >
-                <img
-                  src='/icons/calendar.svg'
-                  alt='calendar'
-                  className={styles.dateImgStart}
-                />
-                <span className={styles.dateText}>Start Date</span>
+              <div className={styles.dateContainerFirst}>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: '4px',
+                    width: 'fit-content',
+                  }}
+                >
+                  <img
+                    src='/icons/calendar.svg'
+                    alt='calendar'
+                    className={styles.dateImgStart}
+                  />
+                  <span className={styles.dateText}>Start Date</span>
+                </div>
+                <div>
+                  <span className={styles.startDate}>
+                    {project.startDate}
+                  </span>
+                </div>
               </div>
-              <span className={styles.description}>
-                {project.startDate}
-              </span>
             </div>
             <div className={styles.date}>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: '4px',
-                }}
-              >
-                <img
-                  src='/icons/calendar.svg'
-                  alt='calendar'
-                  className={styles.dateImgDue}
-                />
-                <span className={styles.dateText}>Due Date</span>
+              <div className={styles.dateContainerSecond}>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: '4px',
+                  }}
+                >
+                  <img
+                    src='/icons/calendar.svg'
+                    alt='calendar'
+                    className={styles.dateImgDue}
+                  />
+                  <span className={styles.dateText}>Due Date</span>
+                </div>
+                <span className={styles.startDate}>{project.dueDate}</span>
               </div>
-              <span className={styles.description}>{project.dueDate}</span>
             </div>
           </div>
           {project.members && project.members.length > 0 && (

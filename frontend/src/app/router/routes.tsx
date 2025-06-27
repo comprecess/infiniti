@@ -52,6 +52,7 @@ import { AdminProductsServicesPage } from '../../pages/Admin/ProductsServicesPag
 import { AdminCreateNewProject } from '../../pages/Admin/ProjectsPage/CreateNewProject/CreateNewProject'
 import { AdminEditProject } from '../../pages/Admin/ProjectsPage/EditProject/EditProject'
 import { AdminProjectsPage } from '../../pages/Admin/ProjectsPage/ProjectsPage'
+import { AdminProjectsSummaryPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/SummaryPage/SummaryPage'
 import { AdminViewProjectPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/ViewProjectPage'
 import { AdminPurchasePage } from '../../pages/Admin/PurchasePage/PurchasePage'
 import { AdminReportsPage } from '../../pages/Admin/ReportsPage/ReportsPage'
@@ -284,6 +285,7 @@ export const Pages = {
   adminPurchasePage: <AdminPurchasePage />,
   adminProjectsPage: <AdminProjectsPage />,
   adminViewProjectPage: <AdminViewProjectPage />,
+  adminProjectsSummaryPage: <AdminProjectsSummaryPage />,
   adminLeadsPage: <AdminLeadsPage />,
   adminSMSPage: <AdminSMSPage />,
   adminSupportPage: <AdminSupportPage />,
