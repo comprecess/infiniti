@@ -28,7 +28,7 @@ export const AdminProjectsSummaryPage = () => {
           <div className={styles.budget}>
             <span className={styles.budgetTitle}>Budget:</span>
             <span className={styles.budgetAmount}>
-              {projectInfo.budgetCurrency || 'N/A'}
+              {projectInfo.budgetCurrency}
             </span>
           </div>
           <div className={styles.dateList}>
