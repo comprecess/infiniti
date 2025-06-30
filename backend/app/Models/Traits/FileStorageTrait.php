@@ -18,6 +18,17 @@ trait FileStorageTrait
         return $this->morphMany(FileStorage::class, 'model')->orderByDesc('id');
     }
 
+    public function scopeFilesExists($query) :void
+    {
+        $model = new self();
+        $table = $model->getTable();
+        $query->Join('file_storages', function($join) use($table, $model){
+            $join->on('file_storages.model_id', '=', "{$table}.id")
+                ->where('file_storages.model_type', '=', $model::class);
+        });
+    }
+
+
     public function uploads(UploadedFile|File $file, $data = null)
     {
         $fileStorage = new FileStorage();

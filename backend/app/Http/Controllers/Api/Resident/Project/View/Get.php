@@ -54,7 +54,7 @@ class Get extends View
     public function files()
     {
         $request = app(FilesListRequest::class);
-        $query = $this->model->documents();
+        $query = $this->model->documents()->filesExists();
 
         $request->searchModel($query);
         $request->sortModel($query);

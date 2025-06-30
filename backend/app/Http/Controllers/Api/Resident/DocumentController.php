@@ -26,6 +26,7 @@ class DocumentController extends ResidentController
         $query = Document::query();
 
         $query
+            ->filesExists()
             ->checkAccess()
             ->with(['files']);
 
