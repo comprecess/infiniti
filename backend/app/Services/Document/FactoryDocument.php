@@ -5,13 +5,14 @@ namespace App\Services\Document;
 
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class FactoryDocument
 {
 
     public function __construct
     (
-        protected Builder $builder,
+        protected Builder|Relation $builder,
         protected $resorce,
         protected DocumentVariables $varibles
     )
