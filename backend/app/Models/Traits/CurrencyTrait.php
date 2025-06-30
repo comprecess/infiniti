@@ -71,13 +71,13 @@ trait CurrencyTrait
         return $this;
     }
 
-    public function printPrice($column, ?Currency $currencyTransform = null, $r = " ")
+    public function printPrice($column, ?Currency $currencyTransform = null, $r = " ", $decimals = 2)
     {
         $currency = $currencyTransform ?? $this->getCurrencyIso ?? Currency::getDefault();
         $info = $currency?->getInfo();
         $price = is_string($column) ? $this->{$column} : $column;
         if($info) {
-            $format = number_format($price, 2, $info['decimal_mark'], $info['thousands_separator']);
+            $format = number_format($price, $decimals, $info['decimal_mark'], $info['thousands_separator']);
             return $info['symbol_first'] ? $info['symbol'] . $r .$format : $format . $r . $info['symbol'];
         }
 
