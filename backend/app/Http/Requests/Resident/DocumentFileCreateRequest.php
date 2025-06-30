@@ -14,7 +14,9 @@ use Illuminate\Support\Arr;
 class DocumentFileCreateRequest extends FormRequest implements ConvertingPropertiesInterface
 {
 
-    use ConvertingPropertiesTrait;
+    use ConvertingPropertiesTrait {
+        setModel as setModelTrait;
+    }
 
     public function rules(): array
     {
@@ -63,12 +65,14 @@ class DocumentFileCreateRequest extends FormRequest implements ConvertingPropert
         return null;
     }
 
-    public function setModel(Model $model)
+    public function setModel(Model $model, $isPut = false, $listPropertis = null)
     {
         foreach(Document::WITH_MODEL as $key => $modelWith) {
             if($model instanceof $modelWith) {
                 $this->merge(['with' => ['object' => $key, 'id' => $model->id]]);
             }
         }
+
+        $this->setModelTrait($model, $isPut, $listPropertis);
     }
 }
