@@ -38,8 +38,8 @@ class UsersResorce extends JsonResource
             'keySkills' => ValueResorce::collection(self::$isCollection ? ( $keySkills->count() ? $keySkills?->chunk(3)?->first() : collect([]) ) : $keySkills),
 //            'priceDay' => $this->getCurrency((int) $this->getPropValues('priceDay')),
 //            'priceHour' => $this->getCurrency((int) $this->getPropValues('priceHour')),
-            'priceDay' => $this->printPrice((int) $this->getPropValues('priceDay')),
-            'priceHour' => $this->printPrice((int) $this->getPropValues('priceHour')),
+            'priceDay' => $this->printPrice((int) $this->getPropValues('priceDay'), null, " ", 0),
+            'priceHour' => $this->printPrice((int) $this->getPropValues('priceHour'), null, " ", 0),
             'inCart' => $this->inCart ? 1 : 0
         ];
 
