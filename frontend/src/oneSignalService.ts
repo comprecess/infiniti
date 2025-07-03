@@ -82,10 +82,6 @@ export const subscribeOneSignal = async () => {
 
 export const clearOneSignalData = async () => {
   if (window.OneSignal) {
-    window.OneSignal.push(() => {
-      window.OneSignal.logout()
-    })
-
     delete window.OneSignal
 
     const keys = Object.keys(localStorage).filter(key =>
