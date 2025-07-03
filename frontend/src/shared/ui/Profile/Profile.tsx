@@ -17,6 +17,7 @@ import {
   UserInfo,
 } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
+import { subscribeOneSignal } from '../../../oneSignalService'
 import { getUserSettings } from '../../utils/api/GetUserSettings'
 import { patchSetUserSettings } from '../../utils/api/PatchSetUserSettings'
 import { postKeyPush } from '../../utils/api/Push/PostKeyPush'
@@ -105,8 +106,12 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   const toggleNotificationSubscription = async (isSubscribed: boolean) => {
     const notificationToken = getCookies(notificationTokenString)
 
-    if (isMobile && isSubscribed === true && !notificationToken) {
-      await postKeyPush(notificationToken)
+    if (isMobile && isSubscribed === true) {
+      if (notificationToken) {
+        await postKeyPush(notificationToken)
+      } else {
+        await subscribeOneSignal()
+      }
     }
 
     await patchSetUserSettings({ push: isSubscribed })
