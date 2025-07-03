@@ -107,7 +107,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     const notificationToken = getCookies(notificationTokenString)
 
     if (isMobile && isSubscribed === true) {
-      if (notificationToken) {
+      if (notificationToken.status) {
         await postKeyPush(notificationToken)
       } else {
         await subscribeOneSignal()
