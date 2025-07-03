@@ -87,7 +87,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   }
 
   const toggleNotificationSubscription = async (isSubscribed: boolean) => {
-    if (isMobile) {
+    if (isMobile && !isSubscribed) {
       try {
         await subscribeOneSignal()
       } catch (error) {
