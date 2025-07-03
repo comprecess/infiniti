@@ -52,10 +52,6 @@ export const initOneSignal = async () => {
 }
 
 export const subscribeOneSignal = async () => {
-  const sessionToken = getSession(authTokenString)
-
-  if (sessionToken) return
-
   await initOneSignal()
 
   window.OneSignal.push(() => {
