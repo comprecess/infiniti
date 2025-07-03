@@ -16,7 +16,10 @@ import {
   UserInfo,
 } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
-import { subscribeOneSignal } from '../../../oneSignalService'
+import {
+  clearOneSignalData,
+  subscribeOneSignal,
+} from '../../../oneSignalService'
 import { getUserSettings } from '../../utils/api/GetUserSettings'
 import { patchSetUserSettings } from '../../utils/api/PatchSetUserSettings'
 import { postPushUnsubscribed } from '../../utils/api/Push/PostPushUnsubscribed'
@@ -72,6 +75,8 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
       const response = await postPushUnsubscribed()
 
       if (response.status) {
+        await clearOneSignalData()
+
         showToast({
           title: 'PUSH',
           description: 'PUSH notifications are disabled from the account',
