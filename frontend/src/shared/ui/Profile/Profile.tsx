@@ -71,24 +71,36 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   }, [isMobile])
 
   const logout = async () => {
-    if (isMobile && !sessionToken && isSubscribed === true) {
-      const response = await postPushUnsubscribed()
+    try {
+      if (isMobile && !sessionToken && isSubscribed === true) {
+        const response = await postPushUnsubscribed()
 
-      if (response.status) {
-        await clearOneSignalData()
+        if (response.status) {
+          await clearOneSignalData()
 
-        showToast({
-          title: 'PUSH',
-          description: 'PUSH notifications are disabled from the account',
-          status: 'info',
-        })
+          showToast({
+            title: 'PUSH',
+            description:
+              'PUSH notifications are disabled from the account',
+            status: 'info',
+          })
+        }
       }
+
+      if (sessionToken) {
+        removeSession(authTokenString)
+      } else if (authToken) {
+        removeCookies(authTokenString)
+      }
+
+      navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
+    } catch (error) {
+      showToast({
+        title: 'Error',
+        description: 'An error occurred during logout',
+        status: 'error',
+      })
     }
-
-    if (sessionToken) removeSession(authTokenString)
-    else if (authToken) removeCookies(authTokenString)
-
-    navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
   }
 
   const toggleNotificationSubscription = async (isSubscribed: boolean) => {
