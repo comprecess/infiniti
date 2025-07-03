@@ -83,7 +83,6 @@ export const subscribeOneSignal = async () => {
 export const clearOneSignalData = async () => {
   if (window.OneSignal) {
     window.OneSignal.push(() => {
-      window.OneSignal.clearEventListeners()
       window.OneSignal.logout()
     })
 
