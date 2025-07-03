@@ -103,20 +103,14 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   }
 
   const toggleNotificationSubscription = async (isSubscribed: boolean) => {
-    if (isMobile && isSubscribed === true) {
-      const notificationToken = getCookies(notificationTokenString)
+    const notificationToken = getCookies(notificationTokenString)
 
-      try {
-        await postKeyPush(notificationToken)
-      } catch (error) {
-        console.error(
-          '❌ Ошибка при загрузке OneSignal SDK или получении данных:',
-          error,
-        )
-      }
+    if (isMobile && isSubscribed === true && !notificationToken) {
+      await postKeyPush(notificationToken)
     }
 
     await patchSetUserSettings({ push: isSubscribed })
+
     fetchPushNotifications()
   }
 
