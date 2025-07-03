@@ -55,6 +55,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   const fetchPushNotifications = useCallback(async () => {
     if (isMobile) {
       const { push }: { push: boolean } = await getUserSettings()
+
       setIsSubscribed(push)
     } else {
       setIsSubscribed(null)
@@ -133,7 +134,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   useEffect(() => {
     fetchProfileData()
     fetchPushNotifications()
-  }, [])
+  }, [isMobile])
 
   return (
     <Popover

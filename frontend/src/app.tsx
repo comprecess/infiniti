@@ -51,7 +51,7 @@ export const App = () => {
     init()
 
     setTimeout(() => setShowLoadingScreen(false), 2000)
-  }, [])
+  }, [isMobile])
 
   if (isLoading || showLoadingScreen) {
     return <LoadingScreen />
