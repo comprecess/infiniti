@@ -65,16 +65,20 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     }
   }, [isMobile])
 
-  const logout = useCallback(async () => {
-    if (isMobile && !sessionToken) {
-      await postPushUnsubscribed()
+  const logout = async () => {
+    if (isMobile && !sessionToken && isSubscribed === true) {
+      const response = await postPushUnsubscribed()
+
+      if (!response.status) {
+        return
+      }
     }
 
     if (sessionToken) removeSession(authTokenString)
     else if (authToken) removeCookies(authTokenString)
 
     navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
-  }, [isMobile, sessionToken, authToken])
+  }
 
   const toggleNotificationSubscription = async (isSubscribed: boolean) => {
     if (isMobile && isSubscribed) {
