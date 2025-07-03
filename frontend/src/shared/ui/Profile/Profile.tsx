@@ -24,6 +24,7 @@ import { getCookies } from '../../utils/Saving/Cookies/GetCookies'
 import { removeCookies } from '../../utils/Saving/Cookies/RemoveCookies'
 import { getSession } from '../../utils/Saving/Session/GetSession'
 import { removeSession } from '../../utils/Saving/Session/RemoveSession'
+import { useCustomToast } from '../CustomToast/CustomToast'
 import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner'
 import styles from './Profile.module.scss'
 
@@ -41,6 +42,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   const { isOpen, onToggle, onClose } = useDisclosure()
 
   const navigate = useNavigate()
+  const showToast = useCustomToast()
 
   const sessionToken = getSession(authTokenString)
   const authToken = getCookies(authTokenString)
@@ -69,8 +71,12 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     if (isMobile && !sessionToken && isSubscribed === true) {
       const response = await postPushUnsubscribed()
 
-      if (!response.status) {
-        return
+      if (response.status) {
+        showToast({
+          title: 'PUSH notifications',
+          description: 'PUSH notifications are disabled from the account',
+          status: 'info',
+        })
       }
     }
 
