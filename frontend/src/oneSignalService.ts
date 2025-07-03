@@ -1,5 +1,7 @@
+import { authTokenString } from './app/constants/constants'
 import { getKeyPush } from './shared/utils/api/Push/GetKeyPush'
 import { postKeyPush } from './shared/utils/api/Push/PostKeyPush'
+import { getSession } from './shared/utils/Saving/Session/GetSession'
 
 declare global {
   interface Window {
@@ -8,6 +10,10 @@ declare global {
 }
 
 export const initOneSignal = async () => {
+  const sessionToken = getSession(authTokenString)
+
+  if (sessionToken) return
+
   try {
     const response = await getKeyPush()
 
@@ -45,6 +51,10 @@ export const initOneSignal = async () => {
 }
 
 export const subscribeOneSignal = async () => {
+  const sessionToken = getSession(authTokenString)
+
+  if (sessionToken) return
+
   await initOneSignal()
 
   window.OneSignal.push(() => {
