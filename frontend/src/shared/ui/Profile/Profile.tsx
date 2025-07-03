@@ -67,7 +67,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     }
   }, [isMobile])
 
-  const logout = useCallback(async () => {
+  const logout = async () => {
     if (isMobile && !sessionToken && isSubscribed === true) {
       const response = await postPushUnsubscribed()
 
@@ -84,7 +84,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     else if (authToken) removeCookies(authTokenString)
 
     navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
-  }, [isMobile])
+  }
 
   const toggleNotificationSubscription = async (isSubscribed: boolean) => {
     if (isMobile && isSubscribed) {
@@ -128,12 +128,18 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     }
 
     checkMobile()
+
+    window.addEventListener('resize', checkMobile)
+
+    return () => {
+      window.removeEventListener('resize', checkMobile)
+    }
   }, [])
 
   useEffect(() => {
     fetchProfileData()
     fetchPushNotifications()
-  }, [isMobile])
+  }, [fetchProfileData, fetchPushNotifications, isMobile])
 
   return (
     <Popover
