@@ -73,7 +73,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
 
       if (response.status) {
         showToast({
-          title: 'PUSH notifications',
+          title: 'PUSH',
           description: 'PUSH notifications are disabled from the account',
           status: 'info',
         })
@@ -128,12 +128,6 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     }
 
     checkMobile()
-
-    window.addEventListener('resize', checkMobile)
-
-    return () => {
-      window.removeEventListener('resize', checkMobile)
-    }
   }, [])
 
   useEffect(() => {

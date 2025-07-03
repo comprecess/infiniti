@@ -41,12 +41,6 @@ export const App = () => {
     }
 
     checkMobile()
-
-    window.addEventListener('resize', checkMobile)
-
-    return () => {
-      window.removeEventListener('resize', checkMobile)
-    }
   }, [])
 
   useEffect(() => {
