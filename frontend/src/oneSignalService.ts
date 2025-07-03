@@ -37,6 +37,7 @@ export const initOneSignal = async () => {
           allowLocalhostAsSecureOrigin: true,
         })
 
+        // eslint-disable-next-line no-console
         console.log('✅ OneSignal инициализирован')
       } catch (error) {
         console.error('❌ Ошибка при инициализации OneSignal:', error)
@@ -64,6 +65,7 @@ export const subscribeOneSignal = async () => {
 
     window.OneSignal.on('subscriptionChange', async function () {
       const userId = await window.OneSignal.getUserId()
+      // eslint-disable-next-line no-console
       console.log('👤 Новый userId:', userId)
 
       try {
@@ -73,6 +75,7 @@ export const subscribeOneSignal = async () => {
           throw new Error(`❌ Сервер вернул статус ${res.status}`)
         }
 
+        // eslint-disable-next-line no-console
         console.log('✅ Player ID успешно сохранён')
       } catch (error) {
         console.error('❌ Ошибка при сохранении Player ID:', error)
