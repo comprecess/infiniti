@@ -43,6 +43,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   const navigate = useNavigate()
 
   const sessionToken = getSession(authTokenString)
+  const authToken = getCookies(authTokenString)
 
   const fetchProfileData = useCallback(async () => {
     const profileData = getSession(profileInfoString) as ProfileData
@@ -65,27 +66,14 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   }, [isMobile])
 
   const logout = async () => {
-    const authToken = getCookies(authTokenString)
-
-    try {
-      if (isMobile && !sessionToken) {
-        const result = await postPushUnsubscribed()
-
-        if (!result.status) {
-          console.error('Failed to update user settings:', result.message)
-        }
-      }
-
-      if (sessionToken) removeSession(authTokenString)
-      if (authToken) removeCookies(authTokenString)
-
-      navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
-    } catch (error) {
-      console.error('Error during logout:', error)
-      if (sessionToken) removeSession(authTokenString)
-      if (authToken) removeCookies(authTokenString)
-      navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
+    if (isMobile && !sessionToken) {
+      await postPushUnsubscribed()
     }
+
+    if (sessionToken) removeSession(authTokenString)
+    else if (authToken) removeCookies(authTokenString)
+
+    navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
   }
 
   const toggleNotificationSubscription = async (isSubscribed: boolean) => {
