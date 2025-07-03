@@ -73,9 +73,12 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   const logout = async () => {
     try {
       if (isMobile && !sessionToken && isSubscribed === true) {
-        const response = await postPushUnsubscribed()
+        const resUnsubscribed = await postPushUnsubscribed()
+        const resUserSettings = await patchSetUserSettings({
+          push: isSubscribed,
+        })
 
-        if (response.status) {
+        if (resUnsubscribed.status && resUserSettings.status) {
           await clearOneSignalData()
 
           showToast({
