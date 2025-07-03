@@ -7,7 +7,7 @@
 }
 
 .wrapperAll {
-  min-width: 1300px;
+  min-width: 1470px;
 }
 
 .columns {
@@ -27,23 +27,43 @@
   height: 100%;
 }
 
+.codeColumn,
+.accountColumn,
+.amountColumn,
+.invoiceDateColumn,
+.dueDateColumn,
+.statusColumn,
 .typeColumn,
-.titleColumn,
 .manageColumn {
   width: 100%;
 }
 
-.typeColumn {
-  max-width: 75px;
-}
-
-.titleColumn {
-  max-width: 1200px;
-}
-
 .manageColumn {
-  max-width: 220px;
+  max-width: 200px;
+  min-width: 200px;
   justify-content: end;
+}
+
+.codeColumn {
+  max-width: 150px;
+}
+
+.accountColumn {
+  max-width: 300px;
+}
+
+.amountColumn {
+  max-width: 170px;
+}
+
+.statusColumn,
+.typeColumn {
+  max-width: 140px;
+}
+
+.invoiceDateColumn,
+.dueDateColumn {
+  max-width: 190px;
 }
 
 .nothingFound {

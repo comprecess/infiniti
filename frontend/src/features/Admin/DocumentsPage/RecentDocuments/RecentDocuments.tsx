@@ -42,49 +42,61 @@ export const RecentDocuments = ({
   }
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.columns}>
-        <Title
-          sorted
-          title='Type'
-          style={styles.typeColumn}
-          sortType={sortNumbers[0]}
-          sortName='id'
-          sortIndex={0}
-          changeSortName={handleSortChange}
-          clearSort={clearSort}
-        />
-        <Title
-          sorted
-          title='Title'
-          style={styles.titleColumn}
-          sortType={sortNumbers[1]}
-          sortName='title'
-          sortIndex={1}
-          changeSortName={handleSortChange}
-          clearSort={clearSort}
-        />
-        <Title title='Manage' style={styles.manageColumn} />
-      </div>
-      <div className={styles.items}>
-        {files.map((file, index) => {
-          return (
-            <Fragment key={file.id}>
-              <Item
-                idFile={file.id}
-                authToken={authToken}
-                global={file.global}
-                title={file.title}
-                link={file.link}
-                type={file.type}
-                access={access}
-                deleteFile={deleteFile}
-              />
-              {index !== files.length - 1 && <CustomDivider />}
-            </Fragment>
-          )
-        })}
-      </div>
+    <div
+      className={
+        files.length > 0 ? styles.wrapperAll : styles.wrapperNotFound
+      }
+    >
+      {files.length > 0 ? (
+        <>
+          <div className={styles.columns}>
+            <Title
+              sorted
+              title='Type'
+              style={styles.typeColumn}
+              sortType={sortNumbers[0]}
+              sortName='id'
+              sortIndex={0}
+              changeSortName={handleSortChange}
+              clearSort={clearSort}
+            />
+            <Title
+              sorted
+              title='Title'
+              style={styles.titleColumn}
+              sortType={sortNumbers[1]}
+              sortName='title'
+              sortIndex={1}
+              changeSortName={handleSortChange}
+              clearSort={clearSort}
+            />
+            <Title title='Manage' style={styles.manageColumn} />
+          </div>
+          <div className={styles.items}>
+            {files.map((file, index) => {
+              return (
+                <Fragment key={file.id}>
+                  <Item
+                    idFile={file.id}
+                    authToken={authToken}
+                    global={file.global}
+                    title={file.title}
+                    link={file.link}
+                    type={file.type}
+                    access={access}
+                    deleteFile={deleteFile}
+                  />
+                  {index !== files.length - 1 && <CustomDivider />}
+                </Fragment>
+              )
+            })}
+          </div>
+        </>
+      ) : (
+        <div className={styles.nothingFound}>
+          <span className={styles.nothingFoundText}>Nothing Found</span>
+        </div>
+      )}
     </div>
   )
 }

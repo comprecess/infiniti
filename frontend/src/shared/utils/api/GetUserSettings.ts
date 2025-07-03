@@ -5,9 +5,9 @@ export const getUserSettings = async () => {
 
   if (authToken) {
     try {
-      const url =
-        import.meta.env.VITE_MAIN_DOMAIN +
-        import.meta.env.VITE_GET_USER_SETTINGS
+      const url = `${import.meta.env.VITE_MAIN_DOMAIN}${
+        import.meta.env.VITE_USER_API
+      }/setting`
 
       const response = await fetch(url, {
         method: 'GET',

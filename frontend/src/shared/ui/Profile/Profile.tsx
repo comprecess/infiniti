@@ -133,7 +133,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   useEffect(() => {
     fetchProfileData()
     fetchPushNotifications()
-  }, [fetchProfileData, fetchPushNotifications, isMobile])
+  }, [])
 
   return (
     <Popover

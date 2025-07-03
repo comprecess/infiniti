@@ -10,18 +10,18 @@ export const postPushUnsubscribed = async (): Promise<Response> => {
 
   if (authToken) {
     try {
-      const response = await fetch(
-        import.meta.env.VITE_MAIN_DOMAIN +
-          import.meta.env.VITE_DELETE_PUSH,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${authToken}`,
-          },
+      const url = `${import.meta.env.VITE_MAIN_DOMAIN}${
+        import.meta.env.VITE_NOTIFICATIONS_API
+      }/unsubscribed`
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${authToken}`,
         },
-      )
+      })
 
       const data: Response = await response.json()
 

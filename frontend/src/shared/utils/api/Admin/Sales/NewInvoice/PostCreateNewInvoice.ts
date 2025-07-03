@@ -8,25 +8,24 @@ interface Response {
 }
 
 export const addNewInvoice = async (
+  api: string,
   formData: PartialFieldsPostData,
 ): Promise<Response> => {
   const authToken = getAuthToken()
 
   if (authToken) {
     try {
-      const response = await fetch(
-        import.meta.env.VITE_MAIN_DOMAIN +
-          import.meta.env.VITE_SALES_CREATE_NEW_INVOICE,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${authToken}`,
-          },
-          body: JSON.stringify({ ...formData }),
+      const url = `${import.meta.env.VITE_MAIN_DOMAIN}${api}`
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${authToken}`,
         },
-      )
+        body: JSON.stringify({ ...formData }),
+      })
 
       const data: Response = await response.json()
 

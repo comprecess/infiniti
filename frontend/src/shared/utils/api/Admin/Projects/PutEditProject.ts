@@ -14,20 +14,19 @@ export const putEditProject = async (
 
   if (authToken) {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_MAIN_DOMAIN}${
-          import.meta.env.VITE_PROJECTS_PUT_EDIT_PROJECT
-        }${id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${authToken}`,
-          },
-          body: JSON.stringify({ ...formData }),
+      const url = `${import.meta.env.VITE_MAIN_DOMAIN}${
+        import.meta.env.VITE_PROJECTS_API
+      }/${id}`
+
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${authToken}`,
         },
-      )
+        body: JSON.stringify({ ...formData }),
+      })
 
       const data: Response = await response.json()
 

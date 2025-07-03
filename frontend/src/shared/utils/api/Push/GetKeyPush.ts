@@ -5,9 +5,9 @@ export const getKeyPush = async () => {
 
   if (authToken) {
     try {
-      const url =
-        import.meta.env.VITE_MAIN_DOMAIN +
-        import.meta.env.VITE_GET_KEY_PUSH
+      const url = `${import.meta.env.VITE_MAIN_DOMAIN}${
+        import.meta.env.VITE_NOTIFICATIONS_API
+      }/public-key`
 
       const response = await fetch(url, {
         method: 'GET',

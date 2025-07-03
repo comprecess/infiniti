@@ -1,5 +1,5 @@
-import { ProjectsNewProjectForm } from '../../../../../../app/constants/constants'
-import { getAuthToken } from '../../../GetAuthToken'
+import { ProjectsNewProjectForm } from '../../../../../app/constants/constants'
+import { getAuthToken } from '../../GetAuthToken'
 
 interface Response {
   status: boolean
@@ -15,7 +15,7 @@ export const postCreateNewProject = async (
     try {
       const response = await fetch(
         import.meta.env.VITE_MAIN_DOMAIN +
-          import.meta.env.VITE_PROJECTS_POST_CREATE_NEW_PROJECT,
+          import.meta.env.VITE_PROJECTS_API,
         {
           method: 'POST',
           headers: {

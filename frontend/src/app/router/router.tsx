@@ -385,6 +385,14 @@ export const router = createBrowserRouter([
             element: Pages.adminProjectsFilesPage,
           },
           {
+            path: Routes.expenses,
+            element: Pages.adminProjectsExpensesPage,
+          },
+          {
+            path: Routes.invoices,
+            element: Pages.adminProjectsInvoicesPage,
+          },
+          {
             path: '*',
             index: true,
             element: <Navigate replace to={To.summary()} />,

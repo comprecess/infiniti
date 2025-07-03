@@ -14,23 +14,23 @@ export const registerUser = async (
   confirmationPassword: string,
 ): Promise<RegisterUserResponse> => {
   try {
-    const response = await fetch(
-      import.meta.env.VITE_MAIN_DOMAIN +
-        import.meta.env.VITE_AUTH_API_USER_REGISTER,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          fullName,
-          email,
-          password,
-          confirmationPassword,
-        }),
+    const url = `${import.meta.env.VITE_MAIN_DOMAIN}${
+      import.meta.env.VITE_AUTH_CLIENT_REGISTER_API
+    }`
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
-    )
+      body: JSON.stringify({
+        fullName,
+        email,
+        password,
+        confirmationPassword,
+      }),
+    })
 
     const data: RegisterUserResponse = await response.json()
 

@@ -13,18 +13,18 @@ export const getProfileInfo = async (): Promise<UserInfo | false> => {
 
   if (authToken) {
     try {
-      const response = await fetch(
-        import.meta.env.VITE_MAIN_DOMAIN +
-          import.meta.env.VITE_PROFILE_API_CLIENT_INFO,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${authToken}`,
-          },
+      const url = `${import.meta.env.VITE_MAIN_DOMAIN}${
+        import.meta.env.VITE_USER_API
+      }`
+
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${authToken}`,
         },
-      )
+      })
 
       if (!response.ok) {
         removeCookies(authTokenString)

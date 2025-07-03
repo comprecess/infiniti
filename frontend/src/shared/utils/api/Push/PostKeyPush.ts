@@ -10,18 +10,19 @@ export const postKeyPush = async (userId: any): Promise<Response> => {
 
   if (authToken) {
     try {
-      const response = await fetch(
-        import.meta.env.VITE_MAIN_DOMAIN + import.meta.env.VITE_POST_PUSH,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${authToken}`,
-          },
-          body: JSON.stringify({ subscription: userId }),
+      const url = `${import.meta.env.VITE_MAIN_DOMAIN}${
+        import.meta.env.VITE_NOTIFICATIONS_API
+      }/subscribe`
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${authToken}`,
         },
-      )
+        body: JSON.stringify({ subscription: userId }),
+      })
 
       const data: Response = await response.json()
 
