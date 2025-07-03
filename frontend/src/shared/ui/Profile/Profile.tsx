@@ -12,16 +12,14 @@ import { useNavigate } from 'react-router-dom'
 import {
   AdminInfo,
   authTokenString,
+  notificationTokenString,
   profileInfoString,
   UserInfo,
 } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
-import {
-  clearOneSignalData,
-  subscribeOneSignal,
-} from '../../../oneSignalService'
 import { getUserSettings } from '../../utils/api/GetUserSettings'
 import { patchSetUserSettings } from '../../utils/api/PatchSetUserSettings'
+import { postKeyPush } from '../../utils/api/Push/PostKeyPush'
 import { postPushUnsubscribed } from '../../utils/api/Push/PostPushUnsubscribed'
 import { getCookies } from '../../utils/Saving/Cookies/GetCookies'
 import { removeCookies } from '../../utils/Saving/Cookies/RemoveCookies'
@@ -75,12 +73,10 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
       if (isMobile && !sessionToken && isSubscribed === true) {
         const resUnsubscribed = await postPushUnsubscribed()
         const resUserSettings = await patchSetUserSettings({
-          push: isSubscribed,
+          push: false,
         })
 
         if (resUnsubscribed.status && resUserSettings.status) {
-          await clearOneSignalData()
-
           showToast({
             title: 'PUSH',
             description:
@@ -108,8 +104,10 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
 
   const toggleNotificationSubscription = async (isSubscribed: boolean) => {
     if (isMobile && isSubscribed === true) {
+      const notificationToken = getCookies(notificationTokenString)
+
       try {
-        await subscribeOneSignal()
+        await postKeyPush(notificationToken)
       } catch (error) {
         console.error(
           '❌ Ошибка при загрузке OneSignal SDK или получении данных:',

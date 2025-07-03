@@ -1,6 +1,10 @@
-import { authTokenString } from './app/constants/constants'
+import {
+  authTokenString,
+  notificationTokenString,
+} from './app/constants/constants'
 import { getKeyPush } from './shared/utils/api/Push/GetKeyPush'
 import { postKeyPush } from './shared/utils/api/Push/PostKeyPush'
+import { saveCookies } from './shared/utils/Saving/Cookies/SaveCookies'
 import { getSession } from './shared/utils/Saving/Session/GetSession'
 
 declare global {
@@ -64,6 +68,8 @@ export const subscribeOneSignal = async () => {
       // eslint-disable-next-line no-console
       console.log('👤 Новый userId:', userId)
 
+      saveCookies(notificationTokenString, userId, 3600)
+
       try {
         const res = await postKeyPush(userId)
 
@@ -78,55 +84,4 @@ export const subscribeOneSignal = async () => {
       }
     })
   })
-}
-
-export const clearOneSignalData = async () => {
-  if (window.OneSignal) {
-    try {
-      await window.OneSignal.setSubscription(false)
-    } catch (e) {
-      console.warn("Couldn't unsubscribe via SDK", e)
-    }
-  }
-
-  Object.keys(localStorage).forEach(key => {
-    if (/onesignal|OneSignal/i.test(key)) {
-      localStorage.removeItem(key)
-    }
-  })
-
-  Object.keys(sessionStorage).forEach(key => {
-    if (/onesignal|OneSignal/i.test(key)) {
-      sessionStorage.removeItem(key)
-    }
-  })
-
-  if ('serviceWorker' in navigator) {
-    try {
-      const registrations =
-        await navigator.serviceWorker.getRegistrations()
-      await Promise.all(
-        registrations.map(reg => {
-          if (/onesignal/i.test(reg.scope)) return reg.unregister()
-        }),
-      )
-    } catch (e) {
-      console.warn('Service Worker unregister failed', e)
-    }
-  }
-
-  document.cookie.split(';').forEach(cookie => {
-    const name = cookie.split('=')[0].trim()
-    if (/onesignal/i.test(name)) {
-      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`
-    }
-  })
-
-  delete window.OneSignal
-
-  document
-    .querySelectorAll('script[src*="onesignal"]')
-    .forEach(script => script.remove())
-
-  window.location.reload()
 }
