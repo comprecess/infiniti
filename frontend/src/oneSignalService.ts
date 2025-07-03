@@ -86,17 +86,5 @@ export const clearOneSignalData = async () => {
       window.OneSignal.clearSession()
       window.OneSignal.logout()
     })
-
-    const keys = Object.keys(localStorage).filter(key =>
-      key.includes('onesignal'),
-    )
-
-    keys.forEach(key => localStorage.removeItem(key))
-
-    try {
-      indexedDB.deleteDatabase('OneSignalSDKDB')
-    } catch (e) {
-      console.error('Error clearing OneSignal IndexedDB:', e)
-    }
   }
 }
