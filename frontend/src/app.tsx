@@ -2,10 +2,12 @@ import { useColorMode } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { RouterProvider } from 'react-router-dom'
 
+import { authTokenString } from './app/constants/constants'
 import { router } from './app/router/router'
 import { initOneSignal } from './oneSignalService'
 import { LoadingScreen } from './shared/ui/LoadingScreen/LoadingScreen'
 import { getProfileInfo } from './shared/utils/api/GetProfileInfo'
+import { getSession } from './shared/utils/Saving/Session/GetSession'
 
 export const App = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -13,6 +15,8 @@ export const App = () => {
   const [isMobile, setIsMobile] = useState(false)
 
   const { setColorMode } = useColorMode()
+
+  const sessionToken = getSession(authTokenString)
 
   useEffect(() => {
     const checkMobile = () => {
@@ -41,7 +45,7 @@ export const App = () => {
 
   useEffect(() => {
     const init = async () => {
-      if (isMobile) await initOneSignal()
+      if (isMobile && !sessionToken) await initOneSignal()
 
       await getProfileInfo()
 

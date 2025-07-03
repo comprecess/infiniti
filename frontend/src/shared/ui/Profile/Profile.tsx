@@ -42,6 +42,8 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
 
   const navigate = useNavigate()
 
+  const sessionToken = getSession(authTokenString)
+
   const fetchProfileData = useCallback(async () => {
     const profileData = getSession(profileInfoString) as ProfileData
 
@@ -63,11 +65,10 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   }, [isMobile])
 
   const logout = async () => {
-    const sessionToken = getSession(authTokenString)
     const authToken = getCookies(authTokenString)
 
     try {
-      if (isMobile) {
+      if (isMobile && !sessionToken) {
         const result = await postPushUnsubscribed()
 
         if (!result.status) {
@@ -229,7 +230,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
           >
             <span className={styles.modalItem}>Edit Profile</span>
             <span className={styles.modalItem}>Change Password</span>
-            {isMobile && isSubscribed !== null && (
+            {isMobile && !sessionToken && isSubscribed !== null && (
               <div
                 className={`${styles.modalItem} ${styles.notifications}`}
                 onClick={() =>
