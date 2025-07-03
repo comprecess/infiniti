@@ -97,7 +97,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     } catch (error) {
       showToast({
         title: 'Error',
-        description: 'An error occurred during logout',
+        description: `Logout error: ${error}`,
         status: 'error',
       })
     }
