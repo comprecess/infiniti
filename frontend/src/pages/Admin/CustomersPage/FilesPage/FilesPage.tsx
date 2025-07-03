@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
   CustomersFilesData,
@@ -34,14 +34,6 @@ export const AdminFilesPage = () => {
     placeholderData: previousData => previousData,
   })
 
-  const searchOnChange = useCallback((searchItem: string) => {
-    setSearch(searchItem)
-  }, [])
-
-  const pageOnChange = useCallback((pageItem: number) => {
-    setPage(pageItem)
-  }, [])
-
   useEffect(() => {
     document.title = 'infiniti | Files'
   }, [])
@@ -57,11 +49,11 @@ export const AdminFilesPage = () => {
             PagesComponent={PagesList}
             pagesProps={{
               meta: groupsData.meta,
-              nextPage: pageOnChange,
+              nextPage: setPage,
               size: 'sm',
             }}
             headerProps={{
-              onSearchChange: searchOnChange,
+              onSearchChange: setSearch,
             }}
           >
             <RecentFiles

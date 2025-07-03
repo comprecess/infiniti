@@ -7,18 +7,18 @@ export const resetPassword = async (
   email: string,
 ): Promise<ResetPasswordResponse> => {
   try {
-    const response = await fetch(
-      import.meta.env.VITE_MAIN_DOMAIN +
-        import.meta.env.VITE_AUTH_API_RESET_PASSWORD,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({ email }),
+    const url = `${import.meta.env.VITE_MAIN_DOMAIN}${
+      import.meta.env.VITE_AUTH_CLIENT_RESET_PASSWORD_API
+    }`
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
-    )
+      body: JSON.stringify({ email }),
+    })
 
     const data: ResetPasswordResponse = await response.json()
 

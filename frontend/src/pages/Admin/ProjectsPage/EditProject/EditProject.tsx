@@ -11,8 +11,8 @@ import { Fields } from '../../../../features/Admin/Projects/EditProject/Fields/F
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getProjectEditInfo } from '../../../../shared/utils/api/Admin/Projects/GetProjectEditInfo'
-import { getProjectsInputData } from '../../../../shared/utils/api/Admin/Projects/GetProjectsInputData'
+import { getProjectEditInfo } from '../../../../shared/utils/api/Admin/Projects/get-project-edit-info'
+import { getProjectsInputData } from '../../../../shared/utils/api/Admin/Projects/get-project-input-data'
 import { putEditProject } from '../../../../shared/utils/api/Admin/Projects/PutEditProject'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
@@ -33,13 +33,17 @@ export const AdminEditProject = () => {
   const getInputData = async () => {
     const response = await getProjectsInputData()
 
-    setInputData(response)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
   const getProjectInfo = async () => {
     if (!id) return
 
     const response = await getProjectEditInfo(id)
+
+    if (response.status === false) return
 
     const {
       id: _,
@@ -49,7 +53,7 @@ export const AdminEditProject = () => {
       staff,
       currency,
       ...rest
-    } = response.data
+    } = response.data.data
 
     setForm({
       ...rest,

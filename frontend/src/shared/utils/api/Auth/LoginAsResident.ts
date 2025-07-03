@@ -12,18 +12,18 @@ export const loginResident = async (
   password: string,
 ): Promise<LoginResidentResponse> => {
   try {
-    const response = await fetch(
-      import.meta.env.VITE_MAIN_DOMAIN +
-        import.meta.env.VITE_AUTH_API_ADMIN_LOGIN,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({ login, password }),
+    const url = `${import.meta.env.VITE_MAIN_DOMAIN}${
+      import.meta.env.VITE_AUTH_RESIDENT_LOGIN_API
+    }`
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
-    )
+      body: JSON.stringify({ login, password }),
+    })
 
     const data: LoginResidentResponse = await response.json()
 

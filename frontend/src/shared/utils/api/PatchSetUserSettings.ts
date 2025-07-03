@@ -12,19 +12,18 @@ export const patchSetUserSettings = async (
 
   if (authToken) {
     try {
-      const response = await fetch(
-        import.meta.env.VITE_MAIN_DOMAIN +
-          import.meta.env.VITE_GET_USER_SETTINGS +
-          `?push=${object.push}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${authToken}`,
-          },
+      const url = `${import.meta.env.VITE_MAIN_DOMAIN}${
+        import.meta.env.VITE_USER_API
+      }/setting?push=${object.push}`
+
+      const response = await fetch(url, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${authToken}`,
         },
-      )
+      })
 
       const data: Response = await response.json()
 

@@ -117,14 +117,6 @@ export const AdminDocumentsPage = () => {
     }
   }
 
-  const searchOnChange = useCallback((searchItem: string) => {
-    setSearch(searchItem)
-  }, [])
-
-  const pageOnChange = useCallback((pageItem: number) => {
-    setPage(pageItem)
-  }, [])
-
   const changeSort = useCallback(
     (sortNameItem: string, sortTypeItem: number) => {
       setSortName(sortNameItem)
@@ -155,26 +147,32 @@ export const AdminDocumentsPage = () => {
               style={styles.recentFullScreen}
               Component={access.create ? ButtonBlue : undefined}
               HeaderComponent={Search}
-              PagesComponent={PagesList}
-              pagesProps={{
-                meta: data.meta,
-                nextPage: pageOnChange,
-                size: 'sm',
-              }}
+              PagesComponent={
+                data.files.length > 0 ? PagesList : undefined
+              }
+              pagesProps={
+                data.files.length > 0
+                  ? {
+                    meta: data.meta,
+                    nextPage: setPage,
+                    size: 'sm',
+                  }
+                  : undefined
+              }
               headerProps={{
                 style: styles.search,
-                onSearchChange: searchOnChange,
+                onSearchChange: setSearch,
               }}
               componentProps={
                 access.create
                   ? {
-                      title: 'Add Document',
-                      icon: '/icons/plus.svg',
-                      titleNone: true,
-                      style: styles.buttonPlus,
-                      iconProps: styles.iconPlus,
-                      onClick: handleSetAddDocModal,
-                    }
+                    title: 'Add Document',
+                    icon: '/icons/plus.svg',
+                    titleNone: true,
+                    style: styles.buttonPlus,
+                    iconProps: styles.iconPlus,
+                    onClick: handleSetAddDocModal,
+                  }
                   : undefined
               }
             >

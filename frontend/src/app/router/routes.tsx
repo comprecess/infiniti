@@ -52,7 +52,9 @@ import { AdminProductsServicesPage } from '../../pages/Admin/ProductsServicesPag
 import { AdminCreateNewProject } from '../../pages/Admin/ProjectsPage/CreateNewProject/CreateNewProject'
 import { AdminEditProject } from '../../pages/Admin/ProjectsPage/EditProject/EditProject'
 import { AdminProjectsPage } from '../../pages/Admin/ProjectsPage/ProjectsPage'
+import { AdminProjectsExpensesPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/ExpensesPage/ExpensesPage'
 import { AdminProjectsFilesPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/FilesPage/FilesPage'
+import { AdminProjectsInvoicesPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/InvoicesPage/InvoicesPage'
 import { AdminProjectsSummaryPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/SummaryPage/SummaryPage'
 import { AdminViewProjectPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/ViewProjectPage'
 import { AdminPurchasePage } from '../../pages/Admin/PurchasePage/PurchasePage'
@@ -160,6 +162,7 @@ export const Routes = {
   offer: 'offer',
   settings: 'settings',
   custom: 'custom',
+  expenses: 'expenses',
   contact: 'contact',
   fields: 'fields',
   productsServices: 'products-services',
@@ -288,6 +291,8 @@ export const Pages = {
   adminViewProjectPage: <AdminViewProjectPage />,
   adminProjectsSummaryPage: <AdminProjectsSummaryPage />,
   adminProjectsFilesPage: <AdminProjectsFilesPage />,
+  adminProjectsInvoicesPage: <AdminProjectsInvoicesPage />,
+  adminProjectsExpensesPage: <AdminProjectsExpensesPage />,
   adminLeadsPage: <AdminLeadsPage />,
   adminSMSPage: <AdminSMSPage />,
   adminSupportPage: <AdminSupportPage />,

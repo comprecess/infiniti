@@ -5,6 +5,11 @@ export const userModelsPageString = 'userModelsPage/infiniti'
 
 export const page = '?page='
 
+export const AUTH_ERROR_MESSAGE =
+  'Authentication failed - no auth token provided'
+export const NETWORK_ERROR_MESSAGE = 'Network error occurred'
+export const INVALID_RESPONSE_MESSAGE = 'Invalid server response'
+
 export const roles = {
   client: 'Client',
   admin: 'Admin',
@@ -1508,4 +1513,16 @@ export interface ProjectsData {
   completed?: { completed: number; percent: number; total: number }
   startDate: string
   dueDate: string
+}
+
+export interface ProjectsExpensesData {
+  id: number
+  account: string
+  amount: string
+  code: string
+  cr: string
+  date: string
+  description: string
+  dr: string
+  type: string
 }

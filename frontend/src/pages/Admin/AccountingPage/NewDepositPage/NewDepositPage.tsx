@@ -30,7 +30,11 @@ export const AdminNewDepositPage = () => {
   }
 
   const addNewTransaction = async () => {
-    const response = await postAddNewTransaction(form, 'Income')
+    const response = await postAddNewTransaction(
+      import.meta.env.VITE_ACCOUNTING_ADD_NEW_TRANSACTION,
+      form,
+      'Income',
+    )
 
     if (response.status) {
       showToast({

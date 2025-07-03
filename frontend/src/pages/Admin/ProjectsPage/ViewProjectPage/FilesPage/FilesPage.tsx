@@ -15,7 +15,7 @@ import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { Search } from '../../../../../shared/ui/Search/Search'
 import { deleteDocument } from '../../../../../shared/utils/api/Admin/Documents/DeleteDocument'
-import { getProjectsFiles } from '../../../../../shared/utils/api/Admin/Projects/GetProjectsFiles'
+import { getProjectsFiles } from '../../../../../shared/utils/api/Admin/Projects/get-project-files'
 import { postAddNewProjectFile } from '../../../../../shared/utils/api/Admin/Projects/PostAddNewProjectFile'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './FilesPage.module.scss'
@@ -42,14 +42,12 @@ export const AdminProjectsFilesPage = () => {
   const getFiles = async () => {
     if (!options || !context.idProject) return
 
-    const getResponse: {
-      access: RolesAccess
-      data: CustomersFilesData[]
-      meta: PagesMetaData
-    } = await getProjectsFiles(context.idProject, options)
+    const response = await getProjectsFiles(context.idProject, options)
 
-    setAccess(getResponse.access)
-    setData({ files: getResponse.data, meta: getResponse.meta })
+    if (!response.status) return
+
+    setAccess(response.data.access)
+    setData({ files: response.data.data, meta: response.data.meta })
   }
 
   const deleteFile = async (idFile: number) => {
@@ -134,14 +132,6 @@ export const AdminProjectsFilesPage = () => {
     [],
   )
 
-  const searchOnChange = useCallback((searchItem: string) => {
-    setSearch(searchItem)
-  }, [])
-
-  const pageOnChange = useCallback((pageItem: number) => {
-    setPage(pageItem)
-  }, [])
-
   useEffect(() => {
     getFiles()
   }, [options, context.idProject])
@@ -164,26 +154,32 @@ export const AdminProjectsFilesPage = () => {
               style={styles.recentFullScreen}
               Component={access.create ? ButtonBlue : undefined}
               HeaderComponent={Search}
-              PagesComponent={PagesList}
-              pagesProps={{
-                meta: data.meta,
-                nextPage: pageOnChange,
-                size: 'sm',
-              }}
+              PagesComponent={
+                data.files.length > 0 ? PagesList : undefined
+              }
+              pagesProps={
+                data.files.length > 0
+                  ? {
+                    meta: data.meta,
+                    nextPage: setPage,
+                    size: 'sm',
+                  }
+                  : undefined
+              }
               headerProps={{
                 style: styles.search,
-                onSearchChange: searchOnChange,
+                onSearchChange: setSearch,
               }}
               componentProps={
                 access.create
                   ? {
-                      title: 'Add Document',
-                      icon: '/icons/plus.svg',
-                      titleNone: true,
-                      style: styles.buttonPlus,
-                      iconProps: styles.iconPlus,
-                      onClick: handleSetAddDocModal,
-                    }
+                    title: 'Add Document',
+                    icon: '/icons/plus.svg',
+                    titleNone: true,
+                    style: styles.buttonPlus,
+                    iconProps: styles.iconPlus,
+                    onClick: handleSetAddDocModal,
+                  }
                   : undefined
               }
             >

@@ -10,8 +10,8 @@ import { Fields } from '../../../../features/Admin/Projects/CreateNewProject/Fie
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getProjectsInputData } from '../../../../shared/utils/api/Admin/Projects/GetProjectsInputData'
-import { postCreateNewProject } from '../../../../shared/utils/api/Admin/Projects/NewProject/PostCreateNewProject'
+import { getProjectsInputData } from '../../../../shared/utils/api/Admin/Projects/get-project-input-data'
+import { postCreateNewProject } from '../../../../shared/utils/api/Admin/Projects/PostCreateNewProject'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CreateNewProject.module.scss'
 
@@ -27,7 +27,9 @@ export const AdminCreateNewProject = () => {
   const getInputData = async () => {
     const response = await getProjectsInputData()
 
-    setInputData(response)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
   const handleCreateNewProject = async () => {

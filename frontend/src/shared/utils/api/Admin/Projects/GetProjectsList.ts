@@ -7,7 +7,8 @@ export const getProjectsList = async () => {
     try {
       const url =
         import.meta.env.VITE_MAIN_DOMAIN +
-        import.meta.env.VITE_PROJECTS_GET_PROJECTS_LIST
+        import.meta.env.VITE_PROJECTS_API +
+        '/list'
 
       const response = await fetch(url, {
         method: 'GET',

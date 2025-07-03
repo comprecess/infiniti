@@ -54,14 +54,6 @@ export const AdminUsersPage = () => {
     [],
   )
 
-  const searchOnChange = useCallback((searchItem: string) => {
-    setSearch(searchItem)
-  }, [])
-
-  const pageOnChange = useCallback((pageItem: number) => {
-    setPage(pageItem)
-  }, [])
-
   const getData = async () => {
     if (!options) return
 
@@ -134,12 +126,12 @@ export const AdminUsersPage = () => {
             Component={access.create ? ButtonBlue : undefined}
             pagesProps={{
               meta: data.meta,
-              nextPage: pageOnChange,
+              nextPage: setPage,
               size: 'sm',
             }}
             headerProps={{
               style: styles.search,
-              onSearchChange: searchOnChange,
+              onSearchChange: setSearch,
             }}
             componentProps={
               access.create

@@ -5,19 +5,18 @@ export const getCountries = async () => {
 
   if (authToken) {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_MAIN_DOMAIN}${
-          import.meta.env.VITE_TOOLS_GET_COUNTRIES
-        }`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${authToken}`,
-          },
+      const url = `${import.meta.env.VITE_MAIN_DOMAIN}${
+        import.meta.env.VITE_TOOLS_API
+      }/countries`
+
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${authToken}`,
         },
-      )
+      })
 
       const data = await response.json()
 

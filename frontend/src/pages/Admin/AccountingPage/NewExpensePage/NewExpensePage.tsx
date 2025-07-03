@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import {
   AccountingDepositExpenseForm,
   AccountingInputData,
 } from '../../../../app/constants/constants'
+import { Routes } from '../../../../app/router/routes'
 import { AddExpenseFields } from '../../../../features/Admin/AccountingPage/NewExpensePage/AddExpenseFields/AddExpenseFields'
 import { RecentExpense } from '../../../../features/Admin/AccountingPage/NewExpensePage/RecentExpense/RecentExpense'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
@@ -22,6 +24,11 @@ export const AdminNewExpensePage = () => {
   )
 
   const showToast = useCustomToast()
+  const navigate = useNavigate()
+
+  const urlParams = new URLSearchParams(window.location.search)
+  const isCreateForProject = urlParams.has('create-for-project')
+  const projectId = urlParams.get('create-for-project')
 
   const getInputData = async () => {
     const response: AccountingInputData = await getAccountingInputData(
@@ -32,7 +39,13 @@ export const AdminNewExpensePage = () => {
   }
 
   const addNewTransaction = async () => {
-    const response = await postAddNewTransaction(form, 'Expense')
+    const response = await postAddNewTransaction(
+      isCreateForProject
+        ? `${import.meta.env.VITE_PROJECTS_API}/${projectId}/expenses`
+        : import.meta.env.VITE_ACCOUNTING_ADD_NEW_TRANSACTION,
+      form,
+      'Expense',
+    )
 
     if (response.status) {
       showToast({
@@ -40,7 +53,14 @@ export const AdminNewExpensePage = () => {
         description: 'You have successfully created a Expense',
         status: 'success',
       })
-      await getInputData()
+
+      if (isCreateForProject) {
+        navigate(
+          `/${Routes.adminPages}/${Routes.projects}/${Routes.view}/${Routes.project}/${projectId}/${Routes.expenses}`,
+        )
+      } else {
+        await getInputData()
+      }
     } else {
       showToast({
         title: 'Error',

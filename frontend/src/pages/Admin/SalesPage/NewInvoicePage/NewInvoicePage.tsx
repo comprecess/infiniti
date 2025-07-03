@@ -25,6 +25,10 @@ export const AdminNewInvoicePage = () => {
   const showToast = useCustomToast()
   const navigate = useNavigate()
 
+  const urlParams = new URLSearchParams(window.location.search)
+  const isCreateForProject = urlParams.has('create-for-project')
+  const projectId = urlParams.get('create-for-project')
+
   const getNewInvoiceInputData = async () => {
     const getResponse = await getInvoiceInputData()
 
@@ -34,7 +38,12 @@ export const AdminNewInvoicePage = () => {
   const postCreateNewInvoice = async (save: 'save' | 'save & invoice') => {
     if (!formData) return
 
-    const createResponse = await addNewInvoice(formData)
+    const createResponse = await addNewInvoice(
+      isCreateForProject
+        ? `${import.meta.env.VITE_PROJECTS_API}/${projectId}/invoices`
+        : import.meta.env.VITE_SALES_CREATE_NEW_INVOICE,
+      formData,
+    )
 
     if (createResponse.status) {
       showToast({
@@ -43,9 +52,15 @@ export const AdminNewInvoicePage = () => {
         status: 'success',
       })
       if (save === 'save') {
-        navigate(
-          `/${Routes.adminPages}/${Routes.sales}/${Routes.invoices}`,
-        )
+        if (isCreateForProject) {
+          navigate(
+            `/${Routes.adminPages}/${Routes.projects}/${Routes.view}/${Routes.project}/${projectId}/${Routes.invoices}`,
+          )
+        } else {
+          navigate(
+            `/${Routes.adminPages}/${Routes.sales}/${Routes.invoices}`,
+          )
+        }
       } else if (save === 'save & invoice') {
         navigate(
           `/${Routes.adminPages}/${Routes.sales}/${Routes.invoice}/${Routes.view}/${createResponse.id}`,

@@ -73,14 +73,6 @@ export const AdminOffersPage = () => {
     [],
   )
 
-  const searchOnChange = useCallback((searchItem: string) => {
-    setSearch(searchItem)
-  }, [])
-
-  const pageOnChange = useCallback((pageItem: number) => {
-    setPage(pageItem)
-  }, [])
-
   const downloadFile = useCallback(
     async (documentItem: string) => {
       // eslint-disable-next-line max-len
@@ -182,12 +174,12 @@ export const AdminOffersPage = () => {
                 : undefined
             }
             headerProps={{
-              searchChange: searchOnChange,
+              searchChange: setSearch,
               rightButtons: downloadFile,
             }}
             pagesProps={{
               meta: offers.meta,
-              nextPage: pageOnChange,
+              nextPage: setPage,
               size: 'sm',
             }}
           >

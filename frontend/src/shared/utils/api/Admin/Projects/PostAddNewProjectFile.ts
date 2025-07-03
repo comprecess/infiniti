@@ -13,19 +13,18 @@ export const postAddNewProjectFile = async (
 
   if (authToken) {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_MAIN_DOMAIN}${
-          import.meta.env.VITE_PROJECT_POST_NEW_FILE
-        }${id}/files`,
-        {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            Authorization: `Bearer ${authToken}`,
-          },
-          body: form,
+      const url = `${import.meta.env.VITE_MAIN_DOMAIN}${
+        import.meta.env.VITE_PROJECTS_API
+      }/${id}/files`
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${authToken}`,
         },
-      )
+        body: form,
+      })
 
       const data: Response = await response.json()
 

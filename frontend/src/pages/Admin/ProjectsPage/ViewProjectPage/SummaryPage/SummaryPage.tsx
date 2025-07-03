@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import { ProjectViewPageContext } from '../../../../../app/constants/constants'
@@ -17,6 +18,10 @@ export const AdminProjectsSummaryPage = () => {
 
   const isMembers = members.length > 0
   const isTasks = completed.total > 0
+
+  useEffect(() => {
+    document.title = 'infiniti | Project Summary'
+  }, [])
 
   return (
     <div className={styles.wrapper}>

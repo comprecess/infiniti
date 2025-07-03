@@ -5,10 +5,9 @@ export const getProjectView = async (id: number) => {
 
   if (authToken) {
     try {
-      const url =
-        import.meta.env.VITE_MAIN_DOMAIN +
-        import.meta.env.VITE_PROJECT_GET_VIEW +
-        `${id}/view`
+      const url = `${import.meta.env.VITE_MAIN_DOMAIN}${
+        import.meta.env.VITE_PROJECTS_API
+      }/${id}/view`
 
       const response = await fetch(url, {
         method: 'GET',

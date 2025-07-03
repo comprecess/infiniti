@@ -1,0 +1,41 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 10px 12px 10px 12px;
+}
+
+.manageItem {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  width: 100%;
+  justify-content: end;
+  align-items: center;
+}
+
+.idItem {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 23px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $white;
+}
+
+.dateItem,
+.accountItem,
+.typeItem,
+.amountItem,
+.descriptionItem {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 23px;
+  letter-spacing: -0.03em;
+  text-align: left;
+}
+
+.dateItem {
+  color: $gray-300;
+}

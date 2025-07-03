@@ -7,26 +7,25 @@ interface Response {
 }
 
 export const postAddNewTransaction = async (
+  api: string,
   formData: Partial<AccountingDepositExpenseForm>,
   type: 'Income' | 'Expense',
 ): Promise<Response> => {
   const authToken = getAuthToken()
 
   if (authToken) {
+    const url = `${import.meta.env.VITE_MAIN_DOMAIN}${api}`
+
     try {
-      const response = await fetch(
-        import.meta.env.VITE_MAIN_DOMAIN +
-          import.meta.env.VITE_ACCOUNTING_ADD_NEW_TRANSACTION,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${authToken}`,
-          },
-          body: JSON.stringify({ ...formData, type }),
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${authToken}`,
         },
-      )
+        body: JSON.stringify({ ...formData, type }),
+      })
 
       const data: Response = await response.json()
 
