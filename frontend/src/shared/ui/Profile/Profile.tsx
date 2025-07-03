@@ -74,7 +74,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     else if (authToken) removeCookies(authTokenString)
 
     navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
-  }, [isMobile])
+  }, [isMobile, sessionToken, authToken])
 
   const toggleNotificationSubscription = async (isSubscribed: boolean) => {
     if (isMobile && isSubscribed) {
