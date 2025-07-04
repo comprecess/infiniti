@@ -68,11 +68,15 @@ class NotificationController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function unsubscribedPush()
+    public function unsubscribedPush(Request $request)
     {
         $user = User::getAuth();
-        $pushSubscriptions = $user->pushSubscriptions;
-        foreach($pushSubscriptions as $push){
+        $pushSubscriptionsQuery = $user->pushSubscriptions();
+        if($request->userId) {
+            $pushSubscriptionsQuery->where('endpoint', $request->userId);
+        }
+
+        foreach($pushSubscriptionsQuery->get() as $push){
             $push->delete();
         }
 
@@ -85,10 +89,17 @@ class NotificationController extends Controller
         return PushListResource::collection($user->pushSubscriptions);
     }
 
-    public function enabledPush(PushUpdateRequest $request, $push)
+    public function getItemPush($userId)
     {
         $user = User::getAuth();
-        $push = $user->pushSubscriptions()->where('id', $push)->firstOrFail();
+        $push = $user->pushSubscriptions()->where('endpoint', $userId)->firstOrFail();
+        return new PushListResource($push);
+    }
+
+    public function enabledPush(PushUpdateRequest $request, $userId)
+    {
+        $user = User::getAuth();
+        $push = $user->pushSubscriptions()->where('endpoint', $userId)->firstOrFail();
         $push->enabled = $request->enabled;
         $push->save();
 
