@@ -36,9 +36,8 @@ export const initOneSignal = async () => {
         window.OneSignal.init({
           appId,
           notifyButton: {
-            enable: false,
+            enable: true,
           },
-          allowLocalhostAsSecureOrigin: true,
         })
 
         // eslint-disable-next-line no-console
