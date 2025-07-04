@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Notification\PushUpdateRequest;
 use App\Http\Requests\NotificationRequest;
 use App\Http\Requests\PushRequest;
+use App\Http\Resources\Notification\PushListResource;
 use App\Http\Resources\NotificationResource;
 use App\Models\Push;
 use App\Models\User;
@@ -58,6 +60,7 @@ class NotificationController extends Controller
             [
                 'user_type' => $user::class,
                 'user_id' => $user->id,
+                'name' => $request->name,
                 'keys' => []
             ]
         );
@@ -73,6 +76,21 @@ class NotificationController extends Controller
             $push->delete();
         }
 
+        return response()->json(['success' => true]);
+    }
+
+    public function listPush()
+    {
+        $user = User::getAuth();
+        return PushListResource::collection($user->pushSubscriptions);
+    }
+
+    public function enabledPush(PushUpdateRequest $request, $push)
+    {
+        $user = User::getAuth();
+        $push = $user->pushSubscriptions()->where('id', $push)->firstOrFail();
+        $push->enabled = $request->enabled;
+        $push->save();
 
         return response()->json(['success' => true]);
     }

@@ -58,6 +58,8 @@ Route::controller(NotificationController::class)
         Route::get('/', 'list');
         Route::put('/viewed', 'viewed');
         Route::get('/push/public-key', 'getKeyPush');
+        Route::get('/push/list', 'listPush');
+        Route::patch('/push/{push}', 'enabledPush');
         Route::post('/push/subscribe', 'subscribePush');
         Route::post('/push/unsubscribed', 'unsubscribedPush');
         Route::get('/push/test', 'test');
