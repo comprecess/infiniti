@@ -61,6 +61,7 @@ Route::controller(NotificationController::class)
         Route::post('/push/subscribe', 'subscribePush');
         Route::post('/push/unsubscribed', 'unsubscribedPush');
         Route::get('/push/test', 'test');
+        Route::get('/push/test2', 'test2');
     });
 
 #calendar

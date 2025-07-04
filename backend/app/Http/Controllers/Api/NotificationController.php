@@ -89,4 +89,15 @@ class NotificationController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function test2(Request $request)
+    {
+        $user = User::getAuth();
+        $title = $request->title ?? 'Test';
+        $message = $request->message ?? 'test';
+        $url = $request->url;
+        $test = app(PushContract::class);
+        $test->sendUser($user, $title, $message, $url);
+        return response()->json(['success' => true]);
+    }
+
 }
