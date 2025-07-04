@@ -152,11 +152,11 @@ Route::controller(Resident\Transactions\TransactionsController::class)
 //        Route::match(['post', 'put'], '/{transaction?}', 'createOrUpdate');
         Route::post('/create', 'create');
         Route::post('/', 'createOrUpdate');
+        Route::get('bill', 'bill');
         Route::put('/{transaction}', 'createOrUpdate');
         Route::delete('/{transaction}', 'delete');
         Route::get('/{transaction}', 'item');
         Route::post('transfer', 'transfer');
-        Route::get('bill', 'bill');
         Route::get('bill/all', 'billAll');
         Route::post('bill', 'billCreateOrUpdate');
         Route::match(['put', 'post'],'bill/{bill}', 'billCreateOrUpdate');

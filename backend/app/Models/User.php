@@ -84,6 +84,11 @@ class User extends Authenticatable
         return $this->morphMany(Push::class, 'user');
     }
 
+    public function pushSubscriptionsEnabled()
+    {
+        return $this->morphMany(Push::class, 'user')->where('enabled', 1);
+    }
+
     public function settings()
     {
         return $this->morphMany(UserSettings::class, 'user');
