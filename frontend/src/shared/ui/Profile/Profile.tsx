@@ -69,7 +69,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
 
       showToast({
         title: 'PUSH',
-        description: `fetch: ${response}`,
+        description: `fetch: ${JSON.stringify(response)}`,
         status: 'info',
       })
 
