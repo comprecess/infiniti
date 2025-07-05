@@ -137,9 +137,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   }, [isAdmin])
 
   useEffect(() => {
-    if (isOpen) {
-      fetchPushNotifications()
-    }
+    fetchPushNotifications()
   }, [isMobile, isOpen])
 
   return (
