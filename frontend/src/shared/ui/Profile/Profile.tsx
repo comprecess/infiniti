@@ -63,11 +63,17 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
 
   const fetchPushNotifications = useCallback(async () => {
     if (isMobile && notificationToken.status && !sessionToken) {
-      const data: { enable: number } = await getDevicePush(
+      const response: { enable: number } = await getDevicePush(
         notificationToken.cookie || '',
       )
 
-      setIsSubscribed(data.enable === 1 ? true : false)
+      showToast({
+        title: 'PUSH',
+        description: `fetch: ${response}`,
+        status: 'info',
+      })
+
+      setIsSubscribed(response.enable === 1 ? true : false)
     }
   }, [isMobile, notificationToken, sessionToken])
 
