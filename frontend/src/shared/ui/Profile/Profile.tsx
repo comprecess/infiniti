@@ -69,7 +69,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
 
       setIsSubscribed(data.enable === 1 ? true : false)
     }
-  }, [isMobile])
+  }, [isMobile, notificationToken, sessionToken])
 
   const logout = async () => {
     try {
