@@ -128,14 +128,19 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
 
       setTimeout(() => {
         fetchPushNotifications()
-      }, 3000)
+      }, 2000)
     }
   }
 
   useEffect(() => {
     fetchProfileData()
-    fetchPushNotifications()
-  }, [isMobile])
+  }, [isAdmin])
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchPushNotifications()
+    }
+  }, [isMobile, isOpen])
 
   return (
     <Popover
@@ -237,7 +242,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
                   )
                 } else {
                   navigate(
-                    `/${Routes.clientPages}/${Routes.profile}/${Routes.settings}`,
+                    `/${Routes.clientPages}/${Routes.settings}/${Routes.profile}`,
                   )
                 }
                 onClose()

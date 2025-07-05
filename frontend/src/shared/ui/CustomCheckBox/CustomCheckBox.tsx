@@ -2,7 +2,7 @@ import { Checkbox } from '@chakra-ui/react'
 import { ChangeEvent } from 'react'
 
 interface CheckBoxProps {
-  title: string
+  title?: string
   titleOnChange?: string | null
   isChecked?: boolean
   isIndeterminate?: boolean

@@ -489,7 +489,7 @@ export const router = createBrowserRouter([
     children: [
       { path: Routes.dashboard, element: Pages.clientDashboardPage },
       {
-        path: `${Routes.profile}/${Routes.settings}`,
+        path: `${Routes.settings}/${Routes.profile}`,
         element: Pages.clientProfileSettingsPage,
       },
       { path: Routes.talents, element: Pages.clientTalentsPage },

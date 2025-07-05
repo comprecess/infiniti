@@ -1,0 +1,48 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 500px;
+  width: 100%;
+  padding: 12px 16px 12px 16px;
+  border-radius: 8px;
+  background-color: $brand-800;
+
+  @include mobileBreakpoint('max', $bpM) {
+    align-items: start;
+    flex-direction: column;
+  }
+}
+
+.name {
+  font-family: $fontSpaceGrotesk;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.03em;
+  color: $gray-400;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 300px;
+  min-width: 0;
+  flex-shrink: 1;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  gap: 16px;
+  align-items: center;
+  flex-shrink: 0;
+
+  @include mobileBreakpoint('max', $bpM) {
+    width: 100%;
+    align-items: end;
+    justify-content: end;
+  }
+}
