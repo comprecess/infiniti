@@ -18,7 +18,7 @@ import styles from './NotificationProfile.module.scss'
 
 export const NotificationProfile = () => {
   const [notifications, setNotifications] = useState<
-    Notifications[] | null
+  Notifications[] | null
   >(null)
 
   const [hasUnreadNotifications, setHasUnreadNotifications] =
@@ -50,10 +50,10 @@ export const NotificationProfile = () => {
     setNotifications(prev =>
       prev
         ? prev.map(notification =>
-            notification.id === id
-              ? { ...notification, viewed: 1 }
-              : notification,
-          )
+          notification.id === id
+            ? { ...notification, viewed: 1 }
+            : notification,
+        )
         : prev,
     )
   }
