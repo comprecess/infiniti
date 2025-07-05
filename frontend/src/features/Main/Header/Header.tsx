@@ -86,7 +86,6 @@ export const Header = ({
         {isAdmin ? (
           <>
             <ChatGPT />
-            <NotificationProfile />
             <Icon icon={<NoteIcon />} onIconClick={() => {}} />
           </>
         ) : (
@@ -99,6 +98,7 @@ export const Header = ({
             }}
           />
         )}
+        <NotificationProfile />
         <ProfileMemo />
         <Icon
           fill={false}

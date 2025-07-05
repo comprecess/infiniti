@@ -62,12 +62,12 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   }, [isAdmin])
 
   const fetchPushNotifications = useCallback(async () => {
-    if (isMobile) {
-      const { enable }: { enable: boolean } = await getDevicePush(
+    if (isMobile && notificationToken.status && !sessionToken) {
+      const { enable }: { enable: number } = await getDevicePush(
         notificationToken.cookie || '',
       )
 
-      setIsSubscribed(enable)
+      setIsSubscribed(enable === 1 ? true : false)
     }
   }, [isMobile])
 
@@ -119,7 +119,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
         await subscribeOneSignal(`${os}, ${deviceModel}, ${browser}`)
       } else {
         await postKeyPush(
-          notificationToken.cookie,
+          notificationToken.cookie || '',
           `${os}, ${deviceModel}, ${browser}`,
         )
         await patchSetDevicePush(
@@ -228,8 +228,24 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
               backgroundColor: '#151720',
             }}
           >
-            <span className={styles.modalItem}>Settings</span>
-            {isMobile && !sessionToken && isSubscribed !== null && (
+            <span
+              className={styles.modalItem}
+              onClick={() => {
+                if (profileData.userType === 'Admin') {
+                  navigate(
+                    `/${Routes.adminPages}/${Routes.profile}/${Routes.settings}`,
+                  )
+                } else {
+                  navigate(
+                    `/${Routes.clientPages}/${Routes.profile}/${Routes.settings}`,
+                  )
+                }
+                onClose()
+              }}
+            >
+              Settings
+            </span>
+            {isMobile && !sessionToken && (
               <div
                 className={`${styles.modalItem} ${styles.notifications}`}
                 onClick={() =>

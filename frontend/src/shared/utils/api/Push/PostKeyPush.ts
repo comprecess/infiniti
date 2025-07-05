@@ -6,7 +6,7 @@ interface Response {
 }
 
 export const postKeyPush = async (
-  userId: any,
+  userId: string,
   nameDevice: string,
 ): Promise<Response> => {
   const authToken = getAuthToken()

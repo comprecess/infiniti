@@ -49,6 +49,7 @@ import { AdminLeadsPage } from '../../pages/Admin/LeadsPage/LeadsPage'
 import { AdminOrdersPage } from '../../pages/Admin/OrdersPage/OrdersPage'
 import { AdminPluginsPage } from '../../pages/Admin/PluginsPage/PluginsPage'
 import { AdminProductsServicesPage } from '../../pages/Admin/ProductsServicesPage/ProductsServicesPage'
+import { AdminProfileSettingsPage } from '../../pages/Admin/ProfileSettingsPage/ProfileSettingsPage'
 import { AdminCreateNewProject } from '../../pages/Admin/ProjectsPage/CreateNewProject/CreateNewProject'
 import { AdminEditProject } from '../../pages/Admin/ProjectsPage/EditProject/EditProject'
 import { AdminProjectsPage } from '../../pages/Admin/ProjectsPage/ProjectsPage'
@@ -103,6 +104,7 @@ import { ClientKnowledgeBasePage } from '../../pages/Client/KnowledgeBasePage/Kn
 import { ClientMyOrdersPage } from '../../pages/Client/MyOrdersPage/MyOrdersPage'
 import { ClientOffersPage } from '../../pages/Client/OffersPage/OffersPage'
 import { ClientProfilePage } from '../../pages/Client/ProfilePage/ProfilePage'
+import { ClientProfileSettingsPage } from '../../pages/Client/ProfileSettingsPage/ProfileSettingsPage'
 import { ClientProjectsPage } from '../../pages/Client/ProjectsPage/ProjectsPage'
 import { ClientTalentDetailsPage } from '../../pages/Client/TalentDetailsPage/TalentDetailsPage'
 import { ClientTalentsPage } from '../../pages/Client/TalentsPage/TalentsPage'
@@ -232,6 +234,7 @@ export const Pages = {
 
   /* Client Dashboard pages */
   clientDashboardPage: <ClientDashboardPage />,
+  clientProfileSettingsPage: <ClientProfileSettingsPage />,
   clientTalentsPage: <ClientTalentsPage />,
   clientBusinessModelsPage: <ClientBusinessModelsPage />,
   clientViewBusinessModelsPage: <ClientViewBusinessModelsPage />,
@@ -250,6 +253,7 @@ export const Pages = {
 
   /* Admin Dashboard pages */
   adminDashboardPage: <AdminDashboardPage />,
+  adminProfileSettingsPage: <AdminProfileSettingsPage />,
   adminAddCustomerPage: <AdminAddCustomerPage />,
   adminCatalogTalentsPage: <AdminCatalogTalentsPage />,
   adminEditTalentPage: <AdminEditTalentPage />,
