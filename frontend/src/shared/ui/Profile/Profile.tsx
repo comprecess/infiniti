@@ -18,10 +18,11 @@ import {
 } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { subscribeOneSignal } from '../../../oneSignalService'
-import { getUserSettings } from '../../utils/api/GetUserSettings'
-import { patchSetUserSettings } from '../../utils/api/PatchSetUserSettings'
+import { getDevicePush } from '../../utils/api/Push/GetDevicePush'
+import { patchSetDevicePush } from '../../utils/api/Push/PatchSetDevicePush'
 import { postKeyPush } from '../../utils/api/Push/PostKeyPush'
 import { postPushUnsubscribed } from '../../utils/api/Push/PostPushUnsubscribed'
+import { useDeviceDetect } from '../../utils/hooks/useDeviceDetect'
 import { getCookies } from '../../utils/Saving/Cookies/GetCookies'
 import { removeCookies } from '../../utils/Saving/Cookies/RemoveCookies'
 import { getSession } from '../../utils/Saving/Session/GetSession'
@@ -38,14 +39,15 @@ type ProfileData = UserInfo | AdminInfo
 
 export const Profile = ({ isAdmin }: ProfileProps) => {
   const [profileData, setProfileData] = useState<ProfileData | null>(null)
-  const [isSubscribed, setIsSubscribed] = useState<boolean | null>(null)
-  const [isMobile, setIsMobile] = useState(false)
+  const [isSubscribed, setIsSubscribed] = useState<boolean>(false)
 
   const { isOpen, onToggle, onClose } = useDisclosure()
+  const { deviceModel, os, browser, isMobile } = useDeviceDetect()
 
   const navigate = useNavigate()
   const showToast = useCustomToast()
 
+  const notificationToken = getCookies(notificationTokenString)
   const sessionToken = getSession(authTokenString)
   const authToken = getCookies(authTokenString)
 
@@ -61,21 +63,29 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
 
   const fetchPushNotifications = useCallback(async () => {
     if (isMobile) {
-      const { push }: { push: boolean } = await getUserSettings()
+      const { enable }: { enable: boolean } = await getDevicePush(
+        notificationToken.cookie || '',
+      )
 
-      setIsSubscribed(push)
-    } else {
-      setIsSubscribed(null)
+      setIsSubscribed(enable)
     }
   }, [isMobile])
 
   const logout = async () => {
     try {
-      if (isMobile && !sessionToken && isSubscribed === true) {
-        const resUnsubscribed = await postPushUnsubscribed()
-        const resUserSettings = await patchSetUserSettings({
-          push: false,
-        })
+      if (
+        isMobile &&
+        !sessionToken &&
+        isSubscribed === true &&
+        notificationToken.status
+      ) {
+        const resUnsubscribed = await postPushUnsubscribed(
+          notificationToken.cookie || '',
+        )
+        const resUserSettings = await patchSetDevicePush(
+          notificationToken.cookie || '',
+          0,
+        )
 
         if (resUnsubscribed.status && resUserSettings.status) {
           showToast({
@@ -104,45 +114,23 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   }
 
   const toggleNotificationSubscription = async (isSubscribed: boolean) => {
-    const notificationToken = getCookies(notificationTokenString)
-
-    if (isMobile && isSubscribed === true) {
-      if (notificationToken.status) {
-        await postKeyPush(notificationToken.cookie)
+    if (isMobile) {
+      if (!notificationToken.status) {
+        await subscribeOneSignal(`${os}, ${deviceModel}, ${browser}`)
       } else {
-        await subscribeOneSignal()
-      }
-    }
-
-    await patchSetUserSettings({ push: isSubscribed })
-
-    fetchPushNotifications()
-  }
-
-  useEffect(() => {
-    const checkMobile = () => {
-      const userAgent = navigator.userAgent.toLowerCase()
-      const isMobileUserAgent =
-        /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
-          userAgent,
+        await postKeyPush(
+          notificationToken.cookie,
+          `${os}, ${deviceModel}, ${browser}`,
         )
+        await patchSetDevicePush(
+          notificationToken.cookie || '',
+          isSubscribed === true ? 1 : 0,
+        )
+      }
 
-      const hasTouch =
-        'ontouchstart' in window || navigator.maxTouchPoints > 0
-
-      const isSmallScreen = window.innerWidth <= 768
-      const isPortrait = window.matchMedia(
-        '(orientation: portrait)',
-      ).matches
-
-      const mobileCheck =
-        isMobileUserAgent && hasTouch && isSmallScreen && isPortrait
-
-      setIsMobile(mobileCheck)
+      fetchPushNotifications()
     }
-
-    checkMobile()
-  }, [])
+  }
 
   useEffect(() => {
     fetchProfileData()
@@ -240,8 +228,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
               backgroundColor: '#151720',
             }}
           >
-            <span className={styles.modalItem}>Edit Profile</span>
-            <span className={styles.modalItem}>Change Password</span>
+            <span className={styles.modalItem}>Settings</span>
             {isMobile && !sessionToken && isSubscribed !== null && (
               <div
                 className={`${styles.modalItem} ${styles.notifications}`}

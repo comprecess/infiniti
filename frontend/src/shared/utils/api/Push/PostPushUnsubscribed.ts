@@ -5,7 +5,9 @@ interface Response {
   message: string
 }
 
-export const postPushUnsubscribed = async (): Promise<Response> => {
+export const postPushUnsubscribed = async (
+  userId: string,
+): Promise<Response> => {
   const authToken = getAuthToken()
 
   if (authToken) {
@@ -21,6 +23,7 @@ export const postPushUnsubscribed = async (): Promise<Response> => {
           Accept: 'application/json',
           Authorization: `Bearer ${authToken}`,
         },
+        body: JSON.stringify({ userId }),
       })
 
       const data: Response = await response.json()
