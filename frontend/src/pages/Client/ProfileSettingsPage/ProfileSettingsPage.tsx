@@ -5,12 +5,13 @@ import { ProfileSettings } from '../../../features/General/ProfileSettings/Profi
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getPushList } from '../../../shared/utils/api/Push/GetPushList'
+import { patchSetDevicePush } from '../../../shared/utils/api/Push/PatchSetDevicePush'
 import { postPushUnsubscribed } from '../../../shared/utils/api/Push/PostPushUnsubscribed'
 import styles from './ProfileSettingsPage.module.scss'
 
 export const ClientProfileSettingsPage = () => {
   const [listNotifications, setListNotifications] = useState<
-  NotificationCardData[] | null
+    NotificationCardData[] | null
   >(null)
 
   const showToast = useCustomToast()
@@ -22,9 +23,10 @@ export const ClientProfileSettingsPage = () => {
   }
 
   const handleDeleteNotifications = async (token: string) => {
-    const response = await postPushUnsubscribed(token)
+    const resUnsubscribed = await postPushUnsubscribed(token)
+    const resUserSettings = await patchSetDevicePush(token, 0)
 
-    if (response.status) {
+    if (resUnsubscribed.status && resUserSettings.status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully removed this device',
