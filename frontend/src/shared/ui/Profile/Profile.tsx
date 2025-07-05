@@ -40,6 +40,7 @@ type ProfileData = UserInfo | AdminInfo
 export const Profile = ({ isAdmin }: ProfileProps) => {
   const [profileData, setProfileData] = useState<ProfileData | null>(null)
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const { isOpen, onToggle, onClose } = useDisclosure()
   const { deviceModel, os, browser, isMobile } = useDeviceDetect()
@@ -66,17 +67,13 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
       const response = await getDevicePush(notificationToken.cookie || '')
 
       setIsSubscribed(response.data.enabled === 1 ? true : false)
+      setIsLoading(false)
     }
   }, [isMobile])
 
   const logout = async () => {
     try {
-      if (
-        isMobile &&
-        !sessionToken &&
-        isSubscribed === true &&
-        notificationToken.status
-      ) {
+      if (isMobile && !sessionToken && notificationToken.status) {
         const resUnsubscribed = await postPushUnsubscribed(
           notificationToken.cookie || '',
         )
@@ -113,6 +110,8 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
 
   const toggleNotificationSubscription = async (isSubscribed: boolean) => {
     if (isMobile) {
+      setIsLoading(true)
+
       if (!notificationToken.status) {
         await subscribeOneSignal(`${os}, ${deviceModel}, ${browser}`)
       } else {
@@ -126,7 +125,9 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
         )
       }
 
-      fetchPushNotifications()
+      setTimeout(() => {
+        fetchPushNotifications()
+      }, 3000)
     }
   }
 
@@ -251,15 +252,19 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
                 }
               >
                 <span>Notifications</span>
-                <span
-                  className={
-                    isSubscribed === true
-                      ? styles.notificationsOn
-                      : styles.notificationsOff
-                  }
-                >
-                  {isSubscribed === true ? 'On' : 'Off'}
-                </span>
+                {isLoading ? (
+                  <LoadingSpinner size='sm' />
+                ) : (
+                  <span
+                    className={
+                      isSubscribed === true
+                        ? styles.notificationsOn
+                        : styles.notificationsOff
+                    }
+                  >
+                    {isSubscribed === true ? 'On' : 'Off'}
+                  </span>
+                )}
               </div>
             )}
             <span className={styles.modalItem} onClick={logout}>
