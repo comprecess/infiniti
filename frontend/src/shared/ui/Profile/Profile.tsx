@@ -124,9 +124,9 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
           notificationToken.cookie || '',
           isSubscribed === true ? 1 : 0,
         )
-
-        fetchPushNotifications()
       }
+
+      fetchPushNotifications()
     }
   }
 
