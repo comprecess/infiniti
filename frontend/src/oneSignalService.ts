@@ -54,7 +54,11 @@ export const initOneSignal = async () => {
   }
 }
 
-export const subscribeOneSignal = async () => {
+export const subscribeOneSignal = async (deviceName: string) => {
+  const sessionToken = getSession(authTokenString)
+
+  if (sessionToken) return
+
   await initOneSignal()
 
   window.OneSignal.push(() => {
@@ -70,7 +74,7 @@ export const subscribeOneSignal = async () => {
       saveCookies(notificationTokenString, userId, 3600)
 
       try {
-        const res = await postKeyPush(userId)
+        const res = await postKeyPush(userId, deviceName)
 
         if (!res.status) {
           throw new Error(`❌ Сервер вернул статус ${res.status}`)
