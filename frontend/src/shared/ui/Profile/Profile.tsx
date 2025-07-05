@@ -115,7 +115,6 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
 
       if (!notificationToken.status) {
         await subscribeOneSignal(`${os}, ${deviceModel}, ${browser}`)
-        window.location.reload()
       } else {
         await postKeyPush(
           notificationToken.cookie || '',

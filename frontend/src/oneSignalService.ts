@@ -82,6 +82,7 @@ export const subscribeOneSignal = async (deviceName: string) => {
 
         // eslint-disable-next-line no-console
         console.log('✅ Player ID успешно сохранён')
+        window.location.reload()
       } catch (error) {
         console.error('❌ Ошибка при сохранении Player ID:', error)
       }
