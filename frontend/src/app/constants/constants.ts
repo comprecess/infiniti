@@ -1527,3 +1527,10 @@ export interface ProjectsExpensesData {
   dr: string
   type: string
 }
+
+export interface NotificationCardData {
+  id: number
+  enabled: number
+  name: string
+  subscription: string
+}

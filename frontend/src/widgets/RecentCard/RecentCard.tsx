@@ -7,6 +7,7 @@ import { UpdateExpandMoreVert } from './RefreshExpandMoreVert/UpdateExpandMoreVe
 interface RecentCardProps {
   title?: string
   style?: string
+  styleContent?: string
   refreshIcon?: boolean
   ordinaryIcons?: boolean
   HeaderComponent?: FC<any>
@@ -20,6 +21,7 @@ interface RecentCardProps {
 export const RecentCard = ({
   title,
   style,
+  styleContent,
   refreshIcon = false,
   ordinaryIcons = false,
   HeaderComponent,
@@ -59,7 +61,11 @@ export const RecentCard = ({
         </div>
       ) : null}
       {children && (
-        <div className={!openContent ? styles.content : styles.childNone}>
+        <div
+          className={`${
+            !openContent ? styles.content : styles.childNone
+          } ${styleContent}`}
+        >
           {children}
         </div>
       )}
