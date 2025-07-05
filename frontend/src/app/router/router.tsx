@@ -45,6 +45,10 @@ export const router = createBrowserRouter([
     children: [
       { path: Routes.dashboard, element: Pages.adminDashboardPage },
       {
+        path: `${Routes.profile}/${Routes.settings}`,
+        element: Pages.adminProfileSettingsPage,
+      },
+      {
         path: Routes.talents,
         children: [
           {
@@ -484,6 +488,10 @@ export const router = createBrowserRouter([
     ),
     children: [
       { path: Routes.dashboard, element: Pages.clientDashboardPage },
+      {
+        path: `${Routes.profile}/${Routes.settings}`,
+        element: Pages.clientProfileSettingsPage,
+      },
       { path: Routes.talents, element: Pages.clientTalentsPage },
       {
         path: `${Routes.talents}/${Routes.talent}/:id`,

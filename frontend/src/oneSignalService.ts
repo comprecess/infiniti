@@ -36,7 +36,7 @@ export const initOneSignal = async () => {
         window.OneSignal.init({
           appId,
           notifyButton: {
-            enable: true,
+            enable: false,
           },
         })
 
