@@ -13,7 +13,6 @@ import { Routes } from '../../../app/router/routes'
 import { ChevronsLeftIcon } from '../../../shared/icons/ChevronsLeftIcon'
 import { LockIcon } from '../../../shared/icons/LockIcon'
 import { MenuIcon } from '../../../shared/icons/MenuIcon'
-import { NoteIcon } from '../../../shared/icons/NoteIcon'
 import { Basket } from '../../../shared/ui/Basket/Basket'
 import { Icon } from '../../../shared/ui/Icon/Icon'
 import { Profile } from '../../../shared/ui/Profile/Profile'
@@ -86,7 +85,7 @@ export const Header = ({
         {isAdmin ? (
           <>
             <ChatGPT />
-            <Icon icon={<NoteIcon />} onIconClick={() => {}} />
+            {/* <Icon icon={<NoteIcon />} onIconClick={() => {}} /> */}
           </>
         ) : (
           <BasketMemo
