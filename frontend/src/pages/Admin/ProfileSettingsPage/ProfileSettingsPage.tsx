@@ -11,7 +11,7 @@ import styles from './ProfileSettingsPage.module.scss'
 
 export const AdminProfileSettingsPage = () => {
   const [listNotifications, setListNotifications] = useState<
-    NotificationCardData[] | null
+  NotificationCardData[] | null
   >(null)
 
   const showToast = useCustomToast()
