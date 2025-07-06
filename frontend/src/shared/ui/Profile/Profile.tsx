@@ -66,6 +66,12 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     if (isMobile && !sessionToken && notificationToken.status) {
       const response = await getDevicePush(notificationToken.cookie || '')
 
+      showToast({
+        title: 'Info',
+        description: `Response: ${JSON.stringify(response)}`,
+        status: 'info',
+      })
+
       if (response.status) {
         setIsSubscribed(response.data.enabled === 1 ? true : false)
       } else {
