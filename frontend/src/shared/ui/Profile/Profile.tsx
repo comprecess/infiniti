@@ -64,13 +64,11 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
 
   const fetchPushNotifications = useCallback(async () => {
     if (isMobile && !sessionToken && notificationToken.status) {
-      try {
-        const response = await getDevicePush(
-          notificationToken.cookie || '',
-        )
+      const response = await getDevicePush(notificationToken.cookie || '')
 
+      if (response.status) {
         setIsSubscribed(response.data.enabled === 1 ? true : false)
-      } catch (error) {
+      } else {
         setIsSubscribed(false)
       }
     }
