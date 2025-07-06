@@ -1,6 +1,11 @@
 import { getAuthToken } from '../GetAuthToken'
 
-export const getDevicePush = async (token: string) => {
+interface Response {
+  data: any
+  status: boolean
+}
+
+export const getDevicePush = async (token: string): Promise<Response> => {
   const authToken = getAuthToken()
 
   if (authToken) {
@@ -18,13 +23,13 @@ export const getDevicePush = async (token: string) => {
         },
       })
 
-      const data = await response.json()
+      const data: Response = await response.json()
 
       return data
     } catch (error) {
-      return false
+      return { status: false, data: null }
     }
   } else {
-    return false
+    return { status: false, data: null }
   }
 }
