@@ -23,8 +23,8 @@ export const AdminProfileSettingsPage = () => {
   }
 
   const handleDeleteNotifications = async (token: string) => {
-    const resUnsubscribed = await postPushUnsubscribed(token)
     const resUserSettings = await patchSetDevicePush(token, 0)
+    const resUnsubscribed = await postPushUnsubscribed(token)
 
     if (resUnsubscribed.status && resUserSettings.status) {
       showToast({

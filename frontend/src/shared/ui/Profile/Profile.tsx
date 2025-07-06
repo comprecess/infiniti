@@ -64,9 +64,15 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
 
   const fetchPushNotifications = useCallback(async () => {
     if (isMobile && !sessionToken && notificationToken.status) {
-      const response = await getDevicePush(notificationToken.cookie || '')
+      try {
+        const response = await getDevicePush(
+          notificationToken.cookie || '',
+        )
 
-      setIsSubscribed(response.data.enabled === 1 ? true : false)
+        setIsSubscribed(response.data.enabled === 1 ? true : false)
+      } catch (error) {
+        setIsSubscribed(false)
+      }
     }
 
     setIsLoading(false)
@@ -75,22 +81,8 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   const logout = async () => {
     try {
       if (isMobile && !sessionToken && notificationToken.status) {
-        const resUnsubscribed = await postPushUnsubscribed(
-          notificationToken.cookie || '',
-        )
-        const resUserSettings = await patchSetDevicePush(
-          notificationToken.cookie || '',
-          0,
-        )
-
-        if (resUnsubscribed.status && resUserSettings.status) {
-          showToast({
-            title: 'PUSH',
-            description:
-              'PUSH notifications are disabled from the account',
-            status: 'info',
-          })
-        }
+        await patchSetDevicePush(notificationToken.cookie || '', 0)
+        await postPushUnsubscribed(notificationToken.cookie || '')
       }
 
       if (sessionToken) {
