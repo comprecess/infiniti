@@ -47,7 +47,7 @@ class Get extends View
 
         return response()->json([
             'client' => ClientResource::collection($client),
-            'status' => Task::STATUS
+            'status' => Task::getStatusColumn()
         ]);
     }
 
