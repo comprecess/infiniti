@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 abstract class View
 {
 
+    protected $path = null;
+
     public function __construct(protected Model $model, protected Request $request)
     {
     }
@@ -19,7 +21,8 @@ abstract class View
         $request = request();
         $classList = [
             Get::class => ['get'],
-            Edit::class => ['post'/*, 'put', 'patch'*/],
+            Edit::class => ['post', 'patch'/*, 'put', 'patch'*/],
+//            Patch::class => ['patch'],
             Delete::class => ['delete']
         ];
 
@@ -39,6 +42,8 @@ abstract class View
     protected function urlToMethod($getInt = false)
     {
         if($id = $this->request->route('id')) {
+            $this->path = explode('/', $id);
+            $id = $this->path[0];
             $id = preg_replace('/[^a-z0-9]/', '_', $id);
             if(($idInt = intval($id)) == $id && $getInt) {
                 return $idInt;

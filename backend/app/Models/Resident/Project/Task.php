@@ -6,7 +6,7 @@ use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\Traits\UserTrait;
 use App\Models\User;
-use App\Support\Collection;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

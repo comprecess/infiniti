@@ -201,7 +201,7 @@ Route::controller(Resident\Project\ProjectController::class)->prefix('project')
         Route::post('/', 'createOrUpdate');
         Route::put('/{project}', 'createOrUpdate');
         Route::delete('/{project}', 'delete');
-        Route::match(['get', 'put', 'post', 'delete'], '/{project}/{type}/{id?}', 'view');
+        Route::match(['get', 'put', 'patch', 'post', 'delete'], '/{project}/{type}/{id?}', 'view')->where('id', '.+');
         Route::get('/{project}', 'item');
         /*Route::get('/{model}/to-plan', 'toPlan');
         Route::match(['put', 'post'],'/{model}/update', 'update');*/
@@ -215,6 +215,7 @@ Route::controller(Resident\Task\TaskController::class)->prefix('task')
         Route::post('/', 'createOrUpdate');
         Route::put('/{task}', 'createOrUpdate');
         Route::delete('/{task}', 'delete');
+        Route::patch('/{task}/status', 'updateStatus');
 //        Route::match(['get', 'put', 'post', 'delete'], '/{project}/{type}/{id?}', 'view');
         /*Route::get('/{model}', 'item');
         Route::get('/{model}/to-plan', 'toPlan');
