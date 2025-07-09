@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\Resident\Task;
 
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Task\TaskCreateRequest;
+use App\Http\Requests\Resident\Task\TaskUpdateStatusRequest;
 use App\Models\Resident\Project\Task;
 
 class TaskController extends TaskAccessController
@@ -27,5 +28,13 @@ class TaskController extends TaskAccessController
     public function delete(Task $task)
     {
         return $this->deleteCRUD($task);
+    }
+
+    public function updateStatus(Task $task, TaskUpdateStatusRequest $request)
+    {
+        $task->status = $request->getStatus()['title'];
+        $task->save();
+
+        return $this->defResponse();
     }
 }

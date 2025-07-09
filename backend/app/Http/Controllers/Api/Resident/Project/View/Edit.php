@@ -14,6 +14,7 @@ use App\Http\Requests\Calendar\CalendarCreateRequest;
 use App\Http\Requests\Resident\DocumentFileCreateRequest;
 use App\Http\Requests\Resident\Invoices\InvoiceRequest;
 use App\Http\Requests\Resident\Task\TaskCreateRequest;
+use App\Http\Requests\Resident\Task\TaskUpdateStatusRequest;
 use App\Models\Resident\Document;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Project\Calendar;
@@ -35,10 +36,22 @@ class Edit extends View
 
     public function tasks()
     {
+        $id = $this->urlToMethod(true);
+        if($id) {
+            $task = $this->model->tasks()->where('id', $id)->firstOrFail();
+        }
+
         $controller = new TaskController();
-        $request = app(TaskCreateRequest::class);
-        $request->setData(['pid' => $this->model->id]);
-        return $controller->createOrUpdate(new Task(), $request);
+        $method = strtolower($this->request->method());
+
+        if(in_array($method, ['post', 'put'])) {
+            $request = app(TaskCreateRequest::class);
+            $request->setData(['pid' => $this->model->id]);
+            return $controller->createOrUpdate(new Task(), $request);
+        } elseif ($method == 'patch' && $this->path[1] == 'status') {
+            $request = app(TaskUpdateStatusRequest::class);
+            return $controller->updateStatus($task, $request);
+        }
     }
 
     public function expenses()
