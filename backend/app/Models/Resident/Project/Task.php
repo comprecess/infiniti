@@ -6,9 +6,11 @@ use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\Traits\UserTrait;
 use App\Models\User;
+use App\Support\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 
 class Task extends Model implements InsertDefaultValueInterface
 {
@@ -45,6 +47,19 @@ class Task extends Model implements InsertDefaultValueInterface
             'status' => [self::STATUS[0]],
             'due_date' => [now()]
         ];
+    }
+
+    public static function getStatusColumn() :Collection
+    {
+        return Cache::remember('task.status_column', config('cache.time.1year'), function(){
+            return collect(config('data.task_columns'));
+        });
+    }
+
+    public function statusColumn()
+    {
+        $status = self::getStatusColumn();
+        return $status->where('title', $this->status)->first();
     }
 
 
