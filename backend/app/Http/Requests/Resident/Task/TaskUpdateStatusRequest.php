@@ -21,7 +21,7 @@ class TaskUpdateStatusRequest extends FormRequest
 
         return [
             'status' => 'required|in:' . $status,
-            'position' => 'nullable|numeric'
+            'position' => 'required|numeric'
         ];
     }
 
