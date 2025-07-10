@@ -36,8 +36,21 @@ class Get extends View
             return $result;
         }
 //        $tasks = $this->model->tasks->groupBy('status');
-        $tasks = $this->model->tasks()->with(['admin.files', 'admin.myRole'])->get();
-        return TaskResource::collection($tasks);
+        $tasks = $this->model->tasks()
+            ->with(['admin.files', 'admin.myRole'])
+            ->orderBy('position')
+            ->orderBy('id')
+            ->get();
+        $group = $tasks->groupBy('status');
+
+        $taskColumns = Task::getStatusColumn()->sortBy('sort');
+        $data = [];
+
+        foreach($taskColumns as $column) {
+            $data[$column['title']] =  TaskResource::collection($group->get($column['title']) ?? []);
+        }
+        return ['data' => $data];
+//        return TaskResource::collection($tasks);
 
     }
 

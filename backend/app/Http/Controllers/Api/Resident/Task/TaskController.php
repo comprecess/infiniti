@@ -32,7 +32,8 @@ class TaskController extends TaskAccessController
 
     public function updateStatus(Task $task, TaskUpdateStatusRequest $request)
     {
-        $task->status = $request->getStatus()['title'];
+        $task->status = $request->status;
+        $task->position = $request->position;
         $task->save();
 
         return $this->defResponse();
