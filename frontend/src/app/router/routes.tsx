@@ -57,6 +57,7 @@ import { AdminProjectsExpensesPage } from '../../pages/Admin/ProjectsPage/ViewPr
 import { AdminProjectsFilesPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/FilesPage/FilesPage'
 import { AdminProjectsInvoicesPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/InvoicesPage/InvoicesPage'
 import { AdminProjectsSummaryPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/SummaryPage/SummaryPage'
+import { AdminProjectsTasksPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/TasksPage/TasksPage'
 import { AdminViewProjectPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/ViewProjectPage'
 import { AdminPurchasePage } from '../../pages/Admin/PurchasePage/PurchasePage'
 import { AdminReportsPage } from '../../pages/Admin/ReportsPage/ReportsPage'
@@ -294,6 +295,7 @@ export const Pages = {
   adminProjectsPage: <AdminProjectsPage />,
   adminViewProjectPage: <AdminViewProjectPage />,
   adminProjectsSummaryPage: <AdminProjectsSummaryPage />,
+  adminProjectsTasksPage: <AdminProjectsTasksPage />,
   adminProjectsFilesPage: <AdminProjectsFilesPage />,
   adminProjectsInvoicesPage: <AdminProjectsInvoicesPage />,
   adminProjectsExpensesPage: <AdminProjectsExpensesPage />,
