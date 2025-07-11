@@ -1534,3 +1534,23 @@ export interface NotificationCardData {
   name: string
   subscription: string
 }
+
+export interface ProjectsColumnData {
+  [status: string]: ProjectsTasksData[]
+}
+
+export interface ProjectsTasksData {
+  id: number
+  admin: { id: number; account: string; img: string }
+  created: string
+  description: string
+  dueDate: string
+  end: string
+  start: string
+  status: { id: number; title: string; sort: number }
+  title: string
+}
+
+export interface ProjectsTasksInputData {
+  status: { id: number; title: string; sort: number }[]
+}
