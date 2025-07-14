@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Task\TaskCreateRequest;
 use App\Http\Requests\Resident\Task\TaskUpdateStatusRequest;
 use App\Models\Resident\Project\Task;
+use App\Models\User;
 
 class TaskController extends TaskAccessController
 {
@@ -23,7 +24,9 @@ class TaskController extends TaskAccessController
             $task = Task::newDefault();
         }
         return $this->createOrUpdateCRUD($request, $task, function($model){
+            $admin = User::getAuth();
             $model->pid = $model->pid?->id ?? $model->pid;
+            $model->aid = $admin->id;
         });
     }
 

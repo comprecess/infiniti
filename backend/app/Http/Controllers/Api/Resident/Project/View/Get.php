@@ -37,7 +37,7 @@ class Get extends View
         }
 //        $tasks = $this->model->tasks->groupBy('status');
         $tasks = $this->model->tasks()
-            ->with(['admin.files', 'admin.myRole'])
+            ->with(['admin.files', 'admin.myRole', 'client.companyClient', 'client.files'])
             ->orderBy('position')
             ->orderBy('id')
             ->get();
