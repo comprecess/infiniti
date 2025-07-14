@@ -47,7 +47,7 @@ class TaskCreateRequest extends FormRequest implements ConvertingPropertiesInter
             'startDate' => 'started',
             'dueDate' => 'due_date',
             'description',
-            'project' => 'project_id',
+            'project' => 'pid',
             'owner' => 'aid'
         ];
     }
