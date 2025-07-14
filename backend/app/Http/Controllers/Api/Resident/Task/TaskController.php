@@ -22,7 +22,9 @@ class TaskController extends TaskAccessController
         if($task->id) {
             $task = Task::newDefault();
         }
-        return $this->createOrUpdateCRUD($request, $task);
+        return $this->createOrUpdateCRUD($request, $task, function($model){
+            $model->pid = $model->pid?->id ?? $model->pid;
+        });
     }
 
     public function delete(Task $task)
