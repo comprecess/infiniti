@@ -32,8 +32,8 @@ class TaskCreateRequest extends FormRequest implements ConvertingPropertiesInter
 
         $this->setRule($rules)
             ->applyModel('client')
-            ->applyModel('project')
-            ->applyModel('owner');
+            ->applyModel('project');
+//            ->applyModel('owner');
 
         return $rules;
     }
@@ -48,7 +48,7 @@ class TaskCreateRequest extends FormRequest implements ConvertingPropertiesInter
             'dueDate' => 'due_date',
             'description',
             'project' => 'pid',
-            'owner' => 'aid'
+//            'owner' => 'aid'
         ];
     }
 
@@ -58,7 +58,7 @@ class TaskCreateRequest extends FormRequest implements ConvertingPropertiesInter
         return [
             'client' => Client::class,
             'project' => Project::class,
-            'owner' => Admin::class
+//            'owner' => Admin::class
         ];
     }
 
