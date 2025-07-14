@@ -22,9 +22,9 @@ const DEFAULT_ERROR_MESSAGE = 'Failed to fetch project edit information'
 const REQUEST_TIMEOUT_MS = 30000
 
 export const getProjectEditInfo = async (
-  id: number,
+  idProject: number,
 ): Promise<Response> => {
-  if (!Number.isInteger(id) || id <= 0) {
+  if (!Number.isInteger(idProject) || idProject <= 0) {
     return {
       status: false,
       message: 'Invalid project ID',
@@ -50,7 +50,7 @@ export const getProjectEditInfo = async (
       )
     }
 
-    const url = new URL(`${apiPath}/${id}`, baseUrl).toString()
+    const url = new URL(`${apiPath}/${idProject}`, baseUrl).toString()
 
     const controller = new AbortController()
     const timeoutId = setTimeout(

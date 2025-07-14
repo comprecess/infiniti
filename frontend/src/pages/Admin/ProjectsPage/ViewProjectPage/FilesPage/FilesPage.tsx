@@ -16,7 +16,7 @@ import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingS
 import { Search } from '../../../../../shared/ui/Search/Search'
 import { deleteDocument } from '../../../../../shared/utils/api/Admin/Documents/DeleteDocument'
 import { getProjectsFiles } from '../../../../../shared/utils/api/Admin/Projects/get-project-files'
-import { postAddNewProjectFile } from '../../../../../shared/utils/api/Admin/Projects/PostAddNewProjectFile'
+import { postAddNewProjectFile } from '../../../../../shared/utils/api/Admin/Projects/post-create-new-file'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './FilesPage.module.scss'
 
@@ -51,9 +51,9 @@ export const AdminProjectsFilesPage = () => {
   }
 
   const deleteFile = async (idFile: number) => {
-    const deleteResponse = await deleteDocument(idFile)
+    const { status, message } = await deleteDocument(idFile)
 
-    if (deleteResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully deleted the File',
@@ -63,7 +63,7 @@ export const AdminProjectsFilesPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: deleteResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -87,12 +87,12 @@ export const AdminProjectsFilesPage = () => {
       form.append('global', formData.global.toString())
     if (formData.file) form.append('file', formData.file)
 
-    const addResponse = await postAddNewProjectFile(
+    const { status, message } = await postAddNewProjectFile(
       context.idProject,
       form,
     )
 
-    if (addResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully added a File',
@@ -103,7 +103,7 @@ export const AdminProjectsFilesPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: addResponse.message,
+        description: message,
         status: 'error',
       })
     }

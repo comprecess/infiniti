@@ -7,7 +7,7 @@ import { SideBar } from '../../../../features/Admin/CustomersPage/ViewPage/SideB
 import { ArrowBackGroundIcon } from '../../../../shared/icons/ArrowBackGroundIcon'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { Status } from '../../../../shared/ui/Status/Status'
-import { getProjectView } from '../../../../shared/utils/api/Admin/Projects/GetProjectView'
+import { getProjectView } from '../../../../shared/utils/api/Admin/Projects/get-project-view'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import styles from './ViewProjectPage.module.scss'
 
@@ -26,9 +26,11 @@ export const AdminViewProjectPage = () => {
   const getProjectViewInfo = async () => {
     if (!id) return
 
-    const response: { data: ProjectsData } = await getProjectView(id)
+    const response = await getProjectView(id)
 
-    setProjectInfo(response.data)
+    if (!response.status) return
+
+    setProjectInfo(response.data.data)
   }
 
   const handleOpenCloseSidebar = () => {

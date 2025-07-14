@@ -1542,6 +1542,7 @@ export interface ProjectsColumnData {
 export interface ProjectsTasksData {
   id: number
   admin: { id: number; account: string; img: string }
+  client: { id: number; account: string; img: string }
   created: string
   description: string
   dueDate: string
@@ -1553,4 +1554,13 @@ export interface ProjectsTasksData {
 
 export interface ProjectsTasksInputData {
   status: { id: number; title: string; sort: number }[]
+  client: { id: number; account: string; email: string }[]
+}
+
+export interface ProjectsTasksFormData {
+  title: string
+  startDate: string
+  dueDate: string
+  description: string
+  client: string
 }

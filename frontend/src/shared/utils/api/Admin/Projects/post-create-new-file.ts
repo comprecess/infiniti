@@ -7,7 +7,7 @@ import { getAuthToken } from '../../GetAuthToken'
 
 interface SuccessResponse {
   status: true
-  data: any
+  message: string
 }
 
 interface ErrorResponse {
@@ -18,11 +18,12 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-const DEFAULT_ERROR_MESSAGE = 'Failed to fetch project edit information'
+const DEFAULT_ERROR_MESSAGE = 'Failed to upload file'
 const REQUEST_TIMEOUT_MS = 30000
 
-export const getProjectsTasks = async (
+export const postAddNewProjectFile = async (
   idProject: number,
+  form: FormData,
 ): Promise<Response> => {
   if (!Number.isInteger(idProject) || idProject <= 0) {
     return {
@@ -51,7 +52,7 @@ export const getProjectsTasks = async (
     }
 
     const url = new URL(
-      `${apiPath}/${idProject}/tasks`,
+      `${apiPath}/${idProject}/files`,
       baseUrl,
     ).toString()
 
@@ -62,12 +63,13 @@ export const getProjectsTasks = async (
     )
 
     const response = await fetch(url, {
-      method: 'GET',
+      method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${authToken}`,
+        // Content-Type не указываем, т.к. FormData сам его задаёт с boundary
       },
+      body: form,
       signal: controller.signal,
     })
 
@@ -87,7 +89,11 @@ export const getProjectsTasks = async (
 
     const data = await response.json()
 
-    if (!data || typeof data !== 'object') {
+    if (
+      typeof data !== 'object' ||
+      data === null ||
+      typeof data.status !== 'boolean'
+    ) {
       return {
         status: false,
         message: INVALID_RESPONSE_MESSAGE,
@@ -95,10 +101,7 @@ export const getProjectsTasks = async (
       }
     }
 
-    return {
-      status: true,
-      data,
-    }
+    return data as Response
   } catch (error) {
     if (error instanceof Error) {
       return {

@@ -11,7 +11,7 @@ import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getProjectsInputData } from '../../../../shared/utils/api/Admin/Projects/get-project-input-data'
-import { postCreateNewProject } from '../../../../shared/utils/api/Admin/Projects/PostCreateNewProject'
+import { postCreateNewProject } from '../../../../shared/utils/api/Admin/Projects/post-create-new-project'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CreateNewProject.module.scss'
 

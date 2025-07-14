@@ -7,7 +7,7 @@ import { getAuthToken } from '../../GetAuthToken'
 
 interface SuccessResponse {
   status: true
-  data: any
+  message: string
 }
 
 interface ErrorResponse {
@@ -18,12 +18,22 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-const DEFAULT_ERROR_MESSAGE = 'Failed to fetch project edit information'
+const DEFAULT_ERROR_MESSAGE = 'Failed to update task position'
 const REQUEST_TIMEOUT_MS = 30000
 
-export const getProjectsTasks = async (
+export const patchUpdateTaskPosition = async (
   idProject: number,
+  taskId: number,
+  newIndex: number,
+  columnTitle: string,
 ): Promise<Response> => {
+  if (!Number.isInteger(taskId) || taskId <= 0) {
+    return {
+      status: false,
+      message: 'Invalid task ID',
+    }
+  }
+
   if (!Number.isInteger(idProject) || idProject <= 0) {
     return {
       status: false,
@@ -51,7 +61,7 @@ export const getProjectsTasks = async (
     }
 
     const url = new URL(
-      `${apiPath}/${idProject}/tasks`,
+      `${apiPath}/${idProject}/tasks/${taskId}/status`,
       baseUrl,
     ).toString()
 
@@ -62,12 +72,16 @@ export const getProjectsTasks = async (
     )
 
     const response = await fetch(url, {
-      method: 'GET',
+      method: 'PATCH',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
+      body: JSON.stringify({
+        position: newIndex,
+        status: columnTitle,
+      }),
       signal: controller.signal,
     })
 
@@ -87,7 +101,11 @@ export const getProjectsTasks = async (
 
     const data = await response.json()
 
-    if (!data || typeof data !== 'object') {
+    if (
+      typeof data !== 'object' ||
+      data === null ||
+      typeof data.status !== 'boolean'
+    ) {
       return {
         status: false,
         message: INVALID_RESPONSE_MESSAGE,
@@ -95,10 +113,7 @@ export const getProjectsTasks = async (
       }
     }
 
-    return {
-      status: true,
-      data,
-    }
+    return data as Response
   } catch (error) {
     if (error instanceof Error) {
       return {

@@ -22,10 +22,10 @@ const DEFAULT_ERROR_MESSAGE = 'Failed to fetch project expenses'
 const REQUEST_TIMEOUT_MS = 30000
 
 export const getProjectExpenses = async (
-  id: number,
+  idProject: number,
   options: string,
 ): Promise<Response> => {
-  if (!Number.isInteger(id) || id <= 0) {
+  if (!Number.isInteger(idProject) || idProject <= 0) {
     return {
       status: false,
       message: 'Invalid project ID',
@@ -63,7 +63,7 @@ export const getProjectExpenses = async (
     const encodedOptions = encodeURI(safeOptions)
 
     const url = new URL(
-      `${apiPath}/${id}/expenses${encodedOptions}`,
+      `${apiPath}/${idProject}/expenses${encodedOptions}`,
       baseUrl,
     ).toString()
 

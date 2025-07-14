@@ -22,9 +22,9 @@ const DEFAULT_ERROR_MESSAGE = 'Failed to fetch project edit information'
 const REQUEST_TIMEOUT_MS = 30000
 
 export const getProjectsTasksInputData = async (
-  id: number,
+  idProject: number,
 ): Promise<Response> => {
-  if (!Number.isInteger(id) || id <= 0) {
+  if (!Number.isInteger(idProject) || idProject <= 0) {
     return {
       status: false,
       message: 'Invalid project ID',
@@ -51,7 +51,7 @@ export const getProjectsTasksInputData = async (
     }
 
     const url = new URL(
-      `${apiPath}/${id}/tasks/input-data`,
+      `${apiPath}/${idProject}/tasks/input-data`,
       baseUrl,
     ).toString()
 

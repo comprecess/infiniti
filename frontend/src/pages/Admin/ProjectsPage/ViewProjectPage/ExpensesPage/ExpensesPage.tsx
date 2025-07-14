@@ -48,9 +48,9 @@ export const AdminProjectsExpensesPage = () => {
   }
 
   const handleDeleteExpense = async (id: number) => {
-    const response = await deleteTransaction(id)
+    const { status, message } = await deleteTransaction(id)
 
-    if (response.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully deleted Expense',
@@ -60,7 +60,7 @@ export const AdminProjectsExpensesPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: response.message,
+        description: message,
         status: 'error',
       })
     }

@@ -18,10 +18,10 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-const DEFAULT_ERROR_MESSAGE = 'Failed to fetch project edit information'
+const DEFAULT_ERROR_MESSAGE = 'Failed to fetch project view'
 const REQUEST_TIMEOUT_MS = 30000
 
-export const getProjectsTasks = async (
+export const getProjectView = async (
   idProject: number,
 ): Promise<Response> => {
   if (!Number.isInteger(idProject) || idProject <= 0) {
@@ -50,10 +50,7 @@ export const getProjectsTasks = async (
       )
     }
 
-    const url = new URL(
-      `${apiPath}/${idProject}/tasks`,
-      baseUrl,
-    ).toString()
+    const url = new URL(`${apiPath}/${idProject}/view`, baseUrl).toString()
 
     const controller = new AbortController()
     const timeoutId = setTimeout(

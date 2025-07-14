@@ -7,7 +7,7 @@ import { getAuthToken } from '../../GetAuthToken'
 
 interface SuccessResponse {
   status: true
-  data: any
+  message: string
 }
 
 interface ErrorResponse {
@@ -18,16 +18,25 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-const DEFAULT_ERROR_MESSAGE = 'Failed to fetch project edit information'
+const DEFAULT_ERROR_MESSAGE =
+  'An error occurred while deleting the project'
 const REQUEST_TIMEOUT_MS = 30000
 
-export const getProjectsTasks = async (
+export const deleteProjectTask = async (
   idProject: number,
+  idTask: number,
 ): Promise<Response> => {
   if (!Number.isInteger(idProject) || idProject <= 0) {
     return {
       status: false,
       message: 'Invalid project ID',
+    }
+  }
+
+  if (!Number.isInteger(idTask) || idTask <= 0) {
+    return {
+      status: false,
+      message: 'Invalid task ID',
     }
   }
 
@@ -51,7 +60,7 @@ export const getProjectsTasks = async (
     }
 
     const url = new URL(
-      `${apiPath}/${idProject}/tasks`,
+      `${apiPath}/${idProject}/tasks/${idTask}`,
       baseUrl,
     ).toString()
 
@@ -62,7 +71,7 @@ export const getProjectsTasks = async (
     )
 
     const response = await fetch(url, {
-      method: 'GET',
+      method: 'DELETE',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -87,7 +96,11 @@ export const getProjectsTasks = async (
 
     const data = await response.json()
 
-    if (!data || typeof data !== 'object') {
+    if (
+      typeof data !== 'object' ||
+      data === null ||
+      typeof data.status !== 'boolean'
+    ) {
       return {
         status: false,
         message: INVALID_RESPONSE_MESSAGE,
@@ -95,10 +108,7 @@ export const getProjectsTasks = async (
       }
     }
 
-    return {
-      status: true,
-      data,
-    }
+    return data as Response
   } catch (error) {
     if (error instanceof Error) {
       return {

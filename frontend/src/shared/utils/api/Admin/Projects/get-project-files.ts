@@ -23,10 +23,10 @@ const DEFAULT_ERROR_MESSAGE = 'Failed to fetch project files'
 const REQUEST_TIMEOUT_MS = 30000
 
 export const getProjectsFiles = async (
-  id: number,
+  idProject: number,
   options: string = '',
 ): Promise<Response> => {
-  if (!Number.isInteger(id) || id <= 0) {
+  if (!Number.isInteger(idProject) || idProject <= 0) {
     return {
       status: false,
       message: 'Invalid project ID',
@@ -63,7 +63,7 @@ export const getProjectsFiles = async (
     const encodedOptions = encodeURI(safeOptions)
 
     const url = new URL(
-      `${apiPath}/${id}/files${encodedOptions}`,
+      `${apiPath}/${idProject}/files${encodedOptions}`,
       baseUrl,
     ).toString()
 

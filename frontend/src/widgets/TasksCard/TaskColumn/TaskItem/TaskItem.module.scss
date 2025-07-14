@@ -8,16 +8,18 @@
   border-radius: 8px;
   height: fit-content;
   background-color: $brand-800;
-  touch-action: none;
   user-select: none;
-  z-index: 0;
+  z-index: 1;
   transition: all 1s ease;
+  touch-action: auto;
+  cursor: grab;
 }
 
 .wrapperSelected {
   transition: all 1s ease;
   background-color: adjust-color($brand-600, $lightness: -20%);
   z-index: 1000;
+  cursor: grabbing;
 }
 
 .header {
@@ -35,6 +37,7 @@
 }
 
 .account {
+  width: 100%;
   font-family: $fontSpaceGrotesk;
   font-size: 14px;
   font-weight: 400;
@@ -72,4 +75,14 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.dragHandle {
+  display: flex;
+  width: 15px;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  touch-action: none;
+  z-index: 1000;
 }

@@ -48,9 +48,9 @@ export const AdminProjectsInvoicesPage = () => {
   }
 
   const deleteSelectedInvoice = async (idInvoice: number) => {
-    const deleteResponse = await deleteInvoice(idInvoice)
+    const { status, message } = await deleteInvoice(idInvoice)
 
-    if (deleteResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully deleted Invoice',
@@ -60,7 +60,7 @@ export const AdminProjectsInvoicesPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: deleteResponse.message,
+        description: message,
         status: 'error',
       })
     }
