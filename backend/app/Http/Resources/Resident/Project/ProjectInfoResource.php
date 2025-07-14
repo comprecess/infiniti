@@ -19,7 +19,7 @@ class ProjectInfoResource extends JsonResource
             'name' => $this->name,
             'budget' => $this->printPrice('budget'),
             'status' => $this->status,
-            'dueDate' => $this->due_date->format('d/m/Y'),
+            'dueDate' => $this->due_date?->format('d/m/Y'),
         ];
 
 

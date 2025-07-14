@@ -65,7 +65,7 @@ class Project extends Model implements InsertDefaultValueInterface
         $percent = 0;
 
         if($count) {
-            $percent = (int) $completed / ($count / 100);
+            $percent = (int) ($completed / ($count / 100));
         }
         return [
             'completed' => $completed,
