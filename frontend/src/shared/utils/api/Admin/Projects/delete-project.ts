@@ -22,8 +22,10 @@ const DEFAULT_ERROR_MESSAGE =
   'An error occurred while deleting the project'
 const REQUEST_TIMEOUT_MS = 30000
 
-export const deleteProject = async (id: number): Promise<Response> => {
-  if (!Number.isInteger(id) || id <= 0) {
+export const deleteProject = async (
+  idProject: number,
+): Promise<Response> => {
+  if (!Number.isInteger(idProject) || idProject <= 0) {
     return {
       status: false,
       message: 'Invalid project ID',
@@ -49,7 +51,7 @@ export const deleteProject = async (id: number): Promise<Response> => {
       )
     }
 
-    const url = new URL(`${apiPath}/${id}`, baseUrl).toString()
+    const url = new URL(`${apiPath}/${idProject}`, baseUrl).toString()
 
     const controller = new AbortController()
     const timeoutId = setTimeout(

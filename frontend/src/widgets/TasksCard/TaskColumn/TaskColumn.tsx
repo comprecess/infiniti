@@ -4,22 +4,31 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 
-import { ProjectsTasksData } from '../../../app/constants/constants'
+import {
+  ProjectsTasksData,
+  ProjectsTasksInputData,
+} from '../../../app/constants/constants'
 import styles from './TaskColumn.module.scss'
 import { TaskItem } from './TaskItem/TaskItem'
 
 interface TaskColumnProps {
+  inputData: ProjectsTasksInputData
   title: string
   columnId: string
   tasks: ProjectsTasksData[]
   activeTaskId?: string
+  isDragging: boolean
+  deleteSelectedTask: (idTask: number) => void
 }
 
 export const TaskColumn = ({
+  inputData,
   title,
   columnId,
   tasks,
   activeTaskId,
+  isDragging,
+  deleteSelectedTask,
 }: TaskColumnProps) => {
   const { setNodeRef } = useDroppable({ id: columnId })
 
@@ -32,7 +41,12 @@ export const TaskColumn = ({
       >
         <span className={styles.title}>{title}</span>
       </div>
-      <div ref={setNodeRef} className={styles.droppable}>
+      <div
+        ref={setNodeRef}
+        className={
+          isDragging ? styles.droppableDragging : styles.droppable
+        }
+      >
         <SortableContext
           items={tasks.map(t => t.id.toString())}
           strategy={verticalListSortingStrategy}
@@ -53,7 +67,14 @@ export const TaskColumn = ({
                       : undefined
                   }
                 >
-                  <TaskItem task={task} isSelected={isActive} />
+                  <TaskItem
+                    inputData={inputData}
+                    task={task}
+                    isSelected={isActive}
+                    isDragging={isDragging}
+                    deleteSelectedTask={deleteSelectedTask}
+                    editSelectedTask={() => {}}
+                  />
                 </div>
               )
             })}

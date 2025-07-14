@@ -49,6 +49,7 @@ export const CustomDataPicker = ({
     <div className={styles.wrapper}>
       <span className={styles.title}>{title}</span>
       <DatePicker
+        autoFocus={false}
         selected={date}
         dateFormat='yyyy-MM-dd'
         onChange={handleOnChange}

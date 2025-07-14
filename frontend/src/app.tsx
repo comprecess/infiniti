@@ -28,6 +28,7 @@ export const App = () => {
       setIsLoading(false)
       setColorMode('dark')
     }
+
     init()
 
     setTimeout(() => setShowLoadingScreen(false), 2000)

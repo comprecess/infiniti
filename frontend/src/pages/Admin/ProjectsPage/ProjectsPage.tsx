@@ -9,7 +9,7 @@ import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { deleteProject } from '../../../shared/utils/api/Admin/Projects/delete-project'
-import { getProjectsList } from '../../../shared/utils/api/Admin/Projects/GetProjectsList'
+import { getProjectsList } from '../../../shared/utils/api/Admin/Projects/get-projects-list'
 import { ProjectCard } from '../../../widgets/ProjectCard/ProjectCard'
 import styles from './ProjectsPage.module.scss'
 
@@ -27,9 +27,11 @@ export const AdminProjectsPage = () => {
   const { data: projects } = useQuery({
     queryKey: ['projectsList'],
     queryFn: async () => {
-      const response: { data: ProjectsData[] } = await getProjectsList()
+      const response = await getProjectsList()
 
-      return response
+      if (!response.status) return
+
+      return response.data.data as ProjectsData[]
     },
     placeholderData: previousData => previousData,
   })
@@ -74,7 +76,7 @@ export const AdminProjectsPage = () => {
       {projects ? (
         <section className={styles.sectionFirst}>
           <div className={styles.projectsList}>
-            {projects.data.map(project => (
+            {projects.map(project => (
               <ProjectCard
                 key={project.id}
                 project={project}

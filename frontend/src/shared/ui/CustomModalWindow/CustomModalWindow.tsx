@@ -20,7 +20,12 @@ export const CustomModalWindow = ({
   children,
 }: PropsWithChildren<CustomModalWindowProps>) => {
   return (
-    <Modal isCentered isOpen={isOpen} onClose={onClose}>
+    <Modal
+      isCentered
+      isOpen={isOpen}
+      autoFocus={false}
+      onClose={onClose}
+    >
       <ModalOverlay />
       <ModalContent
         maxWidth={maxWidth}

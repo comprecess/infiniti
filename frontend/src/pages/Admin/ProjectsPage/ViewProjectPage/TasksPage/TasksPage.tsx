@@ -3,13 +3,19 @@ import { useOutletContext } from 'react-router-dom'
 
 import {
   ProjectsColumnData,
+  ProjectsTasksFormData,
   ProjectsTasksInputData,
   ProjectViewPageContext,
 } from '../../../../../app/constants/constants'
+import { CreateTaskModal } from '../../../../../features/Admin/Projects/ViewProject/CreateTaskModal/CreateTaskModal'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
+import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { deleteProjectTask } from '../../../../../shared/utils/api/Admin/Projects/delete-project-task'
 import { getProjectsTasks } from '../../../../../shared/utils/api/Admin/Projects/get-projects-tasks'
 import { getProjectsTasksInputData } from '../../../../../shared/utils/api/Admin/Projects/get-projects-tasks-input-data'
+import { patchUpdateTaskPosition } from '../../../../../shared/utils/api/Admin/Projects/patch-update-task-position'
+import { postCreateNewTask } from '../../../../../shared/utils/api/Admin/Projects/post-create-new-task'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import { TasksCard } from '../../../../../widgets/TasksCard/TasksCard'
 import styles from './TasksPage.module.scss'
@@ -21,7 +27,11 @@ export const AdminProjectsTasksPage = () => {
   const [inputData, setInputData] =
     useState<ProjectsTasksInputData | null>(null)
 
+  const [isCreated, setIsCreated] = useState<boolean>(false)
+
   const context = useOutletContext<ProjectViewPageContext>()
+
+  const showToast = useCustomToast()
 
   const getTasks = async () => {
     if (!context.idProject) return
@@ -43,6 +53,83 @@ export const AdminProjectsTasksPage = () => {
     setInputData(response.data)
   }
 
+  const createNewTask = async (form: Partial<ProjectsTasksFormData>) => {
+    if (!context.idProject) return
+
+    const { status, message } = await postCreateNewTask(
+      context.idProject,
+      form,
+    )
+
+    if (status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully created a Task',
+        status: 'success',
+      })
+      getTasks()
+    } else {
+      showToast({
+        title: 'Error',
+        description: message,
+        status: 'error',
+      })
+    }
+  }
+
+  const editTask = () => {}
+
+  const deleteSelectedTask = async (idTask: number) => {
+    if (!context.idProject) return
+
+    const { status, message } = await deleteProjectTask(
+      context.idProject,
+      idTask,
+    )
+
+    if (status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully deleted the Task',
+        status: 'success',
+      })
+      getTasks()
+    } else {
+      showToast({
+        title: 'Error',
+        description: message,
+        status: 'error',
+      })
+    }
+  }
+
+  const updateTaskPosition = async (
+    taskId: number,
+    newIndex: number,
+    columnTitle: string,
+  ) => {
+    if (!context.idProject) return
+
+    const { status, message } = await patchUpdateTaskPosition(
+      context.idProject,
+      taskId,
+      newIndex,
+      columnTitle,
+    )
+
+    if (!status) {
+      showToast({
+        title: 'Error',
+        description: message,
+        status: 'error',
+      })
+    }
+  }
+
+  const handleSetIsCreated = () => {
+    setIsCreated(prev => !prev)
+  }
+
   useEffect(() => {
     getTasks()
     getTasksInputData()
@@ -53,27 +140,43 @@ export const AdminProjectsTasksPage = () => {
   }, [])
 
   return (
-    <div className={styles.wrapper}>
-      <section className={styles.section}>
-        {tasksList && inputData ? (
-          <RecentCard
-            title='Project Tasks'
-            style={styles.recentFullScreen}
-            Component={ButtonBlue}
-            componentProps={{
-              titleNone: true,
-              title: 'New Task',
-              icon: '/icons/plus.svg',
-              style: styles.buttonNewTask,
-              onClick: () => {},
-            }}
-          >
-            <TasksCard data={tasksList} />
-          </RecentCard>
-        ) : (
-          <LoadingSpinner size='xl' />
-        )}
-      </section>
-    </div>
+    <>
+      <div className={styles.wrapper}>
+        <section className={styles.section}>
+          {tasksList && inputData ? (
+            <RecentCard
+              title='Project Tasks'
+              style={styles.recentFullScreen}
+              Component={ButtonBlue}
+              componentProps={{
+                titleNone: true,
+                title: 'New Task',
+                icon: '/icons/plus.svg',
+                style: styles.buttonNewTask,
+                onClick: handleSetIsCreated,
+              }}
+            >
+              <TasksCard
+                data={tasksList}
+                updateTaskPosition={updateTaskPosition}
+                editSelectedTask={editTask}
+                deleteSelectedTask={deleteSelectedTask}
+                inputData={inputData}
+              />
+            </RecentCard>
+          ) : (
+            <LoadingSpinner size='xl' />
+          )}
+        </section>
+      </div>
+      {isCreated && inputData && (
+        <CreateTaskModal
+          modalOpen={isCreated}
+          inputData={inputData}
+          createTask={createNewTask}
+          handleOpenCloseModal={handleSetIsCreated}
+        />
+      )}
+    </>
   )
 }

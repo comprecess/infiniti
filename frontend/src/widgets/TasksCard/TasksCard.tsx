@@ -17,6 +17,7 @@ import { useEffect, useRef, useState } from 'react'
 import {
   ProjectsColumnData,
   ProjectsTasksData,
+  ProjectsTasksInputData,
 } from '../../app/constants/constants'
 import { TaskColumn } from './TaskColumn/TaskColumn'
 import { TaskItem } from './TaskColumn/TaskItem/TaskItem'
@@ -24,6 +25,14 @@ import styles from './TasksCard.module.scss'
 
 interface TasksCardProps {
   data: ProjectsColumnData
+  inputData: ProjectsTasksInputData
+  updateTaskPosition: (
+    taskId: number,
+    newIndex: number,
+    columnTitle: string,
+  ) => void
+  editSelectedTask: (idTask: number) => void
+  deleteSelectedTask: (idTask: number) => void
 }
 
 interface ActiveTaskInfo {
@@ -31,17 +40,26 @@ interface ActiveTaskInfo {
   fromColumn: string
 }
 
-export const TasksCard = ({ data }: TasksCardProps) => {
+export const TasksCard = ({
+  data,
+  inputData,
+  updateTaskPosition,
+  deleteSelectedTask,
+}: TasksCardProps) => {
   const [columns, setColumns] = useState<ProjectsColumnData>(data)
   const [activeTask, setActiveTask] = useState<ActiveTaskInfo | null>(null)
 
   const containerRef = useRef<HTMLDivElement>(null)
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    }),
     useSensor(TouchSensor, {
       activationConstraint: {
-        delay: 200,
+        delay: 250,
         tolerance: 5,
       },
     }),
@@ -58,7 +76,7 @@ export const TasksCard = ({ data }: TasksCardProps) => {
     }
   }
 
-  const onDragEnd = (event: DragEndEvent) => {
+  const onDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event
     if (!activeTask || !over) {
       setActiveTask(null)
@@ -108,21 +126,32 @@ export const TasksCard = ({ data }: TasksCardProps) => {
 
     setColumns(newColumns)
     setActiveTask(null)
+
+    updateTaskPosition(updatedTask.id, targetIndex, targetColumn)
   }
 
   useEffect(() => {
+    const children = containerRef.current?.children
+    if (!children) return
+
+    Array.from(children).forEach(child => {
+      // eslint-disable-next-line no-extra-semi
+      ;(child as HTMLElement).style.height = 'auto'
+    })
+
     const maxHeight = Math.max(
-      ...Array.from(containerRef.current?.children || []).map(
-        el => (el as HTMLElement).offsetHeight,
-      ),
+      ...Array.from(children).map(el => (el as HTMLElement).offsetHeight),
     )
-    if (containerRef.current) {
-      Array.from(containerRef.current.children).forEach(child => {
-        // eslint-disable-next-line no-extra-semi
-        ;(child as HTMLElement).style.minHeight = `${maxHeight}px`
-      })
-    }
+
+    Array.from(children).forEach(child => {
+      // eslint-disable-next-line no-extra-semi
+      ;(child as HTMLElement).style.height = `${maxHeight}px`
+    })
   }, [columns])
+
+  useEffect(() => {
+    setColumns(data)
+  }, [data])
 
   return (
     <DndContext
@@ -138,18 +167,26 @@ export const TasksCard = ({ data }: TasksCardProps) => {
             strategy={verticalListSortingStrategy}
           >
             <TaskColumn
+              inputData={inputData}
+              isDragging={!!activeTask}
               columnId={`column-${status}`}
               title={status}
               tasks={tasks}
               activeTaskId={activeTask?.task.id.toString()}
+              deleteSelectedTask={deleteSelectedTask}
             />
           </SortableContext>
         ))}
       </div>
-
       <DragOverlay>
         {activeTask ? (
-          <TaskItem isSelected task={activeTask.task} />
+          <TaskItem
+            isSelected
+            isDragging
+            task={activeTask.task}
+            editSelectedTask={() => {}}
+            deleteSelectedTask={() => {}}
+          />
         ) : null}
       </DragOverlay>
     </DndContext>
