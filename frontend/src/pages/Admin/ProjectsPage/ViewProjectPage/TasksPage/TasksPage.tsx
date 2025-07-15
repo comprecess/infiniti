@@ -12,10 +12,11 @@ import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { deleteProjectTask } from '../../../../../shared/utils/api/Admin/Projects/delete-project-task'
-import { getProjectsTasks } from '../../../../../shared/utils/api/Admin/Projects/get-projects-tasks'
+import { getProjectTasks } from '../../../../../shared/utils/api/Admin/Projects/get-project-tasks'
 import { getProjectsTasksInputData } from '../../../../../shared/utils/api/Admin/Projects/get-projects-tasks-input-data'
 import { patchUpdateTaskPosition } from '../../../../../shared/utils/api/Admin/Projects/patch-update-task-position'
 import { postCreateNewTask } from '../../../../../shared/utils/api/Admin/Projects/post-create-new-task'
+import { getLocalDateTimeString } from '../../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import { TasksCard } from '../../../../../widgets/TasksCard/TasksCard'
 import styles from './TasksPage.module.scss'
@@ -36,7 +37,9 @@ export const AdminProjectsTasksPage = () => {
   const getTasks = async () => {
     if (!context.idProject) return
 
-    const response = await getProjectsTasks(context.idProject)
+    const date = getLocalDateTimeString()
+
+    const response = await getProjectTasks(context.idProject, date)
 
     if (!response.status) return
 
@@ -131,6 +134,8 @@ export const AdminProjectsTasksPage = () => {
   }
 
   useEffect(() => {
+    if (!context.idProject) return
+
     getTasks()
     getTasksInputData()
   }, [context.idProject])

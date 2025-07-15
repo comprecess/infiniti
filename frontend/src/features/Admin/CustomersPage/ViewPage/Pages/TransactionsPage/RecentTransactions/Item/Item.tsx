@@ -1,8 +1,12 @@
+import { useNavigate } from 'react-router-dom'
+
+import { Routes } from '../../../../../../../../app/router/routes'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../RecentTransactions.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
+  id: number
   date: string
   account: string
   type: string
@@ -13,6 +17,7 @@ interface ItemProps {
 }
 
 export const Item = ({
+  id,
   date,
   account,
   type,
@@ -21,6 +26,14 @@ export const Item = ({
   dr,
   cr,
 }: ItemProps) => {
+  const navigate = useNavigate()
+
+  const handleNavigateToEditTransaction = () => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.accounting}/${Routes.edit}/${Routes.transaction}/${id}`,
+    )
+  }
+
   return (
     <div className={styles.wrapper}>
       <span className={`${styleItem.dateColumn} ${styles.dateItem}`}>
@@ -52,6 +65,7 @@ export const Item = ({
           icon='/icons/edit.svg'
           alt='Edit'
           tooltipTitle='Edit'
+          onClick={handleNavigateToEditTransaction}
         />
       </div>
     </div>

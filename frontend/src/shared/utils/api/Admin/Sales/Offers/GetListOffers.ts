@@ -13,8 +13,8 @@ export const getListOffers = async (options: string) => {
       const response = await fetch(url, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
           Accept: 'application/json',
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken}`,
         },
       })

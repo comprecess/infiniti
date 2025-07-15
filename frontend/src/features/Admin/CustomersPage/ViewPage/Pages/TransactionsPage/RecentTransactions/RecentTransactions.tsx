@@ -27,15 +27,7 @@ export const RecentTransactions = ({ list }: RecentTransactionsProps) => {
         {list.map((item, index) => {
           return (
             <Fragment key={item.id}>
-              <Item
-                date={item.date}
-                account={item.account}
-                type={item.type}
-                amount={item.amount}
-                description={item.description}
-                dr={item.dr}
-                cr={item.cr}
-              />
+              <Item {...item} />
               {index !== list.length - 1 && <CustomDivider />}
             </Fragment>
           )

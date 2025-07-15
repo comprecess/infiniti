@@ -1,31 +1,16 @@
-import { useEffect, useMemo } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { authTokenString } from '../../../app/constants/constants'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getAutoLogin } from '../../../shared/utils/api/GetAutoLogin'
 import { saveSession } from '../../../shared/utils/Saving/Session/SaveSession'
+import { useTextFromUrl } from '../../../shared/utils/usefulMethods'
 import styles from './AutoLoginPage.module.scss'
-
-const extractTokenFromUrl = (url: string): string | null => {
-  const regex = /\/login\/([^/]+)$/
-  const match = url.match(regex)
-
-  return match ? match[1] : null
-}
-
-const useTokenFromUrl = () => {
-  const location = useLocation()
-
-  return useMemo(
-    () => extractTokenFromUrl(location.pathname),
-    [location.pathname],
-  )
-}
 
 export const AutoLoginPage = () => {
   const navigate = useNavigate()
-  const token = useTokenFromUrl()
+  const token = useTextFromUrl('login')
 
   const sendToken = async () => {
     if (token === null) return

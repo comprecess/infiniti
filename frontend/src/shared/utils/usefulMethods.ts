@@ -15,6 +15,19 @@ export const useIdFromUrl = (word: string): number | null => {
   }, [location.pathname, word])
 }
 
+export const useTextFromUrl = (word: string): string | null => {
+  const location = useLocation()
+
+  return useMemo(() => {
+    if (!word) return null
+
+    const regex = new RegExp(`/${word}/([^/]+)`)
+    const match = location.pathname.match(regex)
+
+    return match ? match[1] : null
+  }, [location.pathname, word])
+}
+
 type SupportedContentType =
   | 'application/pdf'
   | 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -57,4 +70,18 @@ export const downloadDocument = async (
     default:
       return { status: false }
   }
+}
+
+export const getLocalDateTimeString = (): string => {
+  const now = new Date()
+
+  const pad = (n: number) => n.toString().padStart(2, '0')
+
+  const year = now.getFullYear()
+  const month = pad(now.getMonth() + 1)
+  const day = pad(now.getDate())
+  const hours = pad(now.getHours())
+  const minutes = pad(now.getMinutes())
+
+  return `${year}-${month}-${day} ${hours}:${minutes}`
 }

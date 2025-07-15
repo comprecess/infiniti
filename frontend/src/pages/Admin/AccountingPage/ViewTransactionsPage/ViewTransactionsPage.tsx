@@ -27,7 +27,7 @@ export const AdminViewTransactionsPage = () => {
 
   const [page, setPage] = useState<number>(1)
   const [sortName, setSortName] = useState<string>('id')
-  const [sortType, setSortType] = useState<number>(0)
+  const [sortType, setSortType] = useState<number>(1)
 
   const [filterType, setFilterType] = useState<string>('')
   const [filterAccount, setFilterAccount] = useState<string>('')

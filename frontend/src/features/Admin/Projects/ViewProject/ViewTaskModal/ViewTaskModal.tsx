@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import {
   ProjectsTasksData,
@@ -33,8 +33,6 @@ export const ViewTaskModal = ({
   const [confirmModal, setConfirmModal] = useState<boolean>(false)
   const [isEdited, setIsEdited] = useState<boolean>(false)
 
-  const [isMounted, setIsMounted] = useState(false)
-
   const safeHTML = task.description
     ? sanitizeMessage(task.description)
     : null
@@ -53,12 +51,6 @@ export const ViewTaskModal = ({
     handleOpenCloseModal()
   }
 
-  useEffect(() => {
-    if (modalOpen) {
-      setIsMounted(true)
-    }
-  }, [modalOpen])
-
   return (
     <>
       <CustomModalWindow
@@ -73,33 +65,31 @@ export const ViewTaskModal = ({
               <CrossIcon />
             </div>
           </div>
-          {isMounted && (
-            <div className={styles.content}>
-              <CustomDivider styles={styles.dividerTop} />
-              {task.start && (
-                <div className={styles.text}>
-                  <span className={styles.textTitle}>Start Date:</span>
-                  <span className={styles.textValue}>{task.start}</span>
-                </div>
-              )}
-              {task.dueDate && (
-                <div className={styles.text}>
-                  <span className={styles.textTitle}>Due Date:</span>
-                  <span className={styles.textValue}>{task.end}</span>
-                </div>
-              )}
-              {task.admin && (
-                <div className={styles.text}>
-                  <span className={styles.textTitle}>
-                    Related Customer:
-                  </span>
-                  <span className={styles.textValue}>
-                    {task.client.account}
-                  </span>
-                </div>
-              )}
-              <CustomDivider styles={styles.divider} />
-              {safeHTML && (
+          <div className={styles.content}>
+            <CustomDivider styles={styles.dividerTop} />
+            {task.start && (
+              <div className={styles.text}>
+                <span className={styles.textTitle}>Start Date:</span>
+                <span className={styles.textValue}>{task.start}</span>
+              </div>
+            )}
+            {task.dueDate && (
+              <div className={styles.text}>
+                <span className={styles.textTitle}>Due Date:</span>
+                <span className={styles.textValue}>{task.end}</span>
+              </div>
+            )}
+            {task.client && (
+              <div className={styles.text}>
+                <span className={styles.textTitle}>Related Customer:</span>
+                <span className={styles.textValue}>
+                  {task.client.account}
+                </span>
+              </div>
+            )}
+            {safeHTML && (
+              <>
+                <CustomDivider styles={styles.divider} />
                 <div className={styles.description}>
                   <span className={styles.textTitle}>Description:</span>
                   <span
@@ -107,26 +97,26 @@ export const ViewTaskModal = ({
                     className={styles.descriptionValue}
                   />
                 </div>
-              )}
-              <CustomDivider styles={styles.divider} />
-              <div className={styles.buttons}>
-                <CustomMiniButton
-                  style='amber'
-                  icon='/icons/edit.svg'
-                  alt='Edit'
-                  tooltipTitle='Edit'
-                  onClick={handleSetIsEdited}
-                />
-                <CustomMiniButton
-                  style='cherry'
-                  icon='/icons/trash.svg'
-                  alt='Delete'
-                  tooltipTitle='Delete'
-                  onClick={handleSetConfirmModal}
-                />
-              </div>
+              </>
+            )}
+            <CustomDivider styles={styles.divider} />
+            <div className={styles.buttons}>
+              <CustomMiniButton
+                style='amber'
+                icon='/icons/edit.svg'
+                alt='Edit'
+                tooltipTitle='Edit'
+                onClick={handleSetIsEdited}
+              />
+              <CustomMiniButton
+                style='cherry'
+                icon='/icons/trash.svg'
+                alt='Delete'
+                tooltipTitle='Delete'
+                onClick={handleSetConfirmModal}
+              />
             </div>
-          )}
+          </div>
         </div>
       </CustomModalWindow>
       {confirmModal && (

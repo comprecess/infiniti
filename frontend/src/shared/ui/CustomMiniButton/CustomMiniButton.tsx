@@ -37,8 +37,9 @@ export const CustomMiniButton = ({
       color='white'
       bg='#010102'
       borderRadius='8px'
+      autoFocus={false}
     >
-      <button className={buttonClass} onClick={onClick}>
+      <button className={buttonClass} tabIndex={-1} onClick={onClick}>
         <img src={icon} alt={alt} className={styles.icon} />
         {title && <span className={styles.textButton}>{title}</span>}
       </button>

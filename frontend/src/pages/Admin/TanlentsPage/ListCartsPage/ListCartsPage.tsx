@@ -18,7 +18,7 @@ export const AdminListCartsPage = () => {
   const [page, setPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
   const [sortName, setSortName] = useState<string>('id')
-  const [sortType, setSortType] = useState<number>(0)
+  const [sortType, setSortType] = useState<number>(1)
   const [filterType, setFilterType] = useState<string>('recently')
 
   const { data: listInfo } = useQuery({

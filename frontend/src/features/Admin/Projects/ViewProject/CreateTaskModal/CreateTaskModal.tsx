@@ -1,5 +1,5 @@
 import { Textarea } from '@chakra-ui/react'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 
 import {
   ProjectsTasksFormData,
@@ -28,23 +28,19 @@ export const CreateTaskModal = ({
 }: CreateTaskModalProps) => {
   const [form, setForm] = useState<Partial<ProjectsTasksFormData>>()
 
-  const [isMounted, setIsMounted] = useState(false)
-
   const handleChangeInput = (
     field: string,
     value: string | number | string[] | undefined | null,
   ) => {
+    if (field === 'client' && typeof value === 'number' && value === 0) {
+      value = null
+    }
+
     setForm(prevFormData => ({
       ...prevFormData,
       [field]: value,
     }))
   }
-
-  useEffect(() => {
-    if (modalOpen) {
-      setIsMounted(true)
-    }
-  }, [modalOpen])
 
   return (
     <CustomModalWindow
@@ -59,77 +55,72 @@ export const CreateTaskModal = ({
             <CrossIcon />
           </div>
         </div>
-        {isMounted && (
-          <>
-            <div className={styles.form}>
-              <CustomInput
-                title='Subject'
-                type='text'
-                id='title'
-                name='title'
-                onChange={handleChangeInput}
-              />
-              <div className={styles.dates}>
-                <CustomDataPicker
-                  title='Start Date'
-                  titleOnChange='startDate'
-                  onChange={handleChangeInput}
-                />
-                <CustomDataPicker
-                  title='Due Date'
-                  titleOnChange='dueDate'
-                  onChange={handleChangeInput}
-                />
-              </div>
-              <CustomSelect
-                title='Related Customer'
-                titleOnChange='client'
-                value={inputData.client[0].id}
-                idList={inputData.client.map(client => client.id)}
-                nameList={inputData.client.map(item =>
-                  item.email !== ''
-                    ? `${item.account} - ${item.email}`
-                    : `${item.account}`,
-                )}
-                onChange={handleChangeInput}
-              />
-              <div className={styles.containerItems}>
-                <span className={styles.containerItemsTitle}>
-                  Description
-                </span>
-                <Textarea
-                  autoFocus={false}
-                  minHeight='140px'
-                  maxHeight='232px'
-                  color='gray.400'
-                  backgroundColor='brand.800'
-                  border='none'
-                  _hover={{ border: 'none' }}
-                  _focusVisible={{ border: 'none' }}
-                  _focusWithin={{ border: 'none' }}
-                  fontSize='16px'
-                  fontWeight='400'
-                  lineHeight='24px'
-                  onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
-                    handleChangeInput('description', event.target.value)
-                  }
-                />
-              </div>
-            </div>
-            <ButtonBlue
-              title='Save'
-              style={styles.buttonSave}
-              onClick={
-                form
-                  ? () => {
-                    createTask(form)
-                    handleOpenCloseModal()
-                  }
-                  : undefined
+        <div className={styles.form}>
+          <CustomInput
+            title='Subject'
+            type='text'
+            id='title'
+            name='title'
+            onChange={handleChangeInput}
+          />
+          <div className={styles.dates}>
+            <CustomDataPicker
+              title='Start Date'
+              titleOnChange='startDate'
+              onChange={handleChangeInput}
+            />
+            <CustomDataPicker
+              title='Due Date'
+              titleOnChange='dueDate'
+              onChange={handleChangeInput}
+            />
+          </div>
+          <CustomSelect
+            title='Related Customer'
+            titleOnChange='client'
+            placeholder='Not Selected'
+            idList={inputData.client.map(client => client.id)}
+            nameList={inputData.client.map(item =>
+              item.email !== ''
+                ? `${item.account} - ${item.email}`
+                : `${item.account}`,
+            )}
+            onChange={handleChangeInput}
+          />
+          <div className={styles.containerItems}>
+            <span className={styles.containerItemsTitle}>Description</span>
+            <Textarea
+              tabIndex={-1}
+              autoFocus={false}
+              minHeight='140px'
+              maxHeight='232px'
+              color='gray.400'
+              backgroundColor='brand.800'
+              border='none'
+              _hover={{ border: 'none' }}
+              _focusVisible={{ border: 'none' }}
+              _focusWithin={{ border: 'none' }}
+              fontSize='16px'
+              fontWeight='400'
+              lineHeight='24px'
+              onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
+                handleChangeInput('description', event.target.value)
               }
             />
-          </>
-        )}
+          </div>
+        </div>
+        <ButtonBlue
+          title='Save'
+          style={styles.buttonSave}
+          onClick={
+            form
+              ? () => {
+                createTask(form)
+                handleOpenCloseModal()
+              }
+              : undefined
+          }
+        />
       </div>
     </CustomModalWindow>
   )
