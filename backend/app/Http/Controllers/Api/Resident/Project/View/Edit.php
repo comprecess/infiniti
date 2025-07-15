@@ -37,17 +37,15 @@ class Edit extends View
     public function tasks()
     {
         $id = $this->urlToMethod(true);
-        if($id) {
-            $task = $this->model->tasks()->where('id', $id)->firstOrFail();
-        }
+        $task = $id ? $this->model->tasks()->where('id', $id)->firstOrFail() : null;
 
         $controller = new TaskController();
         $method = strtolower($this->request->method());
 
-        if(in_array($method, ['post', 'put'])) {
+        if(in_array($method, ['post', 'put', 'patch'])) {
             $request = app(TaskCreateRequest::class);
             $request->setData(['pid' => $this->model->id]);
-            return $controller->createOrUpdate(new Task(), $request);
+            return $controller->createOrUpdate($task ?? new Task(), $request);
         } elseif ($method == 'patch' && $this->path[1] == 'status') {
             $request = app(TaskUpdateStatusRequest::class);
             return $controller->updateStatus($task, $request);

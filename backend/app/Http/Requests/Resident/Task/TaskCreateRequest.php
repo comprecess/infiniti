@@ -23,8 +23,9 @@ class TaskCreateRequest extends FormRequest implements ConvertingPropertiesInter
 
     public function rules(): array
     {
+        $patch = $this->method() == 'PATCH';
         $rules = [
-            'title' => 'required',
+            'title' => $patch ? 'nullable' : 'required',
             'startDate' => 'nullable|date_format:Y-m-d',
             'dueDate' => 'nullable|date_format:Y-m-d',
             'description' => 'nullable',

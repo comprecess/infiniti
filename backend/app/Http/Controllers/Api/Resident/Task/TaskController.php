@@ -20,13 +20,16 @@ class TaskController extends TaskAccessController
     public function createOrUpdate(Task $task, TaskCreateRequest $request)
     {
         $this->isPut = true;
-        if($task->id) {
+        if(!$task->id) {
             $task = Task::newDefault();
         }
-        return $this->createOrUpdateCRUD($request, $task, function($model){
+        return $this->createOrUpdateCRUD($request, $task, function($model, $request){
+            $date = now();
             $admin = User::getAuth();
             $model->pid = $model->pid?->id ?? $model->pid;
             $model->aid = $admin->id;
+            $model->started = $request->startDate ?? $date->format('Y-m-d');
+            $model->due_date = $request->dueDate ?? null;
         });
     }
 
