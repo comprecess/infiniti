@@ -35,11 +35,10 @@ class Get extends View
         if($result = $this->urlToMethod()) {
             return $result;
         }
-//        $tasks = $this->model->tasks->groupBy('status');
+
         $tasks = $this->model->tasks()
             ->with(['admin.files', 'admin.myRole', 'client.companyClient', 'client.files'])
-            ->orderBy('position')
-            ->orderBy('id')
+            ->sort()
             ->get();
         $group = $tasks->groupBy('status');
 
