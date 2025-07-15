@@ -79,7 +79,7 @@ class OfferItemResource extends JsonResource implements ListInterface
     public function typeContent(&$resorce, $request)
     {
         if($request->type == 'view') {
-            $resorce['client'] = new SummaryResource($this->user->load(['group', 'companyClient', 'transactionPayer', 'transactionPayee']));
+            $resorce['client'] = new SummaryResource($this->user?->load(['group', 'companyClient', 'transactionPayer', 'transactionPayee']));
             $resorce['company'] = ['companyName' => Config::get('CompanyName'), 'companyAddress' => Config::get('caddress')];
             $resorce['listStage'] = Offer::STAGE;
         }
