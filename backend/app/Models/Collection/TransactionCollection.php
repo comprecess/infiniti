@@ -15,14 +15,14 @@ class TransactionCollection extends Collection
     public function profit()
     {
         return $this->sum(function($item){
-            return $item->cr;
+            return $item->transformPrice('cr');
         });
     }
 
     public function expense()
     {
         return $this->sum(function($item){
-            return $item->dr;
+            return $item->transformPrice('dr');
         });
     }
 

@@ -201,6 +201,7 @@ class InvoiceController extends SaleController
                 if($request->currency) {
                     $cur = Currency::where('iso_code', $request->currency)->first();
                     $model->currency = $cur->id;
+                    $model->currency_iso_code = $cur->iso_code;
                 }
 
                 $model->invoicenum = $request->invoiceNum ? $request->invoiceNum : Config::get('invoice_code_prefix', 'INV-');

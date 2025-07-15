@@ -6,8 +6,10 @@ namespace App\Models\Resident\Invoices;
 use App\Http\Requests\Resident\Invoices\InvoicePriceCalcRequest;
 use App\Models\Collection\InvoiceItemCollection;
 use App\Models\Contracts\InsertDefaultValueInterface;
+use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\Tax;
 use App\Models\Traits\CollectionTrait;
+use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +18,7 @@ use Illuminate\Validation\ValidationException;
 
 class InvoiceItem extends Model implements InsertDefaultValueInterface
 {
-    use HasFactory, InsertDefaultValueTrait, CollectionTrait;
+    use HasFactory, InsertDefaultValueTrait, CollectionTrait, CurrencyTrait;
 
     const SERVICE = [
         'calc' => null,
@@ -181,9 +183,10 @@ class InvoiceItem extends Model implements InsertDefaultValueInterface
         return [$sum, $result];
     }
 
-    public static function createOrUpdate(InvoicePriceCalcRequest $request, $model)
+    public static function createOrUpdate(InvoicePriceCalcRequest $request, $model, ?Currency $currency = null)
     {
         list($sum, $result) = self::blankCalc($request);
+        $currency = $currency ?? Currency::getDefault();
 
         foreach($result as $value) {
             if($value['id']) {
@@ -206,6 +209,7 @@ class InvoiceItem extends Model implements InsertDefaultValueInterface
             $invoiceItem->total = $value['total'];
             $invoiceItem->tax_rate = $value['taxRate'];
             $invoiceItem->taxamount = $value['tax'];
+            $invoiceItem->currency_iso_code = $currency->iso_code;
             if($value['tax']) {
                 $invoiceItem->taxed = 1;
             }else{

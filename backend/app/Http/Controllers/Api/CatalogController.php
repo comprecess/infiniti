@@ -179,7 +179,7 @@ class CatalogController extends Controller
     {
         $user = UserCrm::getAuth();
         $cart = $user?->myCart;
-        if(!$cart && floatval($cart->total) == 0 && $user instanceof Admin) {
+        if(!$cart && floatval($cart?->total) == 0 && $user instanceof Admin) {
             return response()->json(['message' => 'Cart not found'], 203);
         }
 

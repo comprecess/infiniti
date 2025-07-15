@@ -91,7 +91,7 @@ $dateFormat = $config::get('df');
 
                             <tr>
                                 <td class="meta-head">{{__('pdf.invoice.Total')}}</td>
-                                <td style="text-align: right"><div class="due">{{$model->total}}</div></td>
+                                <td style="text-align: right"><div class="due">{{$model->printPrice('total')}}</div></td>
                             </tr>
                         </table>
                     </td>
@@ -138,7 +138,7 @@ $dateFormat = $config::get('df');
                 <td class="description">{!! $item->description !!}</td>
                 <td align="right">{{$item->amount}}</td>
                 <td align="right">{{$item->qty}}</td>
-                <td align="right"><span class="price">{{$item->getSumm()}}</span></td>
+                <td align="right"><span class="price">{{$item->printPrice($item->getSumm())}}</span></td>
             </tr>
         @endforeach
 
@@ -146,44 +146,44 @@ $dateFormat = $config::get('df');
         <tr>
             <td class="blank"> </td>
             <td colspan="{{$colSpan}}" class="total-line">{{__('pdf.invoice.Sub Total')}}</td>
-            <td class="total-value"><div id="subtotal">{{$items->summPrice()}}</div></td>
+            <td class="total-value"><div id="subtotal">{{$model->printPrice($items->summPrice())}}</div></td>
         </tr>
 
         <tr>
             <td class="blank"> </td>
             <td colspan="{{$colSpan}}" class="total-line">{{__('pdf.invoice.Discount')}}
             </td>
-            <td class="total-value"><div id="subtotal">{{$items->summDiscount()}}</div></td>
+            <td class="total-value"><div id="subtotal">{{$model->printPrice($items->summDiscount())}}</div></td>
         </tr>
         <tr>
 
             <td class="blank"> </td>
             <td colspan="{{$colSpan}}" class="total-line">{{__('pdf.invoice.TAX')}}</td>
-            <td class="total-value"><div id="total">{{$items->summTax()}}</div></td>
+            <td class="total-value"><div id="total">{{$model->printPrice($items->summTax())}}</div></td>
         </tr>
 
         @if($model->credit)
             <tr>
                 <td class="blank"> </td>
                 <td colspan="{{$colSpan}}" class="total-line">{{__('pdf.invoice.Invoice Total')}}</td>
-                <td class="total-value"><div class="due">{{$model->total}}</div></td>
+                <td class="total-value"><div class="due">{{$model->printPrice('total')}}</div></td>
             </tr>
             <tr>
                 <td class="blank"> </td>
                 <td colspan="{{$colSpan}}" class="total-line">{{__('pdf.invoice.Total Paid')}}</td>
-                <td class="total-value"><div class="due">{{$model->credit}}</div></td>
+                <td class="total-value"><div class="due">{{$model->printPrice('credit')}}</div></td>
             </tr>
             <tr>
                 <td class="blank"> </td>
                 <td colspan="{{$colSpan}}" class="total-line balance">{{__('pdf.invoice.Amount Due')}}</td>
-                <td class="total-value balance"><div class="due">{{$model->duty()}}</div></td>
+                <td class="total-value balance"><div class="due">{{$model->printPrice($model->duty())}}</div></td>
             </tr>
         @else
 
             <tr>
                 <td class="blank"> </td>
                 <td colspan="{{$colSpan}}" class="total-line balance">{{__('pdf.invoice.Grand Total')}}</td>
-                <td class="total-value balance"><div class="due">{{$model->total}}</div></td>
+                <td class="total-value balance"><div class="due">{{$model->printPrice('total')}}</div></td>
             </tr>
 
         @endif
