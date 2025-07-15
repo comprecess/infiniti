@@ -59,12 +59,12 @@ Route::controller(NotificationController::class)
         Route::put('/viewed', 'viewed');
         Route::get('/push/public-key', 'getKeyPush');
         Route::get('/push/list', 'listPush');
-        Route::patch('/push/{userId}', 'enabledPush');
-        Route::get('/push/{userId}', 'getItemPush');
         Route::post('/push/subscribe', 'subscribePush');
         Route::post('/push/unsubscribed', 'unsubscribedPush');
         Route::get('/push/test', 'test');
         Route::get('/push/test2', 'test2');
+        Route::patch('/push/{userId}', 'enabledPush');
+        Route::get('/push/{userId}', 'getItemPush');
     });
 
 #calendar

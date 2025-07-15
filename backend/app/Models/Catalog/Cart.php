@@ -4,6 +4,7 @@ namespace App\Models\Catalog;
 
 use App\Models\Contracts\MeetingContract;
 use App\Models\Resident\Invoices\Offer;
+use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\Tax;
 use App\Models\Traits\ModelToCartTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -98,12 +99,14 @@ class Cart extends Model implements MeetingContract
 
         $user = UserCrm::getAuth();
         $cart = $user->myCart;
+        $currency = Currency::getDefault()->iso_code;
 
         if(!$cart) {
             $cart = new Cart();
             $cart->setSecret();
             $cart->user_type = $user::class;
             $cart->user_id = $user->id;
+            $cart->currency_iso_code = $currency;
             $cart->save();
         }
 
@@ -123,6 +126,7 @@ class Cart extends Model implements MeetingContract
             $item->name_id_type = $typeProp;
             $item->amount = $amount;
         }
+        $item->currency_iso_code = $currency;
         $item->save();
 
         $cart->calculation();

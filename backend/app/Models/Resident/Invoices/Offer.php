@@ -22,7 +22,7 @@ class Offer extends Model implements InsertDefaultValueInterface
 
     const STAGE = ['Accepted', 'Dead', 'Delivered', 'Draft', 'Lost', 'Decline'];
 
-    public $currencyId = true;
+//    public $currencyId = true;
 
     protected $table = "sys_quotes";
 
@@ -89,7 +89,7 @@ class Offer extends Model implements InsertDefaultValueInterface
         $date = now();
         $user = $cart->user;
         #currency
-        $currency = Currency::getDefault();
+        $currency = $cart->getCurrencyIso;
 
 
         $t = new self();
@@ -107,6 +107,7 @@ class Offer extends Model implements InsertDefaultValueInterface
             $t->userid = $user->id;
         }
         $t->currency = $currency->id;
+        $t->currency_iso_code = $currency->iso_code;
 
         $t->subtotal = 0;
         $t->discount = 0;
@@ -131,6 +132,7 @@ class Offer extends Model implements InsertDefaultValueInterface
             $newItem->description = view('block.cart-offer', compact('userCatalog', 'item'))->render();
             $newItem->qty = $item->amount;
             $newItem->amount = $item->price;
+            $newItem->currency_iso_code = $item->currency_iso_code;
             $newItem->total = round($item->amount * $item->price, 2);
             if(!$item->taxes_include) {
                 $tax = Cart::getTax();

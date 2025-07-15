@@ -56,13 +56,14 @@ class DashboardController extends ResidentController
             $transactions = Transaction::byAdmin();
             $cashFlow['newWorth'] = (new Transaction)->printPrice($transactions->getNetWorth());
 
-            $transaction = Transaction::checkAccess(...self::ACCESS);
+            $transaction = Transaction::checkAccess(...self::ACCESS)
+                ->with(['getCurrencyIso']);
             $firstDayMount = Carbon::create(null,null,1);
-            $date = now();
+            $date = now()->format('Y-m-d');
             $types = Transaction::TYPE;
             $currency = Currency::getDefault();
             $transactionPrice = new Transaction();
-            foreach(['profit' => $types[0], 'expense' =>$types[1]] as $method => $type) {
+            foreach(['profit' => $types[0], 'expense' => $types[1]] as $method => $type) {
                 $newTrans = $transaction->clone();
                 $newTrans->where('type', $type);
 

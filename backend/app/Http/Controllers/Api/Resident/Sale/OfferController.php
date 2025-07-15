@@ -132,6 +132,7 @@ class OfferController extends SaleController
                 #currency
                 $currency = Currency::getDefault();
                 $model->currency = $currency->id;
+                $model->currency_iso_code = $currency->iso_code;
 
 
                 if($isNew) {
@@ -171,7 +172,7 @@ class OfferController extends SaleController
     public function convert(Offer $offer)
     {
         $converColumn = [
-            'userid', 'account', 'subtotal', 'discount_type', 'discount_value', 'discount', 'total', 'tax1' => 'tax', 'taxname', 'taxrate'
+            'userid', 'account', 'subtotal', 'discount_type', 'discount_value', 'discount', 'total', 'tax1' => 'tax', 'taxname', 'taxrate', 'currency_iso_code'
         ];
 
         $date = now();
