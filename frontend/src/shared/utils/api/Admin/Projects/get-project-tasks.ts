@@ -21,8 +21,9 @@ type Response = SuccessResponse | ErrorResponse
 const DEFAULT_ERROR_MESSAGE = 'Failed to fetch project edit information'
 const REQUEST_TIMEOUT_MS = 30000
 
-export const getProjectsTasks = async (
+export const getProjectTasks = async (
   idProject: number,
+  dateClient: string,
 ): Promise<Response> => {
   if (!Number.isInteger(idProject) || idProject <= 0) {
     return {
@@ -51,7 +52,7 @@ export const getProjectsTasks = async (
     }
 
     const url = new URL(
-      `${apiPath}/${idProject}/tasks`,
+      `${apiPath}/${idProject}/tasks?dateClient=${dateClient}`,
       baseUrl,
     ).toString()
 

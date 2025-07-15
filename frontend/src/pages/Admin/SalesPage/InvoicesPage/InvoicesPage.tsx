@@ -29,8 +29,8 @@ import styles from './InvoicesPage.module.scss'
 export const AdminInvoicesPage = () => {
   const [page, setPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
-  const [sortName, setSortName] = useState<string>('code')
-  const [sortType, setSortType] = useState<number>(0)
+  const [sortName, setSortName] = useState<string>('id')
+  const [sortType, setSortType] = useState<number>(1)
   const [filterStatus, setFilterStatus] = useState<string>('Unpaid')
 
   const navigate = useNavigate()

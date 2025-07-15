@@ -9,8 +9,8 @@ export const getInfoPublicOffer = async (token: string, type: string) => {
     const response = await fetch(url, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
         Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
     })
 

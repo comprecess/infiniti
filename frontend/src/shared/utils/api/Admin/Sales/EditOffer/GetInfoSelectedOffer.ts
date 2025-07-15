@@ -15,6 +15,7 @@ export const getInfoSelectedOffer = async (id: number, type?: string) => {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
         },
       })
 

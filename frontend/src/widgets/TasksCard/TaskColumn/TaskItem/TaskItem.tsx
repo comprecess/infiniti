@@ -72,7 +72,6 @@ export const TaskItem = ({
             }
           />
           <span className={styles.account}>{task.admin.account}</span>
-
           {isMobile && (
             <div
               ref={setActivatorNodeRef}
@@ -85,7 +84,6 @@ export const TaskItem = ({
         </div>
         <div className={styles.description}>{task.title}</div>
         <div className={styles.footer}>
-          <span className={styles.dueDate}>{task.dueDate}</span>
           <span className={styles.created}>{task.created}</span>
         </div>
       </div>

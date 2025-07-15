@@ -192,6 +192,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
             style={{
               display: 'flex',
               flexDirection: 'row',
+              width: '100%',
               gap: 12,
               alignItems: 'center',
               borderTopLeftRadius: 8,
@@ -205,6 +206,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
             <div className={styles.modalAvatar}>
               <img
                 alt='Profile Avatar'
+                style={{ width: '60px', height: '60px' }}
                 src={
                   profileData.img
                     ? `${profileData.img}?width=128&height=128`
@@ -212,7 +214,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
                 }
               />
             </div>
-            <div>
+            <div className={styles.accountInfo}>
               <p className={styles.modalName}>{profileData.account}</p>
               <p className={styles.modalEmail}>{profileData.email}</p>
             </div>

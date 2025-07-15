@@ -24,13 +24,13 @@ export const RecentOffers = ({
   deleteOffer,
 }: RecentOffersProps) => {
   const [sortNumbers, setSortNumbers] = useState<number[]>([
-    0, 0, 0, 0, 0, 0, 0,
+    1, 1, 1, 1, 1, 1, 1,
   ])
 
   const handleSortChange = useCallback(
     (index: number, sortNameItem: string, sortTypeItem: number) => {
       setSortNumbers(prevSortNumbers =>
-        prevSortNumbers.map((_num, i) => (i === index ? sortTypeItem : 0)),
+        prevSortNumbers.map((_num, i) => (i === index ? sortTypeItem : 1)),
       )
       changeSortName(sortNameItem, sortTypeItem)
     },
@@ -38,7 +38,7 @@ export const RecentOffers = ({
   )
 
   const clearSort = () => {
-    setSortNumbers(new Array(7).fill(0))
+    setSortNumbers(new Array(7).fill(1))
   }
 
   return (

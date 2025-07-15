@@ -28,8 +28,8 @@ export const AdminBillsPage = () => {
   )
 
   const [search, setSearch] = useState<string>('')
-  const [sortName, setSortName] = useState<string>('title')
-  const [sortType, setSortType] = useState<number>(0)
+  const [sortName, setSortName] = useState<string>('id')
+  const [sortType, setSortType] = useState<number>(1)
 
   const [pages, setPages] = useState<string>('Summary')
 

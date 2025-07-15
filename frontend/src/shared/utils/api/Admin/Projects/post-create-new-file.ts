@@ -67,7 +67,6 @@ export const postAddNewProjectFile = async (
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
-        // Content-Type не указываем, т.к. FormData сам его задаёт с boundary
       },
       body: form,
       signal: controller.signal,

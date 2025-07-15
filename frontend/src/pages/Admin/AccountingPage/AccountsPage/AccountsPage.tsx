@@ -24,8 +24,8 @@ export const AdminAccountsPage = () => {
     useState<AccountingAccountsInputData | null>(null)
 
   const [search, setSearch] = useState<string>('')
-  const [sortName, setSortName] = useState<string>('name')
-  const [sortType, setSortType] = useState<number>(0)
+  const [sortName, setSortName] = useState<string>('id')
+  const [sortType, setSortType] = useState<number>(1)
 
   const navigate = useNavigate()
   const showToast = useCustomToast()

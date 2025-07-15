@@ -12,7 +12,7 @@ import styles from './UnclearedTransactionsPage.module.scss'
 export const AdminUnclearedTransactionsPage = () => {
   const [search, setSearch] = useState<string>('')
   const [sortName, setSortName] = useState<string>('id')
-  const [sortType, setSortType] = useState<number>(0)
+  const [sortType, setSortType] = useState<number>(1)
 
   const { data: transactions } = useQuery({
     queryKey: ['transactions', search, sortName, sortType],

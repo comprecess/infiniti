@@ -34,12 +34,22 @@
   letter-spacing: -0.03em;
 }
 
+.accountInfo {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 76px);
+}
+
 .modalName {
   font-family: $fontSpaceGrotesk;
   font-size: 20px;
   font-weight: 500;
   line-height: 26px;
   letter-spacing: -0.03em;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .modalEmail {
@@ -47,6 +57,10 @@
   font-weight: 400;
   line-height: 22px;
   letter-spacing: -0.03em;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .modalItem {

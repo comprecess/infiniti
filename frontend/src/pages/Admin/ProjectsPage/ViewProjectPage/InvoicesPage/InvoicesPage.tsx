@@ -29,7 +29,7 @@ export const AdminProjectsInvoicesPage = () => {
   const [page, setPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
   const [sortName, setSortName] = useState<string>('id')
-  const [sortType, setSortType] = useState<number>(0)
+  const [sortType, setSortType] = useState<number>(1)
   const [options, setOptions] = useState<string>('')
 
   const context = useOutletContext<ProjectViewPageContext>()

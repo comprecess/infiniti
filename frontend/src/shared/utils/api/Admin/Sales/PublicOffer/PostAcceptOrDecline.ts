@@ -16,8 +16,8 @@ export const postAcceptOrDecline = async (
       tokenOffer
 
     const headers: HeadersInit = {
-      'Content-Type': 'application/json',
       Accept: 'application/json',
+      'Content-Type': 'application/json',
     }
 
     if (authToken) {
