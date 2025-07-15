@@ -62,6 +62,11 @@ class Task extends Model implements InsertDefaultValueInterface
         return $status->where('title', $this->status)->first();
     }
 
+    public function scopeSort($query) :void
+    {
+        $query->orderBy('position')->orderBy('id');
+    }
+
 
 
 }

@@ -23,11 +23,13 @@ class TaskController extends TaskAccessController
         if(!$task->id) {
             $task = Task::newDefault();
         }
-        return $this->createOrUpdateCRUD($request, $task, function($model, $request){
+        return $this->createOrUpdateCRUD($request, $task, function($model, $request, $isNew){
+            if($isNew) {
+                $admin = User::getAuth();
+                $model->aid = $admin->id;
+            }
             $date = now();
-            $admin = User::getAuth();
             $model->pid = $model->pid?->id ?? $model->pid;
-            $model->aid = $admin->id;
             $model->started = $request->startDate ?? $date->format('Y-m-d');
             $model->due_date = $request->dueDate ?? null;
         });
@@ -40,8 +42,24 @@ class TaskController extends TaskAccessController
 
     public function updateStatus(Task $task, TaskUpdateStatusRequest $request)
     {
+        $tasks = Task::where('status',$request->status)
+            ->sort()
+            ->get();
+
+        $positionNew = 0;
+        foreach($tasks as $position => $taskEach) {
+            $position += $positionNew;
+            if($position == $request->position) {
+                $task->position = $position;
+                $position++;
+                $positionNew++;
+            }
+            $taskEach->position = $position;
+            $taskEach->save();
+        }
+
         $task->status = $request->status;
-        $task->position = $request->position;
+//        $task->position = $request->position;
         $task->save();
 
         return $this->defResponse();
