@@ -103,6 +103,13 @@ export const AdminViewBusinessPlanPage = () => {
                 const content =
                   fullInfo[key as keyof BusinessPlanNewPlanFormData]
 
+                const isEmpty =
+                  content === null ||
+                  content === '' ||
+                  content === '<p><br></p>'
+
+                if (isEmpty) return null
+
                 return (
                   <Fragment key={key}>
                     <Item title={title} content={content as string} />

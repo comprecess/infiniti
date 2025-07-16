@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import {
   ProjectsTasksData,
+  ProjectsTasksFormData,
   ProjectsTasksInputData,
 } from '../../../../../app/constants/constants'
 import { CrossIcon } from '../../../../../shared/icons/CrossIcon'
@@ -18,7 +19,10 @@ interface ViewTaskModalProps {
   modalOpen: boolean
   task: ProjectsTasksData
   handleOpenCloseModal: () => void
-  editSelectedTask: (idTask: number) => void
+  editSelectedTask: (
+    idTask: number,
+    form: Partial<ProjectsTasksFormData>,
+  ) => void
   deleteSelectedTask: (idTask: number) => void
 }
 
@@ -130,8 +134,9 @@ export const ViewTaskModal = ({
         <EditTaskModal
           task={task}
           modalOpen={isEdited}
-          handleOpenCloseModal={handleSetIsEdited}
           inputData={inputData}
+          handleOpenCloseModal={handleSetIsEdited}
+          handleOpenCloseViewModal={handleOpenCloseModal}
           editTask={editSelectedTask}
         />
       )}

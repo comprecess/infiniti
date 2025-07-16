@@ -77,7 +77,7 @@ export const RecordInitialModal = ({
 
   return (
     <CustomModalWindow
-      maxWidth='600px'
+      maxWidth='450px'
       isOpen={isOpened}
       onClose={handleOpenCloseModal}
     >

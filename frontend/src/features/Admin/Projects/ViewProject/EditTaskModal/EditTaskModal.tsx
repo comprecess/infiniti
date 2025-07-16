@@ -18,7 +18,8 @@ interface EditTaskModalProps {
   task: ProjectsTasksData
   modalOpen: boolean
   inputData: ProjectsTasksInputData
-  editTask: (idTask: number) => void
+  editTask: (idTask: number, form: Partial<ProjectsTasksFormData>) => void
+  handleOpenCloseViewModal: () => void
   handleOpenCloseModal: () => void
 }
 
@@ -28,6 +29,7 @@ export const EditTaskModal = ({
   inputData,
   editTask,
   handleOpenCloseModal,
+  handleOpenCloseViewModal,
 }: EditTaskModalProps) => {
   const [form, setForm] = useState<Partial<ProjectsTasksFormData>>()
 
@@ -43,6 +45,14 @@ export const EditTaskModal = ({
       ...prevFormData,
       [field]: value,
     }))
+  }
+
+  const handleEditTask = () => {
+    if (!form) return
+
+    editTask(task.id, form)
+    handleOpenCloseModal()
+    handleOpenCloseViewModal()
   }
 
   useEffect(() => {
@@ -128,14 +138,7 @@ export const EditTaskModal = ({
         <ButtonBlue
           title='Save'
           style={styles.buttonSave}
-          onClick={
-            form
-              ? () => {
-                editTask(task.id)
-                handleOpenCloseModal()
-              }
-              : undefined
-          }
+          onClick={form ? handleEditTask : undefined}
         />
       </div>
     </CustomModalWindow>

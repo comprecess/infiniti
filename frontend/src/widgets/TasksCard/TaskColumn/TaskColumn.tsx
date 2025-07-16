@@ -6,6 +6,7 @@ import {
 
 import {
   ProjectsTasksData,
+  ProjectsTasksFormData,
   ProjectsTasksInputData,
 } from '../../../app/constants/constants'
 import styles from './TaskColumn.module.scss'
@@ -18,6 +19,10 @@ interface TaskColumnProps {
   tasks: ProjectsTasksData[]
   activeTaskId?: string
   isDragging: boolean
+  editSelectedTask: (
+    idTask: number,
+    form: Partial<ProjectsTasksFormData>,
+  ) => void
   deleteSelectedTask: (idTask: number) => void
 }
 
@@ -28,6 +33,7 @@ export const TaskColumn = ({
   tasks,
   activeTaskId,
   isDragging,
+  editSelectedTask,
   deleteSelectedTask,
 }: TaskColumnProps) => {
   const { setNodeRef } = useDroppable({ id: columnId })
@@ -73,7 +79,7 @@ export const TaskColumn = ({
                     isSelected={isActive}
                     isDragging={isDragging}
                     deleteSelectedTask={deleteSelectedTask}
-                    editSelectedTask={() => {}}
+                    editSelectedTask={editSelectedTask}
                   />
                 </div>
               )

@@ -15,9 +15,9 @@ export const AdminReorderGroupsPage = () => {
   const showToast = useCustomToast()
 
   const getGroups = async () => {
-    const groupsResponse: GroupsListProps[] = await getListGroups()
+    const response: { data: GroupsListProps[] } = await getListGroups()
 
-    setGroups(groupsResponse)
+    setGroups(response.data)
   }
 
   const sortGroupsList = async (listId: number[]) => {

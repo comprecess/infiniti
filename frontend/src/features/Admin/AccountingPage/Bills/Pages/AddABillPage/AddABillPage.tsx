@@ -70,7 +70,7 @@ export const AddABillPage = ({
         />
         <CustomInput
           title='Amount'
-          type='text'
+          type='number'
           id='amount'
           name='amount'
           onChange={handleChangeInput}

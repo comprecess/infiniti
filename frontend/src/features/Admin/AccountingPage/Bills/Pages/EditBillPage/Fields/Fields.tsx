@@ -85,7 +85,7 @@ export const Fields = ({
         />
         <CustomInput
           title='Amount'
-          type='text'
+          type='number'
           id='amount'
           name='amount'
           value={form.amountFloat}
