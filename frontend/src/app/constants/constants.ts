@@ -1250,7 +1250,7 @@ export interface DashboardRecentInvoicesData {
   dueDate: string
   invoiceDate: string
   status: string
-  account: { account: string }
+  account: { id: number; account: string }
 }
 
 export interface DashboardInvoicesStatusesData {

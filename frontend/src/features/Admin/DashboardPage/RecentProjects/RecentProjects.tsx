@@ -41,6 +41,7 @@ export const RecentProjects = ({
           return (
             <Fragment key={project.id}>
               <Item
+                projectId={project.id}
                 name={project.name}
                 budget={project.budget}
                 status={project.status}

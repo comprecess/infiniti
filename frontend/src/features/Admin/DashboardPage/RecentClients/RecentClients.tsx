@@ -35,6 +35,7 @@ export const RecentClients = ({ recentClients }: RecentClientsProps) => {
           return (
             <Fragment key={client.id}>
               <Item
+                clientId={client.id}
                 name={client.account}
                 email={client.email}
                 created={client.created}

@@ -18,6 +18,11 @@
 .hashtagItem {
   font-weight: 500;
   color: $gray-300;
+  cursor: pointer;
+}
+
+.accountItem {
+  cursor: pointer;
 }
 
 .amountItem,

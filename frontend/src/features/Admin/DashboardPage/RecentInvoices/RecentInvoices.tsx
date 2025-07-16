@@ -54,6 +54,8 @@ export const RecentInvoices = ({
               return (
                 <Fragment key={invoice.id}>
                   <Item
+                    invoiceId={invoice.id}
+                    clientId={invoice.account.id}
                     hashtag={invoice.code}
                     account={invoice.account.account}
                     amount={invoice.amount}
