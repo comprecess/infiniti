@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 import {
   TalentFormData,
   TalentsInputData,
 } from '../../../../app/constants/constants'
+import { Routes } from '../../../../app/router/routes'
 import { Fields } from '../../../../features/Admin/TalentsPage/AddTalentPage/Fields/Fields'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
@@ -21,6 +23,7 @@ export const AdminAddTalentPage = () => {
   const { t } = useTranslation()
 
   const showToast = useCustomToast()
+  const navigate = useNavigate()
 
   const getInputData = async () => {
     const getResponse = await getTalentsInputData()
@@ -54,6 +57,7 @@ export const AdminAddTalentPage = () => {
         description: 'You have successfully created a Talent',
         status: 'success',
       })
+      navigate(`/${Routes.adminPages}/${Routes.talents}/${Routes.catalog}`)
     } else {
       showToast({
         title: 'Error',

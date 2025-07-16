@@ -17,6 +17,7 @@ import { useEffect, useRef, useState } from 'react'
 import {
   ProjectsColumnData,
   ProjectsTasksData,
+  ProjectsTasksFormData,
   ProjectsTasksInputData,
 } from '../../app/constants/constants'
 import { TaskColumn } from './TaskColumn/TaskColumn'
@@ -31,7 +32,10 @@ interface TasksCardProps {
     newIndex: number,
     columnTitle: string,
   ) => void
-  editSelectedTask: (idTask: number) => void
+  editSelectedTask: (
+    idTask: number,
+    form: Partial<ProjectsTasksFormData>,
+  ) => void
   deleteSelectedTask: (idTask: number) => void
 }
 
@@ -43,6 +47,7 @@ interface ActiveTaskInfo {
 export const TasksCard = ({
   data,
   inputData,
+  editSelectedTask,
   updateTaskPosition,
   deleteSelectedTask,
 }: TasksCardProps) => {
@@ -173,6 +178,7 @@ export const TasksCard = ({
               title={status}
               tasks={tasks}
               activeTaskId={activeTask?.task.id.toString()}
+              editSelectedTask={editSelectedTask}
               deleteSelectedTask={deleteSelectedTask}
             />
           </SortableContext>

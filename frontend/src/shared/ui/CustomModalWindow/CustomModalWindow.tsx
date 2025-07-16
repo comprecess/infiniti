@@ -22,8 +22,12 @@ export const CustomModalWindow = ({
   return (
     <Modal
       isCentered
+      blockScrollOnMount
+      preserveScrollBarGap
       isOpen={isOpen}
       autoFocus={false}
+      motionPreset='scale'
+      trapFocus={false}
       onClose={onClose}
     >
       <ModalOverlay />

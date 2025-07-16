@@ -14,6 +14,7 @@ import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingS
 import { deleteProjectTask } from '../../../../../shared/utils/api/Admin/Projects/delete-project-task'
 import { getProjectTasks } from '../../../../../shared/utils/api/Admin/Projects/get-project-tasks'
 import { getProjectsTasksInputData } from '../../../../../shared/utils/api/Admin/Projects/get-projects-tasks-input-data'
+import { patchProjectEditTask } from '../../../../../shared/utils/api/Admin/Projects/patch-project-edit-task'
 import { patchUpdateTaskPosition } from '../../../../../shared/utils/api/Admin/Projects/patch-update-task-position'
 import { postCreateNewTask } from '../../../../../shared/utils/api/Admin/Projects/post-create-new-task'
 import { getLocalDateTimeString } from '../../../../../shared/utils/usefulMethods'
@@ -80,7 +81,33 @@ export const AdminProjectsTasksPage = () => {
     }
   }
 
-  const editTask = () => {}
+  const editTask = async (
+    idTask: number,
+    form: Partial<ProjectsTasksFormData>,
+  ) => {
+    if (!context.idProject) return
+
+    const { status, message } = await patchProjectEditTask(
+      context.idProject,
+      idTask,
+      form,
+    )
+
+    if (status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully changed the Task',
+        status: 'success',
+      })
+      getTasks()
+    } else {
+      showToast({
+        title: 'Error',
+        description: message,
+        status: 'error',
+      })
+    }
+  }
 
   const deleteSelectedTask = async (idTask: number) => {
     if (!context.idProject) return

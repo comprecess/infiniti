@@ -28,7 +28,7 @@ export const AdminViewBusinessModel = () => {
       const response: { data: BusinessPlanBusinessModelData } =
         await getModelInfo(id)
 
-      return response
+      return response.data
     },
     placeholderData: previousData => previousData,
   })
@@ -41,6 +41,10 @@ export const AdminViewBusinessModel = () => {
     } else {
       navigate(-1)
     }
+  }
+
+  const isValidHTML = (value?: string) => {
+    return !!value && value !== '<p><br></p>'
   }
 
   useEffect(() => {
@@ -63,14 +67,14 @@ export const AdminViewBusinessModel = () => {
             </div>
           </section>
           <div className={styles.titleModel}>
-            <TitlePage title={model.data.title} />
+            <TitlePage title={model.title} />
           </div>
           <div className={styles.content}>
             <div className={styles.card}>
               <div className={styles.rowHalfContainer}>
                 <div className={styles.imgContainer}>
                   <img
-                    src={model.data.content}
+                    src={model.content}
                     alt='BusinessModelImg'
                     className={styles.businessModelImg}
                   />
@@ -79,102 +83,100 @@ export const AdminViewBusinessModel = () => {
                   <div className={styles.aboutModelContainer}>
                     <TitleCard title='About Model' />
                     <StatusProfitability
-                      profitability={model.data.profitability[0].value}
+                      profitability={model.profitability[0].value}
                     />
                   </div>
                   <div className={styles.list}>
                     <span className={styles.description}>
-                      {model.data.fullDescription}
+                      {model.fullDescription}
                     </span>
-                    {model.data.industries.length > 0 && (
+                    {model.industries.length > 0 && (
                       <ListInfoItem
                         title='Industries'
-                        list={model.data.industries}
+                        list={model.industries}
                       />
                     )}
-                    {model.data.technologies.length > 0 && (
+                    {model.technologies.length > 0 && (
                       <ListInfoItem
                         title='Technologies'
-                        list={model.data.technologies}
+                        list={model.technologies}
                       />
                     )}
-                    {model.data.location.length > 0 && (
+                    {model.location.length > 0 && (
                       <ListInfoItem
                         title='Location'
-                        list={model.data.location}
+                        list={model.location}
                       />
                     )}
-                    {model.data.technologies.length > 0 && (
+                    {model.technologies.length > 0 && (
                       <ListInfoItem
                         title='Technologies'
-                        list={model.data.technologies}
+                        list={model.technologies}
                       />
                     )}
-                    {model.data.category.length > 0 && (
+                    {model.category.length > 0 && (
                       <ListInfoItem
                         title='Category'
-                        list={model.data.category}
+                        list={model.category}
                       />
                     )}
-                    <TextInfoItem title='Price' text={model.data.price} />
-                    <TextInfoItem title='Age' text={model.data.age} />
-                    <TextInfoItem title='Start' text={model.data.start} />
+                    <TextInfoItem title='Price' text={model.price} />
+                    <TextInfoItem title='Age' text={model.age} />
+                    <TextInfoItem title='Start' text={model.start} />
                   </div>
                 </div>
               </div>
             </div>
-            {model.data.marketAnalysis && (
+            {isValidHTML(model.marketAnalysis) && (
               <div className={styles.card}>
                 <TitleCard title='Market Analysis' />
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: sanitizeMessage(model.data.marketAnalysis),
+                    __html: sanitizeMessage(model.marketAnalysis),
                   }}
                   className={styles.categoryContent}
                 />
               </div>
             )}
-            {model.data.financialModel && (
+            {isValidHTML(model.financialModel) && (
               <div className={styles.card}>
                 <TitleCard title='Financial Model' />
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: sanitizeMessage(model.data.financialModel),
+                    __html: sanitizeMessage(model.financialModel),
                   }}
                   className={styles.categoryContent}
                 />
               </div>
             )}
-            {model.data.currentInvestors && (
+            {isValidHTML(model.currentInvestors) && (
               <div className={styles.card}>
                 <TitleCard title='Current Investors' />
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: sanitizeMessage(model.data.currentInvestors),
+                    __html: sanitizeMessage(model.currentInvestors),
                   }}
                   className={styles.categoryContent}
                 />
               </div>
             )}
-            {model.data.stagesImplementation && (
+            {isValidHTML(model.stagesImplementation) && (
               <div className={styles.card}>
                 <TitleCard title='Implementation Stages' />
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: sanitizeMessage(
-                      model.data.stagesImplementation,
-                    ),
+                    __html: sanitizeMessage(model.stagesImplementation),
                   }}
                   className={styles.categoryContent}
                 />
               </div>
             )}
-            {model.data.partnershipOptions && (
+            {isValidHTML(model.partnershipOptions) && (
               <div className={styles.card}>
                 <TitleCard title='Partnership Options' />
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: sanitizeMessage(model.data.partnershipOptions),
+                    __html: sanitizeMessage(model.partnershipOptions),
                   }}
                   className={styles.categoryContent}
                 />

@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 import {
   ProjectsTasksData,
+  ProjectsTasksFormData,
   ProjectsTasksInputData,
 } from '../../../../app/constants/constants'
 import { ViewTaskModal } from '../../../../features/Admin/Projects/ViewProject/ViewTaskModal/ViewTaskModal'
@@ -15,7 +16,10 @@ interface TaskItemProps {
   isSelected: boolean
   isDragging: boolean
   inputData?: ProjectsTasksInputData | null
-  editSelectedTask: (idTask: number) => void
+  editSelectedTask: (
+    idTask: number,
+    form: Partial<ProjectsTasksFormData>,
+  ) => void
   deleteSelectedTask: (idTask: number) => void
 }
 

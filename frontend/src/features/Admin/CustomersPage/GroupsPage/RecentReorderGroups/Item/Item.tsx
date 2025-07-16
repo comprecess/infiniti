@@ -37,12 +37,13 @@ export const Item = ({ index, name, moveItem, sort }: ItemProps) => {
   })
 
   const opacity = isDragging ? 0.5 : 1
+  const cursor = isDragging ? 'grabbing' : 'grab'
 
   return (
     <div
       ref={node => drag(drop(node))}
       className={styles.wrapper}
-      style={{ opacity }}
+      style={{ opacity, cursor }}
     >
       <div className={styles.circleWrapper}>
         <div className={styles.circleMini}>

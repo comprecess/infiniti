@@ -27,9 +27,9 @@ export const EditDocumentModal = ({
   const showToast = useCustomToast()
 
   const getFile = async () => {
-    const getResponse = await getSelectedFileInfo(idDocument)
+    const response = await getSelectedFileInfo(idDocument)
 
-    setFormData(getResponse.data)
+    setFormData(response.data)
   }
 
   const updateDocumentInfo = async () => {

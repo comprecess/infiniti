@@ -143,8 +143,8 @@ export const AdminBillsPage = () => {
   useEffect(() => {
     if (pages === 'All') {
       setSearch('')
-      setSortName('title')
-      setSortType(0)
+      setSortName('id')
+      setSortType(1)
       queryClient.invalidateQueries({ queryKey: ['bills'] })
     } else if (pages === 'Summary') {
       queryClient.invalidateQueries({ queryKey: ['billsDate'] })

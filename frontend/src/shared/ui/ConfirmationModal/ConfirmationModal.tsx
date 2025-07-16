@@ -19,7 +19,7 @@ export const ConfirmationModal = ({
 }: ConfirmationModalProps) => {
   return (
     <CustomModalWindow
-      maxWidth={'400px'}
+      maxWidth='400px'
       isOpen={isOpened}
       onClose={handleOpenCloseModal}
     >
