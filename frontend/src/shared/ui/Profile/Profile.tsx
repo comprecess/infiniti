@@ -18,7 +18,7 @@ import {
 } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { subscribeOneSignal } from '../../../oneSignalService'
-import { getDevicePush } from '../../utils/api/Push/GetDevicePush'
+import { getDevicePush } from '../../utils/api/Push/get-device-push'
 import { patchSetDevicePush } from '../../utils/api/Push/PatchSetDevicePush'
 import { postKeyPush } from '../../utils/api/Push/PostKeyPush'
 import { postPushUnsubscribed } from '../../utils/api/Push/PostPushUnsubscribed'

@@ -2,7 +2,7 @@ import {
   authTokenString,
   notificationTokenString,
 } from './app/constants/constants'
-import { getKeyPush } from './shared/utils/api/Push/GetKeyPush'
+import { getKeyPush } from './shared/utils/api/Push/get-key-push'
 import { postKeyPush } from './shared/utils/api/Push/PostKeyPush'
 import { saveCookies } from './shared/utils/Saving/Cookies/SaveCookies'
 import { getSession } from './shared/utils/Saving/Session/GetSession'
@@ -21,13 +21,15 @@ export const initOneSignal = async () => {
   try {
     const response = await getKeyPush()
 
-    if (!response || !response.key) {
+    if (!response.status) return
+
+    if (!response || !response.data.key) {
       console.error('❌ Не удалось получить appId от сервера')
 
       return
     }
 
-    const { key: appId } = response
+    const { key: appId } = response.data
 
     window.OneSignal = window.OneSignal || []
 

@@ -8,8 +8,8 @@ import { NewTransferFields } from '../../../../features/Admin/AccountingPage/Tra
 import { RecentTransfers } from '../../../../features/Admin/AccountingPage/TransferPage/RecentTransfers/RecentTransfers'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getAccountingInputData } from '../../../../shared/utils/api/Admin/Accounting/GetAccountingInputData'
-import { postAddNewTransfer } from '../../../../shared/utils/api/Admin/Accounting/PostAddNewTransfer'
+import { getAccountingInputData } from '../../../../shared/utils/api/Admin/Accounting/get-accounting-input-data'
+import { postCreateNewTransfer } from '../../../../shared/utils/api/Admin/Accounting/post-create-new-transfer'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './TransferPage.module.scss'
 
@@ -22,17 +22,17 @@ export const AdminTransferPage = () => {
   const showToast = useCustomToast()
 
   const getInputData = async () => {
-    const response: AccountingInputData = await getAccountingInputData(
-      'Out',
-    )
+    const response = await getAccountingInputData('Out')
 
-    setInputData(response)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
   const addNewTransfer = async () => {
-    const response = await postAddNewTransfer(form)
+    const { status, message } = await postCreateNewTransfer(form)
 
-    if (response.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully created a Transfer',
@@ -42,7 +42,7 @@ export const AdminTransferPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: response.message,
+        description: message,
         status: 'error',
       })
     }

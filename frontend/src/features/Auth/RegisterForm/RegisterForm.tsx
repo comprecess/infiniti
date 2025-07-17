@@ -5,7 +5,7 @@ import { Routes } from '../../../app/router/routes'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { Input } from '../../../shared/ui/Input/Input'
-import { registerUser } from '../../../shared/utils/api/Auth/Register'
+import { postRegisterUser } from '../../../shared/utils/api/Auth/post-register-user'
 import styles from './RegisterForm.module.scss'
 
 interface FormFields {
@@ -22,7 +22,7 @@ export const RegisterForm = () => {
   const showToast = useCustomToast()
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
-    const registerResponse = await registerUser(
+    const registerResponse = await postRegisterUser(
       data.userName,
       data.email,
       data.password,

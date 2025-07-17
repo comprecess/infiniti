@@ -9,12 +9,8 @@ import { useCallback, useEffect, useState } from 'react'
 
 import { ChevronDownIcon } from '../../../shared/icons/ChevronDownIcon'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getCountries } from '../../../shared/utils/api/Tools/GetCountries'
+import { getCountries } from '../../../shared/utils/api/Tools/get-countries'
 import styles from './CountryList.module.scss'
-
-interface CountriesResponse {
-  [key: string]: string
-}
 
 interface CountryListProps {
   country?: string
@@ -36,8 +32,14 @@ export const CountryList = ({ country, onChange }: CountryListProps) => {
   }
 
   const getCountriesData = useCallback(async () => {
-    const countriesResponse: CountriesResponse = await getCountries()
-    const countriesArray = Object.entries(countriesResponse)
+    const response = await getCountries()
+
+    if (!response.status) return
+
+    const countriesArray = Object.entries(response.data) as [
+      string,
+      string,
+    ][]
 
     countriesArray.pop()
 

@@ -10,8 +10,8 @@ import { NewAccountFields } from '../../../../../features/Admin/AccountingPage/N
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getAccountsInputData } from '../../../../../shared/utils/api/Admin/Accounting/GetAccountsInputData'
-import { postCreateNewAccount } from '../../../../../shared/utils/api/Admin/Accounting/PostCreateNewAccount'
+import { getAccountInputData } from '../../../../../shared/utils/api/Admin/Accounting/get-account-input-data'
+import { postCreateNewAccount } from '../../../../../shared/utils/api/Admin/Accounting/post-create-new-account'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './NewAccountPage.module.scss'
 
@@ -24,10 +24,11 @@ export const AdminNewAccountPage = () => {
   const showToast = useCustomToast()
 
   const getInputData = async () => {
-    const response: AccountingAccountsInputData =
-      await getAccountsInputData()
+    const response = await getAccountInputData()
 
-    setInputData(response)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
   const handleCreateNewAccount = async () => {

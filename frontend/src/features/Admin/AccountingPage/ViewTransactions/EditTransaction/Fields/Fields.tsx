@@ -38,6 +38,24 @@ export const Fields = ({ form, inputData, setForm }: FieldsProps) => {
         value === 0
       ) {
         newValue = null
+      } else if (
+        field === 'category' &&
+        typeof value === 'number' &&
+        value === 0
+      ) {
+        newValue = null
+      } else if (
+        field === 'payMethods' &&
+        typeof value === 'number' &&
+        value === 0
+      ) {
+        newValue = null
+      } else if (
+        field === 'client' &&
+        typeof value === 'number' &&
+        value === 0
+      ) {
+        newValue = null
       }
 
       return {
@@ -56,7 +74,7 @@ export const Fields = ({ form, inputData, setForm }: FieldsProps) => {
         value={form.account}
         idList={inputData.account.map(item => item.id)}
         nameList={inputData.account.map(item => item.name)}
-        onChange={() => {}}
+        onChange={handleChangeInput}
       />
       <CustomDataPicker
         title='Date'
@@ -79,12 +97,13 @@ export const Fields = ({ form, inputData, setForm }: FieldsProps) => {
         id='amount'
         name='amount'
         value={form.amount}
-        onChange={() => {}}
+        onChange={handleChangeInput}
       />
       <CustomSelect
         title='Category'
         titleOnChange='category'
-        value={form.category}
+        placeholder='Not Selected'
+        value={form.category ?? 0}
         idList={inputData.category.map(item => item.id)}
         nameList={inputData.category.map(item => item.name)}
         onChange={handleChangeInput}
@@ -99,7 +118,7 @@ export const Fields = ({ form, inputData, setForm }: FieldsProps) => {
         title='Company'
         titleOnChange='company'
         placeholder='Not Selected'
-        value={form.company ? form.company : undefined}
+        value={form.company ?? 0}
         idList={inputData.company.map(item => item.id)}
         nameList={inputData.company.map(item => item.name)}
         onChange={handleChangeInput}
@@ -107,7 +126,8 @@ export const Fields = ({ form, inputData, setForm }: FieldsProps) => {
       <CustomSelect
         title='Payee'
         titleOnChange='client'
-        value={form.client}
+        placeholder='Not Selected'
+        value={form.client ?? 0}
         idList={inputData.client.map(item => item.id)}
         nameList={inputData.client.map(item => item.account)}
         onChange={handleChangeInput}
@@ -116,7 +136,7 @@ export const Fields = ({ form, inputData, setForm }: FieldsProps) => {
         title='Staff'
         titleOnChange='staff'
         placeholder='Not Selected'
-        value={form.staff}
+        value={form.staff ?? 0}
         idList={inputData.staff.map(item => item.id)}
         nameList={inputData.staff.map(item => item.account)}
         onChange={handleChangeInput}
@@ -124,7 +144,8 @@ export const Fields = ({ form, inputData, setForm }: FieldsProps) => {
       <CustomSelect
         title='Method'
         titleOnChange='payMethods'
-        value={form.payMethods}
+        placeholder='Not Selected'
+        value={form.payMethods ?? 0}
         idList={inputData.payMethods.map(item => item.id)}
         nameList={inputData.payMethods.map(item => item.name)}
         onChange={handleChangeInput}

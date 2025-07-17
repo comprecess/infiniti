@@ -9,7 +9,7 @@ import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../shared/ui/CustomSelect/CustomSelect'
 import { CustomSwitch } from '../../../../shared/ui/CustomSwitch/CustomSwitch'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
-import { addNewCustomer } from '../../../../shared/utils/api/Admin/AddCustomer/AddNewCustomer'
+import { postCreateNewCustomer } from '../../../../shared/utils/api/Admin/AddCustomer/post-create-new-customer'
 import { CustomField } from './CustomField/CustomField'
 import styles from './Fields.module.scss'
 
@@ -152,14 +152,17 @@ export const Fields = ({ data }: FieldsProps) => {
   }
 
   const addCustomer = async () => {
-    const addResponse = await addNewCustomer(formData)
+    const addResponse = await postCreateNewCustomer(formData)
 
     if (addResponse.status) {
       showToast({
         title: 'Successfully',
-        description: 'You have successfully created a new user',
+        description: 'You have successfully created a new Customer',
         status: 'success',
       })
+      navigate(
+        `/${Routes.adminPages}/${Routes.customers}/${Routes.list}/${Routes.customer}`,
+      )
     } else {
       showToast({
         title: 'Error',

@@ -55,16 +55,20 @@ export const AdminEditProject = () => {
       ...rest
     } = response.data.data
 
-    setForm({
+    const form: Record<string, any> = {
       ...rest,
-      currency: currency.id ?? null,
-      client: client.id ?? null,
-      owner: owner.id ?? null,
-      staff: staff.id ?? null,
-      members: Array.isArray(members)
-        ? members.map(members => members.id)
-        : [],
-    })
+    }
+
+    if (currency?.id) form.currency = currency.id
+    if (client?.id) form.client = client.id
+    if (owner?.id) form.owner = owner.id
+    if (staff?.id) form.staff = staff.id
+
+    if (Array.isArray(members) && members.length > 0) {
+      form.members = members.map(member => member.id)
+    }
+
+    setForm(form)
   }
 
   const saveProjectUpdate = async () => {

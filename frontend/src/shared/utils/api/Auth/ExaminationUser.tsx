@@ -9,7 +9,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import { roles } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
-import { getProfileInfo } from '../GetProfileInfo'
+import { subscribeNavigation } from '../../hooks/navigationService'
+import { getProfileInfo } from '../get-profile-info'
 
 interface ChildProps {
   listRoles?: {
@@ -42,11 +43,13 @@ export const ExaminationUser = ({ children }: PropsWithChildren) => {
       try {
         const user = await getProfileInfo()
 
+        if (!user.status) return
+
         if (user) {
           const isAuth = !!user
-          const userRole = user?.userType
+          const userRole = user.data.userType
 
-          setListRoles(user.role)
+          setListRoles(user.data.role)
           setUserRole(userRole)
           setIsAuthenticated(isAuth)
         }
@@ -79,6 +82,16 @@ export const ExaminationUser = ({ children }: PropsWithChildren) => {
       }
     }
   }, [isLoading, isAuthenticated, userRole])
+
+  useEffect(() => {
+    const unsubscribe = subscribeNavigation(path => {
+      navigate(path)
+    })
+
+    return () => {
+      typeof unsubscribe === 'function' && unsubscribe()
+    }
+  }, [navigate])
 
   if (isAuthenticated && !isLoading && userRole === roles.admin) {
     return cloneElement(children as ReactElement<WithRoles>, {

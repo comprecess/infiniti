@@ -12,10 +12,10 @@ import { RecentRightButtons } from '../../../../features/Admin/CustomersPage/Com
 import { PagesList } from '../../../../features/Client/CatalogPage/TalentsList/PagesList/PagesList'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { deleteTransaction } from '../../../../shared/utils/api/Admin/Accounting/DeleteTransaction'
-import { getAccountingInputData } from '../../../../shared/utils/api/Admin/Accounting/GetAccountingInputData'
-import { getListTransactions } from '../../../../shared/utils/api/Admin/Accounting/GetListTransactions'
-import { getTransactionsDocuments } from '../../../../shared/utils/api/Admin/Accounting/GetTransactionsDocuments'
+import { deleteTransaction } from '../../../../shared/utils/api/Admin/Accounting/delete-transaction'
+import { getAccountingInputData } from '../../../../shared/utils/api/Admin/Accounting/get-accounting-input-data'
+import { getTransactionsDocuments } from '../../../../shared/utils/api/Admin/Accounting/get-transaction-documents'
+import { getTransactionsList } from '../../../../shared/utils/api/Admin/Accounting/get-transactions-list'
 import { downloadDocument } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './ViewTransactionsPage.module.scss'
@@ -74,22 +74,24 @@ export const AdminViewTransactionsPage = () => {
         query += `&filter[date][1]=${filterDateTo}`
       }
 
-      const response: {
+      const response = await getTransactionsList(query)
+
+      if (!response.status) return
+
+      return response.data as {
         data: AccountingTransactionsData[]
         meta: PagesMetaData
-      } = await getListTransactions(query)
-
-      return response
+      }
     },
     placeholderData: previousData => previousData,
   })
 
   const getInputData = async () => {
-    const response: AccountingInputData = await getAccountingInputData(
-      'Income',
-    )
+    const response = await getAccountingInputData('Income')
 
-    setInputData(response)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
   const downloadFile = useCallback(
@@ -117,8 +119,10 @@ export const AdminViewTransactionsPage = () => {
 
       const downloadInitiated = await getTransactionsDocuments(query)
 
+      if (!downloadInitiated.status) return
+
       const { status } = await downloadDocument(
-        downloadInitiated,
+        downloadInitiated.data,
         'Transactions',
       )
 
@@ -131,13 +135,23 @@ export const AdminViewTransactionsPage = () => {
         })
       }
     },
-    [page, sortName, sortType, filterType],
+    [
+      page,
+      sortName,
+      sortType,
+      filterType,
+      filterAccount,
+      filterContact,
+      filterCategory,
+      filterDateFrom,
+      filterDateTo,
+    ],
   )
 
   const handleDeleteTransaction = async (id: number) => {
-    const response = await deleteTransaction(id)
+    const { status, message } = await deleteTransaction(id)
 
-    if (response.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully deleted Transaction',
@@ -147,7 +161,7 @@ export const AdminViewTransactionsPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: response.message,
+        description: message,
         status: 'error',
       })
     }
@@ -160,6 +174,17 @@ export const AdminViewTransactionsPage = () => {
     },
     [],
   )
+
+  useEffect(() => {
+    setPage(1)
+  }, [
+    filterType,
+    filterAccount,
+    filterContact,
+    filterCategory,
+    filterDateFrom,
+    filterDateTo,
+  ])
 
   useEffect(() => {
     document.title = 'infiniti | View Transactions'

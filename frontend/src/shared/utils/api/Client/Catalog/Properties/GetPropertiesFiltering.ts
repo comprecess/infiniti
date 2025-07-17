@@ -1,4 +1,4 @@
-import { getAuthToken } from '../../../GetAuthToken'
+import { getAuthToken } from '../../../get-auth-token'
 
 export const getPropertiesFiltering = async (type?: string) => {
   const authToken = getAuthToken()

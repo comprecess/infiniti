@@ -1,5 +1,5 @@
 import { SettingsRoleFormData } from '../../../../../../app/constants/constants'
-import { getAuthToken } from '../../../GetAuthToken'
+import { getAuthToken } from '../../../get-auth-token'
 
 export const createNewRole = async (formData: {
   name: string

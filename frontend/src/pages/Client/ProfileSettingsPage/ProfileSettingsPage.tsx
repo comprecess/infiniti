@@ -4,7 +4,7 @@ import { NotificationCardData } from '../../../app/constants/constants'
 import { ProfileSettings } from '../../../features/General/ProfileSettings/ProfileSettings'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getPushList } from '../../../shared/utils/api/Push/GetPushList'
+import { getListPush } from '../../../shared/utils/api/Push/get-list-push'
 import { patchSetDevicePush } from '../../../shared/utils/api/Push/PatchSetDevicePush'
 import { postPushUnsubscribed } from '../../../shared/utils/api/Push/PostPushUnsubscribed'
 import styles from './ProfileSettingsPage.module.scss'
@@ -17,9 +17,11 @@ export const ClientProfileSettingsPage = () => {
   const showToast = useCustomToast()
 
   const getProfilePushList = async () => {
-    const response = await getPushList()
+    const response = await getListPush()
 
-    setListNotifications(response.data)
+    if (!response.status) return
+
+    setListNotifications(response.data.data)
   }
 
   const handleDeleteNotifications = async (token: string) => {

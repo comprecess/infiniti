@@ -2,8 +2,10 @@ import {
   AUTH_ERROR_MESSAGE,
   INVALID_RESPONSE_MESSAGE,
   NETWORK_ERROR_MESSAGE,
+  REQUEST_TIMEOUT_MS,
 } from '../../../../../app/constants/constants'
-import { getAuthToken } from '../../GetAuthToken'
+import { customFetch } from '../../custom-fetch'
+import { getAuthToken } from '../../get-auth-token'
 
 interface SuccessResponse {
   status: true
@@ -17,9 +19,6 @@ interface ErrorResponse {
 }
 
 type Response = SuccessResponse | ErrorResponse
-
-const DEFAULT_ERROR_MESSAGE = 'Failed to fetch project invoices'
-const REQUEST_TIMEOUT_MS = 30000
 
 export const getProjectInvoices = async (
   idProject: number,
@@ -53,16 +52,18 @@ export const getProjectInvoices = async (
     const apiPath = import.meta.env.VITE_PROJECTS_API
 
     if (!baseUrl || !apiPath) {
-      throw new Error(
-        'Configuration error - missing environment variables',
-      )
+      return {
+        status: false,
+        message: 'Configuration error - missing environment variables',
+      }
     }
 
-    const safeOptions = options.startsWith('?') ? options : `?${options}`
-    const encodedOptions = encodeURI(safeOptions)
+    const safeOptions = options.startsWith('?')
+      ? options.slice(1)
+      : options
 
     const url = new URL(
-      `${apiPath}/${idProject}/invoices${encodedOptions}`,
+      `${apiPath}/${idProject}/invoices`,
       baseUrl,
     ).toString()
 
@@ -72,35 +73,24 @@ export const getProjectInvoices = async (
       REQUEST_TIMEOUT_MS,
     )
 
-    const response = await fetch(url, {
+    const data = await customFetch(url, {
       method: 'GET',
       headers: {
-        Accept: 'application/json',
         'Content-Type': 'application/json',
+        Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
+      queryParams: safeOptions
+        ? Object.fromEntries(new URLSearchParams(safeOptions))
+        : undefined,
       signal: controller.signal,
     })
 
     clearTimeout(timeoutId)
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}))
-
-      return {
-        status: false,
-        message:
-          errorData.message ||
-          `Server responded with status ${response.status}`,
-        error: errorData,
-      }
-    }
-
-    const data = await response.json()
-
     if (
+      !data ||
       typeof data !== 'object' ||
-      data === null ||
       typeof data.status !== 'boolean'
     ) {
       return {
@@ -115,20 +105,17 @@ export const getProjectInvoices = async (
       data,
     }
   } catch (error) {
-    if (error instanceof Error) {
+    if (error instanceof DOMException && error.name === 'AbortError') {
       return {
         status: false,
-        message:
-          error.name === 'AbortError'
-            ? 'Request timeout'
-            : NETWORK_ERROR_MESSAGE,
+        message: 'Request timeout',
         error,
       }
     }
 
     return {
       status: false,
-      message: DEFAULT_ERROR_MESSAGE,
+      message: NETWORK_ERROR_MESSAGE,
       error,
     }
   }

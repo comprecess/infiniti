@@ -1,4 +1,4 @@
-import { getAuthToken } from '../../../../GetAuthToken'
+import { getAuthToken } from '../../../../get-auth-token'
 
 export const getUserInputData = async () => {
   const authToken = getAuthToken()

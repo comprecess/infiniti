@@ -10,9 +10,9 @@ import { Fields } from '../../../../../features/Admin/AccountingPage/ViewTransac
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getAccountingInputData } from '../../../../../shared/utils/api/Admin/Accounting/GetAccountingInputData'
-import { getSelectedTransactionInfo } from '../../../../../shared/utils/api/Admin/Accounting/GetSelectedTransactionInfo'
-import { putEditTransaction } from '../../../../../shared/utils/api/Admin/Accounting/PutEditTransaction'
+import { getAccountingInputData } from '../../../../../shared/utils/api/Admin/Accounting/get-accounting-input-data'
+import { getSelectedTransactionInfo } from '../../../../../shared/utils/api/Admin/Accounting/get-selected-transaction-info'
+import { putUpdateTransaction } from '../../../../../shared/utils/api/Admin/Accounting/put-update-transaction'
 import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './EditTransactionPage.module.scss'
@@ -28,17 +28,19 @@ export const AdminEditTransactionPage = () => {
   const navigate = useNavigate()
 
   const getInputData = async () => {
-    const response: AccountingInputData = await getAccountingInputData(
-      'Income',
-    )
+    const response = await getAccountingInputData('Income')
 
-    setInputData(response)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
   const getSelectedTransaction = async () => {
     if (!id) return
 
     const response = await getSelectedTransactionInfo(id)
+
+    if (!response.status) return
 
     const {
       account,
@@ -50,7 +52,7 @@ export const AdminEditTransactionPage = () => {
       payMethods,
       ref,
       ...rest
-    } = response.data
+    } = response.data.data
 
     setForm({
       ...rest,
@@ -68,7 +70,7 @@ export const AdminEditTransactionPage = () => {
   const handleEditTransactionSubmit = async () => {
     if (!id || !form) return
 
-    const { status, message } = await putEditTransaction(id, form)
+    const { status, message } = await putUpdateTransaction(id, form)
 
     if (status) {
       showToast({

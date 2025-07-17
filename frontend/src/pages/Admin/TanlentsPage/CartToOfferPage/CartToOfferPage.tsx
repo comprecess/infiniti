@@ -15,7 +15,7 @@ import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getOfferInputData } from '../../../../shared/utils/api/Admin/Sales/NewOffer/GetOfferInputData'
 import { addNewOffer } from '../../../../shared/utils/api/Admin/Sales/NewOffer/PostCreateNewOffer'
-import { getOfferCartInfo } from '../../../../shared/utils/api/Admin/Talents/Cart/GetOfferCartInfo'
+import { getOfferCartInfo } from '../../../../shared/utils/api/Admin/Talents/Cart/get-offer-cart-info'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CartToOfferPage.module.scss'
 
@@ -56,9 +56,11 @@ export const AdminCartToOfferPage = () => {
   const getInfoOffer = async () => {
     if (token === null) return
 
-    const getInfo = await getOfferCartInfo(token)
+    const response = await getOfferCartInfo(token)
 
-    setData(getInfo.data)
+    if (!response.status) return
+
+    setData(response.data)
   }
 
   const getNewOfferInputData = async () => {

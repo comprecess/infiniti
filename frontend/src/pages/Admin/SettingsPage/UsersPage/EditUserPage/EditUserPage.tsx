@@ -13,7 +13,7 @@ import { CustomCheckBox } from '../../../../../shared/ui/CustomCheckBox/CustomCh
 import { CustomSwitch } from '../../../../../shared/ui/CustomSwitch/CustomSwitch'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getUserInfo } from '../../../../../shared/utils/api/Admin/Settings/Users/EditUser/GetUserInfo'
+import { getUserInfo } from '../../../../../shared/utils/api/Admin/Settings/Users/EditUser/get-user-info'
 import { updateAdditionallyUserInfo } from '../../../../../shared/utils/api/Admin/Settings/Users/EditUser/UpdateAdditionallyUserInfo'
 import { updateSelectedUserInfo } from '../../../../../shared/utils/api/Admin/Settings/Users/EditUser/UpdateSelectedUserInfo'
 import { updateAvatarUser } from '../../../../../shared/utils/api/Admin/Settings/Users/EditUser/UpdateUserAvatar'
@@ -39,9 +39,11 @@ export const AdminEditUserPage = () => {
   const getUserData = async () => {
     if (id === null) return
 
-    const getResponse = await getUserInfo(id)
+    const response = await getUserInfo(id)
 
-    setUserInfo(getResponse.data)
+    if (!response.status) return
+
+    setUserInfo(response.data.data)
   }
 
   const getInputData = async () => {

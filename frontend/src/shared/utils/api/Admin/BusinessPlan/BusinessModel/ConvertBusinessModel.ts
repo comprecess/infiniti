@@ -1,4 +1,4 @@
-import { getAuthToken } from '../../../GetAuthToken'
+import { getAuthToken } from '../../../get-auth-token'
 
 export const convertBusinessModel = async (idModel: number) => {
   const authToken = getAuthToken()

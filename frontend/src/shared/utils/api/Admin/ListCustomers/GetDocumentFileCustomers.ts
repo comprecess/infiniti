@@ -1,4 +1,4 @@
-import { getAuthToken } from '../../GetAuthToken'
+import { getAuthToken } from '../../get-auth-token'
 
 export const getDocumentFileCustomers = async (options: string) => {
   const authToken = getAuthToken()

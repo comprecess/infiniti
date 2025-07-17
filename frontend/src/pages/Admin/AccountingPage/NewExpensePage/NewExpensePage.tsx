@@ -10,8 +10,8 @@ import { AddExpenseFields } from '../../../../features/Admin/AccountingPage/NewE
 import { RecentExpense } from '../../../../features/Admin/AccountingPage/NewExpensePage/RecentExpense/RecentExpense'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getAccountingInputData } from '../../../../shared/utils/api/Admin/Accounting/GetAccountingInputData'
-import { postAddNewTransaction } from '../../../../shared/utils/api/Admin/Accounting/PostAddNewTransaction'
+import { getAccountingInputData } from '../../../../shared/utils/api/Admin/Accounting/get-accounting-input-data'
+import { postCreateNewTransaction } from '../../../../shared/utils/api/Admin/Accounting/post-create-new-transaction'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './NewExpensePage.module.scss'
 
@@ -31,15 +31,15 @@ export const AdminNewExpensePage = () => {
   const projectId = urlParams.get('create-for-project')
 
   const getInputData = async () => {
-    const response: AccountingInputData = await getAccountingInputData(
-      'Expense',
-    )
+    const response = await getAccountingInputData('Expense')
 
-    setInputData(response)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
   const addNewTransaction = async () => {
-    const response = await postAddNewTransaction(
+    const { status, message } = await postCreateNewTransaction(
       isCreateForProject
         ? `${import.meta.env.VITE_PROJECTS_API}/${projectId}/expenses`
         : import.meta.env.VITE_ACCOUNTING_ADD_NEW_TRANSACTION,
@@ -47,7 +47,7 @@ export const AdminNewExpensePage = () => {
       'Expense',
     )
 
-    if (response.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully created a Expense',
@@ -64,7 +64,7 @@ export const AdminNewExpensePage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: response.message,
+        description: message,
         status: 'error',
       })
     }

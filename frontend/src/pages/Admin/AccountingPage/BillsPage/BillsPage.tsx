@@ -2,7 +2,6 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 
 import {
-  AccountingBillsData,
   AccountingBillsForm,
   AccountingInputData,
 } from '../../../../app/constants/constants'
@@ -12,12 +11,12 @@ import { SummaryPage } from '../../../../features/Admin/AccountingPage/Bills/Pag
 import { Tabs } from '../../../../features/Admin/AccountingPage/Bills/Tabs/Tabs'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { deleteBill } from '../../../../shared/utils/api/Admin/Accounting/DeleteBill'
-import { getAccountingInputData } from '../../../../shared/utils/api/Admin/Accounting/GetAccountingInputData'
-import { getAllBillsList } from '../../../../shared/utils/api/Admin/Accounting/GetAllBillsList'
-import { getBillsDate } from '../../../../shared/utils/api/Admin/Accounting/GetBillsDate'
-import { postAddNewBill } from '../../../../shared/utils/api/Admin/Accounting/PostAddNewBill'
-import { putIsPaidBill } from '../../../../shared/utils/api/Admin/Accounting/PutIsPaidBill'
+import { deleteBill } from '../../../../shared/utils/api/Admin/Accounting/delete-bill'
+import { getAccountingInputData } from '../../../../shared/utils/api/Admin/Accounting/get-accounting-input-data'
+import { getAllBillsList } from '../../../../shared/utils/api/Admin/Accounting/get-all-bills-list'
+import { getBillsDate } from '../../../../shared/utils/api/Admin/Accounting/get-bills-date'
+import { postCreateNewBill } from '../../../../shared/utils/api/Admin/Accounting/post-create-new-bill'
+import { putIsPaidBill } from '../../../../shared/utils/api/Admin/Accounting/put-is-paid-bill'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './BillsPage.module.scss'
 
@@ -37,24 +36,25 @@ export const AdminBillsPage = () => {
   const queryClient = useQueryClient()
 
   const getInputData = async () => {
-    const response: AccountingInputData = await getAccountingInputData(
-      'Expense',
-    )
+    const response = await getAccountingInputData('Expense')
 
-    setInputData(response)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
   const { data: bills } = useQuery({
     queryKey: ['bills', search, sortName, sortType],
     queryFn: async () => {
-      const response: { data: AccountingBillsData[] } =
-        await getAllBillsList(
-          search === ''
-            ? `?sort[name]=${sortName}&sort[type]=${sortType}`
-            : `?filter[search]=${search}&sort[name]=${sortName}&sort[type]=${sortType}`,
-        )
+      const response = await getAllBillsList(
+        search === ''
+          ? `?sort[name]=${sortName}&sort[type]=${sortType}`
+          : `?filter[search]=${search}&sort[name]=${sortName}&sort[type]=${sortType}`,
+      )
 
-      return response.data
+      if (!response.status) return
+
+      return response.data.data
     },
     placeholderData: previousData => previousData,
   })
@@ -62,20 +62,19 @@ export const AdminBillsPage = () => {
   const { data: billsDate } = useQuery({
     queryKey: ['billsDate'],
     queryFn: async () => {
-      const response: {
-        billsPastDue: AccountingBillsData[]
-        billsUpcoming: AccountingBillsData[]
-      } = await getBillsDate()
+      const response = await getBillsDate()
 
-      return response
+      if (!response.status) return
+
+      return response.data
     },
     placeholderData: previousData => previousData,
   })
 
   const addNewBill = async () => {
-    const response = await postAddNewBill(form)
+    const { status, message } = await postCreateNewBill(form)
 
-    if (response.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully created a Bill',
@@ -84,7 +83,7 @@ export const AdminBillsPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: response.message,
+        description: message,
         status: 'error',
       })
     }
@@ -149,6 +148,7 @@ export const AdminBillsPage = () => {
     } else if (pages === 'Summary') {
       queryClient.invalidateQueries({ queryKey: ['billsDate'] })
     }
+    setForm({})
   }, [pages])
 
   useEffect(() => {

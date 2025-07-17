@@ -1,4 +1,4 @@
-import { getAuthToken } from '../../../GetAuthToken'
+import { getAuthToken } from '../../../get-auth-token'
 
 export const getInfoProfileView = async (idClient: number) => {
   const authToken = getAuthToken()

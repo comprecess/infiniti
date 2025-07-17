@@ -7,9 +7,9 @@ import {
 import { Fields } from '../../../../../features/Admin/AccountingPage/Bills/Pages/EditBillPage/Fields/Fields'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getAccountingInputData } from '../../../../../shared/utils/api/Admin/Accounting/GetAccountingInputData'
-import { getBill } from '../../../../../shared/utils/api/Admin/Accounting/GetBill'
-import { putEditBill } from '../../../../../shared/utils/api/Admin/Accounting/PutEditBill'
+import { getAccountingInputData } from '../../../../../shared/utils/api/Admin/Accounting/get-accounting-input-data'
+import { getBill } from '../../../../../shared/utils/api/Admin/Accounting/get-bill'
+import { putUpdateBill } from '../../../../../shared/utils/api/Admin/Accounting/put-update-bill'
 import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './EditBill.module.scss'
@@ -24,11 +24,11 @@ export const AdminEditBillPage = () => {
   const showToast = useCustomToast()
 
   const getInputData = async () => {
-    const response: AccountingInputData = await getAccountingInputData(
-      'Expense',
-    )
+    const response = await getAccountingInputData('Expense')
 
-    setInputData(response)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
   /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -36,29 +36,36 @@ export const AdminEditBillPage = () => {
     if (!id) return
 
     const response = await getBill(id)
+
+    if (!response.status) return
+
     const {
       id: _,
+      amountFloat: amount,
       isPaid,
       client,
       currency,
       category,
       account,
+      website,
       ...rest
-    } = response.data
+    } = response.data.data
 
     setForm({
       ...rest,
       client: client?.id ?? null,
+      amount,
       currency: currency?.id ?? null,
       category: category?.id ?? null,
       account: account?.id ?? null,
+      website: website ?? '',
     })
   }
 
   const handleEditBillSubmit = async () => {
     if (!id || !form) return
 
-    const { status, message } = await putEditBill(id, form)
+    const { status, message } = await putUpdateBill(id, form)
 
     if (status) {
       showToast({

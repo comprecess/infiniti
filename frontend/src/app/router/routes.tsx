@@ -114,6 +114,7 @@ import { ClientTicketsPage } from '../../pages/Client/TicketsPage/TicketsPage/Ti
 import { ClientTransactionsPage } from '../../pages/Client/TransactionsPage/TransactionsPage'
 import { ClientViewBusinessModelsPage } from '../../pages/Client/ViewBusinessModelsPage/ViewBusinessModelsPage'
 import { AutoLoginPage } from '../../pages/General/AutoLoginPage/AutoLoginPage'
+import { ForbiddenPage } from '../../pages/General/ForbiddenPage/ForbiddenPage'
 import { InvoiceProofTransaction } from '../../pages/General/InvoiceProofTransaction/InvoiceProofTransaction'
 import { InvoiceViewPage } from '../../pages/General/InvoiceViewPage/InvoiceViewPage'
 import { NotFoundPage } from '../../pages/General/NotFoundPage/NotFoundPage'
@@ -218,6 +219,7 @@ export const Routes = {
   reset: 'reset',
   password: 'password',
   notFound: '404',
+  forbidden: '403',
 }
 
 export const To = {
@@ -354,4 +356,5 @@ export const Pages = {
   publicViewOffer: <OfferViewPage />,
   publicAutoLoginPage: <AutoLoginPage />,
   notFoundPage: <NotFoundPage />,
+  forbiddenPage: <ForbiddenPage />,
 }

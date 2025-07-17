@@ -2,8 +2,10 @@ import {
   AUTH_ERROR_MESSAGE,
   INVALID_RESPONSE_MESSAGE,
   NETWORK_ERROR_MESSAGE,
+  REQUEST_TIMEOUT_MS,
 } from '../../../../../app/constants/constants'
-import { getAuthToken } from '../../GetAuthToken'
+import { customFetch } from '../../custom-fetch'
+import { getAuthToken } from '../../get-auth-token'
 
 interface SuccessResponse {
   status: true
@@ -17,10 +19,6 @@ interface ErrorResponse {
 }
 
 type Response = SuccessResponse | ErrorResponse
-
-const DEFAULT_ERROR_MESSAGE =
-  'An error occurred while deleting the project'
-const REQUEST_TIMEOUT_MS = 30000
 
 export const deleteProject = async (
   idProject: number,
@@ -59,31 +57,17 @@ export const deleteProject = async (
       REQUEST_TIMEOUT_MS,
     )
 
-    const response = await fetch(url, {
+    const data = await customFetch(url, {
       method: 'DELETE',
       headers: {
-        Accept: 'application/json',
         'Content-Type': 'application/json',
+        Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
       signal: controller.signal,
     })
 
     clearTimeout(timeoutId)
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}))
-
-      return {
-        status: false,
-        message:
-          errorData.message ||
-          `Server responded with status ${response.status}`,
-        error: errorData,
-      }
-    }
-
-    const data = await response.json()
 
     if (
       typeof data !== 'object' ||
@@ -97,22 +81,19 @@ export const deleteProject = async (
       }
     }
 
-    return data as Response
+    return data
   } catch (error) {
-    if (error instanceof Error) {
+    if (error instanceof DOMException && error.name === 'AbortError') {
       return {
         status: false,
-        message:
-          error.name === 'AbortError'
-            ? 'Request timeout'
-            : NETWORK_ERROR_MESSAGE,
+        message: 'Request timeout',
         error,
       }
     }
 
     return {
       status: false,
-      message: DEFAULT_ERROR_MESSAGE,
+      message: NETWORK_ERROR_MESSAGE,
       error,
     }
   }

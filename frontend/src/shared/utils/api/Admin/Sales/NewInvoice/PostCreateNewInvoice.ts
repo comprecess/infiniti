@@ -1,5 +1,5 @@
 import { PartialFieldsPostData } from '../../../../../../features/Admin/Sales/NewInvoice/Fields/Fields'
-import { getAuthToken } from '../../../GetAuthToken'
+import { getAuthToken } from '../../../get-auth-token'
 
 interface Response {
   id: number

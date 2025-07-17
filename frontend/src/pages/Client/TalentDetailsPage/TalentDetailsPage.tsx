@@ -12,7 +12,7 @@ import { TalentCard } from '../../../features/Client/TalentDetailsPage/TalentCar
 import { ChevronDownIcon } from '../../../shared/icons/ChevronDownIcon'
 import { ButtonBrand } from '../../../shared/ui/ButtonBrand/ButtonBrand'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getUserInfo } from '../../../shared/utils/api/Client/Catalog/User/GetUserInfo'
+import { getUserInfo } from '../../../shared/utils/api/Client/Catalog/User/get-user-info'
 import { useIdFromUrl } from '../../../shared/utils/usefulMethods'
 import styles from './TalentDetailsPage.module.scss'
 
@@ -49,16 +49,11 @@ export const ClientTalentDetailsPage = () => {
     queryFn: async () => {
       if (id === null) return
 
-      const response: { data: TalentData | null; status: boolean } =
-        await getUserInfo(id)
+      const response = await getUserInfo(id)
 
-      if (response.status) {
-        return response
-      } else {
-        navigate('/404')
+      if (!response.status) return null
 
-        return
-      }
+      return response.data as { data: TalentData | null; status: boolean }
     },
     placeholderData: previousData => previousData,
   })

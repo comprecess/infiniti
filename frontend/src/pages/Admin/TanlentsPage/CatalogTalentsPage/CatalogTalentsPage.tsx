@@ -16,7 +16,7 @@ import { TalentsList } from '../../../../features/Admin/TalentsPage/CatalogTalen
 import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { deleteSelectedTalent } from '../../../../shared/utils/api/Admin/Talents/DeleteTalent'
+import { deleteSelectedTalent } from '../../../../shared/utils/api/Admin/Talents/delete-selected-talent'
 import { getPropertiesFiltering } from '../../../../shared/utils/api/Client/Catalog/Properties/GetPropertiesFiltering'
 import { getUsersListInfo } from '../../../../shared/utils/api/Client/Catalog/User/GetUsersListInfo'
 import { getSession } from '../../../../shared/utils/Saving/Session/GetSession'

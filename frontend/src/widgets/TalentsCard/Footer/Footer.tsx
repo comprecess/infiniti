@@ -7,7 +7,7 @@ import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { ConfirmationModal } from '../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
-import { addTalentToCart } from '../../../shared/utils/api/Admin/Talents/AddTalentToOrder'
+import { postAddTalentToCart } from '../../../shared/utils/api/Admin/Talents/post-add-talent-to-cart'
 import styles from './Footer.module.scss'
 import { Item } from './Item/Item'
 
@@ -42,7 +42,7 @@ export const Footer = ({
   }
 
   const handleAddTalentToOrder = async () => {
-    const addResponse = await addTalentToCart(id)
+    const addResponse = await postAddTalentToCart(id)
 
     if (addResponse.status) {
       showToast({
