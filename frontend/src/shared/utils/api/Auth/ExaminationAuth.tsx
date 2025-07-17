@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom'
 
 import { roles } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
-import { getProfileInfo } from '../GetProfileInfo'
+import { subscribeNavigation } from '../../hooks/navigationService'
+import { getProfileInfo } from '../get-profile-info'
 
 export const ExaminationAuth = ({ children }: PropsWithChildren) => {
   const [isUserRole, setIsUserRole] = useState<string>('')
@@ -17,9 +18,11 @@ export const ExaminationAuth = ({ children }: PropsWithChildren) => {
       try {
         const user = await getProfileInfo()
 
+        if (!user.status) return
+
         if (user) {
           const isAuth = !!user
-          const userRole = user?.userType
+          const userRole = user.data.userType
 
           setIsUserRole(userRole)
           setIsAuthenticated(isAuth)
@@ -45,6 +48,16 @@ export const ExaminationAuth = ({ children }: PropsWithChildren) => {
       navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
     }
   }, [isLoading, isAuthenticated, isUserRole])
+
+  useEffect(() => {
+    const unsubscribe = subscribeNavigation(path => {
+      navigate(path)
+    })
+
+    return () => {
+      typeof unsubscribe === 'function' && unsubscribe()
+    }
+  }, [navigate])
 
   return !isAuthenticated && !isLoading ? <>{children}</> : null
 }

@@ -1,5 +1,5 @@
 import { UpdateProfileInfoProps } from '../../../../../app/constants/constants'
-import { getAuthToken } from '../../GetAuthToken'
+import { getAuthToken } from '../../get-auth-token'
 
 interface Response {
   status: boolean

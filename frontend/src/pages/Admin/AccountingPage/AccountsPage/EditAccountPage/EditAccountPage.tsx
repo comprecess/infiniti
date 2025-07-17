@@ -7,8 +7,8 @@ import { EditAccountFields } from '../../../../../features/Admin/AccountingPage/
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getInfoSelectedAccount } from '../../../../../shared/utils/api/Admin/Accounting/GetInfoSelectedAccount'
-import { putAccountSelectedInfo } from '../../../../../shared/utils/api/Admin/Accounting/PutAccountSelectedInfo'
+import { getSelectedAccountInfo } from '../../../../../shared/utils/api/Admin/Accounting/get-selected-account-info'
+import { putUpdateAccountInfo } from '../../../../../shared/utils/api/Admin/Accounting/put-update-account-info'
 import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './EditAccountPage.module.scss'
@@ -23,16 +23,17 @@ export const AdminEditAccountPage = () => {
   const getInfo = async () => {
     if (!id) return
 
-    const response: { data: AccountingAccountForm } =
-      await getInfoSelectedAccount(id)
+    const response = await getSelectedAccountInfo(id)
 
-    setForm(response.data)
+    if (!response.status) return
+
+    setForm(response.data.data)
   }
 
   const handleEditAccount = async () => {
     if (!id || !form) return
 
-    const { status, message } = await putAccountSelectedInfo(id, form)
+    const { status, message } = await putUpdateAccountInfo(id, form)
 
     if (status) {
       showToast({

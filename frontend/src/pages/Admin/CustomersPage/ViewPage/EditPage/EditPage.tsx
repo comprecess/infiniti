@@ -3,13 +3,12 @@ import { useEffect } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import {
-  CustomerInputsData,
   ViewEditTypeData,
   ViewPageContext,
 } from '../../../../../app/constants/constants'
 import { Fields } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/EditPage/Fields/Fields'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getCustomerInputsData } from '../../../../../shared/utils/api/Admin/AddCustomer/GetCustomerInputsData'
+import { getCustomerInputsData } from '../../../../../shared/utils/api/Admin/AddCustomer/get-customer-input-data'
 import { getInfoProfileView } from '../../../../../shared/utils/api/Admin/ViewContact/Edit/GetInfoProfileView'
 import styles from './EditPage.module.scss'
 
@@ -30,9 +29,11 @@ export const AdminContactEditPage = () => {
   const { data: inputs } = useQuery({
     queryKey: ['inputs', context.idClient],
     queryFn: async () => {
-      const response: CustomerInputsData = await getCustomerInputsData()
+      const response = await getCustomerInputsData()
 
-      return response
+      if (!response.status) return
+
+      return response.data
     },
     placeholderData: previousData => previousData,
   })

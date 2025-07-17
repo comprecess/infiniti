@@ -1,16 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 
-import {
-  PagesMetaData,
-  RolesAccess,
-  TalentsListCartsData,
-} from '../../../../app/constants/constants'
 import { Header } from '../../../../features/Admin/TalentsPage/ListOfCartsPage/Header/Header'
 import { RecentCarts } from '../../../../features/Admin/TalentsPage/ListOfCartsPage/RecentCarts/RecentCarts'
 import { PagesList } from '../../../../features/Client/CatalogPage/TalentsList/PagesList/PagesList'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getCartList } from '../../../../shared/utils/api/Admin/Talents/Cart/GetListCart'
+import { getCartList } from '../../../../shared/utils/api/Admin/Talents/Cart/get-cart-list'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './ListCartsPage.module.scss'
 
@@ -24,20 +19,18 @@ export const AdminListCartsPage = () => {
   const { data: listInfo } = useQuery({
     queryKey: ['listOfCart', page, search, sortName, sortType, filterType],
     queryFn: async () => {
-      const response: {
-        access: RolesAccess
-        data: TalentsListCartsData[]
-        meta: PagesMetaData
-      } = await getCartList(
+      const response = await getCartList(
         // eslint-disable-next-line max-len
         `?page=${page}&filter[search]=${search}&filter[type]=${filterType}&sort[name]=${sortName}&sort[type]=${sortType}`,
       )
 
-      if (page > response.meta.last_page) {
+      if (!response.status) return
+
+      if (page > response.data.meta.last_page) {
         setPage(1)
       }
 
-      return response
+      return response.data
     },
     placeholderData: previousData => previousData,
   })

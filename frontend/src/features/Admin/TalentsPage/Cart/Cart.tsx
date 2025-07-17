@@ -7,8 +7,8 @@ import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { postCreateNewMeeting } from '../../../../shared/utils/api/Admin/Meeting/PostCreateNewMeeting'
-import { deleteCart } from '../../../../shared/utils/api/Admin/Talents/Cart/DeleteCart'
-import { putChangeField } from '../../../../shared/utils/api/Admin/Talents/Cart/PutChangeField'
+import { deleteCart } from '../../../../shared/utils/api/Admin/Talents/Cart/delete-cart'
+import { putChangeField } from '../../../../shared/utils/api/Admin/Talents/Cart/put-change-field'
 import {
   CreatingCallModal,
   TimeSlotsById,
@@ -21,14 +21,14 @@ interface CartProps {
   idCart: number
   cart: CartItem[]
   datesEmployment: TimeSlotsById | undefined
-  onDelete: () => void
+  getOrders: () => void
 }
 
 export const Cart = ({
   idCart,
   cart,
   datesEmployment,
-  onDelete,
+  getOrders,
 }: CartProps) => {
   const [isCreatingCall, setIsCreatingCall] = useState<boolean>(false)
 
@@ -42,12 +42,7 @@ export const Cart = ({
     const changeResponse = await putChangeField(idCart, idItem, data)
 
     if (changeResponse.status) {
-      showToast({
-        title: 'Successfully',
-        description: 'You have successfully changed your cart',
-        status: 'success',
-      })
-      onDelete()
+      getOrders()
     } else {
       showToast({
         title: 'Error',
@@ -66,7 +61,7 @@ export const Cart = ({
         description: 'You have successfully removed Talent from the order',
         status: 'success',
       })
-      onDelete()
+      getOrders()
     } else {
       showToast({
         title: 'Error',

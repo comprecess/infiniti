@@ -6,18 +6,18 @@ import { CurrentBalance } from '../../features/Client/DashboardPage/ProfileCard/
 import { PersonInfo } from '../../features/Client/DashboardPage/ProfileCard/PersonInfo/PersonInfo'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
 import { LoadingSpinner } from '../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getProfileInfo } from '../../shared/utils/api/GetProfileInfo'
+import { getProfileInfo } from '../../shared/utils/api/get-profile-info'
 import styles from './UserCard.module.scss'
 
 export const UserCard = () => {
   const [profileData, setProfileData] = useState<UserInfo | null>(null)
 
   const getProfileData = useCallback(async () => {
-    const profileData = await getProfileInfo()
+    const response = await getProfileInfo()
 
-    if (profileData) {
-      setProfileData(profileData)
-    }
+    if (!response.status) return
+
+    setProfileData(response.data)
   }, [])
 
   useEffect(() => {

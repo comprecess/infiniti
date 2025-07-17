@@ -1,22 +1,19 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 
-import {
-  AccountingAssetsData,
-  AccountingAssetsInputData,
-} from '../../../../app/constants/constants'
+import { AccountingAssetsInputData } from '../../../../app/constants/constants'
 import { Assets } from '../../../../features/Admin/AccountingPage/AssetsPage/Assets/Assets'
 import { AssetsTable } from '../../../../features/Admin/AccountingPage/AssetsPage/AssetsTable/AssetsTable'
 import { SearchAndButtons } from '../../../../features/Admin/Sales/OffersPage/SearchAndButtons/SearchAndButtons'
 import { PagesList } from '../../../../features/Client/CatalogPage/TalentsList/PagesList/PagesList'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { deleteAsset } from '../../../../shared/utils/api/Admin/Accounting/DeleteAsset'
-import { deleteCategory } from '../../../../shared/utils/api/Admin/Accounting/DeleteCategory'
-import { getAssetsDocuments } from '../../../../shared/utils/api/Admin/Accounting/GetAssetsDocuments'
-import { getAssetsInputData } from '../../../../shared/utils/api/Admin/Accounting/GetAssetsInputData'
-import { getAssetsList } from '../../../../shared/utils/api/Admin/Accounting/GetAssetsList'
-import { postAddNewAssetsCategory } from '../../../../shared/utils/api/Admin/Accounting/PostAddNewAssetsCategory'
+import { deleteAsset } from '../../../../shared/utils/api/Admin/Accounting/delete-asset'
+import { deleteCategory } from '../../../../shared/utils/api/Admin/Accounting/delete-category'
+import { getAssetsDocuments } from '../../../../shared/utils/api/Admin/Accounting/get-assets-documents'
+import { getAssetsInputData } from '../../../../shared/utils/api/Admin/Accounting/get-assets-input-data'
+import { getAssetsList } from '../../../../shared/utils/api/Admin/Accounting/get-assets-list'
+import { postCreateNewAssetCategory } from '../../../../shared/utils/api/Admin/Accounting/post-create-new-asset-category'
 import { downloadDocument } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './AssetsPage.module.scss'
@@ -39,15 +36,17 @@ export const AdminAssetsPage = () => {
       setFilterCategory('')
     } else {
       setFilterCategory(`&filter[category]=${filter}`)
-      setPage(1)
       setSearch('')
     }
+    setPage(1)
   }
 
   const getInputData = async () => {
-    const response: AccountingAssetsInputData = await getAssetsInputData()
+    const response = await getAssetsInputData()
 
-    setInputData(response)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
   const { data: assets } = useQuery({
@@ -70,15 +69,17 @@ export const AdminAssetsPage = () => {
         query += `&filter[search]=${search}`
       }
 
-      const response: AccountingAssetsData = await getAssetsList(query)
+      const response = await getAssetsList(query)
 
-      return response
+      if (!response.status) return
+
+      return response.data
     },
     placeholderData: previousData => previousData,
   })
 
   const handleAddNewCategory = async (name: string) => {
-    const { status, message } = await postAddNewAssetsCategory(name)
+    const { status, message } = await postCreateNewAssetCategory(name)
 
     if (status) {
       showToast({
@@ -149,8 +150,10 @@ export const AdminAssetsPage = () => {
 
       const downloadInitiated = await getAssetsDocuments(query)
 
+      if (!downloadInitiated.status) return
+
       const { status } = await downloadDocument(
-        downloadInitiated,
+        downloadInitiated.data,
         'Assets',
       )
 
@@ -163,7 +166,7 @@ export const AdminAssetsPage = () => {
         })
       }
     },
-    [page, search, sortName, sortType],
+    [page, search, sortName, sortType, filterCategory],
   )
 
   const changeSort = useCallback(

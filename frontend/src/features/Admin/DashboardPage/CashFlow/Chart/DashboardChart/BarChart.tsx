@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import Chart from 'react-apexcharts'
 import { useTranslation } from 'react-i18next'
 
+import { LoadingSpinner } from '../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+
 interface DataEntry {
   Income: number
   Expense: number
@@ -161,7 +163,18 @@ export const BarChart = ({ data }: DashboardChartProps) => {
   }, [])
 
   if (!chartData) {
-    return <div>Loading...</div>
+    return (
+      <div
+        style={{
+          display: 'flex',
+          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <LoadingSpinner size='xl' />
+      </div>
+    )
   }
 
   return (

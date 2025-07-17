@@ -88,7 +88,7 @@ export const Fields = ({
           type='number'
           id='amount'
           name='amount'
-          value={form.amountFloat}
+          value={form.amount}
           onChange={handleChangeInput}
         />
       </div>
@@ -126,8 +126,7 @@ export const Fields = ({
         type='text'
         id='website'
         name='website'
-        value={form.website}
-        onInputChange={false}
+        value={form.website ? form.website : ''}
         onChange={handleChangeInput}
       />
       <ButtonBlue

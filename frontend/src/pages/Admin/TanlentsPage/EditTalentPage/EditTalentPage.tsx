@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import {
   TalentEditInfoData,
   TalentsInputData,
 } from '../../../../app/constants/constants'
+import { Routes } from '../../../../app/router/routes'
 import {
   Fields,
   PartialFieldsPostData,
@@ -11,11 +13,11 @@ import {
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getTalentInfo } from '../../../../shared/utils/api/Admin/Talents/EditTalent/GetTalentInfo'
-import { putUpdateTalentInfo } from '../../../../shared/utils/api/Admin/Talents/EditTalent/PutUpdateTalentInfo'
-import { updateAdditionallyTalentInfo } from '../../../../shared/utils/api/Admin/Talents/EditTalent/UpdateAdditionallyTalentInfo'
-import { updateTalentAvatar } from '../../../../shared/utils/api/Admin/Talents/EditTalent/UpdateTalentAvatar'
-import { getTalentsInputData } from '../../../../shared/utils/api/Admin/Talents/GetTalentsInputData'
+import { getTalentInfo } from '../../../../shared/utils/api/Admin/Talents/EditTalent/get-talent-info'
+import { postUpdateTalentAvatar } from '../../../../shared/utils/api/Admin/Talents/EditTalent/post-update-talent-avatar'
+import { updateAdditionallyTalentInfo } from '../../../../shared/utils/api/Admin/Talents/EditTalent/put-update-additionally-talent-info'
+import { putUpdateTalentInfo } from '../../../../shared/utils/api/Admin/Talents/EditTalent/put-update-talent-info'
+import { getTalentInputData } from '../../../../shared/utils/api/Admin/Talents/get-talent-input-data'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditTalentPage.module.scss'
@@ -28,19 +30,25 @@ export const AdminEditTalentPage = () => {
 
   const id = useIdFromUrl('talent')
   const showToast = useCustomToast()
+  const navigate = useNavigate()
 
   const getInfoTalent = async () => {
     if (id === null) return
 
-    const getInfo = await getTalentInfo(id)
+    const response = await getTalentInfo(id)
 
-    setData(getInfo)
+    if (!response.status) return
+
+    setData(response.data)
   }
 
   const getInputData = async () => {
-    const getResponse = await getTalentsInputData()
+    const response = await getTalentInputData()
 
-    const { allSkills, industries, keySkills, ...otherData } = getResponse
+    if (!response.status) return
+
+    const { allSkills, industries, keySkills, ...otherData } =
+      response.data
 
     const updatedResponse = {
       allSkills: allSkills.map((skill: any) => ({
@@ -70,6 +78,7 @@ export const AdminEditTalentPage = () => {
           'You have successfully updated your Talent information.',
         status: 'success',
       })
+      navigate(`/${Routes.adminPages}/${Routes.talents}/${Routes.catalog}`)
     } else {
       showToast({
         title: 'Error',
@@ -82,7 +91,7 @@ export const AdminEditTalentPage = () => {
   const updateAvatar = async (file: FormData) => {
     if (id === null) return
 
-    const updateResponse = await updateTalentAvatar(id, file)
+    const updateResponse = await postUpdateTalentAvatar(id, file)
 
     if (updateResponse.status) {
       showToast({
@@ -110,7 +119,7 @@ export const AdminEditTalentPage = () => {
     if (updateResponse.status) {
       showToast({
         title: 'Successfully',
-        description: 'You have successfully updated User information',
+        description: 'You have successfully updated Talent information',
         status: 'success',
       })
       getInfoTalent()

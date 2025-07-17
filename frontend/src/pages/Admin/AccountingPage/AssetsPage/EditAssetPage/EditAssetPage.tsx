@@ -10,9 +10,9 @@ import { Fields } from '../../../../../features/Admin/AccountingPage/AssetsPage/
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getAssetsInputData } from '../../../../../shared/utils/api/Admin/Accounting/GetAssetsInputData'
-import { getSelectedAssetInfo } from '../../../../../shared/utils/api/Admin/Accounting/GetSelectedAssetInfo'
-import { putEditAsset } from '../../../../../shared/utils/api/Admin/Accounting/PutEditAsset'
+import { getAssetsInputData } from '../../../../../shared/utils/api/Admin/Accounting/get-assets-input-data'
+import { getSelectedAssetInfo } from '../../../../../shared/utils/api/Admin/Accounting/get-selected-asset-info'
+import { putUpdateAsset } from '../../../../../shared/utils/api/Admin/Accounting/put-update-asset'
 import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './EditAssetPage.module.scss'
@@ -27,9 +27,11 @@ export const AdminEditAssetPage = () => {
   const navigate = useNavigate()
 
   const getInputData = async () => {
-    const response: AccountingAssetsInputData = await getAssetsInputData()
+    const response = await getAssetsInputData()
 
-    setInputData(response)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
   const getAssetInfo = async () => {
@@ -37,7 +39,9 @@ export const AdminEditAssetPage = () => {
 
     const response = await getSelectedAssetInfo(id)
 
-    const { category, ...rest } = response.data
+    if (!response.status) return
+
+    const { category, ...rest } = response.data.data
 
     setForm({
       ...rest,
@@ -48,7 +52,7 @@ export const AdminEditAssetPage = () => {
   const handleEditAssetSubmit = async () => {
     if (!id || !form) return
 
-    const { status, message } = await putEditAsset(id, form)
+    const { status, message } = await putUpdateAsset(id, form)
 
     if (status) {
       showToast({

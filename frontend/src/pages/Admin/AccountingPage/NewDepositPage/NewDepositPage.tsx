@@ -8,8 +8,8 @@ import { AddDepositFields } from '../../../../features/Admin/AccountingPage/NewD
 import { RecentDeposits } from '../../../../features/Admin/AccountingPage/NewDepositPage/RecentDeposits/RecentDeposits'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getAccountingInputData } from '../../../../shared/utils/api/Admin/Accounting/GetAccountingInputData'
-import { postAddNewTransaction } from '../../../../shared/utils/api/Admin/Accounting/PostAddNewTransaction'
+import { getAccountingInputData } from '../../../../shared/utils/api/Admin/Accounting/get-accounting-input-data'
+import { postCreateNewTransaction } from '../../../../shared/utils/api/Admin/Accounting/post-create-new-transaction'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './NewDepositPage.module.scss'
 
@@ -24,19 +24,21 @@ export const AdminNewDepositPage = () => {
   const showToast = useCustomToast()
 
   const getInputData = async () => {
-    const response: AccountingInputData = await getAccountingInputData()
+    const response = await getAccountingInputData()
 
-    setInputData(response)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
   const addNewTransaction = async () => {
-    const response = await postAddNewTransaction(
+    const { status, message } = await postCreateNewTransaction(
       import.meta.env.VITE_ACCOUNTING_ADD_NEW_TRANSACTION,
       form,
       'Income',
     )
 
-    if (response.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully created a Deposit',
@@ -46,7 +48,7 @@ export const AdminNewDepositPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: response.message,
+        description: message,
         status: 'error',
       })
     }

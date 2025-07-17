@@ -1,5 +1,5 @@
 import { PartialFieldsEditUserData } from '../../../../../../../features/Admin/Settings/UsersPage/EditUser/Fields/Fields'
-import { getAuthToken } from '../../../../GetAuthToken'
+import { getAuthToken } from '../../../../get-auth-token'
 
 interface Response {
   status: boolean

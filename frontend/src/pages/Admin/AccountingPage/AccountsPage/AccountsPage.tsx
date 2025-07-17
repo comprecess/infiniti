@@ -2,20 +2,17 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import {
-  AccountingAccountsData,
-  AccountingAccountsInputData,
-} from '../../../../app/constants/constants'
+import { AccountingAccountsInputData } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { TableAccounts } from '../../../../features/Admin/AccountingPage/AccountsPage/TableAccounts/TableAccounts'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { Search } from '../../../../shared/ui/Search/Search'
-import { deleteAccount } from '../../../../shared/utils/api/Admin/Accounting/DeleteAccount'
-import { getAccountsInputData } from '../../../../shared/utils/api/Admin/Accounting/GetAccountsInputData'
-import { getAllAccounts } from '../../../../shared/utils/api/Admin/Accounting/GetAllAccounts'
-import { postRecordInitialBalance } from '../../../../shared/utils/api/Admin/Accounting/PostRecordInitialBalance'
+import { deleteAccount } from '../../../../shared/utils/api/Admin/Accounting/delete-account'
+import { getAccountInputData } from '../../../../shared/utils/api/Admin/Accounting/get-account-input-data'
+import { getAllAccounts } from '../../../../shared/utils/api/Admin/Accounting/get-all-accounts'
+import { postRecordInitialBalance } from '../../../../shared/utils/api/Admin/Accounting/post-record-initial-balance'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './AccountsPage.module.scss'
 
@@ -34,24 +31,25 @@ export const AdminAccountsPage = () => {
   const { data: accounts } = useQuery({
     queryKey: ['accountsList', search, sortName, sortType],
     queryFn: async () => {
-      const response: {
-        list: AccountingAccountsData[]
-      } = await getAllAccounts(
+      const response = await getAllAccounts(
         search === ''
           ? `?sort[name]=${sortName}&sort[type]=${sortType}`
           : `?filter[search]=${search}&sort[name]=${sortName}&sort[type]=${sortType}`,
       )
 
-      return response.list
+      if (!response.status) return
+
+      return response.data.list
     },
     placeholderData: previousData => previousData,
   })
 
   const getInputData = async () => {
-    const response: AccountingAccountsInputData =
-      await getAccountsInputData()
+    const response = await getAccountInputData()
 
-    setInputData(response)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
   const handleDeleteAccount = async (id: number) => {

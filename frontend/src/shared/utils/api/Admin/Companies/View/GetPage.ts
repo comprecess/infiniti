@@ -1,4 +1,4 @@
-import { getAuthToken } from '../../../GetAuthToken'
+import { getAuthToken } from '../../../get-auth-token'
 
 export const getPage = async (id: number, type: string) => {
   const authToken = getAuthToken()

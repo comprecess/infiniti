@@ -23,7 +23,7 @@ import { RecentClients } from '../../../features/Admin/DashboardPage/RecentClien
 import { RecentInvoices } from '../../../features/Admin/DashboardPage/RecentInvoices/RecentInvoices'
 import { RecentProjects } from '../../../features/Admin/DashboardPage/RecentProjects/RecentProjects'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getCashFlowInfo } from '../../../shared/utils/api/Admin/Dashboard/GetCashFlowInfo'
+import { getCashFlowInfo } from '../../../shared/utils/api/Admin/Dashboard/get-cash-flow-info'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './DashboardPage.module.scss'
 
@@ -33,7 +33,11 @@ export const AdminDashboardPage = () => {
   const { data: dataDashboard } = useQuery({
     queryKey: ['cashFlow'],
     queryFn: async () => {
-      const response: {
+      const response = await getCashFlowInfo()
+
+      if (!response.status) return
+
+      return response.data as {
         access: RolesAccess
         account: DashboardNetWorthData
         cashFlow: DashboardData
@@ -44,9 +48,7 @@ export const AdminDashboardPage = () => {
         latestIncome: DashboardLatestIncomeExpenseData[]
         latestExpense: DashboardLatestIncomeExpenseData[]
         status: boolean
-      } = await getCashFlowInfo()
-
-      return response
+      }
     },
     placeholderData: previousData => previousData,
   })

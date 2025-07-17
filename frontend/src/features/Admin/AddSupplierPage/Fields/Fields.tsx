@@ -1,13 +1,15 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { CustomerInputsData } from '../../../../app/constants/constants'
+import { Routes } from '../../../../app/router/routes'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomCheckBox } from '../../../../shared/ui/CustomCheckBox/CustomCheckBox'
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../shared/ui/CustomSelect/CustomSelect'
 import { CustomSwitch } from '../../../../shared/ui/CustomSwitch/CustomSwitch'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
-import { addNewCustomer } from '../../../../shared/utils/api/Admin/AddCustomer/AddNewCustomer'
+import { postCreateNewCustomer } from '../../../../shared/utils/api/Admin/AddCustomer/post-create-new-customer'
 import { CustomField } from '../../CustomersPage/AddCustomer/CustomField/CustomField'
 import styles from './Fields.module.scss'
 
@@ -39,6 +41,7 @@ export const Fields = ({ data }: FieldsProps) => {
   })
 
   const showToast = useCustomToast()
+  const navigate = useNavigate()
 
   const onChangeInput = (
     name: string,
@@ -149,14 +152,17 @@ export const Fields = ({ data }: FieldsProps) => {
   }
 
   const addSupplier = async () => {
-    const addResponse = await addNewCustomer(formData)
+    const addResponse = await postCreateNewCustomer(formData)
 
     if (addResponse.status) {
       showToast({
         title: 'Successfully',
-        description: 'You have successfully created a new user',
+        description: 'You have successfully created a new Supplier',
         status: 'success',
       })
+      navigate(
+        `/${Routes.adminPages}/${Routes.suppliers}/${Routes.list}/${Routes.suppliers}`,
+      )
     } else {
       showToast({
         title: 'Error',

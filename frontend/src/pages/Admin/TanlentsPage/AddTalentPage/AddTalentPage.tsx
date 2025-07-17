@@ -11,8 +11,8 @@ import { Fields } from '../../../../features/Admin/TalentsPage/AddTalentPage/Fie
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { postAddTalent } from '../../../../shared/utils/api/Admin/Talents/AddTalent/PostAddTalent'
-import { getTalentsInputData } from '../../../../shared/utils/api/Admin/Talents/GetTalentsInputData'
+import { postCreateNewTalent } from '../../../../shared/utils/api/Admin/Talents/AddTalent/post-create-new-talent'
+import { getTalentInputData } from '../../../../shared/utils/api/Admin/Talents/get-talent-input-data'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './AddTalentPage.module.scss'
 
@@ -26,9 +26,12 @@ export const AdminAddTalentPage = () => {
   const navigate = useNavigate()
 
   const getInputData = async () => {
-    const getResponse = await getTalentsInputData()
+    const response = await getTalentInputData()
 
-    const { allSkills, industries, keySkills, ...otherData } = getResponse
+    if (!response.status) return
+
+    const { allSkills, industries, keySkills, ...otherData } =
+      response.data
 
     const updatedResponse = {
       allSkills: allSkills.map((skill: any) => ({
@@ -49,7 +52,7 @@ export const AdminAddTalentPage = () => {
   const createNewTalent = async () => {
     if (!formData) return
 
-    const createResponse = await postAddTalent(formData)
+    const createResponse = await postCreateNewTalent(formData)
 
     if (createResponse.status) {
       showToast({

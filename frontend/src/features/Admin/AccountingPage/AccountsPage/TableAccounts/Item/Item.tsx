@@ -77,12 +77,20 @@ export const Item = ({
         <div
           className={`${styleItem.balanceColumn} ${styles.balanceContainer}`}
         >
-          <span>{`Equity (Initial balance): ${balance.Equity}`}</span>
-          <span>{`Total in: ${balance.Income}`}</span>
-          <span>{`Total out: ${balance.Expense}`}</span>
-          <span style={{ marginTop: '16px' }}>
-            {`Balance (in home currency) : ${balance.Total}`}
-          </span>
+          {balance && balance.Equity && (
+            <span>{`Equity (Initial balance): ${balance.Equity}`}</span>
+          )}
+          {balance && balance.Income && (
+            <span>{`Total in: ${balance.Income}`}</span>
+          )}
+          {balance && balance.Expense && (
+            <span>{`Total out: ${balance.Expense}`}</span>
+          )}
+          {balance && balance.Total && (
+            <span style={{ marginTop: '16px' }}>
+              {`Balance (in home currency) : ${balance.Total}`}
+            </span>
+          )}
         </div>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
           <CustomMiniButton

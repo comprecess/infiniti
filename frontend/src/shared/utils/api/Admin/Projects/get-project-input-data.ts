@@ -2,8 +2,10 @@ import {
   AUTH_ERROR_MESSAGE,
   INVALID_RESPONSE_MESSAGE,
   NETWORK_ERROR_MESSAGE,
+  REQUEST_TIMEOUT_MS,
 } from '../../../../../app/constants/constants'
-import { getAuthToken } from '../../GetAuthToken'
+import { customFetch } from '../../custom-fetch'
+import { getAuthToken } from '../../get-auth-token'
 
 interface SuccessResponse {
   status: true
@@ -18,9 +20,6 @@ interface ErrorResponse {
 }
 
 type Response = SuccessResponse | ErrorResponse
-
-const DEFAULT_ERROR_MESSAGE = 'Failed to fetch projects input data'
-const REQUEST_TIMEOUT_MS = 30000
 
 export const getProjectsInputData = async (): Promise<Response> => {
   const authToken = getAuthToken()
@@ -37,9 +36,10 @@ export const getProjectsInputData = async (): Promise<Response> => {
     const apiPath = import.meta.env.VITE_PROJECTS_API
 
     if (!baseUrl || !apiPath) {
-      throw new Error(
-        'Configuration error - missing environment variables',
-      )
+      return {
+        status: false,
+        message: 'Configuration error - missing environment variables',
+      }
     }
 
     const url = new URL(`${apiPath}/input-data`, baseUrl).toString()
@@ -50,11 +50,11 @@ export const getProjectsInputData = async (): Promise<Response> => {
       REQUEST_TIMEOUT_MS,
     )
 
-    const response = await fetch(url, {
+    const data = await customFetch(url, {
       method: 'GET',
       headers: {
-        Accept: 'application/json',
         'Content-Type': 'application/json',
+        Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
       signal: controller.signal,
@@ -62,21 +62,7 @@ export const getProjectsInputData = async (): Promise<Response> => {
 
     clearTimeout(timeoutId)
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}))
-
-      return {
-        status: false,
-        message:
-          errorData.message ||
-          `Server responded with status ${response.status}`,
-        error: errorData,
-      }
-    }
-
-    const data = await response.json()
-
-    if (typeof data !== 'object' || data === null) {
+    if (!data || typeof data !== 'object') {
       return {
         status: false,
         message: INVALID_RESPONSE_MESSAGE,
@@ -89,20 +75,17 @@ export const getProjectsInputData = async (): Promise<Response> => {
       data,
     }
   } catch (error) {
-    if (error instanceof Error) {
+    if (error instanceof DOMException && error.name === 'AbortError') {
       return {
         status: false,
-        message:
-          error.name === 'AbortError'
-            ? 'Request timeout'
-            : NETWORK_ERROR_MESSAGE,
+        message: 'Request timeout',
         error,
       }
     }
 
     return {
       status: false,
-      message: DEFAULT_ERROR_MESSAGE,
+      message: NETWORK_ERROR_MESSAGE,
       error,
     }
   }

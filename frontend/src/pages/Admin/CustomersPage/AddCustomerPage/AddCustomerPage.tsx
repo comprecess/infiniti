@@ -4,7 +4,7 @@ import { CustomerInputsData } from '../../../../app/constants/constants'
 import { Fields } from '../../../../features/Admin/CustomersPage/AddCustomer/Fields'
 import { ImportButton } from '../../../../features/Admin/CustomersPage/AddCustomer/ImportButton/ImportButton'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getCustomerInputsData } from '../../../../shared/utils/api/Admin/AddCustomer/GetCustomerInputsData'
+import { getCustomerInputsData } from '../../../../shared/utils/api/Admin/AddCustomer/get-customer-input-data'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './AddCustomerPage.module.scss'
 
@@ -12,9 +12,11 @@ export const AdminAddCustomerPage = () => {
   const [data, setData] = useState<CustomerInputsData | null>(null)
 
   const getInputsData = async () => {
-    const getResponse = await getCustomerInputsData()
+    const response = await getCustomerInputsData()
 
-    setData(getResponse)
+    if (!response.status) return
+
+    setData(response.data)
   }
 
   useEffect(() => {

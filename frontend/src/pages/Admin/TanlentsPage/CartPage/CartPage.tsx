@@ -11,7 +11,7 @@ import { Cart } from '../../../../features/Admin/TalentsPage/Cart/Cart'
 import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getDatesTeamBusy } from '../../../../shared/utils/api/Admin/Meeting/GetDatesTeamBusy'
-import { getOrdersSelectedCart } from '../../../../shared/utils/api/Admin/Talents/Cart/GetOrdersSelectedCart'
+import { getOrdersSelectedCart } from '../../../../shared/utils/api/Admin/Talents/Cart/get-order-selected-cart'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { Basket } from '../../../../widgets/BasketCart/Basket/Basket'
 import { TimeSlotsById } from '../../../../widgets/CreatingCallModal/CreatingCallModal'
@@ -30,12 +30,11 @@ export const AdminCartPage = () => {
   const getOrders = async () => {
     if (id === null) return
 
-    const getResponse: {
-      access: RolesAccess
-      data: TalentsListCartsData
-    } = await getOrdersSelectedCart(id)
+    const response = await getOrdersSelectedCart(id)
 
-    setData(getResponse)
+    if (!response.status) return
+
+    setData(response.data)
   }
 
   const { data: teamDatesBusy } = useQuery({
@@ -88,7 +87,7 @@ export const AdminCartPage = () => {
                 cart={data.data.cartItems}
                 idCart={data.data.id}
                 datesEmployment={teamDatesBusy}
-                onDelete={getOrders}
+                getOrders={getOrders}
               />
             </RecentCard>
             <Basket

@@ -6,8 +6,8 @@ import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { IconText } from '../../../shared/ui/IconText/IconText'
 import { Input } from '../../../shared/ui/Input/Input'
-import { loginResident } from '../../../shared/utils/api/Auth/LoginAsResident'
-import { loginUser } from '../../../shared/utils/api/Auth/LoginAsUser'
+import { postLoginResident } from '../../../shared/utils/api/Auth/post-login-resident'
+import { postLoginUser } from '../../../shared/utils/api/Auth/post-login-user'
 import styles from './SignInForm.module.scss'
 
 interface FormFields {
@@ -27,8 +27,8 @@ export const SignInForm = ({ resident }: SignInFormProps) => {
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
     const loginResponse = await (resident
-      ? loginResident(data.email, data.password)
-      : loginUser(data.email, data.password))
+      ? postLoginResident(data.email, data.password)
+      : postLoginUser(data.email, data.password))
 
     if (loginResponse.status) {
       showToast({

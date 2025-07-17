@@ -16,7 +16,7 @@ import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getDatesTalentBusy } from '../../../../shared/utils/api/Admin/Meeting/GetDatesTalentBusy'
 import { postCreateNewMeeting } from '../../../../shared/utils/api/Admin/Meeting/PostCreateNewMeeting'
-import { getUserInfo } from '../../../../shared/utils/api/Client/Catalog/User/GetUserInfo'
+import { getUserInfo } from '../../../../shared/utils/api/Client/Catalog/User/get-user-info'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import {
   CreatingCallModal,
@@ -75,16 +75,11 @@ export const AdminViewTalentPage = () => {
     queryFn: async () => {
       if (id === null) return
 
-      const response: { data: TalentData | null; status: boolean } =
-        await getUserInfo(id)
+      const response = await getUserInfo(id)
 
-      if (response.status) {
-        return response
-      } else {
-        navigate('/404')
+      if (!response.status) return null
 
-        return
-      }
+      return response.data as { data: TalentData | null; status: boolean }
     },
     placeholderData: previousData => previousData,
   })

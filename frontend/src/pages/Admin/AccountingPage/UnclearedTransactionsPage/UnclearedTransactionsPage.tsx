@@ -1,11 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 
-import { AccountingTransactionsData } from '../../../../app/constants/constants'
 import { TableUnclearedTransactions } from '../../../../features/Admin/AccountingPage/UnclearedTransactions/TableUnclearedTransactions/TableUnclearedTransactions'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { Search } from '../../../../shared/ui/Search/Search'
-import { getListTransactions } from '../../../../shared/utils/api/Admin/Accounting/GetListTransactions'
+import { getTransactionsList } from '../../../../shared/utils/api/Admin/Accounting/get-transactions-list'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './UnclearedTransactionsPage.module.scss'
 
@@ -17,14 +16,15 @@ export const AdminUnclearedTransactionsPage = () => {
   const { data: transactions } = useQuery({
     queryKey: ['transactions', search, sortName, sortType],
     queryFn: async () => {
-      const response: { data: AccountingTransactionsData[] } =
-        await getListTransactions(
-          search === ''
-            ? `?filter[status]=Uncleared&sort[name]=${sortName}&sort[type]=${sortType}`
-            : `?filter[search]=${search}&filter[status]=Uncleared&sort[name]=${sortName}&sort[type]=${sortType}`,
-        )
+      const response = await getTransactionsList(
+        search === ''
+          ? `?filter[status]=Uncleared&sort[name]=${sortName}&sort[type]=${sortType}`
+          : `?filter[search]=${search}&filter[status]=Uncleared&sort[name]=${sortName}&sort[type]=${sortType}`,
+      )
 
-      return response.data
+      if (!response.status) return
+
+      return response.data.data
     },
     placeholderData: previousData => previousData,
   })
