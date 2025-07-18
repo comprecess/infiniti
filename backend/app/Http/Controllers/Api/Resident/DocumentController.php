@@ -23,7 +23,7 @@ class DocumentController extends ResidentController
 
     public function list(DocumentFileRequest $request)
     {
-        $query = Document::query();
+        $query = Document::query()->select('sys_documents.*');
 
         $query
             ->filesExists()

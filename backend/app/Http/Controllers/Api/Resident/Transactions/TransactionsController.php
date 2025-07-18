@@ -46,6 +46,7 @@ class TransactionsController extends TransactionsAccessController
 {
     use CRUD {
         createOrUpdate as createOrUpdateCRUD;
+        delete as deleteCRUD;
     }
 
     const ACCESS = ['all', 'transactions'];
@@ -156,14 +157,16 @@ class TransactionsController extends TransactionsAccessController
     {
         $type = $this->getType();
 
-        if(!$transaction?->id) {
+        $isNew = (bool) $transaction?->id;
+
+        if(!$isNew) {
             $transaction = Transaction::newDefault();
             $request = app(TransactionsCreateRequest::class);
         } else {
             $request = app(TransactionsUpdateRequest::class);
         }
 
-        return $this->createOrUpdateCRUD($request, $transaction, function($model, $request, $isNew) use ($type){
+        return $this->createOrUpdateCRUD($request, $transaction, function($model, $request) use ($type, $isNew){
             if(!$isNew) {
                 $type = $model->type;
             }
@@ -200,7 +203,11 @@ class TransactionsController extends TransactionsAccessController
                     $model->account_id = $account->id;
                 }
             }
-        }, function($model, $request, $isNew) use($type){
+            if(!$request->project) {
+                $model->project_id = 0;
+            }
+
+        }, function($model, $request) use($type, $isNew){
             if($request->file) {
                 if(!$isNew) {
                     $model->deleteAllFiles();
@@ -342,7 +349,7 @@ class TransactionsController extends TransactionsAccessController
 
     public function billDelete(Bill $bill)
     {
-        return $this->delete($bill);
+        return $this->deleteCRUD($bill);
     }
 
     public function billPaid(Bill $bill)

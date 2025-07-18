@@ -12,11 +12,16 @@ trait TimeZoneTrait
     public $timezoneFormat = 'Y-m-d H:i';
     private $step = 15;
 
-    public function getTimeTimezone(string $name, string $formatRequest = null)
+    public function getTimeTimezone(string $name = null, string $formatRequest = null)
     {
         $format = $formatRequest ?? $this->timezoneFormat;
-        $data = $this->all();
-        $date = Arr::get($data, $name);
+
+        if($name) {
+            $data = $this->all();
+            $date = Arr::get($data, $name);
+        }else{
+            $date = request()->header('Client-Date');
+        }
 
         if($date) {
             $timeUser = Carbon::createFromFormat($format, $date);
@@ -43,8 +48,6 @@ trait TimeZoneTrait
 
     private function myRand($count, $step){
         return $step*round($count/$step);
-        //return $step*floor($count/$step); //в меньшую сторону
-        //return $step*ceil($count/$step); //в большую сторону
     }
 
 }

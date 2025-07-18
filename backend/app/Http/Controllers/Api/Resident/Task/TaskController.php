@@ -42,24 +42,28 @@ class TaskController extends TaskAccessController
 
     public function updateStatus(Task $task, TaskUpdateStatusRequest $request)
     {
-        $tasks = Task::where('status',$request->status)
-            ->sort()
-            ->get();
 
-        $positionNew = 0;
-        foreach($tasks as $position => $taskEach) {
-            $position += $positionNew;
+        $tasksRequest = Task::where('status',$request->status)
+            ->where('id', '!=', $task->id)
+            ->sort();
+
+        if($request->pid) {
+            $tasksRequest->where('pid', $request->pid);
+        }
+
+        $newPosition = 0;
+        foreach($tasksRequest->get() as $position => $taskEach) {
+            $position += $newPosition;
             if($position == $request->position) {
-                $task->position = $position;
-                $position++;
-                $positionNew++;
+                $newPosition++;
+                $position += $newPosition;
             }
             $taskEach->position = $position;
             $taskEach->save();
         }
 
         $task->status = $request->status;
-//        $task->position = $request->position;
+        $task->position = $request->position;
         $task->save();
 
         return $this->defResponse();

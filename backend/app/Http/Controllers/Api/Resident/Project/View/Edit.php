@@ -42,12 +42,13 @@ class Edit extends View
         $controller = new TaskController();
         $method = strtolower($this->request->method());
 
-        if(in_array($method, ['post', 'put', 'patch'])) {
+        if(in_array($method, ['post', 'put', 'patch']) && !isset($this->path[1])) {
             $request = app(TaskCreateRequest::class);
             $request->setData(['pid' => $this->model->id]);
             return $controller->createOrUpdate($task ?? new Task(), $request);
         } elseif ($method == 'patch' && $this->path[1] == 'status') {
             $request = app(TaskUpdateStatusRequest::class);
+            $request->merge(['pid' => $this->model->id]);
             return $controller->updateStatus($task, $request);
         }
     }
