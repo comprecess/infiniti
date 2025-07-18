@@ -70,12 +70,14 @@ export const TaskItem = ({
             alt='avatar'
             className={styles.avatar}
             src={
-              task.admin.img
+              task.admin && task.admin.img
                 ? `${task.admin.img}?width=176&height=176`
                 : '/profileWithoutAvatar.svg'
             }
           />
-          <span className={styles.account}>{task.admin.account}</span>
+          <span className={styles.account}>
+            {task.admin ? task.admin.account : '-'}
+          </span>
           {isMobile && (
             <div
               ref={setActivatorNodeRef}

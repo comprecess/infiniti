@@ -1,0 +1,103 @@
+import {
+  AUTH_ERROR_MESSAGE,
+  INVALID_RESPONSE_MESSAGE,
+  NETWORK_ERROR_MESSAGE,
+  REQUEST_TIMEOUT_MS,
+} from '../../../../../../app/constants/constants'
+import { customFetch } from '../../../custom-fetch'
+import { getAuthToken } from '../../../get-auth-token'
+
+interface SuccessResponse {
+  status: true
+  data: any
+}
+
+interface ErrorResponse {
+  status: false
+  message: string
+  error?: unknown
+}
+
+type Response = SuccessResponse | ErrorResponse
+
+export const postBusinessModelsList = async (
+  page: string,
+  filters?: object,
+): Promise<Response> => {
+  if (!page || typeof page !== 'string') {
+    return {
+      status: false,
+      message: 'Invalid page parameter',
+    }
+  }
+
+  const authToken = getAuthToken()
+
+  if (!authToken) {
+    return {
+      status: false,
+      message: AUTH_ERROR_MESSAGE,
+    }
+  }
+
+  try {
+    const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
+    const apiPath = import.meta.env.VITE_BUSINESS_MODEL_LIST
+
+    if (!baseUrl || !apiPath) {
+      return {
+        status: false,
+        message: 'Configuration error - missing environment variables',
+      }
+    }
+
+    const url = new URL(`${apiPath}${page}`, baseUrl).toString()
+
+    const controller = new AbortController()
+    const timeoutId = setTimeout(
+      () => controller.abort(),
+      REQUEST_TIMEOUT_MS,
+    )
+
+    const data = await customFetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: `Bearer ${authToken}`,
+      },
+      body: JSON.stringify({ filter: filters }),
+      signal: controller.signal,
+    })
+
+    clearTimeout(timeoutId)
+
+    if (
+      !data ||
+      typeof data !== 'object' ||
+      typeof data.status !== 'boolean'
+    ) {
+      return {
+        status: false,
+        message: INVALID_RESPONSE_MESSAGE,
+        error: data,
+      }
+    }
+
+    return { status: true, data }
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      return {
+        status: false,
+        message: 'Request timeout',
+        error,
+      }
+    }
+
+    return {
+      status: false,
+      message: NETWORK_ERROR_MESSAGE,
+      error,
+    }
+  }
+}

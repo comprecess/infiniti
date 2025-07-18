@@ -4,8 +4,8 @@ import { GroupsListProps } from '../../../../../app/constants/constants'
 import { RecentReorderGroups } from '../../../../../features/Admin/CustomersPage/GroupsPage/RecentReorderGroups/RecentReorderGroups'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getListGroups } from '../../../../../shared/utils/api/Admin/Groups/GetGroups'
-import { sortGroups } from '../../../../../shared/utils/api/Admin/Groups/SortGroups'
+import { getGroupsList } from '../../../../../shared/utils/api/Admin/Groups/get-groups-list'
+import { putSortGroups } from '../../../../../shared/utils/api/Admin/Groups/put-sort-groups'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './ReorderGroupsPage.module.scss'
 
@@ -15,15 +15,17 @@ export const AdminReorderGroupsPage = () => {
   const showToast = useCustomToast()
 
   const getGroups = async () => {
-    const response: { data: GroupsListProps[] } = await getListGroups()
+    const response = await getGroupsList()
 
-    setGroups(response.data)
+    if (!response.status) return
+
+    setGroups(response.data.data)
   }
 
   const sortGroupsList = async (listId: number[]) => {
-    const sortResponse = await sortGroups(listId)
+    const { status, message } = await putSortGroups(listId)
 
-    if (sortResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully changed the group order',
@@ -34,7 +36,7 @@ export const AdminReorderGroupsPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: sortResponse.message,
+        description: message,
         status: 'error',
       })
     }

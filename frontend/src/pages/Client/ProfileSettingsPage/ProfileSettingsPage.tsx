@@ -5,8 +5,8 @@ import { ProfileSettings } from '../../../features/General/ProfileSettings/Profi
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getListPush } from '../../../shared/utils/api/Push/get-list-push'
-import { patchSetDevicePush } from '../../../shared/utils/api/Push/PatchSetDevicePush'
-import { postPushUnsubscribed } from '../../../shared/utils/api/Push/PostPushUnsubscribed'
+import { patchSetDevicePush } from '../../../shared/utils/api/Push/patch-set-device-push'
+import { postUnsubPush } from '../../../shared/utils/api/Push/post-unsub-push'
 import styles from './ProfileSettingsPage.module.scss'
 
 export const ClientProfileSettingsPage = () => {
@@ -26,7 +26,7 @@ export const ClientProfileSettingsPage = () => {
 
   const handleDeleteNotifications = async (token: string) => {
     const resUserSettings = await patchSetDevicePush(token, 0)
-    const resUnsubscribed = await postPushUnsubscribed(token)
+    const resUnsubscribed = await postUnsubPush(token)
 
     if (resUnsubscribed.status && resUserSettings.status) {
       showToast({

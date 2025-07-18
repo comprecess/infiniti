@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { BusinessPlanBusinessModelData } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { ListInfoItem } from '../../../features/Client/TalentDetailsPage/ListInfoItem/ListInfoItem'
 import { TextInfoItem } from '../../../features/Client/TalentDetailsPage/TextInfoItem/TextInfoItem'
@@ -11,7 +10,7 @@ import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { ChevronDownIcon } from '../../../shared/icons/ChevronDownIcon'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { StatusProfitability } from '../../../shared/ui/StatusProfitability/StatusProfitability'
-import { getModelInfo } from '../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/GetModelInfo'
+import { getBusinessModelFullInfo } from '../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/get-business-model-full-info'
 import { useIdFromUrl } from '../../../shared/utils/usefulMethods'
 import styles from './ViewBusinessModelsPage.module.scss'
 
@@ -24,10 +23,11 @@ export const ClientViewBusinessModelsPage = () => {
     queryFn: async () => {
       if (!id) return
 
-      const response: { data: BusinessPlanBusinessModelData } =
-        await getModelInfo(id)
+      const response = await getBusinessModelFullInfo(id)
 
-      return response
+      if (!response.status) return
+
+      return response.data.data
     },
     placeholderData: previousData => previousData,
   })

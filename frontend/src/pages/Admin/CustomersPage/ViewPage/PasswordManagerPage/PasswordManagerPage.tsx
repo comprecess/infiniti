@@ -7,7 +7,7 @@ import {
 } from '../../../../../app/constants/constants'
 import { RecentPasswordManager } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/PasswordManager/RecentPasswordManager/RecentPasswordManager'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/GetSelectedTypeInfo'
+import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/get-selected-type-info'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './PasswordManagerPage.module.scss'
 
@@ -19,12 +19,14 @@ export const AdminContactPasswordManagerPage = () => {
   const context = useOutletContext<ViewPageContext>()
 
   const getInfo = async () => {
-    const getResponse = await getSelectedTypeInfo(
+    const response = await getSelectedTypeInfo(
       context.idClient,
       'client-password-manager',
     )
 
-    setData(getResponse.data)
+    if (!response.status) return
+
+    setData(response.data.data)
   }
 
   useEffect(() => {

@@ -7,12 +7,11 @@ import { Routes } from '../../../app/router/routes'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getDatesTeamBusy } from '../../../shared/utils/api/Admin/Meeting/GetDatesTeamBusy'
+import { getTeamDatesBusy } from '../../../shared/utils/api/Admin/Meeting/get-team-dates-busy'
 import { getConvertToInvoice } from '../../../shared/utils/api/Client/Basket/GetConvertToInvoice'
 import { getOrdersInCart } from '../../../shared/utils/api/Client/Cart/GetOrdersInCart'
 import { Basket } from '../../../widgets/BasketCart/Basket/Basket'
 import { Cart } from '../../../widgets/BasketCart/Cart/Cart'
-import { TimeSlotsById } from '../../../widgets/CreatingCallModal/CreatingCallModal'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './BasketPage.module.scss'
 
@@ -31,12 +30,14 @@ export const ClientBasketPage = () => {
         .map(item => `ids[]=${item.userCatalog.id}`)
         .join('&')
 
-      const response: { data: TimeSlotsById } = await getDatesTeamBusy(
+      const response = await getTeamDatesBusy(
         teamIdsQuery,
         Intl.DateTimeFormat().resolvedOptions().timeZone,
       )
 
-      return response.data
+      if (!response.status) return
+
+      return response.data.data
     },
     enabled: (orders?.items.length ?? 0) > 0,
   })

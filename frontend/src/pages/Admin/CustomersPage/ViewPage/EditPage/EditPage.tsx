@@ -2,14 +2,11 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
-import {
-  ViewEditTypeData,
-  ViewPageContext,
-} from '../../../../../app/constants/constants'
+import { ViewPageContext } from '../../../../../app/constants/constants'
 import { Fields } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/EditPage/Fields/Fields'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getCustomerInputsData } from '../../../../../shared/utils/api/Admin/AddCustomer/get-customer-input-data'
-import { getInfoProfileView } from '../../../../../shared/utils/api/Admin/ViewContact/Edit/GetInfoProfileView'
+import { getProfileInfoView } from '../../../../../shared/utils/api/Admin/ViewContact/Edit/get-profile-info-view'
 import styles from './EditPage.module.scss'
 
 export const AdminContactEditPage = () => {
@@ -18,10 +15,11 @@ export const AdminContactEditPage = () => {
   const { data: edit } = useQuery({
     queryKey: ['edit', context.idClient],
     queryFn: async () => {
-      const response: { data: ViewEditTypeData } =
-        await getInfoProfileView(context.idClient)
+      const response = await getProfileInfoView(context.idClient)
 
-      return response
+      if (!response.status) return
+
+      return response.data
     },
     placeholderData: previousData => previousData,
   })

@@ -19,9 +19,9 @@ import {
 import { Routes } from '../../../app/router/routes'
 import { subscribeOneSignal } from '../../../oneSignalService'
 import { getDevicePush } from '../../utils/api/Push/get-device-push'
-import { patchSetDevicePush } from '../../utils/api/Push/PatchSetDevicePush'
-import { postKeyPush } from '../../utils/api/Push/PostKeyPush'
-import { postPushUnsubscribed } from '../../utils/api/Push/PostPushUnsubscribed'
+import { patchSetDevicePush } from '../../utils/api/Push/patch-set-device-push'
+import { postKeyPush } from '../../utils/api/Push/post-key-push'
+import { postUnsubPush } from '../../utils/api/Push/post-unsub-push'
 import { useDeviceDetect } from '../../utils/hooks/useDeviceDetect'
 import { getCookies } from '../../utils/Saving/Cookies/GetCookies'
 import { removeCookies } from '../../utils/Saving/Cookies/RemoveCookies'
@@ -86,7 +86,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     try {
       if (isMobile && !sessionToken && notificationToken.status) {
         await patchSetDevicePush(notificationToken.cookie || '', 0)
-        await postPushUnsubscribed(notificationToken.cookie || '')
+        await postUnsubPush(notificationToken.cookie || '')
       }
 
       if (sessionToken) {

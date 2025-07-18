@@ -3,7 +3,7 @@ import {
   notificationTokenString,
 } from './app/constants/constants'
 import { getKeyPush } from './shared/utils/api/Push/get-key-push'
-import { postKeyPush } from './shared/utils/api/Push/PostKeyPush'
+import { postKeyPush } from './shared/utils/api/Push/post-key-push'
 import { saveCookies } from './shared/utils/Saving/Cookies/SaveCookies'
 import { getSession } from './shared/utils/Saving/Session/GetSession'
 
@@ -76,10 +76,10 @@ export const subscribeOneSignal = async (deviceName: string) => {
       saveCookies(notificationTokenString, userId, 3600)
 
       try {
-        const res = await postKeyPush(userId, deviceName)
+        const { status } = await postKeyPush(userId, deviceName)
 
-        if (!res.status) {
-          throw new Error(`❌ Сервер вернул статус ${res.status}`)
+        if (!status) {
+          throw new Error(`❌ Сервер вернул статус ${status}`)
         }
 
         // eslint-disable-next-line no-console

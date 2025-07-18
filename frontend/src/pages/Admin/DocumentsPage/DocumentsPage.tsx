@@ -12,9 +12,9 @@ import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { Search } from '../../../shared/ui/Search/Search'
-import { deleteDocument } from '../../../shared/utils/api/Admin/Documents/DeleteDocument'
-import { postAddNewDocument } from '../../../shared/utils/api/Admin/Documents/PostAddNewDocument'
-import { getCustomersFiles } from '../../../shared/utils/api/Admin/Files/GetCustomersFiles'
+import { deleteDocument } from '../../../shared/utils/api/Admin/Documents/delete-document'
+import { postAddNewDocument } from '../../../shared/utils/api/Admin/Documents/post-add-new-document'
+import { getCustomerFiles } from '../../../shared/utils/api/Admin/Files/get-customer-files'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './DocumentsPage.module.scss'
 
@@ -57,14 +57,12 @@ export const AdminDocumentsPage = () => {
   const getFiles = async () => {
     if (!options) return
 
-    const getResponse: {
-      access: RolesAccess
-      data: CustomersFilesData[]
-      meta: PagesMetaData
-    } = await getCustomersFiles(options)
+    const response = await getCustomerFiles(options)
 
-    setAccess(getResponse.access)
-    setData({ files: getResponse.data, meta: getResponse.meta })
+    if (!response.status) return
+
+    setAccess(response.data.access)
+    setData({ files: response.data.data, meta: response.data.meta })
   }
 
   const addNewDocument = async (formData: {
@@ -79,9 +77,9 @@ export const AdminDocumentsPage = () => {
       form.append('global', formData.global.toString())
     if (formData.file) form.append('file', formData.file)
 
-    const addResponse = await postAddNewDocument(form)
+    const { status, message } = await postAddNewDocument(form)
 
-    if (addResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully added a Document',
@@ -92,16 +90,16 @@ export const AdminDocumentsPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: addResponse.message,
+        description: message,
         status: 'error',
       })
     }
   }
 
   const deleteFile = async (idFile: number) => {
-    const deleteResponse = await deleteDocument(idFile)
+    const { status, message } = await deleteDocument(idFile)
 
-    if (deleteResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully deleted the File',
@@ -111,7 +109,7 @@ export const AdminDocumentsPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: deleteResponse.message,
+        description: message,
         status: 'error',
       })
     }

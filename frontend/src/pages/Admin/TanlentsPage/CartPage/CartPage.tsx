@@ -10,11 +10,10 @@ import { Routes } from '../../../../app/router/routes'
 import { Cart } from '../../../../features/Admin/TalentsPage/Cart/Cart'
 import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getDatesTeamBusy } from '../../../../shared/utils/api/Admin/Meeting/GetDatesTeamBusy'
+import { getTeamDatesBusy } from '../../../../shared/utils/api/Admin/Meeting/get-team-dates-busy'
 import { getOrdersSelectedCart } from '../../../../shared/utils/api/Admin/Talents/Cart/get-order-selected-cart'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { Basket } from '../../../../widgets/BasketCart/Basket/Basket'
-import { TimeSlotsById } from '../../../../widgets/CreatingCallModal/CreatingCallModal'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CartPage.module.scss'
 
@@ -46,12 +45,14 @@ export const AdminCartPage = () => {
         .map(item => `ids[]=${item.talent.id}`)
         .join('&')
 
-      const response: { data: TimeSlotsById } = await getDatesTeamBusy(
+      const response = await getTeamDatesBusy(
         teamIdsQuery,
         Intl.DateTimeFormat().resolvedOptions().timeZone,
       )
 
-      return response.data
+      if (!response.status) return
+
+      return response.data.data
     },
     enabled: (data?.data.cartItems.length ?? 0) > 0,
   })

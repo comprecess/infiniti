@@ -10,7 +10,7 @@ import { CustomInput } from '../../../../../../../shared/ui/CustomInput/CustomIn
 import { CustomSelect } from '../../../../../../../shared/ui/CustomSelect/CustomSelect'
 import { useCustomToast } from '../../../../../../../shared/ui/CustomToast/CustomToast'
 import { TagSelector } from '../../../../../../../shared/ui/TagSelector/TagSelector'
-import { updateProfileInfo } from '../../../../../../../shared/utils/api/Admin/ViewContact/Edit/UpdateProfileInfo'
+import { putUpdateProfileInfo } from '../../../../../../../shared/utils/api/Admin/ViewContact/Edit/put-update-profile-info'
 import { CustomField } from '../../../../AddCustomer/CustomField/CustomField'
 import styles from './Fields.module.scss'
 
@@ -154,7 +154,7 @@ export const Fields = ({ idClient, data, inputs }: FieldsProps) => {
   }
 
   const updateInfo = async () => {
-    const updateResponse = await updateProfileInfo(idClient, formData)
+    const updateResponse = await putUpdateProfileInfo(idClient, formData)
 
     if (updateResponse.status) {
       showToast({

@@ -22,7 +22,6 @@ type Response = SuccessResponse | ErrorResponse
 
 export const getProjectTasks = async (
   idProject: number,
-  dateClient: string,
 ): Promise<Response> => {
   if (!Number.isInteger(idProject) || idProject <= 0) {
     return {
@@ -69,7 +68,6 @@ export const getProjectTasks = async (
         Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
-      queryParams: { dateClient },
       signal: controller.signal,
     })
 

@@ -10,19 +10,19 @@ import { Fields } from '../../../../features/Admin/BusinessPlanPage/EditBusiness
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getBusinessPlanInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/GetBusinessPlanInfo'
-import { getInputDataBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/GetInputDataBusinessPlan'
-import { putUpdateInfoBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/PutUpdateInfoBusinessPlan'
+import { getBusinessPlanInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/get-business-plan-edit-info'
+import { getBusinessPlanInputData } from '../../../../shared/utils/api/Admin/BusinessPlan/get-business-plan-input-data'
+import { postUpdateBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/post-update-business-plan'
 import { getChatGPTAnalysis } from '../../../../shared/utils/api/Admin/ChatGPT/GetChatGPTAnalysis'
 import { getReadyPrompt } from '../../../../shared/utils/api/Admin/ChatGPT/GetReadyPrompt'
-import { getDatesTeamBusy } from '../../../../shared/utils/api/Admin/Meeting/GetDatesTeamBusy'
-import { postCreateNewMeeting } from '../../../../shared/utils/api/Admin/Meeting/PostCreateNewMeeting'
+import { getTeamDatesBusy } from '../../../../shared/utils/api/Admin/Meeting/get-team-dates-busy'
+import { postCreateNewMeeting } from '../../../../shared/utils/api/Admin/Meeting/post-create-new-meeting'
 import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
-import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import {
-  CreatingCallModal,
-  TimeSlotsById,
-} from '../../../../widgets/CreatingCallModal/CreatingCallModal'
+  getLocalDateTimeString,
+  useIdFromUrl,
+} from '../../../../shared/utils/usefulMethods'
+import { CreatingCallModal } from '../../../../widgets/CreatingCallModal/CreatingCallModal'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditBusinessPlanPage.module.scss'
 import { ModalAddTalentTeam } from './ModalAddTalentTeam/ModalAddTalentTeam'
@@ -48,14 +48,17 @@ export const AdminEditBusinessPlanPage = () => {
 
     const response = await getBusinessPlanInfo(id)
 
-    setFormData(response.data)
+    if (!response.status) return
+
+    setFormData(response.data.data)
   }
 
   const getInputData = async () => {
-    const response: { talents: TalentInputDataBusinessPlan[] } =
-      await getInputDataBusinessPlan()
+    const response = await getBusinessPlanInputData()
 
-    setInputData(response.talents)
+    if (!response.status) return
+
+    setInputData(response.data.talents)
   }
 
   const { data: teamDatesBusy } = useQuery({
@@ -67,12 +70,14 @@ export const AdminEditBusinessPlanPage = () => {
         .map(id => `ids[]=${id}`)
         .join('&')
 
-      const response: { data: TimeSlotsById } = await getDatesTeamBusy(
+      const response = await getTeamDatesBusy(
         teamIdsQuery,
         Intl.DateTimeFormat().resolvedOptions().timeZone,
       )
 
-      return response.data
+      if (!response.status) return
+
+      return response.data.data
     },
     enabled: (formData?.teams?.length ?? 0) > 0,
   })
@@ -133,7 +138,7 @@ export const AdminEditBusinessPlanPage = () => {
       delete cleanedFormData.file
     }
 
-    const response = await putUpdateInfoBusinessPlan(id, cleanedFormData)
+    const response = await postUpdateBusinessPlan(id, cleanedFormData)
 
     if (response.status) {
       showToast({
@@ -176,11 +181,11 @@ export const AdminEditBusinessPlanPage = () => {
   ) => {
     if (id === null || dates === null || selectedTime === null) return
 
-    const time = selectedTime.format('HH:mm')
+    const time = getLocalDateTimeString()
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
     const updatedDates = dates.map(dateStr => {
-      return `${dateStr} ${time}`
+      return `${dateStr} ${selectedTime.format('HH:mm')}`
     })
 
     const response = await postCreateNewMeeting(

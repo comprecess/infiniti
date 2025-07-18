@@ -11,8 +11,8 @@ import {
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getInputData } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/GetInputData'
-import { makeBusinessModel } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/MakeBusinessModel'
+import { getBusinessModelInputData } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/get-business-model-input-data'
+import { postCreateNewBusinessModel } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/post-create-new-business-model'
 import { getChatGPTAnalysis } from '../../../../shared/utils/api/Admin/ChatGPT/GetChatGPTAnalysis'
 import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
@@ -30,9 +30,11 @@ export const AdminMakeBusinessModelPage = () => {
   const navigate = useNavigate()
 
   const getModelInputData = async () => {
-    const response = await getInputData()
+    const response = await getBusinessModelInputData()
 
-    const { industries, technologies, ...otherData } = response
+    if (!response.status) return
+
+    const { industries, technologies, ...otherData } = response.data
 
     const updatedResponse = {
       industries: industries.map((industry: any) => ({
@@ -50,7 +52,7 @@ export const AdminMakeBusinessModelPage = () => {
   const handleCreateNewBusinessModel = async () => {
     if (!formData) return
 
-    const response = await makeBusinessModel(formData)
+    const response = await postCreateNewBusinessModel(formData)
 
     if (response.status) {
       showToast({

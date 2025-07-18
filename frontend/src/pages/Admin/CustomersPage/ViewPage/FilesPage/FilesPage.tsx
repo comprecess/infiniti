@@ -7,9 +7,9 @@ import { Header } from '../../../../../features/Admin/CustomersPage/ViewPage/Pag
 import { RecentFiles } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/FilesPage/RecentFiles/RecentFiles'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { deleteObject } from '../../../../../shared/utils/api/Admin/ViewContact/DeleteObject'
-import { addViewFile } from '../../../../../shared/utils/api/Admin/ViewContact/Files/AddFile'
-import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/GetSelectedTypeInfo'
+import { deleteCustomerObject } from '../../../../../shared/utils/api/Admin/ViewContact/delete-customer-object'
+import { putAddViewFile } from '../../../../../shared/utils/api/Admin/ViewContact/Files/put-add-view-file'
+import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/get-selected-type-info'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './FilesPage.module.scss'
 
@@ -23,13 +23,15 @@ export const AdminContactFilesPage = () => {
     queryFn: async () => {
       const response = await getSelectedTypeInfo(context.idClient, 'files')
 
-      return response
+      if (!response.status) return
+
+      return response.data
     },
     placeholderData: previousData => previousData,
   })
 
   const onChangeInput = async (value: number) => {
-    const addResponse = await addViewFile(context.idClient, 'files', {
+    const addResponse = await putAddViewFile(context.idClient, 'files', {
       id: value,
     })
 
@@ -50,7 +52,7 @@ export const AdminContactFilesPage = () => {
   }
 
   const deleteFile = async (idType: number) => {
-    const deleteResponse = await deleteObject(
+    const deleteResponse = await deleteCustomerObject(
       context.idClient,
       'files',
       idType,

@@ -22,8 +22,8 @@ import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomSwitch } from '../../../../../shared/ui/CustomSwitch/CustomSwitch'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/GetSelectedTypeInfo'
-import { updateAllInfo } from '../../../../../shared/utils/api/Admin/ViewContact/Summary/UpdateAllInfo'
+import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/get-selected-type-info'
+import { updateAllInfo } from '../../../../../shared/utils/api/Admin/ViewContact/Summary/put-update-full-info'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './SummaryPage.module.scss'
 
@@ -68,10 +68,14 @@ export const AdminContactSummaryPage = () => {
   const { data: profileInfo } = useQuery({
     queryKey: ['profile', context.idClient],
     queryFn: async () => {
-      const response: { data: ViewSummaryTypeData } =
-        await getSelectedTypeInfo(context.idClient, 'summary')
+      const response = await getSelectedTypeInfo(
+        context.idClient,
+        'summary',
+      )
 
-      return response
+      if (!response.status) return
+
+      return response.data as { data: ViewSummaryTypeData }
     },
     placeholderData: previousData => previousData,
   })

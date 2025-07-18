@@ -11,8 +11,9 @@ import { useEffect, useState } from 'react'
 import { Notifications } from '../../app/constants/constants'
 import { NotificationIndicatorIcon } from '../../shared/icons/NotificationIndicatorIcon'
 import { Icon } from '../../shared/ui/Icon/Icon'
-import { getNotifications } from '../../shared/utils/api/Admin/Notifications/GetNotifications'
-import { putNotificationsViewed } from '../../shared/utils/api/Admin/Notifications/PutNotificationsViewed'
+import { LoadingSpinner } from '../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { getNotifications } from '../../shared/utils/api/Admin/Notifications/get-notifications'
+import { putNotificationsViewed } from '../../shared/utils/api/Admin/Notifications/put-notifications-viewed'
 import { NotificationItem } from './NotificationItem/NotificationItem'
 import styles from './NotificationProfile.module.scss'
 
@@ -29,19 +30,19 @@ export const NotificationProfile = () => {
   const handleGetNotifications = async () => {
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
-    const response: { data: Notifications[] } = await getNotifications(
-      timeZone,
-    )
+    const response = await getNotifications(timeZone)
 
-    if (response.data) {
-      const hasUnread = response.data.some(
-        notification => notification.viewed === 0,
+    if (!response.status) return
+
+    if (response.data.data) {
+      const hasUnread = response.data.data.some(
+        (notification: { viewed: number }) => notification.viewed === 0,
       )
 
       setHasUnreadNotifications(hasUnread)
     }
 
-    setNotifications(response.data)
+    setNotifications(response.data.data)
   }
 
   const handleNotificationViewed = async (id: number) => {
@@ -147,9 +148,9 @@ export const NotificationProfile = () => {
             backgroundColor: '#151720',
           }}
         >
-          <div className={styles.notificationsList}>
-            {notifications &&
-              notifications.map(item => {
+          {notifications ? (
+            <div className={styles.notificationsList}>
+              {notifications.map(item => {
                 return (
                   <NotificationItem
                     key={item.id}
@@ -158,7 +159,12 @@ export const NotificationProfile = () => {
                   />
                 )
               })}
-          </div>
+            </div>
+          ) : (
+            <div className={styles.loading}>
+              <LoadingSpinner />
+            </div>
+          )}
         </PopoverBody>
       </PopoverContent>
     </Popover>

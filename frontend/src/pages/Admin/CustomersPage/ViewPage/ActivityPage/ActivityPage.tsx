@@ -2,19 +2,16 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
-import {
-  ViewActivityTypeData,
-  ViewPageContext,
-} from '../../../../../app/constants/constants'
+import { ViewPageContext } from '../../../../../app/constants/constants'
 import { EditActivityModal } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/ActivityPage/EditActivityModal/EditActivityModal'
 import { RecentActivity } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/ActivityPage/RecentActivity/RecentActivity'
 import { TextEditorWrapper } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/ActivityPage/TextEditorWrapper/TextEditorWrapper'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { addActivity } from '../../../../../shared/utils/api/Admin/ViewContact/Activity/AddNewActivity'
-import { editSelectedActivity } from '../../../../../shared/utils/api/Admin/ViewContact/Activity/EditSelectedActivity'
-import { deleteObject } from '../../../../../shared/utils/api/Admin/ViewContact/DeleteObject'
-import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/GetSelectedTypeInfo'
+import { postCreateNewCustomerActivity } from '../../../../../shared/utils/api/Admin/ViewContact/Activity/post-create-new-customer-activity'
+import { putUpdateCustomerActivity } from '../../../../../shared/utils/api/Admin/ViewContact/Activity/put-update-customer-activity'
+import { deleteCustomerObject } from '../../../../../shared/utils/api/Admin/ViewContact/delete-customer-object'
+import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/get-selected-type-info'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './ActivityPage.module.scss'
 
@@ -47,16 +44,20 @@ export const AdminContactActivityPage = () => {
   const { data: activity } = useQuery({
     queryKey: ['activity', context.idClient],
     queryFn: async () => {
-      const response: { data: ViewActivityTypeData[] } =
-        await getSelectedTypeInfo(context.idClient, 'activity')
+      const response = await getSelectedTypeInfo(
+        context.idClient,
+        'activity',
+      )
 
-      return response
+      if (!response.status) return
+
+      return response.data
     },
     placeholderData: previousData => previousData,
   })
 
   const addNewActivity = async () => {
-    const addResponse = await addActivity(
+    const addResponse = await postCreateNewCustomerActivity(
       context.idClient,
       'activity',
       selectedIcon,
@@ -89,7 +90,7 @@ export const AdminContactActivityPage = () => {
   }
 
   const deleteSelectedActivity = async (id: number) => {
-    const deleteResponse = await deleteObject(
+    const deleteResponse = await deleteCustomerObject(
       context.idClient,
       'activity',
       id,
@@ -115,7 +116,7 @@ export const AdminContactActivityPage = () => {
     icon: string,
     message: string,
   ) => {
-    const updateResponse = await editSelectedActivity(
+    const updateResponse = await putUpdateCustomerActivity(
       context.idClient,
       selectedIdType,
       'activity',

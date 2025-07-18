@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 import {
   BusinessModelInputData,
   ValuesProps,
 } from '../../../../app/constants/constants'
+import { Routes } from '../../../../app/router/routes'
 import {
   Fields,
   PartialFieldsPostData,
@@ -12,11 +14,11 @@ import {
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getEditModelInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/GetEditModelInfo'
-import { getInputData } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/GetInputData'
-import { putAddBusinessModelPicture } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/PutAddBusinessModelPicture'
-import { putUpdateModelInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/PutUpdateModelInfo'
-import { removePictureBusinessModel } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/RemovePictureBusinessModel'
+import { getBusinessModelEditInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/get-business-model-edit-info'
+import { getBusinessModelInputData } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/get-business-model-input-data'
+import { postAddBusinessModelPicture } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/post-add-business-model-picture'
+import { putRemoveBusinessModelPicture } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/put-remove-business-model-picture'
+import { putUpdateBusinessModel } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/put-update-business-model'
 import { getChatGPTAnalysis } from '../../../../shared/utils/api/Admin/ChatGPT/GetChatGPTAnalysis'
 import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
@@ -33,13 +35,16 @@ export const AdminEditBusinessModel = () => {
 
   const id = useIdFromUrl('business-model')
   const showToast = useCustomToast()
+  const navigate = useNavigate()
 
   const getModelData = async () => {
     if (id === null) return
 
-    const response = await getEditModelInfo(id)
+    const response = await getBusinessModelEditInfo(id)
 
-    const { property, ...otherData } = response.data
+    if (!response.status) return
+
+    const { property, ...otherData } = response.data.data
 
     const typedProperty = property as Array<{
       [key: string]: ValuesProps[]
@@ -69,9 +74,11 @@ export const AdminEditBusinessModel = () => {
   }
 
   const getModelInputData = async () => {
-    const response = await getInputData()
+    const response = await getBusinessModelInputData()
 
-    const { industries, technologies, ...otherData } = response
+    if (!response.status) return
+
+    const { industries, technologies, ...otherData } = response.data
 
     const updatedResponse = {
       industries: industries.map((industry: any) => ({
@@ -89,7 +96,7 @@ export const AdminEditBusinessModel = () => {
   const updatePicture = async (file: FormData) => {
     if (id === null) return
 
-    const updateResponse = await putAddBusinessModelPicture(id, file)
+    const updateResponse = await postAddBusinessModelPicture(id, file)
 
     if (updateResponse.status) {
       showToast({
@@ -111,7 +118,7 @@ export const AdminEditBusinessModel = () => {
   const removePicture = async (data: { [key: string]: number }) => {
     if (id === null) return
 
-    const updateResponse = await removePictureBusinessModel(id, data)
+    const updateResponse = await putRemoveBusinessModelPicture(id, data)
 
     if (updateResponse.status) {
       showToast({
@@ -136,7 +143,7 @@ export const AdminEditBusinessModel = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { preview, content, ...updatedFormData } = formData
 
-    const response = await putUpdateModelInfo(id, updatedFormData)
+    const response = await putUpdateBusinessModel(id, updatedFormData)
 
     if (response.status) {
       showToast({
@@ -145,6 +152,9 @@ export const AdminEditBusinessModel = () => {
           'You have successfully changed the data from the Business Model',
         status: 'success',
       })
+      navigate(
+        `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.businessModels}`,
+      )
     } else {
       showToast({
         title: 'Error',

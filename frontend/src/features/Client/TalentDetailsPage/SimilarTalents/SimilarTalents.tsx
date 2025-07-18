@@ -13,7 +13,7 @@ export const SimilarTalents = ({
     <div className={styles.wrapper}>
       <h2 className={styles.title}>Similar talents</h2>
       <div className={styles.list}>
-        {similarTalents.map(similar => {
+        {similarTalents.slice(0, 3).map(similar => {
           return <TalentsCard key={similar.id} talent={similar} />
         })}
       </div>

@@ -1,14 +1,13 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { BusinessPlanNewPlanFormData } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { CrossIcon } from '../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomModalWindow } from '../../../shared/ui/CustomModalWindow/CustomModalWindow'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { convertBusinessModel } from '../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/ConvertBusinessModel'
+import { getConvertBusinessModel } from '../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/get-convert-business-model'
 import styles from './ConvertModal.module.scss'
 
 interface ConvertModalProps {
@@ -30,17 +29,13 @@ export const ConvertModal = ({
   const handleConvertBusinessModel = async (id: number) => {
     setIsLoading(true)
 
-    const response: {
-      data: BusinessPlanNewPlanFormData
-      message: string
-      status: boolean
-    } = await convertBusinessModel(id)
+    const response = await getConvertBusinessModel(id)
 
     setIsLoading(false)
 
     if (response.status) {
       navigate(
-        `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.view}/${Routes.businessPlan}/${response.data.id}`,
+        `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.view}/${Routes.businessPlan}/${response.data.data.id}`,
       )
       showToast({
         title: 'Successfully',

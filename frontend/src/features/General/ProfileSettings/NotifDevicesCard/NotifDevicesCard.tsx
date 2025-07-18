@@ -5,7 +5,7 @@ import { ConfirmationModal } from '../../../../shared/ui/ConfirmationModal/Confi
 import { CustomCheckBox } from '../../../../shared/ui/CustomCheckBox/CustomCheckBox'
 import { CustomMiniButton } from '../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
-import { patchSetDevicePush } from '../../../../shared/utils/api/Push/PatchSetDevicePush'
+import { patchSetDevicePush } from '../../../../shared/utils/api/Push/patch-set-device-push'
 import styles from './NotifDevicesCard.module.scss'
 
 interface NotifDevicesCardProps {
@@ -26,19 +26,19 @@ export const NotifDevicesCard = ({
   const showToast = useCustomToast()
 
   const handleActiveNotifications = async (isChecked: boolean) => {
-    const response = await patchSetDevicePush(
+    const { status } = await patchSetDevicePush(
       data.subscription,
       isChecked === true ? 1 : 0,
     )
 
-    if (response.status && isChecked === true) {
+    if (status && isChecked === true) {
       showToast({
         title: 'Successfully',
         description:
           'You have successfully enabled notifications for this device',
         status: 'success',
       })
-    } else if (response.status && isChecked === false) {
+    } else if (status && isChecked === false) {
       showToast({
         title: 'Successfully',
         description:
