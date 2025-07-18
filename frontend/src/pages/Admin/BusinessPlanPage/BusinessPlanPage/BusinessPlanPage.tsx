@@ -12,8 +12,8 @@ import { CardPlan } from '../../../../features/Admin/BusinessPlanPage/BusinessPl
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { deleteBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/DeleteBusinessPlan'
-import { getListBusinessPlans } from '../../../../shared/utils/api/Admin/BusinessPlan/GetListBusinessPlans'
+import { deleteBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/delete-business-plan'
+import { getBusinessPlansList } from '../../../../shared/utils/api/Admin/BusinessPlan/get-business-plans-list'
 import styles from './BusinessPlanPage.module.scss'
 
 export const AdminBusinessPlanPage = () => {
@@ -44,12 +44,14 @@ export const AdminBusinessPlanPage = () => {
   const { data: plansData } = useQuery({
     queryKey: ['businessPlans'],
     queryFn: async () => {
-      const response: {
+      const response = await getBusinessPlansList()
+
+      if (!response.status) return
+
+      return response.data as {
         access: RolesAccess
         data: BusinessPlanItemData[]
-      } = await getListBusinessPlans()
-
-      return response
+      }
     },
     placeholderData: previousData => previousData,
   })

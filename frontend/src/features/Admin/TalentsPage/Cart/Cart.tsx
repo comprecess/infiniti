@@ -6,9 +6,10 @@ import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
-import { postCreateNewMeeting } from '../../../../shared/utils/api/Admin/Meeting/PostCreateNewMeeting'
+import { postCreateNewMeeting } from '../../../../shared/utils/api/Admin/Meeting/post-create-new-meeting'
 import { deleteCart } from '../../../../shared/utils/api/Admin/Talents/Cart/delete-cart'
 import { putChangeField } from '../../../../shared/utils/api/Admin/Talents/Cart/put-change-field'
+import { getLocalDateTimeString } from '../../../../shared/utils/usefulMethods'
 import {
   CreatingCallModal,
   TimeSlotsById,
@@ -77,11 +78,11 @@ export const Cart = ({
   ) => {
     if (dates === null || selectedTime === null) return
 
-    const time = selectedTime.format('HH:mm')
+    const time = getLocalDateTimeString()
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
     const updatedDates = dates.map(dateStr => {
-      return `${dateStr} ${time}`
+      return `${dateStr} ${selectedTime.format('HH:mm')}`
     })
 
     const response = await postCreateNewMeeting('cart', updatedDates[0], {

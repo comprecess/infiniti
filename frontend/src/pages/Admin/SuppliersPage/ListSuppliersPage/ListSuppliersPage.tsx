@@ -14,9 +14,9 @@ import { HeaderButtons } from '../../../../features/Admin/ListSuppliersPage/Head
 import { PagesList } from '../../../../features/Client/CatalogPage/TalentsList/PagesList/PagesList'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { deleteClient } from '../../../../shared/utils/api/Admin/ListCustomers/DeleteClient'
-import { getDocumentFileCustomers } from '../../../../shared/utils/api/Admin/ListCustomers/GetDocumentFileCustomers'
-import { getCustomersList } from '../../../../shared/utils/api/Admin/ListCustomers/GetListCustomers'
+import { deleteCustomerOrSupplier } from '../../../../shared/utils/api/Admin/ListCustomers/delete-customer-or-supplier'
+import { getCustomerDocumentFile } from '../../../../shared/utils/api/Admin/ListCustomers/get-customer-document-file'
+import { getCustomerOrSupplierList } from '../../../../shared/utils/api/Admin/ListCustomers/get-customer-or-supplier-list'
 import { downloadDocument } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './ListSuppliersPage.module.scss'
@@ -34,20 +34,22 @@ export const AdminListSuppliersPage = () => {
   const { data: suppliers } = useQuery({
     queryKey: ['suppliers', page, search, sortName, sortType],
     queryFn: async () => {
-      const response: {
-        access: RolesAccess
-        data: ListCustomersData[]
-        meta: PagesMetaData
-      } = await getCustomersList(
+      const response = await getCustomerOrSupplierList(
         // eslint-disable-next-line max-len
         `?type=Supplier&page=${page}&filter[search]=${search}&sort[name]=${sortName}&sort[type]=${sortType}&document=json`,
       )
 
-      if (page > response.meta.last_page) {
+      if (!response.status) return
+
+      if (page > response.data.meta.last_page) {
         setPage(1)
       }
 
-      return response
+      return response.data as {
+        access: RolesAccess
+        data: ListCustomersData[]
+        meta: PagesMetaData
+      }
     },
     placeholderData: previousData => previousData,
   })
@@ -63,12 +65,18 @@ export const AdminListSuppliersPage = () => {
   const downloadFile = useCallback(
     async (documentItem: string) => {
       // eslint-disable-next-line max-len
-      const urlOptions = `?type=Supplier&page=${page}&filter[search]=${search}&sort[name]=${sortName}&sort[type]=${sortType}&document=${documentItem}`
+      let urlOptions = `?type=Supplier&page=${page}&sort[name]=${sortName}&sort[type]=${sortType}&document=${documentItem}`
 
-      const downloadInitiated = await getDocumentFileCustomers(urlOptions)
+      if (search !== '') {
+        urlOptions += `&filter[search]=${search}`
+      }
+
+      const downloadInitiated = await getCustomerDocumentFile(urlOptions)
+
+      if (!downloadInitiated.status) return
 
       const { status } = await downloadDocument(
-        downloadInitiated,
+        downloadInitiated.data,
         'Suppliers',
       )
 
@@ -85,7 +93,7 @@ export const AdminListSuppliersPage = () => {
   )
 
   const deleteSupplier = async (idSupplier: number) => {
-    const deleteResponse = await deleteClient(idSupplier)
+    const deleteResponse = await deleteCustomerOrSupplier(idSupplier)
 
     if (deleteResponse.status) {
       showToast({

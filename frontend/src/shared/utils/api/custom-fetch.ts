@@ -40,7 +40,7 @@ export const customFetch = async <T = any>(
       body,
       headers: {
         ...headers,
-        clientDate: getLocalDateTimeString(),
+        'Client-Date': getLocalDateTimeString(),
       },
     })
 

@@ -65,14 +65,6 @@ export const AdminOffersPage = () => {
     setOptions(urlOptions)
   }
 
-  const changeSort = useCallback(
-    (sortNameItem: string, sortTypeItem: number) => {
-      setSortName(sortNameItem)
-      setSortType(sortTypeItem)
-    },
-    [],
-  )
-
   const downloadFile = useCallback(
     async (documentItem: string) => {
       // eslint-disable-next-line max-len
@@ -139,6 +131,14 @@ export const AdminOffersPage = () => {
       `/${Routes.adminPages}/${Routes.sales}/${Routes.new}/${Routes.offer}`,
     )
   }
+
+  const changeSort = useCallback(
+    (sortNameItem: string, sortTypeItem: number) => {
+      setSortName(sortNameItem)
+      setSortType(sortTypeItem)
+    },
+    [],
+  )
 
   useEffect(() => {
     document.title = 'infiniti | Offers'

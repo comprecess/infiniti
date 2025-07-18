@@ -8,8 +8,8 @@ import { PeopleCard } from '../../../../features/Admin/BusinessPlanPage/EditBusi
 import { Item } from '../../../../features/Admin/BusinessPlanPage/ViewBusinessPlan/Item/Item'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getBusinessPlanFullInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/GetBusinessPlanFullInfo'
-import { getInputDataBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/GetInputDataBusinessPlan'
+import { getBusinessPlanFullInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/get-business-plan-full-info'
+import { getBusinessPlanInputData } from '../../../../shared/utils/api/Admin/BusinessPlan/get-business-plan-input-data'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './ViewBusinessPlanPage.module.scss'
@@ -41,14 +41,17 @@ export const AdminViewBusinessPlanPage = () => {
 
     const response = await getBusinessPlanFullInfo(id)
 
-    setFullInfo(response.data)
+    if (!response.status) return
+
+    setFullInfo(response.data.data)
   }
 
   const getInputData = async () => {
-    const response: { talents: TalentInputDataBusinessPlan[] } =
-      await getInputDataBusinessPlan()
+    const response = await getBusinessPlanInputData()
 
-    setInputData(response.talents)
+    if (!response.status) return
+
+    setInputData(response.data.talents)
   }
 
   useEffect(() => {

@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import {
-  ViewEmailTypeData,
   ViewEmailValuesData,
   ViewPageContext,
 } from '../../../../../app/constants/constants'
@@ -11,8 +10,8 @@ import { Header } from '../../../../../features/Admin/CustomersPage/ViewPage/Pag
 import { RecentEmail } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/EmailPage/RecentEmail/RecentEmail'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { putSendEmail } from '../../../../../shared/utils/api/Admin/ViewContact/Email/PutSendEmail'
-import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/GetSelectedTypeInfo'
+import { putSendEmail } from '../../../../../shared/utils/api/Admin/ViewContact/Email/put-send-email'
+import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/get-selected-type-info'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './EmailPage.module.scss'
 
@@ -31,12 +30,11 @@ export const AdminContactEmailPage = () => {
   const { data: email } = useQuery({
     queryKey: ['email', context.idClient],
     queryFn: async () => {
-      const response: ViewEmailTypeData = await getSelectedTypeInfo(
-        context.idClient,
-        'email',
-      )
+      const response = await getSelectedTypeInfo(context.idClient, 'email')
 
-      return response
+      if (!response.status) return
+
+      return response.data
     },
     placeholderData: previousData => previousData,
   })

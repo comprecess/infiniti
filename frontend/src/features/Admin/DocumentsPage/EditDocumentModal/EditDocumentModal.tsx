@@ -7,8 +7,9 @@ import { CustomCheckBox } from '../../../../shared/ui/CustomCheckBox/CustomCheck
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
 import { CustomModalWindow } from '../../../../shared/ui/CustomModalWindow/CustomModalWindow'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
-import { getSelectedFileInfo } from '../../../../shared/utils/api/Admin/Documents/GetSelectedFileInfo'
-import { putUpdateDocInfo } from '../../../../shared/utils/api/Admin/Documents/PutUpdateDocInfo'
+import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { getSelectedFileInfo } from '../../../../shared/utils/api/Admin/Documents/get-selected-file-info'
+import { putUpdateDocumentInfo } from '../../../../shared/utils/api/Admin/Documents/put-update-document-info'
 import styles from './EditDocumentModal.module.scss'
 
 interface EditDocumentModalProps {
@@ -29,18 +30,20 @@ export const EditDocumentModal = ({
   const getFile = async () => {
     const response = await getSelectedFileInfo(idDocument)
 
-    setFormData(response.data)
+    if (!response.status) return
+
+    setFormData(response.data.data)
   }
 
   const updateDocumentInfo = async () => {
     if (formData === null) return
 
-    const updateResponse = await putUpdateDocInfo(
+    const { status, message } = await putUpdateDocumentInfo(
       idDocument,
       formData.global,
     )
 
-    if (updateResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully modified the Document',
@@ -50,7 +53,7 @@ export const EditDocumentModal = ({
     } else {
       showToast({
         title: 'Error',
-        description: updateResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -76,7 +79,7 @@ export const EditDocumentModal = ({
       isOpen={modalEditDoc}
       onClose={modalOpenClose}
     >
-      {formData && (
+      {formData ? (
         <div className={styles.wrapper}>
           <div className={styles.header}>
             <h4 className={styles.title}>Edit Document</h4>
@@ -102,6 +105,10 @@ export const EditDocumentModal = ({
             />
           </div>
           <ButtonBlue title='Save' onClick={updateDocumentInfo} />
+        </div>
+      ) : (
+        <div className={styles.loading}>
+          <LoadingSpinner size='xl' />
         </div>
       )}
     </CustomModalWindow>

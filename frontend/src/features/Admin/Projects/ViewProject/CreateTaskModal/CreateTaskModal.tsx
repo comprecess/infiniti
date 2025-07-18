@@ -1,5 +1,4 @@
-import { Textarea } from '@chakra-ui/react'
-import { ChangeEvent, useState } from 'react'
+import { useState } from 'react'
 
 import {
   ProjectsTasksFormData,
@@ -11,6 +10,7 @@ import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/Cust
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomModalWindow } from '../../../../../shared/ui/CustomModalWindow/CustomModalWindow'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
+import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 import styles from './CreateTaskModal.module.scss'
 
 interface CreateTaskModalProps {
@@ -89,22 +89,10 @@ export const CreateTaskModal = ({
           />
           <div className={styles.containerItems}>
             <span className={styles.containerItemsTitle}>Description</span>
-            <Textarea
-              tabIndex={-1}
-              autoFocus={false}
-              minHeight='140px'
-              maxHeight='232px'
-              color='gray.400'
-              backgroundColor='brand.800'
-              border='none'
-              _hover={{ border: 'none' }}
-              _focusVisible={{ border: 'none' }}
-              _focusWithin={{ border: 'none' }}
-              fontSize='16px'
-              fontWeight='400'
-              lineHeight='24px'
-              onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
-                handleChangeInput('description', event.target.value)
+            <TextEditor
+              fieldName='description'
+              setValue={message =>
+                handleChangeInput('description', message)
               }
             />
           </div>

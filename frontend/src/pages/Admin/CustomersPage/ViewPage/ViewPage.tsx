@@ -1,14 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
-import { ViewListPagesAndInfo } from '../../../../app/constants/constants'
 import { ContactInfoSideBarData } from '../../../../app/data/contactInfoSideBar'
-import { Routes } from '../../../../app/router/routes'
 import { SideBar } from '../../../../features/Admin/CustomersPage/ViewPage/SideBar/SideBar'
 import { ArrowBackGroundIcon } from '../../../../shared/icons/ArrowBackGroundIcon'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getListPagesAndInfo } from '../../../../shared/utils/api/Admin/ViewContact/GetListPagesAndInfo'
+import { getPagesListInfo } from '../../../../shared/utils/api/Admin/ViewContact/get-pages-list-info'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import styles from './ViewPage.module.scss'
 
@@ -21,7 +19,6 @@ export const AdminViewPage = () => {
   const [touchEndX, setTouchEndX] = useState<number | null>(null)
 
   const id = useIdFromUrl('view')
-  const navigate = useNavigate()
 
   const handleOpenCloseSidebar = () => {
     setIsOpenSideBar(!isOpenSideBar)
@@ -32,13 +29,11 @@ export const AdminViewPage = () => {
     queryFn: async () => {
       if (id === null) return
 
-      const response: ViewListPagesAndInfo = await getListPagesAndInfo(id)
+      const response = await getPagesListInfo(id)
 
-      if (!response.status) {
-        navigate(`/${Routes.notFound}`)
-      }
+      if (!response.status) return
 
-      return response
+      return response.data
     },
     placeholderData: previousData => previousData,
   })

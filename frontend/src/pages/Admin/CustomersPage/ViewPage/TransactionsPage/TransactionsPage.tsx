@@ -2,13 +2,10 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
-import {
-  ViewPageContext,
-  ViewTransactionsTypeData,
-} from '../../../../../app/constants/constants'
+import { ViewPageContext } from '../../../../../app/constants/constants'
 import { RecentTransactions } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/TransactionsPage/RecentTransactions/RecentTransactions'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/GetSelectedTypeInfo'
+import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/get-selected-type-info'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './TransactionsPage.module.scss'
 
@@ -18,10 +15,14 @@ export const AdminContactTransactionsPage = () => {
   const { data: transactions } = useQuery({
     queryKey: ['transactions', context.idClient],
     queryFn: async () => {
-      const response: { data: ViewTransactionsTypeData[] } =
-        await getSelectedTypeInfo(context.idClient, 'transactions')
+      const response = await getSelectedTypeInfo(
+        context.idClient,
+        'transactions',
+      )
 
-      return response
+      if (!response.status) return
+
+      return response.data
     },
     placeholderData: previousData => previousData,
   })

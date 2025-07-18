@@ -4,7 +4,7 @@ import { GroupContactsListProps } from '../../../../../app/constants/constants'
 import { RecentContactsList } from '../../../../../features/Admin/CustomersPage/GroupsPage/RecentContactsList/RecentConatctsList'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getContactsList } from '../../../../../shared/utils/api/Admin/Groups/GetContactsList'
+import { getContactsList } from '../../../../../shared/utils/api/Admin/Groups/get-contacts-list'
 import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
 import styles from './ContactsListPage.module.scss'
 
@@ -17,9 +17,11 @@ export const AdminContactsListPage = () => {
 
   const getContacts = async () => {
     if (id !== null) {
-      const contactsResponse = await getContactsList(id)
+      const response = await getContactsList(id)
 
-      setContacts(contactsResponse)
+      if (!response.status) return
+
+      setContacts(response.data)
     }
   }
 

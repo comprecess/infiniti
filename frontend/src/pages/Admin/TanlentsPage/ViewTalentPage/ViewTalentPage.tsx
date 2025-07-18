@@ -14,14 +14,14 @@ import { ChevronDownIcon } from '../../../../shared/icons/ChevronDownIcon'
 import { ButtonBrand } from '../../../../shared/ui/ButtonBrand/ButtonBrand'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getDatesTalentBusy } from '../../../../shared/utils/api/Admin/Meeting/GetDatesTalentBusy'
-import { postCreateNewMeeting } from '../../../../shared/utils/api/Admin/Meeting/PostCreateNewMeeting'
+import { getTalentDatesBusy } from '../../../../shared/utils/api/Admin/Meeting/get-talent-dates-busy'
+import { postCreateNewMeeting } from '../../../../shared/utils/api/Admin/Meeting/post-create-new-meeting'
 import { getUserInfo } from '../../../../shared/utils/api/Client/Catalog/User/get-user-info'
-import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import {
-  CreatingCallModal,
-  TimeSlotsById,
-} from '../../../../widgets/CreatingCallModal/CreatingCallModal'
+  getLocalDateTimeString,
+  useIdFromUrl,
+} from '../../../../shared/utils/usefulMethods'
+import { CreatingCallModal } from '../../../../widgets/CreatingCallModal/CreatingCallModal'
 import styles from './ViewTalentPage.module.scss'
 
 export const AdminViewTalentPage = () => {
@@ -60,13 +60,15 @@ export const AdminViewTalentPage = () => {
     queryFn: async () => {
       if (id === null) return
 
-      const response: { data: TimeSlotsById } = await getDatesTalentBusy(
+      const response = await getTalentDatesBusy(
         id,
         'individual',
         Intl.DateTimeFormat().resolvedOptions().timeZone,
       )
 
-      return response
+      if (!response.status) return
+
+      return response.data
     },
   })
 
@@ -90,11 +92,11 @@ export const AdminViewTalentPage = () => {
   ) => {
     if (id === null || dates === null || selectedTime === null) return
 
-    const time = selectedTime.format('HH:mm')
+    const time = getLocalDateTimeString()
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
     const updatedDates = dates.map(dateStr => {
-      return `${dateStr} ${time}`
+      return `${dateStr} ${selectedTime.format('HH:mm')}`
     })
 
     const response = await postCreateNewMeeting(

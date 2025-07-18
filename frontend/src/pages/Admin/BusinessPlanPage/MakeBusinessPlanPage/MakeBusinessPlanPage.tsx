@@ -8,7 +8,7 @@ import {
 } from '../../../../features/Admin/BusinessPlanPage/MakeBusinessPlanPage/Fields/Fields'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
-import { newBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/NewBusinessPlan'
+import { postCreateNewBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/post-create-new-business-plan'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './MakeBusinessPlanPage.module.scss'
 
@@ -21,7 +21,7 @@ export const AdminMakeBusinessPlanPage = () => {
   const handleCreateNewBusinessPlan = async () => {
     if (!formData) return
 
-    const response = await newBusinessPlan(formData)
+    const response = await postCreateNewBusinessPlan(formData)
 
     if (response.status) {
       showToast({

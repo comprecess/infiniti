@@ -9,11 +9,11 @@ import { Item } from '../../../../features/Admin/CustomContactFields/Item/Item'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { addField } from '../../../../shared/utils/api/Admin/CustomFields/AddField'
-import { editField } from '../../../../shared/utils/api/Admin/CustomFields/EditField'
-import { getFields } from '../../../../shared/utils/api/Admin/CustomFields/GetFields'
-import { getSelectedField } from '../../../../shared/utils/api/Admin/CustomFields/GetSelectedField'
-import { deleteField } from '../../../../shared/utils/api/Admin/CustomFields/RemoveField'
+import { deleteField } from '../../../../shared/utils/api/Admin/CustomFields/delete-field'
+import { getFieldsList } from '../../../../shared/utils/api/Admin/CustomFields/get-fields-list'
+import { getSelectedField } from '../../../../shared/utils/api/Admin/CustomFields/get-selected-field'
+import { postAddNewField } from '../../../../shared/utils/api/Admin/CustomFields/post-add-new-field'
+import { putUpdateField } from '../../../../shared/utils/api/Admin/CustomFields/put-update-field'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CustomContactFieldsPage.module.scss'
 
@@ -58,28 +58,29 @@ export const AdminCustomContactFields = () => {
   }
 
   const getFieldsData = async () => {
-    const fieldsResponse: {
-      access: RolesAccess
-      data: SettingsCustomFieldsProps[]
-    } = await getFields()
+    const response = await getFieldsList()
 
-    setAccess(fieldsResponse.access)
-    setFields(fieldsResponse.data)
+    if (!response.status) return
+
+    setAccess(response.data.access)
+    setFields(response.data.data)
   }
 
   const getInfoSelectedField = async (id: number) => {
-    const getResponse = await getSelectedField(id)
+    const response = await getSelectedField(id)
+
+    if (!response.status) return
 
     setSelectedId(id)
-    setFieldData(getResponse)
+    setFieldData(response.data)
 
     handleEditSelectedField()
   }
 
   const editInfoSelectedField = async () => {
-    const editResponse = await editField(selectedId, fieldData)
+    const { status, message } = await putUpdateField(selectedId, fieldData)
 
-    if (editResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully changed the field',
@@ -90,16 +91,16 @@ export const AdminCustomContactFields = () => {
     } else {
       showToast({
         title: 'Error',
-        description: editResponse.message,
+        description: message,
         status: 'error',
       })
     }
   }
 
   const addNewField = async () => {
-    const addResponse = await addField(fieldData)
+    const { status, message } = await postAddNewField(fieldData)
 
-    if (addResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully added a field',
@@ -110,7 +111,7 @@ export const AdminCustomContactFields = () => {
     } else {
       showToast({
         title: 'Error',
-        description: addResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -127,9 +128,9 @@ export const AdminCustomContactFields = () => {
   }
 
   const deleteSelectedField = async (id: number) => {
-    const deleteResponse = await deleteField(id)
+    const { status, message } = await deleteField(id)
 
-    if (deleteResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully deleted the field',
@@ -139,7 +140,7 @@ export const AdminCustomContactFields = () => {
     } else {
       showToast({
         title: 'Error',
-        description: deleteResponse.message,
+        description: message,
         status: 'error',
       })
     }

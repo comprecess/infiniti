@@ -13,10 +13,10 @@ import { RecentButtons } from '../../../../features/Admin/CustomersPage/GroupsPa
 import { RecentGroups } from '../../../../features/Admin/CustomersPage/GroupsPage/RecentGroups/RecentGroups'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { addGroup } from '../../../../shared/utils/api/Admin/Groups/AddGroup'
-import { deleteGroup } from '../../../../shared/utils/api/Admin/Groups/DeleteGroup'
-import { editGroup } from '../../../../shared/utils/api/Admin/Groups/EditGroup'
-import { getListGroups } from '../../../../shared/utils/api/Admin/Groups/GetGroups'
+import { deleteGroup } from '../../../../shared/utils/api/Admin/Groups/delete-group'
+import { getGroupsList } from '../../../../shared/utils/api/Admin/Groups/get-groups-list'
+import { postCreateNewGroup } from '../../../../shared/utils/api/Admin/Groups/post-create-new-group'
+import { putUpdateGroup } from '../../../../shared/utils/api/Admin/Groups/put-update-group'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './GroupsPage.module.scss'
 
@@ -37,12 +37,14 @@ export const AdminGroupsPage = () => {
   const { data: groupsData } = useQuery({
     queryKey: ['groups'],
     queryFn: async () => {
-      const response: {
+      const response = await getGroupsList()
+
+      if (!response.status) return
+
+      return response.data as {
         access: RolesAccess
         data: GroupsListProps[]
-      } = await getListGroups()
-
-      return response
+      }
     },
     placeholderData: previousData => previousData,
   })
@@ -66,9 +68,9 @@ export const AdminGroupsPage = () => {
   }
 
   const createGroup = async () => {
-    const addGroupResponse = await addGroup(name)
+    const { status, message } = await postCreateNewGroup(name)
 
-    if (addGroupResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully created a new group',
@@ -78,7 +80,7 @@ export const AdminGroupsPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: addGroupResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -87,9 +89,9 @@ export const AdminGroupsPage = () => {
   }
 
   const deleteSelectedGroup = async (id: number) => {
-    const deleteResponse = await deleteGroup(id)
+    const { status, message } = await deleteGroup(id)
 
-    if (deleteResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully deleted the group',
@@ -99,7 +101,7 @@ export const AdminGroupsPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: deleteResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -108,9 +110,9 @@ export const AdminGroupsPage = () => {
   const editSelectedGroup = async () => {
     if (selectedGroupId === null) return
 
-    const editResponse = await editGroup(selectedGroupId, name)
+    const { status, message } = await putUpdateGroup(selectedGroupId, name)
 
-    if (editResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully changed the group name',
@@ -120,7 +122,7 @@ export const AdminGroupsPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: editResponse.message,
+        description: message,
         status: 'error',
       })
     }

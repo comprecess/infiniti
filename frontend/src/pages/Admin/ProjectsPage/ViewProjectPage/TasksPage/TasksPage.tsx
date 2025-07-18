@@ -17,7 +17,6 @@ import { getProjectsTasksInputData } from '../../../../../shared/utils/api/Admin
 import { patchProjectEditTask } from '../../../../../shared/utils/api/Admin/Projects/patch-project-edit-task'
 import { patchUpdateTaskPosition } from '../../../../../shared/utils/api/Admin/Projects/patch-update-task-position'
 import { postCreateNewTask } from '../../../../../shared/utils/api/Admin/Projects/post-create-new-task'
-import { getLocalDateTimeString } from '../../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import { TasksCard } from '../../../../../widgets/TasksCard/TasksCard'
 import styles from './TasksPage.module.scss'
@@ -38,9 +37,7 @@ export const AdminProjectsTasksPage = () => {
   const getTasks = async () => {
     if (!context.idProject) return
 
-    const date = getLocalDateTimeString()
-
-    const response = await getProjectTasks(context.idProject, date)
+    const response = await getProjectTasks(context.idProject)
 
     if (!response.status) return
 

@@ -2,9 +2,10 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 
 import {
-  FiltersData,
+  BusinessPlanBusinessModelData,
   FiltersState,
   page,
+  PagesMetaData,
   userModelsPageString,
 } from '../../../app/constants/constants'
 import { Filters } from '../../../features/Admin/BusinessPlanPage/BusinessModels/Filters/Filters'
@@ -12,8 +13,8 @@ import { ModelsList } from '../../../features/Admin/BusinessPlanPage/BusinessMod
 import { CategoriesItem } from '../../../features/Admin/TalentsPage/CatalogTalents/CategoriesItem/CategoriesItem'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getPropertiesFiltering } from '../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/GetPropertiesFiltering'
-import { postBusinessModelList } from '../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/PostBusinessModelList'
+import { getBusinessModelProperties } from '../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/get-business-model-properties'
+import { postBusinessModelsList } from '../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/post-business-models-list'
 import { getSession } from '../../../shared/utils/Saving/Session/GetSession'
 import styles from './BusinessModelsPage.module.scss'
 
@@ -27,16 +28,21 @@ export const ClientBusinessModelsPage = () => {
   const { data: modelsList } = useQuery({
     queryKey: ['models', currentPage, JSON.stringify(selectedFilters)],
     queryFn: async () => {
-      const res = await postBusinessModelList(
+      const response = await postBusinessModelsList(
         page + String(currentPage),
         selectedFilters,
       )
 
-      if (currentPage > res.meta.last_page) {
+      if (!response.status) return
+
+      if (currentPage > response.data.meta.last_page) {
         setCurrentPage(1)
       }
 
-      return res
+      return response.data as {
+        data: BusinessPlanBusinessModelData[]
+        meta: PagesMetaData
+      }
     },
     placeholderData: previousData => previousData,
   })
@@ -44,10 +50,13 @@ export const ClientBusinessModelsPage = () => {
   const { data: categories } = useQuery({
     queryKey: ['categories'],
     queryFn: async () => {
-      const response: { data: FiltersData[] } =
-        await getPropertiesFiltering('?prop=specialization')
+      const response = await getBusinessModelProperties(
+        '?prop=specialization',
+      )
 
-      return response.data[0]
+      if (!response.status) return
+
+      return response.data.data[0]
     },
     placeholderData: previousData => previousData,
   })
@@ -55,10 +64,11 @@ export const ClientBusinessModelsPage = () => {
   const { data: filters } = useQuery({
     queryKey: ['filters'],
     queryFn: async () => {
-      const response: { data: FiltersData[] } =
-        await getPropertiesFiltering()
+      const response = await getBusinessModelProperties()
 
-      return response.data
+      if (!response.status) return
+
+      return response.data.data
     },
     placeholderData: previousData => previousData,
   })
