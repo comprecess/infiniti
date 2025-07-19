@@ -41,7 +41,7 @@ class TalentCreateRequest extends FormRequest implements ConvertingPropertiesInt
             'priceHour' => "required",
             'allSkills' => "required",
             'gender' => "required|in:" . $props->where('id_name', 'gender')->first()->values->pluck('id')->implode(','),
-            'rate' => "required|boolean",
+            'rate' => "nullable|boolean",
 //            'language' => "required|in:" . implode(',', $lang),
             'language' => "required",
 //            'blockExperience' => "required",
