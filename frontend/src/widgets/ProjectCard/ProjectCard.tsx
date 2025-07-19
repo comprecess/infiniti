@@ -65,62 +65,61 @@ export const ProjectCard = ({
               <div className={styles.description}>{project.summary}</div>
             )}
           </div>
-          {project.startDate ||
-            (project.dueDate && (
-              <div className={styles.dateList}>
-                {project.startDate && (
-                  <div className={styles.date}>
-                    <div className={styles.dateContainerFirst}>
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          gap: '4px',
-                          width: 'fit-content',
-                        }}
-                      >
-                        <img
-                          src='/icons/calendar.svg'
-                          alt='calendar'
-                          className={styles.dateImgStart}
-                        />
-                        <span className={styles.dateText}>Start Date</span>
-                      </div>
-                      <div>
-                        <span className={styles.startDate}>
-                          {project.startDate}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )}
+          {(project.startDate || project.dueDate) && (
+            <div className={styles.dateList}>
+              {project.startDate && (
                 <div className={styles.date}>
-                  {project.dueDate && (
-                    <div className={styles.dateContainerSecond}>
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          gap: '4px',
-                        }}
-                      >
-                        <img
-                          src='/icons/calendar.svg'
-                          alt='calendar'
-                          className={styles.dateImgDue}
-                        />
-                        <span className={styles.dateText}>Due Date</span>
-                      </div>
+                  <div className={styles.dateContainerFirst}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: '4px',
+                        width: 'fit-content',
+                      }}
+                    >
+                      <img
+                        src='/icons/calendar.svg'
+                        alt='calendar'
+                        className={styles.dateImgStart}
+                      />
+                      <span className={styles.dateText}>Start Date</span>
+                    </div>
+                    <div>
                       <span className={styles.startDate}>
-                        {project.dueDate}
+                        {project.startDate}
                       </span>
                     </div>
-                  )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              )}
+              {project.dueDate && (
+                <div className={styles.date}>
+                  <div className={styles.dateContainerSecond}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: '4px',
+                      }}
+                    >
+                      <img
+                        src='/icons/calendar.svg'
+                        alt='calendar'
+                        className={styles.dateImgDue}
+                      />
+                      <span className={styles.dateText}>Due Date</span>
+                    </div>
+                    <span className={styles.startDate}>
+                      {project.dueDate}
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
           {project.members && project.members.length > 0 && (
             <div className={styles.profiles}>
               {project.members.map(member => (
