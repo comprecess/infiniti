@@ -51,7 +51,7 @@ class OfferController extends SaleController
         $varibles->nameDocument = "Offer";
         $varibles->header = "Offer - Infiniti";
         $varibles->columns = $columns;
-        $varibles->excelView = 'document.excel.resident-invoice';
+        $varibles->excelView = 'document.excel.resident-offer';
         $varibles->resource = request()->input('document') == 'pdf' ? OfferPdfResource::class : OfferExcelResource::class;
 
 

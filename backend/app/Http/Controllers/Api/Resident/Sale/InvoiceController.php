@@ -216,8 +216,8 @@ class InvoiceController extends SaleController
                 }
                 $model->aid = auth()->id();
 
-                if($request->protjectId) {
-                    $model->pid = $request->protjectId;
+                if($request->project) {
+                    $model->pid = $request->project;
                 }
 
 

@@ -71,7 +71,6 @@ class InvoiceRequest extends FormRequest implements ConvertingPropertiesInterfac
             'receiptNumber' => 'receipt_number',
             'showQuantity' => 'show_quantity_as',
             'checkPublic' => 'check_public',
-            'project' => 'pid'
         ];
     }
 

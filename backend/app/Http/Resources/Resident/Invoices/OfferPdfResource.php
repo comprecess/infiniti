@@ -16,7 +16,7 @@ class OfferPdfResource extends JsonResource
         $format = Config::get('df');
         return [
             'code' => $this->getCode(),
-            'account' => $this->user->account . "<br>" . $this->user?->companyClient?->company_name,
+            'account' => $this->user?->account . "<br>" . $this->user?->companyClient?->company_name,
             'subject' => $this->subject,
             'total' => $this->total,
             'validUntil' => $this->validuntil?->format($format),
