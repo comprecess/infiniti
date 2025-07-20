@@ -23,7 +23,7 @@ class PropertyResorce extends JsonResource implements ListInterface
         if($this->type == 'integer') {
             $resource['values'] = [];
         }else{
-            $value = $this->valuesExists;
+            $value = $this->valuesExistsPublic;
 //            if(!$value->count()) {
 //                return [];
 //            }

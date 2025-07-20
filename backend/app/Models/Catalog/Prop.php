@@ -42,7 +42,7 @@ class Prop extends Model
         return $this->hasMany(Value::class, 'id_prop');
     }
 
-    public function valuesExists()
+    public function valuesExistsPublic()
     {
         return $this->hasMany(Value::class, 'id_prop')
             ->distinct()
@@ -52,7 +52,8 @@ class Prop extends Model
                     ->where('catalog_user_value.cataloggable_type', Value::class);
             })
             ->join('catalog_user', 'catalog_user.id', '=', 'catalog_user_value.id_catalog_user')
-            ->whereNull('catalog_user.deleted_at');
+            ->whereNull('catalog_user.deleted_at')
+            ->where('catalog_user.active', 1);
     }
 
     public function children()

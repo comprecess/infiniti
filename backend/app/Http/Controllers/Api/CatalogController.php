@@ -33,7 +33,7 @@ class CatalogController extends Controller
     {
         $dopFilter = ['specialization'];
         $prop = Prop::whereNull('id_parent')
-            ->with(['children', 'valuesExists']);
+            ->with(['children', 'valuesExistsPublic']);
 
         if($request->prop && in_array($request->prop, $dopFilter)) {
             $prop->where('id_name', $request->prop);
