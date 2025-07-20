@@ -4,8 +4,10 @@
 namespace App\Http\Controllers\Api\Resident\Talents;
 
 
+use App\Contracts\FilterContract;
 use App\Events\Resident\Talents\DeleteTalent;
 use App\Http\Controllers\Api\Traits\CRUD;
+use App\Http\Requests\Catalog\ListRequest;
 use App\Http\Requests\Resident\Talents\CartListRequest;
 use App\Http\Requests\Resident\Talents\CartRequest;
 use App\Http\Requests\Resident\Talents\TalentUpdateRequest;
@@ -13,6 +15,7 @@ use App\Http\Requests\Resident\Talents\BlockExperienceTalentRequest;
 use App\Http\Requests\Resident\Talents\TalentCreateRequest;
 use App\Http\Requests\Resident\Talents\TalentListRequest;
 use App\Http\Resources\Catalog\PropertyResorce;
+use App\Http\Resources\Catalog\UsersResorce;
 use App\Http\Resources\Catalog\ValueResorce;
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\Talents\CartListResource;
@@ -111,14 +114,54 @@ class TalentController extends TalentsController
                     ->orWhere('name', 'like', $search);
             });
         }
-//        $query->checkAccess();
 
         $request->sortModel($query);
-//        $t = $query->first()->getPropsByNameId();
-//        dd($t->where('id_name', 'specialization')?->first()->values->first()->value);
-
 
         return $this->index($query, TalentListResource::class, true);
+    }
+
+    public function listCatalogPublic(ListRequest $request, FilterContract $filter)
+    {
+        $queryBuild = User::select(['catalog_user.*'])
+            ->distinct()
+            ->with(['blockExperience', 'values', 'props', 'values.prop']);
+
+        if($request->filter) {
+            $filter->properties($request->filter, $queryBuild);
+        }
+
+        $sort = $request->getSort();
+
+        $prop = Prop::where('id_name', $sort)->first();
+        if($prop) {
+
+            $beforeQuerySort =  Value::selectRaw('catalog_user_value.id_catalog_user, catalog_prop_value.value * 1 as value')
+                ->leftJoin('catalog_user_value', function($join){
+                    $join->on('catalog_user_value.cataloggable_id', '=', 'catalog_prop_value.id')
+                        ->where('catalog_user_value.cataloggable_type', '=', Value::class);
+                })
+                ->where('catalog_prop_value.id_prop', $prop->id)
+                ->where('catalog_user_value.cataloggable_type', '=', Value::class);
+
+
+            $queryBuild->addSelect(['sortValue.value'])
+                ->leftJoinSub($beforeQuerySort, 'sortValue', function($join){
+                    $join->on('sortValue.id_catalog_user', '=', 'catalog_user.id');
+                })
+                ->orderBy('sortValue.value', $request->getSort(true));
+        }
+
+        $resultQuery = $queryBuild->paginate($request->getAmount());
+
+        $cart = \App\Models\User::getAuth()->myCart;
+        if($cart) {
+            $items = $cart->items;
+            $resultQuery->each(function ($item) use($items) {
+                $item->inCart = $items?->where('id_catalog_user', $item->id)->count();
+            });
+        }
+
+        return UsersResorce::collection($resultQuery);
     }
 
     public function inputData()
@@ -171,7 +214,7 @@ class TalentController extends TalentsController
                     }
                 }
 
-                if($data['rate']) {
+                if(Arr::get($data, 'rate')) {
                     Prop::where('id_name', 'rate')->first()?->values?->first()?->users()->attach([$model->id]);
                 }
 

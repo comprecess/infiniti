@@ -16,12 +16,10 @@ use App\Http\Resources\Catalog\UsersResorce;
 use App\Models\Catalog\Cart;
 use App\Models\Catalog\Prop;
 use App\Models\Catalog\User;
-use App\Models\Catalog\UserEmployment;
 use App\Models\Catalog\Value;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Invoices\Offer;
 use App\Models\Users\Admin;
-use App\Models\Users\Client;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User as UserCrm;
@@ -35,7 +33,7 @@ class CatalogController extends Controller
     {
         $dopFilter = ['specialization'];
         $prop = Prop::whereNull('id_parent')
-            ->with(['children', 'values']);
+            ->with(['children', 'valuesExists']);
 
         if($request->prop && in_array($request->prop, $dopFilter)) {
             $prop->where('id_name', $request->prop);
@@ -66,7 +64,10 @@ class CatalogController extends Controller
 
     public function list(ListRequest $request, FilterContract $filter)
     {
-        $queryBuild = User::select(['catalog_user.*'])->distinct()->with(['blockExperience', 'values', 'props', 'values.prop']);
+        $queryBuild = User::select(['catalog_user.*'])
+            ->distinct()
+            ->with(['blockExperience', 'values', 'props', 'values.prop'])
+            ->where('active', 1);
 
         if($request->filter) {
             $filter->properties($request->filter, $queryBuild);
