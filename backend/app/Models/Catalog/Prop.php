@@ -53,7 +53,8 @@ class Prop extends Model
             })
             ->join('catalog_user', 'catalog_user.id', '=', 'catalog_user_value.id_catalog_user')
             ->whereNull('catalog_user.deleted_at')
-            ->where('catalog_user.active', 1);
+            ->where('catalog_user.active', 1)
+            ->orderBy('catalog_prop_value.value', 'asc');
     }
 
     public function children()
