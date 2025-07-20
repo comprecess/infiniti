@@ -159,7 +159,7 @@ class User extends Model implements MeetingContract
     {
         $result = ['year' => 0, 'month' => 0, 'day' => 0];
         $exp = [];
-        $blocks = $this->blockExperience;
+        $blocks = $this->load(['blockExperience'])->blockExperience;
 
         foreach($blocks as $key => $block) {
             $block->to = $block->to ?? now();

@@ -42,6 +42,19 @@ class Prop extends Model
         return $this->hasMany(Value::class, 'id_prop');
     }
 
+    public function valuesExists()
+    {
+        return $this->hasMany(Value::class, 'id_prop')
+            ->distinct()
+            ->select('catalog_prop_value.*')
+            ->join('catalog_user_value', function($join){
+                $join->on('catalog_user_value.cataloggable_id','=','catalog_prop_value.id')
+                    ->where('catalog_user_value.cataloggable_type', Value::class);
+            })
+            ->join('catalog_user', 'catalog_user.id', '=', 'catalog_user_value.id_catalog_user')
+            ->whereNull('catalog_user.deleted_at');
+    }
+
     public function children()
     {
         return $this->hasMany($this::class, 'id_parent');

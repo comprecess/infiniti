@@ -107,6 +107,7 @@ Route::controller(Resident\DocumentController::class)->prefix('document')
 Route::controller(Resident\Talents\TalentController::class)->prefix('talent')
     ->group(function(){
         Route::get('/list', 'list');
+        Route::post('list', 'listCatalogPublic');
         Route::get('/input-data', 'inputData');
         Route::get('/cart/list', 'cartList');
         Route::get('/cart/{cart}', 'cartItem');
