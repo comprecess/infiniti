@@ -67,7 +67,7 @@ class OfferController extends SaleController
             ->select('sys_quotes.*')
             ->leftJoin('crm_accounts', 'crm_accounts.id', '=', 'sys_quotes.userid')
             ->leftJoin('sys_companies', 'sys_companies.id', '=', 'crm_accounts.cid')
-            ->with(['user', 'user.companyClient', 'user.group']);
+            ->with(['user', 'user.companyClient', 'user.group', 'getCurrencyIso']);
 
         $requestAll = $request->all();
 
@@ -126,6 +126,7 @@ class OfferController extends SaleController
                 $model->account = $client->account;
                 $model->cn = $request->num ? $request->num : '';
                 $model->customernotes = $request->notes ? $request->notes : '';
+                $model->proposal = $request->proposal ?? '';
                 $model->lastmodified = now();
                 $model->datesent = now();
 
@@ -161,7 +162,7 @@ class OfferController extends SaleController
 
     public function item(Offer $offer)
     {
-        return new OfferItemResource($offer->load(['items', 'items.invoice']));
+        return new OfferItemResource($offer->load(['items', 'items.invoice', 'items.getCurrencyIso', 'getCurrencyIso']));
     }
 
     public function delete(Offer $offer)
