@@ -9,6 +9,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProjectListResource extends JsonResource
 {
+
+    public static $isCollection = false;
     /**
      * Transform the resource into an array.
      *
@@ -34,7 +36,17 @@ class ProjectListResource extends JsonResource
             $resorce['members'] = UserResource::collection($members);
         }
 
+        if(!self::$isCollection) {
+            $resorce['details'] = $this->description;
+        }
+
 
         return $resorce;
+    }
+
+    public static function collection($resource)
+    {
+        self::$isCollection = true;
+        return parent::collection($resource);
     }
 }
