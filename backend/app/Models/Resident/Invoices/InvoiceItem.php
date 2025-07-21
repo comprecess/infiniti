@@ -69,6 +69,7 @@ class InvoiceItem extends Model implements InsertDefaultValueInterface
             'itemcode' => [''],
             'taxed' => [0],
             'invoiceid' =>[0],
+            'currency_iso_code' => [Currency::getDefault()?->iso_code]
         ];
     }
 
@@ -81,6 +82,11 @@ class InvoiceItem extends Model implements InsertDefaultValueInterface
     public function getDiscountType()
     {
         return array_flip(self::DISCOUNT_TYPE)[$this->discount_type ?? 'f'];
+    }
+
+    public function printDiscount()
+    {
+        return $this->discount_type == 'p' ? round($this->discount_amount) : $this->printPrice('discount_amount', $this->getCurrencyIso);
     }
 
     //notService
