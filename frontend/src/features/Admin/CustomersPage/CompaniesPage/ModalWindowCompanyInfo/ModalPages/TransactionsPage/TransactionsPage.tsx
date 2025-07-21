@@ -3,7 +3,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { TransactionsViewCompany } from '../../../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/GetPage'
+import { getCompanyPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/get-company-page'
 import { Title } from '../../../../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './TransactionsPage.module.scss'
@@ -18,9 +18,11 @@ export const TransactionsPage = ({ id }: TransactionsPageProps) => {
   >(null)
 
   const getTransactions = async () => {
-    const getResponse = await getPage(id, 'transactions')
+    const response = await getCompanyPage(id, 'transactions')
 
-    setTransactions(getResponse.data)
+    if (!response.status) return
+
+    setTransactions(response.data.data)
   }
 
   useEffect(() => {

@@ -4,8 +4,8 @@ import { ChangeEvent, useEffect, useState } from 'react'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/GetPage'
-import { updateMemo } from '../../../../../../../shared/utils/api/Admin/Companies/View/UpdateMemoInfo'
+import { getCompanyPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/get-company-page'
+import { putUpdateCompanyMemo } from '../../../../../../../shared/utils/api/Admin/Companies/View/put-update-company-memo'
 import styles from './MemoPage.module.scss'
 
 interface Memo {
@@ -22,13 +22,19 @@ export const MemoPage = ({ id }: MemoPageProps) => {
   const showToast = useCustomToast()
 
   const getMemoPage = async () => {
-    const getResponse: Memo = await getPage(id, 'memo')
+    const response = await getCompanyPage(id, 'memo')
 
-    setMemo(getResponse)
+    if (!response.status) return
+
+    setMemo(response.data)
   }
 
   const editMemo = async () => {
-    const editResponse = await updateMemo(id, 'memo', memo?.notes || '')
+    const editResponse = await putUpdateCompanyMemo(
+      id,
+      'memo',
+      memo?.notes || '',
+    )
 
     if (editResponse.status) {
       showToast({

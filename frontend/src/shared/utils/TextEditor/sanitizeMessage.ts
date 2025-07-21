@@ -10,6 +10,8 @@ export const sanitizeMessage = (value: string): string => {
       'p',
       'br',
       'b',
+      'u',
+      's',
       'i',
       'em',
       'strong',

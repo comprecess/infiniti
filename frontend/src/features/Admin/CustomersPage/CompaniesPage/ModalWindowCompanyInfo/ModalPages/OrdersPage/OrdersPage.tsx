@@ -5,7 +5,7 @@ import { OrdersViewCompany } from '../../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../../app/router/routes'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/GetPage'
+import { getCompanyPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/get-company-page'
 import { Title } from '../../../../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './OrdersPage.module.scss'
@@ -20,9 +20,11 @@ export const OrdersPage = ({ id }: OrdersPageProps) => {
   const navigate = useNavigate()
 
   const getOrders = async () => {
-    const getResponse = await getPage(id, 'orders')
+    const response = await getCompanyPage(id, 'orders')
 
-    setOrders(getResponse.data)
+    if (!response.status) return
+
+    setOrders(response.data.data)
   }
 
   const handleNavigate = (id: number) => {

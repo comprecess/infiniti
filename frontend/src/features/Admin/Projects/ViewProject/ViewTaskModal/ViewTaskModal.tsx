@@ -1,41 +1,30 @@
 import { useState } from 'react'
 
-import {
-  ProjectsTasksData,
-  ProjectsTasksFormData,
-  ProjectsTasksInputData,
-} from '../../../../../app/constants/constants'
+import { ProjectsTasksData } from '../../../../../app/constants/constants'
 import { CrossIcon } from '../../../../../shared/icons/CrossIcon'
 import { ConfirmationModal } from '../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { CustomMiniButton } from '../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { CustomModalWindow } from '../../../../../shared/ui/CustomModalWindow/CustomModalWindow'
 import { sanitizeMessage } from '../../../../../shared/utils/TextEditor/sanitizeMessage'
-import { EditTaskModal } from '../EditTaskModal/EditTaskModal'
 import styles from './ViewTaskModal.module.scss'
 
 interface ViewTaskModalProps {
-  inputData: ProjectsTasksInputData
   modalOpen: boolean
   task: ProjectsTasksData
+  handleIsEditTask: () => void
   handleOpenCloseModal: () => void
-  editSelectedTask: (
-    idTask: number,
-    form: Partial<ProjectsTasksFormData>,
-  ) => void
   deleteSelectedTask: (idTask: number) => void
 }
 
 export const ViewTaskModal = ({
-  inputData,
   modalOpen,
   task,
+  handleIsEditTask,
   handleOpenCloseModal,
-  editSelectedTask,
   deleteSelectedTask,
 }: ViewTaskModalProps) => {
   const [confirmModal, setConfirmModal] = useState<boolean>(false)
-  const [isEdited, setIsEdited] = useState<boolean>(false)
 
   const safeHTML = task.description
     ? sanitizeMessage(task.description)
@@ -43,10 +32,6 @@ export const ViewTaskModal = ({
 
   const handleSetConfirmModal = () => {
     setConfirmModal(prev => !prev)
-  }
-
-  const handleSetIsEdited = () => {
-    setIsEdited(prev => !prev)
   }
 
   const deleteTask = () => {
@@ -110,7 +95,7 @@ export const ViewTaskModal = ({
                 icon='/icons/edit.svg'
                 alt='Edit'
                 tooltipTitle='Edit'
-                onClick={handleSetIsEdited}
+                onClick={handleIsEditTask}
               />
               <CustomMiniButton
                 style='cherry'
@@ -128,16 +113,6 @@ export const ViewTaskModal = ({
           isOpened={confirmModal}
           agree={deleteTask}
           handleOpenCloseModal={handleSetConfirmModal}
-        />
-      )}
-      {isEdited && (
-        <EditTaskModal
-          task={task}
-          modalOpen={isEdited}
-          inputData={inputData}
-          handleOpenCloseModal={handleSetIsEdited}
-          handleOpenCloseViewModal={handleOpenCloseModal}
-          editTask={editSelectedTask}
         />
       )}
     </>

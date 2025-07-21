@@ -17,8 +17,8 @@ import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { deleteSelectedTalent } from '../../../../shared/utils/api/Admin/Talents/delete-selected-talent'
+import { postTalentsList } from '../../../../shared/utils/api/Admin/Talents/post-talents-list'
 import { getPropertiesFiltering } from '../../../../shared/utils/api/Client/Catalog/Properties/GetPropertiesFiltering'
-import { getUsersListInfo } from '../../../../shared/utils/api/Client/Catalog/User/GetUsersListInfo'
 import { getSession } from '../../../../shared/utils/Saving/Session/GetSession'
 import styles from './CatalogTalentsPage.module.scss'
 
@@ -38,20 +38,22 @@ export const AdminCatalogTalentsPage = () => {
   const { data: talentsList, refetch } = useQuery({
     queryKey: ['talents', currentPage, selectedFilters, sort],
     queryFn: async () => {
-      const res: {
-        data: TalentData[]
-        meta: PagesMetaData
-      } = await getUsersListInfo(
+      const response = await postTalentsList(
         page + String(currentPage),
         selectedFilters,
         sort,
       )
 
-      if (currentPage > res.meta.last_page) {
+      if (!response.status) return
+
+      if (currentPage > response.data.meta.last_page) {
         setCurrentPage(1)
       }
 
-      return res
+      return response.data as {
+        data: TalentData[]
+        meta: PagesMetaData
+      }
     },
     placeholderData: previousData => previousData,
   })

@@ -3,13 +3,13 @@ import {
   INVALID_RESPONSE_MESSAGE,
   NETWORK_ERROR_MESSAGE,
   REQUEST_TIMEOUT_MS,
-} from '../../../../../app/constants/constants'
-import { customFetch } from '../../custom-fetch'
-import { getAuthToken } from '../../get-auth-token'
+} from '../../../../../../app/constants/constants'
+import { customFetch } from '../../../custom-fetch'
+import { getAuthToken } from '../../../get-auth-token'
 
 interface SuccessResponse {
   status: true
-  data: any
+  message: string
 }
 
 interface ErrorResponse {
@@ -20,14 +20,15 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-export const getProjectsFiles = async (
-  idProject: number,
-  options: string = '',
+export const putUpdateCompanyMemo = async (
+  id: number,
+  type: string,
+  memo: string,
 ): Promise<Response> => {
-  if (!Number.isInteger(idProject) || idProject <= 0) {
+  if (!Number.isInteger(id) || id <= 0) {
     return {
       status: false,
-      message: 'Invalid project ID',
+      message: 'Invalid company ID',
     }
   }
 
@@ -42,7 +43,8 @@ export const getProjectsFiles = async (
 
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const apiPath = import.meta.env.VITE_PROJECTS_API
+    const apiPath = import.meta.env
+      .VITE_CUSTOMERS_MODAL_VIEW_UPDATE_MEMO_COMPANY
 
     if (!baseUrl || !apiPath) {
       return {
@@ -51,14 +53,7 @@ export const getProjectsFiles = async (
       }
     }
 
-    const safeOptions = options.startsWith('?')
-      ? options.slice(1)
-      : options
-
-    const url = new URL(
-      `${apiPath}/${idProject}/files`,
-      baseUrl,
-    ).toString()
+    const url = new URL(`${apiPath}${id}/view/${type}`, baseUrl).toString()
 
     const controller = new AbortController()
     const timeoutId = setTimeout(
@@ -67,21 +62,23 @@ export const getProjectsFiles = async (
     )
 
     const data = await customFetch(url, {
-      method: 'GET',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
-      queryParams: safeOptions
-        ? Object.fromEntries(new URLSearchParams(safeOptions))
-        : undefined,
+      body: JSON.stringify({ memo }),
       signal: controller.signal,
     })
 
     clearTimeout(timeoutId)
 
-    if (!data || typeof data !== 'object') {
+    if (
+      !data ||
+      typeof data !== 'object' ||
+      typeof data.status !== 'boolean'
+    ) {
       return {
         status: false,
         message: INVALID_RESPONSE_MESSAGE,
@@ -89,10 +86,7 @@ export const getProjectsFiles = async (
       }
     }
 
-    return {
-      status: true,
-      data,
-    }
+    return data
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') {
       return {

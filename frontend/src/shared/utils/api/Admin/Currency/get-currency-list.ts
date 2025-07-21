@@ -20,17 +20,7 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-export const getProjectsFiles = async (
-  idProject: number,
-  options: string = '',
-): Promise<Response> => {
-  if (!Number.isInteger(idProject) || idProject <= 0) {
-    return {
-      status: false,
-      message: 'Invalid project ID',
-    }
-  }
-
+export const getCurrencyList = async (): Promise<Response> => {
   const authToken = getAuthToken()
 
   if (!authToken) {
@@ -42,23 +32,15 @@ export const getProjectsFiles = async (
 
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const apiPath = import.meta.env.VITE_PROJECTS_API
+    const apiPath = import.meta.env.VITE_CURRENCY_GET_LIST_OF_ACTIVE
 
     if (!baseUrl || !apiPath) {
-      return {
-        status: false,
-        message: 'Configuration error - missing environment variables',
-      }
+      throw new Error(
+        'Configuration error - missing environment variables',
+      )
     }
 
-    const safeOptions = options.startsWith('?')
-      ? options.slice(1)
-      : options
-
-    const url = new URL(
-      `${apiPath}/${idProject}/files`,
-      baseUrl,
-    ).toString()
+    const url = new URL(apiPath, baseUrl).toString()
 
     const controller = new AbortController()
     const timeoutId = setTimeout(
@@ -73,9 +55,6 @@ export const getProjectsFiles = async (
         Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
-      queryParams: safeOptions
-        ? Object.fromEntries(new URLSearchParams(safeOptions))
-        : undefined,
       signal: controller.signal,
     })
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import {
   ProjectsTasksData,
@@ -19,7 +19,6 @@ interface EditTaskModalProps {
   modalOpen: boolean
   inputData: ProjectsTasksInputData
   editTask: (idTask: number, form: Partial<ProjectsTasksFormData>) => void
-  handleOpenCloseViewModal: () => void
   handleOpenCloseModal: () => void
 }
 
@@ -29,7 +28,6 @@ export const EditTaskModal = ({
   inputData,
   editTask,
   handleOpenCloseModal,
-  handleOpenCloseViewModal,
 }: EditTaskModalProps) => {
   const [form, setForm] = useState<Partial<ProjectsTasksFormData>>()
 
@@ -52,16 +50,7 @@ export const EditTaskModal = ({
 
     editTask(task.id, form)
     handleOpenCloseModal()
-    handleOpenCloseViewModal()
   }
-
-  useEffect(() => {
-    if (modalOpen) {
-      handleChangeInput('description', task.description)
-      handleChangeInput('startDate', task.start)
-      handleChangeInput('dueDate', task.dueDate)
-    }
-  }, [modalOpen])
 
   return (
     <CustomModalWindow
@@ -83,6 +72,7 @@ export const EditTaskModal = ({
             id='title'
             name='title'
             value={task.title}
+            onInputChange={false}
             onChange={handleChangeInput}
           />
           <div className={styles.dates}>
@@ -110,6 +100,7 @@ export const EditTaskModal = ({
                 ? `${item.account} - ${item.email}`
                 : `${item.account}`,
             )}
+            onInputChange={false}
             onChange={handleChangeInput}
           />
           <div className={styles.containerItems}>

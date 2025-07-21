@@ -5,7 +5,7 @@ import { InvoicesViewCompany } from '../../../../../../../app/constants/constant
 import { Routes } from '../../../../../../../app/router/routes'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/GetPage'
+import { getCompanyPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/get-company-page'
 import { Title } from '../../../../../../Main/RecentCard/Title/Title'
 import styles from './InvoicesPage.module.scss'
 import { Item } from './Item/Item'
@@ -22,9 +22,11 @@ export const InvoicesPage = ({ id }: InvoicesPageProps) => {
   const navigate = useNavigate()
 
   const getInvoices = async () => {
-    const getResponse = await getPage(id, 'invoices')
+    const response = await getCompanyPage(id, 'invoices')
 
-    setInvoices(getResponse.data)
+    if (!response.status) return
+
+    setInvoices(response.data.data)
   }
 
   const handleNavigate = (id: number) => {
