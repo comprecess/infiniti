@@ -86,7 +86,7 @@ class InvoiceItem extends Model implements InsertDefaultValueInterface
 
     public function printDiscount()
     {
-        return $this->discount_type == 'p' ? round($this->discount_amount) : $this->printPrice('discount_amount', $this->getCurrencyIso);
+        return $this->discount_type == 'p' ? round($this->discount_amount) . "%" : $this->printPrice('discount_amount', $this->getCurrencyIso);
     }
 
     //notService

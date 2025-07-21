@@ -15,14 +15,14 @@ class InvoiceItemCollection extends Collection
     public function summPrice(?Currency $currency = null)
     {
         return round($this->sum(function($item) use($currency){
-            return $item->transformPrice($item->getSumm(), $currency);
+            return $item->transformPrice((float) $item->getSumm(), $currency);
         }),2);
     }
 
     public function summDiscount(?Currency $currency = null)
     {
         return round($this->sum(function($item) use($currency){
-            return $item->transformPrice($item->getDiscount(), $currency);
+            return $item->transformPrice((float) $item->getDiscount(), $currency);
         }), 2);
     }
 
@@ -30,7 +30,7 @@ class InvoiceItemCollection extends Collection
     {
 //        return round($this->sum('taxamount'), 2);
         return round($this->sum(function($item) use($currency){
-            return $item->transformPrice($item->taxamount, $currency);
+            return $item->transformPrice('taxamount', $currency);
         }), 2);
     }
 
@@ -38,7 +38,7 @@ class InvoiceItemCollection extends Collection
     {
 //        return round($this->sum('total'), 2);
         return round($this->sum(function($item) use($currency){
-            return $item->transformPrice($item->total, $currency);
+            return $item->transformPrice('total', $currency);
         }), 2);
     }
 
