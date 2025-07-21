@@ -36,21 +36,22 @@ class BlankController extends SaleController
     {
         $model = $this->getModel();
         $items = $model->items;
-        if($model instanceof Invoice) {
+        $currency = $model->getCurrencyIso;
+//        if($model instanceof Invoice) {
             $calc = [
-                'price' => $model->printPrice($items->summPrice()),
-                'discount' => $model->printPrice($items->summDiscount()),
-                'tax' => $model->printPrice($items->summTax()),
-                'total' => $model->printPrice($items->summTotal())
+                'price' => $model->printPrice($items->summPrice($currency), $currency),
+                'discount' => $model->printPrice($items->summDiscount($currency), $currency),
+                'tax' => $model->printPrice($items->summTax($currency), $currency),
+                'total' => $model->printPrice($items->summTotal($currency), $currency)
             ];
-        } else {
-            $calc = [
-                'price' => $items->summPrice(),
-                'discount' => $items->summDiscount(),
-                'tax' => $items->summTax(),
-                'total' => $items->summTotal()
-            ];
-        }
+//        } else {
+//            $calc = [
+//                'price' => $items->summPrice(),
+//                'discount' => $items->summDiscount(),
+//                'tax' => $items->summTax(),
+//                'total' => $items->summTotal()
+//            ];
+//        }
 
         return response()->json([
             'blank' => InvoiceBlankResource::collection($items),
