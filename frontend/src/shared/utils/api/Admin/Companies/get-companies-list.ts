@@ -20,17 +20,7 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-export const getProjectsFiles = async (
-  idProject: number,
-  options: string = '',
-): Promise<Response> => {
-  if (!Number.isInteger(idProject) || idProject <= 0) {
-    return {
-      status: false,
-      message: 'Invalid project ID',
-    }
-  }
-
+export const getCompaniesList = async (): Promise<Response> => {
   const authToken = getAuthToken()
 
   if (!authToken) {
@@ -42,7 +32,7 @@ export const getProjectsFiles = async (
 
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const apiPath = import.meta.env.VITE_PROJECTS_API
+    const apiPath = import.meta.env.VITE_CUSTOMERS_GET_COMPANIES
 
     if (!baseUrl || !apiPath) {
       return {
@@ -51,14 +41,7 @@ export const getProjectsFiles = async (
       }
     }
 
-    const safeOptions = options.startsWith('?')
-      ? options.slice(1)
-      : options
-
-    const url = new URL(
-      `${apiPath}/${idProject}/files`,
-      baseUrl,
-    ).toString()
+    const url = new URL(apiPath, baseUrl).toString()
 
     const controller = new AbortController()
     const timeoutId = setTimeout(
@@ -73,9 +56,6 @@ export const getProjectsFiles = async (
         Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
-      queryParams: safeOptions
-        ? Object.fromEntries(new URLSearchParams(safeOptions))
-        : undefined,
       signal: controller.signal,
     })
 

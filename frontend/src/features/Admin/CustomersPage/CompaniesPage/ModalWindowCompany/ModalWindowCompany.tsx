@@ -25,7 +25,7 @@ export const ModalWindowCompany = ({
 }: ModalWindowCompanyProps) => {
   return (
     <CustomModalWindow
-      maxWidth={'800px'}
+      maxWidth='800px'
       isOpen={modalCompany}
       onClose={handleOpenCloseModal}
     >

@@ -1506,6 +1506,7 @@ export interface ProjectsNewProjectForm {
 export interface ProjectsData {
   id: number
   name: string
+  details: string
   budget: string | null
   budgetCurrency: string
   admin: { account: string; img: string }

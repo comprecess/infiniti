@@ -7,6 +7,7 @@ import {
   ProjectsTasksFormData,
   ProjectsTasksInputData,
 } from '../../../../app/constants/constants'
+import { EditTaskModal } from '../../../../features/Admin/Projects/ViewProject/EditTaskModal/EditTaskModal'
 import { ViewTaskModal } from '../../../../features/Admin/Projects/ViewProject/ViewTaskModal/ViewTaskModal'
 import { useDeviceDetect } from '../../../../shared/utils/hooks/useDeviceDetect'
 import styles from './TaskItem.module.scss'
@@ -31,6 +32,7 @@ export const TaskItem = ({
   editSelectedTask,
   deleteSelectedTask,
 }: TaskItemProps) => {
+  const [isEdited, setIsEdited] = useState<boolean>(false)
   const [isViewed, setIsViewed] = useState(false)
 
   const {
@@ -49,6 +51,16 @@ export const TaskItem = ({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+  }
+
+  const handleSetIsEdited = () => {
+    setIsViewed(false)
+
+    const timer = setTimeout(() => {
+      setIsEdited(prev => !prev)
+    }, 100)
+
+    return () => clearTimeout(timer)
   }
 
   const handleClick = (e: React.MouseEvent) => {
@@ -95,12 +107,20 @@ export const TaskItem = ({
       </div>
       {isViewed && !isDragging && inputData && (
         <ViewTaskModal
-          inputData={inputData}
           task={task}
           modalOpen={isViewed}
+          handleIsEditTask={handleSetIsEdited}
           handleOpenCloseModal={() => setIsViewed(false)}
-          editSelectedTask={editSelectedTask}
           deleteSelectedTask={deleteSelectedTask}
+        />
+      )}
+      {isEdited && !isDragging && inputData && (
+        <EditTaskModal
+          task={task}
+          modalOpen={isEdited}
+          inputData={inputData}
+          handleOpenCloseModal={handleSetIsEdited}
+          editTask={editSelectedTask}
         />
       )}
     </>

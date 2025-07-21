@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { CompanyData } from '../../../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/GetPage'
+import { getCompanyPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/get-company-page'
 import { Item } from './Item/Item'
 import styles from './SummaryPage.module.scss'
 
@@ -16,9 +16,11 @@ export const SummaryPage = ({ id, onClick }: SummaryPageProps) => {
   const [summary, setSummary] = useState<CompanyData | null>(null)
 
   const getSummaryPage = async () => {
-    const getResponse = await getPage(id, 'summary')
+    const response = await getCompanyPage(id, 'summary')
 
-    setSummary(getResponse.data)
+    if (!response.status) return
+
+    setSummary(response.data.data)
   }
 
   const handleOpenEditPanel = () => {

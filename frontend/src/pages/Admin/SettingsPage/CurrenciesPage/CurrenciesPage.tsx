@@ -10,11 +10,11 @@ import { RecentCurrencies } from '../../../../features/Admin/CurrenciesPage/Rece
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { addCurrency } from '../../../../shared/utils/api/Admin/Currency/AddCurrency'
-import { changeBaseCurrency } from '../../../../shared/utils/api/Admin/Currency/ChangeBaseCurrency'
-import { deleteCurrency } from '../../../../shared/utils/api/Admin/Currency/DeleteCurrency'
-import { editCurrency } from '../../../../shared/utils/api/Admin/Currency/EditCurrency'
-import { getListOfActive } from '../../../../shared/utils/api/Admin/Currency/GetListOfActive'
+import { deleteCurrency } from '../../../../shared/utils/api/Admin/Currency/delete-currency'
+import { getCurrencyList } from '../../../../shared/utils/api/Admin/Currency/get-currency-list'
+import { postCreateNewCurrency } from '../../../../shared/utils/api/Admin/Currency/post-create-new-currency'
+import { putChangeBaseCurrency } from '../../../../shared/utils/api/Admin/Currency/put-change-base-currency'
+import { putUpdateCurrency } from '../../../../shared/utils/api/Admin/Currency/put-update-currency'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CurrenciesPage.module.scss'
 
@@ -53,14 +53,13 @@ export const AdminCurrenciesPage = () => {
     }
   }
 
-  const getCurrencyList = async () => {
-    const currencyResponse: {
-      access: RolesAccess
-      data: CurrencyProps[]
-    } = await getListOfActive()
+  const currencyList = async () => {
+    const response = await getCurrencyList()
 
-    setAccess(currencyResponse.access)
-    setCurrenciesList(currencyResponse.data)
+    if (!response.status) return
+
+    setAccess(response.data.access)
+    setCurrenciesList(response.data.data)
   }
 
   const loadEditModalWindow = (
@@ -87,7 +86,7 @@ export const AdminCurrenciesPage = () => {
         description: 'You have successfully deleted the currency',
         status: 'success',
       })
-      getCurrencyList()
+      currencyList()
     } else {
       showToast({
         title: 'Error',
@@ -98,7 +97,7 @@ export const AdminCurrenciesPage = () => {
   }
 
   const changeSelectedBaseCurrency = async (id: number) => {
-    const changeResponse = await changeBaseCurrency(id)
+    const changeResponse = await putChangeBaseCurrency(id)
 
     if (changeResponse.status) {
       showToast({
@@ -106,7 +105,7 @@ export const AdminCurrenciesPage = () => {
         description: 'You have successfully changed the base currency',
         status: 'success',
       })
-      getCurrencyList()
+      currencyList()
     } else {
       showToast({
         title: 'Error',
@@ -117,7 +116,7 @@ export const AdminCurrenciesPage = () => {
   }
 
   const editSelectedCurrency = async (id: number) => {
-    const changeResponse = await editCurrency(id, name, rate)
+    const changeResponse = await putUpdateCurrency(id, name, rate)
 
     if (changeResponse.status) {
       showToast({
@@ -125,7 +124,7 @@ export const AdminCurrenciesPage = () => {
         description: 'You have successfully changed the base currency',
         status: 'success',
       })
-      getCurrencyList()
+      currencyList()
     } else {
       showToast({
         title: 'Error',
@@ -138,7 +137,7 @@ export const AdminCurrenciesPage = () => {
   }
 
   const createNewCurrency = async () => {
-    const addResponse = await addCurrency(name, rate)
+    const addResponse = await postCreateNewCurrency(name, rate)
 
     if (addResponse.status) {
       showToast({
@@ -146,7 +145,7 @@ export const AdminCurrenciesPage = () => {
         description: 'You have successfully added currency',
         status: 'success',
       })
-      getCurrencyList()
+      currencyList()
     } else {
       showToast({
         title: 'Error',
@@ -163,7 +162,7 @@ export const AdminCurrenciesPage = () => {
   }, [])
 
   useEffect(() => {
-    getCurrencyList()
+    currencyList()
   }, [])
 
   return (

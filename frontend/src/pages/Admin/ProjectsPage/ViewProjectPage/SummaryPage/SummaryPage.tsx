@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import { ProjectViewPageContext } from '../../../../../app/constants/constants'
+import { sanitizeMessage } from '../../../../../shared/utils/TextEditor/sanitizeMessage'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './SummaryPage.module.scss'
 
@@ -18,6 +19,10 @@ export const AdminProjectsSummaryPage = () => {
 
   const isMembers = members.length > 0
   const isTasks = completed.total > 0
+
+  const safeDetails = projectInfo.details
+    ? sanitizeMessage(projectInfo.details)
+    : null
 
   useEffect(() => {
     document.title = 'infiniti | Project Summary'
@@ -36,6 +41,15 @@ export const AdminProjectsSummaryPage = () => {
               {projectInfo.budgetCurrency}
             </span>
           </div>
+          {safeDetails && (
+            <div className={styles.details}>
+              <span className={styles.budgetTitle}>Details:</span>
+              <span
+                dangerouslySetInnerHTML={{ __html: safeDetails }}
+                className={styles.details}
+              />
+            </div>
+          )}
           <div className={styles.dateList}>
             <div className={styles.date}>
               <div className={styles.dateContainerFirst}>

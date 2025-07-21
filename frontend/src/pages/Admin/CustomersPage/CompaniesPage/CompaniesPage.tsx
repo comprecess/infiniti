@@ -13,11 +13,11 @@ import { SearchAndButtons } from '../../../../features/Admin/CustomersPage/Compa
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { createNewCompany } from '../../../../shared/utils/api/Admin/Companies/CreateNewCompany'
-import { deleteCompany } from '../../../../shared/utils/api/Admin/Companies/DeleteCompany'
-import { editCompany } from '../../../../shared/utils/api/Admin/Companies/EditCompany'
-import { getCompaniesList } from '../../../../shared/utils/api/Admin/Companies/GetCompanies'
-import { getCompany } from '../../../../shared/utils/api/Admin/Companies/GetCompany'
+import { deleteCompany } from '../../../../shared/utils/api/Admin/Companies/delete-company'
+import { getCompaniesList } from '../../../../shared/utils/api/Admin/Companies/get-companies-list'
+import { getCompany } from '../../../../shared/utils/api/Admin/Companies/get-company'
+import { postCreateNewCompany } from '../../../../shared/utils/api/Admin/Companies/post-create-new-company'
+import { putUpdateCompanyInfo } from '../../../../shared/utils/api/Admin/Companies/put-update-company-info'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CompaniesPage.module.scss'
 
@@ -88,12 +88,14 @@ export const AdminCompaniesPage = () => {
   const { data: companiesData } = useQuery({
     queryKey: ['companies'],
     queryFn: async () => {
-      const response: {
+      const response = await getCompaniesList()
+
+      if (!response.status) return
+
+      return response.data as {
         access: RolesAccess
         data: CompaniesListProps[]
-      } = await getCompaniesList()
-
-      return response
+      }
     },
     placeholderData: previousData => previousData,
   })
@@ -124,11 +126,13 @@ export const AdminCompaniesPage = () => {
   }
 
   const loadCompanyInfo = async (id: number) => {
-    const companyResponse: CompanyData = await getCompany(id)
+    const response = await getCompany(id)
+
+    if (!response.status) return
 
     setCompanyData(prevState => ({
       ...prevState,
-      ...companyResponse,
+      ...response,
     }))
   }
 
@@ -149,7 +153,7 @@ export const AdminCompaniesPage = () => {
 
   const createCompany = async () => {
     const filteredData = filterEmptyFields(companyData)
-    const createResponse = await createNewCompany(filteredData)
+    const createResponse = await postCreateNewCompany(filteredData)
 
     if (createResponse.status) {
       showToast({
@@ -191,7 +195,10 @@ export const AdminCompaniesPage = () => {
   const editSelectedCompany = async () => {
     if (selectedCompanyId === null) return
 
-    const editResponse = await editCompany(selectedCompanyId, companyData)
+    const editResponse = await putUpdateCompanyInfo(
+      selectedCompanyId,
+      companyData,
+    )
 
     if (editResponse.status) {
       showToast({

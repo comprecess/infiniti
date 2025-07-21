@@ -3,9 +3,9 @@ import {
   INVALID_RESPONSE_MESSAGE,
   NETWORK_ERROR_MESSAGE,
   REQUEST_TIMEOUT_MS,
-} from '../../../../../app/constants/constants'
-import { customFetch } from '../../custom-fetch'
-import { getAuthToken } from '../../get-auth-token'
+} from '../../../../../../app/constants/constants'
+import { customFetch } from '../../../custom-fetch'
+import { getAuthToken } from '../../../get-auth-token'
 
 interface SuccessResponse {
   status: true
@@ -20,14 +20,13 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-export const getProjectsFiles = async (
-  idProject: number,
-  options: string = '',
+export const getCompanyHeaderView = async (
+  id: number,
 ): Promise<Response> => {
-  if (!Number.isInteger(idProject) || idProject <= 0) {
+  if (!Number.isInteger(id) || id <= 0) {
     return {
       status: false,
-      message: 'Invalid project ID',
+      message: 'Invalid company ID',
     }
   }
 
@@ -42,7 +41,7 @@ export const getProjectsFiles = async (
 
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const apiPath = import.meta.env.VITE_PROJECTS_API
+    const apiPath = import.meta.env.VITE_CUSTOMERS_MODAL_VIEW_GET_COMPANY
 
     if (!baseUrl || !apiPath) {
       return {
@@ -51,14 +50,7 @@ export const getProjectsFiles = async (
       }
     }
 
-    const safeOptions = options.startsWith('?')
-      ? options.slice(1)
-      : options
-
-    const url = new URL(
-      `${apiPath}/${idProject}/files`,
-      baseUrl,
-    ).toString()
+    const url = new URL(`${apiPath}${id}/view`, baseUrl).toString()
 
     const controller = new AbortController()
     const timeoutId = setTimeout(
@@ -73,9 +65,6 @@ export const getProjectsFiles = async (
         Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
-      queryParams: safeOptions
-        ? Object.fromEntries(new URLSearchParams(safeOptions))
-        : undefined,
       signal: controller.signal,
     })
 
