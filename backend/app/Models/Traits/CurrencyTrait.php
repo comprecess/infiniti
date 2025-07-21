@@ -47,16 +47,7 @@ trait CurrencyTrait
             return Currency::getAndCreate($this->{$this->getCurrencyColumnName()});
         }
     }
-/*
-    public function getCurrencyDel()
-    {
-        if($this->getCurrencyId()) {
-            return $this->belongsTo(Currency::class, $this->getCurrencyId() === true ? 'currency' : $this->getCurrencyId())->withTrashed();
-        } else {
-            return $this->belongsTo(Currency::class, $this->getCurrencyColumnName(), 'iso_code')->withTrashed();
-        }
-    }
-*/
+
     public function getColumn()
     {
         if($this->getCurrencyId()) {
@@ -102,37 +93,11 @@ trait CurrencyTrait
     }
 
     /** Перевод валюты*/
-    public function transformPrice(string $nameColumn, ?Currency $currencyTransform = null, $print = false)
+    public function transformPrice($nameColumn, ?Currency $currencyTransform = null, $print = false)
     {
-        $price = (float) $this->{$nameColumn};
+//        $price = (float) $this->{$nameColumn};
+        $price = is_string($nameColumn) ? $this->{$nameColumn} : $nameColumn;
         $price = round($price * $this->getRate($currencyTransform), 2);
         return $print ? $this->printPrice($price, $currencyTransform ?? Currency::getDefault()) : $price;
-
     }
-
-    /*
-     private function getRate()
-    {
-        if($this->rateSum === null) {
-            $def = Currency::getDefault();
-            $currency = $this->getCurrencyIso;
-            $this->rateSum = 1;
-            if($currency && $def->iso_code != $currency->iso_code) {
-//                dd($currency->rate);
-                $this->rateSum = $def->rate / $currency->rate;
-            }
-        }
-        dd($this->rateSum, $def->rate, $currency->rate);
-
-        return $this->rateSum;
-    }
-
-    public function transformPrice(string $nameColumn, $print = false)
-    {
-        $price = (float) $this->{$nameColumn};
-        $price = round($price * $this->getRate(), 2);
-        return $print ? $this->printPrice($price) : $price;
-
-    }
-     */
 }

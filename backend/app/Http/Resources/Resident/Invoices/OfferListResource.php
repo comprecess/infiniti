@@ -20,7 +20,7 @@ class OfferListResource extends JsonResource
             'account' => new ClientResource($this->user),
             'subject' => $this->subject,
 //            'total' => $this->total,
-            'total' => $this->printPrice('total'),
+            'total' => $this->printPrice('total', $this->getCurrencyIso),
             'validUntil' => $this->validuntil?->format($format),
             'dateCreated' => $this->datecreated?->format($format),
             'stage' => $this->stage,

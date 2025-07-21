@@ -6,33 +6,40 @@ namespace App\Models\Collection;
 
 use App\Models\MultipleConditions\InvoiceStatus;
 use App\Models\Resident\Invoices\Invoice;
+use App\Models\Resident\Settings\Currency;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class InvoiceItemCollection extends Collection
 {
-    public function summPrice()
+    public function summPrice(?Currency $currency = null)
     {
-        return round($this->sum(function($item){
-            return $item->getSumm();
+        return round($this->sum(function($item) use($currency){
+            return $item->transformPrice($item->getSumm(), $currency);
         }),2);
     }
 
-    public function summDiscount()
+    public function summDiscount(?Currency $currency = null)
     {
-        return round($this->sum(function($item){
-            return $item->getDiscount();
+        return round($this->sum(function($item) use($currency){
+            return $item->transformPrice($item->getDiscount(), $currency);
         }), 2);
     }
 
-    public function summTax()
+    public function summTax(?Currency $currency = null)
     {
-        return round($this->sum('taxamount'), 2);
+//        return round($this->sum('taxamount'), 2);
+        return round($this->sum(function($item) use($currency){
+            return $item->transformPrice($item->taxamount, $currency);
+        }), 2);
     }
 
-    public function summTotal()
+    public function summTotal(?Currency $currency = null)
     {
-        return round($this->sum('total'), 2);
+//        return round($this->sum('total'), 2);
+        return round($this->sum(function($item) use($currency){
+            return $item->transformPrice($item->total, $currency);
+        }), 2);
     }
 
     public function cloneItems(Model $model, callable $callable = null)

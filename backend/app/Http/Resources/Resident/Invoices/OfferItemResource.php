@@ -27,12 +27,12 @@ class OfferItemResource extends JsonResource implements ListInterface
      */
     public function toArray(Request $request): array
     {
-        $resorce = [
 
-        ];
+        $resorce = [];
         $this->setList($resorce);
 
         $items = $this->items;
+        $currency = $this->getCurrencyIso;
 
         $resorce = array_merge($resorce, [
             'code' => $this->getCode(),
@@ -46,10 +46,10 @@ class OfferItemResource extends JsonResource implements ListInterface
                 "publicButton" => $this->status()->actionPublicStage()
             ],
             'blankCalc' => [
-                'price' => $items->summPrice(),
-                'discount' => $items->summDiscount(),
-                'tax' => $items->summTax(),
-                'total' => $items->summTotal()
+                'price' => $this->printPrice($items->summPrice($currency),$currency),
+                'discount' => $this->printPrice($items->summDiscount($currency),$currency),
+                'tax' => $this->printPrice($items->summTax($currency),$currency),
+                'total' => $this->printPrice($items->summTotal($currency),$currency)
             ]
         ]);
 

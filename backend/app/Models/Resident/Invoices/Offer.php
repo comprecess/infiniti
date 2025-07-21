@@ -58,6 +58,7 @@ class Offer extends Model implements InsertDefaultValueInterface
             'adminnotes' => [''],
             'lastmodified' => [now()],
             'dateaccepted' => [now()],
+            'proposal' => ['']
 
         ];
     }
