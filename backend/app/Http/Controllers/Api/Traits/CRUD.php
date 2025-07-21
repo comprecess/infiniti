@@ -68,7 +68,8 @@ trait CRUD
     public function createOrUpdate(FormRequest $request, Model $model, ?callable $setDataModel = null, ?callable $afterDataSet = null)
     {
         DB::beginTransaction();
-        $isNew = !((bool) $model->getAttributes());
+//        $isNew = !((bool) $model->getAttributes());
+        $isNew = !((bool) $model?->id);
         if($isNew && ($model instanceof InsertDefaultValueInterface)) {
             $model->insertDefaultValue();
         }
