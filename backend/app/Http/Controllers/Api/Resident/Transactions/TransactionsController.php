@@ -166,7 +166,7 @@ class TransactionsController extends TransactionsAccessController
             $request = app(TransactionsUpdateRequest::class);
         }
 
-        return $this->createOrUpdateCRUD($request, $transaction, function($model, $request) use ($type, $isNew){
+        return $this->createOrUpdateCRUD($request, $transaction, function($model, $request, $isNew) use ($type){
             if(!$isNew) {
                 $type = $model->type;
             }
@@ -207,7 +207,7 @@ class TransactionsController extends TransactionsAccessController
                 $model->project_id = 0;
             }
 
-        }, function($model, $request) use($type, $isNew){
+        }, function($model, $request, $isNew) use($type){
             if($request->file) {
                 if(!$isNew) {
                     $model->deleteAllFiles();
