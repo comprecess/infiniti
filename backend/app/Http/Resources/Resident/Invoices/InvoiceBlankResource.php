@@ -19,19 +19,27 @@ class InvoiceBlankResource extends JsonResource
             'service' => $this->getNameService(),
             'serviceId' => $this->getNameService(null) ? $this->service_id : null,
 //            'price' => $this->amount,
-            'price' => $this->transformPrice('amount', $this->getCurrencyIso, true),
+//            'price' => $this->transformPrice('amount', $this->getCurrencyIso, true),
             'amount' => $this->qty,
 //            'discount' => $this->discount_amount,
-            'discount' => $this->transformPrice('discount_amount', $this->getCurrencyIso, true),
+//            'discount' => $this->transformPrice('discount_amount', $this->getCurrencyIso, true),
             'discountType' => $this->getDiscountType(),
             'tax' => new TaxResource($this->getTax()->first()),
             'description' => $this->description ? $this->description : $service?->getDescription(),
 //            'total' => $this->total,
-            'total' => $this->transformPrice('total', $this->getCurrencyIso, true),
+//            'total' => $this->transformPrice('total', $this->getCurrencyIso, true),
             'serviceObject' => $service ? new $serviceObject($service) : null
         ];
 
-        $this->typeContent($resorce, $request);
+        if($request->type == 'view') {
+            $resorce['price'] = $this->transformPrice('amount', $this->getCurrencyIso, true);
+            $resorce['discount'] = $this->transformPrice('discount_amount', $this->getCurrencyIso, true);
+            $resorce['total'] = $this->transformPrice('total', $this->getCurrencyIso, true);
+        }else {
+            $resorce['price'] = $this->amount;
+            $resorce['discount'] = $this->discount_amount;
+            $resorce['total'] = $this->total;
+        }
 
         return $resorce;
 
