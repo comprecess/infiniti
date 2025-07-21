@@ -21,7 +21,6 @@ class InvoiceBlankResource extends JsonResource
 //            'price' => $this->amount,
 //            'price' => $this->transformPrice('amount', $this->getCurrencyIso, true),
             'amount' => $this->qty,
-            'discount' => $this->printDiscount(),
             'discountType' => $this->getDiscountType(),
             'tax' => new TaxResource($this->getTax()->first()),
             'description' => $this->description ? $this->description : $service?->getDescription(),
@@ -33,9 +32,11 @@ class InvoiceBlankResource extends JsonResource
         if($request->type == 'view') {
             $resorce['price'] = $this->transformPrice('amount', $this->getCurrencyIso, true);
             $resorce['total'] = $this->transformPrice('total', $this->getCurrencyIso, true);
+            $resorce['discount'] = $this->printDiscount();
         }else {
             $resorce['price'] = $this->amount;
             $resorce['total'] = $this->total;
+            $resorce['discount'] = round($this->discount_amount, 2);
         }
 
         return $resorce;
