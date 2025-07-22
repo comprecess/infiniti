@@ -70,7 +70,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
         )
 
         if (response.status) {
-          setIsSubscribed(response.data.enabled === 1 ? true : false)
+          setIsSubscribed(response.data.data.enabled === 1 ? true : false)
         } else {
           setIsSubscribed(false)
         }
