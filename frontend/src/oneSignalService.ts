@@ -23,13 +23,13 @@ export const initOneSignal = async () => {
 
     if (!response.status) return
 
-    if (!response || !response.data.data.key) {
+    if (!response || !response.data.key) {
       console.error('❌ Не удалось получить appId от сервера')
 
       return
     }
 
-    const { key: appId } = response.data.data
+    const { key: appId } = response.data
 
     window.OneSignal = window.OneSignal || []
 

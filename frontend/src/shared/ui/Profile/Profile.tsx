@@ -70,7 +70,13 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
         )
 
         if (response.status) {
-          setIsSubscribed(response.data.data.enabled === 1 ? true : false)
+          showToast({
+            title: 'Info',
+            description: `${JSON.stringify(response.data)}`,
+            status: 'info',
+          })
+
+          setIsSubscribed(response.data.enabled === 1 ? true : false)
         } else {
           setIsSubscribed(false)
         }
