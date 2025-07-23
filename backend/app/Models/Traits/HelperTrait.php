@@ -12,8 +12,10 @@ trait HelperTrait
     public static function getNextCode($name, $limit = 5)
     {
         $table = (new self())->getTable();
-        $query = DB::select("SHOW TABLE STATUS LIKE '{$table}'");
-        $nextID = $query[0]->Auto_increment;
+//        $query = DB::select("SHOW TABLE STATUS LIKE '{$table}'");
+//        $nextID = $query[0]->Auto_increment;
+        $query = DB::select("SELECT `id` FROM `{$table}` ORDER BY `id` DESC LIMIT 1");
+        $nextID =((int) $query[0]->id) + 1;
         $sep = '%0'.$limit.'d';
         return mb_strtoupper($name) . '-' . sprintf($sep, $nextID);
     }
@@ -21,8 +23,10 @@ trait HelperTrait
     public static function getNextNum()
     {
         $table = (new self())->getTable();
-        $query = DB::select("SHOW TABLE STATUS LIKE '{$table}'");
-        $nextID = $query[0]->Auto_increment;
+//        $query = DB::select("SHOW TABLE STATUS LIKE '{$table}'");
+//        $nextID = $query[0]->Auto_increment;
+        $query = DB::select("SELECT `id` FROM `{$table}` ORDER BY `id` DESC LIMIT 1");
+        $nextID =((int) $query[0]->id) + 1;
         return str_pad($nextID, Config::get('number_pad', 5), '0', STR_PAD_LEFT);
     }
 

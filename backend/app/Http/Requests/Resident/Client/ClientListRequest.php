@@ -15,7 +15,7 @@ class ClientListRequest extends FormRequest
         'img' => 'file_storages.id',
         'name' => 'crm_accounts.account',
         'company' => 'sys_companies.company_name',
-        'group' => 'crm_groups.gname',
+        'group' => ['crm_groups.gname', ['crm_accounts.id', 'DESC']],
         'email' => 'crm_accounts.email',
         'phone' => 'crm_accounts.phone'
     ];
@@ -42,7 +42,15 @@ class ClientListRequest extends FormRequest
     public function sortModel($model)
     {
         $desc = isset($this->sort['type']) ? (bool) $this->sort['type'] : true;
-        $model->orderBy(self::SORT[$this->sort['name'] ?? 'id'], $desc ? "desc" : 'asc');
+        $column = self::SORT[$this->sort['name'] ?? 'id'];
+        if(is_array($column)) {
+            $model->orderBy($column[0], $desc ? "desc" : 'asc');
+            for($i = 1; $i <= count($column); $i++) {
+                $model->orderBy($column[$i][0], $column[$i][1]);
+            }
+        }else {
+            $model->orderBy($column, $desc ? "desc" : 'asc');
+        }
     }
 
 
