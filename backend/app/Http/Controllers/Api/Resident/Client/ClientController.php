@@ -23,7 +23,7 @@ use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Http\Resources\Resident\Settings\CustomFieldsResource;
 use App\Http\Resources\UserResource;
 use App\Mail\EmailTemplateMail;
-use App\Models\ChatGPT;
+use App\Mail\Resident\Client\WelcomeEmail;
 use App\Models\Log;
 use App\Models\Resident\Client\Activity;
 use App\Models\Resident\Client\Company;
@@ -38,10 +38,8 @@ use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
 use App\Services\Tools\Countries;
 use App\Services\Zoom\Requests\MeetingData;
-use App\Services\Zoom\Zoom;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Redis;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use Illuminate\Http\Request;
 
@@ -215,6 +213,11 @@ class ClientController extends MainClientController
                 if($request->tags) {
                     $model->setTag($request->tags);
                 }
+
+                if($isNew && $request->welcomeEmail && $model->email) {
+                    Mail::to($model->email)
+                        ->send(new WelcomeEmail($model, $request->password));
+                }
             }
         );
     }
@@ -264,7 +267,7 @@ class ClientController extends MainClientController
 
     private function summaryGet()
     {
-        return new ClientView\SummaryResource($this->client->load(['group', 'companyClient', 'transactionPayer', 'transactionPayee']));
+        return new ClientView\SummaryResource($this->client->load(['group', 'companyClient', 'transactionPayer', 'transactionPayee', 'transactionPayer.getCurrencyIso', 'transactionPayee.getCurrencyIso', 'getCurrencyIso']));
     }
 
     private function activityGet($request)
@@ -281,7 +284,7 @@ class ClientController extends MainClientController
 
     private function invoicesGet()
     {
-        $invoices = $this->client->invoices()->with(['user'])->get();
+        $invoices = $this->client->invoices()->with(['user', 'getCurrencyIso'])->get();
         $currency = Currency::getDefault();
         $invoicesCur = new Invoice();
         return response()

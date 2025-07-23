@@ -4,6 +4,7 @@
 namespace App\Models\Collection;
 
 
+use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Transactions\Transaction;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -12,17 +13,17 @@ class TransactionCollection extends Collection
     //cr - прибыль
     //dr - расход
 
-    public function profit()
+    public function profit(?Currency $currency = null)
     {
-        return round($this->sum(function($item){
-            return $item->transformPrice('cr');
+        return round($this->sum(function($item) use($currency){
+            return $item->transformPrice('cr', $currency);
         }), 2);
     }
 
-    public function expense()
+    public function expense(?Currency $currency = null)
     {
-        return round($this->sum(function($item){
-            return $item->transformPrice('dr');
+        return round($this->sum(function($item) use($currency){
+            return $item->transformPrice('dr', $currency);
         }), 2);
     }
 

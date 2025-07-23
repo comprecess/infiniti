@@ -15,8 +15,8 @@ class SummaryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $ti = $this->transactionPayer->profit();
-        $te = $this->transactionPayee->expense();
+        $ti = $this->transactionPayer->profit($this->getCurrencyIso);
+        $te = $this->transactionPayee->expense($this->getCurrencyIso);
         if ($ti > $te) {
             $amount = $this->printPrice($ti - $te);
         } else {
