@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import {
   PagesMetaData,
@@ -31,11 +31,18 @@ export const AdminInvoicesPage = () => {
   const [search, setSearch] = useState<string>('')
   const [sortName, setSortName] = useState<string>('id')
   const [sortType, setSortType] = useState<number>(1)
-  const [filterStatus, setFilterStatus] = useState<string>('Unpaid')
+
+  const [searchParams, setSearchParams] = useSearchParams()
+  const filterStatus = searchParams.get('filterStatus')
 
   const navigate = useNavigate()
   const showToast = useCustomToast()
   const queryClient = useQueryClient()
+
+  const updateFilterStatus = (newStatus: string) => {
+    searchParams.set('filterStatus', newStatus)
+    setSearchParams(searchParams)
+  }
 
   const { data: statsData } = useQuery({
     queryKey: ['statistics'],
@@ -170,6 +177,12 @@ export const AdminInvoicesPage = () => {
     document.title = 'infiniti | Invoices'
   }, [])
 
+  useEffect(() => {
+    if (filterStatus === null) {
+      navigate(`?filterStatus=Unpaid`)
+    }
+  }, [filterStatus])
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>
@@ -228,7 +241,7 @@ export const AdminInvoicesPage = () => {
           }}
           headerProps={{
             isActiveTab: filterStatus,
-            setIsActiveTab: setFilterStatus,
+            setIsActiveTab: updateFilterStatus,
             searchChange: setSearch,
             rightButtons: downloadFile,
           }}

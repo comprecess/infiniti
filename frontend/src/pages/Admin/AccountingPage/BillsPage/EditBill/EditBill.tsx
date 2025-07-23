@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import {
   AccountingBillsForm,
   AccountingInputData,
 } from '../../../../../app/constants/constants'
+import { Routes } from '../../../../../app/router/routes'
 import { Fields } from '../../../../../features/Admin/AccountingPage/Bills/Pages/EditBillPage/Fields/Fields'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
@@ -21,6 +23,7 @@ export const AdminEditBillPage = () => {
   )
 
   const id = useIdFromUrl('bill')
+  const navigate = useNavigate()
   const showToast = useCustomToast()
 
   const getInputData = async () => {
@@ -73,6 +76,9 @@ export const AdminEditBillPage = () => {
         description: 'You have successfully changed Bill',
         status: 'success',
       })
+      navigate(
+        `/${Routes.adminPages}/${Routes.accounting}/${Routes.bills}?filterStatus=Summary`,
+      )
     } else {
       showToast({
         title: 'Error',

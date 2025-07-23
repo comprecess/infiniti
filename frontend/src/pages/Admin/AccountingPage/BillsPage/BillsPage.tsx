@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import {
   AccountingBillsForm,
@@ -30,10 +31,17 @@ export const AdminBillsPage = () => {
   const [sortName, setSortName] = useState<string>('id')
   const [sortType, setSortType] = useState<number>(1)
 
-  const [pages, setPages] = useState<string>('Summary')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const filterStatus = searchParams.get('filterStatus')
 
   const showToast = useCustomToast()
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
+
+  const updateFilterStatus = (newStatus: string) => {
+    searchParams.set('filterStatus', newStatus)
+    setSearchParams(searchParams)
+  }
 
   const getInputData = async () => {
     const response = await getAccountingInputData('Expense')
@@ -80,6 +88,7 @@ export const AdminBillsPage = () => {
         description: 'You have successfully created a Bill',
         status: 'success',
       })
+      navigate(`?filterStatus=Summary`)
     } else {
       showToast({
         title: 'Error',
@@ -140,16 +149,22 @@ export const AdminBillsPage = () => {
   }, [])
 
   useEffect(() => {
-    if (pages === 'All') {
+    if (filterStatus === null) {
+      navigate(`?filterStatus=Summary`)
+    }
+  }, [filterStatus])
+
+  useEffect(() => {
+    if (filterStatus === 'All') {
       setSearch('')
       setSortName('id')
       setSortType(1)
       queryClient.invalidateQueries({ queryKey: ['bills'] })
-    } else if (pages === 'Summary') {
+    } else if (filterStatus === 'Summary') {
       queryClient.invalidateQueries({ queryKey: ['billsDate'] })
     }
     setForm({})
-  }, [pages])
+  }, [filterStatus])
 
   useEffect(() => {
     getInputData()
@@ -163,9 +178,12 @@ export const AdminBillsPage = () => {
             title='Bills'
             style={styles.recentFullScreen}
             HeaderComponent={Tabs}
-            headerProps={{ isActiveTab: pages, setIsActiveTab: setPages }}
+            headerProps={{
+              isActiveTab: filterStatus,
+              setIsActiveTab: updateFilterStatus,
+            }}
           >
-            {pages === 'Summary' && (
+            {filterStatus === 'Summary' && (
               <SummaryPage
                 billsPastDue={billsDate.billsPastDue}
                 billsUpcoming={billsDate.billsUpcoming}
@@ -173,7 +191,7 @@ export const AdminBillsPage = () => {
                 isPaidBill={handleIsPaidBill}
               />
             )}
-            {pages === 'All' && (
+            {filterStatus === 'All' && (
               <AllPage
                 bills={bills}
                 changeSort={changeSort}
@@ -181,7 +199,7 @@ export const AdminBillsPage = () => {
                 deleteBill={handleDeleteBill}
               />
             )}
-            {pages === 'Add a Bill' && (
+            {filterStatus === 'Add a Bill' && (
               <AddABillPage
                 inputData={inputData}
                 setForm={setForm}
