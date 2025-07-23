@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import {
   SalesBlanks,
@@ -6,6 +7,7 @@ import {
   SalesEditInvoiceData,
   SalesNewInvoiceInputData,
 } from '../../../../app/constants/constants'
+import { Routes } from '../../../../app/router/routes'
 import {
   Fields,
   PartialFieldsData,
@@ -34,6 +36,7 @@ export const AdminEditInvoicePage = () => {
 
   const id = useIdFromUrl('invoice')
   const showToast = useCustomToast()
+  const navigate = useNavigate()
 
   const getInfoInvoice = async () => {
     if (id === null) return
@@ -137,7 +140,7 @@ export const AdminEditInvoicePage = () => {
     }
   }
 
-  const updateInvoice = async () => {
+  const updateInvoice = async (save: 'save' | 'save & invoice') => {
     if (id === null) return
 
     const updateResponse = await editSelectedInvoice(id, formData)
@@ -148,7 +151,15 @@ export const AdminEditInvoicePage = () => {
         description: 'You have successfully changed the Invoice',
         status: 'success',
       })
-      getBlanksInvoice()
+      if (save === 'save') {
+        navigate(
+          `/${Routes.adminPages}/${Routes.sales}/${Routes.invoices}?filterStatus=Unpaid`,
+        )
+      } else if (save === 'save & invoice') {
+        navigate(
+          `/${Routes.adminPages}/${Routes.sales}/${Routes.invoice}/${Routes.view}/${id}`,
+        )
+      }
     } else {
       showToast({
         title: 'Error',
@@ -174,7 +185,10 @@ export const AdminEditInvoicePage = () => {
             title={data.code}
             style={styles.recentFullScreen}
             Component={HeaderButtons}
-            componentProps={{ firstButtonClick: updateInvoice }}
+            componentProps={{
+              firstButtonClick: updateInvoice,
+              secondButtonClick: updateInvoice,
+            }}
           >
             <Fields
               inputData={inputData}
