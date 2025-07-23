@@ -17,7 +17,7 @@ class TransactionResource extends JsonResource
         $curreency = $this->getCurrencyIso;
         return [
             'id' => $this->id,
-            'date' => $this->date->format('d/m/Y'),
+            'date' => $this->date?->format('d/m/Y'),
             'account' => $this->account,
             'client' => $this->payerid ? new ClientResource($this->payerUser) : new ClientResource($this->payeeUser),
             'payerid' => $this->payerid,
