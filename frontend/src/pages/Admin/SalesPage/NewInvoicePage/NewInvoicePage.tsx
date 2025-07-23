@@ -58,7 +58,7 @@ export const AdminNewInvoicePage = () => {
           )
         } else {
           navigate(
-            `/${Routes.adminPages}/${Routes.sales}/${Routes.invoices}`,
+            `/${Routes.adminPages}/${Routes.sales}/${Routes.invoices}?filterStatus=Unpaid`,
           )
         }
       } else if (save === 'save & invoice') {

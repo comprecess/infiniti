@@ -198,7 +198,7 @@ export const adminSidebarPages = [
       {
         id: 3,
         title: 'admin-sidebar-subsidiary-page-bills',
-        path: Routes.bills,
+        path: `${Routes.bills}?filterStatus=Summary`,
 
         // Access
         create: false,
@@ -263,7 +263,7 @@ export const adminSidebarPages = [
       {
         id: 0,
         title: 'admin-sidebar-subsidiary-page-sales-invoices',
-        path: Routes.invoices,
+        path: `${Routes.invoices}?filterStatus=Unpaid`,
 
         // Access
         create: false,
