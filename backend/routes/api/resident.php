@@ -39,6 +39,7 @@ Route::group(['prefix' => 'client',], function(){
     #company
     Route::group(['prefix' => 'company'], function(){
         Route::get('/', [Resident\Client\CompanyController::class, 'list']);
+        Route::get('/input-data', [Resident\Client\CompanyController::class, 'inputData']);
         Route::get('/{company}/view/', [Resident\Client\CompanyController::class, 'getAllType']);
         Route::get('/{company}/view/{type}', [Resident\Client\CompanyController::class, 'type']);
         Route::put('/{company}/view/{type}', [Resident\Client\CompanyController::class, 'updateType']);

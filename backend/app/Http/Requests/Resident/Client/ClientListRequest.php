@@ -45,7 +45,7 @@ class ClientListRequest extends FormRequest
         $column = self::SORT[$this->sort['name'] ?? 'id'];
         if(is_array($column)) {
             $model->orderBy($column[0], $desc ? "desc" : 'asc');
-            for($i = 1; $i <= count($column); $i++) {
+            for($i = 1; $i < count($column); $i++) {
                 $model->orderBy($column[$i][0], $column[$i][1]);
             }
         }else {
