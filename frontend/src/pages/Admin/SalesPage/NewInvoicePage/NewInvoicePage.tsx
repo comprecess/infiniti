@@ -92,8 +92,9 @@ export const AdminNewInvoicePage = () => {
             style={styles.recentFullScreen}
             Component={HeaderButtons}
             componentProps={{
-              firstButtonClick: postCreateNewInvoice,
-              secondButtonClick: postCreateNewInvoice,
+              firstButtonClick: () => postCreateNewInvoice('save'),
+              secondButtonClick: () =>
+                postCreateNewInvoice('save & invoice'),
             }}
           >
             <Fields data={inputData} onFormDataChange={setFormData} />
