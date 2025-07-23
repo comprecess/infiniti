@@ -14,6 +14,7 @@ class TransactionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $curreency = $this->getCurrencyIso;
         return [
             'id' => $this->id,
             'date' => $this->date->format('d/m/Y'),
@@ -23,10 +24,10 @@ class TransactionResource extends JsonResource
             'payeeid' => $this->payeeid,
             'type' => $this->type,
             'status' => $this->status,
-            'amount' => $this->printPrice('amount'),
+            'amount' => $this->transformPrice('amount', $curreency, true),
             'description' => $this->description,
-            'dr' => $this->printPrice('dr'),
-            'cr' => $this->printPrice('cr'),
+            'dr' => $this->transformPrice('dr', $curreency, true),
+            'cr' => $this->transformPrice('cr', $curreency, true),
             'bal' => $this->bal,
         ];
     }

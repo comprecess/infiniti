@@ -128,7 +128,7 @@ class CompanyController extends MainClientController
                 'withDop' => ['orders.user'],
             ],
             [
-                'with' => ['transactionPayer', 'transactionPayee'],
+                'with' => ['transactionPayer', 'transactionPayee', 'getCurrencyIso'],
                 'response' => CompanyView\TransactionResource::class,
                 'withDop' => ['transactionPayer.payerUser', 'transactionPayee.payeeUser'],
             ],
