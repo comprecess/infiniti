@@ -55,6 +55,16 @@ class CompanyController extends MainClientController
         });
     }
 
+    public function inputData()
+    {
+        $name = 'COMP';
+        $data = [
+            'code' => Company::getNextCode($name),
+        ];
+
+        return response()->json($data);
+    }
+
     public function index(Company $company)
     {
         return new CompanyResource($company->checkAccessAbort());
