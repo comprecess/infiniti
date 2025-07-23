@@ -284,7 +284,7 @@ class ClientController extends MainClientController
 
     private function invoicesGet()
     {
-        $invoices = $this->client->invoices()->with(['user', 'getCurrencyIso'])->get();
+        $invoices = $this->client->invoices()->with(['user', 'getCurrencyIso'])->orderBy('id', 'desc')->get();
         $currency = Currency::getDefault();
         $invoicesCur = new Invoice();
         return response()
@@ -300,7 +300,8 @@ class ClientController extends MainClientController
 
     private function quotesGet()
     {
-        return ClientView\OffercResource::collection($this->client?->offers);
+        $offers = $this->client?->offers()->with(['getCurrencyIso'])->orderBy('id', 'desc')->get();
+        return ClientView\OffercResource::collection($offers);
     }
 
     private function filesGet()
