@@ -19,7 +19,7 @@ import { getBusinessModelInputData } from '../../../../shared/utils/api/Admin/Bu
 import { postAddBusinessModelPicture } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/post-add-business-model-picture'
 import { putRemoveBusinessModelPicture } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/put-remove-business-model-picture'
 import { putUpdateBusinessModel } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/put-update-business-model'
-import { getChatGPTAnalysis } from '../../../../shared/utils/api/Admin/ChatGPT/GetChatGPTAnalysis'
+import { getAnalysisChatGPT } from '../../../../shared/utils/api/Admin/ChatGPT/get-analysis-chat-gpt'
 import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
@@ -165,14 +165,14 @@ export const AdminEditBusinessModel = () => {
   }
 
   const handleGetFormInfo = async () => {
-    const response = await getChatGPTAnalysis(
+    const response = await getAnalysisChatGPT(
       '?discussionModel=businessModel',
     )
 
-    if (!response) return
+    if (!response.status) return
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { access, status, ...filteredResponse } = response
+    const { access, status, ...filteredResponse } = response.data
 
     setFormData(prevFormData => {
       const updatedFormData = { ...prevFormData, ...filteredResponse }

@@ -10,6 +10,7 @@ interface ModalWindowCompanyProps {
   nameWindow: string
   modalCompany: boolean
   values?: CompanyData
+  inputData?: { code: string }
   handleOpenCloseModal: () => void
   functionCompany: () => void
   handleInputChange: (name: string, value: string | number) => void
@@ -19,6 +20,7 @@ export const ModalWindowCompany = ({
   nameWindow,
   modalCompany,
   values,
+  inputData,
   handleOpenCloseModal,
   functionCompany,
   handleInputChange,
@@ -51,7 +53,7 @@ export const ModalWindowCompany = ({
               type='text'
               id='code'
               name='code'
-              value={values?.code || ''}
+              value={values?.code || inputData?.code || ''}
               onChange={handleInputChange}
             />
             <CustomInput

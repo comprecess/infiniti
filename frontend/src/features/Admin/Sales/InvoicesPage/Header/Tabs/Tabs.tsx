@@ -12,7 +12,7 @@ const tabsList: TabsListProps[] = [
   { id: 1, name: 'Partially Paid', send: 'Partially Paid' },
   { id: 2, name: 'Paid', send: 'Paid' },
   { id: 3, name: 'Cancelled', send: 'Cancelled' },
-  { id: 4, name: 'All', send: '' },
+  { id: 4, name: 'All', send: 'All' },
 ]
 
 interface TabsProps {

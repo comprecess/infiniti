@@ -16,6 +16,7 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { deleteCompany } from '../../../../shared/utils/api/Admin/Companies/delete-company'
 import { getCompaniesList } from '../../../../shared/utils/api/Admin/Companies/get-companies-list'
 import { getCompany } from '../../../../shared/utils/api/Admin/Companies/get-company'
+import { getCompanyInputData } from '../../../../shared/utils/api/Admin/Companies/get-company-input-data'
 import { postCreateNewCompany } from '../../../../shared/utils/api/Admin/Companies/post-create-new-company'
 import { putUpdateCompanyInfo } from '../../../../shared/utils/api/Admin/Companies/put-update-company-info'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
@@ -48,6 +49,7 @@ export const AdminCompaniesPage = () => {
     phone: '',
     country: '',
   })
+  const [inputData, setInputData] = useState<{ code: string } | null>(null)
 
   const showToast = useCustomToast()
   const queryClient = useQueryClient()
@@ -83,6 +85,14 @@ export const AdminCompaniesPage = () => {
         )
         : [],
     )
+  }
+
+  const getInputData = async () => {
+    const response = await getCompanyInputData()
+
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
   const { data: companiesData } = useQuery({
@@ -132,7 +142,7 @@ export const AdminCompaniesPage = () => {
 
     setCompanyData(prevState => ({
       ...prevState,
-      ...response,
+      ...response.data,
     }))
   }
 
@@ -162,6 +172,7 @@ export const AdminCompaniesPage = () => {
         status: 'success',
       })
       queryClient.invalidateQueries({ queryKey: ['companies'] })
+      getInputData()
       handleOpenCloseModalNewCompany()
     } else {
       showToast({
@@ -218,6 +229,8 @@ export const AdminCompaniesPage = () => {
   }
 
   useEffect(() => {
+    getInputData()
+
     document.title = 'infiniti | Companies'
   }, [])
 
@@ -262,13 +275,16 @@ export const AdminCompaniesPage = () => {
           <LoadingSpinner size='xl' />
         )}
       </section>
-      <ModalWindowCompany
-        nameWindow='New Company'
-        modalCompany={modalNewCompany}
-        handleOpenCloseModal={handleOpenCloseModalNewCompany}
-        functionCompany={createCompany}
-        handleInputChange={handleInputChange}
-      />
+      {inputData && (
+        <ModalWindowCompany
+          nameWindow='New Company'
+          inputData={inputData}
+          modalCompany={modalNewCompany}
+          handleOpenCloseModal={handleOpenCloseModalNewCompany}
+          functionCompany={createCompany}
+          handleInputChange={handleInputChange}
+        />
+      )}
       <ModalWindowCompany
         nameWindow='Edit Company'
         modalCompany={modalEditCompany}

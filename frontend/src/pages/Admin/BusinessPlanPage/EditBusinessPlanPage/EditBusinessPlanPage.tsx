@@ -13,8 +13,8 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { getBusinessPlanInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/get-business-plan-edit-info'
 import { getBusinessPlanInputData } from '../../../../shared/utils/api/Admin/BusinessPlan/get-business-plan-input-data'
 import { postUpdateBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/post-update-business-plan'
-import { getChatGPTAnalysis } from '../../../../shared/utils/api/Admin/ChatGPT/GetChatGPTAnalysis'
-import { getReadyPrompt } from '../../../../shared/utils/api/Admin/ChatGPT/GetReadyPrompt'
+import { getAnalysisChatGPT } from '../../../../shared/utils/api/Admin/ChatGPT/get-analysis-chat-gpt'
+import { getChatGPTReadyPrompt } from '../../../../shared/utils/api/Admin/ChatGPT/get-chat-gpt-ready-prompt'
 import { getTeamDatesBusy } from '../../../../shared/utils/api/Admin/Meeting/get-team-dates-busy'
 import { postCreateNewMeeting } from '../../../../shared/utils/api/Admin/Meeting/post-create-new-meeting'
 import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
@@ -111,18 +111,19 @@ export const AdminEditBusinessPlanPage = () => {
 
     setIsLoadingTeam(true)
 
-    const response: { ids: string; description: string } =
-      await getReadyPrompt(
-        `?namePrompt=selectionSpecialists&discussionModel=businessPlan&discussionId=${id}`,
-      )
+    const response = await getChatGPTReadyPrompt(
+      `?namePrompt=selectionSpecialists&discussionModel=businessPlan&discussionId=${id}`,
+    )
 
-    const idsArray = response.ids
+    if (!response.status) return
+
+    const idsArray = response.data.ids
       .split(',')
-      .map(id => parseInt(id.trim(), 10))
+      .map((id: string) => parseInt(id.trim(), 10))
 
     setFormData(prevFormData => ({
       ...prevFormData,
-      management: response.description,
+      management: response.data.description,
       teams: idsArray,
     }))
 
@@ -157,14 +158,14 @@ export const AdminEditBusinessPlanPage = () => {
   }
 
   const handleGetFormInfo = async () => {
-    const response = await getChatGPTAnalysis(
+    const response = await getAnalysisChatGPT(
       `?discussionModel=businessPlan`,
     )
 
-    if (!response) return
+    if (!response.status) return
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { access, status, ...filteredResponse } = response
+    const { access, status, ...filteredResponse } = response.data
 
     setFormData(prevFormData => {
       const updatedFormData = { ...prevFormData, ...filteredResponse }

@@ -19,9 +19,9 @@ import { CustomCheckBox } from '../../shared/ui/CustomCheckBox/CustomCheckBox'
 import { Icon } from '../../shared/ui/Icon/Icon'
 import { Input } from '../../shared/ui/Input/Input'
 import { TransparentSelect } from '../../shared/ui/TransparentSelect/TransparentSelect'
-import { getChatGPTInputData } from '../../shared/utils/api/Admin/ChatGPT/GetChatGPTInputData'
-import { getUserHistoryMessage } from '../../shared/utils/api/Admin/ChatGPT/GetUserHistoryMessage'
-import { postUserMessage } from '../../shared/utils/api/Admin/ChatGPT/PostUserMessage'
+import { getChatGPTInputData } from '../../shared/utils/api/Admin/ChatGPT/get-chat-gpt-input-data'
+import { getHistoryUserMessage } from '../../shared/utils/api/Admin/ChatGPT/get-history-user-message'
+import { postCreateUserMessage } from '../../shared/utils/api/Admin/ChatGPT/post-create-user-message'
 import { useChatGPT } from '../../shared/utils/Contexts/ChatGPTContext'
 import styles from './ChatGPT.module.scss'
 import { Message } from './Message/Message'
@@ -49,10 +49,13 @@ export const ChatGPT = () => {
   const fetchData = useCallback(async () => {
     const [inputData, userHistory] = await Promise.all([
       getChatGPTInputData(),
-      getUserHistoryMessage(),
+      getHistoryUserMessage(),
     ])
-    setModels(inputData.chatGPTModel)
-    setMessages(userHistory.data)
+
+    if (!inputData.status || !userHistory.status) return
+
+    setModels(inputData.data.chatGPTModel)
+    setMessages(userHistory.data.data)
   }, [])
 
   const sendMessage = async ({
@@ -125,12 +128,14 @@ export const ChatGPT = () => {
       )
     }, 500)
 
-    const response = await postUserMessage(
+    const response = await postCreateUserMessage(
       message,
       extraData?.id,
       extraData?.type,
       models[parseInt(model)],
     )
+
+    if (!response.status) return
 
     if (onTopic) setChatGPTChangeForm(prev => !prev)
 
@@ -139,7 +144,7 @@ export const ChatGPT = () => {
       prev =>
         prev
           ?.filter(msg => msg.id !== loadingMessage.id)
-          .concat(response.data) || [response.data],
+          .concat(response.data.data) || [response.data.data],
     )
     setIsLoading(false)
   }

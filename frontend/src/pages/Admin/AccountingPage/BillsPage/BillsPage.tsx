@@ -149,7 +149,7 @@ export const AdminBillsPage = () => {
   }, [])
 
   useEffect(() => {
-    if (filterStatus === null) {
+    if (filterStatus === null || filterStatus === '') {
       navigate(`?filterStatus=Summary`)
     }
   }, [filterStatus])

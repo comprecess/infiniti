@@ -1,7 +1,7 @@
 import DOMPurify from 'dompurify'
 
 export const sanitizeMessage = (value: string): string => {
-  return DOMPurify.sanitize(value, {
+  const clean = DOMPurify.sanitize(value, {
     ALLOWED_TAGS: [
       'google-sheets-html-origin',
       'colgroup',
@@ -31,7 +31,6 @@ export const sanitizeMessage = (value: string): string => {
       'td',
       'caption',
       'hr',
-      'style',
     ],
     ALLOWED_ATTR: [
       'src',
@@ -53,7 +52,27 @@ export const sanitizeMessage = (value: string): string => {
       'rowspan',
       'colspan',
       'data-sheets-root',
-      'data-sheets-baot',
     ],
   })
+
+  const doc = new DOMParser().parseFromString(clean, 'text/html')
+
+  doc.body.querySelectorAll<HTMLElement>('*').forEach(el => {
+    const style = el.getAttribute('style')
+    if (style) {
+      const cleaned = style
+        .split(';')
+        .map(rule => rule.trim())
+        .filter(rule => rule && !rule.startsWith('color'))
+        .join('; ')
+
+      if (cleaned) {
+        el.setAttribute('style', cleaned)
+      } else {
+        el.removeAttribute('style')
+      }
+    }
+  })
+
+  return doc.body.innerHTML
 }

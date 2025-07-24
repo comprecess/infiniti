@@ -13,7 +13,7 @@ import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getBusinessModelInputData } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/get-business-model-input-data'
 import { postCreateNewBusinessModel } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/post-create-new-business-model'
-import { getChatGPTAnalysis } from '../../../../shared/utils/api/Admin/ChatGPT/GetChatGPTAnalysis'
+import { getAnalysisChatGPT } from '../../../../shared/utils/api/Admin/ChatGPT/get-analysis-chat-gpt'
 import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './MakeBusinessModelPage.module.scss'
@@ -73,14 +73,14 @@ export const AdminMakeBusinessModelPage = () => {
   }
 
   const handleGetFormInfo = async () => {
-    const response = await getChatGPTAnalysis(
+    const response = await getAnalysisChatGPT(
       '?discussionModel=businessModel',
     )
 
-    if (!response) return
+    if (!response.status) return
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { access, status, ...filteredResponse } = response
+    const { access, status, ...filteredResponse } = response.data
 
     setFormData(prevFormData => {
       const updatedFormData = { ...prevFormData, ...filteredResponse }
