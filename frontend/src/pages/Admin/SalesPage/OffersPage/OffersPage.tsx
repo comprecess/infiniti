@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useCallback, useEffect } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import {
   PagesMetaData,
@@ -21,49 +22,55 @@ import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './OffersPage.module.scss'
 
 export const AdminOffersPage = () => {
-  const [offers, setOffers] = useState<{
-    data: SalesOffersListData[]
-    meta: PagesMetaData
-  } | null>(null)
-  const [access, setAccess] = useState<RolesAccess | null>(null)
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  const [page, setPage] = useState<number>(1)
-  const [search, setSearch] = useState<string>('')
-  const [sortName, setSortName] = useState<string>('id')
-  const [sortType, setSortType] = useState<number>(1)
-  const [options, setOptions] = useState<string>('')
+  const page = searchParams.get('page') || '1'
+  const search = searchParams.get('search') || ''
+  const sortName = searchParams.get('sortName') || 'id'
+  const sortType = parseInt(searchParams.get('sortType') || '1')
 
   const navigate = useNavigate()
   const showToast = useCustomToast()
+  const queryClient = useQueryClient()
 
-  const getListOffer = async () => {
-    if (!options) return
+  const updateQueryParam = (key: string, value: string | number) => {
+    const newParams = new URLSearchParams(location.search)
+    newParams.set(key, String(value))
 
-    const getResponse: {
-      access: RolesAccess
-      data: SalesOffersListData[]
-      meta: PagesMetaData
-    } = await getListOffers(options)
-
-    if (page > getResponse.meta.last_page) {
-      setPage(1)
+    if (key !== 'page') {
+      newParams.set('page', '1')
     }
 
-    setAccess(getResponse.access)
-    setOffers(getResponse)
+    setSearchParams(newParams, { replace: true })
   }
 
-  const changeURL = (
-    pageItem: number,
-    searchItem: string,
-    sortNameItem: string,
-    sortTypeItem: number,
-  ) => {
-    // eslint-disable-next-line max-len
-    const urlOptions = `?page=${pageItem}&filter[search]=${searchItem}&sort[name]=${sortNameItem}&sort[type]=${sortTypeItem}&document=json`
-
-    setOptions(urlOptions)
+  const updatePage = (newPage: string) => updateQueryParam('page', newPage)
+  const updateSearch = (newSearch: string) =>
+    updateQueryParam('search', newSearch)
+  const updateSort = (name: string, type: number) => {
+    updateQueryParam('sortName', name)
+    updateQueryParam('sortType', type)
   }
+
+  const { data: offersData } = useQuery({
+    queryKey: ['offers', page, search, sortName, sortType],
+    queryFn: async () => {
+      const response: {
+        access: RolesAccess
+        data: SalesOffersListData[]
+        meta: PagesMetaData
+      } = await getListOffers(
+        `?page=${page}&filter[search]=${search}&sort[name]=${sortName}&sort[type]=${sortType}&document=json`,
+      )
+
+      if (page && parseInt(page) > response.meta.last_page) {
+        updatePage('1')
+      }
+
+      return response
+    },
+    placeholderData: previousData => previousData,
+  })
 
   const downloadFile = useCallback(
     async (documentItem: string) => {
@@ -98,7 +105,7 @@ export const AdminOffersPage = () => {
         description: 'You have successfully deleted Invoice',
         status: 'success',
       })
-      getListOffer()
+      queryClient.invalidateQueries({ queryKey: ['offersData'] })
     } else {
       showToast({
         title: 'Error',
@@ -134,36 +141,51 @@ export const AdminOffersPage = () => {
 
   const changeSort = useCallback(
     (sortNameItem: string, sortTypeItem: number) => {
-      setSortName(sortNameItem)
-      setSortType(sortTypeItem)
+      updateSort(sortNameItem, sortTypeItem)
     },
     [],
   )
 
   useEffect(() => {
-    document.title = 'infiniti | Offers'
+    const params = new URLSearchParams(location.search)
+    let changed = false
+
+    if (!params.has('page')) {
+      params.set('page', '1')
+      changed = true
+    }
+
+    if (!params.has('sortName')) {
+      params.set('sortName', 'id')
+      changed = true
+    }
+
+    if (!params.has('sortType')) {
+      params.set('sortType', '1')
+      changed = true
+    }
+
+    if (changed) {
+      setSearchParams(params, { replace: true })
+    }
   }, [])
 
   useEffect(() => {
-    changeURL(page, search, sortName, sortType)
-  }, [page, search, sortName, sortType])
-
-  useEffect(() => {
-    getListOffer()
-  }, [options])
+    document.title = 'infiniti | Offers'
+  }, [])
 
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        {offers && access ? (
+        {offersData ? (
           <RecentCard
-            title={`Total: ${offers.meta.total}`}
+            title={`Total: ${offersData.meta.total}`}
             style={styles.recentFullScreen}
-            Component={access.create ? ButtonBlue : undefined}
+            Component={offersData.access.create ? ButtonBlue : undefined}
             HeaderComponent={SearchAndButtons}
             PagesComponent={PagesList}
             componentProps={
-              access.create
+              offersData.access.create
                 ? {
                   titleNone: true,
                   title: 'Add Offer',
@@ -174,17 +196,18 @@ export const AdminOffersPage = () => {
                 : undefined
             }
             headerProps={{
-              searchChange: setSearch,
+              searchValue: search,
+              searchChange: updateSearch,
               rightButtons: downloadFile,
             }}
             pagesProps={{
-              meta: offers.meta,
-              nextPage: setPage,
+              meta: offersData.meta,
+              nextPage: updatePage,
               size: 'sm',
             }}
           >
             <RecentOffers
-              offersList={offers.data}
+              offersList={offersData.data}
               changeSortName={changeSort}
               navigateToViewOffer={navigateToViewOffer}
               navigateToSelectAccount={navigateToSelectAccount}

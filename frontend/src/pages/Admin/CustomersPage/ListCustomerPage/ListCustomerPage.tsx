@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useCallback, useEffect } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import {
   ListCustomersData,
@@ -22,14 +22,35 @@ import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './ListCustomerPage.module.scss'
 
 export const AdminListCustomerPage = () => {
-  const [page, setPage] = useState<number>(1)
-  const [search, setSearch] = useState<string>('')
-  const [sortName, setSortName] = useState<string>('id')
-  const [sortType, setSortType] = useState<number>(1)
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const page = searchParams.get('page') || '1'
+  const search = searchParams.get('search') || ''
+  const sortName = searchParams.get('sortName') || 'id'
+  const sortType = parseInt(searchParams.get('sortType') || '1')
 
   const navigate = useNavigate()
   const showToast = useCustomToast()
   const queryClient = useQueryClient()
+
+  const updateQueryParam = (key: string, value: string | number) => {
+    const newParams = new URLSearchParams(location.search)
+    newParams.set(key, String(value))
+
+    if (key !== 'page') {
+      newParams.set('page', '1')
+    }
+
+    setSearchParams(newParams, { replace: true })
+  }
+
+  const updatePage = (newPage: string) => updateQueryParam('page', newPage)
+  const updateSearch = (newSearch: string) =>
+    updateQueryParam('search', newSearch)
+  const updateSort = (name: string, type: number) => {
+    updateQueryParam('sortName', name)
+    updateQueryParam('sortType', type)
+  }
 
   const { data: customers } = useQuery({
     queryKey: ['suppliers', page, search, sortName, sortType],
@@ -41,7 +62,7 @@ export const AdminListCustomerPage = () => {
       if (!response.status) return
 
       if (page > response.data.meta.last_page) {
-        setPage(1)
+        updatePage('1')
       }
 
       return response.data as {
@@ -55,15 +76,13 @@ export const AdminListCustomerPage = () => {
 
   const changeSort = useCallback(
     (sortNameItem: string, sortTypeItem: number) => {
-      setSortName(sortNameItem)
-      setSortType(sortTypeItem)
+      updateSort(sortNameItem, sortTypeItem)
     },
     [],
   )
 
   const downloadFile = useCallback(
     async (documentItem: string) => {
-
       let urlOptions = `?page=${page}&sort[name]=${sortName}&sort[type]=${sortType}&document=${documentItem}`
 
       if (search !== '') {
@@ -117,6 +136,30 @@ export const AdminListCustomerPage = () => {
   }
 
   useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    let changed = false
+
+    if (!params.has('page')) {
+      params.set('page', '1')
+      changed = true
+    }
+
+    if (!params.has('sortName')) {
+      params.set('sortName', 'id')
+      changed = true
+    }
+
+    if (!params.has('sortType')) {
+      params.set('sortType', '1')
+      changed = true
+    }
+
+    if (changed) {
+      setSearchParams(params, { replace: true })
+    }
+  }, [])
+
+  useEffect(() => {
     document.title = 'infiniti | List Customers'
   }, [])
 
@@ -134,14 +177,15 @@ export const AdminListCustomerPage = () => {
             firstButtonClick: navigateToAddCustomer,
           }}
           headerProps={{
-            searchChange: setSearch,
+            searchValue: search,
+            searchChange: updateSearch,
             rightButtons: downloadFile,
           }}
           pagesProps={
             customers
               ? {
                 meta: customers.meta,
-                nextPage: setPage,
+                nextPage: updatePage,
                 size: 'sm',
               }
               : undefined

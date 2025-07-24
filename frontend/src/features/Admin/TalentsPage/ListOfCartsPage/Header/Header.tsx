@@ -6,6 +6,7 @@ import { Tabs } from './Tabs/Tabs'
 interface HeaderProps {
   access: RolesAccess
   isActiveTab: string
+  searchValue?: string
   setIsActiveTab: (name: string) => void
   searchChange: (searchItem: string) => void
 }
@@ -13,6 +14,7 @@ interface HeaderProps {
 export const Header = ({
   access,
   isActiveTab,
+  searchValue,
   setIsActiveTab,
   searchChange,
 }: HeaderProps) => {
@@ -32,6 +34,7 @@ export const Header = ({
             />
           </div>
           <Search
+            searchValue={searchValue}
             style={styles.search}
             onSearchChange={handleSearchChange}
           />

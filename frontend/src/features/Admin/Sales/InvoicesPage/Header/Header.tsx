@@ -5,12 +5,14 @@ import { Tabs } from './Tabs/Tabs'
 
 interface HeaderProps {
   isActiveTab: string
+  searchValue?: string
   setIsActiveTab: (name: string) => void
   searchChange: (searchItem: string) => void
   rightButtons: (name: string) => void
 }
 
 export const Header = ({
+  searchValue,
   isActiveTab,
   setIsActiveTab,
   searchChange,
@@ -27,7 +29,10 @@ export const Header = ({
       </div>
       <div className={styles.header}>
         <div className={styles.search}>
-          <Search onSearchChange={handleSearchChange} />
+          <Search
+            searchValue={searchValue}
+            onSearchChange={handleSearchChange}
+          />
         </div>
         <div className={styles.headerButtons}>
           <RecentRightButtons rightButtons={rightButtons} />

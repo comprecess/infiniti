@@ -4,7 +4,7 @@ import JoditEditor, { Jodit } from 'jodit-react'
 import { useMemo, useRef, useState } from 'react'
 
 import { ChatGPTIcon } from '../../icons/ChatGPTIcon'
-import { getReadyPrompt } from '../../utils/api/Admin/ChatGPT/GetReadyPrompt'
+import { getChatGPTReadyPrompt } from '../../utils/api/Admin/ChatGPT/get-chat-gpt-ready-prompt'
 import { sanitizeMessage } from '../../utils/TextEditor/sanitizeMessage'
 import { Icon } from '../Icon/Icon'
 import styles from './TextEditor.module.scss'
@@ -53,12 +53,14 @@ export const TextEditor = ({
       }
     }
 
-    const response = await getReadyPrompt(
+    const response = await getChatGPTReadyPrompt(
       `?discussionId=${extraData?.id}&discussionModel=${extraData?.type}&message=${fieldName}`,
     )
 
+    if (!response.status) return
+
     setIsLoadingPrompt(false)
-    handleOnChange(response.data.message)
+    handleOnChange(response.data.data.message)
   }
 
   const tools = noFullScreen
@@ -79,6 +81,9 @@ export const TextEditor = ({
       buttonsXS: tools,
       buttonsMD: tools,
       buttonsSM: tools,
+      style: {
+        color: 'white',
+      },
     }),
     [placeholder],
   )

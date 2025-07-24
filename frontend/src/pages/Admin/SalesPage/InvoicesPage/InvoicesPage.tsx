@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import {
@@ -27,21 +27,37 @@ import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './InvoicesPage.module.scss'
 
 export const AdminInvoicesPage = () => {
-  const [page, setPage] = useState<number>(1)
-  const [search, setSearch] = useState<string>('')
-  const [sortName, setSortName] = useState<string>('id')
-  const [sortType, setSortType] = useState<number>(1)
-
   const [searchParams, setSearchParams] = useSearchParams()
-  const filterStatus = searchParams.get('filterStatus')
+
+  const filterStatus = searchParams.get('filterStatus') || 'Unpaid'
+  const page = searchParams.get('page') || '1'
+  const search = searchParams.get('search') || ''
+  const sortName = searchParams.get('sortName') || 'id'
+  const sortType = parseInt(searchParams.get('sortType') || '1')
 
   const navigate = useNavigate()
   const showToast = useCustomToast()
   const queryClient = useQueryClient()
 
-  const updateFilterStatus = (newStatus: string) => {
-    searchParams.set('filterStatus', newStatus)
-    setSearchParams(searchParams)
+  const updateQueryParam = (key: string, value: string | number) => {
+    const newParams = new URLSearchParams(location.search)
+    newParams.set(key, String(value))
+
+    if (key !== 'page') {
+      newParams.set('page', '1')
+    }
+
+    setSearchParams(newParams, { replace: true })
+  }
+
+  const updatePage = (newPage: string) => updateQueryParam('page', newPage)
+  const updateFilterStatus = (newStatus: string) =>
+    updateQueryParam('filterStatus', newStatus)
+  const updateSearch = (newSearch: string) =>
+    updateQueryParam('search', newSearch)
+  const updateSort = (name: string, type: number) => {
+    updateQueryParam('sortName', name)
+    updateQueryParam('sortType', type)
   }
 
   const { data: statsData } = useQuery({
@@ -57,17 +73,19 @@ export const AdminInvoicesPage = () => {
   const { data: invoicesData } = useQuery({
     queryKey: ['invoices', page, search, sortName, sortType, filterStatus],
     queryFn: async () => {
+      const filterText = filterStatus === 'All' ? '' : filterStatus
+
       const response: {
         access: RolesAccess
         data: ViewInvoicesRecentData[]
         meta: PagesMetaData
       } = await getList(
         // eslint-disable-next-line max-len
-        `?page=${page}&filter[search]=${search}&filter[status]=${filterStatus}&sort[name]=${sortName}&sort[type]=${sortType}&document=json`,
+        `?page=${page}&filter[search]=${search}&filter[status]=${filterText}&sort[name]=${sortName}&sort[type]=${sortType}&document=json`,
       )
 
-      if (page > response.meta.last_page) {
-        setPage(1)
+      if (page && parseInt(page) > response.meta.last_page) {
+        updatePage('1')
       }
 
       return response
@@ -143,8 +161,10 @@ export const AdminInvoicesPage = () => {
 
   const downloadFile = useCallback(
     async (documentItem: string) => {
+      const filterText = filterStatus === 'All' ? '' : filterStatus
+
       // eslint-disable-next-line max-len
-      const urlOptions = `?page=${page}&filter[search]=${search}&filter[status]=${filterStatus}&sort[name]=${sortName}&sort[type]=${sortType}&document=${documentItem}`
+      const urlOptions = `?page=${page}&filter[search]=${search}&filter[status]=${filterText}&sort[name]=${sortName}&sort[type]=${sortType}&document=${documentItem}`
 
       const downloadInitiated = await getInvoicesDocuments(urlOptions)
 
@@ -167,21 +187,43 @@ export const AdminInvoicesPage = () => {
 
   const changeSort = useCallback(
     (sortNameItem: string, sortTypeItem: number) => {
-      setSortName(sortNameItem)
-      setSortType(sortTypeItem)
+      updateSort(sortNameItem, sortTypeItem)
     },
     [],
   )
 
   useEffect(() => {
-    document.title = 'infiniti | Invoices'
+    const params = new URLSearchParams(location.search)
+    let changed = false
+
+    if (!params.has('filterStatus')) {
+      params.set('filterStatus', 'Unpaid')
+      changed = true
+    }
+
+    if (!params.has('page')) {
+      params.set('page', '1')
+      changed = true
+    }
+
+    if (!params.has('sortName')) {
+      params.set('sortName', 'id')
+      changed = true
+    }
+
+    if (!params.has('sortType')) {
+      params.set('sortType', '1')
+      changed = true
+    }
+
+    if (changed) {
+      setSearchParams(params, { replace: true })
+    }
   }, [])
 
   useEffect(() => {
-    if (filterStatus === null) {
-      navigate(`?filterStatus=Unpaid`)
-    }
-  }, [filterStatus])
+    document.title = 'infiniti | Invoices'
+  }, [])
 
   return (
     <div className={styles.wrapper}>
@@ -240,16 +282,17 @@ export const AdminInvoicesPage = () => {
             firstButtonClick: navigateToAddInvoice,
           }}
           headerProps={{
+            searchValue: search,
             isActiveTab: filterStatus,
             setIsActiveTab: updateFilterStatus,
-            searchChange: setSearch,
+            searchChange: updateSearch,
             rightButtons: downloadFile,
           }}
           pagesProps={
             invoicesData
               ? {
                 meta: invoicesData?.meta,
-                nextPage: setPage,
+                nextPage: updatePage,
                 size: 'sm',
               }
               : undefined
