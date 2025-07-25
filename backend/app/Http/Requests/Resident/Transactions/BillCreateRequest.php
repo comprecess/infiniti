@@ -29,7 +29,7 @@ class BillCreateRequest extends FormRequest implements ConvertingPropertiesInter
         $rules = [
             'title' => 'required',
             'nextDate' => 'required|date_format:Y-m-d',
-            'amount' => 'required|decimal:2',
+            'amount' => 'required|decimal:2|min:1',
             'recurringType' => 'required|in:'. implode(',', Bill::RECURRING_TYPE),
             'website' => 'nullable|string',
         ];
