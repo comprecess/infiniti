@@ -100,10 +100,8 @@ class TransactionsController extends TransactionsAccessController
             $typeTag = $newTypeTag[$typeTag];
         }
 
-        $code_prefix = 'INC-';
-        if($type == Transaction::TYPE[0]) {
-            $code_prefix = Config::get('invoice_code_prefix');
-        }elseif($type == Transaction::TYPE[1]){
+        $code_prefix = Config::get('income_code_prefix');
+        if(in_array($type, [Transaction::TYPE[1], Transaction::TYPE[2]])){
             $code_prefix = Config::get('expense_code_prefix');
         }
 
