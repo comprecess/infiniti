@@ -23,7 +23,7 @@ class BusinessModelController extends Controller
 
         $dopFilter = ['category'];
         $prop = Prop::whereNull('id_parent')
-            ->with(['children', 'valuesExists']);
+            ->with(['children', 'valuesExistsPublic']);
 
         if($request->prop && in_array($request->prop, $dopFilter)) {
             $prop->where('id_name', $request->prop);
@@ -37,7 +37,7 @@ class BusinessModelController extends Controller
     public function properties(Request $request)
     {
         $prop = Prop::whereNull('id_parent')
-            ->with(['children', 'values'])
+            ->with(['children', 'valuesExistsPublic'])
             ->get();
 
         return PropertyResorce::collection($prop);

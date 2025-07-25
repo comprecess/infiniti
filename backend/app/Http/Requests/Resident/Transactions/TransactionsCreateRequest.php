@@ -46,7 +46,8 @@ class TransactionsCreateRequest extends FormRequest implements ConvertingPropert
 
         $rules = [
             'referralLink' => 'nullable',
-            'code' => 'nullable',
+//            'code' => 'nullable',
+            'code' => 'nullable|unique:sys_transactions,code,NULL',
             'tags' => 'nullable|array',
             'tags.*' => 'required|string',
             'date' => 'required|date_format:Y-m-d',

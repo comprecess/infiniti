@@ -14,17 +14,19 @@ class Prop extends PropCatalog
         return null;
     }
 
-    public function valuesExists()
+    public function valuesExistsPublic()
     {
         return $this->hasMany(Value::class, 'id_prop')
             ->distinct()
-            ->select('business_model_prop.*')
+            ->select('business_model_prop_value.*')
             ->join('business_model_value', function($join){
                 $join->on('business_model_value.cataloggable_id','=','business_model_prop_value.id')
                     ->where('business_model_value.cataloggable_type', Value::class);
             })
-            ->join('business_model', 'business_model.id', '=', 'business_model_value.id_catalog_user')
-            ->whereNull('business_model.deleted_at');
+            ->join('business_model', 'business_model.id', '=', 'business_model_value.id_business_model')
+            ->whereNull('business_model.deleted_at')
+//            ->where('business_model.active', 1)
+            ->orderBy('business_model_prop_value.value', 'asc');
     }
 
     public function values()
