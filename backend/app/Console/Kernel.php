@@ -22,7 +22,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(MeetingReminder::class)->hourly();
         $schedule->command(ExpiredInvoice::class)->daily();
         $schedule->command(ExpiredOffer::class)->daily();
-        $schedule->command(NewTalent::class)->weeklyOn(5, '3:00');
+        $schedule->command(NewTalent::class)->weeklyOn(5, '12:00');
     }
 
     /**
