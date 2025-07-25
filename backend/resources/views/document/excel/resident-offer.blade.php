@@ -10,7 +10,7 @@
     @foreach($data as $d)
         <tr>
             <td width="40">{{$d->getCode()}}</td>
-            <td width="40">{{$d->user->account}}<br> {{$d->user->companyClient?->company_name}}</td>
+            <td width="40">{{$d->user?->account ?? '-'}}<br> {{$d->user?->companyClient?->company_name}}</td>
             <td width="25">{{$d->printPrice('total')}}</td>
             <td width="40">{{$d->date?->format('d/m/Y')}}</td>
             <td width="25">{{$d->duedate?->format('d/m/Y')}}</td>
