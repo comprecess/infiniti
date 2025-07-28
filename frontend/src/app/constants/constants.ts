@@ -639,7 +639,7 @@ export interface SalesBlankData {
   description: string
   amount: number
   price: number
-  tax: number
+  tax: number | null
   discount: number
   discountType: 'percent' | 'fixed'
 }
