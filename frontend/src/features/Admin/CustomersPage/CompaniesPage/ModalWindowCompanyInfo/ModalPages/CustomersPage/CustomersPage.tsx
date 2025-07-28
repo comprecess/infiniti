@@ -74,7 +74,9 @@ export const CustomersPage = ({ id }: CustomersPageProps) => {
             </div>
           </div>
         ) : (
-          <LoadingSpinner />
+          <div className={styles.loading}>
+            <LoadingSpinner />
+          </div>
         )}
       </div>
     </div>

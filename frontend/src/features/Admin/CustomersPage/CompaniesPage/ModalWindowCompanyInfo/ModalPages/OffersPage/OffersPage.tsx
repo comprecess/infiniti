@@ -61,6 +61,7 @@ export const OffersPage = ({ id }: OffersPageProps) => {
                   <Fragment key={item.id}>
                     <Item
                       id={item.client.id}
+                      idOffer={item.id}
                       code={item.id}
                       account={item.account}
                       subject={item.code}
@@ -77,7 +78,9 @@ export const OffersPage = ({ id }: OffersPageProps) => {
             </div>
           </div>
         ) : (
-          <LoadingSpinner />
+          <div className={styles.loading}>
+            <LoadingSpinner />
+          </div>
         )}
       </div>
     </div>

@@ -57,7 +57,9 @@ export const SummaryPage = ({ id, onClick }: SummaryPageProps) => {
           />
         </>
       ) : (
-        <LoadingSpinner />
+        <div className={styles.loading}>
+          <LoadingSpinner />
+        </div>
       )}
     </div>
   )

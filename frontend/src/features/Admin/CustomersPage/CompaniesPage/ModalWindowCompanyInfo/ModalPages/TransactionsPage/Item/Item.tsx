@@ -1,3 +1,6 @@
+import { useNavigate } from 'react-router-dom'
+
+import { Routes } from '../../../../../../../../app/router/routes'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../TransactionsPage.module.scss'
 import styles from './Item.module.scss'
@@ -26,6 +29,14 @@ export const Item = ({
   cr,
   bal,
 }: ItemProps) => {
+  const navigate = useNavigate()
+
+  const handleNavigateToEditTransaction = () => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.accounting}/${Routes.edit}/${Routes.transaction}/${code}`,
+    )
+  }
+
   return (
     <div className={styles.wrapper}>
       <span className={`${styleItem.hashTagColumn} ${styles.hashTagItem}`}>
@@ -63,6 +74,7 @@ export const Item = ({
           icon='/icons/edit.svg'
           alt='Edit'
           tooltipTitle='Edit'
+          onClick={handleNavigateToEditTransaction}
         />
       </div>
     </div>

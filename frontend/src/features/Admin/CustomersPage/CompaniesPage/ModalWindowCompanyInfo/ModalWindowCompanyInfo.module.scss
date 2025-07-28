@@ -88,3 +88,10 @@
   letter-spacing: -0.03em;
   color: $gray-300;
 }
+
+.loading {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}

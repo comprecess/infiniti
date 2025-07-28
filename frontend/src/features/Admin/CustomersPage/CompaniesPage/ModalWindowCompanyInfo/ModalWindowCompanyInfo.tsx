@@ -75,7 +75,7 @@ export const ModalWindowCompanyInfo = ({
 
   return (
     <CustomModalWindow
-      maxWidth={'800px'}
+      maxWidth='800px'
       isOpen={modalOpen}
       onClose={handleOpenClose}
     >
@@ -132,7 +132,9 @@ export const ModalWindowCompanyInfo = ({
             </div>
           </div>
         ) : (
-          <LoadingSpinner size='xl' />
+          <div className={styles.loading}>
+            <LoadingSpinner size='xl' />
+          </div>
         )}
       </div>
     </CustomModalWindow>

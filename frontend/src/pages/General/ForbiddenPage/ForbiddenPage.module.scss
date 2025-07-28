@@ -25,6 +25,8 @@
   width: 100%;
   max-width: 1000px;
   text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
 .title {
@@ -33,7 +35,6 @@
   font-weight: 700;
   line-height: 234px;
   letter-spacing: -0.03em;
-  //color: $brand-100;
   background: -webkit-linear-gradient($brand-700, $brand-100);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -56,6 +57,7 @@
   line-height: 78px;
   letter-spacing: -0.03em;
   background: -webkit-linear-gradient($brand-100, $brand-700);
+  text-align: center;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 

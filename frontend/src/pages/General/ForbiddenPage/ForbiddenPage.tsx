@@ -31,8 +31,7 @@ export const ForbiddenPage = () => {
       </div>
       <div className={styles.footer}>
         <span className={styles.description}>
-          The server understood the request but is refusing to fulfill it
-          due to access restrictions
+          You don&apos;t have access
         </span>
       </div>
       <div className={styles.buttonBack}>

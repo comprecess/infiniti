@@ -1,8 +1,6 @@
 import { Fragment } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import { ViewInvoicesProps } from '../../../../../../../app/constants/constants'
-import { Routes } from '../../../../../../../app/router/routes'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
@@ -13,20 +11,6 @@ interface RecentInvoicesProps {
 }
 
 export const RecentInvoices = ({ list }: RecentInvoicesProps) => {
-  const navigate = useNavigate()
-
-  const navigateToViewInvoice = (id: number) => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.sales}/${Routes.invoice}/${Routes.view}/${id}`,
-    )
-  }
-
-  const navigateToEditInvoice = (id: number) => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.sales}/${Routes.edit}/${Routes.invoice}/${id}`,
-    )
-  }
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -42,11 +26,7 @@ export const RecentInvoices = ({ list }: RecentInvoicesProps) => {
         {list.map((item, index) => {
           return (
             <Fragment key={item.id}>
-              <Item
-                item={item}
-                navigateToViewInvoice={navigateToViewInvoice}
-                navigateToEditInvoice={navigateToEditInvoice}
-              />
+              <Item item={item} />
               {index !== list.length - 1 && <CustomDivider />}
             </Fragment>
           )

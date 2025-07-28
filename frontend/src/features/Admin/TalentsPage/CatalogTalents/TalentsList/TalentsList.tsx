@@ -41,10 +41,18 @@ export const TalentsList = ({
   const handlePageChange = useCallback((page: number) => {
     saveSession(userTalentsPageString, page)
     setCurrentPage(page)
+
+    const element = document.getElementById('talents')
+    if (element) {
+      const offset = 100
+      const top =
+        window.pageYOffset + element.getBoundingClientRect().top - offset
+      window.scrollTo({ top, behavior: 'smooth' })
+    }
   }, [])
 
   return (
-    <div className={styles.wrapper}>
+    <section id='talents' className={styles.wrapper}>
       <div className={styles.items}>
         <div className={styles.header}>
           <div className={styles.title}>
@@ -109,6 +117,6 @@ export const TalentsList = ({
           </div>
         )}
       </div>
-    </div>
+    </section>
   )
 }

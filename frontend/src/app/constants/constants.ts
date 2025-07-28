@@ -652,7 +652,7 @@ export interface SalesEditInvoiceBlankData {
   description: string
   amount: number
   price: number
-  tax: number
+  tax: number | null
   discount: number
   total: number
   discountType: 'percent' | 'fixed'

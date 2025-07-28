@@ -62,6 +62,7 @@ export const InvoicesPage = ({ id }: InvoicesPageProps) => {
                   <Fragment key={item.id}>
                     <Item
                       id={item.client.id}
+                      idInvoice={item.id}
                       code={item.code}
                       customer={item.account}
                       amount={item.total}
@@ -77,7 +78,9 @@ export const InvoicesPage = ({ id }: InvoicesPageProps) => {
             </div>
           </div>
         ) : (
-          <LoadingSpinner />
+          <div className={styles.loading}>
+            <LoadingSpinner />
+          </div>
         )}
       </div>
     </div>
