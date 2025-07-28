@@ -85,7 +85,9 @@ export const MemoPage = ({ id }: MemoPageProps) => {
           />
         </>
       ) : (
-        <LoadingSpinner />
+        <div className={styles.loading}>
+          <LoadingSpinner />
+        </div>
       )}
     </div>
   )

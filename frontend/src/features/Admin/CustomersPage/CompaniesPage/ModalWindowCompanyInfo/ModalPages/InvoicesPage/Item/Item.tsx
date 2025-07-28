@@ -1,3 +1,6 @@
+import { useNavigate } from 'react-router-dom'
+
+import { Routes } from '../../../../../../../../app/router/routes'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../../../../../../../shared/ui/Status/Status'
 import styleItem from '../InvoicesPage.module.scss'
@@ -5,6 +8,7 @@ import styles from './Item.module.scss'
 
 interface ItemProps {
   id: number
+  idInvoice: number
   code: string
   customer: string
   amount: string
@@ -16,6 +20,7 @@ interface ItemProps {
 
 export const Item = ({
   id,
+  idInvoice,
   code,
   customer,
   amount,
@@ -24,13 +29,30 @@ export const Item = ({
   status,
   onClick,
 }: ItemProps) => {
+  const navigate = useNavigate()
+
   const onClickItem = () => {
     onClick(id)
   }
 
+  const handleNavigateToViewInvoice = () => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.sales}/${Routes.invoice}/${Routes.view}/${idInvoice}`,
+    )
+  }
+
+  const handleNavigateToEditInvoice = () => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.sales}/${Routes.edit}/${Routes.invoice}/${idInvoice}`,
+    )
+  }
+
   return (
     <div className={styles.wrapper}>
-      <span className={`${styleItem.hashTagColumn} ${styles.hashTagItem}`}>
+      <span
+        className={`${styleItem.hashTagColumn} ${styles.hashTagItem}`}
+        onClick={handleNavigateToViewInvoice}
+      >
         {code}
       </span>
       <span
@@ -59,12 +81,14 @@ export const Item = ({
           icon='/icons/view.svg'
           alt='View'
           tooltipTitle='View'
+          onClick={handleNavigateToViewInvoice}
         />
         <CustomMiniButton
           style='amber'
           icon='/icons/edit.svg'
           alt='Edit'
           tooltipTitle='Edit'
+          onClick={handleNavigateToEditInvoice}
         />
       </div>
     </div>

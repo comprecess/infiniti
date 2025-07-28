@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { SalesProductOrServiceData } from '../../../../app/constants/constants'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { CustomModalWindow } from '../../../../shared/ui/CustomModalWindow/CustomModalWindow'
-import { getServiceInvoice } from '../../../../shared/utils/api/Admin/Sales/AddProductOrService/GetService'
+import { getServiceInvoice } from '../../../../shared/utils/api/Admin/Sales/AddProductOrService/get-service-invoice'
 import styles from './AddProductOrService.module.scss'
 import { RecentProductService } from './RecentProductService/RecentProductService'
 
@@ -31,9 +31,11 @@ export const AddProductOrService = ({
   >(null)
 
   const getServiceOnList = async () => {
-    const getResponse = await getServiceInvoice(serviceList[0])
+    const response = await getServiceInvoice(serviceList[0])
 
-    setService(getResponse)
+    if (!response.status) return
+
+    setService(response.data.data)
   }
 
   useEffect(() => {

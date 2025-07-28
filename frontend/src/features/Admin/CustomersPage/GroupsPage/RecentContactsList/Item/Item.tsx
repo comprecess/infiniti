@@ -1,5 +1,7 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
+import { Routes } from '../../../../../../app/router/routes'
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../RecentContactsList.module.scss'
@@ -22,8 +24,16 @@ export const Item = ({
 }: ItemProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
+  const navigate = useNavigate()
+
   const handleOpenConfirmationModal = () => {
     setModalDelete(state => !state)
+  }
+
+  const handleNavigateToCustomer = () => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${id}/${Routes.summary}`,
+    )
   }
 
   return (
@@ -52,6 +62,7 @@ export const Item = ({
             icon='/icons/view.svg'
             alt='View'
             tooltipTitle='View'
+            onClick={handleNavigateToCustomer}
           />
           <CustomMiniButton
             style='cherry'

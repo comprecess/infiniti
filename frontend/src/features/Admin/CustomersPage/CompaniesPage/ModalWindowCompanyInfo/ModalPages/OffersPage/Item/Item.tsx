@@ -1,3 +1,6 @@
+import { useNavigate } from 'react-router-dom'
+
+import { Routes } from '../../../../../../../../app/router/routes'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../../../../../../../shared/ui/Status/Status'
 import styleItem from '../OffersPage.module.scss'
@@ -5,6 +8,7 @@ import styles from './Item.module.scss'
 
 interface ItemProps {
   id: number
+  idOffer: number
   code: number
   account: string
   subject: string
@@ -17,6 +21,7 @@ interface ItemProps {
 
 export const Item = ({
   id,
+  idOffer,
   code,
   account,
   subject,
@@ -26,8 +31,22 @@ export const Item = ({
   stage,
   onClick,
 }: ItemProps) => {
+  const navigate = useNavigate()
+
   const onClickItem = () => {
     onClick(id)
+  }
+
+  const handleNavigateToViewOffer = () => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.sales}/${Routes.offer}/${Routes.view}/${idOffer}`,
+    )
+  }
+
+  const handleNavigateToEditOffer = () => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.sales}/${Routes.edit}/${Routes.offer}/${idOffer}`,
+    )
   }
 
   return (
@@ -66,12 +85,14 @@ export const Item = ({
           icon='/icons/view.svg'
           alt='View'
           tooltipTitle='View'
+          onClick={handleNavigateToViewOffer}
         />
         <CustomMiniButton
           style='amber'
           icon='/icons/edit.svg'
           alt='Edit'
           tooltipTitle='Edit'
+          onClick={handleNavigateToEditOffer}
         />
       </div>
     </div>

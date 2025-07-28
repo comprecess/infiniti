@@ -69,3 +69,11 @@
 .statusColumn {
   justify-content: end;
 }
+
+.loading {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}

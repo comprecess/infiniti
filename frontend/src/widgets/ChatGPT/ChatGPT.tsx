@@ -272,7 +272,7 @@ export const ChatGPT = () => {
         </PopoverHeader>
         <PopoverBody className={styles.popoverBody}>
           <div className={styles.messenger}>
-            {messages && (
+            {messages && messages.length > 0 ? (
               <div className={styles.messages}>
                 {Object.entries(groupedMessages).map(([date, msgs]) => (
                   <div key={date}>
@@ -290,6 +290,10 @@ export const ChatGPT = () => {
                 ))}
                 <div ref={messagesEndRef} />
               </div>
+            ) : (
+              <span className={styles.noMessages}>
+                You don&apos;t have any messages yet
+              </span>
             )}
             <form
               className={styles.footer}

@@ -74,7 +74,9 @@ export const TransactionsPage = ({ id }: TransactionsPageProps) => {
             </div>
           </div>
         ) : (
-          <LoadingSpinner />
+          <div className={styles.loading}>
+            <LoadingSpinner />
+          </div>
         )}
       </div>
     </div>

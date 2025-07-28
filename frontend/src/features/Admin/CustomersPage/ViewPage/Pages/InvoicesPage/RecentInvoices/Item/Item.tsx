@@ -1,4 +1,7 @@
+import { useNavigate } from 'react-router-dom'
+
 import { ViewInvoicesProps } from '../../../../../../../../app/constants/constants'
+import { Routes } from '../../../../../../../../app/router/routes'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../../../../../../../shared/ui/Status/Status'
 import styleItem from '../RecentInvoices.module.scss'
@@ -6,21 +9,21 @@ import styles from './Item.module.scss'
 
 interface ItemProps {
   item: ViewInvoicesProps
-  navigateToViewInvoice: (id: number) => void
-  navigateToEditInvoice: (id: number) => void
 }
 
-export const Item = ({
-  item,
-  navigateToViewInvoice,
-  navigateToEditInvoice,
-}: ItemProps) => {
+export const Item = ({ item }: ItemProps) => {
+  const navigate = useNavigate()
+
   const handleNavigateToViewInvoice = () => {
-    navigateToViewInvoice(item.id)
+    navigate(
+      `/${Routes.adminPages}/${Routes.sales}/${Routes.invoice}/${Routes.view}/${item.id}`,
+    )
   }
 
   const handleNavigateToEditInvoice = () => {
-    navigateToEditInvoice(item.id)
+    navigate(
+      `/${Routes.adminPages}/${Routes.sales}/${Routes.edit}/${Routes.invoice}/${item.id}`,
+    )
   }
 
   return (

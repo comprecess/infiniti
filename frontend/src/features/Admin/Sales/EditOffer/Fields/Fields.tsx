@@ -84,9 +84,9 @@ export const Fields = ({
     blankList: blanks.blank.map(item => ({
       ...item,
       tax:
-        typeof item.tax === 'object'
+        item.tax && typeof item.tax === 'object'
           ? (item.tax as SalesNewInvoiceTaxProps).id
-          : item.tax,
+          : null,
     })),
   })
 
@@ -159,7 +159,7 @@ export const Fields = ({
       blankList: blanks.blank.map(item => ({
         ...item,
         tax:
-          typeof item.tax === 'object'
+          item.tax && typeof item.tax === 'object'
             ? (item.tax as SalesNewInvoiceTaxProps).id
             : item.tax,
       })),

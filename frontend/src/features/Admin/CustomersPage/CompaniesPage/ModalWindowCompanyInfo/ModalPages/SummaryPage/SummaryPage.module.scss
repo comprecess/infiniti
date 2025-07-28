@@ -21,3 +21,11 @@
   font-size: 14px;
   line-height: 20px;
 }
+
+.loading {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}

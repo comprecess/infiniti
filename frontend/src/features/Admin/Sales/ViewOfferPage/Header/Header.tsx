@@ -62,39 +62,47 @@ export const Header = ({
       <section className={styles.sectionSecond}>
         <div className={styles.offerTo}>
           <span className={styles.offerToTitle}>Recipient:</span>
-          <div className={styles.offerToList}>
-            {client.company && (
-              <span className={styles.offerToItem}>{client.company}</span>
-            )}
-            {client.account && (
-              <span className={styles.offerToItem}>
-                {`ATTN: ${client.account}`}
-              </span>
-            )}
-            {client.address && (
-              <span className={styles.offerToItem}>{client.address}</span>
-            )}
-            {client.city && (
-              <span className={styles.offerToItem}>{client.city}</span>
-            )}
-          </div>
-          <div className={styles.contactInfo}>
-            {client.phone && (
-              <ContactItem title='Phone' value={client.phone} />
-            )}
-            {client.email && (
-              <ContactItem title='Email' value={client.email} />
-            )}
-            {client.customFields.map(field => {
-              return (
-                <ContactItem
-                  key={field.id}
-                  title={field.name}
-                  value={field.value}
-                />
-              )
-            })}
-          </div>
+          {client && (
+            <>
+              <div className={styles.offerToList}>
+                {client.company && (
+                  <span className={styles.offerToItem}>
+                    {client.company}
+                  </span>
+                )}
+                {client.account && (
+                  <span className={styles.offerToItem}>
+                    {`ATTN: ${client.account}`}
+                  </span>
+                )}
+                {client.address && (
+                  <span className={styles.offerToItem}>
+                    {client.address}
+                  </span>
+                )}
+                {client.city && (
+                  <span className={styles.offerToItem}>{client.city}</span>
+                )}
+              </div>
+              <div className={styles.contactInfo}>
+                {client.phone && (
+                  <ContactItem title='Phone' value={client.phone} />
+                )}
+                {client.email && (
+                  <ContactItem title='Email' value={client.email} />
+                )}
+                {client.customFields.map(field => {
+                  return (
+                    <ContactItem
+                      key={field.id}
+                      title={field.name}
+                      value={field.value}
+                    />
+                  )
+                })}
+              </div>
+            </>
+          )}
         </div>
         <div className={styles.offerTotal}>
           <div className={styles.offerDate}>
