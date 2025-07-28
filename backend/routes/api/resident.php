@@ -34,6 +34,7 @@ Route::group(['prefix' => 'client',], function(){
         Route::put('/sort', [Resident\Client\GroupController::class, 'sort']);
         Route::put('/{group}', [Resident\Client\GroupController::class, 'create']);
         Route::delete('/{group}', [Resident\Client\GroupController::class, 'delete']);
+        Route::delete('/{group}/client/{client}', [Resident\Client\GroupController::class, 'deleteClient']);
     });
 
     #company
