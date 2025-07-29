@@ -40,6 +40,7 @@ use App\Services\Tools\Countries;
 use App\Services\Zoom\Requests\MeetingData;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\ValidationException;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use Illuminate\Http\Request;
 
@@ -360,6 +361,10 @@ class ClientController extends MainClientController
         if($request->isSet('addAmount') || $request->isSet('returnAmount')) {
             $type = isset($data['addAmount']);
             $amount = $type ? $data['addAmount'] : $data['returnAmount'];
+            if($amount < 1) {
+                $nameValidate = $type ? 'addAmount' : 'returnAmount';
+                throw ValidationException::withMessages([$nameValidate => __('validation.min.numeric', ['attribute' => $nameValidate, "min" => $amount])]);
+            }
 
             $request->validateWithBag('put', [$type ? 'addAmount' : 'returnAmount' => 'numeric|min:0|not_in:0']);
 
