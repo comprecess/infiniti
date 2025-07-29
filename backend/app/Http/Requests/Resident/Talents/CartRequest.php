@@ -20,7 +20,7 @@ class CartRequest extends FormRequest implements ConvertingPropertiesInterface
     {
 
         return [
-            'amount' => 'nullable|integer',
+            'amount' => 'nullable|integer|min:1',
             'type' => 'nullable|in:'. implode(',', Cart::TYPE)
         ];
     }
