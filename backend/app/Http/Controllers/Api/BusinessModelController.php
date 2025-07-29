@@ -6,6 +6,7 @@ use App\Contracts\FilterBusinessModelContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BusinessModel\ListRequest;
 use App\Http\Resources\BusinessModel\BusinessModelResource;
+use App\Http\Resources\Catalog\PropertyFilterResource;
 use App\Http\Resources\Catalog\PropertyResorce;
 use App\Http\Resources\Catalog\UsersResorce;
 use App\Models\BusinessModel\BusinessModel;
@@ -31,13 +32,13 @@ class BusinessModelController extends Controller
             $prop->where('filter', 1);
         }
 
-        return PropertyResorce::collection($prop->get());
+        return PropertyFilterResource::collection($prop->get());
     }
 
     public function properties(Request $request)
     {
         $prop = Prop::whereNull('id_parent')
-            ->with(['children', 'valuesExistsPublic'])
+            ->with(['children', 'values'])
             ->get();
 
         return PropertyResorce::collection($prop);
