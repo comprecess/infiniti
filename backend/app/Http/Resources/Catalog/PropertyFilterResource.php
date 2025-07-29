@@ -7,7 +7,7 @@ use App\Http\Resources\Traits\ListTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PropertyResorce extends JsonResource implements ListInterface
+class PropertyFilterResource extends JsonResource implements ListInterface
 {
     use ListTrait;
     /**
@@ -20,7 +20,15 @@ class PropertyResorce extends JsonResource implements ListInterface
         $resource = [];
 
         $this->setList($resource);
-        $resource['values'] = ValueResorce::collection($this->values);
+        if($this->type == 'integer') {
+            $resource['values'] = [];
+        }else{
+            $value = $this->valuesExistsPublic;
+//            if(!$value->count()) {
+//                return [];
+//            }
+            $resource['values'] = ValueResorce::collection($value);
+        }
 
         $resource['children'] = self::collection($this->children);
         $resource['options'] = $this->options && !is_array($this->options) ? json_decode($this->options, true) : $this->options;

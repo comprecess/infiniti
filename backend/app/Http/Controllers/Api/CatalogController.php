@@ -11,6 +11,7 @@ use App\Http\Requests\Catalog\EmploymentRequest;
 use App\Http\Requests\Catalog\ListRequest;
 use App\Http\Requests\MeetingRequest;
 use App\Http\Resources\Catalog\CartResorce;
+use App\Http\Resources\Catalog\PropertyFilterResource;
 use App\Http\Resources\Catalog\PropertyResorce;
 use App\Http\Resources\Catalog\UsersResorce;
 use App\Models\Catalog\Cart;
@@ -41,7 +42,7 @@ class CatalogController extends Controller
             $prop->where('filter', 1);
         }
 
-        return PropertyResorce::collection($prop->get());
+        return PropertyFilterResource::collection($prop->get());
     }
 
     public function properties(Request $request)
