@@ -32,7 +32,7 @@ export const AdminContactInvoicesPage = () => {
 
   const navigateToCreateNewInvoice = () => {
     navigate(
-      `/${Routes.adminPages}/${Routes.sales}/${Routes.new}/${Routes.invoice}`,
+      `/${Routes.adminPages}/${Routes.sales}/${Routes.new}/${Routes.invoice}?for-customer=${context.idClient}`,
     )
   }
 

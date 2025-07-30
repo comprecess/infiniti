@@ -8,9 +8,13 @@ import styles from './RecentContactsList.module.scss'
 
 interface RecentContactsListProps {
   list: GroupContactsListProps[]
+  deleteContact: (id: number) => void
 }
 
-export const RecentContactsList = ({ list }: RecentContactsListProps) => {
+export const RecentContactsList = ({
+  list,
+  deleteContact,
+}: RecentContactsListProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -31,6 +35,7 @@ export const RecentContactsList = ({ list }: RecentContactsListProps) => {
                 companyName={item.company?.name}
                 email={item.email}
                 phone={item.phone}
+                deleteContact={() => deleteContact(item.id)}
               />
               {index !== list.length - 1 && <CustomDivider />}
             </Fragment>

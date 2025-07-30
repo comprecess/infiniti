@@ -53,7 +53,7 @@ export const AdminOffersPage = () => {
   }
 
   const { data: offersData } = useQuery({
-    queryKey: ['offers', page, search, sortName, sortType],
+    queryKey: ['offersData', page, search, sortName, sortType],
     queryFn: async () => {
       const response: {
         access: RolesAccess

@@ -13,6 +13,7 @@ interface ItemProps {
   companyName: string
   email: string
   phone: string
+  deleteContact: () => void
 }
 
 export const Item = ({
@@ -21,6 +22,7 @@ export const Item = ({
   companyName,
   email,
   phone,
+  deleteContact,
 }: ItemProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
@@ -69,6 +71,7 @@ export const Item = ({
             icon='/icons/trash.svg'
             alt='Delete'
             tooltipTitle='Delete'
+            onClick={handleOpenConfirmationModal}
           />
         </div>
       </div>
@@ -76,7 +79,7 @@ export const Item = ({
         <ConfirmationModal
           isOpened={modalDelete}
           handleOpenCloseModal={handleOpenConfirmationModal}
-          agree={() => {}}
+          agree={deleteContact}
         />
       )}
     </>

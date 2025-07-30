@@ -36,6 +36,12 @@ export const CustomersPage = ({ id }: CustomersPageProps) => {
     )
   }
 
+  const handleNavigateToCreateCustomer = () => {
+    navigate(
+      `/${Routes.adminPages}/${Routes.customers}/${Routes.add}/${Routes.customer}?for-company=${id}`,
+    )
+  }
+
   useEffect(() => {
     getCustomers()
   }, [])
@@ -46,6 +52,7 @@ export const CustomersPage = ({ id }: CustomersPageProps) => {
         title='Add Customer'
         style={styles.buttonBlue}
         styleTitle={styles.buttonBlueTitle}
+        onClick={handleNavigateToCreateCustomer}
       />
       <div className={styles.container}>
         {customers ? (

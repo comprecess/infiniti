@@ -22,6 +22,7 @@ import { Item } from './Item/Item'
 
 interface FieldsProps {
   data: SalesNewInvoiceInputData
+  customerId: number | null
   onFormDataChange: (data: Partial<SalesNewInvoiceFormData>) => void
 }
 
@@ -36,7 +37,11 @@ export interface PartialFieldsPostData
   | null
 }
 
-export const Fields = ({ data, onFormDataChange }: FieldsProps) => {
+export const Fields = ({
+  data,
+  customerId,
+  onFormDataChange,
+}: FieldsProps) => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({
     invoiceNum: data.invoiceNum,
     num: data.num,
@@ -111,12 +116,12 @@ export const Fields = ({ data, onFormDataChange }: FieldsProps) => {
       } else {
         value = value - 1
       }
-    } else if (field === 'clientId' && typeof value === 'number') {
-      if (value === 0) {
-        value = null
-      } else {
-        value = data.client[value - 1].id
-      }
+    } else if (
+      field === 'clientId' &&
+      typeof value === 'number' &&
+      value === 0
+    ) {
+      value = null
     } else if (field === 'checkPublic' && typeof value === 'boolean') {
       value = value === true ? 1 : 0
     }
@@ -280,8 +285,9 @@ export const Fields = ({ data, onFormDataChange }: FieldsProps) => {
           <CustomSelect
             title='Customer'
             titleOnChange='clientId'
-            placeholder='None'
-            idList={data.client.map((_client, index) => index + 1)}
+            placeholder='Not Selected'
+            value={customerId ?? undefined}
+            idList={data.client.map(item => item.id)}
             nameList={data.client.map(client =>
               `${client.account}${
                 client.email ? ` - ${client.email}` : ''
