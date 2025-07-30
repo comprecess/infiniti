@@ -163,9 +163,9 @@ export const AdminCompaniesPage = () => {
 
   const createCompany = async () => {
     const filteredData = filterEmptyFields(companyData)
-    const createResponse = await postCreateNewCompany(filteredData)
+    const response = await postCreateNewCompany(filteredData)
 
-    if (createResponse.status) {
+    if (response.status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully created a new company',
@@ -177,7 +177,7 @@ export const AdminCompaniesPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: createResponse.message,
+        description: response.message,
         status: 'error',
       })
     }

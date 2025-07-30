@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react'
 import { GroupContactsListProps } from '../../../../../app/constants/constants'
 import { RecentContactsList } from '../../../../../features/Admin/CustomersPage/GroupsPage/RecentContactsList/RecentConatctsList'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
+import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { deleteGroupContact } from '../../../../../shared/utils/api/Admin/Groups/delete-group-contact'
 import { getContactsList } from '../../../../../shared/utils/api/Admin/Groups/get-contacts-list'
 import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
 import styles from './ContactsListPage.module.scss'
@@ -14,6 +16,7 @@ export const AdminContactsListPage = () => {
   >(null)
 
   const id = useIdFromUrl('list')
+  const showToast = useCustomToast()
 
   const getContacts = async () => {
     if (id !== null) {
@@ -22,6 +25,28 @@ export const AdminContactsListPage = () => {
       if (!response.status) return
 
       setContacts(response.data)
+    }
+  }
+
+  const deleteContact = async (idCustomer: number) => {
+    if (id === null) return
+
+    const response = await deleteGroupContact(id, idCustomer)
+
+    if (response.status) {
+      showToast({
+        title: 'Successfully',
+        description:
+          'You have successfully removed a contact from the group',
+        status: 'success',
+      })
+      getContacts()
+    } else {
+      showToast({
+        title: 'Error',
+        description: response.message,
+        status: 'error',
+      })
     }
   }
 
@@ -42,7 +67,10 @@ export const AdminContactsListPage = () => {
               />
             </div>
             <div className={styles.content}>
-              <RecentContactsList list={contacts} />
+              <RecentContactsList
+                list={contacts}
+                deleteContact={deleteContact}
+              />
             </div>
           </div>
         ) : (

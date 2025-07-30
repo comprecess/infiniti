@@ -15,6 +15,7 @@ import styles from './Fields.module.scss'
 
 interface FieldsProps {
   data: CustomerInputsData
+  companyId: number | null
 }
 
 interface FieldsPostData {
@@ -34,7 +35,7 @@ export interface PartialFieldsPostData extends Partial<FieldsPostData> {
   | null
 }
 
-export const Fields = ({ data }: FieldsProps) => {
+export const Fields = ({ data, companyId }: FieldsProps) => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({
     code: data.code,
     type: Array(data.type[0]),
@@ -68,12 +69,12 @@ export const Fields = ({ data }: FieldsProps) => {
         } else {
           updatedFormData[name] = data.group[value - 1].id
         }
-      } else if (name === 'companyId' && typeof value === 'number') {
-        if (value === 0) {
-          updatedFormData[name] = null
-        } else {
-          updatedFormData[name] = data.company[value - 1].id
-        }
+      } else if (
+        name === 'companyId' &&
+        typeof value === 'number' &&
+        value === 0
+      ) {
+        value = null
       } else {
         updatedFormData[name] = value
       }
@@ -208,8 +209,9 @@ export const Fields = ({ data }: FieldsProps) => {
             <CustomSelect
               title='Company'
               titleOnChange='companyId'
-              placeholder='None'
-              idList={data.company.map((_item, index) => index + 1)}
+              placeholder='Not Selected'
+              value={companyId ?? undefined}
+              idList={data.company.map(item => item.id)}
               nameList={data.company.map(item => item.name)}
               onChange={onChangeInput}
             />

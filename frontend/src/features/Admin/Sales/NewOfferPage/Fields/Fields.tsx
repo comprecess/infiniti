@@ -22,6 +22,7 @@ import { TotalItem } from './TotalItem/TotalItem'
 
 export interface FieldsProps {
   data: SalesOfferInputData
+  customerId: number | null
   onFormDataChange: (data: Partial<SalesNewOfferFormData>) => void
 }
 
@@ -36,7 +37,11 @@ export interface PartialFieldsNewOfferData
   | null
 }
 
-export const Fields = ({ data, onFormDataChange }: FieldsProps) => {
+export const Fields = ({
+  data,
+  customerId,
+  onFormDataChange,
+}: FieldsProps) => {
   const [formData, setFormData] = useState<PartialFieldsNewOfferData>({
     offerNum: data.offerNum,
     num: data.num,
@@ -162,8 +167,12 @@ export const Fields = ({ data, onFormDataChange }: FieldsProps) => {
   ) => {
     if (field === 'stage' && typeof value === 'number') {
       value = data.stage[value]
-    } else if (field === 'clientId' && typeof value === 'number') {
-      value = value === 0 ? null : data.client[value - 1].id
+    } else if (
+      field === 'clientId' &&
+      typeof value === 'number' &&
+      value === 0
+    ) {
+      value = null
     } else if (field === 'checkPublic' && typeof value === 'boolean') {
       value = value === true ? 1 : 0
     }
@@ -242,8 +251,9 @@ export const Fields = ({ data, onFormDataChange }: FieldsProps) => {
           <CustomSelect
             title='Customer'
             titleOnChange='clientId'
-            placeholder='None'
-            idList={data.client.map((_client, index) => index + 1)}
+            placeholder='Not Selected'
+            value={customerId ?? undefined}
+            idList={data.client.map(item => item.id)}
             nameList={data.client.map(client =>
               `${client.account}${
                 client.email ? ` - ${client.email}` : ''

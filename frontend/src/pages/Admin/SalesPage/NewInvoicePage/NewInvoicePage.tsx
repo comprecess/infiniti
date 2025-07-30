@@ -28,6 +28,9 @@ export const AdminNewInvoicePage = () => {
   const urlParams = new URLSearchParams(window.location.search)
   const isCreateForProject = urlParams.has('create-for-project')
   const projectId = urlParams.get('create-for-project')
+  const customerIdParam = urlParams.get('for-customer')
+  const customerId =
+    customerIdParam !== null ? parseInt(customerIdParam) : null
 
   const getNewInvoiceInputData = async () => {
     const getResponse = await getInvoiceInputData()
@@ -97,7 +100,11 @@ export const AdminNewInvoicePage = () => {
                 postCreateNewInvoice('save & invoice'),
             }}
           >
-            <Fields data={inputData} onFormDataChange={setFormData} />
+            <Fields
+              data={inputData}
+              customerId={customerId}
+              onFormDataChange={setFormData}
+            />
           </RecentCard>
         ) : (
           <LoadingSpinner size='xl' />

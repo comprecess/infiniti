@@ -32,7 +32,7 @@ export const AdminContactOffersPage = () => {
 
   const navigateToCreateNewOffer = () => {
     navigate(
-      `/${Routes.adminPages}/${Routes.sales}/${Routes.new}/${Routes.offer}`,
+      `/${Routes.adminPages}/${Routes.sales}/${Routes.new}/${Routes.offer}?for-customer=${context.idClient}`,
     )
   }
 

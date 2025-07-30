@@ -26,6 +26,11 @@ export const AdminNewOfferPage = () => {
   const showToast = useCustomToast()
   const navigate = useNavigate()
 
+  const urlParams = new URLSearchParams(window.location.search)
+  const customerIdParam = urlParams.get('for-customer')
+  const customerId =
+    customerIdParam !== null ? parseInt(customerIdParam) : null
+
   const getNewOfferInputData = async () => {
     const getResponse = await getOfferInputData()
 
@@ -80,7 +85,11 @@ export const AdminNewOfferPage = () => {
               secondButtonClick: postCreateNewOffer,
             }}
           >
-            <Fields data={inputData} onFormDataChange={setFormData} />
+            <Fields
+              data={inputData}
+              customerId={customerId}
+              onFormDataChange={setFormData}
+            />
           </RecentCard>
         ) : (
           <LoadingSpinner size='xl' />

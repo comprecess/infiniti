@@ -11,6 +11,11 @@ import styles from './AddCustomerPage.module.scss'
 export const AdminAddCustomerPage = () => {
   const [data, setData] = useState<CustomerInputsData | null>(null)
 
+  const urlParams = new URLSearchParams(window.location.search)
+  const companyIdParam = urlParams.get('for-company')
+  const companyId =
+    companyIdParam !== null ? parseInt(companyIdParam) : null
+
   const getInputsData = async () => {
     const response = await getCustomerInputsData()
 
@@ -32,11 +37,11 @@ export const AdminAddCustomerPage = () => {
       <section className={styles.section}>
         {data ? (
           <RecentCard
-            title='Add Contact'
+            title='Add Customer'
             style={styles.recentFullScreen}
             Component={ImportButton}
           >
-            <Fields data={data} />
+            <Fields data={data} companyId={companyId} />
           </RecentCard>
         ) : (
           <LoadingSpinner size='xl' />
