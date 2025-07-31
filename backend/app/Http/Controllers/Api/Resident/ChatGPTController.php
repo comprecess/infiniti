@@ -4,7 +4,6 @@
 namespace App\Http\Controllers\Api\Resident;
 
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Resident\ChatGPTRequest;
 use App\Http\Resources\Resident\ChatGPTResource;
 use App\Models\ChatGPT;
@@ -16,7 +15,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 use OpenAI\Laravel\Facades\OpenAI;
 
-class ChatGPTController extends Controller
+class ChatGPTController extends ResidentController
 {
     public function historyUser(ChatGPTRequest $request)
     {
