@@ -73,19 +73,14 @@ class Cart extends Model implements MeetingContract
         return $this->morphedByMany(Offer::class, 'model', CartOrder::class, 'id_catalog_cart');
     }
 
-    public function calculation($skipDay = 0)
+    public function calculation($skipActualPriceUser = false)
     {
         $total = $subTax = $subTotal = 0;
 
-        if($skipDay) {
-            $diff = now()->diff($this->updated_at);
-            if($diff->d < $skipDay) {
-                return false;
+        $this->itemsActive()->with(['userCatalog'])->get()->each(function($item) use(&$total, &$subTax, &$subTotal, $skipActualPriceUser){
+            if(!$skipActualPriceUser) {
+                $item->calculation();
             }
-        }
-
-        $this->itemsActive()->with(['userCatalog'])->get()->each(function($item) use(&$total, &$subTax, &$subTotal){
-            $item->calculation();
             $subTax += (float) $item->getTaxesTotalPrice();
             $subTotal += $item->total;
             $total += !$item->taxes_include ? $item->total + (self::getTax()?->getTaxPrice($item->total) ?? 0) : $item->total ;

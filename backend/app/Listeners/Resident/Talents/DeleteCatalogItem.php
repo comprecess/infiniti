@@ -32,7 +32,7 @@ class DeleteCatalogItem
                     if(!$item->cart->items()->count()) {
                         $item->cart->forceDelete();
                     }else{
-                        $item->cart->calculation();
+                        $item->cart->calculation(true);
                     }
                 }
             });
