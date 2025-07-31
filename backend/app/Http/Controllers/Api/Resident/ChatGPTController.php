@@ -17,6 +17,12 @@ use OpenAI\Laravel\Facades\OpenAI;
 
 class ChatGPTController extends ResidentController
 {
+
+    public function roleAccess()
+    {
+        return true;
+    }
+
     public function historyUser(ChatGPTRequest $request)
     {
         $user = User::getAuth();
