@@ -3,17 +3,18 @@
 namespace App\Http\Resources\Resident\Talents;
 
 
-use App\Http\Resources\Resident\Client\ClientResource;
+use App\Http\Requests\Traits\TimeZoneTrait;
 use App\Http\Resources\Traits\NestedParametersTrait;
 use App\Http\Resources\Traits\PropValuesTrait;
 use App\Http\Resources\UserResource;
 use App\Models\Catalog\Prop;
+use App\Models\Config;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CartListResource extends JsonResource
 {
-    use NestedParametersTrait, PropValuesTrait;
+    use NestedParametersTrait, PropValuesTrait, TimeZoneTrait;
 
     protected static $prop = null;
 
@@ -35,15 +36,12 @@ class CartListResource extends JsonResource
             'id' => $this->id,
             'user' => new UserResource($this->user),
             'specializations' => $specializations->pluck('value')->implode(', '),
-//            'total' => number_format($this->total, 2, '.', ''),
-//            'subTotal' => number_format($this->sub_total, 2, '.', ''),
-//            'subTax' => number_format($this->sub_tax, 2, '.', ''),
             'total' => $this->printPrice('total'),
             'subTotal' => $this->printPrice('sub_total'),
             'subTax' => $this->printPrice('sub_tax'),
-            'date' => $this->updated_at->format('d/m/Y'),
+            'date' => $this->toTimeZoneClient('updated_at', Config::get('df')),
             'secret' => $this->secret,
-            'cartItems' => CartItemResource::collection($this->items)
+            'cartItems' => CartItemResource::collection($this->itemsActive)
         ];
     }
 

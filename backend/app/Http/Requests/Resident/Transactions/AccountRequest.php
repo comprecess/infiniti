@@ -35,7 +35,7 @@ class AccountRequest extends FormRequest implements ConvertingPropertiesInterfac
         if($this->getMethod() == 'POST') {
             $rules = array_merge($rules, [
                 'balance' => 'nullable|array',
-                'balance.*.amount' => 'numeric',
+                'balance.*.amount' => 'numeric|min:0',
                 'balance.*.currency' => [
                     'required',
                     'integer',

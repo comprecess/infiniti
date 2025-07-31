@@ -77,7 +77,7 @@ class Cart extends Model implements MeetingContract
     {
         $total = $subTax = $subTotal = 0;
 
-        $this->items()->with(['userCatalog'])->get()->each(function($item) use(/*$rate, $type, */&$total, &$subTax, &$subTotal){
+        $this->itemsActive()->with(['userCatalog'])->get()->each(function($item) use(/*$rate, $type, */&$total, &$subTax, &$subTotal){
             $item->calculation();
             $subTax += (float) $item->getTaxesTotalPrice();
             $subTotal += $item->total;

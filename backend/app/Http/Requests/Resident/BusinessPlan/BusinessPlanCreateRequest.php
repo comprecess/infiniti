@@ -5,7 +5,6 @@ namespace App\Http\Requests\Resident\BusinessPlan;
 
 use App\Http\Requests\Interfaces\ConvertingPropertiesInterface;
 use App\Http\Requests\Traits\ConvertingPropertiesTrait;
-use App\Models\FileStorage;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

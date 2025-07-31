@@ -28,9 +28,9 @@ class BusinessModelCreateRequest extends FormRequest implements ConvertingProper
             'start' => "nullable|date_format:Y-m-d",
             'industries' => "required",
             'technologies' => "required",
-            'price' => "required",
+            'price' => "required|numeric|min:0",
             'location' => "required",
-            'age' => "required",
+            'age' => "required|numeric|min:0",
             'category' => "required",
             'profitability' => "required|in:" . $props->where('id_name', 'profitability')->first()->values->pluck('id')->implode(','),
 

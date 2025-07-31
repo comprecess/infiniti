@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Traits\FileStorageTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Config extends Model
 {
@@ -21,12 +22,15 @@ class Config extends Model
 
     public static function get($name, $default = null)
     {
-        $settings = self::getSettings($name);
-        if($settings === null) {
-            return $default;
-        }
+        $cacheName = "config.{$name}";
+        return Cache::remember($cacheName, config('cache.time.1week'), function() use($name, $default) {
+            $settings = self::getSettings($name);
+            if ($settings === null) {
+                return $default;
+            }
 
-        return $settings->value;
+            return $settings->value;
+        });
     }
 
     public static function set($name, $value)

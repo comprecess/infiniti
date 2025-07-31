@@ -26,7 +26,7 @@ class AssetCreateRequest extends FormRequest implements ConvertingPropertiesInte
             'name' => 'required',
             'datePurchased' => 'nullable|date_format:Y-m-d',
             'supportedUntil' => 'nullable|date_format:Y-m-d',
-            'price' => 'nullable|numeric',
+            'price' => 'nullable|numeric|min:0',
             'serial' => 'nullable',
             'notes' => 'nullable',
 

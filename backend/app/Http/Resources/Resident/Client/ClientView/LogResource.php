@@ -2,12 +2,13 @@
 
 namespace App\Http\Resources\Resident\Client\ClientView;
 
-use App\Http\Resources\UserResource;
+use App\Http\Requests\Traits\TimeZoneTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class LogResource extends JsonResource
 {
+    use TimeZoneTrait;
     /**
      * Transform the resource into an array.
      *
@@ -17,7 +18,7 @@ class LogResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'time' => $this->date->diffForHumans(),
+            'time' => $this->toTimeZoneClient('date')->diffForHumans(),
             'ip' => $this->ip,
             'description' => $this->description,
         ];
