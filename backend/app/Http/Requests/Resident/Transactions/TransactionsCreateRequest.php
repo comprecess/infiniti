@@ -51,7 +51,7 @@ class TransactionsCreateRequest extends FormRequest implements ConvertingPropert
             'tags' => 'nullable|array',
             'tags.*' => 'required|string',
             'date' => 'required|date_format:Y-m-d',
-            'amount' => 'required|decimal:2|min:1',
+            'amount' => 'required|decimal:2|min:0.01',
             'attachments' => 'nullable',
             'description' => 'required',
             'status' => 'required|in:' . implode(',', $status),

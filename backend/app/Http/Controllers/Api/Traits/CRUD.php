@@ -22,6 +22,8 @@ trait CRUD
 
     protected $isPut = false;
 
+    private $beforeIndex = [];
+
     public function getNamePrePage() :string
     {
         return 'amount';
@@ -61,6 +63,8 @@ trait CRUD
         if($resource instanceof ResourceCollection){
             return $resource;
         }
+
+        $this->beforeIndexRun($model);
 
         return $resource::collection($model);
     }
@@ -128,6 +132,21 @@ trait CRUD
     public function defResponse()
     {
         return response()->json(['success' => true]);
+    }
+
+    public function beforeIndexCrud(callable $callable)
+    {
+        $this->beforeIndex[] = $callable;
+        return $this;
+    }
+
+    private function beforeIndexRun($query)
+    {
+        if($this->beforeIndex) {
+            foreach($this->beforeIndex as $callable) {
+                $callable($query);
+            }
+        }
     }
 
 }

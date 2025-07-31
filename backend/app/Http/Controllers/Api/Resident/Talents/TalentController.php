@@ -315,11 +315,16 @@ class TalentController extends TalentsController
 
         $request->sortModel($query);
 
-        $query->with(['items', 'items.userCatalog', 'items.userCatalog.values']);
+        $query->with(['itemsActive', 'itemsActive.userCatalog', 'itemsActive.userCatalog.values', 'itemsActive.getCurrencyIso']);
 
         #проверка ну удаление талантов и пустоту корзины
         $query->whereRaw("(SELECT COUNT(*) FROM `catalog_cart_item` JOIN `catalog_user` ON `catalog_user`.`id` = `catalog_cart_item`.`id_catalog_user` WHERE catalog_cart_item.id_catalog_cart = catalog_cart.id AND `catalog_user`.`deleted_at` IS NULL) > 0");
 
+        $this->beforeIndexCrud(function($query){
+            $query->each(function($cart){
+               $cart->calculation(7);
+            });
+        });
 
         return $this->index($query, CartListResource::class, true);
     }
@@ -331,14 +336,13 @@ class TalentController extends TalentsController
         if($userCart->id != $user->id && !$user->checkAccess()) {
             abort(403);
         }
-        $cart->load(['itemsActive', 'items.userCatalog', 'user', 'items.userCatalog.values']);
+        $cart->load(['itemsActive', 'itemsActive.userCatalog', 'user', 'itemsActive.userCatalog.values', 'itemsActive.getCurrencyIso']);
 
         return new CartListResource($cart);
     }
 
     public function cartItemUpdate(Cart $cart, CartItem $item, CartRequest $request)
     {
-
         $request->setModel($item, true);
         $item->save();
 

@@ -43,3 +43,10 @@ function array_percentage($arr, $round = 1)
 
     return $ret;
 }
+
+function nowTimeZone()
+{
+    $now = now();
+    $request = app(\App\Http\Requests\TimeZoneRequest::class);
+    return $request->toTimeZoneClient($now);
+}

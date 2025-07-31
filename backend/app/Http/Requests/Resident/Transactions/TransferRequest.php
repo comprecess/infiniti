@@ -28,7 +28,7 @@ class TransferRequest extends FormRequest implements ConvertingPropertiesInterfa
             'tags' => 'nullable|array',
             'tags.*' => 'required|string',
             'date' => 'required|date_format:Y-m-d',
-            'amount' => 'required|decimal:2',
+            'amount' => 'required|decimal:2|min:0.01',
             'attachments' => 'nullable',
             'description' => 'required',
 //            'type' => 'nullable|in:' . implode(',', [Transaction::TYPE[2]]),
