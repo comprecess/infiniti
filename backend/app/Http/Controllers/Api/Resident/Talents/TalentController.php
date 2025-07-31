@@ -320,11 +320,14 @@ class TalentController extends TalentsController
         #проверка ну удаление талантов и пустоту корзины
         $query->whereRaw("(SELECT COUNT(*) FROM `catalog_cart_item` JOIN `catalog_user` ON `catalog_user`.`id` = `catalog_cart_item`.`id_catalog_user` WHERE catalog_cart_item.id_catalog_cart = catalog_cart.id AND `catalog_user`.`deleted_at` IS NULL) > 0");
 
-        $this->beforeIndexCrud(function($query){
-            $query->each(function($cart){
-               $cart->calculation(7);
-            });
-        });
+        /*
+         * Не нужно пересчитывать старые цены на новые, может получится так что со временем изменилась цена таланта. Если включить может привести что цена не будет совпадать с транзакциями
+         * */
+//        $this->beforeIndexCrud(function($query){
+//            $query->each(function($cart){
+//               $cart->calculation();
+//            });
+//        });
 
         return $this->index($query, CartListResource::class, true);
     }
