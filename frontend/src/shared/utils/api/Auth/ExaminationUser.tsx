@@ -69,13 +69,13 @@ export const ExaminationUser = ({ children }: PropsWithChildren) => {
     } else if (!isLoading && isAuthenticated) {
       if (userRole === roles.client) {
         if (location.pathname.includes(`/${Routes.clientPages}`)) {
-          navigate(location.pathname)
+          navigate(`${location.pathname}${location.search}`)
         } else {
           navigate(`/${Routes.clientPages}/${Routes.dashboard}`)
         }
       } else if (userRole === roles.admin) {
         if (location.pathname.includes(`/${Routes.adminPages}`)) {
-          navigate(location.pathname)
+          navigate(`${location.pathname}${location.search}`)
         } else {
           navigate(`/${Routes.adminPages}/${Routes.dashboard}`)
         }

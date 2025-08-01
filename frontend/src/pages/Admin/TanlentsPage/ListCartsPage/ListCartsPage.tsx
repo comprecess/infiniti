@@ -57,7 +57,7 @@ export const AdminListCartsPage = () => {
 
       if (!response.status) return
 
-      if (page > response.data.meta.last_page) {
+      if (parseInt(page) > response.data.meta.last_page && page !== '1') {
         updatePage('1')
       }
 
@@ -75,6 +75,12 @@ export const AdminListCartsPage = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(location.search)
+    const requiredParams = ['filterStatus', 'page', 'sortName', 'sortType']
+
+    const hasAllParams = requiredParams.every(param => params.has(param))
+
+    if (hasAllParams) return
+
     let changed = false
 
     if (!params.has('filterStatus')) {
@@ -100,7 +106,7 @@ export const AdminListCartsPage = () => {
     if (changed) {
       setSearchParams(params, { replace: true })
     }
-  }, [])
+  }, [location.search])
 
   useEffect(() => {
     document.title = 'infiniti | List of Carts'
