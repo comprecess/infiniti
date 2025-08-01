@@ -60,7 +60,7 @@ export const AdminCartToOfferPage = () => {
 
     if (!response.status) return
 
-    setData(response.data)
+    setData(response.data.data)
   }
 
   const getNewOfferInputData = async () => {

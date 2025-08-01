@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useCallback, useEffect } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import {
   PagesMetaData,
@@ -19,57 +20,63 @@ import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './UsersPage.module.scss'
 
 export const AdminUsersPage = () => {
-  const [data, setData] = useState<{
-    data: SettingsUsersData[]
-    meta: PagesMetaData
-  } | null>(null)
-  const [access, setAccess] = useState<RolesAccess | null>(null)
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  const [page, setPage] = useState<number>(1)
-  const [search, setSearch] = useState<string>('')
-  const [sortName, setSortName] = useState<string>('id')
-  const [sortType, setSortType] = useState<number>(1)
-  const [options, setOptions] = useState<string>('')
+  const page = searchParams.get('page') || '1'
+  const search = searchParams.get('search') || ''
+  const sortName = searchParams.get('sortName') || 'id'
+  const sortType = parseInt(searchParams.get('sortType') || '1')
 
   const navigate = useNavigate()
   const showToast = useCustomToast()
+  const queryClient = useQueryClient()
 
-  const changeURL = (
-    pageItem: number,
-    searchItem: string,
-    sortNameItem: string,
-    sortTypeItem: number,
-  ) => {
-    // eslint-disable-next-line max-len
-    const urlOptions = `?page=${pageItem}&filter[search]=${searchItem}&sort[name]=${sortNameItem}&sort[type]=${sortTypeItem}&document=json`
+  const updateQueryParam = (key: string, value: string | number) => {
+    const newParams = new URLSearchParams(location.search)
+    newParams.set(key, String(value))
 
-    setOptions(urlOptions)
+    if (key !== 'page') {
+      newParams.set('page', '1')
+    }
+
+    setSearchParams(newParams, { replace: true })
+  }
+
+  const updatePage = (newPage: string) => updateQueryParam('page', newPage)
+  const updateSearch = (newSearch: string) =>
+    updateQueryParam('search', newSearch)
+  const updateSort = (name: string, type: number) => {
+    updateQueryParam('sortName', name)
+    updateQueryParam('sortType', type)
   }
 
   const changeSort = useCallback(
     (sortNameItem: string, sortTypeItem: number) => {
-      setSortName(sortNameItem)
-      setSortType(sortTypeItem)
+      updateSort(sortNameItem, sortTypeItem)
     },
     [],
   )
 
-  const getData = async () => {
-    if (!options) return
+  const { data: usersData } = useQuery({
+    queryKey: ['usersData', page, search, sortName, sortType],
+    queryFn: async () => {
+      const response: {
+        access: RolesAccess
+        data: SettingsUsersData[]
+        meta: PagesMetaData
+      } = await getListUsers(
 
-    const getResponse: {
-      access: RolesAccess
-      data: SettingsUsersData[]
-      meta: PagesMetaData
-    } = await getListUsers(options)
+        `?page=${page}&filter[search]=${search}&sort[name]=${sortName}&sort[type]=${sortType}&document=json`,
+      )
 
-    if (page > getResponse.meta.last_page) {
-      setPage(1)
-    }
+      if (page && parseInt(page) > response.meta.last_page) {
+        updatePage('1')
+      }
 
-    setAccess(getResponse.access)
-    setData({ data: getResponse.data, meta: getResponse.meta })
-  }
+      return response
+    },
+    placeholderData: previousData => previousData,
+  })
 
   const handleNewUser = () => {
     navigate(
@@ -86,7 +93,7 @@ export const AdminUsersPage = () => {
         description: 'You have successfully deleted the user',
         status: 'success',
       })
-      getData()
+      queryClient.invalidateQueries({ queryKey: ['usersData'] })
     } else {
       showToast({
         title: 'Error',
@@ -103,38 +110,54 @@ export const AdminUsersPage = () => {
   }
 
   useEffect(() => {
-    document.title = 'infiniti | Users'
+    const params = new URLSearchParams(location.search)
+    let changed = false
+
+    if (!params.has('page')) {
+      params.set('page', '1')
+      changed = true
+    }
+
+    if (!params.has('sortName')) {
+      params.set('sortName', 'id')
+      changed = true
+    }
+
+    if (!params.has('sortType')) {
+      params.set('sortType', '1')
+      changed = true
+    }
+
+    if (changed) {
+      setSearchParams(params, { replace: true })
+    }
   }, [])
 
   useEffect(() => {
-    changeURL(page, search, sortName, sortType)
-  }, [page, search, sortName, sortType])
-
-  useEffect(() => {
-    getData()
-  }, [options])
+    document.title = 'infiniti | Users'
+  }, [])
 
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        {data && access ? (
+        {usersData ? (
           <RecentCard
             title='Users'
             style={styles.recentFullScreen}
             HeaderComponent={Search}
             PagesComponent={PagesList}
-            Component={access.create ? ButtonBlue : undefined}
+            Component={usersData.access.create ? ButtonBlue : undefined}
             pagesProps={{
-              meta: data.meta,
-              nextPage: setPage,
+              meta: usersData.meta,
+              nextPage: updatePage,
               size: 'sm',
             }}
             headerProps={{
               style: styles.search,
-              onSearchChange: setSearch,
+              onSearchChange: updateSearch,
             }}
             componentProps={
-              access.create
+              usersData.access.create
                 ? {
                   title: 'New User',
                   titleNone: true,
@@ -147,8 +170,8 @@ export const AdminUsersPage = () => {
             }
           >
             <RecentUsers
-              data={data.data}
-              access={access}
+              data={usersData.data}
+              access={usersData.access}
               changeSortName={changeSort}
               onDeleteUser={handleDeleteSelectedUser}
               onEditUser={handleEditSelectedUser}

@@ -1,0 +1,115 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  min-height: 100vh;
+  align-items: center;
+  padding: 0px 24px 0px 24px;
+  justify-content: center;
+  background-color: $brand-1000;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  max-width: 1000px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-family: $fontSpaceGrotesk;
+  font-size: 226px;
+  font-weight: 700;
+  line-height: 234px;
+  letter-spacing: -0.03em;
+  background: -webkit-linear-gradient($brand-700, $brand-100);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  @include mobileBreakpoint('max', $bpXL) {
+    font-size: 180px;
+    line-height: 188px;
+  }
+
+  @include mobileBreakpoint('max', $bpM) {
+    font-size: 140px;
+    line-height: 148px;
+  }
+}
+
+.description {
+  font-family: $fontSpaceGrotesk;
+  font-size: 70px;
+  font-weight: 600;
+  line-height: 78px;
+  letter-spacing: -0.03em;
+  background: -webkit-linear-gradient($brand-100, $brand-700);
+  text-align: center;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  @include mobileBreakpoint('max', $bpXL) {
+    font-size: 50px;
+    line-height: 58px;
+  }
+
+  @include mobileBreakpoint('max', $bpM) {
+    font-size: 32px;
+    line-height: 40px;
+  }
+}
+
+.card {
+  display: flex;
+  width: 100%;
+  max-width: 140px;
+  height: 170px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background-color: $brand-800;
+
+  @include mobileBreakpoint('max', $bpXL) {
+    max-width: 120px;
+    height: 140px;
+  }
+
+  @include mobileBreakpoint('max', $bpM) {
+    max-width: 95px;
+    height: 110px;
+  }
+}
+
+.sadSmile {
+  width: 110px;
+  height: 110px;
+
+  @include mobileBreakpoint('max', $bpXL) {
+    width: 85px;
+    height: 85px;
+  }
+
+  @include mobileBreakpoint('max', $bpM) {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+.buttonBack {
+  width: 100%;
+  max-width: 260px;
+  margin-top: 50px;
+}

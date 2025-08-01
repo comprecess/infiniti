@@ -119,6 +119,7 @@ import { InvoiceProofTransaction } from '../../pages/General/InvoiceProofTransac
 import { InvoiceViewPage } from '../../pages/General/InvoiceViewPage/InvoiceViewPage'
 import { NotFoundPage } from '../../pages/General/NotFoundPage/NotFoundPage'
 import { OfferViewPage } from '../../pages/General/OfferViewPage/OfferViewPage'
+import { ServerErrorPage } from '../../pages/General/ServerErrorPage/ServerErrorPage'
 
 export const Routes = {
   root: '/',
@@ -220,6 +221,7 @@ export const Routes = {
   password: 'password',
   notFound: '404',
   forbidden: '403',
+  serverError: '500',
 }
 
 export const To = {
@@ -357,4 +359,5 @@ export const Pages = {
   publicAutoLoginPage: <AutoLoginPage />,
   notFoundPage: <NotFoundPage />,
   forbiddenPage: <ForbiddenPage />,
+  serverErrorPage: <ServerErrorPage />,
 }
