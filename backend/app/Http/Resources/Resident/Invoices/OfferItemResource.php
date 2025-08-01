@@ -31,7 +31,11 @@ class OfferItemResource extends JsonResource implements ListInterface
         $resorce = [];
         $this->setList($resorce);
 
-        $items = $this->items()->with(['document', 'getCurrencyIso'])->get();
+        if($this->id) {
+            $items = $this->items()->with(['document', 'getCurrencyIso'])->get();
+        }else{
+            $items = $this->items;
+        }
         $currency = $this->getCurrencyIso;
 
         $resorce = array_merge($resorce, [
