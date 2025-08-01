@@ -1,6 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { SetURLSearchParams, useNavigate } from 'react-router-dom'
 
 import {
   ProjectsTasksData,
@@ -14,9 +15,12 @@ import styles from './TaskItem.module.scss'
 
 interface TaskItemProps {
   task: ProjectsTasksData
+  taskIdFromUrl?: string | null
   isSelected: boolean
   isDragging: boolean
   inputData?: ProjectsTasksInputData | null
+  searchParams?: URLSearchParams
+  setSearchParams?: SetURLSearchParams
   editSelectedTask: (
     idTask: number,
     form: Partial<ProjectsTasksFormData>,
@@ -26,9 +30,12 @@ interface TaskItemProps {
 
 export const TaskItem = ({
   inputData,
+  taskIdFromUrl,
   task,
   isSelected,
   isDragging,
+  searchParams,
+  setSearchParams,
   editSelectedTask,
   deleteSelectedTask,
 }: TaskItemProps) => {
@@ -47,6 +54,7 @@ export const TaskItem = ({
   })
 
   const { isMobile } = useDeviceDetect()
+  const navigate = useNavigate()
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -54,7 +62,11 @@ export const TaskItem = ({
   }
 
   const handleSetIsEdited = () => {
+    if (!searchParams || !setSearchParams) return
+
     setIsViewed(false)
+    searchParams.delete('task')
+    setSearchParams(searchParams)
 
     const timer = setTimeout(() => {
       setIsEdited(prev => !prev)
@@ -65,8 +77,16 @@ export const TaskItem = ({
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation()
-    setIsViewed(true)
+    navigate(`?task=${task.id}`)
   }
+
+  useEffect(() => {
+    if (taskIdFromUrl && parseInt(taskIdFromUrl) === task.id) {
+      setIsViewed(true)
+    } else {
+      setIsViewed(false)
+    }
+  }, [taskIdFromUrl, task.id])
 
   return (
     <>
@@ -110,8 +130,14 @@ export const TaskItem = ({
           task={task}
           modalOpen={isViewed}
           handleIsEditTask={handleSetIsEdited}
-          handleOpenCloseModal={() => setIsViewed(false)}
           deleteSelectedTask={deleteSelectedTask}
+          handleOpenCloseModal={() => {
+            if (!searchParams || !setSearchParams) return
+
+            setIsViewed(false)
+            searchParams.delete('task')
+            setSearchParams(searchParams)
+          }}
         />
       )}
       {isEdited && !isDragging && inputData && (

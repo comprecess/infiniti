@@ -3,6 +3,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
+import { SetURLSearchParams } from 'react-router-dom'
 
 import {
   ProjectsTasksData,
@@ -14,11 +15,14 @@ import { TaskItem } from './TaskItem/TaskItem'
 
 interface TaskColumnProps {
   inputData: ProjectsTasksInputData
+  taskIdFromUrl: string | null
   title: string
   columnId: string
   tasks: ProjectsTasksData[]
   activeTaskId?: string
   isDragging: boolean
+  searchParams: URLSearchParams
+  setSearchParams: SetURLSearchParams
   editSelectedTask: (
     idTask: number,
     form: Partial<ProjectsTasksFormData>,
@@ -28,11 +32,14 @@ interface TaskColumnProps {
 
 export const TaskColumn = ({
   inputData,
+  taskIdFromUrl,
   title,
   columnId,
   tasks,
   activeTaskId,
   isDragging,
+  searchParams,
+  setSearchParams,
   editSelectedTask,
   deleteSelectedTask,
 }: TaskColumnProps) => {
@@ -74,10 +81,13 @@ export const TaskColumn = ({
                   }
                 >
                   <TaskItem
+                    taskIdFromUrl={taskIdFromUrl}
                     inputData={inputData}
                     task={task}
                     isSelected={isActive}
                     isDragging={isDragging}
+                    searchParams={searchParams}
+                    setSearchParams={setSearchParams}
                     deleteSelectedTask={deleteSelectedTask}
                     editSelectedTask={editSelectedTask}
                   />

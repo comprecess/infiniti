@@ -13,6 +13,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 import {
   ProjectsColumnData,
@@ -54,6 +55,9 @@ export const TasksCard = ({
   const [columns, setColumns] = useState<ProjectsColumnData>(data)
   const [activeTask, setActiveTask] = useState<ActiveTaskInfo | null>(null)
 
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const taskIdFromUrl = searchParams.get('task')
   const containerRef = useRef<HTMLDivElement>(null)
 
   const sensors = useSensors(
@@ -172,11 +176,14 @@ export const TasksCard = ({
             strategy={verticalListSortingStrategy}
           >
             <TaskColumn
+              taskIdFromUrl={taskIdFromUrl}
               inputData={inputData}
               isDragging={!!activeTask}
               columnId={`column-${status}`}
               title={status}
               tasks={tasks}
+              searchParams={searchParams}
+              setSearchParams={setSearchParams}
               activeTaskId={activeTask?.task.id.toString()}
               editSelectedTask={editSelectedTask}
               deleteSelectedTask={deleteSelectedTask}
