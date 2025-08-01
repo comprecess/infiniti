@@ -90,7 +90,7 @@ class Offer extends Model implements InsertDefaultValueInterface
         $date = now();
         $user = $cart->user;
         #currency
-        $currency = $cart->getCurrencyIso;
+        $currency = $cart->getCurrencyIso ?? Currency::getDefault();
 
 
         $t = new self();
