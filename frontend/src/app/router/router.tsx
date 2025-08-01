@@ -571,6 +571,7 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  { path: Routes.serverError, element: Pages.serverErrorPage },
   { path: Routes.forbidden, element: Pages.forbiddenPage },
   { path: Routes.notFound, element: Pages.notFoundPage },
 

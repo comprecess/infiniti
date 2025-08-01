@@ -76,13 +76,15 @@ export const Fields = ({
     notes: data.notes,
     checkPublic: data.checkPublic,
     blankCalc: data.blankCalc,
-    blankList: data.blank.map(item => ({
-      ...item,
-      tax:
-        item.tax && typeof item.tax === 'object'
-          ? (item.tax as SalesNewInvoiceTaxProps).id
-          : null,
-    })),
+    blankList:
+      data.blank &&
+      data.blank.map(item => ({
+        ...item,
+        tax:
+          item.tax && typeof item.tax === 'object'
+            ? (item.tax as SalesNewInvoiceTaxProps).id
+            : null,
+      })),
   })
 
   const [priceCalc, setPriceCalc] =
