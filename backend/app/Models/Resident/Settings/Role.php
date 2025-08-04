@@ -106,6 +106,15 @@ class Role extends Model
         });
     }
 
+    public static function getAccessType()
+    {
+        $method = request()->method();
+
+        return collect(self::ACCESS_METHOD)->search(function($value) use($method){
+            return array_search($method, $value) !== false;
+        });
+    }
+
 //    private function getParentClass($class, &$list = [])
 //    {
 //        $name = get_parent_class($class);

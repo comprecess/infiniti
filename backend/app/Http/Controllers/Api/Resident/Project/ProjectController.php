@@ -66,7 +66,7 @@ class ProjectController extends ProjectAccessController
 
     public function view(Project $project)
     {
-        $project->checkAccessAbort(self::ACCESS);
+        $project->checkAccessAbort(...self::ACCESS);
         $viewResponce = View::create($project);
         if($viewResponce === null) {
             abort(404);

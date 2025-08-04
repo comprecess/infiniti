@@ -11,6 +11,9 @@ use \App\Http\Controllers\Api\Resident;
         'customers' => [
             Resident\Client\MainClientController::class
         ],
+        'companies' => [
+            Resident\Client\CompanyController::class
+        ],
         'documents' => [
             Resident\DocumentController::class
         ],
