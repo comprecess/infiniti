@@ -4,8 +4,8 @@
 namespace App\Http\Controllers\Api\Resident\Client;
 
 
+use App\Http\Controllers\Api\Resident\ResidentController;
 use App\Http\Controllers\Api\Traits\CRUD;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Resident\Client\CompanyRequest;
 use App\Http\Requests\Resident\Client\CompanyViewRequest;
 use App\Http\Resources\Resident\Client\CompanyResource;
@@ -15,7 +15,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 use App\Http\Resources\Resident\Client\CompanyView;
 
-class CompanyController extends MainClientController
+class CompanyController extends ResidentController
 {
     use CRUD {
         index as myIndex;

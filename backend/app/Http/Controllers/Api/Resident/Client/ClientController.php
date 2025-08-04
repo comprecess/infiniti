@@ -32,7 +32,9 @@ use App\Models\Resident\Document;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\CustomFields;
+use App\Models\Resident\Settings\Role;
 use App\Models\Resident\Settings\Tag;
+use App\Models\User;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
@@ -52,6 +54,14 @@ class ClientController extends MainClientController
     }
 
     protected $client = null;
+
+    public function roleAccess($request)
+    {
+        $user = User::getAuth();
+        if($user->checkAccess(Role::getAccessType(), 'suppliers')) {
+            return true;
+        }
+    }
 
     public function getDocumentVariables(): DocumentVariables
     {
@@ -97,6 +107,11 @@ class ClientController extends MainClientController
 
     public function list(ClientListRequest $request)
     {
+
+        $requestAll = $request->all();
+        $type = Arr::get($requestAll, 'type', Client::TYPE[0]);
+        $this->viewAccess($type);
+
         $clients = Client::query()
             ->select('crm_accounts.*')
             ->leftJoin("crm_groups", "crm_groups.id", "=", "crm_accounts.gid")
@@ -108,7 +123,6 @@ class ClientController extends MainClientController
             })
             ->with(['group', 'companyClient', 'files']);
 
-        $requestAll = $request->all();
         if($group = Arr::get($requestAll, 'filter.group')) {
             $clients->where('gid', $group);
         }
@@ -125,9 +139,7 @@ class ClientController extends MainClientController
             });
         }
 
-        if($type = Arr::get($requestAll, 'type', Client::TYPE[0])) {
-            $clients->where('crm_accounts.type', 'like', '%' . $type . '%');
-        }
+        $clients->where('crm_accounts.type', 'like', '%' . $type . '%');
 
 //        $user = auth()->user();
 //        if($user->checkAccess() === 0) {

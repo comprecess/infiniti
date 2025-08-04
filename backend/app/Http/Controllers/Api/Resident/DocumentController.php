@@ -10,6 +10,7 @@ use App\Http\Requests\Resident\DocumentFileCreateRequest;
 use App\Http\Requests\Resident\DocumentFileRequest;
 use App\Http\Resources\Resident\DocumentResource;
 use App\Models\Resident\Document;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -19,6 +20,17 @@ class DocumentController extends ResidentController
     use CRUD {
         createOrUpdate as createOrUpdateCRUD;
         delete as deleteCRUD;
+    }
+
+    public function roleAccess($request)
+    {
+        $method = $request->method();
+        $user = User::getAuth();
+        if($method === 'GET') {
+            if($user->checkAccess('view', 'customers')) {
+                return true;
+            }
+        }
     }
 
     public function list(DocumentFileRequest $request)
