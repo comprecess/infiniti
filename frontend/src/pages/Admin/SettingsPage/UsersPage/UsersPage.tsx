@@ -65,7 +65,6 @@ export const AdminUsersPage = () => {
         data: SettingsUsersData[]
         meta: PagesMetaData
       } = await getListUsers(
-
         `?page=${page}&filter[search]=${search}&sort[name]=${sortName}&sort[type]=${sortType}&document=json`,
       )
 
@@ -145,13 +144,21 @@ export const AdminUsersPage = () => {
             title='Users'
             style={styles.recentFullScreen}
             HeaderComponent={Search}
-            PagesComponent={PagesList}
-            Component={usersData.access.create ? ButtonBlue : undefined}
-            pagesProps={{
-              meta: usersData.meta,
-              nextPage: updatePage,
-              size: 'sm',
-            }}
+            Component={
+              usersData.access.create === 1 ? ButtonBlue : undefined
+            }
+            PagesComponent={
+              usersData.data.length > 0 ? PagesList : undefined
+            }
+            pagesProps={
+              usersData.data.length > 0
+                ? {
+                  meta: usersData.meta,
+                  nextPage: updatePage,
+                  size: 'sm',
+                }
+                : undefined
+            }
             headerProps={{
               style: styles.search,
               onSearchChange: updateSearch,

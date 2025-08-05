@@ -74,7 +74,7 @@ export const Item = ({
               onClick={handleEditCurrency}
             />
           )}
-          {baseCurrency === 0 ? (
+          {access.edit === 1 && baseCurrency === 0 ? (
             <CustomMiniButton
               style='amber'
               icon='/icons/star.svg'

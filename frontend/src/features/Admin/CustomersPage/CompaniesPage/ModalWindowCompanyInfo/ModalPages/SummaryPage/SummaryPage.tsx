@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 
-import { CompanyData } from '../../../../../../../app/constants/constants'
+import {
+  CompanyData,
+  RolesAccess,
+} from '../../../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getCompanyPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/get-company-page'
@@ -14,12 +17,14 @@ interface SummaryPageProps {
 
 export const SummaryPage = ({ id, onClick }: SummaryPageProps) => {
   const [summary, setSummary] = useState<CompanyData | null>(null)
+  const [access, setAccess] = useState<RolesAccess | null>(null)
 
   const getSummaryPage = async () => {
     const response = await getCompanyPage(id, 'summary')
 
     if (!response.status) return
 
+    setAccess(response.data.access)
     setSummary(response.data.data)
   }
 
@@ -49,12 +54,14 @@ export const SummaryPage = ({ id, onClick }: SummaryPageProps) => {
               <Item title='Phone:' description={summary.phone} />
             )}
           </div>
-          <ButtonBlue
-            title='Edit'
-            style={styles.buttonBlue}
-            styleTitle={styles.buttonBlueTitle}
-            onClick={handleOpenEditPanel}
-          />
+          {access?.edit === 1 && (
+            <ButtonBlue
+              title='Edit'
+              style={styles.buttonBlue}
+              styleTitle={styles.buttonBlueTitle}
+              onClick={handleOpenEditPanel}
+            />
+          )}
         </>
       ) : (
         <div className={styles.loading}>

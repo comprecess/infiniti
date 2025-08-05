@@ -64,6 +64,7 @@ export interface FiltersState {
 export interface ViewPageContext {
   idClient: number
   idType: number
+  roles: { [key: string]: RolesAccess }
 }
 
 export interface ProjectViewPageContext {

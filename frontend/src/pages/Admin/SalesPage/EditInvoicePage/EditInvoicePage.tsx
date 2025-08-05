@@ -15,13 +15,13 @@ import {
 import { HeaderButtons } from '../../../../features/Admin/Sales/NewInvoice/HeaderButtons/HeaderButtons'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { addBlankInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/AddBlank'
-import { addServiceBlankInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/AddServiceBlank'
-import { editSelectedInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/EditSelectedInvoice'
-import { getBlanksListInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/GetBlanks'
-import { getInfoSelectedInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/GetInfoSelectedInvoice'
-import { removeBlankInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/RemoveBlank'
-import { updateBlankInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/UpdateBlank'
+import { deleteBlankInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/delete-blank-invoice'
+import { getListBlanksInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/get-list-blanks-invoice'
+import { getSelectedInfoInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/get-selected-info-invoice'
+import { postAddNewBlankInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/post-add-new-blank-invoice'
+import { postAddNewServiceBlankInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/post-add-new-service-blank-invoice'
+import { putUpdateBlankInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/put-update-blank-invoice'
+import { putUpdateInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/put-update-invoice'
 import { getInvoiceInputData } from '../../../../shared/utils/api/Admin/Sales/NewInvoice/GetInvoiceInputData'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
@@ -41,17 +41,21 @@ export const AdminEditInvoicePage = () => {
   const getInfoInvoice = async () => {
     if (id === null) return
 
-    const getInfo = await getInfoSelectedInvoice(id)
+    const response = await getSelectedInfoInvoice(id)
 
-    setData(getInfo)
+    if (!response.status) return
+
+    setData(response.data)
   }
 
   const getBlanksInvoice = async () => {
     if (id === null) return
 
-    const getBlanks = await getBlanksListInvoice(id)
+    const response = await getListBlanksInvoice(id)
 
-    setBlanks(getBlanks)
+    if (!response.status) return
+
+    setBlanks(response.data)
   }
 
   const getNewInvoiceInputData = async () => {
@@ -63,9 +67,9 @@ export const AdminEditInvoicePage = () => {
   const handleAddBlank = async () => {
     if (id === null) return
 
-    const addResponse = await addBlankInvoice(id, 'calc')
+    const { status, message } = await postAddNewBlankInvoice(id, 'calc')
 
-    if (addResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully added blank',
@@ -75,7 +79,7 @@ export const AdminEditInvoicePage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: addResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -84,7 +88,7 @@ export const AdminEditInvoicePage = () => {
   const handleAddServiceBlank = async (idService: string) => {
     if (id === null) return
 
-    const addResponse = await addServiceBlankInvoice(
+    const addResponse = await postAddNewServiceBlankInvoice(
       id,
       'serviceProduct',
       idService,
@@ -109,9 +113,9 @@ export const AdminEditInvoicePage = () => {
   const handleRemoveBlank = async (idBlank: number) => {
     if (id === null) return
 
-    const removeResponse = await removeBlankInvoice(id, idBlank)
+    const { status, message } = await deleteBlankInvoice(id, idBlank)
 
-    if (removeResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully deleted blank',
@@ -121,7 +125,7 @@ export const AdminEditInvoicePage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: removeResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -133,9 +137,9 @@ export const AdminEditInvoicePage = () => {
   ) => {
     if (id === null) return
 
-    const updateResponse = await updateBlankInvoice(id, idBlank, data)
+    const { status } = await putUpdateBlankInvoice(id, idBlank, data)
 
-    if (updateResponse.status) {
+    if (status) {
       getBlanksInvoice()
     }
   }
@@ -143,9 +147,9 @@ export const AdminEditInvoicePage = () => {
   const updateInvoice = async (save: 'save' | 'save & invoice') => {
     if (id === null) return
 
-    const updateResponse = await editSelectedInvoice(id, formData)
+    const { status, message } = await putUpdateInvoice(id, formData)
 
-    if (updateResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully changed the Invoice',
@@ -163,7 +167,7 @@ export const AdminEditInvoicePage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: updateResponse.message,
+        description: message,
         status: 'error',
       })
     }

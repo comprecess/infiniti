@@ -1,6 +1,9 @@
 import { useState } from 'react'
 
-import { ViewInvoicesRecentData } from '../../../../../../app/constants/constants'
+import {
+  RolesAccess,
+  ViewInvoicesRecentData,
+} from '../../../../../../app/constants/constants'
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../../../../../shared/ui/Status/Status'
@@ -9,6 +12,7 @@ import styles from './Item.module.scss'
 import { Type } from './Type/Type'
 
 interface ItemProps extends ViewInvoicesRecentData {
+  access: RolesAccess
   idAccount: number
   deleteInvoice: (idInvoice: number) => void
   stopRecurringInvoice: (
@@ -21,6 +25,7 @@ interface ItemProps extends ViewInvoicesRecentData {
 }
 
 export const Item = ({
+  access,
   id,
   idAccount,
   code,
@@ -106,21 +111,25 @@ export const Item = ({
           <Type type={type} />
         </div>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-          <CustomMiniButton
-            style='mint'
-            icon='/icons/view.svg'
-            alt='View'
-            tooltipTitle='View'
-            onClick={handleNavigateViewInvoice}
-          />
-          <CustomMiniButton
-            style='blue'
-            icon='/icons/clone.svg'
-            alt='Clone'
-            tooltipTitle='Clone'
-            onClick={handleCloneInvoice}
-          />
-          {!blockEdit && (
+          {access.view === 1 && (
+            <CustomMiniButton
+              style='mint'
+              icon='/icons/view.svg'
+              alt='View'
+              tooltipTitle='View'
+              onClick={handleNavigateViewInvoice}
+            />
+          )}
+          {access.create === 1 && (
+            <CustomMiniButton
+              style='blue'
+              icon='/icons/clone.svg'
+              alt='Clone'
+              tooltipTitle='Clone'
+              onClick={handleCloneInvoice}
+            />
+          )}
+          {access.edit === 1 && !blockEdit && (
             <CustomMiniButton
               style='amber'
               icon='/icons/edit.svg'
@@ -129,7 +138,7 @@ export const Item = ({
               onClick={handleNavigateInvoice}
             />
           )}
-          {type === 1 && (
+          {access.edit === 1 && type === 1 && (
             <CustomMiniButton
               style='cherry'
               icon='/icons/stop.svg'
@@ -138,13 +147,15 @@ export const Item = ({
               onClick={handleStopRecurring}
             />
           )}
-          <CustomMiniButton
-            style='cherry'
-            icon='/icons/trash.svg'
-            alt='Delete'
-            tooltipTitle='Delete'
-            onClick={handleOpenConfirmationModal}
-          />
+          {access.delete === 1 && (
+            <CustomMiniButton
+              style='cherry'
+              icon='/icons/trash.svg'
+              alt='Delete'
+              tooltipTitle='Delete'
+              onClick={handleOpenConfirmationModal}
+            />
+          )}
         </div>
       </div>
       {modalDelete && (

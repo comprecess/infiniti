@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
+import { useOutletContext } from 'react-router-dom'
 
 import {
   CompaniesListProps,
@@ -50,6 +51,10 @@ export const AdminCompaniesPage = () => {
     country: '',
   })
   const [inputData, setInputData] = useState<{ code: string } | null>(null)
+
+  const { roles } = useOutletContext<{
+    roles?: { [key: string]: RolesAccess }
+  }>()
 
   const showToast = useCustomToast()
   const queryClient = useQueryClient()
@@ -295,6 +300,7 @@ export const AdminCompaniesPage = () => {
       />
       {selectedCompanyId && (
         <ModalWindowCompanyInfo
+          roles={roles}
           id={selectedCompanyId}
           modalOpen={modalCompanyInfo}
           handleOpenCloseModal={handleOpenCloseModalCompanyInfo}

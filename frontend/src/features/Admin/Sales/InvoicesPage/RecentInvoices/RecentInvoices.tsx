@@ -1,12 +1,16 @@
 import { Fragment, useCallback, useState } from 'react'
 
-import { ViewInvoicesRecentData } from '../../../../../app/constants/constants'
+import {
+  RolesAccess,
+  ViewInvoicesRecentData,
+} from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentInvoices.module.scss'
 
 interface RecentInvoicesProps {
+  access: RolesAccess
   invoicesList: ViewInvoicesRecentData[]
   changeSortName: (sortNameItem: string, sortTypeItem: number) => void
   deleteInvoice: (idInvoice: number) => void
@@ -20,6 +24,7 @@ interface RecentInvoicesProps {
 }
 
 export const RecentInvoices = ({
+  access,
   invoicesList,
   changeSortName,
   deleteInvoice,
@@ -134,6 +139,7 @@ export const RecentInvoices = ({
               return (
                 <Fragment key={`${item.code}-${index}`}>
                   <Item
+                    access={access}
                     id={item.id}
                     idAccount={item.account.id}
                     code={item.code}

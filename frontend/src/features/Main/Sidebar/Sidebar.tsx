@@ -158,6 +158,31 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
                 } else {
                   return null
                 }
+              } else if (
+                newItem.shortName === 'customers' &&
+                  newItem.openPaths
+              ) {
+                const roleCustomers = roles.customers
+                const roleCompanies = roles.companies
+
+                if (roleCustomers.view || roleCompanies.view) {
+                  newItem.openPaths = newItem.openPaths.filter(page => {
+                    const role =
+                        page.shortName === 'customers'
+                          ? roleCustomers
+                          : page.shortName === 'companies'
+                            ? roleCompanies
+                            : null
+
+                    if (role) {
+                      return page.create ? role.create : role.view
+                    }
+
+                    return false
+                  })
+                } else {
+                  return null
+                }
               } else {
                 const roleView = roles[newItem.shortName]
 

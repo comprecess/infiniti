@@ -81,6 +81,7 @@ export const adminSidebarPages = [
 
         // Access
         create: true,
+        shortName: 'customers',
       },
       {
         id: 1,
@@ -89,6 +90,7 @@ export const adminSidebarPages = [
 
         // Access
         create: false,
+        shortName: 'customers',
       },
       {
         id: 2,
@@ -97,6 +99,7 @@ export const adminSidebarPages = [
 
         // Access
         create: false,
+        shortName: 'companies',
       },
       {
         id: 3,
@@ -105,6 +108,7 @@ export const adminSidebarPages = [
 
         // Access
         create: false,
+        shortName: 'customers',
       },
       {
         id: 4,
@@ -113,6 +117,7 @@ export const adminSidebarPages = [
 
         // Access
         create: false,
+        shortName: 'customers',
       },
     ],
 

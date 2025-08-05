@@ -1,7 +1,10 @@
 import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { DashboardRecentProjectsData } from '../../../../app/constants/constants'
+import {
+  DashboardRecentProjectsData,
+  RolesAccess,
+} from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
@@ -9,10 +12,12 @@ import styles from './RecentProjects.module.scss'
 
 interface RecentProjectsProps {
   recentProjects: DashboardRecentProjectsData[]
+  roles?: { [key: string]: RolesAccess }
 }
 
 export const RecentProjects = ({
   recentProjects,
+  roles,
 }: RecentProjectsProps) => {
   const { t } = useTranslation()
 
@@ -46,6 +51,7 @@ export const RecentProjects = ({
                 budget={project.budget}
                 status={project.status}
                 created={project.dueDate}
+                roles={roles}
               />
               {index !== recentProjects.length - 1 && <CustomDivider />}
             </Fragment>

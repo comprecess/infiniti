@@ -1,12 +1,16 @@
 import { Fragment, useCallback, useState } from 'react'
 
-import { SalesOffersListData } from '../../../../../app/constants/constants'
+import {
+  RolesAccess,
+  SalesOffersListData,
+} from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentOffers.module.scss'
 
 interface RecentOffersProps {
+  access: RolesAccess
   offersList: SalesOffersListData[]
   changeSortName: (sortNameItem: string, sortTypeItem: number) => void
   navigateToViewOffer: (idOffer: number) => void
@@ -16,6 +20,7 @@ interface RecentOffersProps {
 }
 
 export const RecentOffers = ({
+  access,
   offersList,
   changeSortName,
   navigateToViewOffer,
@@ -121,6 +126,7 @@ export const RecentOffers = ({
           return (
             <Fragment key={item.id}>
               <Item
+                access={access}
                 id={item.id}
                 idAccount={item.account ? item.account.id : null}
                 account={item.account ? item.account.account : null}

@@ -4,7 +4,7 @@ import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
 import styles from './HeaderButtons.module.scss'
 
 interface HeaderButtonsProps {
-  access: RolesAccess
+  access: RolesAccess | undefined
   firstButtonClick: () => void
   secondButtonClick: () => void
 }
@@ -16,7 +16,7 @@ export const HeaderButtons = ({
 }: HeaderButtonsProps) => {
   return (
     <div className={styles.wrapper}>
-      {access && access.create && (
+      {access && access.create === 1 && (
         <ButtonBlue
           titleNone
           title='Add Customer'

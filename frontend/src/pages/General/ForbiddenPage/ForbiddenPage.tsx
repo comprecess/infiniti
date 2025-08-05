@@ -20,13 +20,7 @@ export const ForbiddenPage = () => {
     <div className={styles.wrapper}>
       <div className={styles.header}>
         <h1 className={styles.title}>4</h1>
-        <div className={styles.card}>
-          <img
-            src='/icons/sadSmile.svg'
-            alt='Sad Smiley'
-            className={styles.sadSmile}
-          />
-        </div>
+        <h1 className={styles.title}>0</h1>
         <h1 className={styles.title}>3</h1>
       </div>
       <div className={styles.footer}>
