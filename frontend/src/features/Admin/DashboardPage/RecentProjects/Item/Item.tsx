@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 
+import { RolesAccess } from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
 import { Status } from '../../../../../shared/ui/Status/Status'
 import styleItem from '../RecentProjects.module.scss'
@@ -11,6 +12,7 @@ interface ItemProps {
   budget: string
   status: string
   created: string
+  roles?: { [key: string]: RolesAccess }
 }
 
 export const Item = ({
@@ -19,13 +21,18 @@ export const Item = ({
   budget,
   status,
   created,
+  roles,
 }: ItemProps) => {
   const navigate = useNavigate()
 
   const handleNavigateToProjectView = () => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.projects}/${Routes.view}/${Routes.project}/${projectId}/${Routes.summary}`,
-    )
+    if (roles && roles.projects.view === 0) {
+      navigate(`/403`)
+    } else {
+      navigate(
+        `/${Routes.adminPages}/${Routes.projects}/${Routes.view}/${Routes.project}/${projectId}/${Routes.summary}`,
+      )
+    }
   }
 
   return (

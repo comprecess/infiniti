@@ -42,90 +42,98 @@ export const RecentCustomers = ({
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.columns}>
-        <Title
-          sorted
-          title='Image'
-          style={styles.imageColumn}
-          sortType={sortNumbers[0]}
-          sortName='img'
-          sortIndex={0}
-          changeSortName={handleSortChange}
-          clearSort={clearSort}
-        />
-        <Title
-          sorted
-          title='Name'
-          style={styles.nameColumn}
-          sortType={sortNumbers[1]}
-          sortName='name'
-          sortIndex={1}
-          changeSortName={handleSortChange}
-          clearSort={clearSort}
-        />
-        <Title
-          sorted
-          title='Company Name'
-          style={styles.companyNameColumn}
-          sortType={sortNumbers[2]}
-          sortName='company'
-          sortIndex={2}
-          changeSortName={handleSortChange}
-          clearSort={clearSort}
-        />
-        <Title
-          sorted
-          title='Group'
-          style={styles.groupColumn}
-          sortType={sortNumbers[3]}
-          sortName='group'
-          sortIndex={3}
-          changeSortName={handleSortChange}
-          clearSort={clearSort}
-        />
-        <Title
-          sorted
-          title='Email'
-          style={styles.emailColumn}
-          sortType={sortNumbers[4]}
-          sortName='email'
-          sortIndex={4}
-          changeSortName={handleSortChange}
-          clearSort={clearSort}
-        />
-        <Title
-          sorted
-          title='Phone'
-          style={styles.phoneColumn}
-          sortType={sortNumbers[5]}
-          sortName='phone'
-          sortIndex={5}
-          changeSortName={handleSortChange}
-          clearSort={clearSort}
-        />
-        <Title title='Manage' style={styles.manageColumn} />
-      </div>
-      <div className={styles.items}>
-        {customersList.map((item, index) => {
-          return (
-            <Fragment key={item.id}>
-              <Item
-                id={item.id}
-                access={access}
-                image={item.img}
-                name={item.account}
-                code={item.code}
-                companyName={item.company?.name}
-                group={item.group?.name}
-                email={item.email}
-                phone={item.phone}
-                deleteClient={deleteClient}
-              />
-              {index !== customersList.length - 1 && <CustomDivider />}
-            </Fragment>
-          )
-        })}
-      </div>
+      {customersList.length > 0 ? (
+        <>
+          <div className={styles.columns}>
+            <Title
+              sorted
+              title='Image'
+              style={styles.imageColumn}
+              sortType={sortNumbers[0]}
+              sortName='img'
+              sortIndex={0}
+              changeSortName={handleSortChange}
+              clearSort={clearSort}
+            />
+            <Title
+              sorted
+              title='Name'
+              style={styles.nameColumn}
+              sortType={sortNumbers[1]}
+              sortName='name'
+              sortIndex={1}
+              changeSortName={handleSortChange}
+              clearSort={clearSort}
+            />
+            <Title
+              sorted
+              title='Company Name'
+              style={styles.companyNameColumn}
+              sortType={sortNumbers[2]}
+              sortName='company'
+              sortIndex={2}
+              changeSortName={handleSortChange}
+              clearSort={clearSort}
+            />
+            <Title
+              sorted
+              title='Group'
+              style={styles.groupColumn}
+              sortType={sortNumbers[3]}
+              sortName='group'
+              sortIndex={3}
+              changeSortName={handleSortChange}
+              clearSort={clearSort}
+            />
+            <Title
+              sorted
+              title='Email'
+              style={styles.emailColumn}
+              sortType={sortNumbers[4]}
+              sortName='email'
+              sortIndex={4}
+              changeSortName={handleSortChange}
+              clearSort={clearSort}
+            />
+            <Title
+              sorted
+              title='Phone'
+              style={styles.phoneColumn}
+              sortType={sortNumbers[5]}
+              sortName='phone'
+              sortIndex={5}
+              changeSortName={handleSortChange}
+              clearSort={clearSort}
+            />
+            <Title title='Manage' style={styles.manageColumn} />
+          </div>
+          <div className={styles.items}>
+            {customersList.map((item, index) => {
+              return (
+                <Fragment key={item.id}>
+                  <Item
+                    id={item.id}
+                    access={access}
+                    image={item.img}
+                    name={item.account}
+                    code={item.code}
+                    companyName={item.company?.name}
+                    group={item.group?.name}
+                    email={item.email}
+                    phone={item.phone}
+                    deleteClient={deleteClient}
+                  />
+                  {index !== customersList.length - 1 && <CustomDivider />}
+                </Fragment>
+              )
+            })}
+          </div>
+        </>
+      ) : (
+        <div className={styles.nothingFound}>
+          <span className={styles.nothingFoundText}>Nothing Found</span>
+        </div>
+      )}
     </div>
   )
 }

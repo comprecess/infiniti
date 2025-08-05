@@ -172,12 +172,18 @@ export const AdminListSuppliersPage = () => {
           title='List Suppliers'
           style={styles.recentFullScreen}
           HeaderComponent={SearchAndButtons}
-          Component={HeaderButtons}
           PagesComponent={suppliers ? PagesList : undefined}
-          componentProps={{
-            access: suppliers?.access,
-            firstButtonClick: navigateToAddSupplier,
-          }}
+          Component={
+            suppliers?.access.create === 1 ? HeaderButtons : undefined
+          }
+          componentProps={
+            suppliers?.access.create === 1
+              ? {
+                access: suppliers?.access,
+                firstButtonClick: navigateToAddSupplier,
+              }
+              : undefined
+          }
           headerProps={{
             searchValue: search,
             searchChange: updateSearch,

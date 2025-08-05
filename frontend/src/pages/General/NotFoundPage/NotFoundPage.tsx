@@ -20,19 +20,18 @@ export const NotFoundPage = () => {
     <div className={styles.wrapper}>
       <div className={styles.header}>
         <h1 className={styles.title}>4</h1>
-        <div className={styles.card}>
+        {/* <div className={styles.card}>
           <img
             src='/icons/sadSmile.svg'
             alt='Sad Smiley'
             className={styles.sadSmile}
           />
-        </div>
+        </div> */}
+        <h1 className={styles.title}>0</h1>
         <h1 className={styles.title}>4</h1>
       </div>
       <div className={styles.footer}>
-        <span className={styles.description}>
-          Sorry, the page you are looking for does not exist
-        </span>
+        <span className={styles.description}>Content not found</span>
       </div>
       <div className={styles.buttonBack}>
         <ButtonBrand title='Go back' onClick={navigateToRoot} />

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import {
   DashboardInvoicesStatusesData,
   DashboardRecentInvoicesData,
+  RolesAccess,
 } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
@@ -14,11 +15,13 @@ import styles from './RecentInvoices.module.scss'
 interface RecentInvoicesProps {
   invoices: DashboardRecentInvoicesData[]
   statuses: DashboardInvoicesStatusesData
+  roles?: { [key: string]: RolesAccess }
 }
 
 export const RecentInvoices = ({
   invoices,
   statuses,
+  roles,
 }: RecentInvoicesProps) => {
   const { t } = useTranslation()
 
@@ -62,6 +65,7 @@ export const RecentInvoices = ({
                     created={invoice.invoiceDate}
                     due={invoice.dueDate}
                     status={invoice.status}
+                    roles={roles}
                   />
                   {index !== invoices.length - 1 && <CustomDivider />}
                 </Fragment>

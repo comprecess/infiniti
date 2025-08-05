@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 
+import { RolesAccess } from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
 import styleItem from '../RecentClients.module.scss'
 import styles from './Item.module.scss'
@@ -10,6 +11,7 @@ interface ItemProps {
   name: string
   email: string
   created: string
+  roles?: { [key: string]: RolesAccess }
 }
 
 export const Item = ({
@@ -18,13 +20,18 @@ export const Item = ({
   name,
   email,
   created,
+  roles,
 }: ItemProps) => {
   const navigate = useNavigate()
 
   const handleNavigateToClient = () => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${clientId}/${Routes.summary}`,
-    )
+    if (roles && roles.customers.view === 0) {
+      navigate(`/403`)
+    } else {
+      navigate(
+        `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${clientId}/${Routes.summary}`,
+      )
+    }
   }
 
   return (

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import {
   SalesBlanks,
@@ -6,6 +7,7 @@ import {
   SalesEditOfferData,
   SalesOfferInputData,
 } from '../../../../app/constants/constants'
+import { Routes } from '../../../../app/router/routes'
 import {
   Fields,
   PartialFieldsPostData,
@@ -13,13 +15,13 @@ import {
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { addBlankOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/AddBlankOffer'
-import { addServiceBlankOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/AddServiceBlankOffer'
-import { editSelectedOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/EditSelectedOffer'
-import { getBlanksListOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/GetBlanksOffer'
-import { getInfoSelectedOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/GetInfoSelectedOffer'
-import { removeBlankOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/RemoveBlankOffer'
-import { updateBlankOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/UpdateBlankOffer'
+import { deleteBlankOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/delete-blank-offer'
+import { getListBlanksOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/get-list-blanks-offer'
+import { getSelectedInfoOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/get-selected-info-offer'
+import { postAddNewBlankOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/post-add-new-blank-offer'
+import { postAddNewServiceBlankOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/post-add-new-service-blank-offer'
+import { putUpdateBlankOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/put-update-blank-offer'
+import { putUpdateOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/put-update-offer'
 import { getOfferInputData } from '../../../../shared/utils/api/Admin/Sales/NewOffer/GetOfferInputData'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
@@ -35,13 +37,16 @@ export const AdminEditOfferPage = () => {
 
   const id = useIdFromUrl('offer')
   const showToast = useCustomToast()
+  const navigate = useNavigate()
 
   const getInfoOffer = async () => {
     if (id === null) return
 
-    const getInfo = await getInfoSelectedOffer(id)
+    const response = await getSelectedInfoOffer(id)
 
-    setData(getInfo)
+    if (!response.status) return
+
+    setData(response.data)
   }
 
   const getNewOfferInputData = async () => {
@@ -53,27 +58,29 @@ export const AdminEditOfferPage = () => {
   const getBlanksOffer = async () => {
     if (id === null) return
 
-    const getBlanks = await getBlanksListOffer(id)
+    const response = await getListBlanksOffer(id)
 
-    setBlanks(getBlanks)
+    if (!response.status) return
+
+    setBlanks(response.data)
   }
 
-  const updateInvoice = async () => {
+  const updateOffer = async () => {
     if (id === null) return
 
-    const updateResponse = await editSelectedOffer(id, formData)
+    const { status, message } = await putUpdateOffer(id, formData)
 
-    if (updateResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully changed the Offer',
         status: 'success',
       })
-      getBlanksOffer()
+      navigate(`/${Routes.adminPages}/${Routes.sales}/${Routes.offers}`)
     } else {
       showToast({
         title: 'Error',
-        description: updateResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -82,9 +89,9 @@ export const AdminEditOfferPage = () => {
   const handleRemoveBlank = async (idBlank: number) => {
     if (id === null) return
 
-    const removeResponse = await removeBlankOffer(id, idBlank)
+    const { status, message } = await deleteBlankOffer(id, idBlank)
 
-    if (removeResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully deleted blank',
@@ -94,7 +101,7 @@ export const AdminEditOfferPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: removeResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -106,9 +113,9 @@ export const AdminEditOfferPage = () => {
   ) => {
     if (id === null) return
 
-    const updateResponse = await updateBlankOffer(id, idBlank, data)
+    const { status } = await putUpdateBlankOffer(id, idBlank, data)
 
-    if (updateResponse.status) {
+    if (status) {
       getBlanksOffer()
     }
   }
@@ -116,9 +123,9 @@ export const AdminEditOfferPage = () => {
   const handleAddBlank = async () => {
     if (id === null) return
 
-    const addResponse = await addBlankOffer(id, 'calc')
+    const { status, message } = await postAddNewBlankOffer(id, 'calc')
 
-    if (addResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully added blank',
@@ -128,7 +135,7 @@ export const AdminEditOfferPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: addResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -137,13 +144,13 @@ export const AdminEditOfferPage = () => {
   const handleAddServiceBlank = async (idService: string) => {
     if (id === null) return
 
-    const addResponse = await addServiceBlankOffer(
+    const { status, message } = await postAddNewServiceBlankOffer(
       id,
       'serviceProduct',
       idService,
     )
 
-    if (addResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully added blank',
@@ -153,7 +160,7 @@ export const AdminEditOfferPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: addResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -183,7 +190,7 @@ export const AdminEditOfferPage = () => {
               title: 'Save',
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,
-              onClick: updateInvoice,
+              onClick: updateOffer,
               style: styles.buttonSave,
             }}
           >

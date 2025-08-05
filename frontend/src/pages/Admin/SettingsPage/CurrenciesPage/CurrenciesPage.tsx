@@ -172,7 +172,7 @@ export const AdminCurrenciesPage = () => {
           <RecentCard
             title='Currencies'
             style={styles.recentFullScreen}
-            Component={access.create ? ButtonBlue : undefined}
+            Component={access.create === 1 ? ButtonBlue : undefined}
             componentProps={
               access.create
                 ? {

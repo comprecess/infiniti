@@ -49,6 +49,8 @@ export const customFetch = async <T = any>(
         navigateTo('/403')
       } else if (response.status === 404) {
         navigateTo('/404')
+      } else if (response.status === 500) {
+        navigateTo('/500')
       }
     }
 

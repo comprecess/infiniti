@@ -1,11 +1,15 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { ViewListPagesAndInfo } from '../../../../../app/constants/constants'
+import {
+  RolesAccess,
+  ViewListPagesAndInfo,
+} from '../../../../../app/constants/constants'
 import { PageItem } from './PageItem/PageItem'
 import styles from './SideBar.module.scss'
 
 interface SideBarProps {
+  roles?: { [key: string]: RolesAccess }
   data?: ViewListPagesAndInfo
   pages: {
     id: number
@@ -19,6 +23,7 @@ interface SideBarProps {
 }
 
 export const SideBar = ({
+  roles,
   data,
   pages,
   isActive,
@@ -80,6 +85,14 @@ export const SideBar = ({
       <div className={styles.pagesList}>
         {pages.map((item, index) => {
           const isActive = getCurrentPage(item.page) === currentPage
+
+          if (
+            item.name === 'Edit' &&
+            roles &&
+            roles.customers.edit === 0
+          ) {
+            return
+          }
 
           return (
             <PageItem

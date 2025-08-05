@@ -39,12 +39,18 @@ export const AdminFilesPage = () => {
             title='Files uploaded by Customers'
             style={styles.recentFullScreen}
             HeaderComponent={Search}
-            PagesComponent={PagesList}
-            pagesProps={{
-              meta: groupsData.meta,
-              nextPage: setPage,
-              size: 'sm',
-            }}
+            PagesComponent={
+              groupsData.data.length > 0 ? PagesList : undefined
+            }
+            pagesProps={
+              groupsData.data.length > 0
+                ? {
+                  meta: groupsData.meta,
+                  nextPage: setPage,
+                  size: 'sm',
+                }
+                : undefined
+            }
             headerProps={{
               onSearchChange: setSearch,
             }}

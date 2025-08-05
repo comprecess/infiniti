@@ -3,7 +3,7 @@ import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
 import styles from './RecentButtons.module.scss'
 
 interface RecentButtonsProps {
-  isCanCreate: boolean
+  isCanCreate: number
   firstButtonClick: () => void
   secondButtonClick: () => void
 }
@@ -15,7 +15,7 @@ export const RecentButtons = ({
 }: RecentButtonsProps) => {
   return (
     <div className={styles.wrapper}>
-      {isCanCreate && (
+      {isCanCreate === 1 && (
         <ButtonBlue
           titleNone
           title='New Group'

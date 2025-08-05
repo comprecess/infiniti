@@ -1,7 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
-import { DashboardData } from '../../../../app/constants/constants'
+import {
+  DashboardData,
+  RolesAccess,
+} from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { BigCard } from './BigCard/BigCard'
@@ -12,27 +15,40 @@ import { MiniCard } from './MiniCard/MiniCard'
 
 interface CashFlowProps {
   data: DashboardData
+  roles?: { [key: string]: RolesAccess }
 }
 
-export const CashFlow = ({ data }: CashFlowProps) => {
+export const CashFlow = ({ data, roles }: CashFlowProps) => {
   const { t } = useTranslation()
 
   const navigate = useNavigate()
 
   const navigateToListCustomers = () => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.customers}/${Routes.list}/${Routes.customer}`,
-    )
+    if (roles && roles.customers.view === 0) {
+      navigate(`/403`)
+    } else {
+      navigate(
+        `/${Routes.adminPages}/${Routes.customers}/${Routes.list}/${Routes.customer}`,
+      )
+    }
   }
 
   const navigateToListCompanies = () => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.customers}/${Routes.companies}`,
-    )
+    if (roles && roles.companies.view === 0) {
+      navigate(`/403`)
+    } else {
+      navigate(
+        `/${Routes.adminPages}/${Routes.customers}/${Routes.companies}`,
+      )
+    }
   }
 
   const navigateToLeads = () => {
-    navigate(`/`)
+    if (roles && roles.leads.view === 0) {
+      navigate(`/403`)
+    } else {
+      navigate(`/`)
+    }
   }
 
   return (

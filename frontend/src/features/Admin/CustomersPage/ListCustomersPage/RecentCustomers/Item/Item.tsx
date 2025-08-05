@@ -89,13 +89,15 @@ export const Item = ({
           {phone}
         </span>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-          <CustomMiniButton
-            style='mint'
-            icon='/icons/view.svg'
-            alt='View'
-            tooltipTitle='View'
-            onClick={() => handleNavigate(Routes.summary)}
-          />
+          {access.view === 1 && (
+            <CustomMiniButton
+              style='mint'
+              icon='/icons/view.svg'
+              alt='View'
+              tooltipTitle='View'
+              onClick={() => handleNavigate(Routes.summary)}
+            />
+          )}
           {access.edit === 1 && (
             <CustomMiniButton
               style='amber'

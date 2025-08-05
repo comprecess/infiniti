@@ -1,7 +1,10 @@
 import { Fragment, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { CustomersViewCompany } from '../../../../../../../app/constants/constants'
+import {
+  CustomersViewCompany,
+  RolesAccess,
+} from '../../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../../app/router/routes'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
@@ -13,9 +16,10 @@ import { Item } from './Item/Item'
 
 interface CustomersPageProps {
   id: number
+  roles?: { [key: string]: RolesAccess }
 }
 
-export const CustomersPage = ({ id }: CustomersPageProps) => {
+export const CustomersPage = ({ id, roles }: CustomersPageProps) => {
   const [customers, setCustomers] = useState<
   CustomersViewCompany[] | null
   >(null)
@@ -48,12 +52,16 @@ export const CustomersPage = ({ id }: CustomersPageProps) => {
 
   return (
     <div className={styles.wrapper}>
-      <ButtonBlue
-        title='Add Customer'
-        style={styles.buttonBlue}
-        styleTitle={styles.buttonBlueTitle}
-        onClick={handleNavigateToCreateCustomer}
-      />
+      {roles && roles.customers.create === 0 ? (
+        <div />
+      ) : (
+        <ButtonBlue
+          title='Add Customer'
+          style={styles.buttonBlue}
+          styleTitle={styles.buttonBlueTitle}
+          onClick={handleNavigateToCreateCustomer}
+        />
+      )}
       <div className={styles.container}>
         {customers ? (
           <div className={styles.table}>

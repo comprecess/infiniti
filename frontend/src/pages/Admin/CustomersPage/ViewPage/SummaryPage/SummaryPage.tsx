@@ -266,18 +266,22 @@ export const AdminContactSummaryPage = () => {
               <h5 className={styles.balanceText}>
                 {`Balance: ${profileInfo.data.balance}`}
               </h5>
-              <div className={styles.balanceButtons}>
-                <ButtonBlue
-                  title='Add Fund'
-                  style={styles.buttonBalance}
-                  onClick={openCloseAddFundModal}
-                />
-                <ButtonBlue
-                  title='Return Fund'
-                  style={`${styles.buttonReturnFund} ${styles.buttonBalance}`}
-                  onClick={openCloseReturnFundModal}
-                />
-              </div>
+              {context.roles && context.roles.customers.edit === 0 ? (
+                <div style={{ marginTop: '-10px' }} />
+              ) : (
+                <div className={styles.balanceButtons}>
+                  <ButtonBlue
+                    title='Add Fund'
+                    style={styles.buttonBalance}
+                    onClick={openCloseAddFundModal}
+                  />
+                  <ButtonBlue
+                    title='Return Fund'
+                    style={`${styles.buttonReturnFund} ${styles.buttonBalance}`}
+                    onClick={openCloseReturnFundModal}
+                  />
+                </div>
+              )}
             </div>
             {profileInfo.data.autologin !== null ? (
               <div className={styles.autoLoginWrapper}>

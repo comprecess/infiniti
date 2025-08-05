@@ -102,7 +102,7 @@ export const AdminOffersPage = () => {
     if (deleteResponse.status) {
       showToast({
         title: 'Successfully',
-        description: 'You have successfully deleted Invoice',
+        description: 'You have successfully deleted Offer',
         status: 'success',
       })
       queryClient.invalidateQueries({ queryKey: ['offersData'] })
@@ -207,6 +207,7 @@ export const AdminOffersPage = () => {
             }}
           >
             <RecentOffers
+              access={offersData.access}
               offersList={offersData.data}
               changeSortName={changeSort}
               navigateToViewOffer={navigateToViewOffer}

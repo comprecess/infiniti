@@ -1,7 +1,10 @@
 import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { DashboardRecentClientData } from '../../../../app/constants/constants'
+import {
+  DashboardRecentClientData,
+  RolesAccess,
+} from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
@@ -9,9 +12,13 @@ import styles from './RecentClients.module.scss'
 
 interface RecentClientsProps {
   recentClients: DashboardRecentClientData[]
+  roles?: { [key: string]: RolesAccess }
 }
 
-export const RecentClients = ({ recentClients }: RecentClientsProps) => {
+export const RecentClients = ({
+  recentClients,
+  roles,
+}: RecentClientsProps) => {
   const { t } = useTranslation()
 
   return (
@@ -39,6 +46,7 @@ export const RecentClients = ({ recentClients }: RecentClientsProps) => {
                 name={client.account}
                 email={client.email}
                 created={client.created}
+                roles={roles}
                 avatar={
                   client.img
                     ? `${client.img}?width=176&height=176`

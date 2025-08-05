@@ -160,20 +160,22 @@ export const AdminListCustomerPage = () => {
   }, [])
 
   useEffect(() => {
-    document.title = 'infiniti | List Customers'
+    document.title = 'infiniti | Customers'
   }, [])
 
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
         <RecentCard
-          title='List Customers'
+          title='Customers'
           style={styles.recentFullScreen}
           HeaderComponent={SearchAndButtons}
           Component={HeaderButtons}
-          PagesComponent={customers ? PagesList : undefined}
+          PagesComponent={
+            customers && customers.data.length > 0 ? PagesList : undefined
+          }
           componentProps={{
-            access: customers?.access,
+            access: customers ? customers?.access : undefined,
             firstButtonClick: navigateToAddCustomer,
           }}
           headerProps={{
@@ -182,7 +184,7 @@ export const AdminListCustomerPage = () => {
             rightButtons: downloadFile,
           }}
           pagesProps={
-            customers
+            customers && customers.data.length > 0
               ? {
                 meta: customers.meta,
                 nextPage: updatePage,

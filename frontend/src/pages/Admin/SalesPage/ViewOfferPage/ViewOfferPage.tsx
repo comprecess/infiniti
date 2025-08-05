@@ -15,7 +15,7 @@ import { ConfirmationModal } from '../../../../shared/ui/ConfirmationModal/Confi
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getInfoSelectedOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/GetInfoSelectedOffer'
+import { getSelectedInfoOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/get-selected-info-offer'
 import { convertOfferToInvoice } from '../../../../shared/utils/api/Admin/Sales/Offers/ConvertToInvoice'
 import { getOfferEmailTemplate } from '../../../../shared/utils/api/Admin/Sales/Offers/GetOfferEmailTemplates'
 import { changeOfferStage } from '../../../../shared/utils/api/Admin/Sales/Offers/OfferChangeStage'
@@ -58,9 +58,11 @@ export const AdminViewOfferPage = () => {
   const getOfferInfo = async () => {
     if (id === null) return
 
-    const getResponse = await getInfoSelectedOffer(id, '?type=view')
+    const response = await getSelectedInfoOffer(id, '?type=view')
 
-    setInfo(getResponse)
+    if (!response.status) return
+
+    setInfo(response.data)
   }
 
   const navigateToEditOffer = () => {

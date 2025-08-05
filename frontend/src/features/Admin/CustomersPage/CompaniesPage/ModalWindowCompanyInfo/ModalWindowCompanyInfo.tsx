@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 
-import { ViewCompanyProps } from '../../../../../app/constants/constants'
+import {
+  RolesAccess,
+  ViewCompanyProps,
+} from '../../../../../app/constants/constants'
 import {
   CompanyInfoPagesData,
   CompanyInfoSideBarData,
@@ -24,6 +27,7 @@ const types = [
 ]
 
 interface ModalWindowCompanyInfoProps {
+  roles?: { [key: string]: RolesAccess }
   id: number | null
   modalOpen: boolean
   handleOpenCloseModal: () => void
@@ -31,6 +35,7 @@ interface ModalWindowCompanyInfoProps {
 }
 
 export const ModalWindowCompanyInfo = ({
+  roles,
   id,
   modalOpen,
   handleOpenCloseModal,
@@ -125,6 +130,7 @@ export const ModalWindowCompanyInfo = ({
                 <HeaderPages title={companyInfo.name}>
                   <ActivePageComponent
                     id={id || 0}
+                    roles={roles}
                     onClick={handleOpenEditPanel}
                   />
                 </HeaderPages>

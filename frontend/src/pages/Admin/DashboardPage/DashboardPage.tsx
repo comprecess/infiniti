@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useOutletContext } from 'react-router-dom'
 
 import {
   DashboardData,
@@ -28,6 +29,10 @@ import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './DashboardPage.module.scss'
 
 export const AdminDashboardPage = () => {
+  const { roles } = useOutletContext<{
+    roles?: { [key: string]: RolesAccess }
+  }>()
+
   const { t } = useTranslation()
 
   const { data: dataDashboard } = useQuery({
@@ -68,7 +73,7 @@ export const AdminDashboardPage = () => {
               title={t('admin-dashboard-page-card-1-title')}
               style={`${styles.recentFullScreen} ${styles.zIndex}`}
             >
-              <CashFlow data={dataDashboard.cashFlow} />
+              <CashFlow data={dataDashboard.cashFlow} roles={roles} />
             </RecentCard>
           </section>
           <section className={styles.sectionSecond}>
@@ -77,7 +82,10 @@ export const AdminDashboardPage = () => {
               title={t('admin-dashboard-page-card-2-title')}
               style={styles.recentHalf}
             >
-              <RecentClients recentClients={dataDashboard.recentClients} />
+              <RecentClients
+                recentClients={dataDashboard.recentClients}
+                roles={roles}
+              />
             </RecentCard>
             <RecentCard
               ordinaryIcons
@@ -86,6 +94,7 @@ export const AdminDashboardPage = () => {
             >
               <RecentProjects
                 recentProjects={dataDashboard.recentProjects}
+                roles={roles}
               />
             </RecentCard>
           </section>
@@ -98,6 +107,7 @@ export const AdminDashboardPage = () => {
               <RecentInvoices
                 invoices={dataDashboard.invoices}
                 statuses={dataDashboard.invoiceStatus}
+                roles={roles}
               />
             </RecentCard>
             <RecentCard

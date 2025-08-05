@@ -21,7 +21,7 @@ import { deleteInvoice } from '../../../../shared/utils/api/Admin/Sales/Invoices
 import { getInvoicesDocuments } from '../../../../shared/utils/api/Admin/Sales/Invoices/GetInvoicesDocuments'
 import { getList } from '../../../../shared/utils/api/Admin/Sales/Invoices/GetList'
 import { getStat } from '../../../../shared/utils/api/Admin/Sales/Invoices/GetStat'
-import { stopRecurringAndClone } from '../../../../shared/utils/api/Admin/Sales/Invoices/StopRecurringAndClone'
+import { postCloneStopRecurringInvoice } from '../../../../shared/utils/api/Admin/Sales/Invoices/post-clone-stop-recurring-invoice'
 import { downloadDocument } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './InvoicesPage.module.scss'
@@ -141,9 +141,12 @@ export const AdminInvoicesPage = () => {
     idInvoice: number,
     type: '/clone' | '/stopRecurring',
   ) => {
-    const stopResponse = await stopRecurringAndClone(idInvoice, type)
+    const { status, message } = await postCloneStopRecurringInvoice(
+      idInvoice,
+      type,
+    )
 
-    if (stopResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully stopped the recurrence',
@@ -153,7 +156,7 @@ export const AdminInvoicesPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: stopResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -276,7 +279,11 @@ export const AdminInvoicesPage = () => {
           style={styles.recentFullScreen}
           HeaderComponent={Header}
           Component={HeaderButtons}
-          PagesComponent={invoicesData ? PagesList : undefined}
+          PagesComponent={
+            invoicesData && invoicesData.data.length > 0
+              ? PagesList
+              : undefined
+          }
           componentProps={{
             access: invoicesData?.access,
             firstButtonClick: navigateToAddInvoice,
@@ -300,6 +307,7 @@ export const AdminInvoicesPage = () => {
         >
           {invoicesData ? (
             <RecentInvoices
+              access={invoicesData.access}
               invoicesList={invoicesData.data}
               changeSortName={changeSort}
               navigateToViewInvoice={navigateToViewInvoice}

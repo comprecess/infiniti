@@ -1,6 +1,7 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 
+import { RolesAccess } from '../../../app/constants/constants'
 import { adminSidebarPages } from '../../../app/data/adminSidebarPages'
 import { clientSidebarPages } from '../../../app/data/clientSidebarPages'
 import { Routes } from '../../../app/router/routes'
@@ -10,10 +11,7 @@ import styles from './MainOutlet.module.scss'
 
 interface MainOutletProps {
   roles?: {
-    [key: string]: {
-      view: number
-      create: number
-    }
+    [key: string]: RolesAccess
   }
 }
 
@@ -121,7 +119,7 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
                 : styles.mainFull
             }
           >
-            <Outlet />
+            <Outlet context={{ roles }} />
           </main>
         </div>
       )}

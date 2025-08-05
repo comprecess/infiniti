@@ -14,7 +14,7 @@ import { RecentInvoices } from '../../../../features/Admin/Sales/ViewInvoice/Rec
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getInfoSelectedInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/GetInfoSelectedInvoice'
+import { getSelectedInfoInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/get-selected-info-invoice'
 import { getInvoiceEmailTemplate } from '../../../../shared/utils/api/Admin/Sales/Invoices/GetEmailTemplate'
 import { changeInvoiceStatus } from '../../../../shared/utils/api/Admin/Sales/Invoices/InvoiceChangeStage'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
@@ -56,9 +56,11 @@ export const AdminViewInvoicePage = () => {
   const getInvoiceInfo = async () => {
     if (id === null) return
 
-    const getResponse = await getInfoSelectedInvoice(id, '?type=view')
+    const response = await getSelectedInfoInvoice(id, '?type=view')
 
-    setInfo(getResponse)
+    if (!response.status) return
+
+    setInfo(response.data)
   }
 
   const navigateToEditInvoice = () => {

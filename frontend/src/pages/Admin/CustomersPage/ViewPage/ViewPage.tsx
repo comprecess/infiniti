@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useOutletContext } from 'react-router-dom'
 
+import { RolesAccess } from '../../../../app/constants/constants'
 import { ContactInfoSideBarData } from '../../../../app/data/contactInfoSideBar'
 import { SideBar } from '../../../../features/Admin/CustomersPage/ViewPage/SideBar/SideBar'
 import { ArrowBackGroundIcon } from '../../../../shared/icons/ArrowBackGroundIcon'
@@ -18,6 +19,9 @@ export const AdminViewPage = () => {
   const [touchStartX, setTouchStartX] = useState<number | null>(null)
   const [touchEndX, setTouchEndX] = useState<number | null>(null)
 
+  const { roles } = useOutletContext<{
+    roles?: { [key: string]: RolesAccess }
+  }>()
   const id = useIdFromUrl('view')
 
   const handleOpenCloseSidebar = () => {
@@ -110,6 +114,7 @@ export const AdminViewPage = () => {
             >
               <div className={styles.sideBarOverFlow}>
                 <SideBar
+                  roles={roles}
                   data={pagesInfo}
                   pages={ContactInfoSideBarData}
                   isActive={isMobile && isOpenSideBar}
@@ -127,7 +132,7 @@ export const AdminViewPage = () => {
                 </div>
                 <h4 className={styles.accountName}>{pagesInfo.account}</h4>
               </div>
-              <Outlet context={{ idClient: id }} />
+              <Outlet context={{ idClient: id, roles }} />
             </main>
           </div>
         ) : (

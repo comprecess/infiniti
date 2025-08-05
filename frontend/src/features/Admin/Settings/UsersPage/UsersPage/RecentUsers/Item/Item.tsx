@@ -97,7 +97,7 @@ export const Item = ({
           })}
         </div>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-          {access.edit && (
+          {access.edit === 1 && (
             <CustomMiniButton
               style='amber'
               icon='/icons/edit.svg'
@@ -106,7 +106,7 @@ export const Item = ({
               onClick={handleEditUser}
             />
           )}
-          {access.delete && (
+          {access.delete === 1 && (
             <CustomMiniButton
               style='cherry'
               icon='/icons/trash.svg'

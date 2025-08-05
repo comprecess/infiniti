@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 
+import { RolesAccess } from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
 import { Status } from '../../../../../shared/ui/Status/Status'
 import styleItem from '../RecentInvoices.module.scss'
@@ -14,6 +15,7 @@ interface ItemProps {
   created: string
   due: string
   status: string
+  roles?: { [key: string]: RolesAccess }
 }
 
 export const Item = ({
@@ -25,19 +27,28 @@ export const Item = ({
   created,
   due,
   status,
+  roles,
 }: ItemProps) => {
   const navigate = useNavigate()
 
   const handleNavigateToInvoice = () => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.sales}/${Routes.invoice}/${Routes.view}/${invoiceId}`,
-    )
+    if (roles && roles.sales.view === 0) {
+      navigate(`/403`)
+    } else {
+      navigate(
+        `/${Routes.adminPages}/${Routes.sales}/${Routes.invoice}/${Routes.view}/${invoiceId}`,
+      )
+    }
   }
 
   const handleNavigateToClient = () => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${clientId}/${Routes.summary}`,
-    )
+    if (roles && roles.customers.view === 0) {
+      navigate(`/403`)
+    } else {
+      navigate(
+        `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${clientId}/${Routes.summary}`,
+      )
+    }
   }
 
   return (
