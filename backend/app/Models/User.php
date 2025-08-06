@@ -115,9 +115,10 @@ class User extends Authenticatable
         $nameColumn = $this->getColumnLastTime();
         $last = now()->subHours($this->authHours) < $this->{$nameColumn};
         if($last && $save) {
-            $this->update([$nameColumn => now()]);
-//            $this->{$nameColumn} = now();
-//            $this->save();
+//            $this->update([$nameColumn => now()]);
+            $this->{$nameColumn} = now();
+            $this->timestamps = false;
+            $this->save();
         }
         return $last;
     }
