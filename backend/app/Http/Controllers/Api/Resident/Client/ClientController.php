@@ -110,7 +110,8 @@ class ClientController extends MainClientController
     {
 
         $requestAll = $request->all();
-        $type = $this->type;
+        $type = Arr::get($requestAll, 'type', Client::TYPE[0]);
+        $this->clientAccess($type);
 
         $clients = Client::query()
             ->select('crm_accounts.*')
