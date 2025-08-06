@@ -15,11 +15,11 @@ class MainClientController extends ResidentController
         'Customer' => 'customers', 'Supplier' => 'suppliers'
     ];
 
-    public function clientAccess($type)
+    public function clientAccess($type, $mod = 'view')
     {
         $type = Arr::get(self::TYPE_ACCESS, $type, 'customers');
         $admin = User::getAuth();
-        if($admin->checkAccess(...['view', $type]) === 0) {
+        if($admin->checkAccess(...[$mod, $type]) === 0) {
             abort(403);
         }
     }
