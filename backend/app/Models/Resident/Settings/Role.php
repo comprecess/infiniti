@@ -70,25 +70,46 @@ class Role extends Model
         }
 
         $list = $this->getParentClass($class);
-
         $shortnameController = $this->getListAccess($list);
 
-        $query = $this->access()->whereIn('shortname', array_keys($shortnameController));
 
-        if($getList) {
-            return $query->with(['permission'])->first();
+//        $query = $this->access()->whereIn('shortname', array_keys($shortnameController));
+//
+//        if($getList) {
+//
+//            return $query->with(['permission'])->first();
+//        }
+//
+//        $status = false;
+//
+//        $query->each(function($item) use(&$status, $type){
+//            if($item->{$type}) {
+//                $status = true;
+//            }
+//        });
+//
+//        return $status;
+
+
+        foreach(array_keys($shortnameController) as $shortname) {
+            $query = $this->access()->where('shortname', $shortname);
+            if($getList) {
+                return $query->with(['permission'])->first();
+            }
+
+
+            if($query->count()) {
+                $status = false;
+                $query->each(function($item) use(&$status, $type){
+                    if($item->{$type}) {
+                        $status = true;
+                    }
+                });
+                return $status;
+            }
         }
 
-        $status = false;
-
-        $query->each(function($item) use(&$status, $type){
-            if($item->{$type}) {
-                $status = true;
-            }
-        });
-
-        return $status;
-
+        return false;
     }
 
     private function getListAccess(array $classController) :array
@@ -97,13 +118,23 @@ class Role extends Model
             return config('data.access');
         });
 
-        return Arr::where($controllerList, function($value) use($classController){
-            foreach($value as $classAccess) {
-                if(array_search($classAccess, $classController) !== false) {
+        //        return Arr::where($controllerList, function($value) use($classController){
+//            foreach($value as $classAccess) {
+//                if(array_search($classAccess, $classController) !== false) {
+//                    return true;
+//                }
+//            }
+//        });
+        $filter = [];
+        Arr::where($classController, function($value) use($controllerList, &$filter){
+            foreach($controllerList as $key => $classAccess) {
+                if(array_search($value, $classAccess) !== false) {
+                    $filter[$key] = $classAccess;
                     return true;
                 }
             }
         });
+        return $filter;
     }
 
     public static function getAccessType()
