@@ -43,6 +43,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\Resident\Settings\Role;
 
 class ClientController extends MainClientController
 {
@@ -53,6 +55,14 @@ class ClientController extends MainClientController
 
     protected $client = null;
     protected $type = Client::TYPE[0];
+
+    public function roleAccess($request)
+    {
+        $user = User::getAuth();
+        if($user->checkAccess(Role::getAccessType(), 'suppliers')) {
+            return true;
+        }
+    }
 
     public function getDocumentVariables(): DocumentVariables
     {
