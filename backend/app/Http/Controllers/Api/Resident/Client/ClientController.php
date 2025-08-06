@@ -32,9 +32,9 @@ use App\Models\Resident\Document;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\CustomFields;
-use App\Models\Resident\Settings\Role;
+//use App\Models\Resident\Settings\Role;
 use App\Models\Resident\Settings\Tag;
-use App\Models\User;
+//use App\Models\User;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
@@ -55,13 +55,13 @@ class ClientController extends MainClientController
 
     protected $client = null;
 
-    public function roleAccess($request)
-    {
-        $user = User::getAuth();
-        if($user->checkAccess(Role::getAccessType(), 'suppliers')) {
-            return true;
-        }
-    }
+//    public function roleAccess($request)
+//    {
+//        $user = User::getAuth();
+//        if($user->checkAccess(Role::getAccessType(), 'suppliers')) {
+//            return true;
+//        }
+//    }
 
     public function getDocumentVariables(): DocumentVariables
     {

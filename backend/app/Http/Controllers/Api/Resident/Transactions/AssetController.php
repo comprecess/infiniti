@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Api\Resident\Transactions;
 
 
+use App\Http\Controllers\Api\Resident\ResidentController;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Transactions\AssetCategoryCreateRequest;
 use App\Http\Requests\Resident\Transactions\AssetCreateRequest;
@@ -18,7 +19,7 @@ use App\Services\Document\DocumentVariables;
 use Illuminate\Support\Arr;
 
 
-class AssetController extends TransactionsAccessController
+class AssetController extends ResidentController
 {
     use CRUD {
         createOrUpdate as createOrUpdateCRUD;

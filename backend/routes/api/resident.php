@@ -52,6 +52,20 @@ Route::group(['prefix' => 'client',], function(){
 
 });
 
+#suppliers
+Route::controller(Resident\Client\SupplierController::class)
+    ->prefix('supplier')
+    ->group(function(){
+        Route::get('/list', 'list');
+        Route::get('/input-data', 'inputData');
+        Route::post('/', 'createOrUpdate');
+        Route::get('/{client}', 'item')->where('client', '[0-9]+');
+        Route::put('/{client}', 'createOrUpdate');
+        Route::delete('/{client}', 'delete');
+        Route::get('/{client}/view/', 'getAllType');
+        Route::match(['get', 'put', 'post', 'delete'], '/{client}/view/{type}/{id?}', 'type');
+    });
+
 #invoce
 Route::controller(Resident\Sale\InvoiceController::class)->prefix('invoice')
     ->group(function(){
@@ -62,8 +76,8 @@ Route::controller(Resident\Sale\InvoiceController::class)->prefix('invoice')
         Route::post('/', 'createOrUpdate');
         Route::put('/{invoice}', 'createOrUpdate');
         Route::put('/{invoice}/update', 'update');
-        Route::get('/{invoice}/clone', 'invoiceClone');
-        Route::get('/{invoice}/stopRecurring', 'stopRecurring');
+        Route::post('/{invoice}/clone', 'invoiceClone');
+        Route::post('/{invoice}/stopRecurring', 'stopRecurring');
 //        Route::get('/{invoice}/blank', 'blankList');
 //        Route::post('/{invoice}/blank', 'blankCreateOrUpdate');
 //        Route::put('/{invoice}/blank/{item}', 'blankCreateOrUpdate');
@@ -109,7 +123,7 @@ Route::controller(Resident\DocumentController::class)->prefix('document')
 Route::controller(Resident\Talents\TalentController::class)->prefix('talent')
     ->group(function(){
         Route::get('/list', 'list');
-        Route::post('list', 'listCatalogPublic');
+        Route::get('list', 'listCatalogPublic');
         Route::get('/input-data', 'inputData');
         Route::get('/cart/list', 'cartList');
         Route::get('/cart/{cart}', 'cartItem');

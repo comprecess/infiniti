@@ -11,6 +11,9 @@ use \App\Http\Controllers\Api\Resident;
         'customers' => [
             Resident\Client\MainClientController::class
         ],
+        'suppliers' => [
+            Resident\Client\SupplierController::class
+        ],
         'companies' => [
             Resident\Client\CompanyController::class
         ],
@@ -25,6 +28,9 @@ use \App\Http\Controllers\Api\Resident;
         ],
         'transactions' => [
             Resident\Transactions\TransactionsAccessController::class
+        ],
+        'assets' => [
+            Resident\Transactions\AssetController::class
         ],
         'projects' => [
             Resident\Project\ProjectAccessController::class
