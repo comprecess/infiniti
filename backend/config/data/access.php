@@ -12,7 +12,8 @@ use \App\Http\Controllers\Api\Resident;
             Resident\Client\MainClientController::class
         ],
         'suppliers' => [
-            Resident\Client\SupplierController::class
+//            Resident\Client\SupplierController::class
+            Resident\Client\MainClientController::class
         ],
         'companies' => [
             Resident\Client\CompanyController::class
