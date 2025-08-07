@@ -27,10 +27,10 @@ class TransactionCollection extends Collection
         }), 2);
     }
 
-    public function amount($transformCurrency = false)
+    public function amount(?Currency $currency = null)
     {
-        return round($this->sum(function($item) use($transformCurrency){
-            return $transformCurrency ? $item->transformPrice('amount') : $item->amount;
+        return round($this->sum(function($item) use($currency){
+            return $item->transformPrice('amount', $currency);
         }), 2);
     }
 

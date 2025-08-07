@@ -6,6 +6,7 @@ use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Log;
 use App\Models\Resident\Settings\Department;
 use App\Models\Resident\Settings\Role;
+use App\Models\Resident\Settings\RoleAccess;
 use App\Models\Resident\Transactions\Transaction;
 use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\User;
@@ -141,6 +142,47 @@ class Admin extends User implements LoginIntarface, InsertDefaultValueInterface
 
         return $roleAccess;
 
+    }
+
+    public function getListAccess(array $listShortName, $mod = null, bool $setResult = false, $abort = false)
+    {
+        $role = $this->myRole;
+        $typeAccess = [];
+        $result = [];
+        if($role) {
+            $access = $role->access()->whereIn('shortname', $listShortName)->get();
+            $access->each(function($item) use(&$typeAccess, &$result, $mod){
+                if($mod && $item->{$mod} == 1) {
+                    $result[] = $item->shortname;
+                }
+                foreach(RoleAccess::TYPE_ACCESS as $type) {
+                    if(!$mod){
+                        $result[$item->shortname][$type] = $item->{$type};
+                    }
+                    if(isset($typeAccess[$type])) {
+                        $typeAccess[$type] = (bool) $typeAccess[$type] || (bool) $item->{$type};
+                    }else{
+                        $typeAccess[$type] = (bool) $item->{$type};
+                    }
+
+                    $typeAccess[$type] = (int) $typeAccess[$type];
+                }
+            });
+        }else{
+            foreach(RoleAccess::TYPE_ACCESS as $type) {
+                $typeAccess[$type] = 1;
+            }
+            $result = array_values($listShortName);
+        }
+        if(!$result && $abort) {
+            abort(403);
+        }
+
+        if($setResult) {
+            // save $typeAccess;
+        }
+
+        return $result;
     }
 
 
