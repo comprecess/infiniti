@@ -167,7 +167,7 @@ class ClientController extends MainClientController
         }
         $data = [
             'code' => Client::getNextCode($name),
-            'type' => Client::TYPE,
+            'type' => self::getTypes(),
             'company' => CompanyResource::collection(Company::getForSelect()),
             'group' => GroupResource::collection(Group::getForSelect()),
             'currency' => CurrencyResource::collection(Currency::getForSelect()),
@@ -238,6 +238,7 @@ class ClientController extends MainClientController
 
     public function delete(Client $client)
     {
+        self::clientTypeToAccess($client->getTypeAttribute(), 'delete');
         return $this->deleteCRUD($client);
     }
 
@@ -258,8 +259,14 @@ class ClientController extends MainClientController
 
     public function type(ClientViewRequest $request, Client $client)
     {
+        $method = $request->getMethod();
+        $mod = collect(Role::ACCESS_METHOD)->search(function($value) use($method){
+            return array_search($method, $value) !== false;
+        });
+        self::clientTypeToAccess($client->getTypeAttribute(), $mod);
+
         $this->client = $client;
-        return $this->viewObject($request, $request->getMethod());
+        return $this->viewObject($request, $method);
     }
 
     private function viewObject(ClientViewRequest $request, $prefix = "Get")

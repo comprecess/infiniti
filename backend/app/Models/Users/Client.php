@@ -75,9 +75,9 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
         $this->attributes['type'] = is_array($value) ? implode(',',$value) : $value;
     }
 
-    public function getTypeAttribute($value)
+    public function getTypeAttribute()
     {
-        return explode(',', $value);
+        return explode(',', $this->attributes['type']);
     }
 
     public function group()
