@@ -17,11 +17,12 @@ export const Item = ({ title, tags }: ItemProps) => {
     <div className={styles.wrapper}>
       <span className={styles.title}>{title}</span>
       <div className={styles.list}>
-        {tags.map(tag => {
-          const updatedValue = tag.value.replace(/&amp;/g, '&')
+        {tags &&
+          tags.map(tag => {
+            const updatedValue = tag.value.replace(/&amp;/g, '&')
 
-          return <TalentsTag key={tag.id} title={updatedValue} />
-        })}
+            return <TalentsTag key={tag.id} title={updatedValue} />
+          })}
       </div>
     </div>
   )

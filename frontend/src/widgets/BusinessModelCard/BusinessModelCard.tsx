@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { ValuesProps } from '../../app/constants/constants'
+import { RolesAccess, ValuesProps } from '../../app/constants/constants'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
 import { ConfirmationModal } from '../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../shared/ui/CustomMiniButton/CustomMiniButton'
@@ -21,6 +21,7 @@ interface BusinessModelCardProps {
   profitability: string
   location: ValuesProps[]
   isOpen: boolean
+  access?: RolesAccess | undefined
   onMobileCLick: () => void
   onNavigate: (id: number) => void
   onDelete: (id: number) => void
@@ -39,6 +40,7 @@ export const BusinessModelCard = ({
   location,
   profitability,
   isOpen,
+  access,
   onMobileCLick,
   onNavigate,
   onDelete,
@@ -94,34 +96,42 @@ export const BusinessModelCard = ({
                 </div>
                 {isAdmin && (
                   <div className={styles.buttons}>
-                    <CustomMiniButton
-                      style='mint'
-                      icon='/icons/view.svg'
-                      tooltipTitle='View'
-                      alt='View'
-                      onClick={() => onNavigate(id)}
-                    />
-                    <CustomMiniButton
-                      style='amber'
-                      icon='/icons/edit.svg'
-                      tooltipTitle='Edit'
-                      alt='Edit'
-                      onClick={() => onEdit(id)}
-                    />
-                    <CustomMiniButton
-                      style='blue'
-                      icon='/icons/fileMove.svg'
-                      tooltipTitle='Convert to Business Plan'
-                      alt='Convert'
-                      onClick={handleOpenConvertModal}
-                    />
-                    <CustomMiniButton
-                      style='cherry'
-                      icon='/icons/trash.svg'
-                      tooltipTitle='Delete'
-                      alt='Delete'
-                      onClick={handleOpenConfirmationModal}
-                    />
+                    {access && access.create === 1 && (
+                      <CustomMiniButton
+                        style='mint'
+                        icon='/icons/view.svg'
+                        tooltipTitle='View'
+                        alt='View'
+                        onClick={() => onNavigate(id)}
+                      />
+                    )}
+                    {access && access.edit === 1 && (
+                      <CustomMiniButton
+                        style='amber'
+                        icon='/icons/edit.svg'
+                        tooltipTitle='Edit'
+                        alt='Edit'
+                        onClick={() => onEdit(id)}
+                      />
+                    )}
+                    {access && access.create === 1 && (
+                      <CustomMiniButton
+                        style='blue'
+                        icon='/icons/fileMove.svg'
+                        tooltipTitle='Convert to Business Plan'
+                        alt='Convert'
+                        onClick={handleOpenConvertModal}
+                      />
+                    )}
+                    {access && access.delete === 1 && (
+                      <CustomMiniButton
+                        style='cherry'
+                        icon='/icons/trash.svg'
+                        tooltipTitle='Delete'
+                        alt='Delete'
+                        onClick={handleOpenConfirmationModal}
+                      />
+                    )}
                   </div>
                 )}
                 {!isAdmin && (

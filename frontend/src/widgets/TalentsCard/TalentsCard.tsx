@@ -1,4 +1,4 @@
-import { TalentsProps } from '../../app/constants/constants'
+import { RolesAccess, TalentsProps } from '../../app/constants/constants'
 import { CustomDivider } from '../../shared/ui/CustomDivider/CustomDivider'
 import { Body } from './Body/Body'
 import { Footer } from './Footer/Footer'
@@ -8,12 +8,14 @@ import styles from './TalentsCard.module.scss'
 interface TalentsCardProps {
   isAdmin?: boolean
   talent: TalentsProps
+  access?: RolesAccess
   addTalentInCart?: () => void
   deleteTalent?: (idTalent: number) => void
 }
 
 export const TalentsCard = ({
   talent,
+  access,
   isAdmin = false,
   addTalentInCart,
   deleteTalent,
@@ -36,6 +38,7 @@ export const TalentsCard = ({
       <CustomDivider />
       <Footer
         id={talent.id}
+        access={access}
         isAdmin={isAdmin}
         dailyRate={talent.priceDay}
         hourlyRate={talent.priceHour}

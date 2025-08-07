@@ -1,18 +1,23 @@
 import { Fragment, useCallback, useState } from 'react'
 
-import { ProjectsExpensesData } from '../../../../../app/constants/constants'
+import {
+  ProjectsExpensesData,
+  RolesAccess,
+} from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentExpenses.module.scss'
 
 interface RecentExpensesProps {
+  access: RolesAccess
   expensesList: ProjectsExpensesData[]
   changeSortName: (sortNameItem: string, sortTypeItem: number) => void
   deleteExpense: (id: number) => void
 }
 
 export const RecentExpenses = ({
+  access,
   expensesList,
   changeSortName,
   deleteExpense,
@@ -112,7 +117,11 @@ export const RecentExpenses = ({
             {expensesList.map((item, index) => {
               return (
                 <Fragment key={item.id}>
-                  <Item {...item} deleteExpense={deleteExpense} />
+                  <Item
+                    {...item}
+                    access={access}
+                    deleteExpense={deleteExpense}
+                  />
                   {index !== expensesList.length - 1 && <CustomDivider />}
                 </Fragment>
               )

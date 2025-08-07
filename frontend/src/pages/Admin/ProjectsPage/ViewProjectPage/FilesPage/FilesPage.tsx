@@ -152,7 +152,7 @@ export const AdminProjectsFilesPage = () => {
             <RecentCard
               title='Project Files'
               style={styles.recentFullScreen}
-              Component={access.create ? ButtonBlue : undefined}
+              Component={access.create === 1 ? ButtonBlue : undefined}
               HeaderComponent={Search}
               PagesComponent={
                 data.files.length > 0 ? PagesList : undefined
@@ -171,7 +171,7 @@ export const AdminProjectsFilesPage = () => {
                 onSearchChange: setSearch,
               }}
               componentProps={
-                access.create
+                access.create === 1
                   ? {
                     title: 'Add Document',
                     icon: '/icons/plus.svg',

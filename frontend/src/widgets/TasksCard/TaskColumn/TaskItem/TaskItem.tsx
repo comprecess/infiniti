@@ -7,6 +7,7 @@ import {
   ProjectsTasksData,
   ProjectsTasksFormData,
   ProjectsTasksInputData,
+  RolesAccess,
 } from '../../../../app/constants/constants'
 import { EditTaskModal } from '../../../../features/Admin/Projects/ViewProject/EditTaskModal/EditTaskModal'
 import { ViewTaskModal } from '../../../../features/Admin/Projects/ViewProject/ViewTaskModal/ViewTaskModal'
@@ -14,6 +15,7 @@ import { useDeviceDetect } from '../../../../shared/utils/hooks/useDeviceDetect'
 import styles from './TaskItem.module.scss'
 
 interface TaskItemProps {
+  access?: RolesAccess
   task: ProjectsTasksData
   taskIdFromUrl?: string | null
   isSelected: boolean
@@ -29,6 +31,7 @@ interface TaskItemProps {
 }
 
 export const TaskItem = ({
+  access,
   inputData,
   taskIdFromUrl,
   task,
@@ -81,7 +84,11 @@ export const TaskItem = ({
   }
 
   useEffect(() => {
-    if (taskIdFromUrl && parseInt(taskIdFromUrl) === task.id) {
+    if (
+      taskIdFromUrl &&
+      parseInt(taskIdFromUrl) === task.id &&
+      access?.view === 1
+    ) {
       setIsViewed(true)
     } else {
       setIsViewed(false)
@@ -127,6 +134,7 @@ export const TaskItem = ({
       </div>
       {isViewed && !isDragging && inputData && (
         <ViewTaskModal
+          access={access}
           task={task}
           modalOpen={isViewed}
           handleIsEditTask={handleSetIsEdited}

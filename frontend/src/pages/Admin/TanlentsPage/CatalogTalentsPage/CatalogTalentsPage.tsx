@@ -7,6 +7,7 @@ import {
   FiltersState,
   page,
   PagesMetaData,
+  RolesAccess,
   TalentData,
   userTalentsPageString,
 } from '../../../../app/constants/constants'
@@ -17,7 +18,7 @@ import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { deleteSelectedTalent } from '../../../../shared/utils/api/Admin/Talents/delete-selected-talent'
-import { postTalentsList } from '../../../../shared/utils/api/Admin/Talents/post-talents-list'
+import { getTalentsList } from '../../../../shared/utils/api/Admin/Talents/get-talents-list'
 import { getPropertiesFiltering } from '../../../../shared/utils/api/Client/Catalog/Properties/GetPropertiesFiltering'
 import { getSession } from '../../../../shared/utils/Saving/Session/GetSession'
 import styles from './CatalogTalentsPage.module.scss'
@@ -38,7 +39,7 @@ export const AdminCatalogTalentsPage = () => {
   const { data: talentsList, refetch } = useQuery({
     queryKey: ['talents', currentPage, selectedFilters, sort],
     queryFn: async () => {
-      const response = await postTalentsList(
+      const response = await getTalentsList(
         page + String(currentPage),
         selectedFilters,
         sort,
@@ -51,6 +52,7 @@ export const AdminCatalogTalentsPage = () => {
       }
 
       return response.data as {
+        access: RolesAccess
         data: TalentData[]
         meta: PagesMetaData
       }

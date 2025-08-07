@@ -20,12 +20,14 @@ import {
   ProjectsTasksData,
   ProjectsTasksFormData,
   ProjectsTasksInputData,
+  RolesAccess,
 } from '../../app/constants/constants'
 import { TaskColumn } from './TaskColumn/TaskColumn'
 import { TaskItem } from './TaskColumn/TaskItem/TaskItem'
 import styles from './TasksCard.module.scss'
 
 interface TasksCardProps {
+  access: RolesAccess
   data: ProjectsColumnData
   inputData: ProjectsTasksInputData
   updateTaskPosition: (
@@ -46,6 +48,7 @@ interface ActiveTaskInfo {
 }
 
 export const TasksCard = ({
+  access,
   data,
   inputData,
   editSelectedTask,
@@ -176,6 +179,7 @@ export const TasksCard = ({
             strategy={verticalListSortingStrategy}
           >
             <TaskColumn
+              access={access}
               taskIdFromUrl={taskIdFromUrl}
               inputData={inputData}
               isDragging={!!activeTask}

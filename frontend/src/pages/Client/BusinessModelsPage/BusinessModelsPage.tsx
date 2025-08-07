@@ -6,6 +6,7 @@ import {
   FiltersState,
   page,
   PagesMetaData,
+  RolesAccess,
   userModelsPageString,
 } from '../../../app/constants/constants'
 import { Filters } from '../../../features/Admin/BusinessPlanPage/BusinessModels/Filters/Filters'
@@ -40,6 +41,7 @@ export const ClientBusinessModelsPage = () => {
       }
 
       return response.data as {
+        access: RolesAccess
         data: BusinessPlanBusinessModelData[]
         meta: PagesMetaData
       }
