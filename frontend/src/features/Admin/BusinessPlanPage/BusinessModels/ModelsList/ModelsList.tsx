@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import {
   BusinessPlanBusinessModelData,
   PagesMetaData,
+  RolesAccess,
   userModelsPageString,
 } from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
@@ -24,6 +25,7 @@ interface ModelsListProps {
   isAdmin: boolean
   modelsList:
   | {
+    access: RolesAccess
     data: BusinessPlanBusinessModelData[]
     meta: PagesMetaData
   }
@@ -109,6 +111,7 @@ export const ModelsList = ({
                     return (
                       <BusinessModelCard
                         key={model.id}
+                        access={modelsList.access}
                         id={model.id}
                         isAdmin={isAdmin}
                         title={model.title}

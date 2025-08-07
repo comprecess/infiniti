@@ -6,6 +6,7 @@ import {
   ProjectsTasksFormData,
   ProjectsTasksInputData,
   ProjectViewPageContext,
+  RolesAccess,
 } from '../../../../../app/constants/constants'
 import { CreateTaskModal } from '../../../../../features/Admin/Projects/ViewProject/CreateTaskModal/CreateTaskModal'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -25,6 +26,7 @@ export const AdminProjectsTasksPage = () => {
   const [tasksList, setTasksList] = useState<ProjectsColumnData | null>(
     null,
   )
+  const [access, setAccess] = useState<RolesAccess | null>(null)
   const [inputData, setInputData] =
     useState<ProjectsTasksInputData | null>(null)
 
@@ -42,6 +44,7 @@ export const AdminProjectsTasksPage = () => {
     if (!response.status) return
 
     setTasksList(response.data.data)
+    setAccess(response.data.access)
   }
 
   const getTasksInputData = async () => {
@@ -172,20 +175,25 @@ export const AdminProjectsTasksPage = () => {
     <>
       <div className={styles.wrapper}>
         <section className={styles.section}>
-          {tasksList && inputData ? (
+          {access && tasksList && inputData ? (
             <RecentCard
               title='Project Tasks'
               style={styles.recentFullScreen}
-              Component={ButtonBlue}
-              componentProps={{
-                titleNone: true,
-                title: 'New Task',
-                icon: '/icons/plus.svg',
-                style: styles.buttonNewTask,
-                onClick: handleSetIsCreated,
-              }}
+              Component={access.create === 1 ? ButtonBlue : undefined}
+              componentProps={
+                access.create === 1
+                  ? {
+                    titleNone: true,
+                    title: 'New Task',
+                    icon: '/icons/plus.svg',
+                    style: styles.buttonNewTask,
+                    onClick: handleSetIsCreated,
+                  }
+                  : undefined
+              }
             >
               <TasksCard
+                access={access}
                 data={tasksList}
                 updateTaskPosition={updateTaskPosition}
                 editSelectedTask={editTask}

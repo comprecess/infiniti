@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { ViewInvoicesRecentData } from '../../../../../../app/constants/constants'
+import {
+  RolesAccess,
+  ViewInvoicesRecentData,
+} from '../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../app/router/routes'
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
@@ -11,6 +14,7 @@ import styleItem from '../RecentInvoices.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps extends ViewInvoicesRecentData {
+  access: RolesAccess
   deleteInvoice: (idInvoice: number) => void
 }
 
@@ -24,6 +28,7 @@ export const Item = ({
   status,
   type,
   blockEdit,
+  access,
   deleteInvoice,
 }: ItemProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
@@ -95,14 +100,16 @@ export const Item = ({
           <Type type={type} />
         </div>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-          <CustomMiniButton
-            style='mint'
-            icon='/icons/view.svg'
-            alt='View'
-            tooltipTitle='View'
-            onClick={handleNavigateViewInvoice}
-          />
-          {!blockEdit && (
+          {access.view === 1 && (
+            <CustomMiniButton
+              style='mint'
+              icon='/icons/view.svg'
+              alt='View'
+              tooltipTitle='View'
+              onClick={handleNavigateViewInvoice}
+            />
+          )}
+          {access.edit === 1 && !blockEdit && (
             <CustomMiniButton
               style='amber'
               icon='/icons/edit.svg'
@@ -111,13 +118,15 @@ export const Item = ({
               onClick={handleNavigateEditInvoice}
             />
           )}
-          <CustomMiniButton
-            style='cherry'
-            icon='/icons/trash.svg'
-            alt='Delete'
-            tooltipTitle='Delete'
-            onClick={handleOpenConfirmationModal}
-          />
+          {access.delete === 1 && (
+            <CustomMiniButton
+              style='cherry'
+              icon='/icons/trash.svg'
+              alt='Delete'
+              tooltipTitle='Delete'
+              onClick={handleOpenConfirmationModal}
+            />
+          )}
         </div>
       </div>
       {modalDelete && (

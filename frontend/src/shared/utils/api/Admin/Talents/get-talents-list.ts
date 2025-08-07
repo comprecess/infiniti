@@ -20,10 +20,10 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-export const postTalentsList = async (
+export const getTalentsList = async (
   page: string,
-  filters?: object,
-  sort?: object,
+  filters?: Record<string, (string | number | null)[]>,
+  sort?: { name: string; type: string },
 ): Promise<Response> => {
   const authToken = getAuthToken()
 
@@ -45,7 +45,22 @@ export const postTalentsList = async (
       }
     }
 
-    const url = new URL(apiPath + page, baseUrl).toString()
+    const url = new URL(apiPath + page, baseUrl)
+
+    if (filters) {
+      for (const [key, values] of Object.entries(filters)) {
+        values.forEach(value => {
+          if (value !== null) {
+            url.searchParams.append(`filter[${key}][]`, String(value))
+          }
+        })
+      }
+    }
+
+    if (sort?.name && sort?.type) {
+      url.searchParams.append('sort[name]', sort.name)
+      url.searchParams.append('sort[type]', sort.type)
+    }
 
     const controller = new AbortController()
     const timeoutId = setTimeout(
@@ -53,14 +68,13 @@ export const postTalentsList = async (
       REQUEST_TIMEOUT_MS,
     )
 
-    const data = await customFetch(url, {
-      method: 'POST',
+    const data = await customFetch(url.toString(), {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
-      body: JSON.stringify({ filter: filters, sort }),
       signal: controller.signal,
     })
 

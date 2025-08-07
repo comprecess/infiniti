@@ -2,7 +2,10 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { ProjectsData } from '../../../app/constants/constants'
+import {
+  ProjectsData,
+  RolesAccess,
+} from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -31,7 +34,7 @@ export const AdminProjectsPage = () => {
 
       if (!response.status) return
 
-      return response.data.data as ProjectsData[]
+      return response.data as { access: RolesAccess; data: ProjectsData[] }
     },
     placeholderData: previousData => previousData,
   })
@@ -64,21 +67,24 @@ export const AdminProjectsPage = () => {
       <div className={styles.title}>
         <div className={styles.titleContainer}>
           <TitlePage title='Projects' />
-          <ButtonBlue
-            titleNone
-            title='Create New Project'
-            icon='/icons/plus.svg'
-            style={styles.buttonCreateProject}
-            onClick={navigateToCreateProject}
-          />
+          {projects?.access.create === 1 && (
+            <ButtonBlue
+              titleNone
+              title='Create New Project'
+              icon='/icons/plus.svg'
+              style={styles.buttonCreateProject}
+              onClick={navigateToCreateProject}
+            />
+          )}
         </div>
       </div>
       {projects ? (
         <section className={styles.sectionFirst}>
           <div className={styles.projectsList}>
-            {projects.map(project => (
+            {projects.data.map(project => (
               <ProjectCard
                 key={project.id}
+                access={projects.access}
                 project={project}
                 deleteProject={handleDeleteProject}
               />

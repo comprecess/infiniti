@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
+import { RolesAccess } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { ConfirmationModal } from '../../../shared/ui/ConfirmationModal/ConfirmationModal'
@@ -17,6 +18,7 @@ interface FooterProps {
   dailyRate: string
   hourlyRate: string
   isAdmin: boolean
+  access?: RolesAccess
   addTalentInCart?: () => void
   deleteTalent?: (idTalent: number) => void
 }
@@ -27,6 +29,7 @@ export const Footer = ({
   dailyRate,
   hourlyRate,
   isAdmin,
+  access,
   addTalentInCart,
   deleteTalent,
 }: FooterProps) => {
@@ -110,27 +113,39 @@ export const Footer = ({
                 onClick={handleAddTalentToOrder}
               />
             )}
-            <CustomMiniButton
-              style='mint'
-              icon='/icons/view.svg'
-              alt='View'
-              tooltipTitle='View'
-              onClick={handleNavigateToViewTalent}
-            />
-            <CustomMiniButton
-              style='amber'
-              icon='/icons/edit.svg'
-              alt='Edit'
-              tooltipTitle='Edit'
-              onClick={handleNavigateToEditTalent}
-            />
-            <CustomMiniButton
-              style='cherry'
-              icon='/icons/trash.svg'
-              alt='Delete'
-              tooltipTitle='Delete'
-              onClick={handleOpenConfirmationModal}
-            />
+            {access && access.view === 0 ? (
+              <div />
+            ) : (
+              <CustomMiniButton
+                style='mint'
+                icon='/icons/view.svg'
+                alt='View'
+                tooltipTitle='View'
+                onClick={handleNavigateToViewTalent}
+              />
+            )}
+            {access && access.edit === 0 ? (
+              <div />
+            ) : (
+              <CustomMiniButton
+                style='amber'
+                icon='/icons/edit.svg'
+                alt='Edit'
+                tooltipTitle='Edit'
+                onClick={handleNavigateToEditTalent}
+              />
+            )}
+            {access && access.delete === 0 ? (
+              <div />
+            ) : (
+              <CustomMiniButton
+                style='cherry'
+                icon='/icons/trash.svg'
+                alt='Delete'
+                tooltipTitle='Delete'
+                onClick={handleOpenConfirmationModal}
+              />
+            )}
           </div>
         ) : (
           <ButtonBlue

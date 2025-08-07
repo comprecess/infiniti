@@ -1,6 +1,9 @@
 import { useState } from 'react'
 
-import { ProjectsTasksData } from '../../../../../app/constants/constants'
+import {
+  ProjectsTasksData,
+  RolesAccess,
+} from '../../../../../app/constants/constants'
 import { CrossIcon } from '../../../../../shared/icons/CrossIcon'
 import { ConfirmationModal } from '../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
@@ -10,6 +13,7 @@ import { sanitizeMessage } from '../../../../../shared/utils/TextEditor/sanitize
 import styles from './ViewTaskModal.module.scss'
 
 interface ViewTaskModalProps {
+  access?: RolesAccess
   modalOpen: boolean
   task: ProjectsTasksData
   handleIsEditTask: () => void
@@ -18,6 +22,7 @@ interface ViewTaskModalProps {
 }
 
 export const ViewTaskModal = ({
+  access,
   modalOpen,
   task,
   handleIsEditTask,
@@ -90,20 +95,24 @@ export const ViewTaskModal = ({
             )}
             <CustomDivider styles={styles.divider} />
             <div className={styles.buttons}>
-              <CustomMiniButton
-                style='amber'
-                icon='/icons/edit.svg'
-                alt='Edit'
-                tooltipTitle='Edit'
-                onClick={handleIsEditTask}
-              />
-              <CustomMiniButton
-                style='cherry'
-                icon='/icons/trash.svg'
-                alt='Delete'
-                tooltipTitle='Delete'
-                onClick={handleSetConfirmModal}
-              />
+              {access?.edit === 1 && (
+                <CustomMiniButton
+                  style='amber'
+                  icon='/icons/edit.svg'
+                  alt='Edit'
+                  tooltipTitle='Edit'
+                  onClick={handleIsEditTask}
+                />
+              )}
+              {access?.delete === 1 && (
+                <CustomMiniButton
+                  style='cherry'
+                  icon='/icons/trash.svg'
+                  alt='Delete'
+                  tooltipTitle='Delete'
+                  onClick={handleSetConfirmModal}
+                />
+              )}
             </div>
           </div>
         </div>

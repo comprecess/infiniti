@@ -9,11 +9,13 @@ import {
   ProjectsTasksData,
   ProjectsTasksFormData,
   ProjectsTasksInputData,
+  RolesAccess,
 } from '../../../app/constants/constants'
 import styles from './TaskColumn.module.scss'
 import { TaskItem } from './TaskItem/TaskItem'
 
 interface TaskColumnProps {
+  access: RolesAccess
   inputData: ProjectsTasksInputData
   taskIdFromUrl: string | null
   title: string
@@ -31,6 +33,7 @@ interface TaskColumnProps {
 }
 
 export const TaskColumn = ({
+  access,
   inputData,
   taskIdFromUrl,
   title,
@@ -81,6 +84,7 @@ export const TaskColumn = ({
                   }
                 >
                   <TaskItem
+                    access={access}
                     taskIdFromUrl={taskIdFromUrl}
                     inputData={inputData}
                     task={task}

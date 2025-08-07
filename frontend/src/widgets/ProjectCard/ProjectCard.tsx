@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { ProjectsData } from '../../app/constants/constants'
+import { ProjectsData, RolesAccess } from '../../app/constants/constants'
 import { Routes } from '../../app/router/routes'
 import { ConfirmationModal } from '../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../shared/ui/CustomMiniButton/CustomMiniButton'
@@ -10,14 +10,19 @@ import styles from './ProjectCard.module.scss'
 
 interface ProjectCardProps {
   project: ProjectsData
+  access: RolesAccess
   deleteProject: (id: number) => void
 }
 
 export const ProjectCard = ({
   project,
+  access,
   deleteProject,
 }: ProjectCardProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
+
+  const isMiniButtons =
+    access.view === 1 || access.edit === 1 || access.delete === 1
 
   const navigate = useNavigate()
 
@@ -157,29 +162,37 @@ export const ProjectCard = ({
             </div>
           )}
         </div>
-        <div className={styles.buttons}>
-          <CustomMiniButton
-            style='mint'
-            icon='/icons/view.svg'
-            alt='View'
-            tooltipTitle='View'
-            onClick={handleNavigateToViewProject}
-          />
-          <CustomMiniButton
-            style='amber'
-            icon='/icons/edit.svg'
-            alt='Edit'
-            tooltipTitle='Edit'
-            onClick={handleNavigateToEditProject}
-          />
-          <CustomMiniButton
-            style='cherry'
-            icon='/icons/trash.svg'
-            alt='Delete'
-            tooltipTitle='Delete'
-            onClick={handleOpenConfirmationModal}
-          />
-        </div>
+        {isMiniButtons && (
+          <div className={styles.buttons}>
+            {access.view === 1 && (
+              <CustomMiniButton
+                style='mint'
+                icon='/icons/view.svg'
+                alt='View'
+                tooltipTitle='View'
+                onClick={handleNavigateToViewProject}
+              />
+            )}
+            {access.edit === 1 && (
+              <CustomMiniButton
+                style='amber'
+                icon='/icons/edit.svg'
+                alt='Edit'
+                tooltipTitle='Edit'
+                onClick={handleNavigateToEditProject}
+              />
+            )}
+            {access.delete === 1 && (
+              <CustomMiniButton
+                style='cherry'
+                icon='/icons/trash.svg'
+                alt='Delete'
+                tooltipTitle='Delete'
+                onClick={handleOpenConfirmationModal}
+              />
+            )}
+          </div>
+        )}
       </div>
       {modalDelete && (
         <ConfirmationModal

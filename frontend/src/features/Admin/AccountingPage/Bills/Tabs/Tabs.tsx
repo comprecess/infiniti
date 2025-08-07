@@ -1,3 +1,4 @@
+import { RolesAccess } from '../../../../../app/constants/constants'
 import { Tab } from '../../../Sales/InvoicesPage/Header/Tabs/Tab/Tab'
 import styles from './Tabs.module.scss'
 
@@ -14,14 +15,22 @@ const tabsList: TabsListProps[] = [
 ]
 
 interface TabsProps {
+  access: RolesAccess
   isActiveTab: string
   setIsActiveTab: (name: string) => void
 }
 
-export const Tabs = ({ isActiveTab, setIsActiveTab }: TabsProps) => {
+export const Tabs = ({
+  access,
+  isActiveTab,
+  setIsActiveTab,
+}: TabsProps) => {
+  const tabsToShow =
+    access.create === 1 ? tabsList : tabsList.slice(0, tabsList.length - 1)
+
   return (
     <div className={styles.wrapper}>
-      {tabsList.map(item => {
+      {tabsToShow.map(item => {
         return (
           <Tab
             key={item.id}

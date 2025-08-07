@@ -62,7 +62,7 @@ export const AdminBillsPage = () => {
 
       if (!response.status) return
 
-      return response.data.data
+      return response.data
     },
     placeholderData: previousData => previousData,
   })
@@ -170,6 +170,9 @@ export const AdminBillsPage = () => {
     getInputData()
   }, [])
 
+  const isBillsCreate =
+    bills.access.create === 1 && filterStatus === 'Add a Bill'
+
   return (
     <div className={styles.wrapper}>
       {inputData && bills && billsDate ? (
@@ -179,6 +182,7 @@ export const AdminBillsPage = () => {
             style={styles.recentFullScreen}
             HeaderComponent={Tabs}
             headerProps={{
+              access: bills.access,
               isActiveTab: filterStatus,
               setIsActiveTab: updateFilterStatus,
             }}
@@ -193,13 +197,13 @@ export const AdminBillsPage = () => {
             )}
             {filterStatus === 'All' && (
               <AllPage
-                bills={bills}
+                bills={bills.data}
                 changeSort={changeSort}
                 setSearch={setSearch}
                 deleteBill={handleDeleteBill}
               />
             )}
-            {filterStatus === 'Add a Bill' && (
+            {isBillsCreate && (
               <AddABillPage
                 inputData={inputData}
                 setForm={setForm}

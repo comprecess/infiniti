@@ -115,11 +115,11 @@ export const AdminProjectsExpensesPage = () => {
           <RecentCard
             title='Project Expenses'
             style={styles.recentFullScreen}
-            Component={data.access.create ? ButtonBlue : undefined}
+            Component={data.access.create === 1 ? ButtonBlue : undefined}
             HeaderComponent={Search}
             PagesComponent={data.data.length > 0 ? PagesList : undefined}
             componentProps={
-              data.access.create
+              data.access.create === 1
                 ? {
                   titleNone: true,
                   title: 'New Expense',
@@ -144,6 +144,7 @@ export const AdminProjectsExpensesPage = () => {
             }
           >
             <RecentExpenses
+              access={data.access}
               expensesList={data.data}
               changeSortName={changeSort}
               deleteExpense={handleDeleteExpense}

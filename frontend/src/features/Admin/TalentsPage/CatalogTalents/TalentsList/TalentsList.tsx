@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import {
   PagesMetaData,
+  RolesAccess,
   TalentData,
   userTalentsPageString,
 } from '../../../../../app/constants/constants'
@@ -17,6 +18,7 @@ import styles from './TalentsList.module.scss'
 interface TalentsListProps {
   talentsList:
   | {
+    access: RolesAccess
     data: TalentData[]
     meta: PagesMetaData
   }
@@ -77,6 +79,7 @@ export const TalentsList = ({
                       <TalentsCard
                         key={talent.id}
                         isAdmin
+                        access={talentsList.access}
                         talent={talent}
                         addTalentInCart={fetchTalents}
                         deleteTalent={deleteTalent}
