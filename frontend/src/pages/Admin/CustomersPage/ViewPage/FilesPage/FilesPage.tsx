@@ -88,7 +88,11 @@ export const AdminContactFilesPage = () => {
             groupsList: files.listFiles,
           }}
         >
-          <RecentFiles list={files.clientFiles} deleteFile={deleteFile} />
+          <RecentFiles
+            access={files.access}
+            list={files.clientFiles}
+            deleteFile={deleteFile}
+          />
         </RecentCard>
       ) : (
         <LoadingSpinner size='xl' />

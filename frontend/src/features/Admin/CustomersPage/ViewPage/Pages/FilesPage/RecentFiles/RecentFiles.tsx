@@ -1,17 +1,25 @@
 import { Fragment } from 'react'
 
-import { ViewFileProps } from '../../../../../../../app/constants/constants'
+import {
+  RolesAccess,
+  ViewFileProps,
+} from '../../../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentFiles.module.scss'
 
 interface RecentFilesProps {
+  access: RolesAccess
   list: ViewFileProps[]
   deleteFile: (idType: number) => void
 }
 
-export const RecentFiles = ({ list, deleteFile }: RecentFilesProps) => {
+export const RecentFiles = ({
+  access,
+  list,
+  deleteFile,
+}: RecentFilesProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -24,6 +32,7 @@ export const RecentFiles = ({ list, deleteFile }: RecentFilesProps) => {
           return (
             <Fragment key={item.id}>
               <Item
+                access={access}
                 idType={item.id}
                 type={item.type}
                 title={item.title}

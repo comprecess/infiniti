@@ -1,17 +1,22 @@
 import { Fragment } from 'react'
 
-import { GroupContactsListProps } from '../../../../../app/constants/constants'
+import {
+  GroupContactsListProps,
+  RolesAccess,
+} from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentContactsList.module.scss'
 
 interface RecentContactsListProps {
+  roles?: { [key: string]: RolesAccess }
   list: GroupContactsListProps[]
   deleteContact: (id: number) => void
 }
 
 export const RecentContactsList = ({
+  roles,
   list,
   deleteContact,
 }: RecentContactsListProps) => {
@@ -31,8 +36,9 @@ export const RecentContactsList = ({
             <Fragment key={item.id}>
               <Item
                 id={item.id}
+                roles={roles}
                 name={item.account}
-                companyName={item.company?.name}
+                company={item.company}
                 email={item.email}
                 phone={item.phone}
                 deleteContact={() => deleteContact(item.id)}

@@ -51,7 +51,7 @@ export const AdminContactOffersPage = () => {
             onClick: navigateToCreateNewOffer,
           }}
         >
-          <RecentOffers list={offers.data} />
+          <RecentOffers access={offers.access} list={offers.data} />
         </RecentCard>
       ) : (
         <LoadingSpinner size='xl' />

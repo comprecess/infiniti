@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { RolesAccess } from '../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../app/router/routes'
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
@@ -10,18 +11,20 @@ import styles from './Item.module.scss'
 interface ItemProps {
   id: number
   name: string
-  companyName: string
+  company?: { id: number; name: string }
   email: string
   phone: string
+  roles?: { [key: string]: RolesAccess }
   deleteContact: () => void
 }
 
 export const Item = ({
   id,
   name,
-  companyName,
+  company,
   email,
   phone,
+  roles,
   deleteContact,
 }: ItemProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
@@ -44,13 +47,16 @@ export const Item = ({
         <span className={`${styleItem.hashtagColumn} ${styles.idItem}`}>
           {id}
         </span>
-        <span className={`${styleItem.nameColumn} ${styles.nameItem}`}>
+        <span
+          className={`${styleItem.nameColumn} ${styles.nameItem}`}
+          onClick={handleNavigateToCustomer}
+        >
           {name}
         </span>
         <div
           className={`${styleItem.companyNameColumn} ${styles.companyNameItem}`}
         >
-          {companyName}
+          {company?.name}
         </div>
         <span className={`${styleItem.emailColumn} ${styles.emailItem}`}>
           {email}
@@ -59,20 +65,28 @@ export const Item = ({
           {phone}
         </span>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-          <CustomMiniButton
-            style='mint'
-            icon='/icons/view.svg'
-            alt='View'
-            tooltipTitle='View'
-            onClick={handleNavigateToCustomer}
-          />
-          <CustomMiniButton
-            style='cherry'
-            icon='/icons/trash.svg'
-            alt='Delete'
-            tooltipTitle='Delete'
-            onClick={handleOpenConfirmationModal}
-          />
+          {roles && roles.customers.view === 0 ? (
+            <div style={{ display: 'none' }} />
+          ) : (
+            <CustomMiniButton
+              style='mint'
+              icon='/icons/view.svg'
+              alt='View'
+              tooltipTitle='View'
+              onClick={handleNavigateToCustomer}
+            />
+          )}
+          {roles && roles.customers.edit === 0 ? (
+            <div style={{ display: 'none' }} />
+          ) : (
+            <CustomMiniButton
+              style='cherry'
+              icon='/icons/trash.svg'
+              alt='Delete'
+              tooltipTitle='Delete'
+              onClick={handleOpenConfirmationModal}
+            />
+          )}
         </div>
       </div>
       {modalDelete && (

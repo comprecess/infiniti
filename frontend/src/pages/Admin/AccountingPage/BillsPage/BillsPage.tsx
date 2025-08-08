@@ -34,9 +34,9 @@ export const AdminBillsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const filterStatus = searchParams.get('filterStatus')
 
+  const navigate = useNavigate()
   const showToast = useCustomToast()
   const queryClient = useQueryClient()
-  const navigate = useNavigate()
 
   const updateFilterStatus = (newStatus: string) => {
     searchParams.set('filterStatus', newStatus)
@@ -171,7 +171,7 @@ export const AdminBillsPage = () => {
   }, [])
 
   const isBillsCreate =
-    bills.access.create === 1 && filterStatus === 'Add a Bill'
+    bills && bills.access.create === 1 && filterStatus === 'Add a Bill'
 
   return (
     <div className={styles.wrapper}>

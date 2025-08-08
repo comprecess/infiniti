@@ -149,7 +149,7 @@ export const AdminGroupsPage = () => {
             style={styles.recentFullScreen}
             Component={RecentButtons}
             componentProps={{
-              isCanCreate: groupsData.access.create,
+              access: groupsData.access,
               firstButtonClick: openNewGroupModal,
               secondButtonClick: handleNavigateToOrder,
             }}

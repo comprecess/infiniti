@@ -1,16 +1,21 @@
-import { ViewOffersTypeData } from '../../../../../../../../app/constants/constants'
+import {
+  RolesAccess,
+  ViewOffersTypeData,
+} from '../../../../../../../../app/constants/constants'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../../../../../../../shared/ui/Status/Status'
 import styleItem from '../RecentOffers.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
+  access: RolesAccess
   item: ViewOffersTypeData
   navigateToViewOffer: (id: number) => void
   navigateToEditOffer: (id: number) => void
 }
 
 export const Item = ({
+  access,
   item,
   navigateToViewOffer,
   navigateToEditOffer,
@@ -48,20 +53,24 @@ export const Item = ({
         <Status title={item.stage} status={item.stage} />
       </div>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <CustomMiniButton
-          style='mint'
-          icon='/icons/view.svg'
-          alt='View'
-          tooltipTitle='View'
-          onClick={handleNavigateToViewOffer}
-        />
-        <CustomMiniButton
-          style='amber'
-          icon='/icons/edit.svg'
-          alt='Edit'
-          tooltipTitle='Edit'
-          onClick={handleNavigateToEditOffer}
-        />
+        {access.view === 1 && (
+          <CustomMiniButton
+            style='mint'
+            icon='/icons/view.svg'
+            alt='View'
+            tooltipTitle='View'
+            onClick={handleNavigateToViewOffer}
+          />
+        )}
+        {access.edit === 1 && (
+          <CustomMiniButton
+            style='amber'
+            icon='/icons/edit.svg'
+            alt='Edit'
+            tooltipTitle='Edit'
+            onClick={handleNavigateToEditOffer}
+          />
+        )}
       </div>
     </div>
   )

@@ -52,7 +52,10 @@ export const AdminContactInvoicesPage = () => {
             onClickButton: navigateToCreateNewInvoice,
           }}
         >
-          <RecentInvoices list={invoices.invoice} />
+          <RecentInvoices
+            access={invoices.access}
+            list={invoices.invoice}
+          />
         </RecentCard>
       ) : (
         <LoadingSpinner size='xl' />
