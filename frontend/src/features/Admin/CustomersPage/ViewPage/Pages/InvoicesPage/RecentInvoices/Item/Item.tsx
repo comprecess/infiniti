@@ -1,6 +1,9 @@
 import { useNavigate } from 'react-router-dom'
 
-import { ViewInvoicesProps } from '../../../../../../../../app/constants/constants'
+import {
+  RolesAccess,
+  ViewInvoicesProps,
+} from '../../../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../../../app/router/routes'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../../../../../../../shared/ui/Status/Status'
@@ -8,10 +11,11 @@ import styleItem from '../RecentInvoices.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
+  access: RolesAccess
   item: ViewInvoicesProps
 }
 
-export const Item = ({ item }: ItemProps) => {
+export const Item = ({ access, item }: ItemProps) => {
   const navigate = useNavigate()
 
   const handleNavigateToViewInvoice = () => {
@@ -49,20 +53,24 @@ export const Item = ({ item }: ItemProps) => {
         <Status title={item.status} status={item.status} />
       </div>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <CustomMiniButton
-          style='mint'
-          icon='/icons/view.svg'
-          alt='View'
-          tooltipTitle='View'
-          onClick={handleNavigateToViewInvoice}
-        />
-        <CustomMiniButton
-          style='amber'
-          icon='/icons/edit.svg'
-          alt='Edit'
-          tooltipTitle='Edit'
-          onClick={handleNavigateToEditInvoice}
-        />
+        {access.view === 1 && (
+          <CustomMiniButton
+            style='mint'
+            icon='/icons/view.svg'
+            alt='View'
+            tooltipTitle='View'
+            onClick={handleNavigateToViewInvoice}
+          />
+        )}
+        {access.edit === 1 && (
+          <CustomMiniButton
+            style='amber'
+            icon='/icons/edit.svg'
+            alt='Edit'
+            tooltipTitle='Edit'
+            onClick={handleNavigateToEditInvoice}
+          />
+        )}
       </div>
     </div>
   )

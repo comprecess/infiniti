@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
+import { useOutletContext } from 'react-router-dom'
 
-import { GroupContactsListProps } from '../../../../../app/constants/constants'
+import {
+  GroupContactsListProps,
+  RolesAccess,
+} from '../../../../../app/constants/constants'
 import { RecentContactsList } from '../../../../../features/Admin/CustomersPage/GroupsPage/RecentContactsList/RecentConatctsList'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
@@ -14,6 +18,10 @@ export const AdminContactsListPage = () => {
   const [contacts, setContacts] = useState<
   GroupContactsListProps[] | null
   >(null)
+
+  const { roles } = useOutletContext<{
+    roles?: { [key: string]: RolesAccess }
+  }>()
 
   const id = useIdFromUrl('list')
   const showToast = useCustomToast()
@@ -68,6 +76,7 @@ export const AdminContactsListPage = () => {
             </div>
             <div className={styles.content}>
               <RecentContactsList
+                roles={roles}
                 list={contacts}
                 deleteContact={deleteContact}
               />

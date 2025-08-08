@@ -35,7 +35,10 @@ export const AdminContactTransactionsPage = () => {
     <div className={styles.wrapper}>
       {transactions ? (
         <RecentCard>
-          <RecentTransactions list={transactions.data} />
+          <RecentTransactions
+            access={transactions.access}
+            list={transactions.data}
+          />
         </RecentCard>
       ) : (
         <LoadingSpinner size='xl' />

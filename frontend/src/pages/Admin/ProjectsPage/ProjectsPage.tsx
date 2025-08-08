@@ -80,16 +80,24 @@ export const AdminProjectsPage = () => {
       </div>
       {projects ? (
         <section className={styles.sectionFirst}>
-          <div className={styles.projectsList}>
-            {projects.data.map(project => (
-              <ProjectCard
-                key={project.id}
-                access={projects.access}
-                project={project}
-                deleteProject={handleDeleteProject}
-              />
-            ))}
-          </div>
+          {projects.data.length > 0 ? (
+            <div className={styles.projectsList}>
+              {projects.data.map(project => (
+                <ProjectCard
+                  key={project.id}
+                  access={projects.access}
+                  project={project}
+                  deleteProject={handleDeleteProject}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className={styles.nothingFound}>
+              <span className={styles.nothingFoundText}>
+                Nothing Found
+              </span>
+            </div>
+          )}
         </section>
       ) : (
         <div className={styles.loading}>

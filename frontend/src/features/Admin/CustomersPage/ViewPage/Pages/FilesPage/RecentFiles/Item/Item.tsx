@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { RolesAccess } from '../../../../../../../../app/constants/constants'
 import { ConfirmationModal } from '../../../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { TypeFiles } from '../../../../../../../../shared/ui/TypeFiles/TypeFiles'
@@ -7,13 +8,20 @@ import styleItem from '../RecentFiles.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
+  access: RolesAccess
   idType: number
   type: string
   title: string
   deleteFile: (idType: number) => void
 }
 
-export const Item = ({ idType, type, title, deleteFile }: ItemProps) => {
+export const Item = ({
+  access,
+  idType,
+  type,
+  title,
+  deleteFile,
+}: ItemProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
   const handleOpenConfirmationModal = () => {
@@ -35,13 +43,15 @@ export const Item = ({ idType, type, title, deleteFile }: ItemProps) => {
           {title}
         </span>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-          <CustomMiniButton
-            style='cherry'
-            icon='/icons/trash.svg'
-            alt='Delete'
-            tooltipTitle='Delete'
-            onClick={handleOpenConfirmationModal}
-          />
+          {access.delete === 1 && (
+            <CustomMiniButton
+              style='cherry'
+              icon='/icons/trash.svg'
+              alt='Delete'
+              tooltipTitle='Delete'
+              onClick={handleOpenConfirmationModal}
+            />
+          )}
         </div>
       </div>
       {modalDelete && (

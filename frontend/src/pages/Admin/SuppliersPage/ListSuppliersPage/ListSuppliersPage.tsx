@@ -167,52 +167,48 @@ export const AdminListSuppliersPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      <section className={styles.section}>
-        <RecentCard
-          title='List Suppliers'
-          style={styles.recentFullScreen}
-          HeaderComponent={SearchAndButtons}
-          PagesComponent={suppliers ? PagesList : undefined}
-          Component={
-            suppliers?.access.create === 1 ? HeaderButtons : undefined
-          }
-          componentProps={
-            suppliers?.access.create === 1
-              ? {
-                access: suppliers?.access,
-                firstButtonClick: navigateToAddSupplier,
-              }
-              : undefined
-          }
-          headerProps={{
-            searchValue: search,
-            searchChange: updateSearch,
-            rightButtons: downloadFile,
-          }}
-          pagesProps={
-            suppliers
-              ? {
-                meta: suppliers.meta,
-                nextPage: updatePage,
-                size: 'sm',
-              }
-              : undefined
-          }
-        >
-          {suppliers ? (
+      {suppliers ? (
+        <section className={styles.section}>
+          <RecentCard
+            title='List Suppliers'
+            style={styles.recentFullScreen}
+            HeaderComponent={SearchAndButtons}
+            Component={HeaderButtons}
+            PagesComponent={
+              suppliers.data.length > 0 ? PagesList : undefined
+            }
+            componentProps={{
+              access: suppliers.access,
+              firstButtonClick: navigateToAddSupplier,
+            }}
+            headerProps={{
+              searchValue: search,
+              searchChange: updateSearch,
+              rightButtons: downloadFile,
+            }}
+            pagesProps={
+              suppliers.data.length > 0
+                ? {
+                  meta: suppliers.meta,
+                  nextPage: updatePage,
+                  size: 'sm',
+                }
+                : undefined
+            }
+          >
             <RecentCustomers
               access={suppliers.access}
               customersList={suppliers.data}
               deleteClient={deleteSupplier}
               changeSortName={changeSort}
             />
-          ) : (
-            <div className={styles.loading}>
-              <LoadingSpinner size='xl' />
-            </div>
-          )}
-        </RecentCard>
-      </section>
+          </RecentCard>
+        </section>
+      ) : (
+        <div className={styles.loading}>
+          <LoadingSpinner size='xl' />
+        </div>
+      )}
     </div>
   )
 }

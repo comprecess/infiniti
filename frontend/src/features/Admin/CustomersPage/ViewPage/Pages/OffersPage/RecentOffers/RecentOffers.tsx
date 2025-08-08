@@ -1,7 +1,10 @@
 import { Fragment } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { ViewOffersTypeData } from '../../../../../../../app/constants/constants'
+import {
+  RolesAccess,
+  ViewOffersTypeData,
+} from '../../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../../app/router/routes'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../../../Main/RecentCard/Title/Title'
@@ -9,10 +12,11 @@ import { Item } from './Item/Item'
 import styles from './RecentOffers.module.scss'
 
 interface RecentOffersProps {
+  access: RolesAccess
   list: ViewOffersTypeData[]
 }
 
-export const RecentOffers = ({ list }: RecentOffersProps) => {
+export const RecentOffers = ({ access, list }: RecentOffersProps) => {
   const navigate = useNavigate()
 
   const navigateToViewOffer = (id: number) => {
@@ -43,6 +47,7 @@ export const RecentOffers = ({ list }: RecentOffersProps) => {
           return (
             <Fragment key={item.id}>
               <Item
+                access={access}
                 item={item}
                 navigateToViewOffer={navigateToViewOffer}
                 navigateToEditOffer={navigateToEditOffer}

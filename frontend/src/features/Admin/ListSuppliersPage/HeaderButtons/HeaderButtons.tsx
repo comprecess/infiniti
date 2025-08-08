@@ -16,7 +16,7 @@ export const HeaderButtons = ({
 }: HeaderButtonsProps) => {
   return (
     <div className={styles.wrapper}>
-      {access && access.create && (
+      {access.create === 1 && (
         <ButtonBlue
           titleNone
           title='Add Supplier'

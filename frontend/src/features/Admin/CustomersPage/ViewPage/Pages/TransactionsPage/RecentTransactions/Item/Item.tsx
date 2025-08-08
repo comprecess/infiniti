@@ -1,11 +1,13 @@
 import { useNavigate } from 'react-router-dom'
 
+import { RolesAccess } from '../../../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../../../app/router/routes'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../RecentTransactions.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
+  access: RolesAccess
   id: number
   date: string
   account: string
@@ -17,6 +19,7 @@ interface ItemProps {
 }
 
 export const Item = ({
+  access,
   id,
   date,
   account,
@@ -60,13 +63,15 @@ export const Item = ({
         {cr}
       </span>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <CustomMiniButton
-          style='amber'
-          icon='/icons/edit.svg'
-          alt='Edit'
-          tooltipTitle='Edit'
-          onClick={handleNavigateToEditTransaction}
-        />
+        {access.edit === 1 && (
+          <CustomMiniButton
+            style='amber'
+            icon='/icons/edit.svg'
+            alt='Edit'
+            tooltipTitle='Edit'
+            onClick={handleNavigateToEditTransaction}
+          />
+        )}
       </div>
     </div>
   )

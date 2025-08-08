@@ -1,21 +1,22 @@
+import { RolesAccess } from '../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
 import styles from './RecentButtons.module.scss'
 
 interface RecentButtonsProps {
-  isCanCreate: number
+  access: RolesAccess
   firstButtonClick: () => void
   secondButtonClick: () => void
 }
 
 export const RecentButtons = ({
-  isCanCreate,
+  access,
   firstButtonClick,
   secondButtonClick,
 }: RecentButtonsProps) => {
   return (
     <div className={styles.wrapper}>
-      {isCanCreate === 1 && (
+      {access.create === 1 && (
         <ButtonBlue
           titleNone
           title='New Group'
@@ -25,14 +26,16 @@ export const RecentButtons = ({
           onClick={firstButtonClick}
         />
       )}
-      <ButtonBrand
-        titleNone
-        title='Reorder'
-        icon='/icons/reorder.svg'
-        style={styles.buttonWrench}
-        iconProps={styles.iconWrench}
-        onClick={secondButtonClick}
-      />
+      {access.edit === 1 && (
+        <ButtonBrand
+          titleNone
+          title='Reorder'
+          icon='/icons/reorder.svg'
+          style={styles.buttonWrench}
+          iconProps={styles.iconWrench}
+          onClick={secondButtonClick}
+        />
+      )}
     </div>
   )
 }

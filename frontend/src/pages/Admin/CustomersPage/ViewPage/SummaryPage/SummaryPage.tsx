@@ -243,22 +243,26 @@ export const AdminContactSummaryPage = () => {
                       })}
                     </div>
                   </div>
-                  <Textarea
-                    maxHeight='250px'
-                    maxWidth='400px'
-                    defaultValue={profileInfo.data.notes}
-                    placeholder='Contact Notes...'
-                    focusBorderColor='#1b1e29'
-                    borderColor='#1b1e29'
-                    color='gray.400'
-                    backgroundColor='brand.800'
-                    border='1px solid #1b1e29'
-                    _hover={{ borderColor: '#1b1e29' }}
-                    fontSize='16px'
-                    fontWeight='400'
-                    lineHeight='24px'
-                    onChange={handleTextAreaChange}
-                  />
+                  {context.roles && context.roles.customers.edit === 0 ? (
+                    <div style={{ display: 'none' }} />
+                  ) : (
+                    <Textarea
+                      maxHeight='250px'
+                      maxWidth='400px'
+                      defaultValue={profileInfo.data.notes}
+                      placeholder='Contact Notes...'
+                      focusBorderColor='#1b1e29'
+                      borderColor='#1b1e29'
+                      color='gray.400'
+                      backgroundColor='brand.800'
+                      border='1px solid #1b1e29'
+                      _hover={{ borderColor: '#1b1e29' }}
+                      fontSize='16px'
+                      fontWeight='400'
+                      lineHeight='24px'
+                      onChange={handleTextAreaChange}
+                    />
+                  )}
                 </div>
               </div>
             </div>
@@ -267,7 +271,7 @@ export const AdminContactSummaryPage = () => {
                 {`Balance: ${profileInfo.data.balance}`}
               </h5>
               {context.roles && context.roles.customers.edit === 0 ? (
-                <div style={{ marginTop: '-10px' }} />
+                <div style={{ display: 'none' }} />
               ) : (
                 <div className={styles.balanceButtons}>
                   <ButtonBlue

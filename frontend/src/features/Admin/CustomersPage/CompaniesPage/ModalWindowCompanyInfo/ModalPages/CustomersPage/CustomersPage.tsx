@@ -53,7 +53,7 @@ export const CustomersPage = ({ id, roles }: CustomersPageProps) => {
   return (
     <div className={styles.wrapper}>
       {roles && roles.customers.create === 0 ? (
-        <div />
+        <div style={{ display: 'none' }} />
       ) : (
         <ButtonBlue
           title='Add Customer'

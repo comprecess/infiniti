@@ -28,7 +28,7 @@ export const Tabs = ({
   const filteredTabs =
     access.all === 1
       ? tabsList
-      : tabsList.filter(tab => tab.send === 'all')
+      : tabsList.filter(tab => tab.send !== 'all')
 
   return (
     <div className={styles.wrapper}>

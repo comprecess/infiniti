@@ -1,16 +1,20 @@
 import { Fragment } from 'react'
 
-import { ViewInvoicesProps } from '../../../../../../../app/constants/constants'
+import {
+  RolesAccess,
+  ViewInvoicesProps,
+} from '../../../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentInvoices.module.scss'
 
 interface RecentInvoicesProps {
+  access: RolesAccess
   list: ViewInvoicesProps[]
 }
 
-export const RecentInvoices = ({ list }: RecentInvoicesProps) => {
+export const RecentInvoices = ({ access, list }: RecentInvoicesProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>
@@ -26,7 +30,7 @@ export const RecentInvoices = ({ list }: RecentInvoicesProps) => {
         {list.map((item, index) => {
           return (
             <Fragment key={item.id}>
-              <Item item={item} />
+              <Item item={item} access={access} />
               {index !== list.length - 1 && <CustomDivider />}
             </Fragment>
           )
