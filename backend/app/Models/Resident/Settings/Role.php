@@ -97,7 +97,6 @@ class Role extends Model
                 return $query->with(['permission'])->first();
             }
 
-
             if($query->count()) {
                 $status = false;
                 $query->each(function($item) use(&$status, $type){
