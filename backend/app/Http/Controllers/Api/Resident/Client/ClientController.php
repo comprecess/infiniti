@@ -156,6 +156,7 @@ class ClientController extends MainClientController
 
     public function item(Client $client)
     {
+        self::clientTypeToAccess($client->getTypeAttribute(), 'view');
         return new ClientAllResource($client->checkAccessAbort());
     }
 

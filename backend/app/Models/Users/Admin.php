@@ -174,12 +174,14 @@ class Admin extends User implements LoginIntarface, InsertDefaultValueInterface
             }
             $result = array_values($listShortName);
         }
-        if(!$result && $abort) {
-            abort(403);
-        }
-
         if($setResult) {
             // save $typeAccess;
+            request()->attributes->add(['main_access' => $typeAccess]);
+        }
+
+
+        if(!$result && $abort) {
+            abort(403);
         }
 
         return $result;
