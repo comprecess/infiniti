@@ -1,9 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { Dayjs } from 'dayjs'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 
-import { TalentData } from '../../../../app/constants/constants'
+import {
+  RolesAccess,
+  TalentData,
+} from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { AboutTalentCard } from '../../../../features/Admin/TalentsPage/ViewTalentPage/AboutTalentCard/AboutTalentCard'
 import { EducationCard } from '../../../../features/Admin/TalentsPage/ViewTalentPage/EducationCard/EducationCard'
@@ -32,6 +35,10 @@ export const AdminViewTalentPage = () => {
   const id = useIdFromUrl('talent')
   const navigate = useNavigate()
   const showToast = useCustomToast()
+
+  const { roles } = useOutletContext<{
+    roles?: { [key: string]: RolesAccess }
+  }>()
 
   const handleNavigateBack = () => {
     if (window.history.length - 3 <= 0) {
@@ -165,6 +172,7 @@ export const AdminViewTalentPage = () => {
               <section className={styles.item}>
                 <SimilarTalents
                   isAdmin
+                  roles={roles}
                   similarTalents={talentInfo.data.similar}
                 />
               </section>

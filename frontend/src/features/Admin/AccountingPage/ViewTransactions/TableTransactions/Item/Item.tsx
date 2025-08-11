@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { RolesAccess } from '../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../app/router/routes'
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
@@ -14,6 +15,7 @@ interface ItemProps {
   description: string
   dr: string
   cr: string
+  access: RolesAccess
   deleteTransaction: (id: number) => void
 }
 
@@ -24,6 +26,7 @@ export const Item = ({
   description,
   dr,
   cr,
+  access,
   deleteTransaction,
 }: ItemProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
@@ -71,20 +74,24 @@ export const Item = ({
           {cr}
         </span>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-          <CustomMiniButton
-            style='amber'
-            icon='/icons/edit.svg'
-            alt='Edit'
-            tooltipTitle='Edit'
-            onClick={handleNavigateToEditTransaction}
-          />
-          <CustomMiniButton
-            style='cherry'
-            icon='/icons/trash.svg'
-            alt='Delete'
-            tooltipTitle='Delete'
-            onClick={handleOpenConfirmationModal}
-          />
+          {access.edit === 1 && (
+            <CustomMiniButton
+              style='amber'
+              icon='/icons/edit.svg'
+              alt='Edit'
+              tooltipTitle='Edit'
+              onClick={handleNavigateToEditTransaction}
+            />
+          )}
+          {access.delete === 1 && (
+            <CustomMiniButton
+              style='cherry'
+              icon='/icons/trash.svg'
+              alt='Delete'
+              tooltipTitle='Delete'
+              onClick={handleOpenConfirmationModal}
+            />
+          )}
         </div>
       </div>
       {modalDelete && (

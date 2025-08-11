@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import {
   AccountingDepositExpenseForm,
   AccountingInputData,
+  RolesAccess,
 } from '../../../../app/constants/constants'
 import { AddDepositFields } from '../../../../features/Admin/AccountingPage/NewDepositPage/AddDepositFields/AddDepositFields'
 import { RecentDeposits } from '../../../../features/Admin/AccountingPage/NewDepositPage/RecentDeposits/RecentDeposits'
@@ -20,6 +21,7 @@ export const AdminNewDepositPage = () => {
   const [inputData, setInputData] = useState<AccountingInputData | null>(
     null,
   )
+  const [access, setAccess] = useState<RolesAccess | null>(null)
 
   const showToast = useCustomToast()
 
@@ -29,6 +31,7 @@ export const AdminNewDepositPage = () => {
     if (!response.status) return
 
     setInputData(response.data)
+    setAccess(response.data.access)
   }
 
   const addNewTransaction = async () => {
@@ -64,15 +67,17 @@ export const AdminNewDepositPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      {inputData ? (
+      {access && inputData ? (
         <section className={styles.section}>
-          <RecentCard style={styles.cardFirst} title='Add Deposit'>
-            <AddDepositFields
-              inputData={inputData}
-              setForm={setForm}
-              addNewTransaction={addNewTransaction}
-            />
-          </RecentCard>
+          {access.create === 1 && (
+            <RecentCard style={styles.cardFirst} title='Add Deposit'>
+              <AddDepositFields
+                inputData={inputData}
+                setForm={setForm}
+                addNewTransaction={addNewTransaction}
+              />
+            </RecentCard>
+          )}
           {inputData.access.view === 1 && inputData.transaction && (
             <RecentCard style={styles.cardSecond} title='Recent Deposits'>
               <RecentDeposits transactions={inputData.transaction} />

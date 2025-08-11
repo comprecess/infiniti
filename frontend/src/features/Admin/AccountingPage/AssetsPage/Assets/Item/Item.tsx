@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { RolesAccess } from '../../../../../../app/constants/constants'
 import { FolderIcon } from '../../../../../../shared/icons/FolderIcon'
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import styles from './Item.module.scss'
@@ -9,6 +10,7 @@ interface ItemProps {
   name: string
   isActive: boolean
   isDeleted?: boolean
+  access: RolesAccess
   onClick: () => void
   deleteCategory: (id: number) => void
 }
@@ -18,6 +20,7 @@ export const Item = ({
   name,
   isActive,
   isDeleted = false,
+  access,
   onClick,
   deleteCategory,
 }: ItemProps) => {
@@ -50,7 +53,7 @@ export const Item = ({
             {name}
           </span>
         </div>
-        {isActive && isDeleted && (
+        {access.delete === 1 && isActive && isDeleted && (
           <button
             className={styles.trashCherryWrapper}
             onClick={handleOpenConfirmationModal}

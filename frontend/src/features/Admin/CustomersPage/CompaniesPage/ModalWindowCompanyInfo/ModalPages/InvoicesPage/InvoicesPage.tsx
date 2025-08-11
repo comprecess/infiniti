@@ -1,7 +1,10 @@
 import { Fragment, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { InvoicesViewCompany } from '../../../../../../../app/constants/constants'
+import {
+  InvoicesViewCompany,
+  RolesAccess,
+} from '../../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../../app/router/routes'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
@@ -12,9 +15,10 @@ import { Item } from './Item/Item'
 
 interface InvoicesPageProps {
   id: number
+  roles?: { [key: string]: RolesAccess }
 }
 
-export const InvoicesPage = ({ id }: InvoicesPageProps) => {
+export const InvoicesPage = ({ id, roles }: InvoicesPageProps) => {
   const [invoices, setInvoices] = useState<InvoicesViewCompany[] | null>(
     null,
   )
@@ -62,6 +66,7 @@ export const InvoicesPage = ({ id }: InvoicesPageProps) => {
                   <Fragment key={item.id}>
                     <Item
                       id={item.client.id}
+                      roles={roles}
                       idInvoice={item.id}
                       code={item.code}
                       customer={item.account}

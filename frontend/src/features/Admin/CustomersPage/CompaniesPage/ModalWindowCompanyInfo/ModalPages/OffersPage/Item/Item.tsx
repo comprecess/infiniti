@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 
+import { RolesAccess } from '../../../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../../../app/router/routes'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../../../../../../../shared/ui/Status/Status'
@@ -16,6 +17,7 @@ interface ItemProps {
   dateCreated: string
   validUntil: string
   stage: string
+  roles?: { [key: string]: RolesAccess }
   onClick: (id: number) => void
 }
 
@@ -29,6 +31,7 @@ export const Item = ({
   dateCreated,
   validUntil,
   stage,
+  roles,
   onClick,
 }: ItemProps) => {
   const navigate = useNavigate()
@@ -80,20 +83,28 @@ export const Item = ({
         <Status title={stage} status={stage} />
       </div>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <CustomMiniButton
-          style='mint'
-          icon='/icons/view.svg'
-          alt='View'
-          tooltipTitle='View'
-          onClick={handleNavigateToViewOffer}
-        />
-        <CustomMiniButton
-          style='amber'
-          icon='/icons/edit.svg'
-          alt='Edit'
-          tooltipTitle='Edit'
-          onClick={handleNavigateToEditOffer}
-        />
+        {roles && roles.sales.view === 0 ? (
+          <div style={{ display: 'none' }} />
+        ) : (
+          <CustomMiniButton
+            style='mint'
+            icon='/icons/view.svg'
+            alt='View'
+            tooltipTitle='View'
+            onClick={handleNavigateToViewOffer}
+          />
+        )}
+        {roles && roles.sales.edit === 0 ? (
+          <div style={{ display: 'none' }} />
+        ) : (
+          <CustomMiniButton
+            style='amber'
+            icon='/icons/edit.svg'
+            alt='Edit'
+            tooltipTitle='Edit'
+            onClick={handleNavigateToEditOffer}
+          />
+        )}
       </div>
     </div>
   )

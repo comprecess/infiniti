@@ -1,6 +1,9 @@
 import { Fragment, useEffect, useState } from 'react'
 
-import { TransactionsViewCompany } from '../../../../../../../app/constants/constants'
+import {
+  RolesAccess,
+  TransactionsViewCompany,
+} from '../../../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getCompanyPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/get-company-page'
@@ -10,9 +13,10 @@ import styles from './TransactionsPage.module.scss'
 
 interface TransactionsPageProps {
   id: number
+  roles?: { [key: string]: RolesAccess }
 }
 
-export const TransactionsPage = ({ id }: TransactionsPageProps) => {
+export const TransactionsPage = ({ id, roles }: TransactionsPageProps) => {
   const [transactions, setTransactions] = useState<
   TransactionsViewCompany[] | null
   >(null)
@@ -55,6 +59,7 @@ export const TransactionsPage = ({ id }: TransactionsPageProps) => {
                   <Fragment key={item.id}>
                     <Item
                       code={item.id}
+                      roles={roles}
                       date={item.date}
                       account={item.account}
                       type={item.type}

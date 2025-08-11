@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { AccountingBillsData } from '../../../../../../../app/constants/constants'
+import {
+  AccountingBillsData,
+  RolesAccess,
+} from '../../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../../app/router/routes'
 import { ConfirmationModal } from '../../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
@@ -9,11 +12,17 @@ import styles from './Item.module.scss'
 
 interface ItemProps {
   data: AccountingBillsData
+  access: RolesAccess
   deleteBill: (idBill: number) => void
   isPaidBill: (idBill: number) => void
 }
 
-export const Item = ({ data, deleteBill, isPaidBill }: ItemProps) => {
+export const Item = ({
+  data,
+  access,
+  deleteBill,
+  isPaidBill,
+}: ItemProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
   const navigate = useNavigate()
@@ -55,7 +64,7 @@ export const Item = ({ data, deleteBill, isPaidBill }: ItemProps) => {
             <p className={styles.recurringType}>{data.recurringType}</p>
           </div>
           <div className={styles.buttons}>
-            {data.isPaid === 0 && (
+            {access.edit === 1 && data.isPaid === 0 && (
               <CustomMiniButton
                 style='mint'
                 icon='/icons/check.svg'
@@ -64,13 +73,15 @@ export const Item = ({ data, deleteBill, isPaidBill }: ItemProps) => {
                 onClick={() => isPaidBill(data.id)}
               />
             )}
-            <CustomMiniButton
-              style='amber'
-              icon='/icons/edit.svg'
-              alt='Edit'
-              tooltipTitle='Edit'
-              onClick={navigateToAddNewBill}
-            />
+            {access.edit === 1 && (
+              <CustomMiniButton
+                style='amber'
+                icon='/icons/edit.svg'
+                alt='Edit'
+                tooltipTitle='Edit'
+                onClick={navigateToAddNewBill}
+              />
+            )}
             <CustomMiniButton
               style='gray'
               icon='/icons/website.svg'
@@ -78,13 +89,15 @@ export const Item = ({ data, deleteBill, isPaidBill }: ItemProps) => {
               tooltipTitle='Website'
               onClick={navigateToWebsite}
             />
-            <CustomMiniButton
-              style='cherry'
-              icon='/icons/trash.svg'
-              alt='Delete'
-              tooltipTitle='Delete'
-              onClick={handleOpenConfirmationModal}
-            />
+            {access.delete === 1 && (
+              <CustomMiniButton
+                style='cherry'
+                icon='/icons/trash.svg'
+                alt='Delete'
+                tooltipTitle='Delete'
+                onClick={handleOpenConfirmationModal}
+              />
+            )}
           </div>
         </div>
       </div>

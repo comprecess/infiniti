@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import {
   AccountingDepositExpenseForm,
   AccountingInputData,
+  RolesAccess,
 } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { AddExpenseFields } from '../../../../features/Admin/AccountingPage/NewExpensePage/AddExpenseFields/AddExpenseFields'
@@ -22,6 +23,7 @@ export const AdminNewExpensePage = () => {
   const [inputData, setInputData] = useState<AccountingInputData | null>(
     null,
   )
+  const [access, setAccess] = useState<RolesAccess | null>(null)
 
   const showToast = useCustomToast()
   const navigate = useNavigate()
@@ -36,6 +38,7 @@ export const AdminNewExpensePage = () => {
     if (!response.status) return
 
     setInputData(response.data)
+    setAccess(response.data.access)
   }
 
   const addNewTransaction = async () => {
@@ -80,15 +83,17 @@ export const AdminNewExpensePage = () => {
 
   return (
     <div className={styles.wrapper}>
-      {inputData ? (
+      {access && inputData ? (
         <section className={styles.section}>
-          <RecentCard style={styles.cardFirst} title='Add Expense'>
-            <AddExpenseFields
-              inputData={inputData}
-              setForm={setForm}
-              addNewTransaction={addNewTransaction}
-            />
-          </RecentCard>
+          {access.create === 1 && (
+            <RecentCard style={styles.cardFirst} title='Add Expense'>
+              <AddExpenseFields
+                inputData={inputData}
+                setForm={setForm}
+                addNewTransaction={addNewTransaction}
+              />
+            </RecentCard>
+          )}
           {inputData.access.view === 1 && inputData.transaction && (
             <RecentCard style={styles.cardSecond} title='Recent Expense'>
               <RecentExpense transactions={inputData.transaction} />

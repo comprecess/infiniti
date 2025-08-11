@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 
 import {
+  RolesAccess,
   SalesInvoiceEmailTemplateData,
   SalesViewInvoiceData,
 } from '../../../../app/constants/constants'
@@ -32,6 +33,10 @@ export const AdminViewInvoicePage = () => {
   const id = useIdFromUrl('view')
   const showToast = useCustomToast()
   const navigate = useNavigate()
+
+  const { roles } = useOutletContext<{
+    roles?: { [key: string]: RolesAccess }
+  }>()
 
   const openCloseEmailPanel = () => {
     setEmailPanel(!emailPanel)
@@ -170,6 +175,7 @@ export const AdminViewInvoicePage = () => {
                 status => status !== info.status,
               ),
               blockEditButton: info.blockEdit,
+              roles,
               editInvoice: navigateToEditInvoice,
               previewInvoice: navigateToPreviewInvoice,
               selectPDF: interactPDF,
