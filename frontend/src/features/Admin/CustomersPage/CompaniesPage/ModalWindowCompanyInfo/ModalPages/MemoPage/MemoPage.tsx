@@ -1,6 +1,7 @@
 import { Textarea } from '@chakra-ui/react'
 import { ChangeEvent, useEffect, useState } from 'react'
 
+import { RolesAccess } from '../../../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
@@ -14,9 +15,10 @@ interface Memo {
 
 interface MemoPageProps {
   id: number
+  roles?: { [key: string]: RolesAccess }
 }
 
-export const MemoPage = ({ id }: MemoPageProps) => {
+export const MemoPage = ({ id, roles }: MemoPageProps) => {
   const [memo, setMemo] = useState<Memo | null>(null)
 
   const showToast = useCustomToast()
@@ -77,12 +79,16 @@ export const MemoPage = ({ id }: MemoPageProps) => {
             lineHeight='20px'
             onChange={onChangeMemo}
           />
-          <ButtonBlue
-            title='Save'
-            style={styles.buttonBlue}
-            styleTitle={styles.buttonBlueTitle}
-            onClick={editMemo}
-          />
+          {roles && roles.companies.edit === 0 ? (
+            <div style={{ display: 'none' }} />
+          ) : (
+            <ButtonBlue
+              title='Save'
+              style={styles.buttonBlue}
+              styleTitle={styles.buttonBlueTitle}
+              onClick={editMemo}
+            />
+          )}
         </>
       ) : (
         <div className={styles.loading}>

@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { AccountingAssetsInputDataCategory } from '../../../../../app/constants/constants'
+import {
+  AccountingAssetsInputDataCategory,
+  RolesAccess,
+} from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import styles from './Assets.module.scss'
@@ -11,6 +14,7 @@ import { NewCategoryModal } from './NewCategoryModal/NewCategoryModal'
 interface AssetsProps {
   categories: AccountingAssetsInputDataCategory[]
   filterCategory: string
+  access: RolesAccess
   handleChangeFilterCategory: (filter: string | number) => void
   handleAddNewCategory: (name: string) => void
   handleDeleteCategory: (id: number) => void
@@ -19,6 +23,7 @@ interface AssetsProps {
 export const Assets = ({
   categories,
   filterCategory,
+  access,
   handleChangeFilterCategory,
   handleAddNewCategory,
   handleDeleteCategory,
@@ -40,15 +45,18 @@ export const Assets = ({
   return (
     <>
       <div className={styles.wrapper}>
-        <ButtonBlue
-          title='Add an Asset'
-          onClick={handleNavigateToAddNewAsset}
-        />
+        {access.create === 1 && (
+          <ButtonBlue
+            title='Add an Asset'
+            onClick={handleNavigateToAddNewAsset}
+          />
+        )}
         <div className={styles.categoriesList}>
           <Item
             key='all_categories'
             id={0}
             name='All Categories'
+            access={access}
             isActive={filterCategory === ''}
             deleteCategory={() => {}}
             onClick={() => handleChangeFilterCategory('all')}
@@ -57,6 +65,7 @@ export const Assets = ({
             <Item
               key={category.id}
               isDeleted
+              access={access}
               isActive={filterCategory.includes(
                 `&filter[category]=${category.id}`,
               )}
@@ -66,10 +75,12 @@ export const Assets = ({
             />
           ))}
         </div>
-        <ButtonBlue
-          title='New Category'
-          onClick={handleOpenNewCategoryModal}
-        />
+        {access.create === 1 && (
+          <ButtonBlue
+            title='New Category'
+            onClick={handleOpenNewCategoryModal}
+          />
+        )}
       </div>
       {modalNewCategory && (
         <NewCategoryModal

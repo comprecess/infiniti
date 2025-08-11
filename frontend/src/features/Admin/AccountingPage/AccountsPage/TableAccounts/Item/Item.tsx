@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { AccountingAccountsInputData } from '../../../../../../app/constants/constants'
+import {
+  AccountingAccountsInputData,
+  RolesAccess,
+} from '../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../app/router/routes'
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
@@ -19,6 +22,7 @@ interface ItemProps {
     Total: string
   }
   inputData: AccountingAccountsInputData
+  access: RolesAccess
   addRecordInitialBalanceAccount: (
     id: number,
     form: {
@@ -33,6 +37,7 @@ export const Item = ({
   name,
   balance,
   inputData,
+  access,
   addRecordInitialBalanceAccount,
   deleteAccount,
 }: ItemProps) => {
@@ -93,27 +98,33 @@ export const Item = ({
           )}
         </div>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-          <CustomMiniButton
-            style='mint'
-            icon='/icons/plus.svg'
-            alt='Record initial balance'
-            tooltipTitle='Record initial balance'
-            onClick={handleOpenRecordInitialModal}
-          />
-          <CustomMiniButton
-            style='amber'
-            icon='/icons/edit.svg'
-            alt='Edit'
-            tooltipTitle='Edit'
-            onClick={handleNavigateEditAccount}
-          />
-          <CustomMiniButton
-            style='cherry'
-            icon='/icons/trash.svg'
-            alt='Delete'
-            tooltipTitle='Delete'
-            onClick={handleOpenConfirmationModal}
-          />
+          {access.edit === 1 && (
+            <CustomMiniButton
+              style='mint'
+              icon='/icons/plus.svg'
+              alt='Record initial balance'
+              tooltipTitle='Record initial balance'
+              onClick={handleOpenRecordInitialModal}
+            />
+          )}
+          {access.edit === 1 && (
+            <CustomMiniButton
+              style='amber'
+              icon='/icons/edit.svg'
+              alt='Edit'
+              tooltipTitle='Edit'
+              onClick={handleNavigateEditAccount}
+            />
+          )}
+          {access.delete === 1 && (
+            <CustomMiniButton
+              style='cherry'
+              icon='/icons/trash.svg'
+              alt='Delete'
+              tooltipTitle='Delete'
+              onClick={handleOpenConfirmationModal}
+            />
+          )}
         </div>
       </div>
       {modalDelete && (

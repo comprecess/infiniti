@@ -3,6 +3,7 @@ import { Fragment, useCallback, useState } from 'react'
 import {
   AccountingAccountsData,
   AccountingAccountsInputData,
+  RolesAccess,
 } from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
@@ -12,6 +13,7 @@ import styles from './TableAccounts.module.scss'
 interface TableAccountsProps {
   accounts: AccountingAccountsData[]
   inputData: AccountingAccountsInputData
+  access: RolesAccess
   changeSort: (sortNameItem: string, sortTypeItem: number) => void
   deleteAccount: (id: number) => void
   addRecordInitialBalanceAccount: (
@@ -25,6 +27,7 @@ interface TableAccountsProps {
 export const TableAccounts = ({
   accounts,
   inputData,
+  access,
   changeSort,
   deleteAccount,
   addRecordInitialBalanceAccount,
@@ -77,6 +80,7 @@ export const TableAccounts = ({
               <Fragment key={item.id}>
                 <Item
                   id={item.id}
+                  access={access}
                   name={item.name}
                   balance={item.balance}
                   inputData={inputData}

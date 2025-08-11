@@ -179,7 +179,7 @@ export const adminSidebarPages = [
         path: `${Routes.new}/${Routes.deposit}`,
 
         // Access
-        create: true,
+        create: false,
         shortName: 'transactions',
       },
       {
@@ -188,7 +188,7 @@ export const adminSidebarPages = [
         path: `${Routes.new}/${Routes.expense}`,
 
         // Access
-        create: true,
+        create: false,
         shortName: 'transactions',
       },
       {

@@ -39,7 +39,7 @@ export const AdminAccountsPage = () => {
 
       if (!response.status) return
 
-      return response.data.list
+      return response.data
     },
     placeholderData: previousData => previousData,
   })
@@ -123,22 +123,29 @@ export const AdminAccountsPage = () => {
             style={styles.recentFullScreen}
             title='Manage Accounts'
             HeaderComponent={Search}
-            Component={ButtonBlue}
+            Component={
+              accounts.access.create === 1 ? ButtonBlue : undefined
+            }
             headerProps={{
               style: styles.search,
               onSearchChange: setSearch,
             }}
-            componentProps={{
-              titleNone: true,
-              title: 'New Account',
-              icon: '/icons/plus.svg',
-              style: styles.buttonPlus,
-              onClick: handleNavigateNewAccount,
-            }}
+            componentProps={
+              accounts.access.create === 1
+                ? {
+                  titleNone: true,
+                  title: 'New Account',
+                  icon: '/icons/plus.svg',
+                  style: styles.buttonPlus,
+                  onClick: handleNavigateNewAccount,
+                }
+                : undefined
+            }
           >
             <TableAccounts
               inputData={inputData}
-              accounts={accounts}
+              accounts={accounts.list}
+              access={accounts.access}
               changeSort={changeSort}
               deleteAccount={handleDeleteAccount}
               addRecordInitialBalanceAccount={

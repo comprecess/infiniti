@@ -1,10 +1,14 @@
-import { AccountingBillsData } from '../../../../../../app/constants/constants'
+import {
+  AccountingBillsData,
+  RolesAccess,
+} from '../../../../../../app/constants/constants'
 import { Item } from './Item/Item'
 import styles from './SummaryPage.module.scss'
 
 interface SummaryPageProps {
   billsPastDue: AccountingBillsData[]
   billsUpcoming: AccountingBillsData[]
+  access: RolesAccess
   deleteBill: (idBill: number) => void
   isPaidBill: (idBill: number) => void
 }
@@ -12,6 +16,7 @@ interface SummaryPageProps {
 export const SummaryPage = ({
   billsPastDue,
   billsUpcoming,
+  access,
   deleteBill,
   isPaidBill,
 }: SummaryPageProps) => {
@@ -32,6 +37,7 @@ export const SummaryPage = ({
             {billsUpcoming.map(upcoming => (
               <Item
                 key={upcoming.id}
+                access={access}
                 data={upcoming}
                 deleteBill={deleteBill}
                 isPaidBill={isPaidBill}
@@ -47,6 +53,7 @@ export const SummaryPage = ({
             {billsPastDue.map(upcoming => (
               <Item
                 key={upcoming.id}
+                access={access}
                 data={upcoming}
                 deleteBill={deleteBill}
                 isPaidBill={isPaidBill}

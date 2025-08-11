@@ -189,6 +189,7 @@ export const AdminBillsPage = () => {
           >
             {filterStatus === 'Summary' && (
               <SummaryPage
+                access={bills.access}
                 billsPastDue={billsDate.billsPastDue}
                 billsUpcoming={billsDate.billsUpcoming}
                 deleteBill={handleDeleteBill}
@@ -198,6 +199,7 @@ export const AdminBillsPage = () => {
             {filterStatus === 'All' && (
               <AllPage
                 bills={bills.data}
+                access={bills.access}
                 changeSort={changeSort}
                 setSearch={setSearch}
                 deleteBill={handleDeleteBill}

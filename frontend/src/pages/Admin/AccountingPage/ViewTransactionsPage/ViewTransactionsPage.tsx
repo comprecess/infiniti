@@ -5,6 +5,7 @@ import {
   AccountingInputData,
   AccountingTransactionsData,
   PagesMetaData,
+  RolesAccess,
 } from '../../../../app/constants/constants'
 import { Filters } from '../../../../features/Admin/AccountingPage/ViewTransactions/Filters/Filters'
 import { TableTransactions } from '../../../../features/Admin/AccountingPage/ViewTransactions/TableTransactions/TableTransactions'
@@ -80,6 +81,7 @@ export const AdminViewTransactionsPage = () => {
 
       return response.data as {
         data: AccountingTransactionsData[]
+        access: RolesAccess
         meta: PagesMetaData
       }
     },
@@ -226,6 +228,7 @@ export const AdminViewTransactionsPage = () => {
             }
           >
             <TableTransactions
+              access={viewTransactions.access}
               transactions={viewTransactions.data}
               changeSort={changeSort}
               deleteTransaction={handleDeleteTransaction}

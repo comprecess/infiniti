@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import {
   AccountingInputData,
   AccountingTransferForm,
+  RolesAccess,
 } from '../../../../app/constants/constants'
 import { NewTransferFields } from '../../../../features/Admin/AccountingPage/TransferPage/NewTransferFields/NewTransferFields'
 import { RecentTransfers } from '../../../../features/Admin/AccountingPage/TransferPage/RecentTransfers/RecentTransfers'
@@ -18,6 +19,7 @@ export const AdminTransferPage = () => {
   const [inputData, setInputData] = useState<AccountingInputData | null>(
     null,
   )
+  const [access, setAccess] = useState<RolesAccess | null>(null)
 
   const showToast = useCustomToast()
 
@@ -27,6 +29,7 @@ export const AdminTransferPage = () => {
     if (!response.status) return
 
     setInputData(response.data)
+    setAccess(response.data.access)
   }
 
   const addNewTransfer = async () => {
@@ -58,15 +61,17 @@ export const AdminTransferPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      {inputData ? (
+      {access && inputData ? (
         <section className={styles.section}>
-          <RecentCard style={styles.cardFirst} title='New Transfer'>
-            <NewTransferFields
-              inputData={inputData}
-              setForm={setForm}
-              addNewTransfer={addNewTransfer}
-            />
-          </RecentCard>
+          {access.create === 1 && (
+            <RecentCard style={styles.cardFirst} title='New Transfer'>
+              <NewTransferFields
+                inputData={inputData}
+                setForm={setForm}
+                addNewTransfer={addNewTransfer}
+              />
+            </RecentCard>
+          )}
           {inputData.access.view === 1 && inputData.transaction && (
             <RecentCard style={styles.cardSecond} title='Recent Transfers'>
               <RecentTransfers transactions={inputData.transaction} />

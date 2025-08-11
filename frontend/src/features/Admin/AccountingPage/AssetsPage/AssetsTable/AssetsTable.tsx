@@ -1,6 +1,9 @@
 import { Fragment, useCallback, useState } from 'react'
 
-import { AccountingAssetsDataData } from '../../../../../app/constants/constants'
+import {
+  AccountingAssetsDataData,
+  RolesAccess,
+} from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
 import styles from './AssetsTable.module.scss'
@@ -8,12 +11,14 @@ import { Item } from './Item/Item'
 
 interface AssetsTableProps {
   assets: AccountingAssetsDataData[]
+  access: RolesAccess
   deleteAsset: (id: number) => void
   changeSort: (sortNameItem: string, sortTypeItem: number) => void
 }
 
 export const AssetsTable = ({
   assets,
+  access,
   deleteAsset,
   changeSort,
 }: AssetsTableProps) => {
@@ -83,7 +88,11 @@ export const AssetsTable = ({
           {assets.map((asset, index) => {
             return (
               <Fragment key={asset.id}>
-                <Item deleteAsset={deleteAsset} {...asset} />
+                <Item
+                  access={access}
+                  deleteAsset={deleteAsset}
+                  {...asset}
+                />
                 {index !== assets.length - 1 && <CustomDivider />}
               </Fragment>
             )

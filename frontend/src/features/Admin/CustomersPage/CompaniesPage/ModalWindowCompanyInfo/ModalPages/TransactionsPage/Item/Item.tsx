@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 
+import { RolesAccess } from '../../../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../../../app/router/routes'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../TransactionsPage.module.scss'
@@ -16,6 +17,7 @@ interface ItemProps {
   dr: string
   cr: string
   bal: string
+  roles?: { [key: string]: RolesAccess }
 }
 
 export const Item = ({
@@ -28,6 +30,7 @@ export const Item = ({
   dr,
   cr,
   bal,
+  roles,
 }: ItemProps) => {
   const navigate = useNavigate()
 
@@ -69,13 +72,17 @@ export const Item = ({
         {bal}
       </span>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        <CustomMiniButton
-          style='amber'
-          icon='/icons/edit.svg'
-          alt='Edit'
-          tooltipTitle='Edit'
-          onClick={handleNavigateToEditTransaction}
-        />
+        {roles && roles.transactions.edit === 0 ? (
+          <div style={{ display: 'none' }} />
+        ) : (
+          <CustomMiniButton
+            style='amber'
+            icon='/icons/edit.svg'
+            alt='Edit'
+            tooltipTitle='Edit'
+            onClick={handleNavigateToEditTransaction}
+          />
+        )}
       </div>
     </div>
   )

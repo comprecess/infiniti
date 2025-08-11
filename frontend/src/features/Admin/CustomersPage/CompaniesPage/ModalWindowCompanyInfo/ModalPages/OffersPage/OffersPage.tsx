@@ -1,7 +1,10 @@
 import { Fragment, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { OffersViewCompany } from '../../../../../../../app/constants/constants'
+import {
+  OffersViewCompany,
+  RolesAccess,
+} from '../../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../../app/router/routes'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
@@ -12,9 +15,10 @@ import styles from './OffersPage.module.scss'
 
 interface OffersPageProps {
   id: number
+  roles?: { [key: string]: RolesAccess }
 }
 
-export const OffersPage = ({ id }: OffersPageProps) => {
+export const OffersPage = ({ id, roles }: OffersPageProps) => {
   const [offers, setOffers] = useState<OffersViewCompany[] | null>(null)
 
   const navigate = useNavigate()
@@ -61,6 +65,7 @@ export const OffersPage = ({ id }: OffersPageProps) => {
                   <Fragment key={item.id}>
                     <Item
                       id={item.client.id}
+                      roles={roles}
                       idOffer={item.id}
                       code={item.id}
                       account={item.account}

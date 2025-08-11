@@ -1,6 +1,9 @@
 import { Fragment, useCallback, useState } from 'react'
 
-import { AccountingBillsData } from '../../../../../../app/constants/constants'
+import {
+  AccountingBillsData,
+  RolesAccess,
+} from '../../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Search } from '../../../../../../shared/ui/Search/Search'
 import { Title } from '../../../../../Main/RecentCard/Title/Title'
@@ -9,6 +12,7 @@ import { Item } from './Item/Item'
 
 interface AllPageProps {
   bills: AccountingBillsData[]
+  access: RolesAccess
   changeSort: (sortNameItem: string, sortTypeItem: number) => void
   setSearch: (searchItem: string) => void
   deleteBill: (idBill: number) => void
@@ -16,6 +20,7 @@ interface AllPageProps {
 
 export const AllPage = ({
   bills,
+  access,
   changeSort,
   setSearch,
   deleteBill,
@@ -79,7 +84,7 @@ export const AllPage = ({
           {bills.map((item, index) => {
             return (
               <Fragment key={item.id}>
-                <Item {...item} deleteBill={deleteBill} />
+                <Item {...item} access={access} deleteBill={deleteBill} />
                 {index !== bills.length - 1 && <CustomDivider />}
               </Fragment>
             )

@@ -189,6 +189,7 @@ export const AdminAssetsPage = () => {
         <section className={styles.section}>
           <RecentCard style={styles.cardFirst} title='Assets'>
             <Assets
+              access={assets.access}
               categories={inputData.category}
               filterCategory={filterCategory}
               handleChangeFilterCategory={handleChangeFilterCategory}
@@ -218,6 +219,7 @@ export const AdminAssetsPage = () => {
           >
             <AssetsTable
               assets={assets.data}
+              access={assets.access}
               deleteAsset={handleDeleteSelectedAsset}
               changeSort={changeSort}
             />

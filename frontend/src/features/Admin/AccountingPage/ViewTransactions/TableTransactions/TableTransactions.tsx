@@ -1,6 +1,9 @@
 import { Fragment, useCallback, useState } from 'react'
 
-import { AccountingTransactionsData } from '../../../../../app/constants/constants'
+import {
+  AccountingTransactionsData,
+  RolesAccess,
+} from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
@@ -8,12 +11,14 @@ import styles from './TableTransactions.module.scss'
 
 interface TableTransactionsProps {
   transactions: AccountingTransactionsData[]
+  access: RolesAccess
   changeSort: (sortNameItem: string, sortTypeItem: number) => void
   deleteTransaction: (id: number) => void
 }
 
 export const TableTransactions = ({
   transactions,
+  access,
   changeSort,
   deleteTransaction,
 }: TableTransactionsProps) => {
@@ -105,7 +110,11 @@ export const TableTransactions = ({
           {transactions.map((item, index) => {
             return (
               <Fragment key={item.id}>
-                <Item {...item} deleteTransaction={deleteTransaction} />
+                <Item
+                  {...item}
+                  access={access}
+                  deleteTransaction={deleteTransaction}
+                />
                 {index !== transactions.length - 1 && <CustomDivider />}
               </Fragment>
             )
