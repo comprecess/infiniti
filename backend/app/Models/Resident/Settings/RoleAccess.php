@@ -4,12 +4,13 @@ namespace App\Models\Resident\Settings;
 
 use App\Models\Collection\RoleAccessCollection;
 use App\Models\Traits\BootTrait;
+use App\Models\Traits\CollectionTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class RoleAccess extends Model
 {
-    use HasFactory, BootTrait;
+    use HasFactory, BootTrait, CollectionTrait;
 
     const TYPE_ACCESS = ['view', 'edit', 'create', 'delete', 'all'];
 
