@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware\Access;
 
+use App\Models\Collection\RoleAccessCollection;
 use Closure;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -32,7 +33,7 @@ class AccessResponse
                     foreach($responseAccess as $key => &$value) {
                         $value = 1;
                     }
-                } elseif ($access instanceof Model) {
+                } elseif ($access instanceof Model || $access instanceof RoleAccessCollection) {
                     foreach($responseAccess as $key => &$value) {
                         $value = (int) $access->{$key};
                     }
