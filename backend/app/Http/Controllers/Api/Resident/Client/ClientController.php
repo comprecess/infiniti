@@ -67,7 +67,7 @@ class ClientController extends MainClientController
         }elseif($client = $request->route('client')) {
             $types = $client->getTypeAttribute();
             if(count($types) > 1) {
-                return $user->myRole->access()->whereIn('shortname', $types)->get();
+                return $user->myRole->access()->whereIn('shortname', array_intersect_key(self::TYPE_ACCESS, array_flip($types)))->get();
             }else{
                 return $user->myRole->access()->where('shortname', $types[0])->first();
             }
