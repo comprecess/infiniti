@@ -148,14 +148,14 @@ class CompanyController extends ResidentController
                 $usersBuild->with(array_merge($with, $response['withDop'] ?? []));
             }
 
-            $users = $usersBuild->get();
+            $users = $usersBuild->orderBy('id', 'desc')->get();
             if($with) {
                 $data = collect([]);
                 foreach($with as $withData) {
                     $data = $data->merge($users->pluck($withData)->flatten());
                 }
                 $resource = $response['response'];
-                return $resource::collection($data);
+                return $resource::collection($data->sortByDesc('id')->values());
             } else {
                 $resource = $response['response'];
                 return $resource::collection($users);
