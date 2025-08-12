@@ -2,6 +2,7 @@
 
 namespace App\Models\Resident\Settings;
 
+use App\Models\Collection\RoleAccessCollection;
 use App\Models\Traits\BootTrait;
 use App\Models\User;
 use App\Models\Users\Admin;
@@ -68,8 +69,10 @@ class Role extends Model
         //system
         if(method_exists($class, 'roleAccess')) {
             if(($result = $class->roleAccess($request, $getList)) !== null) {
+                if($result instanceof RoleAccessCollection && !$getList) {
+                    return $result->{$type};
+                }
                 return $result;
-//                return RoleAccess::systemAccess($result);
             }
         }
 
