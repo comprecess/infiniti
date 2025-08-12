@@ -3,6 +3,7 @@
 namespace App\Models\Resident\Settings;
 
 use App\Models\Traits\BootTrait;
+use App\Models\User;
 use App\Models\Users\Admin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -47,7 +48,10 @@ class Role extends Model
 
     public function summAccess()
     {
-        $summ = $this->access()->select(DB::raw('CONCAT(SUM(can_view), SUM(can_edit), SUM(all_data), SUM(can_create), SUM(can_delete)) as summ'))->first();
+//        $summ = $this->access()->select(DB::raw('CONCAT(SUM(can_view), SUM(can_edit), SUM(all_data), SUM(can_create), SUM(can_delete)) as summ'))->first();
+        $summ = $this->access()->select(DB::raw("GROUP_CONCAT(CONCAT(CONV(CONCAT(can_view, can_edit, all_data, can_create, can_delete), 2, 10),'_', id) SEPARATOR '.') as summ"))
+            ->groupBy('rid')
+            ->first();
         return $summ->summ;
     }
 
@@ -228,6 +232,19 @@ class Role extends Model
             $roleAccess->shortname = $item->shortname;
             $roleAccess->save();
         });
+    }
+
+    public static function setAccessResponse($data)
+    {
+        $typeAccess = [];
+        foreach(RoleAccess::TYPE_ACCESS as $type) {
+            if(!isset($data[$type])) {
+                return false;
+            }
+            $typeAccess[$type] =(int) ((bool) is_array($data) ? $data[$type] : $data->{$type});
+        }
+
+        request()->attributes->add(['main_access' => $typeAccess]);
     }
 
 }

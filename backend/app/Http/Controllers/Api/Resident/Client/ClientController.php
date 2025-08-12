@@ -59,8 +59,20 @@ class ClientController extends MainClientController
     public function roleAccess($request)
     {
         $user = User::getAuth();
-        if($user->checkAccess(Role::getAccessType(), 'suppliers')) {
-            return true;
+        if($request->type) {
+            $type = Arr::get(self::TYPE_ACCESS, $request->type, null);
+            if($type) {
+                return $user->myRole->access()->where('shortname', $type)->first();
+            }
+        }elseif($client = $request->route('client')) {
+            $types = $client->getTypeAttribute();
+            if(count($types) > 1) {
+                return $user->myRole->access()->whereIn('shortname', $types)->get();
+            }else{
+                return $user->myRole->access()->where('shortname', $types[0])->first();
+            }
+        }elseif($user->checkAccess(Role::getAccessType(), 'suppliers')) {
+            return $user->myRole->access()->where('shortname', 'suppliers')->first();
         }
     }
 
@@ -147,7 +159,7 @@ class ClientController extends MainClientController
 //            $clients->where('crm_accounts.o', $user->id);
 //        }
 
-        $clients->checkAccess();
+        $clients->checkAccess('all', self::TYPE_ACCESS[$type]);
 
         $request->sortModel($clients);
 

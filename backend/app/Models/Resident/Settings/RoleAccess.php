@@ -2,6 +2,7 @@
 
 namespace App\Models\Resident\Settings;
 
+use App\Models\Collection\RoleAccessCollection;
 use App\Models\Traits\BootTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,8 @@ class RoleAccess extends Model
     protected $table = 'sys_staffpermissions';
 
     public $timestamps = false;
+
+    public $collection = RoleAccessCollection::class;
 
     public static function creatingEvent($item)
     {

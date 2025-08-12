@@ -50,9 +50,9 @@ class DashboardController extends ResidentController
 //        $cashFlow = Cache::remember('dash_' . $id, config('cache.time.1hour'), function(){
             $cashFlow = [];
 
-            $cashFlow['client'] = Client::hasType()->checkAccess(...self::ACCESS)->count();
-            $cashFlow['company'] = Company::checkAccess(...self::ACCESS)->count();
-            $cashFlow['leads'] = Leads::checkAccess(...self::ACCESS)->count();
+            $cashFlow['client'] = Client::hasType()->checkAccess('all', 'customers')->count();
+            $cashFlow['company'] = Company::checkAccess('all', 'companies')->count();
+            $cashFlow['leads'] = Leads::checkAccess('all', 'leads')->count();
             $transactions = Transaction::byAdmin();
             $cashFlow['newWorth'] = (new Transaction)->printPrice($transactions->getNetWorth());
 

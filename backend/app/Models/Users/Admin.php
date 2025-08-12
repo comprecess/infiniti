@@ -108,16 +108,16 @@ class Admin extends User implements LoginIntarface, InsertDefaultValueInterface
 
     public function hasAccessByRequest(Request $request, $getList = false)
     {
-        $cacheName = $request->url() . $this->id . $this->updated_at . ($getList ? 1 : 0);
+//        $cacheName = $request->url() . $this->id . $this->updated_at . ($getList ? 1 : 0);
         $role = $this->myRole;
-        $cacheName .= $role?->summAccess();
-
-        return Cache::remember($cacheName, config('cache.time.1week'), function() use($role, $request, $getList){
+//        $cacheName .= $role?->summAccess();
+//
+//        return Cache::remember($cacheName, config('cache.time.1week'), function() use($role, $request, $getList){
             if($role) {
                 return $role->hasAccessByRequest($request, $getList);
             }
             return true;
-        });
+//        });
 
     }
 
