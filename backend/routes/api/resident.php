@@ -147,6 +147,15 @@ Route::controller(Resident\BusinessPlan\BusinessPlanController::class)->prefix('
         Route::delete('/{plan}', 'delete');
 //        Route::match(['put', 'delete'],'/{plan}/team/{id}', 'team');
     });
+#BusinessModelPublic
+Route::controller(Resident\BusinessPlan\BusinessModelPublicController::class)->prefix('business-model')
+    ->group(function(){
+        Route::get('filters', 'filters');
+        Route::get('properties', 'properties');
+        Route::get('property/{id}', 'property');
+        Route::get('list', 'list');
+        Route::get('item/{model}', 'item');
+    });
 
 #BusinessModel
 Route::controller(Resident\BusinessPlan\BusinessModelController::class)->prefix('business-model')

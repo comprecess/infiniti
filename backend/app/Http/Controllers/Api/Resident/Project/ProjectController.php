@@ -80,7 +80,7 @@ class ProjectController extends ProjectAccessController
 //        $project->checkAccessAbort(...self::ACCESS);
         $admin = auth()->user();
         $projectNew = new Project();
-        if(($admin->checkAccess(...self::ACCESS) === 0 && $admin->id != $this->{$projectNew->getAdminColumn()}) || $project->project_manager_id != $admin->id) {
+        if(($admin->checkAccess(...self::ACCESS) === 0 && $admin->id != $project->{$projectNew->getAdminColumn()}) && $project->project_manager_id != $admin->id) {
             abort(403);
         }
         $viewResponce = View::create($project);
@@ -93,6 +93,7 @@ class ProjectController extends ProjectAccessController
 
     public function item(Project $project)
     {
+        $project->checkAccessAbort(...self::ACCESS);
         return new ProjectItemResource($project);
     }
 

@@ -46,7 +46,7 @@ class BusinessModelController extends Controller
 
     public function property(Request $request)
     {
-        $prop = Prop::where('id', $request->route('id'))
+        $prop = Prop::where('id',(int) $request->route('id'))
             ->orWhere('id_name', $request->route('id'))
             ->first();
 

@@ -17,6 +17,9 @@ class PropertyResorce extends JsonResource implements ListInterface
      */
     public function toArray(Request $request): array
     {
+        if(!$this->resource){
+            return [];
+        }
         $resource = [];
 
         $this->setList($resource);

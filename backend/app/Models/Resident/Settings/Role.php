@@ -61,6 +61,9 @@ class Role extends Model
 
         $method = $request->method();
         $class = $request->route()->getController();
+        if($class === null){
+            return false;
+        }
 
         $type = collect(self::ACCESS_METHOD)->search(function($value) use($method){
             return array_search($method, $value) !== false;
