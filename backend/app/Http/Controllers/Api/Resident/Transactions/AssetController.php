@@ -26,7 +26,7 @@ class AssetController extends ResidentController
         delete as deleteCRUD;
     }
 
-    const ACCESS = ['all', 'transactions'];
+    const ACCESS = ['all', 'assets'];
 
     public function getDocumentVariables(): DocumentVariables
     {

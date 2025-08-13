@@ -25,7 +25,8 @@ use \App\Http\Controllers\Api\Resident;
             Resident\Talents\TalentsController::class
         ],
         'business_plan' => [
-            Resident\BusinessPlan\BusinessPlanAccessController::class
+            Resident\BusinessPlan\BusinessPlanAccessController::class,
+            Resident\BusinessPlan\BusinessModelPublicController::class
         ],
         'transactions' => [
             Resident\Transactions\TransactionsAccessController::class

@@ -12,9 +12,9 @@ trait ListTrait
 
         foreach($list as $key => $value) {
             if(is_int($key)) {
-                $resorce[$value] = $this->{$value};
+                $resorce[$value] = $this?->{$value};
             }else{
-                $resorce[$value] = $this->{$key};
+                $resorce[$value] = $this?->{$key};
             }
         }
     }
