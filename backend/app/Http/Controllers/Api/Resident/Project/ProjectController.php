@@ -41,7 +41,18 @@ class ProjectController extends ProjectAccessController
 
     public function list()
     {
-        $projectQuery = Project::checkAccess(...self::ACCESS);
+//        $projectQuery = Project::checkAccess(...self::ACCESS);
+        //access or manager
+        $projectQuery = Project::select();
+        $admin = auth()->user();
+        if($admin->checkAccess(...self::ACCESS) === 0) {
+            $projectQuery->where(function($query) use($admin){
+                $project = new Project();
+                $query->where($project->getTable() .'.' . $project->getAdminColumn(), $admin->id)
+                    ->orWhere('project_manager_id', $admin->id);
+            });
+        }
+
         $projectQuery
             ->with(['admin.files', 'admin.myRole'])
             ->orderBy('id', 'desc')
