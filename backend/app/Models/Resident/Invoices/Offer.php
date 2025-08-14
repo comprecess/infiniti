@@ -10,6 +10,8 @@ use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\HelperTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\Traits\ModelToCartTrait;
+use App\Models\Traits\UserTrait;
+use App\Models\User;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,7 +20,7 @@ use App\Models\Resident\Invoices\Status\Offer as OfferStatus;
 
 class Offer extends Model implements InsertDefaultValueInterface
 {
-    use HasFactory, CurrencyTrait, HelperTrait, InsertDefaultValueTrait, ModelToCartTrait;
+    use HasFactory, CurrencyTrait, HelperTrait, InsertDefaultValueTrait, ModelToCartTrait, UserTrait;
 
     const STAGE = ['Accepted', 'Dead', 'Delivered', 'Draft', 'Lost', 'Decline'];
 
@@ -27,6 +29,8 @@ class Offer extends Model implements InsertDefaultValueInterface
     protected $table = "sys_quotes";
 
     public $timestamps = false;
+
+    public $clientColumn = 'userid';
 
     protected $casts = [
         'datecreated' => 'date',
@@ -103,6 +107,7 @@ class Offer extends Model implements InsertDefaultValueInterface
         $t->cn = $cn;
         if($user instanceof Admin) {
             $t->account = $user->fullname ;
+            $t->o = $user->id;
         }else{
             $t->account = $user->account;
             $t->userid = $user->id;

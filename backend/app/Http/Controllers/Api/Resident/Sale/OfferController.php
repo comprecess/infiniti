@@ -21,6 +21,7 @@ use App\Models\Resident\Invoices\InvoiceItem;
 use App\Models\Resident\Invoices\Offer;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\Tax;
+use App\Models\User;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
 use Illuminate\Http\Request;
@@ -60,10 +61,7 @@ class OfferController extends SaleController
 
     public function list(OfferListRequest $request)
     {
-
-        #ДОСТУП
-
-        $invoice = Offer::query()
+        $invoice = Offer::checkAccess()
             ->select('sys_quotes.*')
             ->leftJoin('crm_accounts', 'crm_accounts.id', '=', 'sys_quotes.userid')
             ->leftJoin('sys_companies', 'sys_companies.id', '=', 'crm_accounts.cid')
@@ -135,6 +133,9 @@ class OfferController extends SaleController
                 $model->currency = $currency->id;
                 $model->currency_iso_code = $currency->iso_code;
 
+                if(!$model->o) {
+                    $model->o = User::getAuth()->id;
+                }
 
                 if($isNew) {
                     foreach(['vtoken'] as $name) {
@@ -188,6 +189,7 @@ class OfferController extends SaleController
         $invoice->date = $date;
         $invoice->duedate = $date;
         $invoice->nd = $date;
+        $invoice->aid = User::getAuth()->id;
         $invoice->quote_id = intval($offer->id);
         if($offer->status()->checkCart()) {
             $invoice->notes = Config::get('invoice_terms');
