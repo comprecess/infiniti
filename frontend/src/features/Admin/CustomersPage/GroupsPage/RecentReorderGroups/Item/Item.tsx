@@ -1,49 +1,44 @@
-import { useDrag, useDrop } from 'react-dnd'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
 import styles from './Item.module.scss'
 
 interface ItemProps {
+  id: number
   index: number
   name: string
-  moveItem: (dragIndex: number, hoverIndex: number) => void
-  sort: () => void
+  isOverlay?: boolean
 }
 
-export const Item = ({ index, name, moveItem, sort }: ItemProps) => {
-  const [{ isDragging }, drag] = useDrag({
-    type: 'ITEM',
-    item: { index },
-    collect: monitor => ({
-      isDragging: monitor.isDragging(),
-    }),
-  })
+export const Item = ({
+  id,
+  index,
+  name,
+  isOverlay = false,
+}: ItemProps) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id })
 
-  const [, drop] = useDrop({
-    accept: 'ITEM',
-    hover: (item: { index: number }) => {
-      const dragIndex = item.index
-      const hoverIndex = index
-
-      if (dragIndex === hoverIndex) {
-        return
-      }
-
-      moveItem(dragIndex, hoverIndex)
-      item.index = hoverIndex
-    },
-    drop: () => {
-      sort()
-    },
-  })
-
-  const opacity = isDragging ? 0.5 : 1
-  const cursor = isDragging ? 'grabbing' : 'grab'
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging && !isOverlay ? 0.5 : 1,
+    cursor: 'grab',
+  }
 
   return (
     <div
-      ref={node => drag(drop(node))}
+      ref={setNodeRef}
+      style={style}
+      {...listeners}
+      {...attributes}
       className={styles.wrapper}
-      style={{ opacity, cursor }}
     >
       <div className={styles.circleWrapper}>
         <div className={styles.circleMini}>

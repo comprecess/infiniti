@@ -9,7 +9,7 @@ import { CustomModalWindow } from '../../../../../shared/ui/CustomModalWindow/Cu
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
-import { sendEmailInvoice } from '../../../../../shared/utils/api/Admin/Sales/Invoices/SendEmailInvoice'
+import { postSendEmailInvoice } from '../../../../../shared/utils/api/Admin/Sales/Invoices/post-send-email-invoice'
 import styles from './EmailPanel.module.scss'
 
 interface EmailPanelProps {
@@ -90,13 +90,13 @@ export const EmailPanel = ({
   const sendEmail = async () => {
     if (idInvoice === null) return
 
-    const sendResponse = await sendEmailInvoice(
+    const { status, message } = await postSendEmailInvoice(
       idInvoice,
       template,
       formData,
     )
 
-    if (sendResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully sent your email',
@@ -106,7 +106,7 @@ export const EmailPanel = ({
     } else {
       showToast({
         title: 'Error',
-        description: sendResponse.message,
+        description: message,
         status: 'error',
       })
     }

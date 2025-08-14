@@ -49,7 +49,7 @@ export const deleteProjectTask = async (
 
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const apiPath = import.meta.env.VITE_PROJECTS_API
+    const apiPath = import.meta.env.VITE_RESIDENT_PROJECTS_API
 
     if (!baseUrl || !apiPath) {
       throw new Error(

@@ -18,9 +18,9 @@ import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { deleteInvoice } from '../../../../shared/utils/api/Admin/Sales/Invoices/DeleteInvoice'
-import { getInvoicesDocuments } from '../../../../shared/utils/api/Admin/Sales/Invoices/GetInvoicesDocuments'
-import { getList } from '../../../../shared/utils/api/Admin/Sales/Invoices/GetList'
-import { getStat } from '../../../../shared/utils/api/Admin/Sales/Invoices/GetStat'
+import { getDocumentsInvoice } from '../../../../shared/utils/api/Admin/Sales/Invoices/get-documents-invoice'
+import { getListInvoices } from '../../../../shared/utils/api/Admin/Sales/Invoices/get-list-invoices'
+import { getStatInvoices } from '../../../../shared/utils/api/Admin/Sales/Invoices/get-stat-invoices'
 import { postCloneStopRecurringInvoice } from '../../../../shared/utils/api/Admin/Sales/Invoices/post-clone-stop-recurring-invoice'
 import { downloadDocument } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
@@ -63,9 +63,11 @@ export const AdminInvoicesPage = () => {
   const { data: statsData } = useQuery({
     queryKey: ['statistics'],
     queryFn: async () => {
-      const response: SalesInvoicesStatData[] = await getStat()
+      const response = await getStatInvoices()
 
-      return response
+      if (!response.status) return
+
+      return response.data.data as SalesInvoicesStatData[]
     },
     placeholderData: previousData => previousData,
   })
@@ -75,20 +77,22 @@ export const AdminInvoicesPage = () => {
     queryFn: async () => {
       const filterText = filterStatus === 'All' ? '' : filterStatus
 
-      const response: {
-        access: RolesAccess
-        data: ViewInvoicesRecentData[]
-        meta: PagesMetaData
-      } = await getList(
+      const response = await getListInvoices(
         // eslint-disable-next-line max-len
         `?page=${page}&filter[search]=${search}&filter[status]=${filterText}&sort[name]=${sortName}&sort[type]=${sortType}&document=json`,
       )
 
-      if (page && parseInt(page) > response.meta.last_page) {
+      if (!response.status) return
+
+      if (page && parseInt(page) > response.data.meta.last_page) {
         updatePage('1')
       }
 
-      return response
+      return response.data as {
+        access: RolesAccess
+        data: ViewInvoicesRecentData[]
+        meta: PagesMetaData
+      }
     },
     placeholderData: previousData => previousData,
   })
@@ -169,10 +173,12 @@ export const AdminInvoicesPage = () => {
       // eslint-disable-next-line max-len
       const urlOptions = `?page=${page}&filter[search]=${search}&filter[status]=${filterText}&sort[name]=${sortName}&sort[type]=${sortType}&document=${documentItem}`
 
-      const downloadInitiated = await getInvoicesDocuments(urlOptions)
+      const downloadInitiated = await getDocumentsInvoice(urlOptions)
+
+      if (!downloadInitiated.status) return
 
       const { status } = await downloadDocument(
-        downloadInitiated,
+        downloadInitiated.data,
         'Invoices',
       )
 

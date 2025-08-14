@@ -96,7 +96,7 @@ export const BusinessModelCard = ({
                 </div>
                 {isAdmin && (
                   <div className={styles.buttons}>
-                    {access && access.create === 1 && (
+                    {access && access.view === 1 && (
                       <CustomMiniButton
                         style='mint'
                         icon='/icons/view.svg'

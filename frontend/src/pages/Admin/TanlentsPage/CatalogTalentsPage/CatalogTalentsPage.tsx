@@ -1,15 +1,14 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSearchParams } from 'react-router-dom'
 
 import {
   FiltersData,
   FiltersState,
-  page,
   PagesMetaData,
   RolesAccess,
   TalentData,
-  userTalentsPageString,
 } from '../../../../app/constants/constants'
 import { CategoriesItem } from '../../../../features/Admin/TalentsPage/CatalogTalents/CategoriesItem/CategoriesItem'
 import { Filters } from '../../../../features/Admin/TalentsPage/CatalogTalents/Filters/Filters'
@@ -20,45 +19,53 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { deleteSelectedTalent } from '../../../../shared/utils/api/Admin/Talents/delete-selected-talent'
 import { getTalentsList } from '../../../../shared/utils/api/Admin/Talents/get-talents-list'
 import { getPropertiesFiltering } from '../../../../shared/utils/api/Client/Catalog/Properties/GetPropertiesFiltering'
-import { getSession } from '../../../../shared/utils/Saving/Session/GetSession'
 import styles from './CatalogTalentsPage.module.scss'
 
 export const AdminCatalogTalentsPage = () => {
-  const [activeCategory, setActiveCategory] = useState(0)
-  const [sort, setSort] = useState({ name: 'priceDay', type: 'asc' })
-  const [selectedFilters, setSelectedFilters] = useState<FiltersState>({})
-  const [currentPage, setCurrentPage] = useState<number>(
-    getSession(userTalentsPageString) || 1,
-  )
+  const [searchParams, setSearchParams] = useSearchParams()
 
   const { t } = useTranslation()
 
   const queryClient = useQueryClient()
   const showToast = useCustomToast()
 
-  const { data: talentsList, refetch } = useQuery({
-    queryKey: ['talents', currentPage, selectedFilters, sort],
-    queryFn: async () => {
-      const response = await getTalentsList(
-        page + String(currentPage),
-        selectedFilters,
-        sort,
-      )
+  const sortName = searchParams.get('sort[name]') || 'priceDay'
+  const sortType = searchParams.get('sort[type]') || 'asc'
+  const page = searchParams.get('page') || '1'
 
-      if (!response.status) return
+  const updateQueryParam = (key: string, value: string | number) => {
+    const newParams = new URLSearchParams(location.search)
+    newParams.set(key, String(value))
+    if (key !== 'page') {
+      newParams.set('page', '1')
+    }
+    setSearchParams(newParams, { replace: true })
+  }
 
-      if (currentPage > response.data.meta.last_page) {
-        setCurrentPage(1)
+  const updatePage = (newPage: string) => updateQueryParam('page', newPage)
+  const updateSort = (name: string, type: string) => {
+    setSearchParams(prev => {
+      const newParams = new URLSearchParams(prev)
+      newParams.set('sort[name]', name)
+      newParams.set('sort[type]', type)
+
+      return newParams
+    })
+  }
+
+  const selectedFilters = useMemo<FiltersState>(() => {
+    const filtersFromURL: FiltersState = {}
+    for (const [key, val] of searchParams.entries()) {
+      const match = key.match(/^filter\[(.+?)\]\[\]$/)
+      if (match) {
+        const propId = match[1]
+        if (!filtersFromURL[propId]) filtersFromURL[propId] = []
+        filtersFromURL[propId].push(Number(val))
       }
+    }
 
-      return response.data as {
-        access: RolesAccess
-        data: TalentData[]
-        meta: PagesMetaData
-      }
-    },
-    placeholderData: previousData => previousData,
-  })
+    return filtersFromURL
+  }, [searchParams])
 
   const { data: categories } = useQuery({
     queryKey: ['categories'],
@@ -68,8 +75,20 @@ export const AdminCatalogTalentsPage = () => {
 
       return response.data[0]
     },
-    placeholderData: previousData => previousData,
+    placeholderData: prev => prev,
   })
+
+  const activeCategory = useMemo(() => {
+    if (!categories || categories.id === undefined) return 0
+    const categoryKey = categories.id.toString()
+    const values = selectedFilters[categoryKey] || []
+    if (values.length === 0) return 0
+    const firstValueIndex = categories.values.findIndex(
+      v => v.id === values[0],
+    )
+
+    return firstValueIndex >= 0 ? firstValueIndex + 1 : 0
+  }, [categories, selectedFilters])
 
   const { data: filters } = useQuery({
     queryKey: ['filters'],
@@ -79,51 +98,91 @@ export const AdminCatalogTalentsPage = () => {
 
       return response.data
     },
-    placeholderData: previousData => previousData,
+    placeholderData: prev => prev,
   })
 
-  const deleteTalent = async (idTalent: number) => {
-    const deleteResponse = await deleteSelectedTalent(idTalent)
+  const { data: talentsList, refetch } = useQuery({
+    queryKey: ['talents', window.location.search],
+    queryFn: async () => {
+      const response = await getTalentsList(
+        window.location.search.toString(),
+      )
+      if (!response.status) return
+      if (parseInt(page) > response.data.meta.last_page) updatePage('1')
 
-    if (deleteResponse.status) {
+      return response.data as {
+        access: RolesAccess
+        data: TalentData[]
+        meta: PagesMetaData
+      }
+    },
+    placeholderData: prev => prev,
+  })
+
+  const updateFilters: Dispatch<SetStateAction<FiltersState>> = value => {
+    const newFilters =
+      typeof value === 'function' ? value(selectedFilters) : value
+    setSearchParams(prev => {
+      const params = new URLSearchParams(prev)
+      for (const key of Array.from(params.keys())) {
+        if (key.startsWith('filter[')) params.delete(key)
+      }
+      Object.entries(newFilters).forEach(([propId, values]) => {
+        values.forEach(v => {
+          params.append(`filter[${propId}][]`, String(v))
+        })
+      })
+      params.set('page', '1')
+
+      return params
+    })
+  }
+
+  const updateActiveCategory: Dispatch<SetStateAction<number>> = value => {
+    const index =
+      typeof value === 'function' ? value(activeCategory) : value
+    if (!categories || categories.id === undefined) return
+    const categoryKey = categories.id.toString()
+    const newFilters = { ...selectedFilters }
+    if (index === 0) {
+      delete newFilters[categoryKey]
+    } else {
+      const categoryValue = categories.values[index - 1]?.id
+      if (categoryValue !== undefined) {
+        newFilters[categoryKey] = [categoryValue]
+      }
+    }
+    updateFilters(newFilters)
+  }
+
+  useLayoutEffect(() => {
+    setSearchParams(prev => {
+      const params = new URLSearchParams(prev)
+      if (!params.has('page')) params.set('page', '1')
+      if (!params.has('sort[name]')) params.set('sort[name]', 'priceDay')
+      if (!params.has('sort[type]')) params.set('sort[type]', 'asc')
+
+      return params
+    })
+  }, [])
+
+  const deleteTalent = async (id: number) => {
+    const res = await deleteSelectedTalent(id)
+    if (res.status) {
       showToast({
         title: 'Successfully',
-        description: 'You have successfully removed the Talent',
+        description: 'You have successfully removed Talent',
         status: 'success',
       })
-
       queryClient.invalidateQueries({ queryKey: ['talents'] })
     } else {
       showToast({
         title: 'Error',
-        description: deleteResponse.message,
+        description: res.message,
         status: 'error',
       })
     }
   }
-
-  useEffect(() => {
-    if (!categories || categories.id === undefined) return
-
-    const categoryKey = categories.id.toString()
-    const categoryValue = categories.values[activeCategory - 1]?.id || null
-
-    setSelectedFilters(prev => {
-      const updatedFilters = { ...prev }
-      if (categoryValue === null) {
-        delete updatedFilters[categoryKey]
-      } else {
-        updatedFilters[categoryKey] = [categoryValue]
-      }
-
-      return updatedFilters
-    })
-  }, [categories, activeCategory])
-
-  useEffect(() => {
-    window.scrollTo(0, 0)
-    document.title = 'infiniti | Catalog Talents'
-  }, [])
 
   return (
     <div className={styles.wrapper}>
@@ -140,7 +199,7 @@ export const AdminCatalogTalentsPage = () => {
               <CategoriesItem
                 name={t('admin-catalog-talents-page-text-5')}
                 isActive={activeCategory === 0}
-                onClick={() => setActiveCategory(0)}
+                onClick={() => updateActiveCategory(0)}
               />
               {categories.values.map(
                 (category: { value: string }, index: number) => (
@@ -148,7 +207,7 @@ export const AdminCatalogTalentsPage = () => {
                     key={index + 1}
                     name={category.value.replace(/&amp;/g, '&')}
                     isActive={activeCategory === index + 1}
-                    onClick={() => setActiveCategory(index + 1)}
+                    onClick={() => updateActiveCategory(index + 1)}
                   />
                 ),
               )}
@@ -165,17 +224,32 @@ export const AdminCatalogTalentsPage = () => {
           <Filters
             filters={filters}
             selectedFilters={selectedFilters}
-            setSelectedFilters={setSelectedFilters}
-            setActiveCategory={setActiveCategory}
-            setSort={setSort}
+            setSelectedFilters={updateFilters}
+            setActiveCategory={updateActiveCategory}
+            setSort={value => {
+              const newSort =
+                typeof value === 'function'
+                  ? value({ name: sortName, type: sortType })
+                  : value
+              updateSort(newSort.name, newSort.type)
+            }}
           />
           <TalentsList
-            sort={sort}
-            setSort={setSort}
+            sort={{ name: sortName, type: sortType }}
             deleteTalent={deleteTalent}
-            setCurrentPage={setCurrentPage}
             fetchTalents={refetch}
             talentsList={talentsList}
+            setSort={value => {
+              const newSort =
+                typeof value === 'function'
+                  ? value({ name: sortName, type: sortType })
+                  : value
+              updateSort(newSort.name, newSort.type)
+            }}
+            setCurrentPage={value => {
+              const p = typeof value === 'function' ? value(0) : value
+              updatePage(p.toString())
+            }}
           />
         </div>
       </section>

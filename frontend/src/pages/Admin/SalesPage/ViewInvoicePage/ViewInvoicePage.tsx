@@ -16,7 +16,7 @@ import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getSelectedInfoInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/get-selected-info-invoice'
-import { getInvoiceEmailTemplate } from '../../../../shared/utils/api/Admin/Sales/Invoices/GetEmailTemplate'
+import { getTemplatesEmailInvoice } from '../../../../shared/utils/api/Admin/Sales/Invoices/get-templates-email-invoice'
 import { changeInvoiceStatus } from '../../../../shared/utils/api/Admin/Sales/Invoices/InvoiceChangeStage'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
@@ -52,10 +52,12 @@ export const AdminViewInvoicePage = () => {
   ) => {
     if (template === null || id === null) return
 
-    const getResponse = await getInvoiceEmailTemplate(id, template)
+    const response = await getTemplatesEmailInvoice(id, template)
+
+    if (!response.status) return
 
     setEmailTemplate(template)
-    setEmailInfo(getResponse)
+    setEmailInfo(response.data)
   }
 
   const getInvoiceInfo = async () => {

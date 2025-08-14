@@ -2,15 +2,14 @@ import {
   AUTH_ERROR_MESSAGE,
   INVALID_RESPONSE_MESSAGE,
   NETWORK_ERROR_MESSAGE,
-  ProjectsNewProjectForm,
   REQUEST_TIMEOUT_MS,
-} from '../../../../../app/constants/constants'
-import { customFetch } from '../../custom-fetch'
-import { getAuthToken } from '../../get-auth-token'
+} from '../../../../../../app/constants/constants'
+import { customFetch } from '../../../custom-fetch'
+import { getAuthToken } from '../../../get-auth-token'
 
 interface SuccessResponse {
   status: true
-  message: string
+  data: any
 }
 
 interface ErrorResponse {
@@ -21,14 +20,13 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-export const putEditProject = async (
-  idProject: number,
-  formData: Partial<ProjectsNewProjectForm>,
+export const getDocumentsInvoice = async (
+  options: string,
 ): Promise<Response> => {
-  if (!Number.isInteger(idProject) || idProject <= 0) {
+  if (typeof options !== 'string' || !options.trim()) {
     return {
       status: false,
-      message: 'Invalid project ID',
+      message: 'Invalid request options',
     }
   }
 
@@ -43,16 +41,15 @@ export const putEditProject = async (
 
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const apiPath = import.meta.env.VITE_RESIDENT_PROJECTS_API
+    const apiPath = import.meta.env.VITE_SALES_INVOICES_LIST
 
     if (!baseUrl || !apiPath) {
-      return {
-        status: false,
-        message: 'Configuration error - missing environment variables',
-      }
+      throw new Error(
+        'Configuration error - missing environment variables',
+      )
     }
 
-    const url = new URL(`${apiPath}/${idProject}`, baseUrl).toString()
+    const url = new URL(`${apiPath}${options}`, baseUrl).toString()
 
     const controller = new AbortController()
     const timeoutId = setTimeout(
@@ -61,23 +58,17 @@ export const putEditProject = async (
     )
 
     const data = await customFetch(url, {
-      method: 'PUT',
+      method: 'GET',
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
-      body: JSON.stringify({ ...formData }),
+      responseType: 'blob',
       signal: controller.signal,
     })
 
     clearTimeout(timeoutId)
 
-    if (
-      !data ||
-      typeof data !== 'object' ||
-      typeof data.status !== 'boolean'
-    ) {
+    if (!data) {
       return {
         status: false,
         message: INVALID_RESPONSE_MESSAGE,
@@ -85,7 +76,10 @@ export const putEditProject = async (
       }
     }
 
-    return data
+    return {
+      status: true,
+      data,
+    }
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') {
       return {
