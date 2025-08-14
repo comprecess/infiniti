@@ -32,7 +32,7 @@ export const getCompanyInputData = async (): Promise<Response> => {
 
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const apiPath = import.meta.env.VITE_COMPANIES_API
+    const apiPath = import.meta.env.VITE_RESIDENT_COMPANIES_API
 
     if (!baseUrl || !apiPath) {
       return {

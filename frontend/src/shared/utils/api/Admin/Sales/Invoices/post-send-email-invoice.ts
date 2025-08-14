@@ -2,11 +2,11 @@ import {
   AUTH_ERROR_MESSAGE,
   INVALID_RESPONSE_MESSAGE,
   NETWORK_ERROR_MESSAGE,
-  ProjectsNewProjectForm,
   REQUEST_TIMEOUT_MS,
-} from '../../../../../app/constants/constants'
-import { customFetch } from '../../custom-fetch'
-import { getAuthToken } from '../../get-auth-token'
+} from '../../../../../../app/constants/constants'
+import { PartialFormData } from '../../../../../../features/Admin/Sales/ViewInvoice/EmailPanel/EmailPanel'
+import { customFetch } from '../../../custom-fetch'
+import { getAuthToken } from '../../../get-auth-token'
 
 interface SuccessResponse {
   status: true
@@ -21,14 +21,15 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-export const putEditProject = async (
-  idProject: number,
-  formData: Partial<ProjectsNewProjectForm>,
+export const postSendEmailInvoice = async (
+  idInvoice: number,
+  template: string,
+  formData: PartialFormData,
 ): Promise<Response> => {
-  if (!Number.isInteger(idProject) || idProject <= 0) {
+  if (!Number.isInteger(idInvoice) || idInvoice <= 0) {
     return {
       status: false,
-      message: 'Invalid project ID',
+      message: 'Invalid invoice ID',
     }
   }
 
@@ -43,7 +44,7 @@ export const putEditProject = async (
 
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const apiPath = import.meta.env.VITE_RESIDENT_PROJECTS_API
+    const apiPath = import.meta.env.VITE_SALES_EMAIL_TEMPLATE
 
     if (!baseUrl || !apiPath) {
       return {
@@ -52,7 +53,10 @@ export const putEditProject = async (
       }
     }
 
-    const url = new URL(`${apiPath}/${idProject}`, baseUrl).toString()
+    const url = new URL(
+      `${apiPath}${template}/invoice/${idInvoice}`,
+      baseUrl,
+    ).toString()
 
     const controller = new AbortController()
     const timeoutId = setTimeout(
@@ -61,10 +65,10 @@ export const putEditProject = async (
     )
 
     const data = await customFetch(url, {
-      method: 'PUT',
+      method: 'POST',
       headers: {
-        Accept: 'application/json',
         'Content-Type': 'application/json',
+        Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
       body: JSON.stringify({ ...formData }),

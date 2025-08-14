@@ -3,9 +3,9 @@ import {
   INVALID_RESPONSE_MESSAGE,
   NETWORK_ERROR_MESSAGE,
   REQUEST_TIMEOUT_MS,
-} from '../../../../../../app/constants/constants'
-import { customFetch } from '../../../custom-fetch'
-import { getAuthToken } from '../../../get-auth-token'
+} from '../../../../../app/constants/constants'
+import { customFetch } from '../../custom-fetch'
+import { getAuthToken } from '../../get-auth-token'
 
 interface SuccessResponse {
   status: true

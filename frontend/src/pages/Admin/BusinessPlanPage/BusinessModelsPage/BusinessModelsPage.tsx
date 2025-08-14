@@ -16,8 +16,8 @@ import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { deleteBusinessModel } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/delete-business-model'
+import { getBusinessModelsList } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/get/get-business-models-list'
 import { getBusinessModelProperties } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/get-business-model-properties'
-import { postBusinessModelsList } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/post-business-models-list'
 import { getSession } from '../../../../shared/utils/Saving/Session/GetSession'
 import styles from './BusinessModelsPage.module.scss'
 
@@ -34,7 +34,7 @@ export const AdminBusinessModelsPage = () => {
   const { data: modelsList } = useQuery({
     queryKey: ['models', currentPage, JSON.stringify(selectedFilters)],
     queryFn: async () => {
-      const response = await postBusinessModelsList(
+      const response = await getBusinessModelsList(
         page + String(currentPage),
         selectedFilters,
       )

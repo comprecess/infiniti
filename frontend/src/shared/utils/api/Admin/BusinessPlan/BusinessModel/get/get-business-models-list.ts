@@ -2,15 +2,14 @@ import {
   AUTH_ERROR_MESSAGE,
   INVALID_RESPONSE_MESSAGE,
   NETWORK_ERROR_MESSAGE,
-  ProjectsNewProjectForm,
   REQUEST_TIMEOUT_MS,
-} from '../../../../../app/constants/constants'
-import { customFetch } from '../../custom-fetch'
-import { getAuthToken } from '../../get-auth-token'
+} from '../../../../../../../app/constants/constants'
+import { customFetch } from '../../../../custom-fetch'
+import { getAuthToken } from '../../../../get-auth-token'
 
 interface SuccessResponse {
   status: true
-  message: string
+  data: any
 }
 
 interface ErrorResponse {
@@ -21,14 +20,14 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-export const putEditProject = async (
-  idProject: number,
-  formData: Partial<ProjectsNewProjectForm>,
+export const getBusinessModelsList = async (
+  page: string,
+  filters?: Record<string, (string | number | null)[]>,
 ): Promise<Response> => {
-  if (!Number.isInteger(idProject) || idProject <= 0) {
+  if (!page || typeof page !== 'string') {
     return {
       status: false,
-      message: 'Invalid project ID',
+      message: 'Invalid page parameter',
     }
   }
 
@@ -43,7 +42,7 @@ export const putEditProject = async (
 
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const apiPath = import.meta.env.VITE_RESIDENT_PROJECTS_API
+    const apiPath = import.meta.env.VITE_RESIDENT_BUSINESS_MODEL
 
     if (!baseUrl || !apiPath) {
       return {
@@ -52,7 +51,17 @@ export const putEditProject = async (
       }
     }
 
-    const url = new URL(`${apiPath}/${idProject}`, baseUrl).toString()
+    const url = new URL(`${apiPath}/list${page}`, baseUrl)
+
+    if (filters) {
+      for (const [key, values] of Object.entries(filters)) {
+        values.forEach(value => {
+          if (value !== null) {
+            url.searchParams.append(`filter[${key}][]`, String(value))
+          }
+        })
+      }
+    }
 
     const controller = new AbortController()
     const timeoutId = setTimeout(
@@ -60,14 +69,13 @@ export const putEditProject = async (
       REQUEST_TIMEOUT_MS,
     )
 
-    const data = await customFetch(url, {
-      method: 'PUT',
+    const data = await customFetch(url.toString(), {
+      method: 'GET',
       headers: {
-        Accept: 'application/json',
         'Content-Type': 'application/json',
+        Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
-      body: JSON.stringify({ ...formData }),
       signal: controller.signal,
     })
 
@@ -85,7 +93,7 @@ export const putEditProject = async (
       }
     }
 
-    return data
+    return { status: true, data }
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') {
       return {

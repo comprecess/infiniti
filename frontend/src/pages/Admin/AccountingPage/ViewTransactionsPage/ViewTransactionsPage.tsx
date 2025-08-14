@@ -212,13 +212,23 @@ export const AdminViewTransactionsPage = () => {
           <RecentCard
             style={styles.cardSecond}
             title='View Transactions'
-            HeaderComponent={RecentRightButtons}
-            PagesComponent={viewTransactions ? PagesList : undefined}
-            headerProps={{
-              rightButtons: downloadFile,
-            }}
+            HeaderComponent={
+              viewTransactions.data.length > 0
+                ? RecentRightButtons
+                : undefined
+            }
+            PagesComponent={
+              viewTransactions.data.length > 0 ? PagesList : undefined
+            }
+            headerProps={
+              viewTransactions.data.length > 0
+                ? {
+                  rightButtons: downloadFile,
+                }
+                : undefined
+            }
             pagesProps={
-              viewTransactions
+              viewTransactions.data.length > 0
                 ? {
                   meta: viewTransactions?.meta,
                   nextPage: setPage,

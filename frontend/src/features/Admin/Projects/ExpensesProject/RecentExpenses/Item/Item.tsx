@@ -47,7 +47,6 @@ export const Item = ({
 
   return (
     <>
-      {' '}
       <div className={styles.wrapper}>
         <span className={`${styleItem.idColumn} ${styles.idItem}`}>
           {code}

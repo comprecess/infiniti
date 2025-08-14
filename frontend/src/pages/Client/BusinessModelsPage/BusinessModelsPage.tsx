@@ -15,7 +15,7 @@ import { CategoriesItem } from '../../../features/Admin/TalentsPage/CatalogTalen
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getBusinessModelProperties } from '../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/get-business-model-properties'
-import { postBusinessModelsList } from '../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/post-business-models-list'
+import { postBusinessModelsList } from '../../../shared/utils/api/Client/BusinessModels/post-business-models-list'
 import { getSession } from '../../../shared/utils/Saving/Session/GetSession'
 import styles from './BusinessModelsPage.module.scss'
 

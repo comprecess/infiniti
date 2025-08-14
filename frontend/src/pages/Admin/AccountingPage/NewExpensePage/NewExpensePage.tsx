@@ -44,7 +44,9 @@ export const AdminNewExpensePage = () => {
   const addNewTransaction = async () => {
     const { status, message } = await postCreateNewTransaction(
       isCreateForProject
-        ? `${import.meta.env.VITE_PROJECTS_API}/${projectId}/expenses`
+        ? `${
+          import.meta.env.VITE_RESIDENT_PROJECTS_API
+        }/${projectId}/expenses`
         : import.meta.env.VITE_ACCOUNTING_ADD_NEW_TRANSACTION,
       form,
       'Expense',

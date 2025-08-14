@@ -1,15 +1,23 @@
+import {
+  DndContext,
+  DragEndEvent,
+  DragOverlay,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core'
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
 import { useState } from 'react'
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
-import { TouchBackend } from 'react-dnd-touch-backend'
 
 import { GroupsListProps } from '../../../../../app/constants/constants'
 import { Item } from './Item/Item'
 import styles from './RecentReorderGroups.module.scss'
-
-const isMobileDevice = () => {
-  return navigator.maxTouchPoints > 0 && 'orientation' in window
-}
 
 interface RecentReorderGroupsProps {
   groupsList: GroupsListProps[]
@@ -20,47 +28,68 @@ export const RecentReorderGroups = ({
   groupsList,
   ReRequestGetGroups,
 }: RecentReorderGroupsProps) => {
-  const [idList, setIdList] = useState(groupsList.map(item => item.id))
   const [items, setItems] = useState(groupsList)
+  const [activeId, setActiveId] = useState<number | null>(null)
 
-  const moveItem = (dragIndex: number, hoverIndex: number) => {
-    const updatedItems = [...items]
-    const updatedIds = [...idList]
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 150, tolerance: 5 },
+    }),
+  )
 
-    const dragItem = updatedItems[dragIndex]
-    updatedItems[dragIndex] = updatedItems[hoverIndex]
-    updatedItems[hoverIndex] = dragItem
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+    if (!over) return
 
-    const dragId = updatedIds[dragIndex]
-    updatedIds[dragIndex] = updatedIds[hoverIndex]
-    updatedIds[hoverIndex] = dragId
-
-    setIdList(updatedIds)
-    setItems(updatedItems)
-  }
-
-  const handleSort = () => {
-    ReRequestGetGroups(idList)
+    if (active.id !== over.id) {
+      const oldIndex = items.findIndex(item => item.id === active.id)
+      const newIndex = items.findIndex(item => item.id === over.id)
+      const newItems = arrayMove(items, oldIndex, newIndex)
+      setItems(newItems)
+      ReRequestGetGroups(newItems.map(i => i.id))
+    }
+    setActiveId(null)
   }
 
   return (
-    <DndProvider backend={isMobileDevice() ? TouchBackend : HTML5Backend}>
+    <DndContext
+      sensors={sensors}
+      modifiers={[restrictToVerticalAxis]}
+      onDragStart={e => setActiveId(e.active.id as number)}
+      onDragEnd={handleDragEnd}
+      onDragCancel={() => setActiveId(null)}
+    >
       <div className={styles.wrapper}>
         <h5 className={styles.title}>
           Drag & drop the Items below for Repositioning. Click to Edit.
         </h5>
-        <div className={styles.list}>
-          {items.map((item, index) => (
-            <Item
-              key={item.id}
-              index={index}
-              name={item.name}
-              moveItem={moveItem}
-              sort={handleSort}
-            />
-          ))}
-        </div>
+        <SortableContext
+          items={items.map(i => i.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          <div className={styles.list}>
+            {items.map((item, index) => (
+              <Item
+                key={item.id}
+                id={item.id}
+                index={index}
+                name={item.name}
+              />
+            ))}
+          </div>
+        </SortableContext>
       </div>
-    </DndProvider>
+      <DragOverlay>
+        {activeId ? (
+          <Item
+            isOverlay
+            id={activeId}
+            index={items.findIndex(i => i.id === activeId)}
+            name={items.find(i => i.id === activeId)?.name || ''}
+          />
+        ) : null}
+      </DragOverlay>
+    </DndContext>
   )
 }

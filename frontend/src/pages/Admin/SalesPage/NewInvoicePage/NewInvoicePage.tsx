@@ -43,7 +43,9 @@ export const AdminNewInvoicePage = () => {
 
     const createResponse = await addNewInvoice(
       isCreateForProject
-        ? `${import.meta.env.VITE_PROJECTS_API}/${projectId}/invoices`
+        ? `${
+          import.meta.env.VITE_RESIDENT_PROJECTS_API
+        }/${projectId}/invoices`
         : import.meta.env.VITE_SALES_CREATE_NEW_INVOICE,
       formData,
     )
