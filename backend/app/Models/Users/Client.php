@@ -261,7 +261,7 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
 
     public static function getForSelect()
     {
-        return self::checkAccess('all', 'customers')->orderBy('account')->with(['group', 'companyClient'])->get();
+        return self::/*checkAccess('all', 'customers')->*/orderBy('account')->with(['group', 'companyClient'])->get();
     }
 
     public function getFullAddress($line = PHP_EOL)
