@@ -11,10 +11,15 @@ class RoleResource extends JsonResource
     public function toArray(Request $request): array
     {
 
-        return [
+        $data =  [
             'id' => $this->id,
             'name' => $this->rname,
-            'access' => RoleAccessResource::collection($this->access),
+//            'access' => RoleAccessResource::collection($this->access),
         ];
+        if($this->id){
+            $data['access'] = RoleAccessResource::collection($this->access);
+        }
+
+        return $data;
     }
 }
