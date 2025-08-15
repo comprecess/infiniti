@@ -2,7 +2,10 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 
-import { ViewPageContext } from '../../../../../app/constants/constants'
+import {
+  RolesAccess,
+  ViewPageContext,
+} from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
 import { RecentOffers } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/OffersPage/RecentOffers/RecentOffers'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -13,6 +16,11 @@ import styles from './OffersPage.module.scss'
 
 export const AdminContactOffersPage = () => {
   const context = useOutletContext<ViewPageContext>()
+
+  const { roles } = useOutletContext<{
+    roles?: { [key: string]: RolesAccess }
+  }>()
+
   const navigate = useNavigate()
 
   const { data: offers } = useQuery({
@@ -44,14 +52,23 @@ export const AdminContactOffersPage = () => {
     <div className={styles.wrapper}>
       {offers ? (
         <RecentCard
-          HeaderComponent={ButtonBlue}
-          headerProps={{
-            title: 'New Offer',
-            style: styles.headerButton,
-            onClick: navigateToCreateNewOffer,
-          }}
+          HeaderComponent={
+            roles && roles.sales.create === 0 ? undefined : ButtonBlue
+          }
+          headerProps={
+            roles && roles.sales.create === 0
+              ? undefined
+              : {
+                  title: 'New Offer',
+                  style: styles.headerButton,
+                  onClick: navigateToCreateNewOffer,
+                }
+          }
         >
-          <RecentOffers access={offers.access} list={offers.data} />
+          <RecentOffers
+            access={roles ? roles.sales : undefined}
+            list={offers.data}
+          />
         </RecentCard>
       ) : (
         <LoadingSpinner size='xl' />

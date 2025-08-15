@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 
 import {
   RolesAccess,
@@ -25,6 +25,10 @@ export const AdminCartPage = () => {
 
   const id = useIdFromUrl('cart')
   const navigate = useNavigate()
+
+  const { roles } = useOutletContext<{
+    roles?: { [key: string]: RolesAccess }
+  }>()
 
   const getOrders = async () => {
     if (id === null) return
@@ -93,6 +97,7 @@ export const AdminCartPage = () => {
             </RecentCard>
             <Basket
               isAdmin
+              access={roles ? roles.sales : undefined}
               subtotalCost={data.data.subTotal}
               taxesAmount={data.data.subTax}
               totalPrice={data.data.total}

@@ -2,7 +2,10 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 
-import { ViewPageContext } from '../../../../../app/constants/constants'
+import {
+  RolesAccess,
+  ViewPageContext,
+} from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
 import { Header } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/InvoicesPage/Header/Header'
 import { RecentInvoices } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/InvoicesPage/RecentInvoices/RecentInvoices'
@@ -13,6 +16,11 @@ import styles from './InvoicesPage.module.scss'
 
 export const AdminContactInvoicesPage = () => {
   const context = useOutletContext<ViewPageContext>()
+
+  const { roles } = useOutletContext<{
+    roles?: { [key: string]: RolesAccess }
+  }>()
+
   const navigate = useNavigate()
 
   const { data: invoices } = useQuery({
@@ -46,6 +54,7 @@ export const AdminContactInvoicesPage = () => {
         <RecentCard
           HeaderComponent={Header}
           headerProps={{
+            access: roles ? roles.sales : undefined,
             invoiceAmount: invoices.invoiceAmount,
             paidAmount: invoices.paidAmount,
             unPaidAmount: invoices.unpaidAmount,
@@ -53,7 +62,7 @@ export const AdminContactInvoicesPage = () => {
           }}
         >
           <RecentInvoices
-            access={invoices.access}
+            access={roles ? roles.sales : undefined}
             list={invoices.invoice}
           />
         </RecentCard>

@@ -1,4 +1,4 @@
-import { Dispatch, Fragment, SetStateAction } from 'react'
+import { Fragment } from 'react'
 
 import {
   RolesAccessObjectPermission,
@@ -15,61 +15,64 @@ interface RecentEditRoleProps {
     name: string
     access: SettingsRoleFormData[]
   } | null
-  setFormData: Dispatch<
-  SetStateAction<{
-    name: string
-    access: SettingsRoleFormData[]
-  } | null>
-  >
+  handleChangeAllPermissions: () => void
+  handleChangeFullItemPermission: (index: number) => void
+  handleChangeItemPermission: (
+    index: number,
+    field: keyof SettingsRoleFormData,
+    value: number,
+  ) => void
 }
 
 export const RecentEditRole = ({
   permission,
   formData,
-  setFormData,
+  handleChangeAllPermissions,
+  handleChangeItemPermission,
+  handleChangeFullItemPermission,
 }: RecentEditRoleProps) => {
-  const handleChange = (
-    index: number,
-    field: keyof SettingsRoleFormData,
-    value: number,
-  ) => {
-    if (!formData) return
-
-    const updatedAccess = [...formData.access]
-    updatedAccess[index][field] = value
-
-    setFormData({ ...formData, access: updatedAccess })
-  }
-
   return (
     <div className={styles.wrapper}>
-      <div className={styles.columns}>
-        <Title title='Permission' style={styles.permissionColumn} />
-        <Title title='View' style={styles.viewColumn} />
-        <Title title='Edit' style={styles.editColumn} />
-        <Title title='Create' style={styles.createColumn} />
-        <Title title='Delete' style={styles.deleteColumn} />
-        <Title title='All Data' style={styles.allInformationColumn} />
-      </div>
-      <div className={styles.items}>
-        {permission.map((item, index) => {
-          return (
-            <Fragment key={item.id}>
-              <Item
-                index={index}
-                name={item.name}
-                viewValue={formData?.access[index].view || 0}
-                editValue={formData?.access[index].edit || 0}
-                createValue={formData?.access[index].create || 0}
-                deleteValue={formData?.access[index].delete || 0}
-                allValue={formData?.access[index].all || 0}
-                handleChange={handleChange}
-              />
-              {index !== permission.length - 1 && <CustomDivider />}
-            </Fragment>
-          )
-        })}
-      </div>
+      {permission.length > 0 && formData ? (
+        <>
+          <div className={styles.columns}>
+            <Title
+              title='Permission'
+              style={styles.permissionColumn}
+              onTitleClick={handleChangeAllPermissions}
+            />
+            <Title title='View' style={styles.viewColumn} />
+            <Title title='Edit' style={styles.editColumn} />
+            <Title title='Create' style={styles.createColumn} />
+            <Title title='Delete' style={styles.deleteColumn} />
+            <Title title='All Data' style={styles.allInformationColumn} />
+          </div>
+          <div className={styles.items}>
+            {permission.map((item, index) => {
+              const accessItem = formData.access[index]
+
+              return (
+                <Fragment key={item.id}>
+                  <Item
+                    index={index}
+                    name={item.name}
+                    handleChangeItemPermission={handleChangeItemPermission}
+                    accessItem={{ ...accessItem }}
+                    handleChangeFullItemPermission={
+                      handleChangeFullItemPermission
+                    }
+                  />
+                  {index !== permission.length - 1 && <CustomDivider />}
+                </Fragment>
+              )
+            })}
+          </div>
+        </>
+      ) : (
+        <div className={styles.nothingFound}>
+          <span className={styles.nothingFoundText}>Nothing Found</span>
+        </div>
+      )}
     </div>
   )
 }

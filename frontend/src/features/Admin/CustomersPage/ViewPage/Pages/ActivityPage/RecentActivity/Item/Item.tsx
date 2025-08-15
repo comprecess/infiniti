@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { RolesAccess } from '../../../../../../../../app/constants/constants'
 import { ConfirmationModal } from '../../../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { sanitizeMessage } from '../../../../../../../../shared/utils/TextEditor/sanitizeMessage'
@@ -15,6 +16,7 @@ interface ItemProps {
   icon: string
   message: string
   time: string
+  access: RolesAccess
   deleteSelectedActivity: (idType: number) => void
   editActivity: (idType: number, icon: string, message: string) => void
 }
@@ -28,6 +30,7 @@ export const Item = ({
   icon,
   message,
   time,
+  access,
   editActivity,
   deleteSelectedActivity,
 }: ItemProps) => {
@@ -67,7 +70,7 @@ export const Item = ({
                 dangerouslySetInnerHTML={{ __html: safeHTML }}
                 className={styles.message}
               />
-              {noDelete === 0 && (
+              {noDelete === 0 && access.edit === 1 && (
                 <div className={styles.buttonsList}>
                   <CustomMiniButton
                     style='mint'

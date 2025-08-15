@@ -15,7 +15,7 @@ import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { Search } from '../../../../../shared/ui/Search/Search'
 import { getProjectInvoices } from '../../../../../shared/utils/api/Admin/Projects/get-project-invoices'
-import { deleteInvoice } from '../../../../../shared/utils/api/Admin/Sales/Invoices/DeleteInvoice'
+import { deleteInvoice } from '../../../../../shared/utils/api/Admin/Sales/Invoices/delete-invoice'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import styles from './InvoicesPage.module.scss'
 
@@ -114,19 +114,23 @@ export const AdminProjectsInvoicesPage = () => {
           <RecentCard
             title='Project Invoices'
             style={styles.recentFullScreen}
-            Component={data.access.create === 1 ? ButtonBlue : undefined}
             HeaderComponent={Search}
             PagesComponent={data.data.length > 0 ? PagesList : undefined}
+            Component={
+              context.roles && context.roles.sales.create === 0
+                ? undefined
+                : ButtonBlue
+            }
             componentProps={
-              data.access.create === 1
-                ? {
-                  titleNone: true,
-                  title: 'New Invoice',
-                  icon: '/icons/plus.svg',
-                  style: styles.buttonAddNewInvoice,
-                  onClick: navigateToCreateNewInvoice,
-                }
-                : undefined
+              context.roles && context.roles.sales.create === 0
+                ? undefined
+                : {
+                    titleNone: true,
+                    title: 'New Invoice',
+                    icon: '/icons/plus.svg',
+                    style: styles.buttonAddNewInvoice,
+                    onClick: navigateToCreateNewInvoice,
+                  }
             }
             headerProps={{
               style: styles.search,
@@ -135,15 +139,15 @@ export const AdminProjectsInvoicesPage = () => {
             pagesProps={
               data.data.length > 0
                 ? {
-                  meta: data.meta,
-                  nextPage: setPage,
-                  size: 'sm',
-                }
+                    meta: data.meta,
+                    nextPage: setPage,
+                    size: 'sm',
+                  }
                 : undefined
             }
           >
             <RecentInvoices
-              access={data.access}
+              access={context.roles ? context.roles.sales : undefined}
               invoicesList={data.data}
               changeSortName={changeSort}
               deleteInvoice={deleteSelectedInvoice}

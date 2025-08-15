@@ -217,20 +217,25 @@ export const AdminContactSummaryPage = () => {
                 </div>
                 <div className={styles.customFieldsWrapper}>
                   <div className={styles.customFieldsContainer}>
-                    <div className={styles.primaryContact}>
-                      <span className={styles.primaryContactText}>
-                        Primary Contact?
-                      </span>
-                      <CustomSwitch
-                        titleOnChange='primaryContact'
-                        isChecked={
-                          profileInfo.data.primaryContact === 0
-                            ? false
-                            : true
-                        }
-                        onChange={onChangeInput}
-                      />
-                    </div>
+                    {context.roles &&
+                    context.roles.customers.edit === 0 ? (
+                      <div style={{ display: 'none' }} />
+                    ) : (
+                      <div className={styles.primaryContact}>
+                        <span className={styles.primaryContactText}>
+                          Primary Contact?
+                        </span>
+                        <CustomSwitch
+                          titleOnChange='primaryContact'
+                          isChecked={
+                            profileInfo.data.primaryContact === 0
+                              ? false
+                              : true
+                          }
+                          onChange={onChangeInput}
+                        />
+                      </div>
+                    )}
                     <div>
                       {profileInfo.data.customFields.map(item => {
                         return (
@@ -310,26 +315,34 @@ export const AdminContactSummaryPage = () => {
                   >
                     Login As Customer
                   </span>
-                  <span className={styles.miniDivider}>|</span>
-                  <span
-                    className={styles.revokeCustomerText}
-                    onClick={() =>
-                      addInformationSeparately('autologin', '0')
-                    }
-                  >
-                    Revoke Auto Login
-                  </span>
-                  <span className={styles.miniDivider}>|</span>
-                  <span
-                    className={styles.reGenerateCustomerText}
-                    onClick={() =>
-                      addInformationSeparately('autologin', '1')
-                    }
-                  >
-                    Re Generate URL
-                  </span>
+                  {context.roles && context.roles.customers.edit === 0 ? (
+                    <div style={{ display: 'none' }} />
+                  ) : (
+                    <>
+                      <span className={styles.miniDivider}>|</span>
+                      <span
+                        className={styles.revokeCustomerText}
+                        onClick={() =>
+                          addInformationSeparately('autologin', '0')
+                        }
+                      >
+                        Revoke Auto Login
+                      </span>
+                      <span className={styles.miniDivider}>|</span>
+                      <span
+                        className={styles.reGenerateCustomerText}
+                        onClick={() =>
+                          addInformationSeparately('autologin', '1')
+                        }
+                      >
+                        Re Generate URL
+                      </span>
+                    </>
+                  )}
                 </div>
               </div>
+            ) : context.roles && context.roles.customers.edit === 0 ? (
+              <div style={{ display: 'none' }} />
             ) : (
               <span
                 className={styles.createAutoLogin}

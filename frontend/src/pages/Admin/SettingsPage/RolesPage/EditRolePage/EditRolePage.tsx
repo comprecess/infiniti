@@ -24,7 +24,7 @@ export const AdminEditRolePage = () => {
   } | null>(null)
 
   const [permission, setPermission] = useState<
-  RolesAccessObjectPermission[] | null
+    RolesAccessObjectPermission[] | null
   >(null)
 
   const id = useIdFromUrl('role')
@@ -57,6 +57,73 @@ export const AdminEditRolePage = () => {
     setPermission(
       getResponse.data.access.map(permission => permission.permission),
     )
+  }
+
+  const handleChangeAllPermissions = () => {
+    if (!formData) return
+
+    const allItemsOn = formData.access.every(item =>
+      [item.view, item.edit, item.create, item.delete, item.all].every(
+        v => v === 1,
+      ),
+    )
+
+    const newValue = allItemsOn ? 0 : 1
+
+    const updatedAccess = formData.access.map(item => ({
+      ...item,
+      view: newValue,
+      edit: newValue,
+      create: newValue,
+      delete: newValue,
+      all: newValue,
+    }))
+
+    setFormData({ ...formData, access: updatedAccess })
+  }
+
+  const handleChangeFullItemPermission = (index: number) => {
+    if (!formData) return
+
+    const currentItem = formData.access[index]
+
+    const allOn = [
+      currentItem.view,
+      currentItem.edit,
+      currentItem.create,
+      currentItem.delete,
+      currentItem.all,
+    ].every(v => v === 1)
+    const newValue = allOn ? 0 : 1
+
+    const updatedAccess = formData.access.map((item, i) =>
+      i === index
+        ? {
+            ...item,
+            view: newValue,
+            edit: newValue,
+            create: newValue,
+            delete: newValue,
+            all: newValue,
+          }
+        : item,
+    )
+
+    setFormData({ ...formData, access: updatedAccess })
+  }
+
+  const handleChangeItemPermission = (
+    index: number,
+    field: keyof SettingsRoleFormData,
+    value: number,
+  ) => {
+    if (!formData) return
+
+    const updatedAccess = formData.access.map((item, i) =>
+      i === index ? { ...item, [field]: value } : item,
+    )
+
+    setFormData({ ...formData, access: updatedAccess })
   }
 
   const postUpdateRole = async () => {
@@ -106,7 +173,11 @@ export const AdminEditRolePage = () => {
             <RecentEditRole
               permission={permission}
               formData={formData}
-              setFormData={setFormData}
+              handleChangeAllPermissions={handleChangeAllPermissions}
+              handleChangeItemPermission={handleChangeItemPermission}
+              handleChangeFullItemPermission={
+                handleChangeFullItemPermission
+              }
             />
           </RecentCard>
         ) : (

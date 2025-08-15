@@ -43,7 +43,7 @@ export const Item = ({
           {title}
         </span>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-          {access.delete === 1 && (
+          {access.edit === 1 && (
             <CustomMiniButton
               style='cherry'
               icon='/icons/trash.svg'

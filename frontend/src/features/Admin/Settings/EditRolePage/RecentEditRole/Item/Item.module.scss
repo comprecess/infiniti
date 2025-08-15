@@ -13,6 +13,8 @@
   letter-spacing: -0.03em;
   text-align: left;
   color: $white;
+  user-select: none;
+  cursor: pointer;
 }
 
 .checkBoxItem {

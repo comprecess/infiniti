@@ -7,7 +7,7 @@ import styleItem from '../RecentTransactions.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
-  access: RolesAccess
+  access: RolesAccess | undefined
   id: number
   date: string
   account: string
@@ -63,7 +63,9 @@ export const Item = ({
         {cr}
       </span>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        {access.edit === 1 && (
+        {access && access.edit === 0 ? (
+          <div style={{ display: 'none' }} />
+        ) : (
           <CustomMiniButton
             style='amber'
             icon='/icons/edit.svg'

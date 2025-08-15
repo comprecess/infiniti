@@ -1,3 +1,4 @@
+import { RolesAccess } from '../../../app/constants/constants'
 import { Item } from '../../../features/Client/BasketPage/BasketCart/Item/Item'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDivider } from '../../../shared/ui/CustomDivider/CustomDivider'
@@ -5,6 +6,7 @@ import styles from './Basket.module.scss'
 
 interface BasketProps {
   isAdmin?: boolean
+  access?: RolesAccess
   subtotalCost: string
   taxesAmount: string
   totalPrice: string
@@ -13,6 +15,7 @@ interface BasketProps {
 
 export const Basket = ({
   isAdmin = false,
+  access,
   subtotalCost,
   taxesAmount,
   totalPrice,
@@ -30,10 +33,14 @@ export const Basket = ({
         <h5 className={styles.totalPrice}>Total</h5>
         <h5 className={styles.totalPrice}>{totalPrice}</h5>
       </div>
-      <ButtonBlue
-        title={isAdmin ? 'Convert to Offer' : 'Proceed to checkout'}
-        onClick={buttonOnClick}
-      />
+      {isAdmin && access && access.create === 0 ? (
+        <div style={{ display: 'none' }} />
+      ) : (
+        <ButtonBlue title='Convert to Offer' onClick={buttonOnClick} />
+      )}
+      {!isAdmin && (
+        <ButtonBlue title='Proceed to checkout' onClick={buttonOnClick} />
+      )}
     </div>
   )
 }

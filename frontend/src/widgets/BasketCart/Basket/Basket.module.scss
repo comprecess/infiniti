@@ -3,7 +3,8 @@
   flex-direction: column;
   gap: 16px;
   width: 100%;
-  height: 289px;
+  height: fit-content;
+  max-height: 289px;
   padding: 24px;
   border-radius: 8px;
   background-color: $brand-900;

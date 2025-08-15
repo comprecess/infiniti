@@ -10,7 +10,7 @@ import { Item } from './Item/Item'
 import styles from './RecentInvoices.module.scss'
 
 interface RecentInvoicesProps {
-  access: RolesAccess
+  access: RolesAccess | undefined
   invoicesList: ViewInvoicesRecentData[]
   changeSortName: (sortNameItem: string, sortTypeItem: number) => void
   deleteInvoice: (idInvoice: number) => void

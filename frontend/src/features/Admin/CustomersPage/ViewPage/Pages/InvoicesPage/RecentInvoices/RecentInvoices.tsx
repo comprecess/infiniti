@@ -10,7 +10,7 @@ import { Item } from './Item/Item'
 import styles from './RecentInvoices.module.scss'
 
 interface RecentInvoicesProps {
-  access: RolesAccess
+  access: RolesAccess | undefined
   list: ViewInvoicesProps[]
 }
 

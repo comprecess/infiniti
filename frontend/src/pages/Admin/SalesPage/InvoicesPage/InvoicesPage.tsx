@@ -17,7 +17,7 @@ import { PagesList } from '../../../../features/Client/CatalogPage/TalentsList/P
 import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { deleteInvoice } from '../../../../shared/utils/api/Admin/Sales/Invoices/DeleteInvoice'
+import { deleteInvoice } from '../../../../shared/utils/api/Admin/Sales/Invoices/delete-invoice'
 import { getDocumentsInvoice } from '../../../../shared/utils/api/Admin/Sales/Invoices/get-documents-invoice'
 import { getListInvoices } from '../../../../shared/utils/api/Admin/Sales/Invoices/get-list-invoices'
 import { getStatInvoices } from '../../../../shared/utils/api/Admin/Sales/Invoices/get-stat-invoices'
@@ -98,9 +98,9 @@ export const AdminInvoicesPage = () => {
   })
 
   const deleteSelectedInvoice = async (idInvoice: number) => {
-    const deleteResponse = await deleteInvoice(idInvoice)
+    const { status, message } = await deleteInvoice(idInvoice)
 
-    if (deleteResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully deleted Invoice',
@@ -111,7 +111,7 @@ export const AdminInvoicesPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: deleteResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -304,10 +304,10 @@ export const AdminInvoicesPage = () => {
           pagesProps={
             invoicesData
               ? {
-                meta: invoicesData?.meta,
-                nextPage: updatePage,
-                size: 'sm',
-              }
+                  meta: invoicesData?.meta,
+                  nextPage: updatePage,
+                  size: 'sm',
+                }
               : undefined
           }
         >

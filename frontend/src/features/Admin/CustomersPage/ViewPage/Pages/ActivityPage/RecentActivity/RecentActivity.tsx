@@ -1,15 +1,20 @@
-import { ViewActivityTypeData } from '../../../../../../../app/constants/constants'
+import {
+  RolesAccess,
+  ViewActivityTypeData,
+} from '../../../../../../../app/constants/constants'
 import { Item } from './Item/Item'
 import styles from './RecentActivity.module.scss'
 
 interface RecentActivityProps {
   list: ViewActivityTypeData[]
+  access: RolesAccess
   deleteSelectedActivity: (idType: number) => void
   editActivity: (idType: number, icon: string, message: string) => void
 }
 
 export const RecentActivity = ({
   list,
+  access,
   deleteSelectedActivity,
   editActivity,
 }: RecentActivityProps) => {
@@ -27,6 +32,7 @@ export const RecentActivity = ({
             icon={item.icon}
             message={item.message}
             time={item.time}
+            access={access}
             deleteSelectedActivity={deleteSelectedActivity}
             editActivity={editActivity}
           />

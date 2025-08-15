@@ -5,7 +5,6 @@ import {
   CustomersFilesData,
   PagesMetaData,
   ProjectViewPageContext,
-  RolesAccess,
 } from '../../../../../app/constants/constants'
 import { AddDocumentModal } from '../../../../../features/Admin/DocumentsPage/AddDocumentModal/AddDocumentModal'
 import { RecentDocuments } from '../../../../../features/Admin/DocumentsPage/RecentDocuments/RecentDocuments'
@@ -25,7 +24,6 @@ export const AdminProjectsFilesPage = () => {
     files: CustomersFilesData[]
     meta: PagesMetaData
   } | null>(null)
-  const [access, setAccess] = useState<RolesAccess | null>(null)
 
   const [page, setPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
@@ -46,7 +44,6 @@ export const AdminProjectsFilesPage = () => {
 
     if (!response.status) return
 
-    setAccess(response.data.access)
     setData({ files: response.data.data, meta: response.data.meta })
   }
 
@@ -148,22 +145,26 @@ export const AdminProjectsFilesPage = () => {
     <>
       <div className={styles.wrapper}>
         <section className={styles.section}>
-          {data && access ? (
+          {data ? (
             <RecentCard
               title='Project Files'
               style={styles.recentFullScreen}
-              Component={access.create === 1 ? ButtonBlue : undefined}
               HeaderComponent={Search}
+              Component={
+                context.roles && context.roles.documents.create === 0
+                  ? undefined
+                  : ButtonBlue
+              }
               PagesComponent={
                 data.files.length > 0 ? PagesList : undefined
               }
               pagesProps={
                 data.files.length > 0
                   ? {
-                    meta: data.meta,
-                    nextPage: setPage,
-                    size: 'sm',
-                  }
+                      meta: data.meta,
+                      nextPage: setPage,
+                      size: 'sm',
+                    }
                   : undefined
               }
               headerProps={{
@@ -171,23 +172,25 @@ export const AdminProjectsFilesPage = () => {
                 onSearchChange: setSearch,
               }}
               componentProps={
-                access.create === 1
-                  ? {
-                    title: 'Add Document',
-                    icon: '/icons/plus.svg',
-                    titleNone: true,
-                    style: styles.buttonPlus,
-                    iconProps: styles.iconPlus,
-                    onClick: handleSetAddDocModal,
-                  }
-                  : undefined
+                context.roles && context.roles.documents.create === 0
+                  ? undefined
+                  : {
+                      title: 'Add Document',
+                      icon: '/icons/plus.svg',
+                      titleNone: true,
+                      style: styles.buttonPlus,
+                      iconProps: styles.iconPlus,
+                      onClick: handleSetAddDocModal,
+                    }
               }
             >
               <RecentDocuments
                 files={data.files}
                 changeSortName={changeSort}
-                access={access}
                 deleteFile={deleteFile}
+                access={
+                  context.roles ? context.roles.documents : undefined
+                }
               />
             </RecentCard>
           ) : (
