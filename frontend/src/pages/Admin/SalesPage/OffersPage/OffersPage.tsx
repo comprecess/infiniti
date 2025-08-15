@@ -181,18 +181,22 @@ export const AdminOffersPage = () => {
           <RecentCard
             title={`Total: ${offersData.meta.total}`}
             style={styles.recentFullScreen}
-            Component={offersData.access.create ? ButtonBlue : undefined}
             HeaderComponent={SearchAndButtons}
-            PagesComponent={PagesList}
+            PagesComponent={
+              offersData.data.length > 0 ? PagesList : undefined
+            }
+            Component={
+              offersData.access.create === 1 ? ButtonBlue : undefined
+            }
             componentProps={
-              offersData.access.create
+              offersData.access.create === 1
                 ? {
-                  titleNone: true,
-                  title: 'Add Offer',
-                  icon: '/icons/plus.svg',
-                  onClick: navigateToAddOffer,
-                  style: styles.buttonAddNewOffer,
-                }
+                    titleNone: true,
+                    title: 'Add Offer',
+                    icon: '/icons/plus.svg',
+                    onClick: navigateToAddOffer,
+                    style: styles.buttonAddNewOffer,
+                  }
                 : undefined
             }
             headerProps={{
@@ -200,11 +204,15 @@ export const AdminOffersPage = () => {
               searchChange: updateSearch,
               rightButtons: downloadFile,
             }}
-            pagesProps={{
-              meta: offersData.meta,
-              nextPage: updatePage,
-              size: 'sm',
-            }}
+            pagesProps={
+              offersData.data.length > 0
+                ? {
+                    meta: offersData.meta,
+                    nextPage: updatePage,
+                    size: 'sm',
+                  }
+                : undefined
+            }
           >
             <RecentOffers
               access={offersData.access}

@@ -19,14 +19,11 @@ export const CustomSwitch = ({
 }: ToggleProps) => {
   const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.target.checked
+
     onChange(titleOnChange, isChecked)
   }
 
   return (
-    <Switch
-      defaultChecked={isChecked}
-      size={size}
-      onChange={handleOnChange}
-    />
+    <Switch isChecked={isChecked} size={size} onChange={handleOnChange} />
   )
 }

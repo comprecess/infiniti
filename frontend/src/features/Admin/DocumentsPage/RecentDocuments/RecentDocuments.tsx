@@ -12,7 +12,7 @@ import styles from './RecentDocuments.module.scss'
 
 interface RecentDocumentsProps {
   files: CustomersFilesData[]
-  access: RolesAccess
+  access: RolesAccess | undefined
   deleteFile: (idFile: number) => void
   changeSortName: (sortNameItem: string, sortTypeItem: number) => void
 }

@@ -15,6 +15,7 @@ interface TitleProps {
     sortTypeItem: number,
   ) => void
   clearSort?: () => void
+  onTitleClick?: () => void
 }
 
 export const Title = ({
@@ -26,6 +27,7 @@ export const Title = ({
   sortIndex,
   changeSortName,
   clearSort,
+  onTitleClick,
 }: TitleProps) => {
   const [currentSortType, setCurrentSortType] = useState<number | null>(
     sortType || null,
@@ -55,7 +57,13 @@ export const Title = ({
       }
       onClick={handleClick}
     >
-      <span className={styles.title}>{title}</span>
+      <span
+        className={styles.title}
+        style={onTitleClick ? { cursor: 'pointer' } : undefined}
+        onClick={onTitleClick}
+      >
+        {title}
+      </span>
       {sorted && (
         <img
           src={'/icons/sort.svg'}

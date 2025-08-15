@@ -1,8 +1,10 @@
+import { RolesAccess } from '../../../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { TotalItem } from '../TotalItem/TotalItem'
 import styles from './Header.module.scss'
 
 interface HeaderProps {
+  access: RolesAccess | undefined
   invoiceAmount: string
   paidAmount: string
   unPaidAmount: string
@@ -10,6 +12,7 @@ interface HeaderProps {
 }
 
 export const Header = ({
+  access,
   invoiceAmount,
   paidAmount,
   unPaidAmount,
@@ -17,11 +20,15 @@ export const Header = ({
 }: HeaderProps) => {
   return (
     <div className={styles.wrapper}>
-      <ButtonBlue
-        title='New Invoice'
-        style={styles.buttonNewInvoices}
-        onClick={onClickButton}
-      />
+      {access && access.create === 0 ? (
+        <div style={{ display: 'none' }} />
+      ) : (
+        <ButtonBlue
+          title='New Invoice'
+          style={styles.buttonNewInvoices}
+          onClick={onClickButton}
+        />
+      )}
       <div className={styles.totalInfoList}>
         <TotalItem
           title='Invoice Amount'

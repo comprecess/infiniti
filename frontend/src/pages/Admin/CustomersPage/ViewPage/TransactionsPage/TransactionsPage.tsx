@@ -2,7 +2,10 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
-import { ViewPageContext } from '../../../../../app/constants/constants'
+import {
+  RolesAccess,
+  ViewPageContext,
+} from '../../../../../app/constants/constants'
 import { RecentTransactions } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/TransactionsPage/RecentTransactions/RecentTransactions'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/get-selected-type-info'
@@ -11,6 +14,10 @@ import styles from './TransactionsPage.module.scss'
 
 export const AdminContactTransactionsPage = () => {
   const context = useOutletContext<ViewPageContext>()
+
+  const { roles } = useOutletContext<{
+    roles?: { [key: string]: RolesAccess }
+  }>()
 
   const { data: transactions } = useQuery({
     queryKey: ['transactions', context.idClient],
@@ -36,7 +43,7 @@ export const AdminContactTransactionsPage = () => {
       {transactions ? (
         <RecentCard>
           <RecentTransactions
-            access={transactions.access}
+            access={roles ? roles.transactions : undefined}
             list={transactions.data}
           />
         </RecentCard>

@@ -10,7 +10,7 @@ import { Item } from './Item/Item'
 import styles from './RecentTransactions.module.scss'
 
 interface RecentTransactionsProps {
-  access: RolesAccess
+  access: RolesAccess | undefined
   list: ViewTransactionsTypeData[]
 }
 

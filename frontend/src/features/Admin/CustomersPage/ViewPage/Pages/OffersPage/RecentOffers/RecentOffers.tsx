@@ -12,7 +12,7 @@ import { Item } from './Item/Item'
 import styles from './RecentOffers.module.scss'
 
 interface RecentOffersProps {
-  access: RolesAccess
+  access: RolesAccess | undefined
   list: ViewOffersTypeData[]
 }
 

@@ -17,7 +17,7 @@ import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getSelectedInfoInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/get-selected-info-invoice'
 import { getTemplatesEmailInvoice } from '../../../../shared/utils/api/Admin/Sales/Invoices/get-templates-email-invoice'
-import { changeInvoiceStatus } from '../../../../shared/utils/api/Admin/Sales/Invoices/InvoiceChangeStage'
+import { putChangeInvoiceStatus } from '../../../../shared/utils/api/Admin/Sales/Invoices/put-change-invoice-status'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './ViewInvoicePage.module.scss'
@@ -44,11 +44,11 @@ export const AdminViewInvoicePage = () => {
 
   const setTemplateEmail = async (
     template:
-    | 'invoice-create'
-    | 'reminder'
-    | 'overdue'
-    | 'confirm'
-    | 'refund',
+      | 'invoice-create'
+      | 'reminder'
+      | 'overdue'
+      | 'confirm'
+      | 'refund',
   ) => {
     if (template === null || id === null) return
 
@@ -110,9 +110,9 @@ export const AdminViewInvoicePage = () => {
   const handleChangeStatus = async (stage: string) => {
     if (id === null) return
 
-    const changeResponse = await changeInvoiceStatus(id, stage)
+    const { status, message } = await putChangeInvoiceStatus(id, stage)
 
-    if (changeResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully changed your Invoice status',
@@ -122,7 +122,7 @@ export const AdminViewInvoicePage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: changeResponse.message,
+        description: message,
         status: 'error',
       })
     }

@@ -11,7 +11,7 @@ import styleItem from '../RecentInvoices.module.scss'
 import styles from './Item.module.scss'
 
 interface ItemProps {
-  access: RolesAccess
+  access: RolesAccess | undefined
   item: ViewInvoicesProps
 }
 
@@ -53,7 +53,9 @@ export const Item = ({ access, item }: ItemProps) => {
         <Status title={item.status} status={item.status} />
       </div>
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-        {access.view === 1 && (
+        {access && access.view === 0 ? (
+          <div style={{ display: 'none' }} />
+        ) : (
           <CustomMiniButton
             style='mint'
             icon='/icons/view.svg'
@@ -62,7 +64,9 @@ export const Item = ({ access, item }: ItemProps) => {
             onClick={handleNavigateToViewInvoice}
           />
         )}
-        {access.edit === 1 && (
+        {access && access.edit === 0 ? (
+          <div style={{ display: 'none' }} />
+        ) : (
           <CustomMiniButton
             style='amber'
             icon='/icons/edit.svg'

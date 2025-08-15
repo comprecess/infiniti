@@ -70,6 +70,7 @@ export interface ViewPageContext {
 export interface ProjectViewPageContext {
   idProject: number
   projectInfo: ProjectsData
+  roles: { [key: string]: RolesAccess } | undefined
 }
 
 export interface UpdateProfileInfoProps {

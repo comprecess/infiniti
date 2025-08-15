@@ -16,7 +16,7 @@ interface ItemProps {
   type: string
   amount: string
   description: string
-  access: RolesAccess
+  access: RolesAccess | undefined
   deleteExpense: (id: number) => void
 }
 
@@ -71,7 +71,9 @@ export const Item = ({
           {description}
         </span>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-          {access.edit === 1 && (
+          {access && access.edit === 0 ? (
+            <div style={{ display: 'none' }} />
+          ) : (
             <CustomMiniButton
               style='amber'
               icon='/icons/edit.svg'
@@ -80,7 +82,9 @@ export const Item = ({
               onClick={handleNavigateToEdit}
             />
           )}
-          {access.delete === 1 && (
+          {access && access.delete === 0 ? (
+            <div style={{ display: 'none' }} />
+          ) : (
             <CustomMiniButton
               style='cherry'
               icon='/icons/trash.svg'

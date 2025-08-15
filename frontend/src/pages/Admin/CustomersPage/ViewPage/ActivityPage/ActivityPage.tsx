@@ -27,7 +27,7 @@ export const AdminContactActivityPage = () => {
   const [selectedIdType, setSelectedIdType] = useState<number>(0)
 
   const [editActiveData, setEditActiveData] = useState<
-  EditActiveModalData | undefined
+    EditActiveModalData | undefined
   >()
 
   const [isEditActivityModal, setIsEditActivityModal] =
@@ -157,19 +157,27 @@ export const AdminContactActivityPage = () => {
     <div className={styles.wrapper}>
       {activity ? (
         <RecentCard
-          HeaderComponent={TextEditorWrapper}
-          headerProps={{
-            selectedIcon,
-            message,
-            setSelectedIcon,
-            setMessage,
-            addNewActivity,
-          }}
+          HeaderComponent={
+            activity.access.edit === 1 ? TextEditorWrapper : undefined
+          }
+          headerProps={
+            activity.access.edit === 1
+              ? {
+                  selectedIcon,
+                  message,
+                  access: activity.access,
+                  setSelectedIcon,
+                  setMessage,
+                  addNewActivity,
+                }
+              : undefined
+          }
         >
           {activity.data.length > 0 && (
             <RecentActivity
               deleteSelectedActivity={deleteSelectedActivity}
               editActivity={openEditModal}
+              access={activity.access}
               list={activity.data}
             />
           )}

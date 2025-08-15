@@ -10,7 +10,7 @@ import { Item } from './Item/Item'
 import styles from './RecentExpenses.module.scss'
 
 interface RecentExpensesProps {
-  access: RolesAccess
+  access: RolesAccess | undefined
   expensesList: ProjectsExpensesData[]
   changeSortName: (sortNameItem: string, sortTypeItem: number) => void
   deleteExpense: (id: number) => void

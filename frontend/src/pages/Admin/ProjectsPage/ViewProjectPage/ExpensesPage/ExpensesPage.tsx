@@ -115,19 +115,23 @@ export const AdminProjectsExpensesPage = () => {
           <RecentCard
             title='Project Expenses'
             style={styles.recentFullScreen}
-            Component={data.access.create === 1 ? ButtonBlue : undefined}
             HeaderComponent={Search}
             PagesComponent={data.data.length > 0 ? PagesList : undefined}
+            Component={
+              context.roles && context.roles.transactions.create === 0
+                ? undefined
+                : ButtonBlue
+            }
             componentProps={
-              data.access.create === 1
-                ? {
-                  titleNone: true,
-                  title: 'New Expense',
-                  icon: '/icons/plus.svg',
-                  style: styles.buttonAddNewExpense,
-                  onClick: navigateToCreateNewInvoice,
-                }
-                : undefined
+              context.roles && context.roles.transactions.create === 0
+                ? undefined
+                : {
+                    titleNone: true,
+                    title: 'New Expense',
+                    icon: '/icons/plus.svg',
+                    style: styles.buttonAddNewExpense,
+                    onClick: navigateToCreateNewInvoice,
+                  }
             }
             headerProps={{
               style: styles.search,
@@ -136,15 +140,17 @@ export const AdminProjectsExpensesPage = () => {
             pagesProps={
               data.data.length > 0
                 ? {
-                  meta: data.meta,
-                  nextPage: setPage,
-                  size: 'sm',
-                }
+                    meta: data.meta,
+                    nextPage: setPage,
+                    size: 'sm',
+                  }
                 : undefined
             }
           >
             <RecentExpenses
-              access={data.access}
+              access={
+                context.roles ? context.roles.transactions : undefined
+              }
               expensesList={data.data}
               changeSortName={changeSort}
               deleteExpense={handleDeleteExpense}

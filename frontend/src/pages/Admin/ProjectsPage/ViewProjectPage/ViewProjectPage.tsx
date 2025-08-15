@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useOutletContext } from 'react-router-dom'
 
-import { ProjectsData } from '../../../../app/constants/constants'
+import {
+  ProjectsData,
+  RolesAccess,
+} from '../../../../app/constants/constants'
 import { ProjectInfoSidebar } from '../../../../app/data/projectInfoSidebar'
 import { SideBar } from '../../../../features/Admin/CustomersPage/ViewPage/SideBar/SideBar'
 import { ArrowBackGroundIcon } from '../../../../shared/icons/ArrowBackGroundIcon'
@@ -20,6 +23,10 @@ export const AdminViewProjectPage = () => {
 
   const [touchStartX, setTouchStartX] = useState<number | null>(null)
   const [touchEndX, setTouchEndX] = useState<number | null>(null)
+
+  const { roles } = useOutletContext<{
+    roles?: { [key: string]: RolesAccess }
+  }>()
 
   const id = useIdFromUrl('project')
 
@@ -153,7 +160,7 @@ export const AdminViewProjectPage = () => {
                     </div>
                   )}
                 </div>
-                <Outlet context={{ idProject: id, projectInfo }} />
+                <Outlet context={{ idProject: id, projectInfo, roles }} />
               </main>
             </div>
           </div>

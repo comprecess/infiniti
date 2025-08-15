@@ -15,7 +15,7 @@ interface ItemProps {
   type: string
   authToken: string | undefined
   link: string
-  access: RolesAccess
+  access: RolesAccess | undefined
   deleteFile: (idFile: number) => void
 }
 
@@ -44,8 +44,8 @@ export const Item = ({
     const headers: HeadersInit =
       global === 0
         ? {
-          Authorization: `Bearer ${authToken}`,
-        }
+            Authorization: `Bearer ${authToken}`,
+          }
         : {}
 
     const response = await fetch(link, { headers })
@@ -77,7 +77,9 @@ export const Item = ({
             tooltipTitle='View or Download file'
             onClick={() => handleDownloadFile(link)}
           />
-          {access.edit === 1 && (
+          {access && access.edit === 0 ? (
+            <div style={{ display: 'none' }} />
+          ) : (
             <CustomMiniButton
               style='amber'
               icon='/icons/edit.svg'
@@ -86,7 +88,9 @@ export const Item = ({
               onClick={handleSetModalEdit}
             />
           )}
-          {access.delete === 1 && (
+          {access && access.delete === 0 ? (
+            <div style={{ display: 'none' }} />
+          ) : (
             <CustomMiniButton
               style='cherry'
               icon='/icons/trash.svg'

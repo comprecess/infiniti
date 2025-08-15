@@ -82,11 +82,15 @@ export const AdminContactFilesPage = () => {
     <div className={styles.wrapper}>
       {files ? (
         <RecentCard
-          HeaderComponent={Header}
-          headerProps={{
-            onChange: onChangeInput,
-            groupsList: files.listFiles,
-          }}
+          HeaderComponent={files.access.edit === 1 ? Header : undefined}
+          headerProps={
+            files.access.edit === 1
+              ? {
+                  onChange: onChangeInput,
+                  groupsList: files.listFiles,
+                }
+              : undefined
+          }
         >
           <RecentFiles
             access={files.access}
