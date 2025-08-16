@@ -4,6 +4,7 @@ namespace App\Models\Resident;
 
 use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Resident\Invoices\Invoice;
+use App\Models\Traits\BootTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\Traits\UserTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,7 @@ use App\Models\Resident\Project\Project;
 
 class Document extends Model implements InsertDefaultValueInterface
 {
-    use HasFactory, FileStorageTrait, InsertDefaultValueTrait, UserTrait;
+    use HasFactory, FileStorageTrait, InsertDefaultValueTrait, UserTrait, BootTrait;
 
     const TYPE_CONTACT = 'contact';
     const TYPE_PROJECT = 'project';
@@ -30,6 +31,11 @@ class Document extends Model implements InsertDefaultValueInterface
     protected $casts = [
         'updated_at' => 'datetime',
     ];
+
+    public function subscriptions()
+    {
+        return $this->hasMany(DocumentSubscribe::class, 'did');
+    }
 
     public function getDefault() :array
     {
