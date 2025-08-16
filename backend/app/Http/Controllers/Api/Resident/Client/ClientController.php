@@ -180,7 +180,7 @@ class ClientController extends MainClientController
         }
         $data = [
             'code' => Client::getNextCode($name),
-            'type' => self::getTypes(),
+            'type' => self::getTypes(mod: 'view'),
             'company' => CompanyResource::collection(Company::getForSelect()),
             'group' => GroupResource::collection(Group::getForSelect()),
             'currency' => CurrencyResource::collection(Currency::getForSelect()),
