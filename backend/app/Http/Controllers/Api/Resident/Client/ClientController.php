@@ -60,7 +60,7 @@ class ClientController extends MainClientController
     {
         $user = User::getAuth();
         $method = $request->getMethod();
-        if($request->type && $method = 'GET') {
+        if($request->type && $method == 'GET') {
             $type = Arr::get(self::TYPE_ACCESS, $request->type, null);
             if($type) {
                 return $user->myRole->access()->where('shortname', $type)->first();
