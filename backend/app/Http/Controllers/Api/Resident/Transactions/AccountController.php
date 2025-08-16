@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Api\Resident\Transactions;
 
 
+use App\Http\Controllers\Api\Resident\ResidentController;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Transactions\AccountEquityRequest;
 use App\Http\Requests\Resident\Transactions\AccountListRequest;
@@ -17,10 +18,9 @@ use App\Models\Resident\Transactions\Account;
 use App\Models\Resident\Transactions\Transaction;
 use App\Models\User;
 use App\Models\Users\Admin;
-use Illuminate\Support\Arr;
 
 
-class AccountController extends TransactionsAccessController
+class AccountController extends ResidentController
 {
     use CRUD {
         createOrUpdate as createOrUpdateCRUD;

@@ -31,6 +31,9 @@ use \App\Http\Controllers\Api\Resident;
         'transactions' => [
             Resident\Transactions\TransactionsAccessController::class
         ],
+        'bank_n_cash' => [
+            Resident\Transactions\AccountController::class
+        ],
         'assets' => [
             Resident\Transactions\AssetController::class
         ],
