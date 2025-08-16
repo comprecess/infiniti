@@ -37,4 +37,11 @@ class Delete extends View
         return response()->json(['success' => false]);
     }
 
+    public function files()
+    {
+        $id = $this->urlToMethod(true);
+        $result = $this->model->deleteDocument($id);
+        return response()->json(['success' => $result]);
+    }
+
 }
