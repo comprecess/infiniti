@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Resident\Client;
 
-use App\Http\Controllers\Api\Resident\Client\MainClientController;
 use App\Http\Requests\Interfaces\ConvertingPropertiesInterface;
 use App\Http\Requests\Traits\ConvertingPropertiesTrait;
 use App\Models\Users\Client;
@@ -38,7 +37,7 @@ class ClientCreateRequest extends FormRequest implements ConvertingPropertiesInt
             'groupId' => 'nullable|integer|exists:crm_groups,id',
             'ownerId' => 'nullable|integer|exists:sys_users,id',
             'type' => 'array|required',
-            'type.*' => 'required|in:' . implode(",", MainClientController::getTypes()),
+            'type.*' => 'required|in:' . implode(",", Client::TYPE),
             'country' => "nullable|string|in:" . implode(",", array_keys(Countries::list())),
             'customFields' => 'array|nullable',
         ];
