@@ -89,7 +89,7 @@ export const AdminProjectsExpensesPage = () => {
     [],
   )
 
-  const navigateToCreateNewInvoice = () => {
+  const navigateToCreateNewExpense = () => {
     navigate(
       // eslint-disable-next-line max-len
       `/${Routes.adminPages}/${Routes.accounting}/${Routes.new}/${Routes.expense}?create-for-project=${context.idProject}`,
@@ -130,7 +130,7 @@ export const AdminProjectsExpensesPage = () => {
                     title: 'New Expense',
                     icon: '/icons/plus.svg',
                     style: styles.buttonAddNewExpense,
-                    onClick: navigateToCreateNewInvoice,
+                    onClick: navigateToCreateNewExpense,
                   }
             }
             headerProps={{
@@ -148,12 +148,12 @@ export const AdminProjectsExpensesPage = () => {
             }
           >
             <RecentExpenses
-              access={
-                context.roles ? context.roles.transactions : undefined
-              }
               expensesList={data.data}
               changeSortName={changeSort}
               deleteExpense={handleDeleteExpense}
+              access={
+                context.roles ? context.roles.transactions : undefined
+              }
             />
           </RecentCard>
         ) : (
