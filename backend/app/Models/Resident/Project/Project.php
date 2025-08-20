@@ -48,6 +48,12 @@ class Project extends Model implements InsertDefaultValueInterface
         return $this->hasMany(Transaction::class, 'project_id');
     }
 
+    public function transactionExpense()
+    {
+        return $this->hasMany(Transaction::class, 'project_id')
+            ->where('type', Transaction::TYPE[1]);
+    }
+
     public function invoices()
     {
         return $this->hasMany(Invoice::class, 'pid');
