@@ -35,12 +35,26 @@ export const AdminProjectsSummaryPage = () => {
           <span className={styles.title}>
             {projectInfo.name || 'No project name'}
           </span>
-          <div className={styles.budget}>
-            <span className={styles.budgetTitle}>Budget:</span>
-            <span className={styles.budgetAmount}>
-              {projectInfo.budgetCurrency}
-            </span>
-          </div>
+          {(projectInfo.budget || projectInfo.expense) && (
+            <div className={styles.budgetExpense}>
+              {projectInfo.budget && (
+                <div className={styles.budget}>
+                  <span className={styles.budgetTitle}>Budget:</span>
+                  <span className={styles.budgetAmount}>
+                    {projectInfo.budget.format}
+                  </span>
+                </div>
+              )}
+              {projectInfo.expense && (
+                <div className={styles.budget}>
+                  <span className={styles.budgetTitle}>Expense:</span>
+                  <span className={styles.budgetAmount}>
+                    {projectInfo.expense.format}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
           {safeDetails && (
             <div className={styles.details}>
               <span className={styles.budgetTitle}>Details:</span>
@@ -109,7 +123,7 @@ export const AdminProjectsSummaryPage = () => {
                     {`${completed.percent}% tasks completed`}
                   </span>
                   <span className={styles.amount}>
-                    {`${completed.completed}/${completed.total}`}
+                    {`${completed.completed} / ${completed.total}`}
                   </span>
                 </div>
                 <div className={styles.tasksCompleted}>
@@ -117,6 +131,45 @@ export const AdminProjectsSummaryPage = () => {
                     className={styles.segment}
                     style={{
                       width: `${completed.percent}%`,
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+          {projectInfo.budget?.value && projectInfo.expense?.value && (
+            <div className={styles.tasks}>
+              <div className={styles.chart}>
+                <div className={styles.chartTexts}>
+                  {(() => {
+                    const percentSpent = Math.round(
+                      (projectInfo.expense.value /
+                        projectInfo.budget.value) *
+                        100,
+                    )
+
+                    return (
+                      <>
+                        <span className={styles.amount}>
+                          {`${percentSpent}% budget spent`}
+                        </span>
+                        <span className={styles.amount}>
+                          {`${projectInfo.expense.format} / ${projectInfo.budget.format}`}
+                        </span>
+                      </>
+                    )
+                  })()}
+                </div>
+                <div className={styles.tasksCompleted}>
+                  <div
+                    className={styles.segmentBudget}
+                    style={{
+                      width: `${Math.min(
+                        (projectInfo.expense.value /
+                          projectInfo.budget.value) *
+                          100,
+                        100,
+                      )}%`,
                     }}
                   />
                 </div>

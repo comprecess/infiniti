@@ -1,0 +1,25 @@
+.wrapper {
+  width: 100%;
+  max-width: $maxContentSize;
+  margin-bottom: 40px;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 75px;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.text {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+  color: $gray-300;
+}
+
+.icon {
+  transform: rotate(90deg);
+}

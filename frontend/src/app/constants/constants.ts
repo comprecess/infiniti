@@ -1509,8 +1509,14 @@ export interface ProjectsData {
   id: number
   name: string
   details: string
-  budget: string | null
-  budgetCurrency: string
+  budget: {
+    value: number
+    format: string
+  }
+  expense: {
+    value: number
+    format: string
+  }
   admin: { account: string; img: string }
   status: string
   summary: string

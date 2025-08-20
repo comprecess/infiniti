@@ -1,15 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import { TalentData } from '../../../app/constants/constants'
-import { Routes } from '../../../app/router/routes'
 import { AboutTalentCard } from '../../../features/Client/TalentDetailsPage/AboutTalentCard/AboutTalentCard'
 import { EducationCard } from '../../../features/Client/TalentDetailsPage/EducationCard/EducationCard'
 import { ProjectsExperienceCard } from '../../../features/Client/TalentDetailsPage/ProjectsExperienceCard/ProjectsExperienceCard'
 import { SimilarTalents } from '../../../features/Client/TalentDetailsPage/SimilarTalents/SimilarTalents'
 import { TalentCard } from '../../../features/Client/TalentDetailsPage/TalentCard/TalentCard'
-import { ChevronDownIcon } from '../../../shared/icons/ChevronDownIcon'
+import { BackButton } from '../../../shared/ui/BackButton/BackButton'
 import { ButtonBrand } from '../../../shared/ui/ButtonBrand/ButtonBrand'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getUserInfo } from '../../../shared/utils/api/Client/Catalog/User/get-user-info'
@@ -20,15 +18,6 @@ export const ClientTalentDetailsPage = () => {
   const similarTalentsRef = useRef<HTMLDivElement>(null)
 
   const id = useIdFromUrl('talent')
-  const navigate = useNavigate()
-
-  const handleNavigateBack = () => {
-    if (window.history.length - 3 <= 0) {
-      navigate(`/${Routes.clientPages}/${Routes.talents}`)
-    } else {
-      navigate(-1)
-    }
-  }
 
   const scrollToTop = useCallback(() => {
     setTimeout(() => {
@@ -60,6 +49,9 @@ export const ClientTalentDetailsPage = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0)
+  }, [id])
+
+  useEffect(() => {
     document.title = 'infiniti | Talent Details'
   }, [])
 
@@ -68,15 +60,7 @@ export const ClientTalentDetailsPage = () => {
       {talentInfo && talentInfo.data ? (
         <>
           <section className={styles.section}>
-            <div className={styles.item}>
-              <div
-                className={styles.buttonBack}
-                onClick={handleNavigateBack}
-              >
-                <ChevronDownIcon style={styles.buttonBackIcon} />
-                <span className={styles.buttonBackText}>Back</span>
-              </div>
-            </div>
+            <BackButton />
           </section>
           <section className={styles.section}>
             <div className={styles.listItems}>

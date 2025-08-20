@@ -44,11 +44,11 @@ export const AdminViewInvoicePage = () => {
 
   const setTemplateEmail = async (
     template:
-      | 'invoice-create'
-      | 'reminder'
-      | 'overdue'
-      | 'confirm'
-      | 'refund',
+    | 'invoice-create'
+    | 'reminder'
+    | 'overdue'
+    | 'confirm'
+    | 'refund',
   ) => {
     if (template === null || id === null) return
 

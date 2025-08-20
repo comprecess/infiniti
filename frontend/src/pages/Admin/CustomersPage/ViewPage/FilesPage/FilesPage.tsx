@@ -86,9 +86,9 @@ export const AdminContactFilesPage = () => {
           headerProps={
             files.access.edit === 1
               ? {
-                  onChange: onChangeInput,
-                  groupsList: files.listFiles,
-                }
+                onChange: onChangeInput,
+                groupsList: files.listFiles,
+              }
               : undefined
           }
         >

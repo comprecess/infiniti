@@ -1,19 +1,18 @@
 import { useQuery } from '@tanstack/react-query'
 import { Dayjs } from 'dayjs'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useNavigate, useOutletContext } from 'react-router-dom'
+import { useOutletContext } from 'react-router-dom'
 
 import {
   RolesAccess,
   TalentData,
 } from '../../../../app/constants/constants'
-import { Routes } from '../../../../app/router/routes'
 import { AboutTalentCard } from '../../../../features/Admin/TalentsPage/ViewTalentPage/AboutTalentCard/AboutTalentCard'
 import { EducationCard } from '../../../../features/Admin/TalentsPage/ViewTalentPage/EducationCard/EducationCard'
 import { ProjectsExperienceCard } from '../../../../features/Admin/TalentsPage/ViewTalentPage/ProjectsExperienceCard/ProjectsExperienceCard'
 import { SimilarTalents } from '../../../../features/Admin/TalentsPage/ViewTalentPage/SimilarTalents/SimilarTalents'
 import { TalentCard } from '../../../../features/Admin/TalentsPage/ViewTalentPage/TalentCard/TalentCard'
-import { ChevronDownIcon } from '../../../../shared/icons/ChevronDownIcon'
+import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
 import { ButtonBrand } from '../../../../shared/ui/ButtonBrand/ButtonBrand'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
@@ -33,20 +32,11 @@ export const AdminViewTalentPage = () => {
   const similarTalentsRef = useRef<HTMLDivElement>(null)
 
   const id = useIdFromUrl('talent')
-  const navigate = useNavigate()
   const showToast = useCustomToast()
 
   const { roles } = useOutletContext<{
     roles?: { [key: string]: RolesAccess }
   }>()
-
-  const handleNavigateBack = () => {
-    if (window.history.length - 3 <= 0) {
-      navigate(`/${Routes.adminPages}/${Routes.talents}/${Routes.catalog}`)
-    } else {
-      navigate(-1)
-    }
-  }
 
   const scrollToTop = useCallback(() => {
     setTimeout(() => {
@@ -146,15 +136,7 @@ export const AdminViewTalentPage = () => {
         {talentInfo && talentInfo.data ? (
           <>
             <section className={styles.section}>
-              <div className={styles.item}>
-                <div
-                  className={styles.buttonBack}
-                  onClick={handleNavigateBack}
-                >
-                  <ChevronDownIcon style={styles.buttonBackIcon} />
-                  <span className={styles.buttonBackText}>Back</span>
-                </div>
-              </div>
+              <BackButton />
             </section>
             <section className={styles.section}>
               <div className={styles.listItems}>

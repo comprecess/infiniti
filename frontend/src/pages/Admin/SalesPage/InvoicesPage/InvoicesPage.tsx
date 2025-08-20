@@ -304,10 +304,10 @@ export const AdminInvoicesPage = () => {
           pagesProps={
             invoicesData
               ? {
-                  meta: invoicesData?.meta,
-                  nextPage: updatePage,
-                  size: 'sm',
-                }
+                meta: invoicesData?.meta,
+                nextPage: updatePage,
+                size: 'sm',
+              }
               : undefined
           }
         >

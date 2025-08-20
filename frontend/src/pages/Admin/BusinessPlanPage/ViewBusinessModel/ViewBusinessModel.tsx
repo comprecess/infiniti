@@ -1,13 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 
-import { Routes } from '../../../../app/router/routes'
 import { ListInfoItem } from '../../../../features/Client/TalentDetailsPage/ListInfoItem/ListInfoItem'
 import { TextInfoItem } from '../../../../features/Client/TalentDetailsPage/TextInfoItem/TextInfoItem'
 import { TitleCard } from '../../../../features/Client/TalentDetailsPage/TitleCard/TitleCard'
 import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
-import { ChevronDownIcon } from '../../../../shared/icons/ChevronDownIcon'
+import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { StatusProfitability } from '../../../../shared/ui/StatusProfitability/StatusProfitability'
 import { getBusinessModelFullInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/get-business-model-full-info'
@@ -17,7 +15,6 @@ import styles from './ViewBusinessModel.module.scss'
 
 export const AdminViewBusinessModel = () => {
   const id = useIdFromUrl('business-model')
-  const navigate = useNavigate()
 
   const { data: model } = useQuery({
     queryKey: ['model', id],
@@ -33,16 +30,6 @@ export const AdminViewBusinessModel = () => {
     placeholderData: previousData => previousData,
   })
 
-  const handleNavigateBack = () => {
-    if (window.history.length - 3 <= 0) {
-      navigate(
-        `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.businessModels}`,
-      )
-    } else {
-      navigate(-1)
-    }
-  }
-
   const isValidHTML = (value?: string) => {
     return !!value && value !== '<p><br></p>'
   }
@@ -56,15 +43,7 @@ export const AdminViewBusinessModel = () => {
       {model ? (
         <section className={styles.section}>
           <section className={styles.section}>
-            <div className={styles.item}>
-              <div
-                className={styles.buttonBack}
-                onClick={handleNavigateBack}
-              >
-                <ChevronDownIcon style={styles.buttonBackIcon} />
-                <span className={styles.buttonBackText}>Back</span>
-              </div>
-            </div>
+            <BackButton />
           </section>
           <div className={styles.titleModel}>
             <TitlePage title={model.title} />

@@ -177,6 +177,8 @@ export const AdminContactSummaryPage = () => {
     }
   }, [updateInfo, updateData])
 
+  const editPrimary = context.roles && context.roles.customers.edit === 0
+
   return (
     <div className={styles.wrapper}>
       {profileInfo ? (
@@ -217,8 +219,7 @@ export const AdminContactSummaryPage = () => {
                 </div>
                 <div className={styles.customFieldsWrapper}>
                   <div className={styles.customFieldsContainer}>
-                    {context.roles &&
-                    context.roles.customers.edit === 0 ? (
+                    {editPrimary ? (
                       <div style={{ display: 'none' }} />
                     ) : (
                       <div className={styles.primaryContact}>

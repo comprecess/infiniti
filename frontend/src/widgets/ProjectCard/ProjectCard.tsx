@@ -63,9 +63,16 @@ export const ProjectCard = ({
             <span className={styles.name}>{project.admin.account}</span>
           </div>
           <div className={styles.container}>
-            <div className={styles.budget}>
-              {`Budget: ${project.budgetCurrency}`}
-            </div>
+            {project.budget && (
+              <div className={styles.budget}>
+                {`Budget: ${project.budget.format}`}
+              </div>
+            )}
+            {project.expense && (
+              <div className={styles.budget}>
+                {`Expense: ${project.expense.format}`}
+              </div>
+            )}
             {project.summary && (
               <div className={styles.description}>{project.summary}</div>
             )}
@@ -148,7 +155,7 @@ export const ProjectCard = ({
                   {`${project.completed.percent}% tasks completed`}
                 </span>
                 <span className={styles.amount}>
-                  {`${project.completed.completed}/${project.completed.total}`}
+                  {`${project.completed.completed} / ${project.completed.total}`}
                 </span>
               </div>
               <div className={styles.tasksCompleted}>
@@ -156,6 +163,39 @@ export const ProjectCard = ({
                   className={styles.segment}
                   style={{
                     width: `${project.completed.percent}%`,
+                  }}
+                />
+              </div>
+            </div>
+          )}
+          {project.budget.value > 0 && (
+            <div className={styles.chart}>
+              <div className={styles.chartTexts}>
+                {(() => {
+                  const percentSpent = Math.round(
+                    (project.expense.value / project.budget.value) * 100,
+                  )
+
+                  return (
+                    <>
+                      <span className={styles.amount}>
+                        {`${percentSpent}% budget spent`}
+                      </span>
+                      <span className={styles.amount}>
+                        {`${project.expense.format} / ${project.budget.format}`}
+                      </span>
+                    </>
+                  )
+                })()}
+              </div>
+              <div className={styles.tasksCompleted}>
+                <div
+                  className={styles.segmentBudget}
+                  style={{
+                    width: `${Math.min(
+                      (project.expense.value / project.budget.value) * 100,
+                      100,
+                    )}%`,
                   }}
                 />
               </div>

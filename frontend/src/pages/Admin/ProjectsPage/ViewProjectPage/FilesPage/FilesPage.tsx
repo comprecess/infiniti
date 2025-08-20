@@ -161,10 +161,10 @@ export const AdminProjectsFilesPage = () => {
               pagesProps={
                 data.files.length > 0
                   ? {
-                      meta: data.meta,
-                      nextPage: setPage,
-                      size: 'sm',
-                    }
+                    meta: data.meta,
+                    nextPage: setPage,
+                    size: 'sm',
+                  }
                   : undefined
               }
               headerProps={{
@@ -175,13 +175,13 @@ export const AdminProjectsFilesPage = () => {
                 context.roles && context.roles.documents.create === 0
                   ? undefined
                   : {
-                      title: 'Add Document',
-                      icon: '/icons/plus.svg',
-                      titleNone: true,
-                      style: styles.buttonPlus,
-                      iconProps: styles.iconPlus,
-                      onClick: handleSetAddDocModal,
-                    }
+                    title: 'Add Document',
+                    icon: '/icons/plus.svg',
+                    titleNone: true,
+                    style: styles.buttonPlus,
+                    iconProps: styles.iconPlus,
+                    onClick: handleSetAddDocModal,
+                  }
               }
             >
               <RecentDocuments

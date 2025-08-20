@@ -113,7 +113,7 @@ export const ClientTalentsPage = () => {
                   return (
                     <CategoriesItem
                       key={index + 1}
-                      name={category.value}
+                      name={category.value.replace(/&amp;/g, '&')}
                       isActive={activeCategory === index + 1}
                       onClick={() => setActiveCategory(index + 1)}
                     />
