@@ -191,12 +191,12 @@ export const AdminOffersPage = () => {
             componentProps={
               offersData.access.create === 1
                 ? {
-                    titleNone: true,
-                    title: 'Add Offer',
-                    icon: '/icons/plus.svg',
-                    onClick: navigateToAddOffer,
-                    style: styles.buttonAddNewOffer,
-                  }
+                  titleNone: true,
+                  title: 'Add Offer',
+                  icon: '/icons/plus.svg',
+                  onClick: navigateToAddOffer,
+                  style: styles.buttonAddNewOffer,
+                }
                 : undefined
             }
             headerProps={{
@@ -207,10 +207,10 @@ export const AdminOffersPage = () => {
             pagesProps={
               offersData.data.length > 0
                 ? {
-                    meta: offersData.meta,
-                    nextPage: updatePage,
-                    size: 'sm',
-                  }
+                  meta: offersData.meta,
+                  nextPage: updatePage,
+                  size: 'sm',
+                }
                 : undefined
             }
           >

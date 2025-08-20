@@ -126,12 +126,12 @@ export const AdminProjectsExpensesPage = () => {
               context.roles && context.roles.transactions.create === 0
                 ? undefined
                 : {
-                    titleNone: true,
-                    title: 'New Expense',
-                    icon: '/icons/plus.svg',
-                    style: styles.buttonAddNewExpense,
-                    onClick: navigateToCreateNewExpense,
-                  }
+                  titleNone: true,
+                  title: 'New Expense',
+                  icon: '/icons/plus.svg',
+                  style: styles.buttonAddNewExpense,
+                  onClick: navigateToCreateNewExpense,
+                }
             }
             headerProps={{
               style: styles.search,
@@ -140,10 +140,10 @@ export const AdminProjectsExpensesPage = () => {
             pagesProps={
               data.data.length > 0
                 ? {
-                    meta: data.meta,
-                    nextPage: setPage,
-                    size: 'sm',
-                  }
+                  meta: data.meta,
+                  nextPage: setPage,
+                  size: 'sm',
+                }
                 : undefined
             }
           >

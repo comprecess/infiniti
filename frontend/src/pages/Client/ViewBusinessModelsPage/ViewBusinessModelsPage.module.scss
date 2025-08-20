@@ -9,6 +9,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
   background-color: $brand-900;
   padding: 32px 32px 32px 32px;
   border-radius: 8px;
@@ -26,16 +27,25 @@
   flex-direction: column;
   gap: 24px;
   width: 100%;
+  height: 100%;
 }
 
-.businessModelImg {
+.imgContainer {
   width: 50%;
-  object-fit: cover;
+  height: 100%;
+  max-width: 740px;
+  max-height: 740px;
   border-radius: 8px;
+  overflow: hidden;
 
   @include mobileBreakpoint('max', $bpL) {
     width: 100%;
   }
+}
+
+.businessModelImg {
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 .aboutModel {
@@ -54,6 +64,7 @@
   flex-direction: row;
   gap: 20px;
   width: 100%;
+  height: 100%;
 
   @include mobileBreakpoint('max', $bpL) {
     flex-direction: column;
@@ -86,28 +97,23 @@
   justify-content: space-between;
 }
 
-.item {
-  width: 100%;
-  max-width: $maxContentSize;
-  margin-bottom: 40px;
-}
+.categoryContent {
+  p {
+    font-size: 15px;
+    margin: 0;
+    padding: 0;
+  }
 
-.buttonBack {
-  display: flex;
-  flex-direction: row;
-  width: 75px;
-  gap: 8px;
-  cursor: pointer;
-}
+  a {
+    font-size: 15px;
+    color: $brand-500;
+    text-decoration: underline;
+  }
 
-.buttonBackText {
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 24px;
-  letter-spacing: -0.03em;
-  color: $gray-300;
-}
-
-.buttonBackIcon {
-  transform: rotate(90deg);
+  ol,
+  li {
+    margin-left: 14px;
+    list-style-position: inside;
+    font-size: 15px;
+  }
 }

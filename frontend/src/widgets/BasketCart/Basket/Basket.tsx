@@ -33,10 +33,10 @@ export const Basket = ({
         <h5 className={styles.totalPrice}>Total</h5>
         <h5 className={styles.totalPrice}>{totalPrice}</h5>
       </div>
-      {isAdmin && access && access.create === 0 ? (
-        <div style={{ display: 'none' }} />
-      ) : (
+      {isAdmin && (!access || access.create === 1) ? (
         <ButtonBlue title='Convert to Offer' onClick={buttonOnClick} />
+      ) : (
+        <div style={{ display: 'none' }} />
       )}
       {!isAdmin && (
         <ButtonBlue title='Proceed to checkout' onClick={buttonOnClick} />

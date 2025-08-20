@@ -25,7 +25,7 @@ interface ModelsListProps {
   isAdmin: boolean
   modelsList:
   | {
-    access: RolesAccess
+    access?: RolesAccess
     data: BusinessPlanBusinessModelData[]
     meta: PagesMetaData
   }
@@ -111,7 +111,6 @@ export const ModelsList = ({
                     return (
                       <BusinessModelCard
                         key={model.id}
-                        access={modelsList.access}
                         id={model.id}
                         isAdmin={isAdmin}
                         title={model.title}
@@ -123,6 +122,7 @@ export const ModelsList = ({
                         location={model.location}
                         profitability={model.profitability[0].value}
                         isOpen={modelsOpen[index]}
+                        access={modelsList.access}
                         onMobileCLick={() => handleModelOpenClose(index)}
                         onNavigate={handleNavigateToViewBusinessModel}
                         onEdit={handleNavigateToEditBusinessModel}

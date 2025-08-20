@@ -59,10 +59,10 @@ export const AdminContactOffersPage = () => {
             roles && roles.sales.create === 0
               ? undefined
               : {
-                  title: 'New Offer',
-                  style: styles.headerButton,
-                  onClick: navigateToCreateNewOffer,
-                }
+                title: 'New Offer',
+                style: styles.headerButton,
+                onClick: navigateToCreateNewOffer,
+              }
           }
         >
           <RecentOffers

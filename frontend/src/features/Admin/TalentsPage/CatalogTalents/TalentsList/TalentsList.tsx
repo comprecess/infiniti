@@ -5,11 +5,9 @@ import {
   PagesMetaData,
   RolesAccess,
   TalentData,
-  userTalentsPageString,
 } from '../../../../../app/constants/constants'
 import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { saveSession } from '../../../../../shared/utils/Saving/Session/SaveSession'
 import { TalentsCard } from '../../../../../widgets/TalentsCard/TalentsCard'
 import { PagesList } from '../../../../Client/CatalogPage/TalentsList/PagesList/PagesList'
 import { SortList } from '../../../../Client/CatalogPage/TalentsList/SortList/SortList'
@@ -41,10 +39,10 @@ export const TalentsList = ({
   const { t } = useTranslation()
 
   const handlePageChange = useCallback((page: number) => {
-    saveSession(userTalentsPageString, page)
     setCurrentPage(page)
 
     const element = document.getElementById('talents')
+
     if (element) {
       const offset = 100
       const top =

@@ -29,12 +29,12 @@ export const Item = ({
 
   return (
     <div className={styles.wrapper}>
-      <a
-        href=''
+      <span
         className={`${styleItem.hashtagColumn} ${styles.hashtagItem}`}
+        onClick={handleNavigateToView}
       >
         {code}
-      </a>
+      </span>
       <span className={`${styleItem.amountColumn} ${styles.amountItem}`}>
         {amount}
       </span>

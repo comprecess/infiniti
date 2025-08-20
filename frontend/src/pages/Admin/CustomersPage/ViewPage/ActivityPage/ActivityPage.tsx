@@ -27,7 +27,7 @@ export const AdminContactActivityPage = () => {
   const [selectedIdType, setSelectedIdType] = useState<number>(0)
 
   const [editActiveData, setEditActiveData] = useState<
-    EditActiveModalData | undefined
+  EditActiveModalData | undefined
   >()
 
   const [isEditActivityModal, setIsEditActivityModal] =
@@ -163,13 +163,13 @@ export const AdminContactActivityPage = () => {
           headerProps={
             activity.access.edit === 1
               ? {
-                  selectedIcon,
-                  message,
-                  access: activity.access,
-                  setSelectedIcon,
-                  setMessage,
-                  addNewActivity,
-                }
+                selectedIcon,
+                message,
+                access: activity.access,
+                setSelectedIcon,
+                setMessage,
+                addNewActivity,
+              }
               : undefined
           }
         >

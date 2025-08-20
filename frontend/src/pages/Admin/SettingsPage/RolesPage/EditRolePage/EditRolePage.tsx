@@ -24,7 +24,7 @@ export const AdminEditRolePage = () => {
   } | null>(null)
 
   const [permission, setPermission] = useState<
-    RolesAccessObjectPermission[] | null
+  RolesAccessObjectPermission[] | null
   >(null)
 
   const id = useIdFromUrl('role')
@@ -99,13 +99,13 @@ export const AdminEditRolePage = () => {
     const updatedAccess = formData.access.map((item, i) =>
       i === index
         ? {
-            ...item,
-            view: newValue,
-            edit: newValue,
-            create: newValue,
-            delete: newValue,
-            all: newValue,
-          }
+          ...item,
+          view: newValue,
+          edit: newValue,
+          create: newValue,
+          delete: newValue,
+          all: newValue,
+        }
         : item,
     )
 

@@ -125,12 +125,12 @@ export const AdminProjectsInvoicesPage = () => {
               context.roles && context.roles.sales.create === 0
                 ? undefined
                 : {
-                    titleNone: true,
-                    title: 'New Invoice',
-                    icon: '/icons/plus.svg',
-                    style: styles.buttonAddNewInvoice,
-                    onClick: navigateToCreateNewInvoice,
-                  }
+                  titleNone: true,
+                  title: 'New Invoice',
+                  icon: '/icons/plus.svg',
+                  style: styles.buttonAddNewInvoice,
+                  onClick: navigateToCreateNewInvoice,
+                }
             }
             headerProps={{
               style: styles.search,
@@ -139,10 +139,10 @@ export const AdminProjectsInvoicesPage = () => {
             pagesProps={
               data.data.length > 0
                 ? {
-                    meta: data.meta,
-                    nextPage: setPage,
-                    size: 'sm',
-                  }
+                  meta: data.meta,
+                  nextPage: setPage,
+                  size: 'sm',
+                }
                 : undefined
             }
           >
