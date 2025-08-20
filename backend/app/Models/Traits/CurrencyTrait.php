@@ -100,4 +100,13 @@ trait CurrencyTrait
         $price = round($price * $this->getRate($currencyTransform), 2);
         return $print ? $this->printPrice($price, $currencyTransform ?? Currency::getDefault()) : $price;
     }
+
+    public function getCurrencyValueAndFormat($nameColumn, ?Currency $currencyTransform = null) :array
+    {
+        $price = (float) (is_string($nameColumn) ? $this->{$nameColumn} : $nameColumn);
+        return [
+            'value' => round($price,2),
+            'format' => $this->printPrice($price, $currencyTransform)
+        ];
+    }
 }

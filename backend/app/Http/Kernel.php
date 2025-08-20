@@ -6,6 +6,7 @@ use App\Http\Middleware\Access\AccessResponse;
 use App\Http\Middleware\Access\HaveAccess;
 use App\Http\Middleware\Auth\Authenticate;
 use App\Http\Middleware\StatusResponse;
+use App\Http\Middleware\Test\DBQueryLog;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -72,6 +73,7 @@ class Kernel extends HttpKernel
         'statusResponse' => StatusResponse::class,
         'haveAccess' => HaveAccess::class,
         'accessResponse' => AccessResponse::class,
-        'my_auth' => Authenticate::class
+        'my_auth' => Authenticate::class,
+//        'testDB' => DBQueryLog::class
     ];
 }

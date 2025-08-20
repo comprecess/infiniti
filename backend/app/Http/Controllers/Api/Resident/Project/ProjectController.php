@@ -16,6 +16,7 @@ use App\Models\Resident\Project\Project;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends ProjectAccessController
 {
@@ -54,7 +55,7 @@ class ProjectController extends ProjectAccessController
         }
 
         $projectQuery
-            ->with(['admin.files', 'admin.myRole'])
+            ->with(['admin.files', 'admin.myRole', 'getCurrencyIso', 'transactionExpense', 'transactionExpense.getCurrencyIso'])
             ->orderBy('id', 'desc')
             ->limit(100);
 
