@@ -135,9 +135,9 @@ export const AdminViewTalentPage = () => {
       <div className={styles.wrapper}>
         {talentInfo && talentInfo.data ? (
           <>
-            <section className={styles.section}>
+            <div className={styles.backButton}>
               <BackButton />
-            </section>
+            </div>
             <section className={styles.section}>
               <div className={styles.listItems}>
                 <TalentCard

@@ -12,6 +12,7 @@ import { EmailPanel } from '../../../../features/Admin/Sales/ViewOfferPage/Email
 import { Footer } from '../../../../features/Admin/Sales/ViewOfferPage/Footer/Footer'
 import { Header } from '../../../../features/Admin/Sales/ViewOfferPage/Header/Header'
 import { RecentOffers } from '../../../../features/Admin/Sales/ViewOfferPage/RecentOffers/RecentOffers'
+import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
 import { ConfirmationModal } from '../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
@@ -174,6 +175,9 @@ export const AdminViewOfferPage = () => {
     <div className={styles.wrapper}>
       {info ? (
         <section className={styles.section}>
+          <div className={styles.backButton}>
+            <BackButton />
+          </div>
           <CustomInput
             readOnly
             title='Unique Offer URL:'

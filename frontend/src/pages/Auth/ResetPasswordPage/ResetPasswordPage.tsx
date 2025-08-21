@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { Routes } from '../../../app/router/routes'
 import { ResetPasswordForm } from '../../../features/Auth/ResetPasswordForm/ResetPasswordForm'
 import { IconText } from '../../../shared/ui/IconText/IconText'
 import { AuthForm } from '../AuthForm/AuthForm'
@@ -11,7 +10,7 @@ export const ResetPasswordPage = () => {
   const navigate = useNavigate()
 
   const handleNavigateSignIn = () => {
-    navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
+    navigate(-1)
   }
 
   useEffect(() => {

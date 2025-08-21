@@ -42,9 +42,9 @@ export const ClientViewBusinessModelsPage = () => {
     <div className={styles.wrapper}>
       {model ? (
         <section className={styles.section}>
-          <section className={styles.section}>
+          <div className={styles.backButton}>
             <BackButton />
-          </section>
+          </div>
           <div className={styles.titleModel}>
             <TitlePage title={model.title} />
           </div>

@@ -1,4 +1,5 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useLocation } from 'react-router-dom'
 
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
@@ -14,9 +15,20 @@ export const ResetPasswordForm = () => {
   const { register, handleSubmit } = useForm<FormFields>()
 
   const showToast = useCustomToast()
+  const location = useLocation()
+
+  const userType = location.pathname.includes('/resident/')
+    ? 'resident'
+    : 'client'
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
-    const resetPasswordResponse = await postResetPassword(data.email)
+    let resetPasswordResponse
+
+    if (userType === 'resident') {
+      resetPasswordResponse = await postResetPassword(data.email)
+    } else {
+      resetPasswordResponse = await postResetPassword(data.email)
+    }
 
     if (resetPasswordResponse.status) {
       showToast({
