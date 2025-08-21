@@ -486,7 +486,7 @@ class ClientController extends MainClientController
     {
 //        dd(base64_encode('YQlxZFIESmatppocfCyNKg:5A3Sk0TZmNJWsNArGqWFPvAPNfUjeb0T'));
 //        $zoom = new Zoom();
-        dd((new MeetingData())->toArray());
+//        dd((new MeetingData())->toArray());
 
 //        dd(file_get_contents("php://input", "+r"));
 //        dd($request->getContent());
@@ -498,5 +498,6 @@ class ClientController extends MainClientController
 //        event(new \App\Events\User\CreateOrder($invoice));
 
 //    ChatGPT::test();
+        return view('socket');
     }
 }
