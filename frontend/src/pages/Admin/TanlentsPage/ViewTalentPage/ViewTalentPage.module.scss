@@ -6,6 +6,13 @@
   align-items: center;
 }
 
+.backButton {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  width: 100%;
+}
+
 .section {
   display: flex;
   width: 100%;

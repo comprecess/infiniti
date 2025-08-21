@@ -6,6 +6,7 @@ import { RolesAccess } from '../../../../app/constants/constants'
 import { ContactInfoSideBarData } from '../../../../app/data/contactInfoSideBar'
 import { SideBar } from '../../../../features/Admin/CustomersPage/ViewPage/SideBar/SideBar'
 import { ArrowBackGroundIcon } from '../../../../shared/icons/ArrowBackGroundIcon'
+import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getPagesListInfo } from '../../../../shared/utils/api/Admin/ViewContact/get-pages-list-info'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
@@ -91,6 +92,9 @@ export const AdminViewPage = () => {
 
   return (
     <div className={styles.wrapper}>
+      <div className={styles.backButton}>
+        <BackButton />
+      </div>
       <section className={styles.section}>
         {pagesInfo ? (
           <div className={styles.container}>

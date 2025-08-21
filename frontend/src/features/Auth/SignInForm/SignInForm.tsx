@@ -52,7 +52,15 @@ export const SignInForm = ({ resident }: SignInFormProps) => {
   }
 
   const handleNavigateResetPassword = () => {
-    navigate(`/${Routes.auth}/${Routes.reset}/${Routes.password}`)
+    if (resident) {
+      navigate(
+        `/${Routes.auth}/${Routes.reset}/${Routes.resident}/${Routes.password}`,
+      )
+    } else {
+      navigate(
+        `/${Routes.auth}/${Routes.reset}/${Routes.clientPages}/${Routes.password}`,
+      )
+    }
   }
 
   return (

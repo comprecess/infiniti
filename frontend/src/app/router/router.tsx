@@ -556,7 +556,11 @@ export const router = createBrowserRouter([
       },
       { path: Routes.register, element: Pages.registerPage },
       {
-        path: `${Routes.reset}/${Routes.password}`,
+        path: `/${Routes.auth}/${Routes.reset}/${Routes.resident}/${Routes.password}`,
+        element: Pages.resetPasswordPage,
+      },
+      {
+        path: `/${Routes.auth}/${Routes.reset}/${Routes.clientPages}/${Routes.password}`,
         element: Pages.resetPasswordPage,
       },
       {

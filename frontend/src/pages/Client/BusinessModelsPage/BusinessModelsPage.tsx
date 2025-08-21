@@ -12,6 +12,7 @@ import { Filters } from '../../../features/Admin/BusinessPlanPage/BusinessModels
 import { ModelsList } from '../../../features/Admin/BusinessPlanPage/BusinessModels/ModelsList/ModelsList'
 import { CategoriesItem } from '../../../features/Admin/TalentsPage/CatalogTalents/CategoriesItem/CategoriesItem'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
+import { BackButton } from '../../../shared/ui/BackButton/BackButton'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getBusinessModelProperties } from '../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/get-business-model-properties'
 import { postBusinessModelsList } from '../../../shared/utils/api/Client/BusinessModels/post-business-models-list'
@@ -98,6 +99,9 @@ export const ClientBusinessModelsPage = () => {
 
   return (
     <div className={styles.wrapper}>
+      <div className={styles.backButton}>
+        <BackButton />
+      </div>
       <div className={styles.title}>
         <TitlePage title='Business Models' />
       </div>

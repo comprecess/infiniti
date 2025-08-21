@@ -13,7 +13,7 @@ import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { Search } from '../../../../../shared/ui/Search/Search'
-import { deleteDocument } from '../../../../../shared/utils/api/Admin/Documents/delete-document'
+import { deleteProjectFile } from '../../../../../shared/utils/api/Admin/Projects/delete-project-file'
 import { getProjectsFiles } from '../../../../../shared/utils/api/Admin/Projects/get-project-files'
 import { postAddNewProjectFile } from '../../../../../shared/utils/api/Admin/Projects/post-create-new-file'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
@@ -48,7 +48,12 @@ export const AdminProjectsFilesPage = () => {
   }
 
   const deleteFile = async (idFile: number) => {
-    const { status, message } = await deleteDocument(idFile)
+    if (!context.idProject) return
+
+    const { status, message } = await deleteProjectFile(
+      context.idProject,
+      idFile,
+    )
 
     if (status) {
       showToast({

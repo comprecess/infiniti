@@ -12,6 +12,7 @@ import { EmailPanel } from '../../../../features/Admin/Sales/ViewInvoice/EmailPa
 import { Footer } from '../../../../features/Admin/Sales/ViewInvoice/Footer/Footer'
 import { Header } from '../../../../features/Admin/Sales/ViewInvoice/Header/Header'
 import { RecentInvoices } from '../../../../features/Admin/Sales/ViewInvoice/RecentInvoices/RecentInvoices'
+import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
@@ -146,6 +147,9 @@ export const AdminViewInvoicePage = () => {
     <div className={styles.wrapper}>
       {info ? (
         <section className={styles.section}>
+          <div className={styles.backButton}>
+            <BackButton />
+          </div>
           <CustomInput
             readOnly
             title='Unique Invoice URL:'

@@ -6,6 +6,7 @@ import {
 } from '../../../../app/constants/constants'
 import { PeopleCard } from '../../../../features/Admin/BusinessPlanPage/EditBusinessPlanPage/Fields/Team/PeopleCard/PeopleCard'
 import { Item } from '../../../../features/Admin/BusinessPlanPage/ViewBusinessPlan/Item/Item'
+import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getBusinessPlanFullInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/get-business-plan-full-info'
@@ -72,6 +73,9 @@ export const AdminViewBusinessPlanPage = () => {
     <div className={styles.wrapper}>
       {fullInfo && inputData ? (
         <section className={styles.section}>
+          <div className={styles.backButton}>
+            <BackButton />
+          </div>
           <div className={styles.header}>
             <img
               src='/logoInfinitiWhite.svg'
