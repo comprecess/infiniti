@@ -13,6 +13,7 @@ import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { postCreateNewTalent } from '../../../../shared/utils/api/Admin/Talents/AddTalent/post-create-new-talent'
 import { getTalentInputData } from '../../../../shared/utils/api/Admin/Talents/get-talent-input-data'
+import { removeSession } from '../../../../shared/utils/Saving/Session/RemoveSession'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './AddTalentPage.module.scss'
 
@@ -52,19 +53,20 @@ export const AdminAddTalentPage = () => {
   const createNewTalent = async () => {
     if (!formData) return
 
-    const createResponse = await postCreateNewTalent(formData)
+    const { status, message } = await postCreateNewTalent(formData)
 
-    if (createResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully created a Talent',
         status: 'success',
       })
+      removeSession('createTalentForm')
       navigate(`/${Routes.adminPages}/${Routes.talents}/${Routes.catalog}`)
     } else {
       showToast({
         title: 'Error',
-        description: createResponse.message,
+        description: message,
         status: 'error',
       })
     }
