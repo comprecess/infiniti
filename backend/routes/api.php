@@ -23,6 +23,7 @@ Route::post('/client/login', [AuthController::class, 'clientLogin']);
 Route::post('/client/register', [AuthController::class, 'registration']);
 Route::post('/client/resetpassword', [AuthController::class, 'resetpassword']);
 Route::post('/resident/login', [AuthController::class, 'residentLogin']);
+Route::post('/resident/resetpassword', [AuthController::class, 'resetpassword']);
 
 #autologin
 Route::get('/client/autologin/{autologin}', [AuthController::class, 'autologin'])

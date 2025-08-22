@@ -55,11 +55,15 @@ class AuthController extends Controller
 
     public function resetpassword(Request $request)
     {
-        $client = Client::where('email', $request->email)->first();
+        $url = explode('/', $request->url());
+        if($url[5] == 'resident') {
+            $client = Admin::where('username', $request->email)->first();
+        }else{
+            $client = Client::where('email', $request->email)->first();
+        }
         if($client) {
             $password = Str::random(8);
             $client->setNewPassword($password);
-//            $client->setApiToken();
             $client->save();
 
             Mail::to($request->email)->send(new ResetPassword($client, $password));
