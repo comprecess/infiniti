@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -18,7 +19,7 @@ class ResetPassword extends Mailable
      * Create a new message instance.
      */
     public function __construct(
-        protected Client $client,
+        protected Client|Admin $client,
         protected $password
     ) {
         //
