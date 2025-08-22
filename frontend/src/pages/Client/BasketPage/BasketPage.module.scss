@@ -9,6 +9,13 @@
   @include scrollbar;
 }
 
+.backButton {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
 .title,
 .sectionFirst {
   display: flex;

@@ -2,17 +2,20 @@ import { Textarea } from '@chakra-ui/react'
 import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { TalentProjectsExperience } from '../../../../../../app/constants/constants'
 import { CustomDataPicker } from '../../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomInput } from '../../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styles from './ProjectsExperienceItem.module.scss'
 
 interface ProjectsExperienceItemProps {
+  form: TalentProjectsExperience
   onChange: (name: string, value: string | number) => void
   onRemove: () => void
 }
 
 export const ProjectsExperienceItem = ({
+  form,
   onChange,
   onRemove,
 }: ProjectsExperienceItemProps) => {
@@ -35,6 +38,7 @@ export const ProjectsExperienceItem = ({
         type='string'
         id='name'
         name='name'
+        value={form.name}
         onChange={handleOnInputChange}
       />
       <CustomInput
@@ -42,16 +46,19 @@ export const ProjectsExperienceItem = ({
         type='string'
         id='position'
         name='position'
+        value={form.position}
         onChange={handleOnInputChange}
       />
       <CustomDataPicker
         title={`${t('admin-project-experience-item-input-3')}`}
         titleOnChange='periodFrom'
+        value={form.periodFrom}
         onChange={handleOnInputChange}
       />
       <CustomDataPicker
         title={`${t('admin-project-experience-item-input-4')}`}
         titleOnChange='periodTo'
+        value={form.periodTo}
         onChange={handleOnInputChange}
       />
       <div className={styles.containerItems}>
@@ -70,6 +77,7 @@ export const ProjectsExperienceItem = ({
           fontSize='16px'
           fontWeight='400'
           lineHeight='24px'
+          defaultValue={form.responsibilities}
           onChange={handleTextAreaChange}
         />
       </div>

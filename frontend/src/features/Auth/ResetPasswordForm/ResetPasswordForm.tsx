@@ -4,7 +4,8 @@ import { useLocation } from 'react-router-dom'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { Input } from '../../../shared/ui/Input/Input'
-import { postResetPassword } from '../../../shared/utils/api/Auth/post-reset-password'
+import { postClientResetPassword } from '../../../shared/utils/api/Auth/post-client-reset-password'
+import { postResidentResetPassword } from '../../../shared/utils/api/Auth/post-resident-reset-password'
 import styles from './ResetPasswordForm.module.scss'
 
 interface FormFields {
@@ -22,24 +23,24 @@ export const ResetPasswordForm = () => {
     : 'client'
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
-    let resetPasswordResponse
+    let response
 
     if (userType === 'resident') {
-      resetPasswordResponse = await postResetPassword(data.email)
+      response = await postResidentResetPassword(data.email)
     } else {
-      resetPasswordResponse = await postResetPassword(data.email)
+      response = await postClientResetPassword(data.email)
     }
 
-    if (resetPasswordResponse.status) {
+    if (response.status) {
       showToast({
         title: 'Successfully',
-        description: resetPasswordResponse.message,
+        description: response.message,
         status: 'success',
       })
     } else {
       showToast({
         title: 'Error',
-        description: resetPasswordResponse.message,
+        description: response.message,
         status: 'error',
       })
     }

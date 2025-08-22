@@ -9,6 +9,7 @@ import {
 import { Routes } from '../../../../app/router/routes'
 import { Cart } from '../../../../features/Admin/TalentsPage/Cart/Cart'
 import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
+import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getTeamDatesBusy } from '../../../../shared/utils/api/Admin/Meeting/get-team-dates-busy'
 import { getOrdersSelectedCart } from '../../../../shared/utils/api/Admin/Talents/Cart/get-order-selected-cart'
@@ -80,6 +81,9 @@ export const AdminCartPage = () => {
     <div className={styles.wrapper}>
       {data ? (
         <>
+          <div className={styles.backButton}>
+            <BackButton />
+          </div>
           <div className={styles.title}>
             <TitlePage
               title='Orders'

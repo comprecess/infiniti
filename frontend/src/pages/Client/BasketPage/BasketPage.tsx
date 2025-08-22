@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { CartProps } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
+import { BackButton } from '../../../shared/ui/BackButton/BackButton'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getTeamDatesBusy } from '../../../shared/utils/api/Admin/Meeting/get-team-dates-busy'
@@ -82,6 +83,9 @@ export const ClientBasketPage = () => {
     <div className={styles.wrapper}>
       {orders ? (
         <>
+          <div className={styles.backButton}>
+            <BackButton />
+          </div>
           <div className={styles.title}>
             <TitlePage
               title='My orders'

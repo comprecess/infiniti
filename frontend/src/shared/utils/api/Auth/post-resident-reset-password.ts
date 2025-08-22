@@ -19,12 +19,12 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-export const postResetPassword = async (
+export const postResidentResetPassword = async (
   email: string,
 ): Promise<Response> => {
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const apiPath = import.meta.env.VITE_AUTH_CLIENT_RESET_PASSWORD_API
+    const apiPath = import.meta.env.VITE_AUTH_RESIDENT_RESET_PASSWORD_API
 
     if (!baseUrl || !apiPath) {
       throw new Error(

@@ -16,9 +16,14 @@ type OrientationDivider = 'vertical' | 'horizontal'
 interface TalentCardProps {
   talent: TalentData
   showSimilar: () => void
+  onPhone: () => void
 }
 
-export const TalentCard = ({ talent, showSimilar }: TalentCardProps) => {
+export const TalentCard = ({
+  talent,
+  showSimilar,
+  onPhone,
+}: TalentCardProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [modalWidth, setModalWidth] = useState<string>('800px')
   const [dividerOrientation, setDividerOrientation] =
@@ -64,7 +69,7 @@ export const TalentCard = ({ talent, showSimilar }: TalentCardProps) => {
           </div>
           <div className={styles.nameAndCall}>
             <span className={styles.name}>{talent.name}</span>
-            <div className={styles.callIconWrapper}>
+            <div className={styles.callIconWrapper} onClick={onPhone}>
               <PhoneCallIcon style={styles.callIcon} />
             </div>
           </div>
