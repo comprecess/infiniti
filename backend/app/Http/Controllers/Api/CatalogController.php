@@ -145,6 +145,18 @@ class CatalogController extends Controller
         return response()->json(['data' => $usersData]);
     }
 
+    public function totalCart(CartRequest $request)
+    {
+        $userCatalog = User::findOrFail($request->catalogUser);
+        try{
+            $prop = $userCatalog->getPropsByNameId([$request->type]);
+            $value = $prop->first()?->values?->first()?->value ?? 0;
+            return response()->json(['total' => $userCatalog->printPrice($value * $request->amount)]);
+        }catch (\Exception $e){
+            return response()->json(['total' => $userCatalog->printPrice(0)]);
+        }
+    }
+
     public function addCart(CartRequest $request)
     {
         try{

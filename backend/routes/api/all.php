@@ -27,6 +27,7 @@ Route::controller(CatalogController::class)
     Route::get('item/{catalogUser}', 'item');
     Route::get('employment', 'employment');
     Route::get('cart', 'getCart');
+    Route::get('cart/total', 'totalCart');
     Route::post('cart', 'addCart');
     Route::delete('cart/item/{id}', 'deleteItemCart');
     Route::get('cart/create-pay', 'createPay');
