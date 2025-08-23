@@ -3,6 +3,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\Public\PetitionController;
+use App\Http\Controllers\Api\Client;
 
 
 Route::group(['prefix' => 'client',], function(){
@@ -15,6 +16,12 @@ Route::group(['prefix' => 'client',], function(){
         ->whereIn('type', array_keys(PetitionController::PUBLIC_TOKEN))
         ->group(function(){
             Route::get('/', 'myData');
+        });
+
+    #dashboard
+    Route::controller(Client\DashboardController::class)->prefix('dashboard')
+        ->group(function(){
+            Route::get('/', 'index');
         });
 });
 
