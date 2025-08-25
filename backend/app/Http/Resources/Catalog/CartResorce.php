@@ -20,9 +20,9 @@ class CartResorce extends JsonResource
         $items = $this?->items;
         return [
             "secret" => $this->secret,
-            "total" => $this->getCurrency('total'),
-            "subTotal" => $this->getCurrency('sub_total'),
-            "subTax" => $this->getCurrency('sub_tax'),
+            "total" => $this->printPrice('total'),
+            "subTotal" => $this->printPrice('sub_total'),
+            "subTax" => $this->printPrice('sub_tax'),
             "count" => $items->count(),
             "items" => CartItemResorce::collection($items),
             "createdAt" => $this->created_at,
