@@ -35,7 +35,7 @@ class BusinessModelResource extends JsonResource
             'age' => $this->getPropValues('age'),
             'industries' => ValueResource::collection(self::$isCollection ? ($industries->count() ? $industries?->chunk(3)?->first() : collect([])) : $industries),
             'technologies' => ValueResource::collection(self::$isCollection ? ( $technologies->count() ? $technologies?->chunk(3)?->first() : collect([]) ) : $technologies),
-            'price' => $this->getCurrency((int) $this->getPropValues('price')),
+            'price' => $this->printPrice((int) $this->getPropValues('price')),
             'profitability' => ValueResource::collection($this->getPropValues('profitability', null)),
             'location' => ValueResource::collection($this->getPropValues('location', null)),
             BusinessModel::TYPE_IMG[0] => $this->getFileType(BusinessModel::TYPE_IMG[0])->first()?->getLink()
