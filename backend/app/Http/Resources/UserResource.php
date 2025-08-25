@@ -35,6 +35,8 @@ class UserResource extends JsonResource implements ListInterface
 
         if($this->resource instanceof Admin){
             $resource['role'] = $this->myRole?->getRoleAccess();
+        }else{
+            $resource['balance'] = $this->printPrice('balance');
         }
 
         return $resource;
@@ -43,7 +45,7 @@ class UserResource extends JsonResource implements ListInterface
     public function getList(): array
     {
         if($this->getNameClass() == (new Client())->getNameClass()) {
-            return ['account', 'company', 'business_number' => 'businessNumber', 'phone', 'email', 'address', 'city', 'state', 'zip', 'country', 'balance', 'notes', 'tags', 'img', 'lastlogin' => 'lastLogin'];
+            return ['account', 'company', 'business_number' => 'businessNumber', 'phone', 'email', 'address', 'city', 'state', 'zip', 'country', 'notes', 'tags', 'img', 'lastlogin' => 'lastLogin'];
         } else {
             return ['username' => 'email', 'fullname' => 'account', 'phonenumber' => 'businessNumber', 'last_activity' => 'lastActivity', 'img', 'roleid' => 'roleId', 'role', 'language', 'job_title' => 'jobTitle', 'pay_frequency' => 'payFrequency', 'currency', 'amount', 'address_line_1' => 'addressLine1', 'address_line_2' => 'addressLine2', 'city', 'state', 'zip', 'country', 'summary'];
         }
