@@ -11,13 +11,13 @@ trait CurrencyTrait
 {
     private $rateSum = null;
 
-    public function getCurrency($column)
-    {
-//        Number::ensureIntlExtensionIsInstalled();
-        $format = new NumberFormatter('en', 1);
-
-        return $format->formatCurrency(is_string($column) ? $this->{$column} : $column, 'EUR') . " €";
-    }
+//    public function getCurrency($column)
+//    {
+////        Number::ensureIntlExtensionIsInstalled();
+//        $format = new NumberFormatter('en', 1);
+//
+//        return $format->formatCurrency(is_string($column) ? $this->{$column} : $column, 'EUR') . " €";
+//    }
 
     public function getCurrencyId()
     {
