@@ -15,12 +15,12 @@ import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivi
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
 import { TagSelector } from '../../../../../shared/ui/TagSelector/TagSelector'
-import { saveSession } from '../../../../../shared/utils/Saving/Session/SaveSession'
+import { saveStorage } from '../../../../../shared/utils/Saving/Storage/SaveStorage'
 import styles from './Fields.module.scss'
 import { ProjectsExperienceItem } from './ProjectsExperienceItem/ProjectsExperienceItem'
 
-function loadSession<T>(name: string): T | null {
-  const data = sessionStorage.getItem(name)
+function loadStorage<T>(name: string): T | null {
+  const data = localStorage.getItem(name)
 
   return data ? (JSON.parse(data) as T) : null
 }
@@ -46,7 +46,7 @@ export interface PartialFieldsPostData extends Partial<TalentFormData> {
 export const Fields = ({ inputData, onFormDataChange }: FieldsProps) => {
   const [formData, setFormData] = useState<PartialFieldsPostData>(() => {
     const sessionData =
-      loadSession<PartialFieldsPostData>('createTalentForm')
+      loadStorage<PartialFieldsPostData>('createTalentForm')
     if (sessionData) return sessionData
 
     const initialLanguageIds: number[] = []
@@ -167,7 +167,7 @@ export const Fields = ({ inputData, onFormDataChange }: FieldsProps) => {
   }, [formData.language, inputData.language])
 
   useEffect(() => {
-    saveSession('createTalentForm', formData)
+    saveStorage('createTalentForm', formData)
     onFormDataChange(formData)
   }, [formData, onFormDataChange])
 

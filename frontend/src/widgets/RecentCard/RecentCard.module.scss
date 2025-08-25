@@ -9,6 +9,8 @@
   border-radius: 8px;
   background-color: $brand-900;
   overflow: hidden;
+
+  @include scrollbar;
 }
 
 .title {

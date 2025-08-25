@@ -20,6 +20,7 @@ import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { Input } from '../../../../shared/ui/FromTo/Input/Input'
 import { TalentsLevel } from '../../../../shared/ui/TalentsLevel/TalentsLevel'
 import { addOrderToCart } from '../../../../shared/utils/api/Client/Cart/AddOrderToCart'
+import { getCalculationCart } from '../../../../shared/utils/api/Client/Cart/get-calculation-cart'
 import { Item } from '../../../../widgets/TalentsCard/Footer/Item/Item'
 import { TitleCard } from '../TitleCard/TitleCard'
 import styles from './ModalWindow.module.scss'
@@ -35,19 +36,23 @@ export const ModalWindow = ({
   dividerOrientation,
   onClose,
 }: ModalWindowProps) => {
-  const [item, setItem] = useState<string>('priceHour')
+  const [item, setItem] = useState<'priceHour' | 'priceDay'>('priceHour')
   const [unit, setUnit] = useState<string>('Hours (h)')
-  const [total, setTotal] = useState<string>('0 €')
+  const [total, setTotal] = useState<string>('0.00')
   const [amount, setAmount] = useState<number>(0)
 
   const navigate = useNavigate()
   const showToast = useCustomToast()
 
-  const formatNumberWithSpaces = (num: number): string => {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  const getCartCalculation = async () => {
+    const response = await getCalculationCart(talent.id, amount, item)
+
+    if (!response.status) return
+
+    setTotal(response.data.total)
   }
 
-  const handleItemClick = (selectedItem: string) => {
+  const handleItemClick = (selectedItem: 'priceHour' | 'priceDay') => {
     if (selectedItem === 'priceHour') {
       setUnit('Hours (h)')
     } else if (selectedItem === 'priceDay') {
@@ -61,35 +66,21 @@ export const ModalWindow = ({
     navigate(`/${Routes.clientPages}/${Routes.talents}`)
   }, [navigate])
 
-  const handleSetAmount = useCallback(() => {
-    if (amount > 0) {
-      let totalAmount = 0
+  const handleAmountChange = useCallback((value: string) => {
+    const num = parseInt(value)
 
-      if (item === 'priceHour') {
-        setUnit('Hours (h)')
-        totalAmount = amount * parseInt(talent.priceHour)
-      } else if (item === 'priceDay') {
-        setUnit('Days')
-        totalAmount = amount * parseInt(talent.priceDay)
-      }
-
-      setTotal(formatNumberWithSpaces(totalAmount) + ' €')
-    } else {
-      setTotal('0 €')
-    }
-  }, [amount, item])
-
-  const handleAmountChange = useCallback((number: string) => {
-    const amount = parseInt(number)
-
-    setAmount(amount)
+    setAmount(!value || isNaN(num) || num <= 0 ? 0 : num)
   }, [])
 
   const handleAddOrderToCart = async () => {
     if (amount > 0) {
-      const addResponse = await addOrderToCart(talent.id, amount, item)
+      const { status, message } = await addOrderToCart(
+        talent.id,
+        amount,
+        item,
+      )
 
-      if (addResponse.status) {
+      if (status) {
         showToast({
           title: 'Successfully',
           description: 'You have successfully added to cart',
@@ -98,7 +89,7 @@ export const ModalWindow = ({
       } else {
         showToast({
           title: 'Error',
-          description: addResponse.message,
+          description: message,
           status: 'error',
         })
       }
@@ -108,8 +99,8 @@ export const ModalWindow = ({
   }
 
   useEffect(() => {
-    handleSetAmount()
-  }, [item, amount, handleSetAmount])
+    getCartCalculation()
+  }, [talent, item, amount])
 
   return (
     <div className={styles.wrapper}>

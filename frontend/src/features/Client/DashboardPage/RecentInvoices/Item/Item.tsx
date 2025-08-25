@@ -1,3 +1,4 @@
+import { Routes } from '../../../../../app/router/routes'
 import { Status } from '../../../../../shared/ui/Status/Status'
 import { ManageButtons } from '../../../../Main/RecentCard/ManageButtons/ManageButtons'
 import styleItem from '../RecentInvoices.module.scss'
@@ -10,6 +11,7 @@ interface ItemProps {
   invoiceDate: string
   dueDate: string
   status: string
+  publicCode: string
 }
 
 export const Item = ({
@@ -19,15 +21,22 @@ export const Item = ({
   invoiceDate,
   dueDate,
   status,
+  publicCode,
 }: ItemProps) => {
+  const handleNavigateToView = () => {
+    const url = `/${Routes.public}/${Routes.invoice}/${Routes.view}/${publicCode}`
+
+    window.open(url, '_blank')
+  }
+
   return (
     <div className={styles.wrapper}>
-      <a
-        href=''
+      <span
         className={`${styleItem.hashtagColumn} ${styles.hashtagItem}`}
+        onClick={handleNavigateToView}
       >
         {hashtag}
-      </a>
+      </span>
       <span className={`${styleItem.accountColumn} ${styles.accountItem}`}>
         {account}
       </span>
@@ -48,8 +57,8 @@ export const Item = ({
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
         <ManageButtons
           firstButtonTitle='View'
-          secondButtonTitle='Print'
           thirdButtonTitle='Download'
+          firstClick={handleNavigateToView}
         />
       </div>
     </div>

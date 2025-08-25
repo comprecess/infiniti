@@ -20,10 +20,12 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-export const getSelectedAccountInfo = async (
-  idAccount: number,
+export const getCalculationCart = async (
+  idTalent: number,
+  amount: number,
+  type: 'priceHour' | 'priceDay',
 ): Promise<Response> => {
-  if (!Number.isInteger(idAccount) || idAccount <= 0) {
+  if (!Number.isInteger(idTalent) || idTalent <= 0) {
     return {
       status: false,
       message: 'Invalid asset ID',
@@ -41,7 +43,7 @@ export const getSelectedAccountInfo = async (
 
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const apiPath = import.meta.env.VITE_ACCOUNTING_GET_INFO_ACCOUNT
+    const apiPath = import.meta.env.VITE_CLIENT_CART_CALCULATION
 
     if (!baseUrl || !apiPath) {
       return {
@@ -50,7 +52,10 @@ export const getSelectedAccountInfo = async (
       }
     }
 
-    const url = new URL(`${apiPath}${idAccount}`, baseUrl).toString()
+    const url = new URL(apiPath, baseUrl)
+    url.searchParams.append('catalogUser', idTalent.toString())
+    url.searchParams.append('amount', amount.toString())
+    url.searchParams.append('type', type)
 
     const controller = new AbortController()
     const timeoutId = setTimeout(
@@ -58,7 +63,7 @@ export const getSelectedAccountInfo = async (
       REQUEST_TIMEOUT_MS,
     )
 
-    const data = await customFetch(url, {
+    const data = await customFetch(url.toString(), {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

@@ -13,7 +13,7 @@ import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { postCreateNewTalent } from '../../../../shared/utils/api/Admin/Talents/AddTalent/post-create-new-talent'
 import { getTalentInputData } from '../../../../shared/utils/api/Admin/Talents/get-talent-input-data'
-import { removeSession } from '../../../../shared/utils/Saving/Session/RemoveSession'
+import { removeStorage } from '../../../../shared/utils/Saving/Storage/RemoveStorage'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './AddTalentPage.module.scss'
 
@@ -61,7 +61,7 @@ export const AdminAddTalentPage = () => {
         description: 'You have successfully created a Talent',
         status: 'success',
       })
-      removeSession('createTalentForm')
+      removeStorage('createTalentForm')
       navigate(`/${Routes.adminPages}/${Routes.talents}/${Routes.catalog}`)
     } else {
       showToast({
