@@ -22,9 +22,9 @@ class CartItemResorce extends JsonResource
             'nameIdType' => $this->name_id_type,
             'amount' => $this->amount,
             'taxesInclude' => $this->taxes_include,
-            'price' => $this->getCurrency('price'),
-            'taxes' => $taxesPrice ? $this->getCurrency($taxesPrice) : $taxesPrice,
-            'total' => $this->getCurrency('total'),
+            'price' => $this->printPrice('price'),
+            'taxes' => $taxesPrice ? $this->printPrice($taxesPrice) : $taxesPrice,
+            'total' => $this->printPrice('total'),
         ];
     }
 }
