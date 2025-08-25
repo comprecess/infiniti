@@ -20,16 +20,7 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-export const getSelectedAccountInfo = async (
-  idAccount: number,
-): Promise<Response> => {
-  if (!Number.isInteger(idAccount) || idAccount <= 0) {
-    return {
-      status: false,
-      message: 'Invalid asset ID',
-    }
-  }
-
+export const getDashboardInfo = async (): Promise<Response> => {
   const authToken = getAuthToken()
 
   if (!authToken) {
@@ -41,7 +32,7 @@ export const getSelectedAccountInfo = async (
 
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const apiPath = import.meta.env.VITE_ACCOUNTING_GET_INFO_ACCOUNT
+    const apiPath = import.meta.env.VITE_CLIENT_DASHBOARD
 
     if (!baseUrl || !apiPath) {
       return {
@@ -50,7 +41,7 @@ export const getSelectedAccountInfo = async (
       }
     }
 
-    const url = new URL(`${apiPath}${idAccount}`, baseUrl).toString()
+    const url = new URL(apiPath, baseUrl).toString()
 
     const controller = new AbortController()
     const timeoutId = setTimeout(

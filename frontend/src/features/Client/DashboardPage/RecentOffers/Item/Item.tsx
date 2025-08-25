@@ -1,3 +1,4 @@
+import { Routes } from '../../../../../app/router/routes'
 import { ManageButtons } from '../../../../Main/RecentCard/ManageButtons/ManageButtons'
 import styleItem from '../RecentOffers.module.scss'
 import styles from './Item.module.scss'
@@ -7,6 +8,7 @@ interface ItemProps {
   amount: string
   dateCreated: string
   expiryDate: string
+  publicCode: string
 }
 
 export const Item = ({
@@ -14,7 +16,14 @@ export const Item = ({
   amount,
   dateCreated,
   expiryDate,
+  publicCode,
 }: ItemProps) => {
+  const handleNavigateToView = () => {
+    const url = `/${Routes.public}/${Routes.offer}/${Routes.view}/${publicCode}`
+
+    window.open(url, '_blank')
+  }
+
   return (
     <div className={styles.wrapper}>
       <span className={`${styleItem.subjectColumn} ${styles.subjectItem}`}>
@@ -36,8 +45,8 @@ export const Item = ({
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
         <ManageButtons
           firstButtonTitle='View'
-          secondButtonTitle='Print'
           thirdButtonTitle='Delete'
+          firstClick={handleNavigateToView}
         />
       </div>
     </div>

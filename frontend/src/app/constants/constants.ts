@@ -1253,6 +1253,7 @@ export interface DashboardRecentInvoicesData {
   dueDate: string
   invoiceDate: string
   status: string
+  public: string
   account: { id: number; account: string }
 }
 

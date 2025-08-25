@@ -9,23 +9,34 @@ import {
 import { useEffect, useState } from 'react'
 
 import { Notifications } from '../../app/constants/constants'
+import { useWebSocket } from '../../shared/hooks/useWebSocket'
 import { NotificationIndicatorIcon } from '../../shared/icons/NotificationIndicatorIcon'
 import { Icon } from '../../shared/ui/Icon/Icon'
 import { LoadingSpinner } from '../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getNotifications } from '../../shared/utils/api/Admin/Notifications/get-notifications'
 import { putNotificationsViewed } from '../../shared/utils/api/Admin/Notifications/put-notifications-viewed'
+import { getAuthToken } from '../../shared/utils/api/get-auth-token'
 import { NotificationItem } from './NotificationItem/NotificationItem'
 import styles from './NotificationProfile.module.scss'
 
 export const NotificationProfile = () => {
   const [notifications, setNotifications] = useState<
-  Notifications[] | null
+    Notifications[] | null
   >(null)
 
   const [hasUnreadNotifications, setHasUnreadNotifications] =
     useState<boolean>(false)
 
+  const authToken = getAuthToken()
+
   const { isOpen, onToggle, onClose } = useDisclosure()
+
+  const { isConnected } = useWebSocket({
+    url: import.meta.env.VITE_WEBSOCKET_URL ?? '',
+    token: authToken,
+  })
+
+  console.log(isConnected)
 
   const handleGetNotifications = async () => {
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -51,10 +62,10 @@ export const NotificationProfile = () => {
     setNotifications(prev =>
       prev
         ? prev.map(notification =>
-          notification.id === id
-            ? { ...notification, viewed: 1 }
-            : notification,
-        )
+            notification.id === id
+              ? { ...notification, viewed: 1 }
+              : notification,
+          )
         : prev,
     )
   }
