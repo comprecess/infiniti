@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Catalog\CartRequest;
 use App\Http\Requests\Catalog\EmploymentRequest;
 use App\Http\Requests\Catalog\ListRequest;
+use App\Http\Requests\Catalog\TotalCartRequest;
 use App\Http\Requests\MeetingRequest;
 use App\Http\Resources\Catalog\CartResorce;
 use App\Http\Resources\Catalog\PropertyFilterResource;
@@ -145,7 +146,7 @@ class CatalogController extends Controller
         return response()->json(['data' => $usersData]);
     }
 
-    public function totalCart(CartRequest $request)
+    public function totalCart(TotalCartRequest $request)
     {
         $userCatalog = User::findOrFail($request->catalogUser);
         try{
