@@ -20,7 +20,6 @@ class UserResource extends JsonResource implements ListInterface
      */
     public function toArray(Request $request): array
     {
-//        return parent::toArray($request);
 
         $resource = [
             'id' => $this->id,
@@ -29,14 +28,15 @@ class UserResource extends JsonResource implements ListInterface
 
         $this->setList($resource);
         $resource['img'] = $this->getAvatar(true) ?? "";
-        if($this->getNameClass() == (new Client())->getNameClass()) {
-            $resource['company'] = $this->companyClient?->company_name;
-        }
+//        if($this->getNameClass() == (new Client())->getNameClass()) {
+//            $resource['company'] = $this->companyClient?->company_name;
+//        }
 
         if($this->resource instanceof Admin){
             $resource['role'] = $this->myRole?->getRoleAccess();
         }else{
             $resource['balance'] = $this->printPrice('balance');
+            $resource['company'] = $this->companyClient?->company_name;
         }
 
         return $resource;
