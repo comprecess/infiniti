@@ -1,3 +1,6 @@
+@php
+$token = $token ?? "d027c153d79a041f91776696bcc94576996dc48c492f5a461f4d64dbd764d1f0";
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -34,12 +37,12 @@
 
     setTimeout(function(){
         console.log('send');
-        connect.send('{"c":"auth","data":{"token":"d027c153d79a041f91776696bcc94576996dc48c492f5a461f4d64dbd764d1f0"}}');
+        connect.send('{"c":"auth","data":{"token":"{{$token}}"}}');
     }, 3000)
 
     setTimeout(function(){
         console.log('send');
-        connect.send('{"c":"notification","data":{"token":"d027c153d79a041f91776696bcc94576996dc48c492f5a461f4d64dbd764d1f0"}}');
+        connect.send('{"c":"notification","data":{"token":"{{$token}}"}}');
     }, 6000)
 </script>
 </body>

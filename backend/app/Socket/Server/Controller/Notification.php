@@ -20,9 +20,4 @@ class Notification extends Controller implements Server, Client
         $conn->send('test');
         print_r($this->socket->getUser());
     }
-
-    public function server(array $data, ConnectionInterface $conn)
-    {
-        // TODO: Implement server() method.
-    }
 }

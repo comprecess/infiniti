@@ -498,6 +498,24 @@ class ClientController extends MainClientController
 //        event(new \App\Events\User\CreateOrder($invoice));
 
 //    ChatGPT::test();
-        return view('socket');
+
+        #testsocket
+        return view('socket', ['token' => $request->token]);
+    }
+
+    public function test2(Request $request)
+    {
+        $socketClient = new \App\Socket\Client();
+        dd($socketClient->send(
+            [
+                'c' => 'notification',
+                'user' => [
+                    'class' => 'all'
+                ],
+                'data' => [
+                    'message' => $request->message ?? 'Message!'
+                ]
+            ]
+        ));
     }
 }

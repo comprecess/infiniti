@@ -73,3 +73,4 @@ Route::any('zoom/webhook',[\App\Services\Zoom\WebHook::class, 'index']);
 
 #test
 Route::get('test/list', [\App\Http\Controllers\Api\Resident\Client\ClientController::class, 'test']);
+Route::get('test2/list', [\App\Http\Controllers\Api\Resident\Client\ClientController::class, 'test2']);
