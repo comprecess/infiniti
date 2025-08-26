@@ -15,17 +15,13 @@ import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivi
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
 import { TagSelector } from '../../../../../shared/ui/TagSelector/TagSelector'
+import { loadStorage } from '../../../../../shared/utils/Saving/Storage/LoadStorage'
 import { saveStorage } from '../../../../../shared/utils/Saving/Storage/SaveStorage'
 import styles from './Fields.module.scss'
 import { ProjectsExperienceItem } from './ProjectsExperienceItem/ProjectsExperienceItem'
 
-function loadStorage<T>(name: string): T | null {
-  const data = localStorage.getItem(name)
-
-  return data ? (JSON.parse(data) as T) : null
-}
-
 interface FieldsProps {
+  storageKey: string
   inputData: TalentsInputData
   onFormDataChange: (data: Partial<TalentFormData>) => void
 }
@@ -43,10 +39,13 @@ export interface PartialFieldsPostData extends Partial<TalentFormData> {
   | null
 }
 
-export const Fields = ({ inputData, onFormDataChange }: FieldsProps) => {
+export const Fields = ({
+  storageKey,
+  inputData,
+  onFormDataChange,
+}: FieldsProps) => {
   const [formData, setFormData] = useState<PartialFieldsPostData>(() => {
-    const sessionData =
-      loadStorage<PartialFieldsPostData>('createTalentForm')
+    const sessionData = loadStorage<PartialFieldsPostData>(storageKey)
     if (sessionData) return sessionData
 
     const initialLanguageIds: number[] = []
@@ -167,7 +166,7 @@ export const Fields = ({ inputData, onFormDataChange }: FieldsProps) => {
   }, [formData.language, inputData.language])
 
   useEffect(() => {
-    saveStorage('createTalentForm', formData)
+    saveStorage(storageKey, formData)
     onFormDataChange(formData)
   }, [formData, onFormDataChange])
 

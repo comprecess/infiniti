@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react'
 
 import { CustomerInputsData } from '../../../../app/constants/constants'
 import { Fields } from '../../../../features/Admin/CustomersPage/AddCustomer/Fields'
-import { ImportButton } from '../../../../features/Admin/CustomersPage/AddCustomer/ImportButton/ImportButton'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getCustomerInputsData } from '../../../../shared/utils/api/Admin/AddCustomer/get-customer-input-data'
+import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './AddCustomerPage.module.scss'
+import { HeaderButtons } from './HeaderButtons/HeaderButtons'
 
 export const AdminAddCustomerPage = () => {
   const [data, setData] = useState<CustomerInputsData | null>(null)
@@ -15,6 +16,8 @@ export const AdminAddCustomerPage = () => {
   const companyIdParam = urlParams.get('for-company')
   const companyId =
     companyIdParam !== null ? parseInt(companyIdParam) : null
+
+  const storageKey = 'createCustomerForm'
 
   const getInputsData = async () => {
     const response = await getCustomerInputsData()
@@ -39,9 +42,17 @@ export const AdminAddCustomerPage = () => {
           <RecentCard
             title='Add Customer'
             style={styles.recentFullScreen}
-            Component={ImportButton}
+            Component={HeaderButtons}
+            componentProps={{
+              storageKey,
+              isClearButton: loadStorage(storageKey) ? true : false,
+            }}
           >
-            <Fields data={data} companyId={companyId} />
+            <Fields
+              data={data}
+              companyId={companyId}
+              storageKey={storageKey}
+            />
           </RecentCard>
         ) : (
           <LoadingSpinner size='xl' />
