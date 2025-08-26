@@ -8,14 +8,15 @@ import {
 } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { Fields } from '../../../../features/Admin/TalentsPage/AddTalentPage/Fields/Fields'
-import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { postCreateNewTalent } from '../../../../shared/utils/api/Admin/Talents/AddTalent/post-create-new-talent'
 import { getTalentInputData } from '../../../../shared/utils/api/Admin/Talents/get-talent-input-data'
+import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
 import { removeStorage } from '../../../../shared/utils/Saving/Storage/RemoveStorage'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './AddTalentPage.module.scss'
+import { HeaderButtons } from './HeaderButtons/HeaderButtons'
 
 export const AdminAddTalentPage = () => {
   const [formData, setFormData] = useState<Partial<TalentFormData>>({})
@@ -25,6 +26,8 @@ export const AdminAddTalentPage = () => {
 
   const showToast = useCustomToast()
   const navigate = useNavigate()
+
+  const storageKey = 'createTalentForm'
 
   const getInputData = async () => {
     const response = await getTalentInputData()
@@ -61,7 +64,7 @@ export const AdminAddTalentPage = () => {
         description: 'You have successfully created a Talent',
         status: 'success',
       })
-      removeStorage('createTalentForm')
+      removeStorage(storageKey)
       navigate(`/${Routes.adminPages}/${Routes.talents}/${Routes.catalog}`)
     } else {
       showToast({
@@ -83,18 +86,20 @@ export const AdminAddTalentPage = () => {
         {inputData ? (
           <RecentCard
             title={t('admin-talents-add-talent-page-title')}
-            Component={ButtonBlue}
+            Component={HeaderButtons}
             style={styles.recentFullScreen}
             componentProps={{
-              titleNone: true,
+              storageKey,
+              isClearButton: loadStorage(storageKey) ? true : false,
               title: `${t('admin-talents-add-talent-page-button-1')}`,
-              icon: '/icons/fileWhite.svg',
-              iconProps: styles.buttonSaveIcon,
               onClick: createNewTalent,
-              style: styles.buttonSave,
             }}
           >
-            <Fields inputData={inputData} onFormDataChange={setFormData} />
+            <Fields
+              storageKey={storageKey}
+              inputData={inputData}
+              onFormDataChange={setFormData}
+            />
           </RecentCard>
         ) : (
           <LoadingSpinner size='xl' />

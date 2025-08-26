@@ -21,7 +21,7 @@ import styles from './NotificationProfile.module.scss'
 
 export const NotificationProfile = () => {
   const [notifications, setNotifications] = useState<
-    Notifications[] | null
+  Notifications[] | null
   >(null)
 
   const [hasUnreadNotifications, setHasUnreadNotifications] =
@@ -31,12 +31,12 @@ export const NotificationProfile = () => {
 
   const { isOpen, onToggle, onClose } = useDisclosure()
 
-  const { isConnected } = useWebSocket({
+  const { isConnected, isAuth, data } = useWebSocket({
     url: import.meta.env.VITE_WEBSOCKET_URL ?? '',
     token: authToken,
   })
 
-  console.log(isConnected)
+  console.log(isConnected, isAuth, data)
 
   const handleGetNotifications = async () => {
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -62,10 +62,10 @@ export const NotificationProfile = () => {
     setNotifications(prev =>
       prev
         ? prev.map(notification =>
-            notification.id === id
-              ? { ...notification, viewed: 1 }
-              : notification,
-          )
+          notification.id === id
+            ? { ...notification, viewed: 1 }
+            : notification,
+        )
         : prev,
     )
   }

@@ -1,0 +1,14 @@
+.wrapper {
+  display: flex;
+  width: 44px;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: $cherry-transparent;
+  user-select: none;
+}
+
+.icon {
+  height: 22px;
+}
