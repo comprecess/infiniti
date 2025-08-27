@@ -25,6 +25,7 @@ use App\Http\Resources\UserResource;
 use App\Mail\EmailTemplateMail;
 use App\Mail\Resident\Client\WelcomeEmail;
 use App\Models\Log;
+use App\Models\Notification;
 use App\Models\Resident\Client\Activity;
 use App\Models\Resident\Client\Company;
 use App\Models\Resident\Client\Group;
@@ -517,5 +518,26 @@ class ClientController extends MainClientController
                 ]
             ]
         ));
+    }
+    public function test3(Request $request)
+    {
+//        $socketClient = new \App\Socket\Client();
+//        dd($socketClient->send(
+//            [
+//                'c' => 'notification',
+//                'user' => [
+//                    'class' => 'all'
+//                ],
+//                'data' => [
+//                    'message' => $request->message ?? 'Message!'
+//                ]
+//            ]
+//        ));
+        $userClass = $request->user == 'client' ? Client::class : Admin::class;
+        $user = $userClass::find($request->id ?? 0);
+        if($user) {
+            Notification::createMain($user, message: 'test');
+        }
+        return response()->json(['success' => true]);
     }
 }

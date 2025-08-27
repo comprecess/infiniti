@@ -20,14 +20,14 @@ class Socket implements MessageComponentInterface
     {
         // TODO: Implement onOpen() method.
         $this->clients->attach($conn);
-        echo "Connect: {$conn->resourceId}\r\n";
+//        echo "Connect: {$conn->resourceId}\r\n";
     }
 
     function onClose(ConnectionInterface $conn)
     {
         // TODO: Implement onClose() method.
         $this->clients->detach($conn);
-        echo "Disconnect: {$conn->resourceId}\r\n";
+//        echo "Disconnect: {$conn->resourceId}\r\n";
     }
 
     function onError(ConnectionInterface $conn, \Exception $e)

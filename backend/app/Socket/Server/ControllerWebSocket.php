@@ -38,9 +38,9 @@ class ControllerWebSocket extends Socket
                 $object = new $class($user, $this->clients, $this);
                 if($object->getName() === $data['c']) {
                     if($type = Arr::get($auth, 'type')) {
-                        print_r($class . "\r\n");
-                        print_r($type. "\r\n");
-                        print_r(method_exists($object, $type) ? 1 : 0);
+//                        print_r($class . "\r\n");
+//                        print_r($type. "\r\n");
+//                        print_r(method_exists($object, $type) ? 1 : 0);
 
                         if(method_exists($object, $type)) {
                             return $object->{$type}($data, $conn);

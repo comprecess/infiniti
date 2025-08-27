@@ -39,14 +39,13 @@ class Controller implements Server, Main
         $stat = ['clients' => count($this->clients)];
         $i = 0;
         $message = Arr::get($data, 'data');
-        if($message) {
-            foreach ($this->clients as $client) {
-                if ($client != $conn && $this->checkMessageSend($data, $client)) {
-                    $client->send($this->response($message));
-                    $i++;
-                }
+        foreach ($this->clients as $client) {
+            if ($client != $conn && $this->checkMessageSend($data, $client)) {
+                $client->send($this->response($message));
+                $i++;
             }
         }
+
         $stat['sent'] = $i;
         $conn->send($this->response($stat));
     }
@@ -54,7 +53,9 @@ class Controller implements Server, Main
     private function checkMessageSend($data, $client) :bool
     {
         $class = Arr::get($data, 'user.class');
+//        echo($class);
         $auth = $this->socket->getUser($client);
+//        print_r($auth);
 
         if(!$class){
             return false;
@@ -66,15 +67,16 @@ class Controller implements Server, Main
         ) {
             return true;
         }
-
-        if($auth && Arr::get($auth, 'class') == $class) {
+//        echo (Arr::get($auth, 'auth.class') == $class ? 1 : 0);
+//        echo(Arr::get($auth, 'auth.class') ." == ".$class);
+        if($auth && Arr::get($auth, 'auth.class') == $class) {
             $id = Arr::get($data, 'user.id');
 
             if(!$id) {
                 return true;
             }
 
-            return Arr::get($auth, 'id') == $id;
+            return Arr::get($auth, 'auth.id') == $id;
         }
 
         return false;

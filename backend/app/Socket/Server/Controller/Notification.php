@@ -17,7 +17,6 @@ class Notification extends Controller implements Server, Client
 
     public function client(array $data, ConnectionInterface $conn)
     {
-        $conn->send('test');
-        print_r($this->socket->getUser());
+        $conn->send($this->response(code: 404));
     }
 }
