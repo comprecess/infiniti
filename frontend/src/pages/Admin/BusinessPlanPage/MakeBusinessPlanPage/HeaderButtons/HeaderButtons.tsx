@@ -1,25 +1,38 @@
-import { ImportButton } from '../../../../../features/Admin/CustomersPage/AddCustomer/ImportButton/ImportButton'
+import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { ClearStorageButton } from '../../../../../shared/ui/ClearStorageButton/ClearStorageButton'
 import styles from './HeaderButtons.module.scss'
 
 interface HeaderButtonsProps {
-  storageKey: string
   isClearButton: boolean
+  storageKey: string
+  style: string
+  iconProps: string
+  onClick: () => void
 }
 
 export const HeaderButtons = ({
+  isClearButton,
   storageKey,
-  isClearButton = false,
+  style,
+  iconProps,
+  onClick,
 }: HeaderButtonsProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.clear}>
         <ClearStorageButton
-          storageKey={storageKey}
           isClearButton={isClearButton}
+          storageKey={storageKey}
         />
       </div>
-      <ImportButton />
+      <ButtonBlue
+        titleNone
+        title='Save'
+        style={style}
+        iconProps={iconProps}
+        icon='/icons/fileWhite.svg'
+        onClick={onClick}
+      />
     </div>
   )
 }

@@ -36,8 +36,6 @@ export const NotificationProfile = () => {
     token: authToken,
   })
 
-  console.log(isConnected, isAuth, data)
-
   const handleGetNotifications = async () => {
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
@@ -77,16 +75,8 @@ export const NotificationProfile = () => {
   }, [isOpen])
 
   useEffect(() => {
-    if (isOpen) {
-      return
-    }
-
-    const interval = setInterval(() => {
+    if (isConnected && isAuth && data && data.c === 'notification') {
       handleGetNotifications()
-    }, 60000)
-
-    return () => {
-      clearInterval(interval)
     }
   }, [isOpen])
 

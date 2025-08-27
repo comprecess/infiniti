@@ -6,14 +6,20 @@ import {
   Fields,
   PartialFieldsPostData,
 } from '../../../../features/Admin/BusinessPlanPage/MakeBusinessPlanPage/Fields/Fields'
-import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { postCreateNewBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/post-create-new-business-plan'
+import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
+import { removeStorage } from '../../../../shared/utils/Saving/Storage/RemoveStorage'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
+import { HeaderButtons } from './HeaderButtons/HeaderButtons'
 import styles from './MakeBusinessPlanPage.module.scss'
 
 export const AdminMakeBusinessPlanPage = () => {
-  const [formData, setFormData] = useState<PartialFieldsPostData>({})
+  const storageKey = 'createBusinessPlanForm'
+
+  const [formData, setFormData] = useState<PartialFieldsPostData>(
+    () => loadStorage<PartialFieldsPostData>(storageKey) || {},
+  )
 
   const showToast = useCustomToast()
   const navigate = useNavigate()
@@ -21,28 +27,29 @@ export const AdminMakeBusinessPlanPage = () => {
   const handleCreateNewBusinessPlan = async () => {
     if (!formData) return
 
-    const response = await postCreateNewBusinessPlan(formData)
+    const { status, message } = await postCreateNewBusinessPlan(formData)
 
-    if (response.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully created a Business Plan',
         status: 'success',
       })
+      removeStorage(storageKey)
       navigate(
         `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.businessPlans}`,
       )
     } else {
       showToast({
         title: 'Error',
-        description: response.message,
+        description: message,
         status: 'error',
       })
     }
   }
 
   useEffect(() => {
-    document.title = 'infiniti | Make Business Plan'
+    document.title = 'infiniti | Create Business Plan'
   }, [])
 
   return (
@@ -51,17 +58,20 @@ export const AdminMakeBusinessPlanPage = () => {
         <RecentCard
           title='Make Business Plan'
           style={styles.recentFullScreen}
-          Component={ButtonBlue}
+          Component={HeaderButtons}
           componentProps={{
-            titleNone: true,
-            title: 'Save',
+            isClearButton: loadStorage(storageKey) ? true : false,
+            storageKey,
             style: styles.buttonSave,
             iconProps: styles.buttonSaveIcon,
-            icon: '/icons/fileWhite.svg',
             onClick: handleCreateNewBusinessPlan,
           }}
         >
-          <Fields formData={formData} setFormData={setFormData} />
+          <Fields
+            formData={formData}
+            setFormData={setFormData}
+            storageKey={storageKey}
+          />
         </RecentCard>
       </section>
     </div>

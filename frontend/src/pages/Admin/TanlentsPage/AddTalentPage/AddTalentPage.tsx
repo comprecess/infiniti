@@ -91,7 +91,9 @@ export const AdminAddTalentPage = () => {
             componentProps={{
               storageKey,
               isClearButton: loadStorage(storageKey) ? true : false,
-              title: `${t('admin-talents-add-talent-page-button-1')}`,
+              titleButton: `${t(
+                'admin-talents-add-talent-page-button-1',
+              )}`,
               onClick: createNewTalent,
             }}
           >

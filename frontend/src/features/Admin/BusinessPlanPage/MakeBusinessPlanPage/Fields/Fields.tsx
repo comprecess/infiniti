@@ -1,4 +1,10 @@
-import { ChangeEvent, Dispatch, SetStateAction, useRef } from 'react'
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+} from 'react'
 
 import { BusinessPlanNewPlanFormData } from '../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -6,10 +12,12 @@ import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/Cust
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
+import { saveStorage } from '../../../../../shared/utils/Saving/Storage/SaveStorage'
 import styles from './Fields.module.scss'
 
 interface FieldsProps {
   formData: PartialFieldsPostData
+  storageKey: string
   setFormData: Dispatch<SetStateAction<PartialFieldsPostData>>
 }
 
@@ -18,7 +26,11 @@ export interface PartialFieldsPostData
   [key: string]: string | number | number[] | File | undefined | null
 }
 
-export const Fields = ({ formData, setFormData }: FieldsProps) => {
+export const Fields = ({
+  formData,
+  storageKey,
+  setFormData,
+}: FieldsProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const showToast = useCustomToast()
@@ -72,6 +84,10 @@ export const Fields = ({ formData, setFormData }: FieldsProps) => {
     })
   }
 
+  useEffect(() => {
+    saveStorage(storageKey, formData)
+  }, [formData, storageKey])
+
   return (
     <div className={styles.wrapper}>
       <CustomInput
@@ -79,6 +95,7 @@ export const Fields = ({ formData, setFormData }: FieldsProps) => {
         type='text'
         id='companyName'
         name='companyName'
+        value={formData.companyName ?? undefined}
         onChange={handleChangeInput}
       />
       <div className={styles.containerInputs}>
@@ -88,6 +105,7 @@ export const Fields = ({ formData, setFormData }: FieldsProps) => {
             type='text'
             id='name'
             name='name'
+            value={formData.name ?? undefined}
             onChange={handleChangeInput}
           />
           <CustomInput
@@ -95,6 +113,7 @@ export const Fields = ({ formData, setFormData }: FieldsProps) => {
             type='text'
             id='email'
             name='email'
+            value={formData.email ?? undefined}
             onChange={handleChangeInput}
           />
         </div>
@@ -104,11 +123,13 @@ export const Fields = ({ formData, setFormData }: FieldsProps) => {
             type='text'
             id='phone'
             name='phone'
+            value={formData.phone ?? undefined}
             onChange={handleChangeInput}
           />
           <CustomDataPicker
             title='Date'
             titleOnChange='date'
+            value={formData.date ?? undefined}
             onChange={handleChangeInput}
           />
         </div>
@@ -118,6 +139,7 @@ export const Fields = ({ formData, setFormData }: FieldsProps) => {
         type='text'
         id='website'
         name='website'
+        value={formData.website ?? undefined}
         onChange={handleChangeInput}
       />
       <div className={styles.containerItems}>

@@ -20,6 +20,9 @@ import { getCompany } from '../../../../shared/utils/api/Admin/Companies/get-com
 import { getCompanyInputData } from '../../../../shared/utils/api/Admin/Companies/get-company-input-data'
 import { postCreateNewCompany } from '../../../../shared/utils/api/Admin/Companies/post-create-new-company'
 import { putUpdateCompanyInfo } from '../../../../shared/utils/api/Admin/Companies/put-update-company-info'
+import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
+import { removeStorage } from '../../../../shared/utils/Saving/Storage/RemoveStorage'
+import { saveStorage } from '../../../../shared/utils/Saving/Storage/SaveStorage'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CompaniesPage.module.scss'
 
@@ -36,7 +39,30 @@ export const AdminCompaniesPage = () => {
   const [modalEditCompany, setModalEditCompany] = useState<boolean>(false)
   const [modalCompanyInfo, setModalCompanyInfo] = useState<boolean>(false)
 
-  const [companyData, setCompanyData] = useState<CompanyData>({
+  const storageKey = 'createCompanyForm'
+
+  const [companyData, setCompanyData] = useState<CompanyData>(() => {
+    const saved = loadStorage<CompanyData>(storageKey)
+
+    return (
+      saved || {
+        name: '',
+        logo: '',
+        code: '',
+        address: '',
+        businessNumber: '',
+        city: '',
+        url: '',
+        state: '',
+        email: '',
+        zip: '',
+        phone: '',
+        country: '',
+      }
+    )
+  })
+
+  const [companyEditData, setCompanyEditData] = useState<CompanyData>({
     name: '',
     logo: '',
     code: '',
@@ -50,6 +76,7 @@ export const AdminCompaniesPage = () => {
     phone: '',
     country: '',
   })
+
   const [inputData, setInputData] = useState<{ code: string } | null>(null)
 
   const { roles } = useOutletContext<{
@@ -76,10 +103,23 @@ export const AdminCompaniesPage = () => {
   }
 
   const handleInputChange = (name: string, value: string | number) => {
-    setCompanyData(prevState => ({
-      ...prevState,
-      [name]: value,
-    }))
+    setCompanyData(prev => {
+      const updated = { ...prev, [name]: value }
+
+      saveStorage(storageKey, updated)
+
+      return updated
+    })
+  }
+
+  const handleInputEditChange = (name: string, value: string | number) => {
+    setCompanyEditData(prev => {
+      const updated = { ...prev, [name]: value }
+
+      saveStorage(storageKey, updated)
+
+      return updated
+    })
   }
 
   const reloadSearchFilter = () => {
@@ -140,25 +180,31 @@ export const AdminCompaniesPage = () => {
     }, {} as Partial<CompanyData>)
   }
 
-  const loadCompanyInfo = async (id: number) => {
+  const loadCompanyInfo = async (id: number, type: 'edit' | 'view') => {
     const response = await getCompany(id)
 
     if (!response.status) return
 
-    setCompanyData(prevState => ({
-      ...prevState,
-      ...response.data,
-    }))
+    if (type === 'edit') {
+      setCompanyEditData(prevState => ({
+        ...prevState,
+        ...response.data,
+      }))
+    } else if (type === 'view') {
+      setCompanyData(prevState => ({
+        ...prevState,
+        ...response.data,
+      }))
+    }
   }
 
-  const loadCompanyInfoEdit = async (id: number) => {
-    await loadCompanyInfo(id)
+  const loadCompanyInfoEdit = async (
+    id: number,
+    type: 'edit' | 'view',
+  ) => {
+    await loadCompanyInfo(id, type)
     setSelectedCompanyId(id)
     handleOpenCloseModalEditCompany()
-  }
-
-  const handleOpenEditInView = async (id: number) => {
-    await loadCompanyInfoEdit(id)
   }
 
   const loadViewCompany = (id: number) => {
@@ -179,6 +225,7 @@ export const AdminCompaniesPage = () => {
       queryClient.invalidateQueries({ queryKey: ['companies'] })
       getInputData()
       handleOpenCloseModalNewCompany()
+      removeStorage(storageKey)
     } else {
       showToast({
         title: 'Error',
@@ -283,6 +330,9 @@ export const AdminCompaniesPage = () => {
       {inputData && (
         <ModalWindowCompany
           nameWindow='New Company'
+          storageKey={storageKey}
+          isClearButton={loadStorage(storageKey) ? true : false}
+          companyData={companyData}
           inputData={inputData}
           modalCompany={modalNewCompany}
           handleOpenCloseModal={handleOpenCloseModalNewCompany}
@@ -293,10 +343,10 @@ export const AdminCompaniesPage = () => {
       <ModalWindowCompany
         nameWindow='Edit Company'
         modalCompany={modalEditCompany}
-        values={companyData}
+        values={companyEditData}
         handleOpenCloseModal={handleOpenCloseModalEditCompany}
         functionCompany={editSelectedCompany}
-        handleInputChange={handleInputChange}
+        handleInputChange={handleInputEditChange}
       />
       {selectedCompanyId && (
         <ModalWindowCompanyInfo
@@ -304,7 +354,7 @@ export const AdminCompaniesPage = () => {
           id={selectedCompanyId}
           modalOpen={modalCompanyInfo}
           handleOpenCloseModal={handleOpenCloseModalCompanyInfo}
-          openEditModal={handleOpenEditInView}
+          openEditModal={loadCompanyInfoEdit}
         />
       )}
     </div>

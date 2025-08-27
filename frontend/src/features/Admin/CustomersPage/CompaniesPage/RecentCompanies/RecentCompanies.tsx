@@ -13,7 +13,7 @@ interface RecentCompaniesProps {
   access: RolesAccess
   companiesList: CompaniesListProps[]
   deleteCompany: (id: number) => void
-  editCompany: (id: number) => void
+  editCompany: (id: number, type: 'view' | 'edit') => void
   infoCompany: (id: number) => void
 }
 

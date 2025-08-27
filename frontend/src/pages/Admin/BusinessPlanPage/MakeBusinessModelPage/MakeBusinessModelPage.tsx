@@ -98,7 +98,7 @@ export const AdminMakeBusinessModelPage = () => {
   useEffect(() => {
     getModelInputData()
 
-    document.title = 'infiniti | Make Business Model'
+    document.title = 'infiniti | Create Business Model'
   }, [])
 
   return (
