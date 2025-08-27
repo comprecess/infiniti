@@ -9,6 +9,7 @@ use App\Services\Push\Contracts\PushContract;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Socket\Client as ClientSocket;
 
 class Notification extends Model
 {
@@ -116,6 +117,10 @@ class Notification extends Model
         $not->data = $data;
         $not->save();
 
+        #socket send
+        (new ClientSocket())->setUser($user)->setController('notification')->sendData();
+
+        #push
         if(($push = $user->push) && $isPush) {
             #Отправляем пушь уведомление
             self::sendPush($user, $not->getPushMessage());
