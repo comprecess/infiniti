@@ -45,7 +45,6 @@ export const Item = ({
       <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
         <ManageButtons
           firstButtonTitle='View'
-          thirdButtonTitle='Delete'
           firstClick={handleNavigateToView}
         />
       </div>

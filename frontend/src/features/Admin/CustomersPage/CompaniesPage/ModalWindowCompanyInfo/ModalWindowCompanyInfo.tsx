@@ -31,7 +31,7 @@ interface ModalWindowCompanyInfoProps {
   id: number | null
   modalOpen: boolean
   handleOpenCloseModal: () => void
-  openEditModal: (id: number) => void
+  openEditModal: (id: number, type: 'view' | 'edit') => void
 }
 
 export const ModalWindowCompanyInfo = ({
@@ -58,7 +58,7 @@ export const ModalWindowCompanyInfo = ({
   }
 
   const handleOpenEditPanel = (id: number) => {
-    openEditModal(id)
+    openEditModal(id, 'edit')
     handleOpenClose()
   }
 

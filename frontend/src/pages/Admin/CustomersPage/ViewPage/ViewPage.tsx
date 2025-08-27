@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import { Outlet, useOutletContext } from 'react-router-dom'
+import { Outlet, useLocation, useOutletContext } from 'react-router-dom'
 
 import { RolesAccess } from '../../../../app/constants/constants'
 import { ContactInfoSideBarData } from '../../../../app/data/contactInfoSideBar'
@@ -23,7 +23,9 @@ export const AdminViewPage = () => {
   const { roles } = useOutletContext<{
     roles?: { [key: string]: RolesAccess }
   }>()
+
   const id = useIdFromUrl('view')
+  const location = useLocation()
 
   const handleOpenCloseSidebar = () => {
     setIsOpenSideBar(!isOpenSideBar)
@@ -85,6 +87,10 @@ export const AdminViewPage = () => {
       document.body.style.overflow = ''
     }
   }, [isOpenSideBar, isMobile])
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 })
+  }, [location.pathname])
 
   if (!isInitialized) {
     return null

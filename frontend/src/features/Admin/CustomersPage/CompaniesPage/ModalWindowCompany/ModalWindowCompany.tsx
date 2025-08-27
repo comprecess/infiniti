@@ -1,6 +1,7 @@
 import { CompanyData } from '../../../../../app/constants/constants'
 import { CrossIcon } from '../../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
+import { ClearStorageButton } from '../../../../../shared/ui/ClearStorageButton/ClearStorageButton'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomModalWindow } from '../../../../../shared/ui/CustomModalWindow/CustomModalWindow'
 import { CountryList } from '../../../../../widgets/ProfileChangeInfoCard/CountryList/CountryList'
@@ -10,6 +11,9 @@ interface ModalWindowCompanyProps {
   nameWindow: string
   modalCompany: boolean
   values?: CompanyData
+  storageKey?: string
+  isClearButton?: boolean
+  companyData?: CompanyData
   inputData?: { code: string }
   handleOpenCloseModal: () => void
   functionCompany: () => void
@@ -19,8 +23,11 @@ interface ModalWindowCompanyProps {
 export const ModalWindowCompany = ({
   nameWindow,
   modalCompany,
+  isClearButton,
   values,
   inputData,
+  companyData,
+  storageKey,
   handleOpenCloseModal,
   functionCompany,
   handleInputChange,
@@ -34,6 +41,12 @@ export const ModalWindowCompany = ({
       <div className={styles.wrapper}>
         <div className={styles.header}>
           <h4 className={styles.title}>{nameWindow}</h4>
+          {storageKey && isClearButton && (
+            <ClearStorageButton
+              isClearButton={isClearButton}
+              storageKey={storageKey}
+            />
+          )}
           <div className={styles.cross} onClick={handleOpenCloseModal}>
             <CrossIcon />
           </div>
@@ -45,7 +58,7 @@ export const ModalWindowCompany = ({
               type='text'
               id='name'
               name='name'
-              value={values?.name || ''}
+              value={values?.name || companyData?.name || ''}
               onChange={handleInputChange}
             />
             <CustomInput
@@ -53,7 +66,7 @@ export const ModalWindowCompany = ({
               type='text'
               id='code'
               name='code'
-              value={values?.code || inputData?.code || ''}
+              value={values?.code || inputData?.code}
               onChange={handleInputChange}
             />
             <CustomInput
@@ -61,7 +74,9 @@ export const ModalWindowCompany = ({
               type='text'
               id='businessNumber'
               name='businessNumber'
-              value={values?.businessNumber || ''}
+              value={
+                values?.businessNumber || companyData?.businessNumber || ''
+              }
               onChange={handleInputChange}
             />
             <CustomInput
@@ -70,7 +85,7 @@ export const ModalWindowCompany = ({
               id='url'
               name='url'
               placeHolder='http://'
-              value={values?.url || ''}
+              value={values?.url || companyData?.url || ''}
               onChange={handleInputChange}
             />
             <CustomInput
@@ -78,7 +93,7 @@ export const ModalWindowCompany = ({
               type='email'
               id='email'
               name='email'
-              value={values?.email || ''}
+              value={values?.email || companyData?.email || ''}
               onChange={handleInputChange}
             />
             <CustomInput
@@ -86,7 +101,7 @@ export const ModalWindowCompany = ({
               type='text'
               id='phone'
               name='phone'
-              value={values?.phone || ''}
+              value={values?.phone || companyData?.phone || ''}
               onChange={handleInputChange}
             />
           </div>
@@ -96,7 +111,7 @@ export const ModalWindowCompany = ({
               type='text'
               id='logo'
               name='logo'
-              value={values?.logo || ''}
+              value={values?.logo || companyData?.logo || ''}
               onChange={handleInputChange}
             />
             <CustomInput
@@ -104,7 +119,7 @@ export const ModalWindowCompany = ({
               type='text'
               id='address'
               name='address'
-              value={values?.address || ''}
+              value={values?.address || companyData?.address || ''}
               onChange={handleInputChange}
             />
             <CustomInput
@@ -112,7 +127,7 @@ export const ModalWindowCompany = ({
               type='text'
               id='city'
               name='city'
-              value={values?.city || ''}
+              value={values?.city || companyData?.city || ''}
               onChange={handleInputChange}
             />
             <CustomInput
@@ -120,7 +135,7 @@ export const ModalWindowCompany = ({
               type='text'
               id='state'
               name='state'
-              value={values?.state || ''}
+              value={values?.state || companyData?.state || ''}
               onChange={handleInputChange}
             />
             <CustomInput
@@ -128,11 +143,12 @@ export const ModalWindowCompany = ({
               type='text'
               id='zip'
               name='zip'
-              value={values?.zip || ''}
+              value={values?.zip || companyData?.zip || ''}
               onChange={handleInputChange}
             />
             <CountryList
               country={values?.country || ''}
+              countryKey={companyData?.country}
               onChange={handleInputChange}
             />
           </div>

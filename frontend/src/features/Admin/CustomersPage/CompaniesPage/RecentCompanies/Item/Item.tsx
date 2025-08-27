@@ -15,7 +15,7 @@ interface ItemProps {
   email: string
   phone: string
   deleteCompany: (id: number) => void
-  editCompany: (id: number) => void
+  editCompany: (id: number, type: 'view' | 'edit') => void
   infoCompany: (id: number) => void
 }
 
@@ -42,7 +42,7 @@ export const Item = ({
   }
 
   const handleEditCompany = () => {
-    editCompany(id)
+    editCompany(id, 'edit')
   }
 
   const handleDeleteCompany = () => {

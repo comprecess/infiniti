@@ -14,10 +14,15 @@ import styles from './CountryList.module.scss'
 
 interface CountryListProps {
   country?: string
+  countryKey?: string
   onChange: (name: string, value: string) => void
 }
 
-export const CountryList = ({ country, onChange }: CountryListProps) => {
+export const CountryList = ({
+  country,
+  countryKey,
+  onChange,
+}: CountryListProps) => {
   const [item, setItem] = useState<string>(country || 'Select Country')
   const [allCountries, setAllCountries] = useState<[string, string][]>([])
 
@@ -48,7 +53,17 @@ export const CountryList = ({ country, onChange }: CountryListProps) => {
 
   useEffect(() => {
     getCountriesData()
-  }, [])
+  }, [getCountriesData])
+
+  useEffect(() => {
+    if (countryKey && allCountries.length > 0) {
+      const selected = allCountries.find(([code]) => code === countryKey)
+
+      if (selected) {
+        setItem(selected[1])
+      }
+    }
+  }, [countryKey, allCountries])
 
   return (
     <div className={styles.wrapper}>
