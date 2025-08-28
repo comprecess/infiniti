@@ -21,6 +21,8 @@ interface ErrorResponse {
 type Response = SuccessResponse | ErrorResponse
 
 export const postAddTalentToCart = async (
+  amount: number,
+  type: string,
   catalogUser: number,
 ): Promise<Response> => {
   const authToken = getAuthToken()
@@ -58,7 +60,7 @@ export const postAddTalentToCart = async (
         Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
-      body: JSON.stringify({ catalogUser }),
+      body: JSON.stringify({ amount, catalogUser, type }),
       signal: controller.signal,
     })
 

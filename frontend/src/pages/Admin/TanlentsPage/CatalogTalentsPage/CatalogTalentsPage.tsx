@@ -107,7 +107,9 @@ export const AdminCatalogTalentsPage = () => {
       const response = await getTalentsList(
         window.location.search.toString(),
       )
+
       if (!response.status) return
+
       if (parseInt(page) > response.data.meta.last_page) updatePage('1')
 
       return response.data as {

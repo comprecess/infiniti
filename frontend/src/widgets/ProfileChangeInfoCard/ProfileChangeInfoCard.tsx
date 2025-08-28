@@ -31,9 +31,11 @@ export const ProfileChangeInfoCard = ({
   const showToast = useCustomToast()
 
   const handleInputChange = (name: string, value: string | number) => {
+    const newValue = value === '' ? null : value
+
     setFormData(prevFormData => ({
       ...prevFormData,
-      [name]: value,
+      [name]: newValue,
     }))
   }
 
@@ -94,7 +96,7 @@ export const ProfileChangeInfoCard = ({
               title='Company Name'
               value={talent.company}
               type='text'
-              name='account'
+              name='company'
               onChange={handleInputChange}
             />
             <CustomInput

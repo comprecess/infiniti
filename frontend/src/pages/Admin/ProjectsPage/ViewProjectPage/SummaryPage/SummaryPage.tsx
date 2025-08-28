@@ -137,7 +137,7 @@ export const AdminProjectsSummaryPage = () => {
               </div>
             </div>
           )}
-          {projectInfo.budget?.value && projectInfo.expense?.value && (
+          {projectInfo.budget && projectInfo.expense && (
             <div className={styles.tasks}>
               <div className={styles.chart}>
                 <div className={styles.chartTexts}>

@@ -18,15 +18,9 @@ export const ClientProfilePage = () => {
     setProfileData(response.data)
   }, [])
 
-  const updatedProfileInfo = () => {
-    getProfileData()
-  }
-
   useEffect(() => {
     getProfileData()
-  }, [])
 
-  useEffect(() => {
     document.title = 'infiniti | Profile'
   }, [])
 
@@ -37,11 +31,11 @@ export const ClientProfilePage = () => {
           <div className={styles.listItems}>
             <ProfileCard
               talent={profileData}
-              onChangeInfo={updatedProfileInfo}
+              onChangeInfo={getProfileData}
             />
             <ProfileChangeInfoCard
               talent={profileData}
-              onChangeInfo={updatedProfileInfo}
+              onChangeInfo={getProfileData}
             />
           </div>
         </div>
