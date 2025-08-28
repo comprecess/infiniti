@@ -4,6 +4,7 @@ namespace App\Models\Catalog;
 
 use App\Models\Contracts\MeetingContract;
 use App\Models\Resident\Invoices\Offer;
+use App\Models\Resident\Orders\Order;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\Tax;
 use App\Models\Traits\ModelToCartTrait;
@@ -155,7 +156,8 @@ class Cart extends Model implements MeetingContract
             $new = $this;
         }
 
-        $model->order()->create(['id_catalog_cart' => $new->id]);
+        $orderCatalog = $model->order()->create(['id_catalog_cart' => $new->id]);
+        Order::createByCatalog($orderCatalog);
         $new->delete();
 
         return $new;

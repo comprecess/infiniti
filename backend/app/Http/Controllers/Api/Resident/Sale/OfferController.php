@@ -22,6 +22,7 @@ use App\Models\Resident\Invoices\Offer;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\Tax;
 use App\Models\User;
+use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
 use Illuminate\Http\Request;
@@ -189,7 +190,12 @@ class OfferController extends SaleController
         $invoice->date = $date;
         $invoice->duedate = $date;
         $invoice->nd = $date;
-        $invoice->aid = User::getAuth()->id;
+        $userAuth = User::getAuth();
+        if($userAuth instanceof Admin) {
+            $invoice->aid = $userAuth->id;
+        }else{
+            $invoice->aid = 0;
+        }
         $invoice->quote_id = intval($offer->id);
         if($offer->status()->checkCart()) {
             $invoice->notes = Config::get('invoice_terms');
