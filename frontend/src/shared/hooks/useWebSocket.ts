@@ -80,7 +80,7 @@ export const useWebSocket = ({
 
     wsRef.current.onclose = event => {
       console.warn(
-        `WebSocket: closed (code=${event.code}, reason=${event.reason})`,
+        `WebSocket: closed (code=${event.code}, reason=${event.reason}, wasClean=${event.wasClean})`,
       )
 
       setIsConnected(false)

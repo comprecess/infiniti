@@ -1,12 +1,13 @@
 import { Fragment } from 'react'
 
+import { OrdersViewCompany } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Item } from './Item/Item'
 import styles from './RecentOrders.module.scss'
 
 interface RecentOrdersProps {
-  orders: []
+  orders: OrdersViewCompany[]
 }
 
 export const RecentOrders = ({ orders }: RecentOrdersProps) => {
@@ -21,14 +22,14 @@ export const RecentOrders = ({ orders }: RecentOrdersProps) => {
             <Title title='Status' style={styles.statusColumn} />
           </div>
           <div className={styles.items}>
-            {orders.map((_order, index) => {
+            {orders.map((order, index) => {
               return (
-                <Fragment key={'order.id'}>
+                <Fragment key={order.id}>
                   <Item
-                    date={'order.date'}
-                    order={'order.order'}
-                    amount={'order.amount'}
-                    status={'order.status'}
+                    date={order.dateAdded}
+                    order={order.orderNum}
+                    amount={order.amount}
+                    status={order.status}
                   />
                   {index !== orders.length - 1 && <CustomDivider />}
                 </Fragment>
