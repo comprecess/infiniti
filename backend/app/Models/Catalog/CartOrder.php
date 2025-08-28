@@ -2,12 +2,13 @@
 
 namespace App\Models\Catalog;
 
+use App\Models\Traits\OrderTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class CartOrder extends Model
 {
-    use HasFactory;
+    use HasFactory, OrderTrait;
 
     public $table = "catalog_cart_order";
 
@@ -20,7 +21,7 @@ class CartOrder extends Model
 
     public function model()
     {
-        return $this->morphTo('to');
+        return $this->morphTo('model');
     }
 
     public function cart()

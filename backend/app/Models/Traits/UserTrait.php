@@ -14,9 +14,14 @@ trait UserTrait
         return $this->adminColumn ?? 'o';
     }
 
+    public function getClientColumn()
+    {
+        return $this->clientColumn ??'cid';
+    }
+
     public function client()
     {
-        return $this->belongsTo(Client::class, $this->clientColumn ??'cid');
+        return $this->belongsTo(Client::class, $this->getClientColumn());
     }
 
     public function admin()
