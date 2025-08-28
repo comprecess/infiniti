@@ -78,7 +78,7 @@ export const NotificationProfile = () => {
     if (isConnected && isAuth && data && data.c === 'notification') {
       handleGetNotifications()
     }
-  }, [isOpen])
+  }, [data])
 
   return (
     <Popover

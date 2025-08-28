@@ -4,6 +4,7 @@ import {
   AccountingTransactionsData,
   ClientOfferData,
   DashboardRecentInvoicesData,
+  OrdersViewCompany,
   UserInfo,
 } from '../../../app/constants/constants'
 import { RecentInvoices } from '../../../features/Client/DashboardPage/RecentInvoices/RecentInvoices'
@@ -22,6 +23,7 @@ export const ClientDashboardPage = () => {
     transaction: AccountingTransactionsData[]
     invoice: DashboardRecentInvoicesData[]
     offer: ClientOfferData[]
+    order: OrdersViewCompany[]
   } | null>(null)
   const [profileData, setProfileData] = useState<UserInfo | null>(null)
 
@@ -55,7 +57,7 @@ export const ClientDashboardPage = () => {
           <section className={styles.sectionFirst}>
             <UserCard profileData={profileData} />
             <RecentCard title='Recent Orders' style={styles.recentOrders}>
-              <RecentOrders orders={[]} />
+              <RecentOrders orders={data.order} />
             </RecentCard>
           </section>
           <section className={styles.sectionSecond}>
