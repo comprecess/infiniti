@@ -45,7 +45,7 @@ export const Footer = ({
   }
 
   const handleAddTalentToOrder = async () => {
-    const addResponse = await postAddTalentToCart(id)
+    const addResponse = await postAddTalentToCart(1, 'priceDay', id)
 
     if (addResponse.status) {
       showToast({
