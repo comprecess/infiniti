@@ -79,3 +79,10 @@ Route::controller(\App\Http\Controllers\Api\Resident\Project\CalendarController:
         Route::get('/{calendar}', 'item');
     });
 
+
+#settings
+Route::controller(\App\Http\Controllers\Api\All\SettingsController::class)
+    ->prefix('setting')
+    ->group(function(){
+        Route::get('default-currency', 'getDefaultCurrency');
+    });
