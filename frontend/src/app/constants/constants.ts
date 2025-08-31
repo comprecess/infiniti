@@ -181,6 +181,7 @@ export interface TalentData {
   priceHour: string
   specialization: string
   timezone: string
+  available: string
 }
 
 export interface TalentsProps {

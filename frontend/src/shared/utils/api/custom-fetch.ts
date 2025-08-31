@@ -31,6 +31,7 @@ export const customFetch = async <T = any>(
         return acc
       }, {} as Record<string, string>),
     ).toString()
+
     fullUrl += `?${queryString}`
   }
 

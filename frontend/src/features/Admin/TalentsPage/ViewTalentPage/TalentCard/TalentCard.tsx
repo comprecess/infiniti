@@ -82,7 +82,7 @@ export const TalentCard = ({
         <div className={styles.available}>
           <InfoIcon fill={styles.infoIcon} />
           <span className={styles.availableText}>
-            Will be available: next week
+            {`Will be available: ${talent.available}`}
           </span>
         </div>
         <div className={styles.rates}>

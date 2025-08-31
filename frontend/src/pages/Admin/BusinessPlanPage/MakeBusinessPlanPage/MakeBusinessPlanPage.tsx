@@ -56,7 +56,7 @@ export const AdminMakeBusinessPlanPage = () => {
     <div className={styles.wrapper}>
       <section className={styles.section}>
         <RecentCard
-          title='Make Business Plan'
+          title='Create Plan'
           style={styles.recentFullScreen}
           Component={HeaderButtons}
           componentProps={{
