@@ -1,4 +1,10 @@
-import { Dispatch, Fragment, SetStateAction, useState } from 'react'
+import {
+  Dispatch,
+  Fragment,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react'
 
 import {
   FiltersData,
@@ -9,6 +15,7 @@ import { CustomCheckBoxIndeterminate } from '../../../../shared/ui/CustomCheckBo
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { FromTo } from '../../../../shared/ui/FromTo/FromTo'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { getDefaultCurrency } from '../../../../shared/utils/api/Tools/get-default-currency'
 import { CategoryItem } from './CategoryItem/CategoryItem'
 import { Item } from './CategoryItem/Item/Item'
 import styles from './Filters.module.scss'
@@ -29,6 +36,18 @@ export const Filters = ({
   setSelectedFilters,
 }: FiltersProps) => {
   const [searchItems, setSearchItems] = useState<string[]>([])
+  const [currency, setCurrency] = useState<{
+    code: string
+    info: { symbol: string }
+  } | null>(null)
+
+  const getCurrency = async () => {
+    const response = await getDefaultCurrency()
+
+    if (!response.status) return
+
+    setCurrency(response.data.data)
+  }
 
   const handleSearchChange = (index: number, value: string) => {
     setSearchItems(prevSearchItems => {
@@ -70,9 +89,13 @@ export const Filters = ({
     setSelectedFilters({})
   }
 
+  useEffect(() => {
+    getCurrency()
+  }, [])
+
   return (
     <div className={styles.wrapper}>
-      {filters ? (
+      {filters && currency ? (
         <>
           <div className={styles.header}>
             <h6 className={styles.title}>Filters</h6>
@@ -128,7 +151,10 @@ export const Filters = ({
                 )}
                 {filter.type === 'checkboxOnlyForValue' && (
                   <>
-                    <CategoryItem title={filter.name} secondName='€ – EUR'>
+                    <CategoryItem
+                      title={filter.name}
+                      secondName={`${currency.info.symbol} - ${currency.code}`}
+                    >
                       <div className={styles.items}>
                         {filter.children.map(item => {
                           return (

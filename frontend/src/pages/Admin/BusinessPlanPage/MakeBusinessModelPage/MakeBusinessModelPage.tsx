@@ -8,18 +8,24 @@ import {
   Fields,
   PartialFieldsPostData,
 } from '../../../../features/Admin/BusinessPlanPage/MakeBusinessModel/Fields/Fields'
-import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getBusinessModelInputData } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/get-business-model-input-data'
 import { postCreateNewBusinessModel } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/post-create-new-business-model'
 import { getAnalysisChatGPT } from '../../../../shared/utils/api/Admin/ChatGPT/get-analysis-chat-gpt'
 import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
+import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
+import { removeStorage } from '../../../../shared/utils/Saving/Storage/RemoveStorage'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
+import { HeaderButtons } from './HeaderButtons/HeaderButtons'
 import styles from './MakeBusinessModelPage.module.scss'
 
 export const AdminMakeBusinessModelPage = () => {
-  const [formData, setFormData] = useState<PartialFieldsPostData>({})
+  const storageKey = 'createBusinessModelForm'
+
+  const [formData, setFormData] = useState<PartialFieldsPostData>(
+    () => loadStorage<PartialFieldsPostData>(storageKey) || {},
+  )
   const [inputData, setInputData] =
     useState<BusinessModelInputData | null>(null)
 
@@ -60,6 +66,7 @@ export const AdminMakeBusinessModelPage = () => {
         description: 'You have successfully created a Business Model',
         status: 'success',
       })
+      removeStorage(storageKey)
       navigate(
         `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.businessModels}`,
       )
@@ -107,18 +114,18 @@ export const AdminMakeBusinessModelPage = () => {
         {inputData ? (
           <RecentCard
             title={t('admin-make-business-model-page-title')}
-            Component={ButtonBlue}
+            Component={HeaderButtons}
             style={styles.recentFullScreen}
             componentProps={{
-              titleNone: true,
-              title: `${t('admin-make-business-model-page-button-1')}`,
-              icon: '/icons/fileWhite.svg',
-              iconProps: styles.buttonSaveIcon,
+              isClearButton: loadStorage(storageKey) ? true : false,
+              storageKey,
               style: styles.buttonSave,
+              iconProps: styles.buttonSaveIcon,
               onClick: handleCreateNewBusinessModel,
             }}
           >
             <Fields
+              storageKey={storageKey}
               inputData={inputData}
               formData={formData}
               setFormData={setFormData}

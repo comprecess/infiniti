@@ -150,17 +150,25 @@ export const NotificationProfile = () => {
           }}
         >
           {notifications ? (
-            <div className={styles.notificationsList}>
-              {notifications.map(item => {
-                return (
-                  <NotificationItem
-                    key={item.id}
-                    notification={item}
-                    notificationIsViewed={handleNotificationViewed}
-                  />
-                )
-              })}
-            </div>
+            notifications.length > 0 ? (
+              <div className={styles.notificationsList}>
+                {notifications.map(item => {
+                  return (
+                    <NotificationItem
+                      key={item.id}
+                      notification={item}
+                      notificationIsViewed={handleNotificationViewed}
+                    />
+                  )
+                })}
+              </div>
+            ) : (
+              <div className={styles.nothingFound}>
+                <span className={styles.nothingFoundText}>
+                  Nothing Found
+                </span>
+              </div>
+            )
           ) : (
             <div className={styles.loading}>
               <LoadingSpinner />
