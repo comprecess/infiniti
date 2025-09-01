@@ -15,6 +15,7 @@ use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\DocumentResource;
 use App\Http\Resources\Resident\Invoices\InvoiceListResource;
 use App\Http\Resources\Resident\Project\ProjectListResource;
+use App\Http\Resources\Resident\Project\View\TaskGanttChartResource;
 use App\Http\Resources\Resident\Project\View\TaskResource;
 use App\Http\Resources\Resident\Transactions\TransactionsListResource;
 use App\Models\Resident\Project\Task;
@@ -152,6 +153,15 @@ class Get extends View
             'lastCompleted' => $day7Complate,
             'statusCount' => $statusCount
         ]);
+    }
+
+    public function ganttChart()
+    {
+        $tasks = $this->model->tasks()
+            ->with(['project'])
+            ->sort();
+
+        return $this->index($tasks, TaskGanttChartResource::class);
     }
 
 }

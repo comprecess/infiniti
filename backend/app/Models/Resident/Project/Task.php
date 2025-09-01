@@ -2,6 +2,7 @@
 
 namespace App\Models\Resident\Project;
 
+use App\Http\Requests\Traits\TimeZoneTrait;
 use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\Traits\UserTrait;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Cache;
 
 class Task extends Model implements InsertDefaultValueInterface
 {
-    use HasFactory, UserTrait, InsertDefaultValueTrait, SoftDeletes;
+    use HasFactory, UserTrait, InsertDefaultValueTrait, SoftDeletes, TimeZoneTrait;
 
     const STATUS = ['Not Started', 'In Progress', 'Completed', 'Deferred', 'Waiting', 'Archived'];
     const STATUS_COMPLETED = [self::STATUS[2], self::STATUS[5]];
@@ -65,6 +66,31 @@ class Task extends Model implements InsertDefaultValueInterface
     public function scopeSort($query) :void
     {
         $query->orderBy('position')->orderBy('id');
+    }
+
+    public function ganttCharProgressDate() :int
+    {
+        $tz = $this->getTimeTimezone();
+        $startTask = $this->started?->setTimezone($tz);
+        $endTask = $this->due_date?->setTimezone($tz);
+        $now = now()->setHour(0)->setMinute(0)->setSecond(0)->setMillisecond(0)->setTimezone($tz);
+
+        if($startTask > $now) {
+            return 0;
+        }
+
+        if(
+            ($startTask <= $now && !$endTask)
+            || ($startTask <= $now && $endTask < $now)
+        ) {
+            return 100;
+        }
+
+        $startDiff = $startTask->diff($now);
+        $endDiff = $startTask->diff($endTask);
+        $endDays = $endDiff->days + 1;
+//        dd($startDiff, $endDiff, round(($startDiff->days * 100) / ($endDiff->days + 1)));
+        return (int) round(($startDiff->days * 100) / $endDays);
     }
 
 
