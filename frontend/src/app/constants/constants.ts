@@ -1576,3 +1576,12 @@ export interface ProjectsTasksFormData {
   description: string
   client: string
 }
+
+export interface ProjectsGanttChartData {
+  id: number
+  start: string
+  end: string
+  progress: number
+  text: string
+  type: string
+}

@@ -55,6 +55,7 @@ import { AdminEditProject } from '../../pages/Admin/ProjectsPage/EditProject/Edi
 import { AdminProjectsPage } from '../../pages/Admin/ProjectsPage/ProjectsPage'
 import { AdminProjectsExpensesPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/ExpensesPage/ExpensesPage'
 import { AdminProjectsFilesPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/FilesPage/FilesPage'
+import { AdminProjectsGanttChartPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/GanttChartPage/GanttChartPage'
 import { AdminProjectsInvoicesPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/InvoicesPage/InvoicesPage'
 import { AdminProjectsSummaryPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/SummaryPage/SummaryPage'
 import { AdminProjectsTasksPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/TasksPage/TasksPage'
@@ -138,6 +139,7 @@ export const Routes = {
   view: 'view',
   new: 'new',
   carts: 'carts',
+  ganttChart: 'gantt-chart',
   cart: 'cart',
   project: 'project',
   auto: 'auto',
@@ -303,6 +305,7 @@ export const Pages = {
   adminProjectsFilesPage: <AdminProjectsFilesPage />,
   adminProjectsInvoicesPage: <AdminProjectsInvoicesPage />,
   adminProjectsExpensesPage: <AdminProjectsExpensesPage />,
+  adminProjectsGanttChartPage: <AdminProjectsGanttChartPage />,
   adminLeadsPage: <AdminLeadsPage />,
   adminSMSPage: <AdminSMSPage />,
   adminSupportPage: <AdminSupportPage />,
