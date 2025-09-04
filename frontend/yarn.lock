@@ -4369,22 +4369,7 @@ react-datepicker@^7.3.0:
     prop-types "^15.7.2"
     react-onclickoutside "^6.13.0"
 
-react-dnd-html5-backend@^16.0.1:
-  version "16.0.1"
-  resolved "https://registry.npmjs.org/react-dnd-html5-backend/-/react-dnd-html5-backend-16.0.1.tgz"
-  integrity sha512-Wu3dw5aDJmOGw8WjH1I1/yTH+vlXEL4vmjk5p+MHxP8HuHJS1lAGeIdG/hze1AvNeXWo/JgULV87LyQOr+r5jw==
-  dependencies:
-    dnd-core "^16.0.1"
-
-react-dnd-touch-backend@^16.0.1:
-  version "16.0.1"
-  resolved "https://registry.npmjs.org/react-dnd-touch-backend/-/react-dnd-touch-backend-16.0.1.tgz"
-  integrity sha512-NonoCABzzjyWGZuDxSG77dbgMZ2Wad7eQiCd/ECtsR2/NBLTjGksPUx9UPezZ1nQ/L7iD130Tz3RUshL/ClKLA==
-  dependencies:
-    "@react-dnd/invariant" "^4.0.1"
-    dnd-core "^16.0.1"
-
-react-dnd@*, react-dnd@^16.0.1:
+react-dnd@*:
   version "16.0.1"
   resolved "https://registry.npmjs.org/react-dnd/-/react-dnd-16.0.1.tgz"
   integrity sha512-QeoM/i73HHu2XF9aKksIUuamHPDvRglEwdHL4jsp784BgUuWcg6mzfxT0QDdQz8Wj0qyRKx2eMg8iZtWvU4E2Q==
@@ -5183,6 +5168,11 @@ wrappy@1:
   version "1.0.2"
   resolved "https://registry.npmjs.org/wrappy/-/wrappy-1.0.2.tgz"
   integrity sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==
+
+wx-react-gantt@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/wx-react-gantt/-/wx-react-gantt-1.3.1.tgz#8ead95a3b6305f3d58fdef8fc3d9994c2519d73f"
+  integrity sha512-Ua1hrMXfXENjhTVFBDf9D2mTXsw8BEHUDUUgnjDyQ4iXDEd5ueZGoUiCpBSX85XCDC8zIlm2f0KfuVSYNLuMRA==
 
 yallist@^3.0.2:
   version "3.1.1"

@@ -401,6 +401,10 @@ export const router = createBrowserRouter([
             element: Pages.adminProjectsInvoicesPage,
           },
           {
+            path: Routes.ganttChart,
+            element: Pages.adminProjectsGanttChartPage,
+          },
+          {
             path: '*',
             index: true,
             element: <Navigate replace to={To.summary()} />,

@@ -1,0 +1,97 @@
+.my-gantt-theme {
+  border: 2px solid $brand-800;
+  border-radius: 8px;
+  overflow: hidden;
+
+  /* ================== Основные цвета ================== */
+  --wx-gantt-icon-color: #{$gray-200};
+
+  /* ================== Bars (задачи) ================== */
+  --wx-gantt-task-color: #{$brand-400};
+  --wx-gantt-task-font-color: #{$white};
+  --wx-gantt-task-fill-color: #{$brand-500};
+  --wx-gantt-task-border-color: #{$brand-600};
+  --wx-gantt-task-border: 1px solid transparent;
+  --wx-gantt-bar-border-radius: 6px;
+
+  /* ================== Проекты (summary) ================== */
+  --wx-gantt-project-color: #{$mint-500};
+  --wx-gantt-project-font-color: #{$white};
+  --wx-gantt-project-fill-color: #{$mint-400};
+  --wx-gantt-project-border-color: #{$mint-600};
+  --wx-gantt-project-border: 1px solid transparent;
+
+  /* ================== Вехи (milestones) ================== */
+  --wx-gantt-milestone-color: #{$cherry-500};
+  --wx-gantt-milestone-border-radius: 3px;
+
+  /* ================== Прогресс ================== */
+  --wx-gantt-progress-marker-width: 30px !important;
+  --wx-gantt-progress-marker-height: 30px !important;
+  --wx-gantt-progress-border-color: #{$gray-500};
+
+  /* ================== Таймскейл ================== */
+  --wx-timescale-font-color: #{$gray-200};
+  --wx-timescale-border: 1px solid #{$gray-600};
+  --wx-timescale-column-width: 40px; /* уменьшенная ширина колонок */
+
+  /* ================== Холидеи ================== */
+  --wx-gantt-holiday-background: #{$gray-700};
+  --wx-gantt-holiday-color: #{$gray-300};
+
+  /* ================== Линки ================== */
+  --wx-gantt-link-color: #{$amber-500};
+  --wx-gantt-link-marker-background: #{$gray-600};
+  --wx-gantt-link-marker-color: #{$amber-300};
+
+  /* ================== Тултипы ================== */
+  --wx-tooltip-font-color: #{$white};
+  --wx-tooltip-background: #{$gray-600};
+
+  /* ================== Сайдбар ================== */
+  --wx-sidebar-close-icon: #{$gray-300};
+
+  /* ================== Убираем grid ================== */
+  --wx-grid-header-display: none;
+  --wx-grid-body-display: none;
+
+  /* На случай, если переменные не сработают */
+  .wx-grid {
+    display: none !important;
+  }
+
+  /* Растягиваем timeline на всю ширину */
+  .wx-gantt {
+    grid-template-columns: 0 1fr !important;
+  }
+
+  /* Убираем ресайзеры (разделители колонок) */
+  .wx-resizer {
+    display: none !important;
+  }
+
+  /* Убираем таблицу с задачами полностью */
+  .wx-table-wrapper {
+    display: none !important;
+  }
+
+  .wx-progress-marker {
+    display: block !important;
+  }
+
+  .wx-cell {
+    border-right: 2px solid $brand-800 !important;
+  }
+
+  .wx-cell:last-child {
+    border-right: none !important;
+  }
+
+  .wx-area {
+    margin-bottom: 12px !important;
+  }
+
+  .wx-sidebar {
+    display: none !important;
+  }
+}
