@@ -59,6 +59,8 @@ class Transaction extends Model implements InsertDefaultValueInterface
         'date' => 'date',
     ];
 
+    protected $currencyDateColumn = 'date';
+
     protected $fillable = [
         'cat_id',
     ];

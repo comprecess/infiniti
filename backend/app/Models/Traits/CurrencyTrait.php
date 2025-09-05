@@ -5,6 +5,8 @@ namespace App\Models\Traits;
 
 
 use App\Models\Resident\Settings\Currency;
+use App\Models\Resident\Settings\CurrencyHistory;
+use App\Relations\HasOneTransform;
 use NumberFormatter;
 
 trait CurrencyTrait
@@ -29,6 +31,11 @@ trait CurrencyTrait
         return $this->currencyColumnName ?? 'currency_iso_code';
     }
 
+    public function getDateCurrency()
+    {
+        return $this->currencyDateColumn ?? 'created_at';
+    }
+
     public function getCurrencyIso()
     {
         if($this->getCurrencyId()) {
@@ -36,6 +43,30 @@ trait CurrencyTrait
         } else {
             return $this->belongsTo(Currency::class, $this->getCurrencyColumnName(), 'iso_code')->withTrashed();
         }
+    }
+
+//    public function currencyHistory()
+//    {
+//        return $this->hasMany(CurrencyHistory::class, 'date', $this->getDateCurrency());
+//    }
+
+//    public function currencyHistory()
+//    {
+//        $class = CurrencyHistory::class;
+//        $date = $this->getDateCurrency();
+//        return new HasManyTransform((new $class())->newQuery(), $this, 'date', function($d) use($date){
+//            return $d->{$date}->format('Y-m-d');
+//        });
+//    }
+
+    public function currencyHistory()
+    {
+        $class = CurrencyHistory::class;
+        $date = $this->getDateCurrency();
+        $code = $this->getCurrencyColumnName();
+        return new HasOneTransform((new $class())->newQuery(), $this, ['date', 'iso_code'], [function($d) use($date){
+            return $d->{$date}->format('Y-m-d');
+        }, $code]);
     }
 
     public function getCurrencyOrCreate()

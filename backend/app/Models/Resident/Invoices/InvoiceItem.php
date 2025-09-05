@@ -34,6 +34,8 @@ class InvoiceItem extends Model implements InsertDefaultValueInterface
 
     public $collection = InvoiceItemCollection::class;
 
+    public $currencyDateColumn = 'created_at';
+
     protected $casts = [
         'amount' => 'float',
     ];
