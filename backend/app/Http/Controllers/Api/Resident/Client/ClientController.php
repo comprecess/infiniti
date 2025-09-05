@@ -34,6 +34,7 @@ use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\CustomFields;
 use App\Models\Resident\Settings\Tag;
+use App\Models\Resident\Transactions\Transaction;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
@@ -521,23 +522,34 @@ class ClientController extends MainClientController
     }
     public function test3(Request $request)
     {
-//        $socketClient = new \App\Socket\Client();
-//        dd($socketClient->send(
-//            [
-//                'c' => 'notification',
-//                'user' => [
-//                    'class' => 'all'
-//                ],
-//                'data' => [
-//                    'message' => $request->message ?? 'Message!'
-//                ]
-//            ]
-//        ));
         $userClass = $request->user == 'client' ? Client::class : Admin::class;
         $user = $userClass::find($request->id ?? 0);
         if($user) {
             Notification::createMain($user, message: 'test');
         }
         return response()->json(['success' => true]);
+    }
+
+    public function test4(Request $request)
+    {
+        $tr = Transaction::with(['currencyHistory'])
+//            ->wherePivot('getCurrencyDate.date', '2025-07-13')
+            ->orderBy('id', 'desc')
+            ->limit(10)
+        ->get();
+
+//        $tr = Transaction::find(231)->currencyHistory;
+
+//        $tr = InvoiceItem::with(['currencyHistory'])
+//            ->orderBy('id', 'desc')
+//            ->limit(10)
+//            ->get();
+//        dd($tr);
+        foreach($tr as $t) {
+            dump($t->id);
+            dump($t->{$t->getCurrencyColumnName()});
+            dump($t->date->format('Y-m-d'));
+            dump($t->currencyHistory);
+        }
     }
 }

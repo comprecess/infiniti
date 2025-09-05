@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Resident\Settings\Currency;
+use App\Models\Resident\Settings\CurrencyHistory;
 use App\Services\Currency\Contract\CurrencyServiceContract;
 use App\Services\Currency\Dto;
 use Illuminate\Console\Command;
@@ -30,15 +31,24 @@ class SetCurrency extends Command
     {
         $currency = Currency::withTrashed()->get();
         $curData = new Dto();
+        $date = now();
+
         $curData->set($currency->pluck('iso_code')->all());
         $rates = $currencyService->setDto($curData)
             ->currentRate()
             ->getRate();
 
-        $currency->each(function ($item) use($rates){
+
+        $currency->each(function ($item) use($rates, $date){
             if(isset($rates[$item->iso_code])) {
                 $item->rate = $rates[$item->iso_code];
                 $item->save();
+
+                $history = new CurrencyHistory();
+                $history->iso_code = $item->iso_code;
+                $history->rate = $rates[$item->iso_code];
+                $history->date = $date;
+                $history->save();
             }
         });
     }

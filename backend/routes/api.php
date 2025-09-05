@@ -75,3 +75,4 @@ Route::any('zoom/webhook',[\App\Services\Zoom\WebHook::class, 'index']);
 Route::get('test/list', [\App\Http\Controllers\Api\Resident\Client\ClientController::class, 'test']);
 Route::get('test2/list', [\App\Http\Controllers\Api\Resident\Client\ClientController::class, 'test2']);
 Route::get('test3/list', [\App\Http\Controllers\Api\Resident\Client\ClientController::class, 'test3']);
+Route::get('test4/list', [\App\Http\Controllers\Api\Resident\Client\ClientController::class, 'test4'])/*->middleware(['testDB'])*/;
