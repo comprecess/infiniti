@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Calendar\CalendarCreateRequest;
 use App\Http\Requests\Resident\DocumentFileCreateRequest;
 use App\Http\Requests\Resident\Invoices\InvoiceRequest;
+use App\Http\Requests\Resident\Project\View\GanttChartRequest;
 use App\Http\Requests\Resident\Task\TaskCreateRequest;
 use App\Http\Requests\Resident\Task\TaskUpdateStatusRequest;
 use App\Models\Resident\Document;
@@ -73,6 +74,26 @@ class Edit extends View
         $controller = new CalendarController();
         $request = app(CalendarCreateRequest::class);
         return $controller->createOrUpdate(new Calendar(), $request);
+    }
+
+    public function ganttChart()
+    {
+        $id = $this->urlToMethod(true);
+        $task = $this->model->tasks()->where('id', $id)->firstOrFail();
+        $request = app(GanttChartRequest::class);
+
+        if($request->start) {
+            $task->started = $request->start;
+        }
+
+        if($request->end) {
+            $task->due_date = $request->end;
+        }
+
+        $task->save();
+
+        return $this->defResponse();
+
     }
 
 }
