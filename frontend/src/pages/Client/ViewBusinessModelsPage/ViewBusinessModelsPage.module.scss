@@ -103,24 +103,3 @@
   flex-direction: row;
   justify-content: space-between;
 }
-
-.categoryContent {
-  p {
-    font-size: 15px;
-    margin: 0;
-    padding: 0;
-  }
-
-  a {
-    font-size: 15px;
-    color: $brand-500;
-    text-decoration: underline;
-  }
-
-  ol,
-  li {
-    margin-left: 14px;
-    list-style-position: inside;
-    font-size: 15px;
-  }
-}

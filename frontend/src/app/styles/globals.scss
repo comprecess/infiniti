@@ -43,3 +43,33 @@ input {
   background-color: $brand-800;
   border-radius: 8px;
 }
+
+.dangerouslySetInnerHTML {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
+
+  p {
+    font-size: 15px;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    font-size: 15px;
+    color: $brand-500;
+    text-decoration: underline;
+  }
+
+  ol,
+  li {
+    list-style-position: inside;
+    font-size: 15px;
+  }
+
+  li {
+    margin-left: 14px;
+  }
+}

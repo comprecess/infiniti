@@ -14,7 +14,7 @@ import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivi
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
-import { postInvoicePriceCalc } from '../../../../../shared/utils/api/Admin/Sales/NewInvoice/PostInvoicePriceCalc'
+import { postInvoicePriceCalc } from '../../../../../shared/utils/api/Admin/Sales/NewInvoice/post-invoice-price-calc'
 import { AddProductOrService } from '../../AddProductOrService/AddProductOrService'
 import { Blank } from './Blank/Blank'
 import styles from './Fields.module.scss'
@@ -88,12 +88,14 @@ export const Fields = ({
 
     const currency = formData.currency || ''
 
-    const postResponse = await postInvoicePriceCalc({
+    const response = await postInvoicePriceCalc({
       blankList,
       currency,
     })
 
-    setPriceCalc(postResponse)
+    if (!response.status) return
+
+    setPriceCalc(response.data)
   }
 
   const handleChangeInput = (

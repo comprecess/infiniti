@@ -129,7 +129,7 @@ export const InvoiceProofTransaction = () => {
               dangerouslySetInnerHTML={{
                 __html: sanitizeMessage(info.notes),
               }}
-              className={styles.note}
+              className='dangerouslySetInnerHTML'
             />
           </div>
           <div className={styles.footer}>

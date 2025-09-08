@@ -60,42 +60,48 @@ export const AdminProjectsSummaryPage = () => {
               <span className={styles.budgetTitle}>Details:</span>
               <span
                 dangerouslySetInnerHTML={{ __html: safeDetails }}
-                className={styles.details}
+                className='dangerouslySetInnerHTML'
               />
             </div>
           )}
-          <div className={styles.dateList}>
-            <div className={styles.date}>
-              <div className={styles.dateContainerFirst}>
-                <div className={styles.dateHeader}>
-                  <img
-                    src='/icons/clockWithArrow.svg'
-                    alt='calendar'
-                    className={styles.dateImgStart}
-                  />
-                  <span className={styles.dateText}>Start Date</span>
+          {(projectInfo.startDate || projectInfo.dueDate) && (
+            <div className={styles.dateList}>
+              {projectInfo.startDate && (
+                <div className={styles.date}>
+                  <div className={styles.dateContainerFirst}>
+                    <div className={styles.dateHeader}>
+                      <img
+                        src='/icons/clockWithArrow.svg'
+                        alt='calendar'
+                        className={styles.dateImgStart}
+                      />
+                      <span className={styles.dateText}>Start Date</span>
+                    </div>
+                    <span className={styles.startDate}>
+                      {projectInfo.startDate || 'Not set'}
+                    </span>
+                  </div>
                 </div>
-                <span className={styles.startDate}>
-                  {projectInfo.startDate || 'Not set'}
-                </span>
-              </div>
-            </div>
-            <div className={styles.date}>
-              <div className={styles.dateContainerSecond}>
-                <div className={styles.dateHeader}>
-                  <img
-                    src='/icons/clockWithArrow.svg'
-                    alt='calendar'
-                    className={styles.dateImgDue}
-                  />
-                  <span className={styles.dateText}>Due Date</span>
+              )}
+              {projectInfo.dueDate && (
+                <div className={styles.date}>
+                  <div className={styles.dateContainerSecond}>
+                    <div className={styles.dateHeader}>
+                      <img
+                        src='/icons/clockWithArrow.svg'
+                        alt='calendar'
+                        className={styles.dateImgDue}
+                      />
+                      <span className={styles.dateText}>Due Date</span>
+                    </div>
+                    <span className={styles.startDate}>
+                      {projectInfo.dueDate || 'Not set'}
+                    </span>
+                  </div>
                 </div>
-                <span className={styles.startDate}>
-                  {projectInfo.dueDate || 'Not set'}
-                </span>
-              </div>
+              )}
             </div>
-          </div>
+          )}
           {isMembers && (
             <div className={styles.members}>
               <span className={styles.teamMembersText}>Team Members</span>
@@ -137,7 +143,7 @@ export const AdminProjectsSummaryPage = () => {
               </div>
             </div>
           )}
-          {projectInfo.budget && projectInfo.expense && (
+          {projectInfo.budget.value > 0 && (
             <div className={styles.tasks}>
               <div className={styles.chart}>
                 <div className={styles.chartTexts}>

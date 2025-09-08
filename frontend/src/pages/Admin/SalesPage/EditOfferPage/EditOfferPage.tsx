@@ -22,7 +22,7 @@ import { postAddNewBlankOffer } from '../../../../shared/utils/api/Admin/Sales/E
 import { postAddNewServiceBlankOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/post-add-new-service-blank-offer'
 import { putUpdateBlankOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/put-update-blank-offer'
 import { putUpdateOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/put-update-offer'
-import { getOfferInputData } from '../../../../shared/utils/api/Admin/Sales/NewOffer/GetOfferInputData'
+import { getOfferInputData } from '../../../../shared/utils/api/Admin/Sales/NewOffer/get-offer-input-data'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditOfferPage.module.scss'
@@ -50,9 +50,11 @@ export const AdminEditOfferPage = () => {
   }
 
   const getNewOfferInputData = async () => {
-    const getResponse = await getOfferInputData()
+    const response = await getOfferInputData()
 
-    setInputData(getResponse)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
   const getBlanksOffer = async () => {

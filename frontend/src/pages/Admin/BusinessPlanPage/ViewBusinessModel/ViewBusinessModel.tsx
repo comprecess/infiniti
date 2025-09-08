@@ -113,7 +113,7 @@ export const AdminViewBusinessModel = () => {
                   dangerouslySetInnerHTML={{
                     __html: sanitizeMessage(model.marketAnalysis),
                   }}
-                  className={styles.categoryContent}
+                  className='dangerouslySetInnerHTML'
                 />
               </div>
             )}
@@ -124,7 +124,7 @@ export const AdminViewBusinessModel = () => {
                   dangerouslySetInnerHTML={{
                     __html: sanitizeMessage(model.financialModel),
                   }}
-                  className={styles.categoryContent}
+                  className='dangerouslySetInnerHTML'
                 />
               </div>
             )}
@@ -135,7 +135,7 @@ export const AdminViewBusinessModel = () => {
                   dangerouslySetInnerHTML={{
                     __html: sanitizeMessage(model.currentInvestors),
                   }}
-                  className={styles.categoryContent}
+                  className='dangerouslySetInnerHTML'
                 />
               </div>
             )}
@@ -146,7 +146,7 @@ export const AdminViewBusinessModel = () => {
                   dangerouslySetInnerHTML={{
                     __html: sanitizeMessage(model.stagesImplementation),
                   }}
-                  className={styles.categoryContent}
+                  className='dangerouslySetInnerHTML'
                 />
               </div>
             )}
@@ -157,7 +157,7 @@ export const AdminViewBusinessModel = () => {
                   dangerouslySetInnerHTML={{
                     __html: sanitizeMessage(model.partnershipOptions),
                   }}
-                  className={styles.categoryContent}
+                  className='dangerouslySetInnerHTML'
                 />
               </div>
             )}

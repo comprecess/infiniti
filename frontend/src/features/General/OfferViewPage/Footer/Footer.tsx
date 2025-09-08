@@ -36,7 +36,7 @@ export const Footer = ({
             dangerouslySetInnerHTML={{
               __html: safeHTMLNotes,
             }}
-            className={styles.message}
+            className='dangerouslySetInnerHTML'
           />
         </div>
       )}

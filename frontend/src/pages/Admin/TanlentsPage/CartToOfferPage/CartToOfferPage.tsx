@@ -13,8 +13,8 @@ import {
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getOfferInputData } from '../../../../shared/utils/api/Admin/Sales/NewOffer/GetOfferInputData'
-import { addNewOffer } from '../../../../shared/utils/api/Admin/Sales/NewOffer/PostCreateNewOffer'
+import { getOfferInputData } from '../../../../shared/utils/api/Admin/Sales/NewOffer/get-offer-input-data'
+import { postCreateNewOffer } from '../../../../shared/utils/api/Admin/Sales/NewOffer/post-create-new-offer'
 import { getOfferCartInfo } from '../../../../shared/utils/api/Admin/Talents/Cart/get-offer-cart-info'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './CartToOfferPage.module.scss'
@@ -64,17 +64,19 @@ export const AdminCartToOfferPage = () => {
   }
 
   const getNewOfferInputData = async () => {
-    const getResponse = await getOfferInputData()
+    const response = await getOfferInputData()
 
-    setInputData(getResponse)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
-  const createOffer = async () => {
+  const createNewOffer = async () => {
     if (idCart === null) return
 
-    const updateResponse = await addNewOffer(formData)
+    const { status, message } = await postCreateNewOffer(formData)
 
-    if (updateResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully created an offer',
@@ -86,7 +88,7 @@ export const AdminCartToOfferPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: updateResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -115,7 +117,7 @@ export const AdminCartToOfferPage = () => {
               title: 'Save',
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,
-              onClick: createOffer,
+              onClick: createNewOffer,
               style: styles.buttonSave,
             }}
           >

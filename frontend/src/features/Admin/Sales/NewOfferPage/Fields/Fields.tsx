@@ -14,7 +14,7 @@ import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivi
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
-import { postOfferPriceCalc } from '../../../../../shared/utils/api/Admin/Sales/NewOffer/PostOfferPriceCalc'
+import { postOfferPriceCalc } from '../../../../../shared/utils/api/Admin/Sales/NewOffer/post-offer-price-calc'
 import { AddProductOrService } from '../../AddProductOrService/AddProductOrService'
 import { Blank } from './Blank/Blank'
 import styles from './Fields.module.scss'
@@ -83,11 +83,13 @@ export const Fields = ({
       discountType: blank.discountType,
     }))
 
-    const postResponse = await postOfferPriceCalc({
+    const response = await postOfferPriceCalc({
       blankList,
     })
 
-    setPriceCalc(postResponse)
+    if (!response.status) return
+
+    setPriceCalc(response.data)
   }
 
   const handleBlankChange = (

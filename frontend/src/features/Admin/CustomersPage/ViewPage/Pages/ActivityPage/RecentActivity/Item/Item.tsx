@@ -68,7 +68,7 @@ export const Item = ({
               <span className={styles.account}>{account}</span>
               <div
                 dangerouslySetInnerHTML={{ __html: safeHTML }}
-                className={styles.message}
+                className='dangerouslySetInnerHTML'
               />
               {noDelete === 0 && access.edit === 1 && (
                 <div className={styles.buttonsList}>

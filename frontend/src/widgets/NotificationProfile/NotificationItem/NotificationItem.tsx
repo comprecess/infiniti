@@ -58,7 +58,7 @@ export const NotificationItem = ({
     >
       <div
         dangerouslySetInnerHTML={{ __html: clearMessage }}
-        className={styles.message}
+        className='dangerouslySetInnerHTML'
       />
       <div className={styles.time}>{notification.dateCreate}</div>
     </div>

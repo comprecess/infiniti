@@ -130,7 +130,7 @@ export const Header = ({
             dangerouslySetInnerHTML={{
               __html: safeHTMLProposal,
             }}
-            className={styles.message}
+            className='dangerouslySetInnerHTML'
           />
         </div>
       )}

@@ -10,8 +10,8 @@ import {
 import { HeaderButtons } from '../../../../features/Admin/Sales/NewOfferPage/HeadersButton/HeaderButtons'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getOfferInputData } from '../../../../shared/utils/api/Admin/Sales/NewOffer/GetOfferInputData'
-import { addNewOffer } from '../../../../shared/utils/api/Admin/Sales/NewOffer/PostCreateNewOffer'
+import { getOfferInputData } from '../../../../shared/utils/api/Admin/Sales/NewOffer/get-offer-input-data'
+import { postCreateNewOffer } from '../../../../shared/utils/api/Admin/Sales/NewOffer/post-create-new-offer'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './NewOfferPage.module.scss'
 
@@ -32,17 +32,19 @@ export const AdminNewOfferPage = () => {
     customerIdParam !== null ? parseInt(customerIdParam) : null
 
   const getNewOfferInputData = async () => {
-    const getResponse = await getOfferInputData()
+    const response = await getOfferInputData()
 
-    setInputData(getResponse)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
-  const postCreateNewOffer = async (save: 'save' | 'save & invoice') => {
+  const createNewOffer = async (save: 'save' | 'save & invoice') => {
     if (!formData) return
 
-    const createResponse = await addNewOffer(formData)
+    const { status, message, id } = await postCreateNewOffer(formData)
 
-    if (createResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully created an Invoice',
@@ -52,13 +54,13 @@ export const AdminNewOfferPage = () => {
         navigate(`/${Routes.adminPages}/${Routes.sales}/${Routes.offers}`)
       } else if (save === 'save & invoice') {
         navigate(
-          `/${Routes.adminPages}/${Routes.sales}/${Routes.offer}/${Routes.view}/${createResponse.id}`,
+          `/${Routes.adminPages}/${Routes.sales}/${Routes.offer}/${Routes.view}/${id}`,
         )
       }
     } else {
       showToast({
         title: 'Error',
-        description: createResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -81,8 +83,8 @@ export const AdminNewOfferPage = () => {
             style={styles.recentFullScreen}
             Component={HeaderButtons}
             componentProps={{
-              firstButtonClick: postCreateNewOffer,
-              secondButtonClick: postCreateNewOffer,
+              firstButtonClick: createNewOffer,
+              secondButtonClick: createNewOffer,
             }}
           >
             <Fields

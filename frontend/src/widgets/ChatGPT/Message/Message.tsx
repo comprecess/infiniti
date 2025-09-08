@@ -37,8 +37,8 @@ export const Message = ({
 
   const formatText = (input: string): string => {
     return input
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // **текст** → <strong>текст</strong>
-      .replace(/\n/g, '<br />') // Переводы строк → <br>
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n/g, '<br />')
   }
 
   return (

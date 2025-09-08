@@ -10,8 +10,8 @@ import { Fields } from '../../../../features/Admin/Sales/NewInvoice/Fields/Field
 import { HeaderButtons } from '../../../../features/Admin/Sales/NewInvoice/HeaderButtons/HeaderButtons'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getInvoiceInputData } from '../../../../shared/utils/api/Admin/Sales/NewInvoice/GetInvoiceInputData'
-import { addNewInvoice } from '../../../../shared/utils/api/Admin/Sales/NewInvoice/PostCreateNewInvoice'
+import { getInvoiceInputData } from '../../../../shared/utils/api/Admin/Sales/NewInvoice/get-invoice-input-data'
+import { postCreateNewInvoice } from '../../../../shared/utils/api/Admin/Sales/NewInvoice/post-create-new-invoice'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './NewInvoicePage.module.scss'
 
@@ -33,15 +33,17 @@ export const AdminNewInvoicePage = () => {
     customerIdParam !== null ? parseInt(customerIdParam) : null
 
   const getNewInvoiceInputData = async () => {
-    const getResponse = await getInvoiceInputData()
+    const response = await getInvoiceInputData()
 
-    setInputData(getResponse)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
-  const postCreateNewInvoice = async (save: 'save' | 'save & invoice') => {
+  const createNewInvoice = async (save: 'save' | 'save & invoice') => {
     if (!formData) return
 
-    const createResponse = await addNewInvoice(
+    const { status, message, id } = await postCreateNewInvoice(
       isCreateForProject
         ? `${
           import.meta.env.VITE_RESIDENT_PROJECTS_API
@@ -50,7 +52,7 @@ export const AdminNewInvoicePage = () => {
       formData,
     )
 
-    if (createResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully created an Invoice',
@@ -68,13 +70,13 @@ export const AdminNewInvoicePage = () => {
         }
       } else if (save === 'save & invoice') {
         navigate(
-          `/${Routes.adminPages}/${Routes.sales}/${Routes.invoice}/${Routes.view}/${createResponse.id}`,
+          `/${Routes.adminPages}/${Routes.sales}/${Routes.invoice}/${Routes.view}/${id}`,
         )
       }
     } else {
       showToast({
         title: 'Error',
-        description: createResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -97,9 +99,8 @@ export const AdminNewInvoicePage = () => {
             style={styles.recentFullScreen}
             Component={HeaderButtons}
             componentProps={{
-              firstButtonClick: () => postCreateNewInvoice('save'),
-              secondButtonClick: () =>
-                postCreateNewInvoice('save & invoice'),
+              firstButtonClick: () => createNewInvoice('save'),
+              secondButtonClick: () => createNewInvoice('save & invoice'),
             }}
           >
             <Fields
