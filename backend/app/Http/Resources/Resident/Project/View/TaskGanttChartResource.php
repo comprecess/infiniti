@@ -2,14 +2,14 @@
 
 namespace App\Http\Resources\Resident\Project\View;
 
-use App\Http\Requests\Traits\TimeZoneTrait;
+//use App\Http\Requests\Traits\TimeZoneTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TaskGanttChartResource extends JsonResource
 {
 
-    use TimeZoneTrait;
+//    use TimeZoneTrait;
     /**
      * Transform the resource into an array.
      *
@@ -18,15 +18,18 @@ class TaskGanttChartResource extends JsonResource
     public function toArray(Request $request): array
     {
 
-        $tz = $this->getTimeTimezone();
-        $end = now();
+//        $tz = $this->getTimeTimezone();
+        $start = $this->started ?? $this->project->start_date;
+        $end = $this->due_date ?? now();
+        $diff = $start->diff($end);
 
         $resorce = [
             'id' => $this->id,
             'text' => $this->title,
-            'start' => ($this->started ?? $this->project->start_date)->setTimezone($tz)->format('Y-m-d'),
-            'end' => ($this->due_date ?? $end)->setTimezone($tz)->format('Y-m-d'),
+            'start' => $start->format('Y-m-d'),
+            'end' => $end->format('Y-m-d'),
             'progress' => $this->ganttCharProgressDate(),
+            'duration' => $diff->days + 1,
             'type' => 'task'
         ];
 

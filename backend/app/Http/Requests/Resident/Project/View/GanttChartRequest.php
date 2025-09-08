@@ -16,8 +16,8 @@ class GanttChartRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'start' => 'nullable|date_format:Y-m-d',
-            'end' => 'nullable|date_format:Y-m-d',
+            'start' => 'nullable|date|date_format:Y-m-d',
+            'end' => 'nullable|date|date_format:Y-m-d|after_or_equal:start',
         ];
 
     }
