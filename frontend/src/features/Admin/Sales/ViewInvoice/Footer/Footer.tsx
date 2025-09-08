@@ -55,7 +55,7 @@ export const Footer = ({
           <span className={styles.titleNote}>Note:</span>
           <span
             dangerouslySetInnerHTML={{ __html: safeHTML }}
-            className={styles.note}
+            className='dangerouslySetInnerHTML'
           />
         </div>
       )}

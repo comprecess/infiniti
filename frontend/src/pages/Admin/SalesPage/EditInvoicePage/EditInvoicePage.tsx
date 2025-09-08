@@ -22,7 +22,7 @@ import { postAddNewBlankInvoice } from '../../../../shared/utils/api/Admin/Sales
 import { postAddNewServiceBlankInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/post-add-new-service-blank-invoice'
 import { putUpdateBlankInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/put-update-blank-invoice'
 import { putUpdateInvoice } from '../../../../shared/utils/api/Admin/Sales/EditInvoice/put-update-invoice'
-import { getInvoiceInputData } from '../../../../shared/utils/api/Admin/Sales/NewInvoice/GetInvoiceInputData'
+import { getInvoiceInputData } from '../../../../shared/utils/api/Admin/Sales/NewInvoice/get-invoice-input-data'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './EditInvoicePage.module.scss'
@@ -59,9 +59,11 @@ export const AdminEditInvoicePage = () => {
   }
 
   const getNewInvoiceInputData = async () => {
-    const getResponse = await getInvoiceInputData()
+    const response = await getInvoiceInputData()
 
-    setInputData(getResponse)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
   const handleAddBlank = async () => {

@@ -88,7 +88,7 @@ export const ViewTaskModal = ({
                   <span className={styles.textTitle}>Description:</span>
                   <span
                     dangerouslySetInnerHTML={{ __html: safeHTML }}
-                    className={styles.descriptionValue}
+                    className='dangerouslySetInnerHTML'
                   />
                 </div>
               </>

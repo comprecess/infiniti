@@ -1,7 +1,8 @@
 .my-gantt-theme {
-  border: 2px solid $brand-800;
-  border-radius: 8px;
-  overflow: hidden;
+  border: 2px solid $brand-800 !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  user-select: none !important;
 
   /* ================== Основные цвета ================== */
   --wx-gantt-icon-color: #{$gray-200};
@@ -92,6 +93,10 @@
   }
 
   .wx-sidebar {
+    display: none !important;
+  }
+
+  .wx-progress-marker {
     display: none !important;
   }
 }

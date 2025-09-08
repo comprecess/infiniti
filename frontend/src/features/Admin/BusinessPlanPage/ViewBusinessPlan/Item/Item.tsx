@@ -18,7 +18,7 @@ export const Item = ({ title, content }: ItemProps) => {
       <div className={styles.title}>{title}</div>
       <div
         dangerouslySetInnerHTML={{ __html: safeHTML }}
-        className={styles.content}
+        className='dangerouslySetInnerHTML'
       />
     </div>
   )

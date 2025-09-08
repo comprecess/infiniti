@@ -61,7 +61,7 @@ export const CardPlan = ({
             <span className={styles.title}>{title}</span>
             <span
               dangerouslySetInnerHTML={{ __html: safeHTML }}
-              className={styles.description}
+              className='dangerouslySetInnerHTML'
             />
           </div>
           <div className={styles.miniButtons}>

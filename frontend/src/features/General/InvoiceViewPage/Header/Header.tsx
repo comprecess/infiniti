@@ -198,13 +198,13 @@ export const Header = ({
           {offer.proposal && (
             <span
               dangerouslySetInnerHTML={{ __html: safeHTMLProposal }}
-              className={styles.offerProposal}
+              className='dangerouslySetInnerHTML'
             />
           )}
           {offer.notes && (
             <span
               dangerouslySetInnerHTML={{ __html: safeHTMLNotes }}
-              className={styles.offerNotes}
+              className='dangerouslySetInnerHTML'
             />
           )}
         </div>
