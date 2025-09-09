@@ -11,12 +11,10 @@ import {
   BusinessPlanBusinessModelData,
   PagesMetaData,
   RolesAccess,
-  userModelsPageString,
 } from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
 import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { saveSession } from '../../../../../shared/utils/Saving/Session/SaveSession'
 import { BusinessModelCard } from '../../../../../widgets/BusinessModelCard/BusinessModelCard'
 import { PagesList } from '../../../../Client/CatalogPage/TalentsList/PagesList/PagesList'
 import styles from './ModelsList.module.scss'
@@ -45,7 +43,6 @@ export const ModelsList = ({
   const navigate = useNavigate()
 
   const handlePageChange = useCallback((page: number) => {
-    saveSession(userModelsPageString, page)
     setCurrentPage(page)
   }, [])
 

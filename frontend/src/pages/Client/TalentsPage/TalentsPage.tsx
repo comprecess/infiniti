@@ -1,13 +1,18 @@
 import { useQuery } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+} from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 import {
   FiltersData,
   FiltersState,
-  page,
   PagesMetaData,
   TalentData,
-  userTalentsPageString,
 } from '../../../app/constants/constants'
 import { CategoriesItem } from '../../../features/Client/CatalogPage/CategoriesItem/CategoriesItem'
 import { Filters } from '../../../features/Client/CatalogPage/Filters/Filters'
@@ -15,38 +20,49 @@ import { TalentsList } from '../../../features/Client/CatalogPage/TalentsList/Ta
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getPropertiesFiltering } from '../../../shared/utils/api/Client/Catalog/Properties/GetPropertiesFiltering'
-import { getUsersListInfo } from '../../../shared/utils/api/Client/Catalog/User/GetUsersListInfo'
-import { getSession } from '../../../shared/utils/Saving/Session/GetSession'
+import { getUsersListInfo } from '../../../shared/utils/api/Client/Catalog/User/get-user-list-info'
 import styles from './TalentsPage.module.scss'
 
 export const ClientTalentsPage = () => {
-  const [activeCategory, setActiveCategory] = useState(0)
-  const [sort, setSort] = useState({ name: 'priceDay', type: 'asc' })
-  const [selectedFilters, setSelectedFilters] = useState<FiltersState>({})
-  const [currentPage, setCurrentPage] = useState<number>(
-    getSession(userTalentsPageString) || 1,
-  )
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  const { data: talentsList } = useQuery({
-    queryKey: ['talents', currentPage, selectedFilters, sort],
-    queryFn: async () => {
-      const res: {
-        data: TalentData[]
-        meta: PagesMetaData
-      } = await getUsersListInfo(
-        page + String(currentPage),
-        selectedFilters,
-        sort,
-      )
+  const sortName = searchParams.get('sort[name]') || 'priceDay'
+  const sortType = searchParams.get('sort[type]') || 'asc'
+  const page = searchParams.get('page') || '1'
 
-      if (currentPage > res.meta.last_page) {
-        setCurrentPage(1)
+  const updateQueryParam = (key: string, value: string | number) => {
+    const newParams = new URLSearchParams(location.search)
+    newParams.set(key, String(value))
+    if (key !== 'page') {
+      newParams.set('page', '1')
+    }
+    setSearchParams(newParams, { replace: true })
+  }
+
+  const updatePage = (newPage: string) => updateQueryParam('page', newPage)
+  const updateSort = (name: string, type: string) => {
+    setSearchParams(prev => {
+      const newParams = new URLSearchParams(prev)
+      newParams.set('sort[name]', name)
+      newParams.set('sort[type]', type)
+
+      return newParams
+    })
+  }
+
+  const selectedFilters = useMemo<FiltersState>(() => {
+    const filtersFromURL: FiltersState = {}
+    for (const [key, val] of searchParams.entries()) {
+      const match = key.match(/^filter\[(.+?)\]\[\]$/)
+      if (match) {
+        const propId = match[1]
+        if (!filtersFromURL[propId]) filtersFromURL[propId] = []
+        filtersFromURL[propId].push(Number(val))
       }
+    }
 
-      return res
-    },
-    placeholderData: previousData => previousData,
-  })
+    return filtersFromURL
+  }, [searchParams])
 
   const { data: categories } = useQuery({
     queryKey: ['categories'],
@@ -59,6 +75,18 @@ export const ClientTalentsPage = () => {
     placeholderData: previousData => previousData,
   })
 
+  const activeCategory = useMemo(() => {
+    if (!categories || categories.id === undefined) return 0
+    const categoryKey = categories.id.toString()
+    const values = selectedFilters[categoryKey] || []
+    if (values.length === 0) return 0
+    const firstValueIndex = categories.values.findIndex(
+      v => v.id === values[0],
+    )
+
+    return firstValueIndex >= 0 ? firstValueIndex + 1 : 0
+  }, [categories, selectedFilters])
+
   const { data: filters } = useQuery({
     queryKey: ['filters'],
     queryFn: async () => {
@@ -70,26 +98,75 @@ export const ClientTalentsPage = () => {
     placeholderData: previousData => previousData,
   })
 
-  useEffect(() => {
-    if (!categories || categories.id === undefined) return
+  const { data: talentsList } = useQuery({
+    queryKey: ['client-talents', window.location.search],
+    queryFn: async () => {
+      const response = await getUsersListInfo(
+        window.location.search.toString(),
+      )
 
-    const categoryKey = categories.id.toString()
-    const categoryValue = categories.values[activeCategory - 1]?.id || null
+      if (!response.status) return
 
-    setSelectedFilters(prev => {
-      const updatedFilters = { ...prev }
-      if (categoryValue === null) {
-        delete updatedFilters[categoryKey]
-      } else {
-        updatedFilters[categoryKey] = [categoryValue]
+      if (parseInt(page) > response.data.meta.last_page) updatePage('1')
+
+      return response.data as {
+        data: TalentData[]
+        meta: PagesMetaData
       }
+    },
+    placeholderData: previousData => previousData,
+  })
 
-      return updatedFilters
+  const updateFilters: Dispatch<SetStateAction<FiltersState>> = value => {
+    const newFilters =
+      typeof value === 'function' ? value(selectedFilters) : value
+    setSearchParams(prev => {
+      const params = new URLSearchParams(prev)
+      for (const key of Array.from(params.keys())) {
+        if (key.startsWith('filter[')) params.delete(key)
+      }
+      Object.entries(newFilters).forEach(([propId, values]) => {
+        values.forEach(v => {
+          params.append(`filter[${propId}][]`, String(v))
+        })
+      })
+      params.set('page', '1')
+
+      return params
     })
-  }, [categories, activeCategory])
+  }
+
+  const updateActiveCategory: Dispatch<SetStateAction<number>> = value => {
+    const index =
+      typeof value === 'function' ? value(activeCategory) : value
+    if (!categories || categories.id === undefined) return
+    const categoryKey = categories.id.toString()
+    const newFilters = { ...selectedFilters }
+    if (index === 0) {
+      delete newFilters[categoryKey]
+    } else {
+      const categoryValue = categories.values[index - 1]?.id
+      if (categoryValue !== undefined) {
+        newFilters[categoryKey] = [categoryValue]
+      }
+    }
+    updateFilters(newFilters)
+  }
+
+  useLayoutEffect(() => {
+    setSearchParams(prev => {
+      const params = new URLSearchParams(prev)
+      if (!params.has('page')) params.set('page', '1')
+      if (!params.has('sort[name]')) params.set('sort[name]', 'priceDay')
+      if (!params.has('sort[type]')) params.set('sort[type]', 'asc')
+
+      return params
+    })
+  }, [])
 
   useEffect(() => {
     window.scrollTo(0, 0)
+
     document.title = 'infiniti | Catalog Talents'
   }, [])
 
@@ -106,7 +183,7 @@ export const ClientTalentsPage = () => {
               <CategoriesItem
                 name='All'
                 isActive={activeCategory === 0}
-                onClick={() => setActiveCategory(0)}
+                onClick={() => updateActiveCategory(0)}
               />
               {categories.values.map(
                 (category: { value: string }, index: number) => {
@@ -115,7 +192,7 @@ export const ClientTalentsPage = () => {
                       key={index + 1}
                       name={category.value.replace(/&amp;/g, '&')}
                       isActive={activeCategory === index + 1}
-                      onClick={() => setActiveCategory(index + 1)}
+                      onClick={() => updateActiveCategory(index + 1)}
                     />
                   )
                 },
@@ -131,17 +208,32 @@ export const ClientTalentsPage = () => {
       <section className={styles.sectionSecond}>
         <div className={styles.itemsSecond}>
           <Filters
-            setSelectedFilters={setSelectedFilters}
-            setActiveCategory={setActiveCategory}
-            setSort={setSort}
             filters={filters}
             selectedFilters={selectedFilters}
+            setSelectedFilters={updateFilters}
+            setActiveCategory={updateActiveCategory}
+            setSort={value => {
+              const newSort =
+                typeof value === 'function'
+                  ? value({ name: sortName, type: sortType })
+                  : value
+              updateSort(newSort.name, newSort.type)
+            }}
           />
           <TalentsList
-            sort={sort}
-            setSort={setSort}
-            setCurrentPage={setCurrentPage}
+            sort={{ name: sortName, type: sortType }}
             talentsList={talentsList}
+            setSort={value => {
+              const newSort =
+                typeof value === 'function'
+                  ? value({ name: sortName, type: sortType })
+                  : value
+              updateSort(newSort.name, newSort.type)
+            }}
+            setCurrentPage={value => {
+              const p = typeof value === 'function' ? value(0) : value
+              updatePage(p.toString())
+            }}
           />
         </div>
       </section>

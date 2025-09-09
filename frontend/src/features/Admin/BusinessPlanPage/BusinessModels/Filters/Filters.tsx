@@ -61,8 +61,8 @@ export const Filters = ({
   }
 
   const handleFiltersReset = () => {
-    setSelectedFilters({})
     setActiveCategory(0)
+    setSelectedFilters({})
   }
 
   return (

@@ -11,6 +11,10 @@ const normalizeTasks = (tasks: ProjectsGanttChartData[]) =>
     const startDate = new Date(t.start)
     const endDate = new Date(t.end)
 
+    if (t.duration === 1 && startDate.getTime() === endDate.getTime()) {
+      endDate.setHours(endDate.getHours() + 1)
+    }
+
     return {
       ...t,
       start: startDate,
@@ -25,6 +29,8 @@ interface GanttChartProps {
 
 export const GanttChart = ({ tasks, changeTask }: GanttChartProps) => {
   const apiRef = useRef<any>(null)
+
+  const normalTasks = normalizeTasks(tasks)
 
   useEffect(() => {
     if (!apiRef.current) return
@@ -44,7 +50,7 @@ export const GanttChart = ({ tasks, changeTask }: GanttChartProps) => {
     <div className='my-gantt-theme'>
       <Gantt
         apiRef={apiRef}
-        tasks={normalizeTasks(tasks)}
+        tasks={normalTasks}
         cellWidth={35}
         cellHeight={35}
         init={(api: any) => {
