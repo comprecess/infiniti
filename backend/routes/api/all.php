@@ -23,7 +23,7 @@ Route::controller(CatalogController::class)
     Route::get('filters', 'filters');
     Route::get('properties', 'properties');
     Route::get('property/{id}', 'property');
-    Route::post('list', 'list');
+    Route::get('list', 'list');
     Route::get('item/{catalogUser}', 'item');
     Route::get('employment', 'employment');
     Route::get('cart', 'getCart');
