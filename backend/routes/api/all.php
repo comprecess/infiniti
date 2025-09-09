@@ -40,7 +40,7 @@ Route::controller(BusinessModelController::class)
         Route::get('filters', 'filters');
         Route::get('properties', 'properties');
         Route::get('property/{id}', 'property');
-        Route::post('list', 'list');
+        Route::get('list', 'list');
         Route::get('item/{model}', 'item');
     });
 
