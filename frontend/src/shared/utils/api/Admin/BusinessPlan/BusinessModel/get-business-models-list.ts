@@ -3,9 +3,9 @@ import {
   INVALID_RESPONSE_MESSAGE,
   NETWORK_ERROR_MESSAGE,
   REQUEST_TIMEOUT_MS,
-} from '../../../../../../../app/constants/constants'
-import { customFetch } from '../../../../custom-fetch'
-import { getAuthToken } from '../../../../get-auth-token'
+} from '../../../../../../app/constants/constants'
+import { customFetch } from '../../../custom-fetch'
+import { getAuthToken } from '../../../get-auth-token'
 
 interface SuccessResponse {
   status: true
@@ -21,16 +21,8 @@ interface ErrorResponse {
 type Response = SuccessResponse | ErrorResponse
 
 export const getBusinessModelsList = async (
-  page: string,
-  filters?: Record<string, (string | number | null)[]>,
+  filter: string,
 ): Promise<Response> => {
-  if (!page || typeof page !== 'string') {
-    return {
-      status: false,
-      message: 'Invalid page parameter',
-    }
-  }
-
   const authToken = getAuthToken()
 
   if (!authToken) {
@@ -51,17 +43,7 @@ export const getBusinessModelsList = async (
       }
     }
 
-    const url = new URL(`${apiPath}/list${page}`, baseUrl)
-
-    if (filters) {
-      for (const [key, values] of Object.entries(filters)) {
-        values.forEach(value => {
-          if (value !== null) {
-            url.searchParams.append(`filter[${key}][]`, String(value))
-          }
-        })
-      }
-    }
+    const url = new URL(`${apiPath}/list` + filter, baseUrl)
 
     const controller = new AbortController()
     const timeoutId = setTimeout(

@@ -1,5 +1,11 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { Dispatch, SetStateAction, useLayoutEffect, useMemo } from 'react'
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 
@@ -102,7 +108,7 @@ export const AdminCatalogTalentsPage = () => {
   })
 
   const { data: talentsList, refetch } = useQuery({
-    queryKey: ['talents', window.location.search],
+    queryKey: ['admin-talents', window.location.search],
     queryFn: async () => {
       const response = await getTalentsList(
         window.location.search.toString(),
@@ -169,22 +175,29 @@ export const AdminCatalogTalentsPage = () => {
   }, [])
 
   const deleteTalent = async (id: number) => {
-    const res = await deleteSelectedTalent(id)
-    if (res.status) {
+    const { status, message } = await deleteSelectedTalent(id)
+
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully removed Talent',
         status: 'success',
       })
-      queryClient.invalidateQueries({ queryKey: ['talents'] })
+      queryClient.invalidateQueries({ queryKey: ['admin-talents'] })
     } else {
       showToast({
         title: 'Error',
-        description: res.message,
+        description: message,
         status: 'error',
       })
     }
   }
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+
+    document.title = 'infiniti | Talents Catalogue'
+  }, [])
 
   return (
     <div className={styles.wrapper}>

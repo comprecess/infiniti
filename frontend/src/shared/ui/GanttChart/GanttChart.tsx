@@ -30,8 +30,6 @@ interface GanttChartProps {
 export const GanttChart = ({ tasks, changeTask }: GanttChartProps) => {
   const apiRef = useRef<any>(null)
 
-  console.log(tasks)
-
   const normalTasks = normalizeTasks(tasks)
 
   useEffect(() => {
@@ -47,8 +45,6 @@ export const GanttChart = ({ tasks, changeTask }: GanttChartProps) => {
       },
     )
   }, [])
-
-  console.log(normalTasks)
 
   return (
     <div className='my-gantt-theme'>

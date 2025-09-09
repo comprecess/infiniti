@@ -3,9 +3,9 @@ import {
   INVALID_RESPONSE_MESSAGE,
   NETWORK_ERROR_MESSAGE,
   REQUEST_TIMEOUT_MS,
-} from '../../../../../app/constants/constants'
-import { customFetch } from '../../custom-fetch'
-import { getAuthToken } from '../../get-auth-token'
+} from '../../../../../../app/constants/constants'
+import { customFetch } from '../../../custom-fetch'
+import { getAuthToken } from '../../../get-auth-token'
 
 interface SuccessResponse {
   status: true
@@ -20,17 +20,9 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-export const postBusinessModelsList = async (
-  page: string,
-  filters?: object,
+export const getUsersListInfo = async (
+  filter: string,
 ): Promise<Response> => {
-  if (!page || typeof page !== 'string') {
-    return {
-      status: false,
-      message: 'Invalid page parameter',
-    }
-  }
-
   const authToken = getAuthToken()
 
   if (!authToken) {
@@ -42,7 +34,7 @@ export const postBusinessModelsList = async (
 
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const apiPath = import.meta.env.VITE_BUSINESS_MODEL_LIST
+    const apiPath = import.meta.env.VITE_CATALOG_API_USERSLIST_INFO
 
     if (!baseUrl || !apiPath) {
       return {
@@ -51,7 +43,7 @@ export const postBusinessModelsList = async (
       }
     }
 
-    const url = new URL(`${apiPath}${page}`, baseUrl).toString()
+    const url = new URL(apiPath + filter, baseUrl)
 
     const controller = new AbortController()
     const timeoutId = setTimeout(
@@ -59,14 +51,13 @@ export const postBusinessModelsList = async (
       REQUEST_TIMEOUT_MS,
     )
 
-    const data = await customFetch(url, {
-      method: 'POST',
+    const data = await customFetch(url.toString(), {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
-      body: JSON.stringify({ filter: filters }),
       signal: controller.signal,
     })
 
@@ -84,7 +75,10 @@ export const postBusinessModelsList = async (
       }
     }
 
-    return { status: true, data }
+    return {
+      status: true,
+      data,
+    }
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') {
       return {

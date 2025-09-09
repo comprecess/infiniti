@@ -1,8 +1,6 @@
 export const authTokenString = 'authToken/infiniti'
 export const notificationTokenString = 'notification/infiniti'
 export const profileInfoString = 'profileInfo/infiniti'
-export const userTalentsPageString = 'userTalentsPage/infiniti'
-export const userModelsPageString = 'userModelsPage/infiniti'
 
 export const page = '?page='
 
