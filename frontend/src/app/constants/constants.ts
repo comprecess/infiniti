@@ -1584,4 +1584,5 @@ export interface ProjectsGanttChartData {
   progress: number
   text: string
   type: string
+  duration: number
 }

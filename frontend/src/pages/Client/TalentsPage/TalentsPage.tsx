@@ -90,6 +90,7 @@ export const ClientTalentsPage = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0)
+
     document.title = 'infiniti | Catalog Talents'
   }, [])
 
