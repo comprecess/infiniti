@@ -45,6 +45,8 @@ export const TaskItem = ({
   const [isEdited, setIsEdited] = useState<boolean>(false)
   const [isViewed, setIsViewed] = useState(false)
 
+  const canDrag = access?.edit === 1
+
   const {
     attributes,
     listeners,
@@ -54,6 +56,7 @@ export const TaskItem = ({
     setActivatorNodeRef,
   } = useSortable({
     id: task.id.toString(),
+    disabled: !canDrag,
   })
 
   const { isMobile } = useDeviceDetect()
@@ -101,7 +104,9 @@ export const TaskItem = ({
         ref={setNodeRef}
         style={style}
         {...(isMobile ? attributes : { ...attributes, ...listeners })}
-        className={isSelected ? styles.wrapperSelected : styles.wrapper}
+        className={`${
+          isSelected ? styles.wrapperSelected : styles.wrapper
+        } ${canDrag ? styles.grab : styles.default}`}
         onClick={handleClick}
       >
         <div className={styles.header}>

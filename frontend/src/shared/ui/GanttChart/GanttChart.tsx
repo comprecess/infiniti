@@ -4,7 +4,16 @@ import './GanttTheme.scss'
 import { useEffect, useRef } from 'react'
 import { Gantt } from 'wx-react-gantt'
 
-import { ProjectsGanttChartData } from '../../../app/constants/constants'
+import {
+  ProjectsGanttChartData,
+  RolesAccess,
+} from '../../../app/constants/constants'
+
+interface GanttChartProps {
+  access: RolesAccess
+  tasks: ProjectsGanttChartData[]
+  changeTask: (idTask: number, start: string, end: string) => void
+}
 
 const normalizeTasks = (tasks: ProjectsGanttChartData[]) =>
   tasks.map(t => {
@@ -22,12 +31,11 @@ const normalizeTasks = (tasks: ProjectsGanttChartData[]) =>
     }
   })
 
-interface GanttChartProps {
-  tasks: ProjectsGanttChartData[]
-  changeTask: (idTask: number, start: string, end: string) => void
-}
-
-export const GanttChart = ({ tasks, changeTask }: GanttChartProps) => {
+export const GanttChart = ({
+  access,
+  tasks,
+  changeTask,
+}: GanttChartProps) => {
   const apiRef = useRef<any>(null)
 
   const normalTasks = normalizeTasks(tasks)
@@ -50,6 +58,7 @@ export const GanttChart = ({ tasks, changeTask }: GanttChartProps) => {
     <div className='my-gantt-theme'>
       <Gantt
         apiRef={apiRef}
+        readonly={access.edit === 1 ? false : true}
         tasks={normalTasks}
         cellWidth={35}
         cellHeight={35}
