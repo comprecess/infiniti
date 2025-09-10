@@ -12,7 +12,14 @@
   z-index: 1;
   transition: all 1s ease;
   touch-action: auto;
+}
+
+.grab {
   cursor: grab;
+}
+
+.default {
+  cursor: default;
 }
 
 .wrapperSelected {

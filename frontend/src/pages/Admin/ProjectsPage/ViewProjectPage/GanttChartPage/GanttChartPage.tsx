@@ -4,6 +4,7 @@ import { useOutletContext } from 'react-router-dom'
 import {
   ProjectsGanttChartData,
   ProjectViewPageContext,
+  RolesAccess,
 } from '../../../../../app/constants/constants'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { GanttChart } from '../../../../../shared/ui/GanttChart/GanttChart'
@@ -14,6 +15,7 @@ import styles from './GanttChartPage.module.scss'
 
 export const AdminProjectsGanttChartPage = () => {
   const [data, setData] = useState<ProjectsGanttChartData[] | null>(null)
+  const [access, setAccess] = useState<RolesAccess | null>(null)
 
   const showToast = useCustomToast()
 
@@ -24,6 +26,7 @@ export const AdminProjectsGanttChartPage = () => {
 
     if (!response.status) return
 
+    setAccess(response.data.access)
     setData(response.data.data)
   }
 
@@ -54,9 +57,9 @@ export const AdminProjectsGanttChartPage = () => {
     document.title = 'infiniti | Gantt Chart'
   }, [])
 
-  return data ? (
+  return data && access ? (
     data.length > 0 ? (
-      <GanttChart tasks={data} changeTask={changeTask} />
+      <GanttChart access={access} tasks={data} changeTask={changeTask} />
     ) : (
       <div className={styles.nothingFound}>
         <span className={styles.nothingFoundText}>Nothing Found</span>
