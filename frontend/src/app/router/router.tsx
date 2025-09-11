@@ -34,6 +34,14 @@ export const router = createBrowserRouter([
     element: Pages.publicViewOffer,
   },
   {
+    path: `${Routes.public}/${Routes.view}/${Routes.businessPlan}/:id`,
+    element: Pages.publicBusinessPlanViewPage,
+  },
+  {
+    path: `${Routes.public}/${Routes.view}/${Routes.businessModel}/:id`,
+    element: Pages.publicBusinessModelViewPage,
+  },
+  {
     path: Routes.adminPages,
     element: (
       <ChatGPTProvider>
