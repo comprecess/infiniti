@@ -134,7 +134,7 @@ class Transaction extends Model implements InsertDefaultValueInterface
     {
         $transactionQuery = self::checkAccess('all', 'bank_n_cash')
             ->where('type', '!=', self::TYPE_NON)
-            ->with(['accountModel', 'getCurrencyIso']);
+            ->with(['accountModel', 'getCurrencyIso', 'currencyHistory']);
 
         if(is_callable($callable)) {
             $callable($transactionQuery);

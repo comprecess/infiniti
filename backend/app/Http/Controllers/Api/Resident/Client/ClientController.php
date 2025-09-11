@@ -304,7 +304,7 @@ class ClientController extends MainClientController
 
     private function summaryGet()
     {
-        return new ClientView\SummaryResource($this->client->load(['group', 'companyClient', 'transactionPayer', 'transactionPayee', 'transactionPayer.getCurrencyIso', 'transactionPayee.getCurrencyIso', 'getCurrencyIso']));
+        return new ClientView\SummaryResource($this->client->load(['group', 'companyClient', 'transactionPayer', 'transactionPayee', 'transactionPayer.getCurrencyIso', 'transactionPayee.getCurrencyIso', 'transactionPayer.currencyHistory', 'transactionPayee.currencyHistory', 'getCurrencyIso']));
     }
 
     private function activityGet($request)

@@ -35,7 +35,7 @@ class BlankController extends SaleController
     public function blankList()
     {
         $model = $this->getModel();
-        $items = $model->items()->with(['getCurrencyIso'])->get();
+        $items = $model->items()->with(['getCurrencyIso', 'currencyHistory'])->get();
         $currency = $model->getCurrencyIso;
 //        if($model instanceof Invoice) {
             $calc = [
