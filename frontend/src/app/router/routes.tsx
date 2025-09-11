@@ -115,6 +115,8 @@ import { ClientTicketsPage } from '../../pages/Client/TicketsPage/TicketsPage/Ti
 import { ClientTransactionsPage } from '../../pages/Client/TransactionsPage/TransactionsPage'
 import { ClientViewBusinessModelsPage } from '../../pages/Client/ViewBusinessModelsPage/ViewBusinessModelsPage'
 import { AutoLoginPage } from '../../pages/General/AutoLoginPage/AutoLoginPage'
+import { BusinessModelViewPage } from '../../pages/General/BusinessModelPage/BusinessModelViewPage'
+import { BusinessPlanViewPage } from '../../pages/General/BusinessPlanPage/BusinessPlanViewPage'
 import { ForbiddenPage } from '../../pages/General/ForbiddenPage/ForbiddenPage'
 import { InvoiceProofTransaction } from '../../pages/General/InvoiceProofTransaction/InvoiceProofTransaction'
 import { InvoiceViewPage } from '../../pages/General/InvoiceViewPage/InvoiceViewPage'
@@ -359,6 +361,8 @@ export const Pages = {
   publicViewInvoice: <InvoiceViewPage />,
   publicInvoiceProofTransaction: <InvoiceProofTransaction />,
   publicViewOffer: <OfferViewPage />,
+  publicBusinessPlanViewPage: <BusinessPlanViewPage />,
+  publicBusinessModelViewPage: <BusinessModelViewPage />,
   publicAutoLoginPage: <AutoLoginPage />,
   notFoundPage: <NotFoundPage />,
   forbiddenPage: <ForbiddenPage />,
