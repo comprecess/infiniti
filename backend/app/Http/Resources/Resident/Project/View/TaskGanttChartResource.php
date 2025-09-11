@@ -26,8 +26,10 @@ class TaskGanttChartResource extends JsonResource
         $resorce = [
             'id' => $this->id,
             'text' => $this->title,
-            'start' => $start->format('Y-m-d'),
-            'end' => $end->format('Y-m-d'),
+//            'start' => $start->format('Y-m-d'),
+//            'end' => $end->format('Y-m-d'),
+            'start' => $start->format('r'),
+            'end' => $end->format('r'),
             'progress' => $this->ganttCharProgressDate(),
             'duration' => $diff->days + 1,
             'type' => 'task'
