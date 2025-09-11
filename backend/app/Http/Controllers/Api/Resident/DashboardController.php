@@ -42,8 +42,8 @@ class DashboardController extends ResidentController
     {
         $table = [
             'recentClients' => ['model' => Client::class, 'resource' => ClientResource::class, 'with' => ['files', 'companyClient', 'group']],
-            'recentProjects' => ['model' => Project::class, 'resource' => ProjectInfoResource::class],
-            'invoices' => ['model' => Invoice::class, 'resource' => InvoiceListResource::class, 'with' => ['user', 'user.files', 'user.companyClient', 'user.group']],
+            'recentProjects' => ['model' => Project::class, 'resource' => ProjectInfoResource::class, 'with' => ['getCurrencyIso']],
+            'invoices' => ['model' => Invoice::class, 'resource' => InvoiceListResource::class, 'with' => ['user', 'user.files', 'user.companyClient', 'user.group', 'getCurrencyIso']],
         ];
 
 //        $id = auth()->id();
@@ -57,7 +57,7 @@ class DashboardController extends ResidentController
             $cashFlow['newWorth'] = (new Transaction)->printPrice($transactions->getNetWorth());
 
             $transaction = Transaction::checkAccess(...self::ACCESS)
-                ->with(['getCurrencyIso']);
+                ->with(['getCurrencyIso', 'currencyHistory']);
             $firstDayMount = Carbon::create(null,null,1);
             $date = now()->format('Y-m-d');
             $types = Transaction::TYPE;
@@ -136,7 +136,7 @@ class DashboardController extends ResidentController
                     $dataCache['expenseCats'] = CategoryInfoResource::collection($cats);
             */
             $accounts = Account::checkAccess('all', 'bank_n_cash')->get();
-            $accountBalances = Transaction::checkAccess('all', 'bank_n_cash')->get();
+            $accountBalances = Transaction::checkAccess('all', 'bank_n_cash')->with(['getCurrencyIso', 'currencyHistory'])->get();
 
             $dataCache['account'] = [
                 'list' => AccountInfoResource::collection($accounts),
@@ -147,6 +147,7 @@ class DashboardController extends ResidentController
 
             foreach (['latestExpense' => Transaction::TYPE[1], 'latestIncome' => Transaction::TYPE[0]] as $name => $type) {
                 $query = Transaction::checkAccess('all', 'transactions')
+                    ->with(['getCurrencyIso'])
                     ->where('type', $type)
                     ->limit(5)
                     ->orderBy('id', 'desc')

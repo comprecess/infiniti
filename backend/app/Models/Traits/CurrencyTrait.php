@@ -116,7 +116,8 @@ trait CurrencyTrait
             $currency = $this->getCurrencyIso;
             $this->rateSum = 1;
             if($currency && $def->iso_code != $currency->iso_code) {
-                $this->rateSum = $def->rate / $currency->rate;
+                $rate = $this->currencyHistory?->rate;
+                $this->rateSum = $def->rate / ($rate ?? $currency->rate);
             }
         }
 

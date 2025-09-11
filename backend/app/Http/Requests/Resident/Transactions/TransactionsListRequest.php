@@ -122,7 +122,7 @@ class TransactionsListRequest extends DocumentRequest implements ModelInterface
             $transactionQuery->whereBetween('date', $date);
         }
 
-        $transactionQuery->with(['getCurrencyIso']);
+        $transactionQuery->with(['getCurrencyIso', 'currencyHistory']);
 
         $this->sortModel($transactionQuery);
     }

@@ -32,7 +32,7 @@ class OfferItemResource extends JsonResource implements ListInterface
         $this->setList($resorce);
 
         if($this->id) {
-            $items = $this->items()->with(['document', 'getCurrencyIso'])->get();
+            $items = $this->items()->with(['document', 'getCurrencyIso', 'currencyHistory'])->get();
         }else{
             $items = $this->items;
         }
