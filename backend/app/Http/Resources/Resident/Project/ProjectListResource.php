@@ -19,7 +19,7 @@ class ProjectListResource extends JsonResource
     public function toArray(Request $request): array
     {
         $format = Config::get('df');
-        $resorce = [
+        $resource = [
             'id' => $this->id,
             'name' => $this->name,
             'admin' => new UserResource($this->admin),
@@ -35,15 +35,15 @@ class ProjectListResource extends JsonResource
         ];
         $members = $this->getMembers();
         if($members->count()) {
-            $resorce['members'] = UserResource::collection($members);
+            $resource['members'] = UserResource::collection($members);
         }
 
         if(!self::$isCollection) {
-            $resorce['details'] = $this->description;
+            $resource['details'] = $this->description;
         }
 
 
-        return $resorce;
+        return $resource;
     }
 
     public static function collection($resource)

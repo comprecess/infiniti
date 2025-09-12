@@ -14,7 +14,7 @@ class InvoiceBlankResource extends JsonResource
     {
         $service = $this->service;
         $serviceObject = $service?->getServiceResources();
-        $resorce = [
+        $resource = [
             'id' => $this->id,
             'service' => $this->getNameService(),
             'serviceId' => $this->getNameService(null) ? $this->service_id : null,
@@ -30,29 +30,29 @@ class InvoiceBlankResource extends JsonResource
         ];
 
         if($request->type == 'view') {
-            $resorce['price'] = $this->transformPrice('amount', $this->getCurrencyIso, true);
-            $resorce['total'] = $this->transformPrice('total', $this->getCurrencyIso, true);
-            $resorce['discount'] = $this->printDiscount();
+            $resource['price'] = $this->transformPrice('amount', $this->getCurrencyIso, true);
+            $resource['total'] = $this->transformPrice('total', $this->getCurrencyIso, true);
+            $resource['discount'] = $this->printDiscount();
         }else {
-            $resorce['price'] = $this->amount;
-            $resorce['total'] = $this->total;
-            $resorce['discount'] = round($this->discount_amount, 2);
+            $resource['price'] = $this->amount;
+            $resource['total'] = $this->total;
+            $resource['discount'] = round($this->discount_amount, 2);
         }
 
-        return $resorce;
+        return $resource;
 
     }
 
-    public function typeContent(&$resorce, $request)
+    public function typeContent(&$resource, $request)
     {
         $document = $this->document;
         if($request->type == 'view') {
             if($document instanceof Offer) {
-                $resorce['price'] = (float) $resorce['price'];
-                $resorce['total'] = (float) $resorce['total'];
+                $resource['price'] = (float) $resource['price'];
+                $resource['total'] = (float) $resource['total'];
             } else {
-                $resorce['price'] = $document->printPrice((float) $resorce['price']);
-                $resorce['total'] = $document->printPrice((float) $resorce['total']);
+                $resource['price'] = $document->printPrice((float) $resource['price']);
+                $resource['total'] = $document->printPrice((float) $resource['total']);
             }
         }
 

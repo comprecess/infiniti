@@ -17,10 +17,10 @@ class GroupResource extends JsonResource implements ListInterface
      */
     public function toArray(Request $request): array
     {
-        $resorce = [];
-        $this->setList($resorce);
+        $resource = [];
+        $this->setList($resource);
 
-        return $resorce;
+        return $resource;
     }
 
     public function getList(): array

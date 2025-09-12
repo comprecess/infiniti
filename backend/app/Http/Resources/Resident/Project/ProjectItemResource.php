@@ -17,7 +17,7 @@ class ProjectItemResource extends JsonResource
     public function toArray(Request $request): array
     {
         $format = "Y-m-d";
-        $resorce = [
+        $resource = [
             'id' => $this->id,
             'name' => $this->name,
             'owner' => new UserResource($this->admin),
@@ -34,6 +34,6 @@ class ProjectItemResource extends JsonResource
             'members' => UserResource::collection($this->getMembers())
         ];
 
-        return $resorce;
+        return $resource;
     }
 }

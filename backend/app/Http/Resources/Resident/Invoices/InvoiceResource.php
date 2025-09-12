@@ -21,25 +21,25 @@ class InvoiceResource extends JsonResource implements ListInterface
      */
     public function toArray(Request $request): array
     {
-        $resorce = [
+        $resource = [
             'nameId' => $this->invoicenum . " " . $this->cn ? $this->cn : $this->id,
             'account' => new ClientResource($this->user)
         ];
-        $this->setList($resorce);
+        $this->setList($resource);
 
         if (!self::$isCollection) {
-            $resorce['country'] = $this->country;
+            $resource['country'] = $this->country;
         }
 
-        return $resorce;
+        return $resource;
     }
 
 
     public function getList(): array
     {
-        $resorce = ['id', 'total', 'code', 'email', 'phone', 'notes'];
+        $resource = ['id', 'total', 'code', 'email', 'phone', 'notes'];
 
-        return $resorce;
+        return $resource;
     }
 
     public static function collection($resource)

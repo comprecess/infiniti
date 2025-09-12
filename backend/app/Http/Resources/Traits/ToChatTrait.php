@@ -38,10 +38,10 @@ trait ToChatTrait
 
     public static function toChatCollection($query, mixed $data = null)
     {
-        $resorces = self::collection($query);
+        $resources = self::collection($query);
         $resultArray = [];
-        foreach($resorces as $resorce) {
-            $value = $resorce->toChat();
+        foreach($resources as $resource) {
+            $value = $resource->toChat();
             $resultArray[] = $value ."\n";
         }
 

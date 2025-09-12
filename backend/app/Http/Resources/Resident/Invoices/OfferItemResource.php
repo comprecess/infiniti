@@ -28,8 +28,8 @@ class OfferItemResource extends JsonResource implements ListInterface
     public function toArray(Request $request): array
     {
 
-        $resorce = [];
-        $this->setList($resorce);
+        $resource = [];
+        $this->setList($resource);
 
         if($this->id) {
             $items = $this->items()->with(['document', 'getCurrencyIso', 'currencyHistory'])->get();
@@ -38,7 +38,7 @@ class OfferItemResource extends JsonResource implements ListInterface
         }
         $currency = $this->getCurrencyIso;
 
-        $resorce = array_merge($resorce, [
+        $resource = array_merge($resource, [
             'code' => $this->getCode(),
             'client' => new ClientResource($this->user),
             'dateCreated' => $this->datecreated?->format('Y-m-d'),
@@ -57,21 +57,21 @@ class OfferItemResource extends JsonResource implements ListInterface
             ]
         ]);
 
-        $this->typeContent($resorce, $request);
+        $this->typeContent($resource, $request);
 
         if($this->getPublicToken && $this->checkPublic) {
-            $resorce['client'] = null;
+            $resource['client'] = null;
         }
 
-        return $resorce;
+        return $resource;
     }
 
 
     public function getList(): array
     {
-        $resorce = ['id', 'subject', 'stage', 'proposal', 'customernotes' => 'notes', 'invoicenum' => 'offerNum', 'cn'=>'num', 'vtoken' => 'token'];
+        $resource = ['id', 'subject', 'stage', 'proposal', 'customernotes' => 'notes', 'invoicenum' => 'offerNum', 'cn'=>'num', 'vtoken' => 'token'];
 
-        return $resorce;
+        return $resource;
     }
 
     public static function collection($resource)
@@ -80,12 +80,12 @@ class OfferItemResource extends JsonResource implements ListInterface
         return parent::collection($resource);
     }
 
-    public function typeContent(&$resorce, $request)
+    public function typeContent(&$resource, $request)
     {
         if($request->type == 'view') {
-            $resorce['client'] = new SummaryResource($this->user?->load(['group', 'companyClient', 'transactionPayer', 'transactionPayee']));
-            $resorce['company'] = ['companyName' => Config::get('CompanyName'), 'companyAddress' => Config::get('caddress')];
-            $resorce['listStage'] = Offer::STAGE;
+            $resource['client'] = new SummaryResource($this->user?->load(['group', 'companyClient', 'transactionPayer', 'transactionPayee']));
+            $resource['company'] = ['companyName' => Config::get('CompanyName'), 'companyAddress' => Config::get('caddress')];
+            $resource['listStage'] = Offer::STAGE;
         }
     }
 }

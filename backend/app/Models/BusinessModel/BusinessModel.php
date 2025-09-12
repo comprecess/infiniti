@@ -8,6 +8,7 @@ use App\Models\Resident\BusinessPlan;
 use App\Models\Traits\ChatGPTTrait;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\FileStorageTrait;
+use App\Models\Traits\HelperTrait;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\App;
 
 class BusinessModel extends Model implements ChatGPTContract
 {
-    use HasFactory, CurrencyTrait, SoftDeletes, FileStorageTrait, ChatGPTTrait;
+    use HasFactory, CurrencyTrait, SoftDeletes, FileStorageTrait, ChatGPTTrait, HelperTrait;
 
     const TYPE_IMG = ['preview', 'content'];
 

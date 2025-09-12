@@ -15,7 +15,7 @@ class UserBlockResorce extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $resorce = [
+        $resource = [
             'id' => $this->id,
             'position' => $this->position,
             'name' => $this->name,
@@ -25,6 +25,6 @@ class UserBlockResorce extends JsonResource
         ];
 
 
-        return $resorce;
+        return $resource;
     }
 }

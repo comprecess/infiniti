@@ -10,7 +10,7 @@ class Document
 {
     public function __construct(
         protected Builder $builder,
-        protected $resorce,
+        protected $resource,
         protected DocumentVariables $varibles
     )
     {

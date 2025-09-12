@@ -28,15 +28,15 @@ class InvoiceItemResource extends JsonResource implements ListInterface
      */
     public function toArray(Request $request): array
     {
-        $resorce = [
+        $resource = [
 
         ];
-        $this->setList($resorce);
+        $this->setList($resource);
 
         $items = $this->items;
 
 
-        $resorce = array_merge($resorce, [
+        $resource = array_merge($resource, [
             'id' => $this->id,
             'code' => $this->getCode(),
             'token' => $this->vtoken,
@@ -61,33 +61,33 @@ class InvoiceItemResource extends JsonResource implements ListInterface
         ]);
 
         if(!self::$isCollection) {
-            $resorce['documents'] = DocumentResource::collection($this->documents()->wherePivot('rtype', 'invoice')->get());
+            $resource['documents'] = DocumentResource::collection($this->documents()->wherePivot('rtype', 'invoice')->get());
         }
 
 
-        foreach($resorce['blankCalc'] as &$value) {
+        foreach($resource['blankCalc'] as &$value) {
             $value = $this->printPrice($value);
         }
 
-        $this->typeContent($resorce, $request);
+        $this->typeContent($resource, $request);
 
         if($this->getPublicToken && $this->checkPublic) {
-            $resorce['client'] = null;
+            $resource['client'] = null;
         }
 
         if($this->payList) {
-            $resorce['payList'] = PaymentGatewayListResource::collection($this->payList);
+            $resource['payList'] = PaymentGatewayListResource::collection($this->payList);
         }
 
-        return $resorce;
+        return $resource;
     }
 
 
     public function getList(): array
     {
-        $resorce = ['id', 'title', 'email', 'phone', 'notes', 'invoicenum' => 'invoiceNum', 'cn'=>'num', 'receipt_number' => 'receiptNumber', 'show_quantity_as' => 'showQuantity'];
+        $resource = ['id', 'title', 'email', 'phone', 'notes', 'invoicenum' => 'invoiceNum', 'cn'=>'num', 'receipt_number' => 'receiptNumber', 'show_quantity_as' => 'showQuantity'];
 
-        return $resorce;
+        return $resource;
     }
 
     public static function collection($resource)
@@ -96,15 +96,15 @@ class InvoiceItemResource extends JsonResource implements ListInterface
         return parent::collection($resource);
     }
 
-    public function typeContent(&$resorce, $request)
+    public function typeContent(&$resource, $request)
     {
         if($request->type == 'view') {
-            $resorce['date'] = $this->date?->format('d/m/Y');
-            $resorce['dueDate'] = $this->duedate?->format('d/m/Y');
-            $resorce['client'] = new SummaryResource($this->user->load(['group', 'companyClient', 'transactionPayer', 'transactionPayee']));
-            $resorce['company'] = ['companyName' => Config::get('CompanyName'), 'companyAddress' => Config::get('caddress')];
-            $resorce['listStatus'] = Invoice::STATUS;
-            $resorce['offer'] = new OfferItemResource($this->offer);
+            $resource['date'] = $this->date?->format('d/m/Y');
+            $resource['dueDate'] = $this->duedate?->format('d/m/Y');
+            $resource['client'] = new SummaryResource($this->user->load(['group', 'companyClient', 'transactionPayer', 'transactionPayee']));
+            $resource['company'] = ['companyName' => Config::get('CompanyName'), 'companyAddress' => Config::get('caddress')];
+            $resource['listStatus'] = Invoice::STATUS;
+            $resource['offer'] = new OfferItemResource($this->offer);
         }
     }
 }

@@ -26,7 +26,7 @@ class TaskResource extends JsonResource
         $dueDate = $this->due_date?->setTimezone($tz);
 
         $format = Config::get('df');
-        $resorce = [
+        $resource = [
             'id' => $this->id,
             'title' => $this->title,
             'admin' => new UserResource($this->admin),
@@ -40,6 +40,6 @@ class TaskResource extends JsonResource
         ];
 
 
-        return $resorce;
+        return $resource;
     }
 }
