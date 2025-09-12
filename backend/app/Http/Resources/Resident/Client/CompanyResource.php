@@ -21,26 +21,26 @@ class CompanyResource extends JsonResource implements ListInterface
      */
     public function toArray(Request $request): array
     {
-        $resorce = [
+        $resource = [
             'logo' => $this->getLastFile()?->getLink(),
         ];
-        $this->setList($resorce);
-        $resorce['memo'] = $this->memo ?? '';
+        $this->setList($resource);
+        $resource['memo'] = $this->memo ?? '';
 
         if (!self::$isCollection) {
-            $resorce['country'] = $this->country;
+            $resource['country'] = $this->country;
         }
 
-        return $resorce;
+        return $resource;
     }
 
 
     public function getList(): array
     {
-        $resorce = ['id', 'company_name' => 'name', 'code', 'email', 'phone'];
+        $resource = ['id', 'company_name' => 'name', 'code', 'email', 'phone'];
 
         if (!self::$isCollection) {
-             $resorce = array_merge($resorce, [
+             $resource = array_merge($resource, [
                  'address1' => 'address',
                  'business_number' => 'businessNumber',
                  'url',
@@ -50,7 +50,7 @@ class CompanyResource extends JsonResource implements ListInterface
              ]);
         }
 
-        return $resorce;
+        return $resource;
     }
 
     public static function collection($resource)

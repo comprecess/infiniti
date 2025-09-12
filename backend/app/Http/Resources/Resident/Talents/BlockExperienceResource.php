@@ -15,7 +15,7 @@ class BlockExperienceResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $resorce = [
+        $resource = [
             'id' => $this->id,
             'idTalent' => $this->id_catalog_user,
             'position' => $this->position,
@@ -26,6 +26,6 @@ class BlockExperienceResource extends JsonResource
         ];
 
 
-        return $resorce;
+        return $resource;
     }
 }

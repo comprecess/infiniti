@@ -70,6 +70,10 @@ Route::get('transaction/{id}', [\App\Http\Controllers\Api\Resident\Transactions\
 #zoom webhook
 Route::any('zoom/webhook',[\App\Services\Zoom\WebHook::class, 'index']);
 
+#BusinessPlan & BusinessModel
+Route::get('/{type}/{token}', [\App\Http\Controllers\Api\BusinessModelController::class, 'publicBusiness'])
+    ->whereIn('type', \App\Http\Controllers\Api\BusinessModelController::PUBIC_TYPE);
+
 
 #test
 Route::get('test/list', [\App\Http\Controllers\Api\Resident\Client\ClientController::class, 'test']);

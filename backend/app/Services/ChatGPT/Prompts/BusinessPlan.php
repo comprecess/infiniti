@@ -31,9 +31,9 @@ class BusinessPlan
         $lang = __('prompt.lang');
 
 
-        $resorce = TalentChatGPTResource::toChatCollection($users);
+        $resource = TalentChatGPTResource::toChatCollection($users);
         $chat->write("Подбери комманду специалистов из списка сотрудников [список сотрудников] для этой бизнес-плана [бизнес-план], специалисты не должны повторятся по свойствам если только бизнес-план слишком большой в реализации. Используй паттерн [паттерн], в теге ids напиши те id которые ты выбрал, а в description опиши {$lang} почему именно эти сотрудники подходят для этой бизнес-плана [бизнес-плана]")
-            ->write("[список сотрудников]\n" . $resorce)
+            ->write("[список сотрудников]\n" . $resource)
             ->write("[бизнес-план]\n" . $model->discussionModel->modelDescription($data))
             ->write("[паттерн]\n" . "{ids}id сотрудников через запятую{/ids}\n{description}формате html{/description}");
 

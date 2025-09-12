@@ -27,7 +27,7 @@ class UsersResorce extends JsonResource
         $industries = $this->getPropValues('industries', null);
         $keySkills = $this->getPropValues('key_skills', null);
 
-        $resorce = [
+        $resource = [
             'id' => $this->id,
             'name' => $this->name,
             'img' => $this->getLastFile(true) ?? "",
@@ -44,22 +44,22 @@ class UsersResorce extends JsonResource
         ];
 
         if(!self::$isCollection) {
-            $resorce['available'] = User::AVAILABLE_STATUS[$this->getAvailableStatus()];
-            $resorce['allSkills'] = ValueResorce::collection($this->getPropValues('all_skills', null));
-            $resorce['userId'] = $this->getNested('user.id');
-            $resorce['taxesIncluded'] = (bool) $this->getPropValues('rate');
-            $resorce['language'] = $this->getLanguage();
-//            $resorce['experience'] = $this->getExpirence();
-            $resorce['experience'] = $this->experience;
-            $resorce['blockExperience'] = UserBlockResorce::collection($this->blockExperience);
-            $resorce['educationName'] = $this->getPropValues('education_name');
-            $resorce['educationSpecialization'] = $this->getPropValues('education_specialization');
-            $resorce['educationDegree'] = $this->getPropValues('education_degree');
-            $resorce['educationGraduation'] = $this->getPropValues('education_graduation');
-            $resorce['similar'] = self::collection($this->getSimilar());
+            $resource['available'] = User::AVAILABLE_STATUS[$this->getAvailableStatus()];
+            $resource['allSkills'] = ValueResorce::collection($this->getPropValues('all_skills', null));
+            $resource['userId'] = $this->getNested('user.id');
+            $resource['taxesIncluded'] = (bool) $this->getPropValues('rate');
+            $resource['language'] = $this->getLanguage();
+//            $resource['experience'] = $this->getExpirence();
+            $resource['experience'] = $this->experience;
+            $resource['blockExperience'] = UserBlockResorce::collection($this->blockExperience);
+            $resource['educationName'] = $this->getPropValues('education_name');
+            $resource['educationSpecialization'] = $this->getPropValues('education_specialization');
+            $resource['educationDegree'] = $this->getPropValues('education_degree');
+            $resource['educationGraduation'] = $this->getPropValues('education_graduation');
+            $resource['similar'] = self::collection($this->getSimilar());
         }
 
-        return $resorce;
+        return $resource;
     }
 
     public function getLanguage()

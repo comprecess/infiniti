@@ -13,7 +13,7 @@ class FactoryDocument
     public function __construct
     (
         protected Builder|Relation $builder,
-        protected $resorce,
+        protected $resource,
         protected DocumentVariables $varibles
     )
     {}
@@ -23,7 +23,7 @@ class FactoryDocument
         $document = ucfirst($document) . "Document";
         $class = __NAMESPACE__ . "\\{$document}";
         if(class_exists($class)) {
-            $class = new $class($this->builder, $this->resorce, $this->varibles);
+            $class = new $class($this->builder, $this->resource, $this->varibles);
             if($class instanceof Document && method_exists($class, 'generate')) {
                 return $class->generate();
             }

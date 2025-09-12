@@ -14,7 +14,7 @@ class ProjectInfoResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $resorce = [
+        $resource = [
             'id' => $this->id,
             'name' => $this->name,
             'budget' => $this->printPrice('budget'),
@@ -23,6 +23,6 @@ class ProjectInfoResource extends JsonResource
         ];
 
 
-        return $resorce;
+        return $resource;
     }
 }

@@ -22,20 +22,20 @@ class BusinessModelChatGPTResource extends JsonResource
     public function toArray(Request $request): array
     {
         $data = ['title', 'price', 'description', 'category', 'industries', 'technologies', 'location', 'full_description', 'market_analysis', 'financial_model', 'current_investors', 'stages_implementation', 'partnership_options'];
-        $resorce = [];
+        $resource = [];
         foreach($data as $key => $value) {
             $key = is_int($key) ? $value : $key;
             if($this->{$value}) {
-                $resorce[$key] = $this->{$value};
+                $resource[$key] = $this->{$value};
             }else{
                 $prop = $this->getPropValues($value, null);
                 if($prop->count()) {
-                    $resorce[$key] = $prop->pluck('value')->implode(', ');
+                    $resource[$key] = $prop->pluck('value')->implode(', ');
                 }
             }
         }
 
-        return $resorce;
+        return $resource;
     }
 
 //    public function toChat(mixed $data = null) :string

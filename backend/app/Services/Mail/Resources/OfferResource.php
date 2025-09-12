@@ -20,12 +20,12 @@ class OfferResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $resorce = [];
+        $resource = [];
 
         $user = $this->user;
         $company = $user?->companyClient;
 
-        $resorce = array_merge($resorce, [
+        $resource = array_merge($resource, [
             'quote_url' => env('FRONT_URL') . '/public/offer/view/' . $this->vtoken,
             'business_name' => Config::get('CompanyName'),
             'name' => $user?->account,
@@ -39,7 +39,7 @@ class OfferResource extends JsonResource
             'code' => $this->getCode(),
         ]);
 
-        return $resorce;
+        return $resource;
     }
 
 }

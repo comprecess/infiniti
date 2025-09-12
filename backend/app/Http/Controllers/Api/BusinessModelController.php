@@ -9,15 +9,19 @@ use App\Http\Resources\BusinessModel\BusinessModelResource;
 use App\Http\Resources\Catalog\PropertyFilterResource;
 use App\Http\Resources\Catalog\PropertyResorce;
 use App\Http\Resources\Catalog\UsersResorce;
+use App\Http\Resources\Resident\BusinessPlan\BusinessPlanResource;
 use App\Models\BusinessModel\BusinessModel;
 use App\Models\BusinessModel\Prop;
 use App\Models\Catalog\User;
 use App\Models\BusinessModel\Value;
+use App\Models\Resident\BusinessPlan;
 use Illuminate\Http\Request;
 
 
 class BusinessModelController extends Controller
 {
+
+    const PUBIC_TYPE = ['business-model', 'business-plan'];
 
     public function filters(Request $request)
     {
@@ -92,6 +96,22 @@ class BusinessModelController extends Controller
     public function item(BusinessModel $model)
     {
         return new BusinessModelResource($model);
+    }
+
+    public function publicBusiness(Request $request)
+    {
+        $resources = [
+            [BusinessModel::class, BusinessModelResource::class],
+            [BusinessPlan::class, BusinessPlanResource::class],
+        ];
+
+        $resource = $resources[array_flip(self::PUBIC_TYPE)[$request->type]];
+        $model = $resource[0]::where('public', $request->token)->whereNotNull('public')->firstOrFail();
+
+        if($model) {
+            return new $resource[1]($model);
+        }
+
     }
 
 }

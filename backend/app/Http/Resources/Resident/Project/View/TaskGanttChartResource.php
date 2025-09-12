@@ -23,7 +23,7 @@ class TaskGanttChartResource extends JsonResource
         $end = $this->due_date ?? now();
         $diff = $start->diff($end);
 
-        $resorce = [
+        $resource = [
             'id' => $this->id,
             'text' => $this->title,
 //            'start' => $start->format('Y-m-d'),
@@ -36,6 +36,6 @@ class TaskGanttChartResource extends JsonResource
         ];
 
 
-        return $resorce;
+        return $resource;
     }
 }

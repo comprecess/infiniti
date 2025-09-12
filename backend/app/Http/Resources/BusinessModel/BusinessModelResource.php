@@ -26,7 +26,7 @@ class BusinessModelResource extends JsonResource
         $industries = $this->getPropValues('industries', null);
         $technologies = $this->getPropValues('technologies', null);
 
-        $resorce = [
+        $resource = [
             'id' => $this->id,
             'title' => $this->title,
             'start' => $this->start?->format('Y-m-d'),
@@ -42,30 +42,30 @@ class BusinessModelResource extends JsonResource
         ];
 
         if(!self::$isCollection) {
-            $resorce[BusinessModel::TYPE_IMG[1]] = $this->getFileType(BusinessModel::TYPE_IMG[1])->first()?->getLink();
-            $resorce['fullDescription'] = $this->full_description;
-            $resorce['marketAnalysis'] = $this->market_analysis;
-            $resorce['financialModel'] = $this->financial_model;
-            $resorce['currentInvestors'] = $this->current_investors;
-            $resorce['stagesImplementation'] = $this->stages_implementation;
-            $resorce['partnershipOptions'] = $this->partnership_options;
-//                $resorce['location'] = ValueResource::collection($this->getPropValues('location', null));
-//            $resorce['available'] = User::AVAILABLE_STATUS[$this->getAvailableStatus()];
-//            $resorce['allSkills'] = ValueResorce::collection($this->getPropValues('all_skills', null));
-//            $resorce['userId'] = $this->getNested('user.id');
-//            $resorce['taxesIncluded'] = (bool) $this->getPropValues('rate');
-//            $resorce['language'] = $this->getLanguage();
-////            $resorce['experience'] = $this->getExpirence();
-//            $resorce['experience'] = $this->experience;
-//            $resorce['blockExperience'] = UserBlockResorce::collection($this->blockExperience);
-//            $resorce['educationName'] = $this->getPropValues('education_name');
-//            $resorce['educationSpecialization'] = $this->getPropValues('education_specialization');
-//            $resorce['educationDegree'] = $this->getPropValues('education_degree');
-//            $resorce['educationGraduation'] = $this->getPropValues('education_graduation');
-//            $resorce['similar'] = self::collection($this->getSimilar());
+            $resource[BusinessModel::TYPE_IMG[1]] = $this->getFileType(BusinessModel::TYPE_IMG[1])->first()?->getLink();
+            $resource['fullDescription'] = $this->full_description;
+            $resource['marketAnalysis'] = $this->market_analysis;
+            $resource['financialModel'] = $this->financial_model;
+            $resource['currentInvestors'] = $this->current_investors;
+            $resource['stagesImplementation'] = $this->stages_implementation;
+            $resource['partnershipOptions'] = $this->partnership_options;
+//                $resource['location'] = ValueResource::collection($this->getPropValues('location', null));
+//            $resource['available'] = User::AVAILABLE_STATUS[$this->getAvailableStatus()];
+//            $resource['allSkills'] = ValueResorce::collection($this->getPropValues('all_skills', null));
+//            $resource['userId'] = $this->getNested('user.id');
+//            $resource['taxesIncluded'] = (bool) $this->getPropValues('rate');
+//            $resource['language'] = $this->getLanguage();
+////            $resource['experience'] = $this->getExpirence();
+//            $resource['experience'] = $this->experience;
+//            $resource['blockExperience'] = UserBlockResorce::collection($this->blockExperience);
+//            $resource['educationName'] = $this->getPropValues('education_name');
+//            $resource['educationSpecialization'] = $this->getPropValues('education_specialization');
+//            $resource['educationDegree'] = $this->getPropValues('education_degree');
+//            $resource['educationGraduation'] = $this->getPropValues('education_graduation');
+//            $resource['similar'] = self::collection($this->getSimilar());
         }
 
-        return $resorce;
+        return $resource;
     }
 
     public function getLanguage()

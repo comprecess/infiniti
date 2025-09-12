@@ -20,12 +20,12 @@ class InvoiceResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $resorce = [];
+        $resource = [];
 
         $user = $this->user;
         $company = $user?->companyClient;
 
-        $resorce = array_merge($resorce, [
+        $resource = array_merge($resource, [
             'invoice_url' => env('FRONT_URL') . '/public/invoice/view/' . $this->vtoken,
             'business_name' => Config::get('CompanyName'),
             'name' => $user?->account,
@@ -47,7 +47,7 @@ class InvoiceResource extends JsonResource
             'code' => $this->getCode(),
         ]);
 
-        return $resorce;
+        return $resource;
     }
 
 }
