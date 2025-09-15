@@ -65,7 +65,7 @@ trait CurrencyTrait
         $date = $this->getDateCurrency();
         $code = $this->getCurrencyColumnName();
         return new HasOneTransform((new $class())->newQuery(), $this, ['date', 'iso_code'], [function($d) use($date){
-            return $d->{$date}->format('Y-m-d');
+            return $d->{$date}?->format('Y-m-d');
         }, $code]);
     }
 
