@@ -32,12 +32,13 @@ export const Indeterminate = ({
     languageLevels?.map(
       level => filters[level.propId]?.includes(level.id) || false,
     ) || []
+
   const [checkedItems, setCheckedItems] = useState(initialCheckedState)
+  const [isEditing, setIsEditing] = useState(!customStyles)
 
   const handleCheckboxChange = (index: number, checked: boolean) => {
     const newCheckedItems = [...checkedItems]
     newCheckedItems[index] = checked
-
     setCheckedItems(newCheckedItems)
 
     if (languageLevels) {
@@ -51,7 +52,6 @@ export const Indeterminate = ({
 
   const handleParentCheckboxChange = (checked: boolean) => {
     const newCheckedItems = checkedItems.map(() => checked)
-
     setCheckedItems(newCheckedItems)
 
     if (languageLevels) {
@@ -81,35 +81,79 @@ export const Indeterminate = ({
   const isIndeterminate = checkedItems.some(Boolean) && !allChecked
 
   return (
-    <div
-      className={!customStyles ? styles.wrapper : ''}
-      style={
-        customStyles
-          ? {
-            width: 'fit-content',
-            padding: '8px',
-            backgroundColor: '#1b1e29',
-            borderRadius: '8px',
-          }
-          : {}
-      }
-    >
-      <CustomCheckBox
-        title={languageTitle}
-        isChecked={allChecked}
-        isIndeterminate={isIndeterminate}
-        onChange={e => handleParentCheckboxChange(e.target.checked)}
-      />
-      <div className={styles.list}>
-        {languageLevels?.map((level, index) => (
+    <div className={!customStyles ? styles.wrapper : ''}>
+      {customStyles ? (
+        <>
+          <div
+            className={styles.textRow}
+            onClick={() => {
+              if (!isEditing) setIsEditing(true) // открытие по всему блоку только если закрыто
+            }}
+          >
+            {isEditing ? (
+              <CustomCheckBox
+                title={languageTitle}
+                isChecked={allChecked}
+                isIndeterminate={isIndeterminate}
+                onChange={e =>
+                  handleParentCheckboxChange(e.target.checked)
+                }
+              />
+            ) : (
+              <span className={styles.languageText}>{languageTitle}</span>
+            )}
+
+            {/* стрелочка управляет открытием/закрытием */}
+            <img
+              src='/icons/chevronLeftGray.svg'
+              alt='chevron'
+              className={`${styles.chevron} ${
+                isEditing ? styles.chevronOpen : ''
+              }`}
+              onClick={e => {
+                e.stopPropagation() // чтобы клик по стрелке не открывал снова
+                setIsEditing(prev => !prev)
+              }}
+            />
+          </div>
+
+          {isEditing && (
+            <div className={styles.list}>
+              {languageLevels?.map((level, index) => (
+                <CustomCheckBox
+                  key={level.id}
+                  title={level.value}
+                  isChecked={checkedItems[index]}
+                  onChange={e =>
+                    handleCheckboxChange(index, e.target.checked)
+                  }
+                />
+              ))}
+            </div>
+          )}
+        </>
+      ) : (
+        <>
           <CustomCheckBox
-            key={level.id}
-            title={level.value}
-            isChecked={checkedItems[index]}
-            onChange={e => handleCheckboxChange(index, e.target.checked)}
+            title={languageTitle}
+            isChecked={allChecked}
+            isIndeterminate={isIndeterminate}
+            onChange={e => handleParentCheckboxChange(e.target.checked)}
           />
-        ))}
-      </div>
+          <div className={styles.list}>
+            {languageLevels?.map((level, index) => (
+              <CustomCheckBox
+                key={level.id}
+                title={level.value}
+                isChecked={checkedItems[index]}
+                onChange={e =>
+                  handleCheckboxChange(index, e.target.checked)
+                }
+              />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   )
 }

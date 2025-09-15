@@ -277,6 +277,7 @@ export const Fields = ({
               {`${t('admin-talents-add-talent-page-input-13')}`}
             </span>
             <CustomCheckBoxIndeterminate
+              customStyles
               languages={inputData.language[0].children}
               filters={selectedFilters}
               onCheckboxChange={handleLanguageChange}
