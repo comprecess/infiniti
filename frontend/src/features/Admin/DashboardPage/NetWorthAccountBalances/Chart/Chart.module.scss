@@ -51,3 +51,28 @@
 .syllable {
   color: $gray-300;
 }
+
+.inputWrapper {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  align-items: center;
+  cursor: pointer;
+}
+
+.amountInput {
+  background-color: $brand-900;
+  color: $white;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.editIcon * {
+  width: 22px;
+  height: 22px;
+  margin-left: 2px;
+
+  fill: lighten($color: $brand-800, $amount: 5);
+}

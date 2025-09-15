@@ -11,3 +11,30 @@
   gap: 12px;
   margin-left: 30px;
 }
+
+.textRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px;
+  background-color: #1b1e29;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.languageText {
+  font-size: 16px;
+  color: #fff;
+}
+
+.chevron {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease-in-out;
+  transform: rotate(-90deg);
+}
+
+.chevronOpen {
+  transform: rotate(-270deg);
+}

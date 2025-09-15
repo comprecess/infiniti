@@ -30,7 +30,7 @@ export const ClearStorageButton = ({
       autoFocus={false}
     >
       <button className={styles.wrapper} onClick={handleRemoveStorage}>
-        <img src='/icons/trash.svg' className={styles.icon} />
+        <img src='/icons/eraser.svg' className={styles.icon} />
       </button>
     </Tooltip>
   )

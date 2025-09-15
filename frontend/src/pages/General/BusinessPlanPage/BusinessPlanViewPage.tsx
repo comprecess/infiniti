@@ -8,8 +8,8 @@ import { PeopleCard } from '../../../features/Admin/BusinessPlanPage/EditBusines
 import { Item } from '../../../features/Admin/BusinessPlanPage/ViewBusinessPlan/Item/Item'
 import { CustomDivider } from '../../../shared/ui/CustomDivider/CustomDivider'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getBusinessPlanFullInfo } from '../../../shared/utils/api/Admin/BusinessPlan/get-business-plan-full-info'
 import { getBusinessPlanInputData } from '../../../shared/utils/api/Admin/BusinessPlan/get-business-plan-input-data'
+import { getPublicBusinessPlan } from '../../../shared/utils/api/Public/get-public-business-plan'
 import { useIdFromUrl } from '../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './BusinessPlanViewPage.module.scss'
@@ -39,7 +39,7 @@ export const BusinessPlanViewPage = () => {
   const getFullInfoBusinessPlan = async () => {
     if (!id) return
 
-    const response = await getBusinessPlanFullInfo(id)
+    const response = await getPublicBusinessPlan(id)
 
     if (!response.status) return
 
