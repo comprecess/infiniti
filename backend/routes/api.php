@@ -71,7 +71,7 @@ Route::get('transaction/{id}', [\App\Http\Controllers\Api\Resident\Transactions\
 Route::any('zoom/webhook',[\App\Services\Zoom\WebHook::class, 'index']);
 
 #BusinessPlan & BusinessModel
-Route::get('/{type}/{token}', [\App\Http\Controllers\Api\BusinessModelController::class, 'publicBusiness'])
+Route::get('/{type}/view/{token}', [\App\Http\Controllers\Api\BusinessModelController::class, 'publicBusiness'])
     ->whereIn('type', \App\Http\Controllers\Api\BusinessModelController::PUBIC_TYPE);
 
 
