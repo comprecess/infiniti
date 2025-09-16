@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\Resident\BusinessPlan;
 
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\BusinessPlan\BusinessPlanCreateRequest;
+use App\Http\Requests\Resident\BusinessPlan\BusinessPlanListRequest;
 use App\Http\Resources\Resident\BusinessPlan\BusinessPlanListResource;
 use App\Http\Resources\Resident\BusinessPlan\BusinessPlanResource;
 use App\Http\Resources\Resident\Talents\TalentResource;
@@ -20,12 +21,12 @@ class BusinessPlanController extends BusinessPlanAccessController
         delete as deleteCRUD;
     }
 
-    public function list(Request $request)
+    public function list(BusinessPlanListRequest $request)
     {
-        $query = BusinessPlan::orderByDesc('id')
-        ->with(['files']);
+        $query = BusinessPlan::with(['client', 'client.files', 'businessModel', 'businessModel.values', 'businessModel.props', 'businessModel.values.prop']);
+        $request->filter($query);
 
-        return $this->index($query, BusinessPlanListResource::class);
+        return $this->index($query, BusinessPlanListResource::class, true);
     }
 
     public function inputData()

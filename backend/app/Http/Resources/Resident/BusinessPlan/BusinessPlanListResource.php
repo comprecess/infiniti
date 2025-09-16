@@ -3,8 +3,10 @@
 namespace App\Http\Resources\Resident\BusinessPlan;
 
 use App\Http\Resources\Resident\Client\ClientResource;
+use App\Http\Resources\Resident\Client\ClientSomeDataResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\BusinessModel\BusinessModelResource;
 
 class BusinessPlanListResource extends JsonResource
 {
@@ -19,7 +21,9 @@ class BusinessPlanListResource extends JsonResource
             'id' => $this->id,
             'companyName' => $this->company_name,
             'file' => $this->files->first()?->getLink(),
-            'exSummary' => $this->ex_summary
+            'exSummary' => $this->ex_summary,
+            'client' => new ClientSomeDataResource($this->client),
+            'businessModel' => new BusinessModelResource($this->businessModel)
         ];
 
         return $data;
