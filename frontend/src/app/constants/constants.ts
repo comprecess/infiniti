@@ -1137,6 +1137,8 @@ export interface BusinessPlanItemData {
   companyName: string
   exSummary: string
   file: string
+  client: { id: number; account: string; code: string; img: string }
+  businessModel: { id: number; title: string }
 }
 
 export interface BusinessPlanNewPlanFormData {

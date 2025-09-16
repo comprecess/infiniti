@@ -13,7 +13,7 @@ import { useIdFromUrl } from '../../../shared/utils/usefulMethods'
 import styles from './BusinessModelViewPage.module.scss'
 
 export const BusinessModelViewPage = () => {
-  const id = useIdFromUrl('business-model')
+  const id = useIdFromUrl('view')
 
   const { data: model } = useQuery({
     queryKey: ['model', id],

@@ -20,7 +20,16 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-export const getBusinessPlansList = async (): Promise<Response> => {
+export const getBusinessPlansList = async (
+  options: string = '',
+): Promise<Response> => {
+  if (typeof options !== 'string') {
+    return {
+      status: false,
+      message: 'Invalid options parameter',
+    }
+  }
+
   const authToken = getAuthToken()
 
   if (!authToken) {
@@ -40,6 +49,10 @@ export const getBusinessPlansList = async (): Promise<Response> => {
       )
     }
 
+    const safeOptions = options.startsWith('?')
+      ? options.slice(1)
+      : options
+
     const url = new URL(apiPath, baseUrl).toString()
 
     const controller = new AbortController()
@@ -55,6 +68,9 @@ export const getBusinessPlansList = async (): Promise<Response> => {
         Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
+      queryParams: safeOptions
+        ? Object.fromEntries(new URLSearchParams(safeOptions))
+        : undefined,
       signal: controller.signal,
     })
 

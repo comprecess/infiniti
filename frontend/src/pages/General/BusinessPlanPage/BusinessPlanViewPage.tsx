@@ -34,7 +34,7 @@ export const BusinessPlanViewPage = () => {
   TalentInputDataBusinessPlan[] | null
   >(null)
 
-  const id = useIdFromUrl('business-plan')
+  const id = useIdFromUrl('view')
 
   const getFullInfoBusinessPlan = async () => {
     if (!id) return
