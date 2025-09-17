@@ -59,7 +59,7 @@ class BusinessPlanController extends BusinessPlanAccessController
 
     public function item(BusinessPlan $plan)
     {
-//        $plan->load(['teams', 'teams.files', 'teams.values', 'teams.values.prop', 'teams.blockExperience']);
+        $plan->load(['client', 'client.files', 'businessModel', 'businessModel.values', 'businessModel.props', 'businessModel.values.prop']);
         return new BusinessPlanResource($plan);
     }
 
