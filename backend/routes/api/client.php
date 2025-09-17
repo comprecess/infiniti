@@ -23,6 +23,13 @@ Route::group(['prefix' => 'client',], function(){
         ->group(function(){
             Route::get('/', 'index');
         });
+
+    #business-plan
+    Route::controller(Client\Business\BusinessPlanController::class)->prefix('business-plan')
+        ->group(function(){
+            Route::get('list', 'list');
+            Route::get('{id}', 'item')->where('id', '[0-9]+');;
+        });
 });
 
 

@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources\Resident\BusinessPlan;
 
+use App\Http\Resources\BusinessModel\BusinessModelResource;
 use App\Http\Resources\Resident\Client\ClientResource;
+use App\Http\Resources\Resident\Client\ClientSomeDataResource;
 use App\Http\Resources\Resident\Talents\TalentResource;
 use App\Models\Config;
 use Illuminate\Http\Request;
@@ -37,6 +39,8 @@ class BusinessPlanResource extends JsonResource
             'appendix' => $this->appendix,
             'teams' => $this->teams->pluck('id'),
             'file' => $this->files->first()?->getLink(),
+            'client' => new ClientSomeDataResource($this->client),
+            'businessModel' => new BusinessModelResource($this->businessModel)
         ];
 
         return $data;
