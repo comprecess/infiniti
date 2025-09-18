@@ -40,7 +40,8 @@ class BusinessPlanResource extends JsonResource
             'teams' => $this->teams->pluck('id'),
             'file' => $this->files->first()?->getLink(),
             'client' => new ClientSomeDataResource($this->client),
-            'businessModel' => new BusinessModelResource($this->businessModel)
+            'businessModel' => new BusinessModelResource($this->businessModel),
+            'publicToken' => $this->public
         ];
 
         return $data;

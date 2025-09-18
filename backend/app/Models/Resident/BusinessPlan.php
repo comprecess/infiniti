@@ -6,6 +6,7 @@ use App\Http\Resources\Resident\BusinessPlan\BusinessPlanChatGPTResource;
 use App\Models\BusinessModel\BusinessModel;
 use App\Models\Contracts\ChatGPTContract;
 use App\Models\Contracts\MeetingContract;
+use App\Models\Traits\BootTrait;
 use App\Models\Traits\CatalogUserTeamTrait;
 use App\Models\Traits\ChatGPTTrait;
 use App\Models\Traits\FileStorageTrait;
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BusinessPlan extends Model implements ChatGPTContract, MeetingContract
 {
-    use HasFactory, ChatGPTTrait, CatalogUserTeamTrait, FileStorageTrait, HelperTrait, UserTrait;
+    use HasFactory, ChatGPTTrait, CatalogUserTeamTrait, FileStorageTrait, HelperTrait, UserTrait, BootTrait;
 
     public $table = 'app_business_plan';
 
@@ -24,6 +25,11 @@ class BusinessPlan extends Model implements ChatGPTContract, MeetingContract
         'updated_at' => 'datetime',
         'date' => 'date',
     ];
+
+    public static function creatingEvent($item)
+    {
+        $item->setRandomNum('public', 32, true);
+    }
 
     public function businessModel()
     {
