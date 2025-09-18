@@ -99,6 +99,7 @@ import { ResetPasswordPage } from '../../pages/Auth/ResetPasswordPage/ResetPassw
 import { SignInPage } from '../../pages/Auth/SignInPage/SignInPage'
 import { ClientBasketPage } from '../../pages/Client/BasketPage/BasketPage'
 import { ClientBusinessModelsPage } from '../../pages/Client/BusinessModelsPage/BusinessModelsPage'
+import { ClientBusinessPlansPage } from '../../pages/Client/BusinessPlansPage/BusinessPlansPage'
 import { ClientDashboardPage } from '../../pages/Client/DashboardPage/DashboardPage'
 import { ClientDocumentsPage } from '../../pages/Client/DocumentsPage/DocumentsPage'
 import { ClientInvoicesPage } from '../../pages/Client/InvoicesPage/InvoicesPage'
@@ -114,6 +115,7 @@ import { ClientOpenNewTicketPage } from '../../pages/Client/TicketsPage/OpenNewT
 import { ClientTicketsPage } from '../../pages/Client/TicketsPage/TicketsPage/TicketsPage'
 import { ClientTransactionsPage } from '../../pages/Client/TransactionsPage/TransactionsPage'
 import { ClientViewBusinessModelsPage } from '../../pages/Client/ViewBusinessModelsPage/ViewBusinessModelsPage'
+import { ClientViewBusinessPlanPage } from '../../pages/Client/ViewBusinessPlanPage/ViewBusinessPlanPage'
 import { AutoLoginPage } from '../../pages/General/AutoLoginPage/AutoLoginPage'
 import { BusinessModelViewPage } from '../../pages/General/BusinessModelPage/BusinessModelViewPage'
 import { BusinessPlanViewPage } from '../../pages/General/BusinessPlanPage/BusinessPlanViewPage'
@@ -245,6 +247,8 @@ export const Pages = {
   clientDashboardPage: <ClientDashboardPage />,
   clientProfileSettingsPage: <ClientProfileSettingsPage />,
   clientTalentsPage: <ClientTalentsPage />,
+  clientBusinessPlansPage: <ClientBusinessPlansPage />,
+  clientViewBusinessPlanPage: <ClientViewBusinessPlanPage />,
   clientBusinessModelsPage: <ClientBusinessModelsPage />,
   clientViewBusinessModelsPage: <ClientViewBusinessModelsPage />,
   clientTalentDetailsPage: <ClientTalentDetailsPage />,

@@ -17,6 +17,7 @@ interface ItemProps {
   code: string
   businessModel: string
   businessPlan: string
+  token: string
   deletePlan: (id: number) => void
 }
 
@@ -29,6 +30,7 @@ export const Item = ({
   code,
   businessModel,
   businessPlan,
+  token,
   deletePlan,
 }: ItemProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
@@ -55,6 +57,12 @@ export const Item = ({
     navigate(
       `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.edit}/${Routes.businessPlan}/${id}`,
     )
+  }
+
+  const handleNavigateToPreview = () => {
+    const url = `/${Routes.public}/${Routes.view}/${Routes.businessPlan}/${token}`
+
+    window.open(url, '_blank')
   }
 
   return (
@@ -99,6 +107,13 @@ export const Item = ({
               onClick={handleNavigateViewBusinessPlan}
             />
           )}
+          <CustomMiniButton
+            style='gray'
+            icon='/icons/fileWhite.svg'
+            alt='Preview'
+            tooltipTitle='Preview'
+            onClick={handleNavigateToPreview}
+          />
           {access.edit === 1 && (
             <CustomMiniButton
               style='amber'

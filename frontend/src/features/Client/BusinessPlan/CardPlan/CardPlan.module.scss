@@ -1,0 +1,58 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  width: 100%;
+  background-color: $brand-900;
+  padding: 32px 32px 32px 32px;
+  border-radius: 8px;
+
+  @include mobileBreakpoint('max', $bpM) {
+    align-items: center;
+    flex-direction: column;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+}
+
+.texts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.logo {
+  width: 100%;
+  max-width: 220px;
+  height: 220px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 8px;
+}
+
+.button {
+  width: fit-content;
+}
+
+.title {
+  font-family: $fontSpaceGrotesk;
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 36px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $white;
+}

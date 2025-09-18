@@ -114,7 +114,7 @@ export const OfferViewPage = () => {
   }
 
   useEffect(() => {
-    document.title = 'Infiniti | Preview Offer'
+    document.title = 'Infiniti | Public Offer'
   }, [])
 
   useEffect(() => {

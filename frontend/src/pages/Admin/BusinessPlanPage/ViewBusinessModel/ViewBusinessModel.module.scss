@@ -79,6 +79,7 @@
 }
 
 .titleModel {
+  margin-top: 24px;
   margin-bottom: 24px;
 }
 
@@ -128,4 +129,8 @@
 
 .buttonBackIcon {
   transform: rotate(90deg);
+}
+
+.input {
+  background-color: $brand-900;
 }

@@ -1,9 +1,11 @@
 import {
+  AUTH_ERROR_MESSAGE,
   INVALID_RESPONSE_MESSAGE,
   NETWORK_ERROR_MESSAGE,
   REQUEST_TIMEOUT_MS,
-} from '../../../../app/constants/constants'
-import { customFetch } from '../custom-fetch'
+} from '../../../../../app/constants/constants'
+import { customFetch } from '../../custom-fetch'
+import { getAuthToken } from '../../get-auth-token'
 
 interface SuccessResponse {
   status: true
@@ -18,12 +20,19 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-export const getPublicBusinessPlan = async (
-  token: string,
-): Promise<Response> => {
+export const getBusinessPlansList = async (): Promise<Response> => {
+  const authToken = getAuthToken()
+
+  if (!authToken) {
+    return {
+      status: false,
+      message: AUTH_ERROR_MESSAGE,
+    }
+  }
+
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const apiPath = import.meta.env.VITE_PUBLIC_BUSINESS_PLAN
+    const apiPath = import.meta.env.VITE_CLIENT_BUSINESS_PLAN
 
     if (!baseUrl || !apiPath) {
       throw new Error(
@@ -31,7 +40,7 @@ export const getPublicBusinessPlan = async (
       )
     }
 
-    const url = new URL(`${apiPath}/${token}`, baseUrl).toString()
+    const url = new URL(`${apiPath}/list`, baseUrl).toString()
 
     const controller = new AbortController()
     const timeoutId = setTimeout(
@@ -44,6 +53,7 @@ export const getPublicBusinessPlan = async (
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
+        Authorization: `Bearer ${authToken}`,
       },
       signal: controller.signal,
     })

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import { RolesAccess, ValuesProps } from '../../app/constants/constants'
+import { Routes } from '../../app/router/routes'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
 import { ConfirmationModal } from '../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../shared/ui/CustomMiniButton/CustomMiniButton'
@@ -22,6 +23,7 @@ interface BusinessModelCardProps {
   location: ValuesProps[]
   isOpen: boolean
   access?: RolesAccess | undefined
+  token: string
   onMobileCLick: () => void
   onNavigate: (id: number) => void
   onDelete: (id: number) => void
@@ -41,6 +43,7 @@ export const BusinessModelCard = ({
   profitability,
   isOpen,
   access,
+  token,
   onMobileCLick,
   onNavigate,
   onDelete,
@@ -55,6 +58,12 @@ export const BusinessModelCard = ({
 
   const handleOpenConvertModal = () => {
     setModalConvert(state => !state)
+  }
+
+  const handleNavigateToPreview = () => {
+    const url = `/${Routes.public}/${Routes.view}/${Routes.businessModel}/${token}`
+
+    window.open(url, '_blank')
   }
 
   return (
@@ -105,6 +114,13 @@ export const BusinessModelCard = ({
                         onClick={() => onNavigate(id)}
                       />
                     )}
+                    <CustomMiniButton
+                      style='gray'
+                      icon='/icons/fileWhite.svg'
+                      tooltipTitle='Preview'
+                      alt='Preview'
+                      onClick={handleNavigateToPreview}
+                    />
                     {access && access.edit === 1 && (
                       <CustomMiniButton
                         style='amber'

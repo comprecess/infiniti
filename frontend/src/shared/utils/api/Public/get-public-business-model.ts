@@ -19,7 +19,7 @@ interface ErrorResponse {
 type Response = SuccessResponse | ErrorResponse
 
 export const getPublicBusinessModel = async (
-  id: number,
+  token: string,
 ): Promise<Response> => {
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
@@ -31,7 +31,7 @@ export const getPublicBusinessModel = async (
       )
     }
 
-    const url = new URL(`${apiPath}/${id}`, baseUrl).toString()
+    const url = new URL(`${apiPath}/${token}`, baseUrl).toString()
 
     const controller = new AbortController()
     const timeoutId = setTimeout(

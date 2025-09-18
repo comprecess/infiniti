@@ -32,9 +32,27 @@ export const clientSidebarPages = [
   },
   {
     id: 2,
-    name: 'client-sidebar-main-page-business-models',
+    name: 'client-sidebar-main-page-business-plan',
     icon: <DashboardIcon />,
-    path: Routes.businessModels,
+    path: Routes.businessPlan,
+    openPaths: [
+      {
+        id: 0,
+        title: 'client-sidebar-main-page-business-plans',
+        path: Routes.businessPlans,
+
+        // Access
+        create: false,
+      },
+      {
+        id: 1,
+        title: 'client-sidebar-main-page-business-models',
+        path: Routes.businessModels,
+
+        // Access
+        create: false,
+      },
+    ],
 
     // Access
     shortName: undefined,

@@ -1,18 +1,29 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
-import {
-  BusinessPlanNewPlanFormData,
-  TalentInputDataBusinessPlan,
-} from '../../../app/constants/constants'
-import { PeopleCard } from '../../../features/Admin/BusinessPlanPage/EditBusinessPlanPage/Fields/Team/PeopleCard/PeopleCard'
+import { BusinessPlanNewPlanFormData } from '../../../app/constants/constants'
 import { Item } from '../../../features/Admin/BusinessPlanPage/ViewBusinessPlan/Item/Item'
 import { CustomDivider } from '../../../shared/ui/CustomDivider/CustomDivider'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getBusinessPlanInputData } from '../../../shared/utils/api/Admin/BusinessPlan/get-business-plan-input-data'
 import { getPublicBusinessPlan } from '../../../shared/utils/api/Public/get-public-business-plan'
-import { useIdFromUrl } from '../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './BusinessPlanViewPage.module.scss'
+
+const extractTokenFromUrl = (url: string): string | null => {
+  const regex = /\/business-plan\/([^/]+)$/
+  const match = url.match(regex)
+
+  return match ? match[1] : null
+}
+
+const useTokenFromUrl = () => {
+  const location = useLocation()
+
+  return useMemo(
+    () => extractTokenFromUrl(location.pathname),
+    [location.pathname],
+  )
+}
 
 const sections = [
   { key: 'exSummary', title: 'Executive Summary' },
@@ -30,38 +41,26 @@ const sections = [
 export const BusinessPlanViewPage = () => {
   const [fullInfo, setFullInfo] =
     useState<BusinessPlanNewPlanFormData | null>(null)
-  const [inputData, setInputData] = useState<
-  TalentInputDataBusinessPlan[] | null
-  >(null)
 
-  const id = useIdFromUrl('view')
+  const token = useTokenFromUrl()
 
   const getFullInfoBusinessPlan = async () => {
-    if (!id) return
+    if (!token) return
 
-    const response = await getPublicBusinessPlan(id)
+    const response = await getPublicBusinessPlan(token)
 
     if (!response.status) return
 
     setFullInfo(response.data.data)
   }
 
-  const getInputData = async () => {
-    const response = await getBusinessPlanInputData()
-
-    if (!response.status) return
-
-    setInputData(response.data.talents)
-  }
-
-  useEffect(() => {
-    document.title = 'infiniti | View Business Plan'
-  }, [])
-
   useEffect(() => {
     getFullInfoBusinessPlan()
-    getInputData()
-  }, [id])
+  }, [token])
+
+  useEffect(() => {
+    document.title = 'infiniti | Public Business Plan'
+  }, [])
 
   const filteredSections = sections.filter(
     ({ key }) =>
@@ -71,7 +70,7 @@ export const BusinessPlanViewPage = () => {
   return (
     <div className={styles.content}>
       <div className={styles.wrapper}>
-        {fullInfo && inputData ? (
+        {fullInfo ? (
           <section className={styles.section}>
             <div className={styles.header}>
               <img
@@ -121,21 +120,6 @@ export const BusinessPlanViewPage = () => {
                   return (
                     <Fragment key={key}>
                       <Item title={title} content={content as string} />
-                      {key === 'management' && (
-                        <div className={styles.teamWrapper}>
-                          {fullInfo.teams &&
-                            fullInfo.teams.map(id => {
-                              return (
-                                <PeopleCard
-                                  key={id}
-                                  talent={inputData.find(
-                                    item => item.id === id,
-                                  )}
-                                />
-                              )
-                            })}
-                        </div>
-                      )}
                       {index < filteredSections.length - 1 && (
                         <div className={styles.divider}>
                           <CustomDivider />
