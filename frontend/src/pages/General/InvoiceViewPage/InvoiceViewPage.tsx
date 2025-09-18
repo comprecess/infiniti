@@ -105,7 +105,7 @@ export const InvoiceViewPage = () => {
   }
 
   useEffect(() => {
-    document.title = 'Infiniti | Preview Invoice'
+    document.title = 'Infiniti | Public Invoice'
   }, [])
 
   useEffect(() => {

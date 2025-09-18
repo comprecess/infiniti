@@ -117,6 +117,7 @@ export const ModelsList = ({
                         industries={model.industries}
                         technologies={model.technologies}
                         location={model.location}
+                        token={model.publicToken}
                         profitability={model.profitability[0].value}
                         isOpen={modelsOpen[index]}
                         access={modelsList.access}

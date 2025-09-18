@@ -1,20 +1,15 @@
 import { Fragment, useEffect, useState } from 'react'
 
-import {
-  BusinessPlanNewPlanFormData,
-  TalentInputDataBusinessPlan,
-} from '../../../../app/constants/constants'
-import { Routes } from '../../../../app/router/routes'
-import { PeopleCard } from '../../../../features/Admin/BusinessPlanPage/EditBusinessPlanPage/Fields/Team/PeopleCard/PeopleCard'
-import { Item } from '../../../../features/Admin/BusinessPlanPage/ViewBusinessPlan/Item/Item'
-import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
-import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
-import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
-import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getBusinessPlanFullInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/get-business-plan-full-info'
-import { getBusinessPlanInputData } from '../../../../shared/utils/api/Admin/BusinessPlan/get-business-plan-input-data'
-import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
-import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
+import { BusinessPlanNewPlanFormData } from '../../../app/constants/constants'
+import { Routes } from '../../../app/router/routes'
+import { Item } from '../../../features/Admin/BusinessPlanPage/ViewBusinessPlan/Item/Item'
+import { BackButton } from '../../../shared/ui/BackButton/BackButton'
+import { CustomDivider } from '../../../shared/ui/CustomDivider/CustomDivider'
+import { CustomInput } from '../../../shared/ui/CustomInput/CustomInput'
+import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { getBusinessPlanInfo } from '../../../shared/utils/api/Client/BusinessPlan/get-business-plan-info'
+import { useIdFromUrl } from '../../../shared/utils/usefulMethods'
+import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import styles from './ViewBusinessPlanPage.module.scss'
 
 const sections = [
@@ -30,31 +25,20 @@ const sections = [
   { key: 'appendix', title: 'Appendix' },
 ]
 
-export const AdminViewBusinessPlanPage = () => {
+export const ClientViewBusinessPlanPage = () => {
   const [fullInfo, setFullInfo] =
     useState<BusinessPlanNewPlanFormData | null>(null)
-  const [inputData, setInputData] = useState<
-  TalentInputDataBusinessPlan[] | null
-  >(null)
 
-  const id = useIdFromUrl('business-plan')
+  const id = useIdFromUrl('view')
 
   const getFullInfoBusinessPlan = async () => {
     if (!id) return
 
-    const response = await getBusinessPlanFullInfo(id)
+    const response = await getBusinessPlanInfo(id)
 
     if (!response.status) return
 
     setFullInfo(response.data.data)
-  }
-
-  const getInputData = async () => {
-    const response = await getBusinessPlanInputData()
-
-    if (!response.status) return
-
-    setInputData(response.data.talents)
   }
 
   useEffect(() => {
@@ -63,7 +47,6 @@ export const AdminViewBusinessPlanPage = () => {
 
   useEffect(() => {
     getFullInfoBusinessPlan()
-    getInputData()
   }, [id])
 
   const filteredSections = sections.filter(
@@ -73,7 +56,7 @@ export const AdminViewBusinessPlanPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      {fullInfo && inputData ? (
+      {fullInfo ? (
         <section className={styles.section}>
           <div className={styles.backButton}>
             <BackButton />
@@ -134,21 +117,6 @@ export const AdminViewBusinessPlanPage = () => {
                 return (
                   <Fragment key={key}>
                     <Item title={title} content={content as string} />
-                    {key === 'management' && (
-                      <div className={styles.teamWrapper}>
-                        {fullInfo.teams &&
-                          fullInfo.teams.map(id => {
-                            return (
-                              <PeopleCard
-                                key={id}
-                                talent={inputData.find(
-                                  item => item.id === id,
-                                )}
-                              />
-                            )
-                          })}
-                      </div>
-                    )}
                     {index < filteredSections.length - 1 && (
                       <div className={styles.divider}>
                         <CustomDivider />

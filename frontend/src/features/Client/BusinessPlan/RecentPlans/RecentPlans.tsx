@@ -22,7 +22,7 @@ export const RecentPlans = ({
   changeSortName,
   deletePlan,
 }: RecentPlansProps) => {
-  const [sortNumbers, setSortNumbers] = useState<number[]>([1, 1, 1, 1])
+  const [sortNumbers, setSortNumbers] = useState<number[]>([1, 1, 1])
 
   const handleSortChange = useCallback(
     (index: number, sortNameItem: string, sortTypeItem: number) => {
@@ -35,7 +35,7 @@ export const RecentPlans = ({
   )
 
   const clearSort = () => {
-    setSortNumbers(new Array(4).fill(1))
+    setSortNumbers(new Array(3).fill(1))
   }
 
   return (
@@ -43,23 +43,14 @@ export const RecentPlans = ({
       {plansData.length > 0 ? (
         <>
           <div className={styles.columns}>
-            <Title
-              sorted
-              title='Image'
-              style={styles.imageColumn}
-              sortType={sortNumbers[0]}
-              sortName='img'
-              sortIndex={0}
-              changeSortName={handleSortChange}
-              clearSort={clearSort}
-            />
+            <Title title='Image' style={styles.imageColumn} />
             <Title
               sorted
               title='Name'
               style={styles.nameColumn}
               sortType={sortNumbers[1]}
-              sortName='name'
-              sortIndex={1}
+              sortName='account'
+              sortIndex={0}
               changeSortName={handleSortChange}
               clearSort={clearSort}
             />
@@ -68,8 +59,8 @@ export const RecentPlans = ({
               title='Business Model'
               style={styles.businessModelColumn}
               sortType={sortNumbers[2]}
-              sortName='company'
-              sortIndex={2}
+              sortName='titleModel'
+              sortIndex={1}
               changeSortName={handleSortChange}
               clearSort={clearSort}
             />
@@ -78,8 +69,8 @@ export const RecentPlans = ({
               title='Business Plan'
               style={styles.businessPlanColumn}
               sortType={sortNumbers[3]}
-              sortName='group'
-              sortIndex={3}
+              sortName='companyName'
+              sortIndex={2}
               changeSortName={handleSortChange}
               clearSort={clearSort}
             />
@@ -96,8 +87,9 @@ export const RecentPlans = ({
                     image={item.client?.img}
                     name={item.client?.account}
                     code={item.client?.code}
-                    businessModel={item.businessModel.title}
+                    businessModel={item.businessModel?.title}
                     businessPlan={item.companyName}
+                    token={item.publicToken}
                     deletePlan={deletePlan}
                   />
                   {index !== plansData.length - 1 && <CustomDivider />}

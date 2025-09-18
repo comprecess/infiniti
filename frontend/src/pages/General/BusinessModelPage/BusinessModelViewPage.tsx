@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
 import { ListInfoItem } from '../../../features/Client/TalentDetailsPage/ListInfoItem/ListInfoItem'
 import { TextInfoItem } from '../../../features/Client/TalentDetailsPage/TextInfoItem/TextInfoItem'
@@ -7,34 +7,51 @@ import { TitleCard } from '../../../features/Client/TalentDetailsPage/TitleCard/
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { StatusProfitability } from '../../../shared/ui/StatusProfitability/StatusProfitability'
-import { getBusinessModelFullInfo } from '../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/get-business-model-full-info'
+import { getPublicBusinessModel } from '../../../shared/utils/api/Public/get-public-business-model'
 import { sanitizeMessage } from '../../../shared/utils/TextEditor/sanitizeMessage'
-import { useIdFromUrl } from '../../../shared/utils/usefulMethods'
 import styles from './BusinessModelViewPage.module.scss'
 
+const extractTokenFromUrl = (url: string): string | null => {
+  const regex = /\/business-plan\/([^/]+)$/
+  const match = url.match(regex)
+
+  return match ? match[1] : null
+}
+
+const useTokenFromUrl = () => {
+  const location = useLocation()
+
+  return useMemo(
+    () => extractTokenFromUrl(location.pathname),
+    [location.pathname],
+  )
+}
+
 export const BusinessModelViewPage = () => {
-  const id = useIdFromUrl('view')
+  const [model, setModel] = useState<any | null>(null)
 
-  const { data: model } = useQuery({
-    queryKey: ['model', id],
-    queryFn: async () => {
-      if (!id) return
+  const token = useTokenFromUrl()
 
-      const response = await getBusinessModelFullInfo(id)
+  const getFullInfoBusinessModel = async () => {
+    if (!token) return
 
-      if (!response.status) return
+    const response = await getPublicBusinessModel(token)
 
-      return response.data.data
-    },
-    placeholderData: previousData => previousData,
-  })
+    if (!response.status) return
+
+    setModel(response.data.data)
+  }
 
   const isValidHTML = (value?: string) => {
     return !!value && value !== '<p><br></p>'
   }
 
   useEffect(() => {
-    document.title = 'infiniti | View Business Models'
+    getFullInfoBusinessModel()
+  }, [token])
+
+  useEffect(() => {
+    document.title = 'infiniti | Public Business Models'
   }, [])
 
   return (

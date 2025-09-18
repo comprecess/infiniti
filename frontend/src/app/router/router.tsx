@@ -514,13 +514,22 @@ export const router = createBrowserRouter([
         element: Pages.clientTalentDetailsPage,
       },
       {
-        path: Routes.businessModels,
+        path: `${Routes.businessPlan}/${Routes.businessPlans}`,
+        element: Pages.clientBusinessPlansPage,
+      },
+      {
+        path: `${Routes.businessPlan}/${Routes.businessModels}`,
         element: Pages.clientBusinessModelsPage,
+      },
+      {
+        path: `${Routes.businessPlans}/${Routes.businessPlan}/${Routes.view}/:id`,
+        element: Pages.clientViewBusinessPlanPage,
       },
       {
         path: `${Routes.businessModels}/${Routes.businessModel}/${Routes.view}/:id`,
         element: Pages.clientViewBusinessModelsPage,
       },
+
       { path: Routes.myOrders, element: Pages.clientMyOrdersPage },
       { path: Routes.transactions, element: Pages.clientTransactionsPage },
       { path: Routes.documents, element: Pages.clientDocumentsPage },

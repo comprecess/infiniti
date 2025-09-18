@@ -1139,6 +1139,7 @@ export interface BusinessPlanItemData {
   file: string
   client: { id: number; account: string; code: string; img: string }
   businessModel: { id: number; title: string }
+  publicToken: string
 }
 
 export interface BusinessPlanNewPlanFormData {
@@ -1162,6 +1163,7 @@ export interface BusinessPlanNewPlanFormData {
   teams: number[]
   file: File
   fileDelete: number
+  publicToken: string
 }
 
 export interface BusinessPlanBusinessModelData {
@@ -1184,6 +1186,7 @@ export interface BusinessPlanBusinessModelData {
   currentInvestors: string
   stagesImplementation: string
   partnershipOptions: string
+  publicToken: string
 }
 
 export interface BusinessPlanBusinessModelFormData {

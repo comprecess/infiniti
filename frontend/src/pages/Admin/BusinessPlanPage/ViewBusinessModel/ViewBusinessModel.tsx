@@ -1,11 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 
+import { Routes } from '../../../../app/router/routes'
 import { ListInfoItem } from '../../../../features/Client/TalentDetailsPage/ListInfoItem/ListInfoItem'
 import { TextInfoItem } from '../../../../features/Client/TalentDetailsPage/TextInfoItem/TextInfoItem'
 import { TitleCard } from '../../../../features/Client/TalentDetailsPage/TitleCard/TitleCard'
 import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
 import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
+import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { StatusProfitability } from '../../../../shared/ui/StatusProfitability/StatusProfitability'
 import { getBusinessModelFullInfo } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/get-business-model-full-info'
@@ -45,6 +47,18 @@ export const AdminViewBusinessModel = () => {
           <div className={styles.backButton}>
             <BackButton />
           </div>
+          <CustomInput
+            readOnly
+            title='Unique Business Model URL:'
+            type='text'
+            name='uniqueURL'
+            id='uniqueURL'
+            styleInput={styles.input}
+            value={`${import.meta.env.VITE_MAIN_DOMAIN}/${Routes.public}/${
+              Routes.view
+            }/${Routes.businessModel}/${model.publicToken}`}
+            onChange={() => {}}
+          />
           <div className={styles.titleModel}>
             <TitlePage title={model.title} />
           </div>
