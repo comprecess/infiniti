@@ -12,6 +12,7 @@ class BusinessPlanListRequest extends DocumentRequest
     {
         return [
             'id' => 'app_business_plan.id',
+            'companyName' => 'app_business_plan.company_name',
             'account' => 'crm_accounts.account',
             'titleModel' => 'business_model.title',
         ];
