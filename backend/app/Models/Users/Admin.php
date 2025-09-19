@@ -187,5 +187,10 @@ class Admin extends User implements LoginIntarface, InsertDefaultValueInterface
         return $result;
     }
 
+    public function isFullAdmin()
+    {
+        return $this->roleid == 0;
+    }
+
 
 }

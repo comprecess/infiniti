@@ -39,17 +39,17 @@ trait HelperTrait
                 if(self::where($nameColumn, $random)->count() == 0) {
                     break;
                 }
-                $random = $this->randomNum($col, $onlyNum);
+                $random = $this->randomNum($col, $onlyNum, $i);
             }
         }
         $this->{$nameColumn} = $random;
     }
 
-    public function randomNum($col = 6, $onlyNum = false)
+    public function randomNum($col = 6, $onlyNum = false, $i = 0)
     {
         if($onlyNum) {
             return substr(str_shuffle(str_repeat('0123456789', $col)), 0, $col);
         }
-        return substr(md5(time() . rand(1, 1000)),0, $col);
+        return substr(md5(time() . rand(1, 1000) . $i),0, $col);
     }
 }

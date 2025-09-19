@@ -24,8 +24,10 @@ use App\Http\Resources\Resident\Settings\CustomFieldsResource;
 use App\Http\Resources\UserResource;
 use App\Mail\EmailTemplateMail;
 use App\Mail\Resident\Client\WelcomeEmail;
+use App\Models\BusinessModel\BusinessModel;
 use App\Models\Log;
 use App\Models\Notification;
+use App\Models\Resident\BusinessPlan;
 use App\Models\Resident\Client\Activity;
 use App\Models\Resident\Client\Company;
 use App\Models\Resident\Client\Group;
@@ -532,24 +534,18 @@ class ClientController extends MainClientController
 
     public function test4(Request $request)
     {
-        $tr = Transaction::with(['currencyHistory'])
-//            ->wherePivot('getCurrencyDate.date', '2025-07-13')
-            ->orderBy('id', 'desc')
-            ->limit(10)
-        ->get();
-
-//        $tr = Transaction::find(231)->currencyHistory;
-
-//        $tr = InvoiceItem::with(['currencyHistory'])
-//            ->orderBy('id', 'desc')
-//            ->limit(10)
-//            ->get();
-//        dd($tr);
-        foreach($tr as $t) {
-            dump($t->id);
-            dump($t->{$t->getCurrencyColumnName()});
-            dump($t->date->format('Y-m-d'));
-            dump($t->currencyHistory);
+        foreach([BusinessPlan::class, BusinessModel::class] as $class){
+            $class::whereNull('public')->each(function($item){
+                $item->setRandomNum('public', 32, true);
+                $item->save();
+            });
         }
+//        BusinessPlan::whereNull('public')->each(function($item){
+//            $item->setRandomNum('public', 32);
+//        });
+//
+//        BusinessModel::whereNull('public')->each(function($item){
+//            $item->setRandomNum('public', 32);
+//        });
     }
 }
