@@ -7,18 +7,59 @@ namespace App\Http\Controllers\Api\Resident\BusinessPlan;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\BusinessPlan\BusinessPlanCreateRequest;
 use App\Http\Requests\Resident\BusinessPlan\BusinessPlanListRequest;
+use App\Http\Resources\Resident\BusinessPlan\BusinessPlanDocumentExcelResource;
+use App\Http\Resources\Resident\BusinessPlan\BusinessPlanDocumentResource;
 use App\Http\Resources\Resident\BusinessPlan\BusinessPlanListResource;
 use App\Http\Resources\Resident\BusinessPlan\BusinessPlanResource;
 use App\Http\Resources\Resident\Talents\TalentResource;
 use App\Models\Catalog\User;
 use App\Models\Resident\BusinessPlan;
+use App\Services\Document\DocumentVariables;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 class BusinessPlanController extends BusinessPlanAccessController
 {
     use CRUD {
         createOrUpdate as createOrUpdateCRUD;
         delete as deleteCRUD;
+    }
+
+    public function getDocumentVariables(): DocumentVariables
+    {
+        $columns = [
+            'img' => 'Image',
+            'account' => 'Name',
+            'model' => 'Business Model',
+            'company' => 'Business Plan',
+        ];
+
+        $varibles = new DocumentVariables();
+
+        $varibles->nameDocument = "Business Plan";
+        $varibles->header = "Business Plan - Infiniti";
+
+        $varibles->columns = $columns;
+        $varibles->excelView = 'document.excel.business-plan';
+        $varibles->excelFilesCollable = function ($query){
+            $images = [];
+
+            foreach($query as $key => $value) {
+                if($path = $value->client?->getLastFile()?->getFile()?->getRealPath()) {
+                    $drawing = new Drawing();
+                    $drawing->setPath($path);
+                    $drawing->setHeight(50);
+                    $drawing->setCoordinates("A" . ($key + 2));
+                    $images[] = $drawing;
+                }
+            }
+
+            return $images;
+        };
+        $varibles->resource = request()->input('document') == 'pdf' ? BusinessPlanDocumentResource::class : BusinessPlanDocumentExcelResource::class;
+
+
+        return $varibles;
     }
 
     public function list(BusinessPlanListRequest $request)

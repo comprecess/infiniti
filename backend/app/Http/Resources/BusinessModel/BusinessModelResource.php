@@ -38,7 +38,8 @@ class BusinessModelResource extends JsonResource
             'price' => $this->printPrice((int) $this->getPropValues('price')),
             'profitability' => ValueResource::collection($this->getPropValues('profitability', null)),
             'location' => ValueResource::collection($this->getPropValues('location', null)),
-            BusinessModel::TYPE_IMG[0] => $this->getFileType(BusinessModel::TYPE_IMG[0])->first()?->getLink()
+            BusinessModel::TYPE_IMG[0] => $this->getFileType(BusinessModel::TYPE_IMG[0])->first()?->getLink(),
+            'publicToken' => $this->public
         ];
 
         if(!self::$isCollection) {
