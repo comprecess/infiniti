@@ -289,6 +289,12 @@ Route::group(['prefix' => 'settings'], function(){
             Route::get('/{role}', 'item');
             Route::delete('/{role}', 'delete');
         });
+    #Config
+    Route::prefix('config')
+        ->controller(Resident\Settings\ConfigController::class)
+        ->group(function(){
+            Route::patch('{name}', 'setConfig')->whereIn('name', array_keys(Resident\Settings\ConfigController::LIST));
+        });
 });
 
 #ChatGPT
