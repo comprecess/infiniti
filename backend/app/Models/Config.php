@@ -35,6 +35,7 @@ class Config extends Model
 
     public static function set($name, $value)
     {
+        $cacheName = "config.{$name}";
         $settings = self::getSettings($name);
         if(!$settings) {
             throw new \Exception("Config name '{$name}' not found");
@@ -42,5 +43,7 @@ class Config extends Model
 
         $settings->value = $value;
         $settings->save();
+
+        Cache::forget($cacheName);
     }
 }
