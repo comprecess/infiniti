@@ -1,5 +1,5 @@
-import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import styles from './GeneralSettingsPage.module.scss'
+import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const AdminGeneralSettingsPage = () => {
   return (

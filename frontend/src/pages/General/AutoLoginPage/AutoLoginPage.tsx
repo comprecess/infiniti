@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './AutoLoginPage.module.scss'
 import { authTokenString } from '../../../app/constants/constants'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getAutoLogin } from '../../../shared/utils/api/get-auto-login'
 import { saveSession } from '../../../shared/utils/Saving/Session/SaveSession'
 import { useTextFromUrl } from '../../../shared/utils/usefulMethods'
-import styles from './AutoLoginPage.module.scss'
 
 export const AutoLoginPage = () => {
   const navigate = useNavigate()

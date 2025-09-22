@@ -1,7 +1,7 @@
+import styles from './ModalAddTalentTeam.module.scss'
 import { TalentInputDataBusinessPlan } from '../../../../../app/constants/constants'
 import { PeopleCard } from '../../../../../features/Admin/BusinessPlanPage/EditBusinessPlanPage/Fields/Team/PeopleCard/PeopleCard'
 import { CustomModalWindow } from '../../../../../shared/ui/CustomModalWindow/CustomModalWindow'
-import styles from './ModalAddTalentTeam.module.scss'
 
 interface ModalAddTalentTeamProps {
   inputData: TalentInputDataBusinessPlan[]

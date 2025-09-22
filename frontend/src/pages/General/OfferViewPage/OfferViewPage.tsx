@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
+import styles from './OfferViewPage.module.scss'
 import { SalesViewOfferData } from '../../../app/constants/constants'
 import { RecentOffers } from '../../../features/Admin/Sales/ViewOfferPage/RecentOffers/RecentOffers'
 import { DeclineOfferModal } from '../../../features/General/OfferViewPage/DeclineOfferModal/DeclineOfferModal'
@@ -12,7 +13,6 @@ import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner
 import { getInfoPublicOffer } from '../../../shared/utils/api/Admin/Sales/PublicOffer/GetInfoPublicOffer'
 import { postAcceptOrDecline } from '../../../shared/utils/api/Admin/Sales/PublicOffer/PostAcceptOrDecline'
 import { getAuthToken } from '../../../shared/utils/api/get-auth-token'
-import styles from './OfferViewPage.module.scss'
 
 const extractTokenFromUrl = (url: string): string | null => {
   const regex = /\/view\/([^/]+)$/

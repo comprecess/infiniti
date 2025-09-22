@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction } from 'react'
 
+import styles from './Filters.module.scss'
 import { AccountingInputData } from '../../../../../app/constants/constants'
 import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
-import styles from './Filters.module.scss'
 
 interface FiltersProps {
   inputData: AccountingInputData

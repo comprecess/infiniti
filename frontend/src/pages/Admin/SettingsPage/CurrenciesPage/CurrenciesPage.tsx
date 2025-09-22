@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import styles from './CurrenciesPage.module.scss'
 import {
   CurrencyProps,
   RolesAccess,
@@ -16,7 +17,6 @@ import { postCreateNewCurrency } from '../../../../shared/utils/api/Admin/Curren
 import { putChangeBaseCurrency } from '../../../../shared/utils/api/Admin/Currency/put-change-base-currency'
 import { putUpdateCurrency } from '../../../../shared/utils/api/Admin/Currency/put-update-currency'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './CurrenciesPage.module.scss'
 
 export const AdminCurrenciesPage = () => {
   const [currenciesList, setCurrenciesList] = useState<

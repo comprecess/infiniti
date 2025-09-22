@@ -1,6 +1,6 @@
-import { DashboardInvoicesStatusesData } from '../../../../../app/constants/constants'
 import styles from './Chart.module.scss'
 import { Item } from './Item/Item'
+import { DashboardInvoicesStatusesData } from '../../../../../app/constants/constants'
 
 interface ChartProps {
   data: string[]

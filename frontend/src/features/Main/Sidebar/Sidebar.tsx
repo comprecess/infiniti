@@ -7,13 +7,13 @@ import React, {
 } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
+import { Item } from './Item/Item'
+import { OpenItem, openPathsProps } from './OpenItem/OpenItem'
+import styles from './Sidebar.module.scss'
 import { Routes } from '../../../app/router/routes'
 import { LogoIcon } from '../../../shared/icons/LogoIcon'
 import { LogoTextIcon } from '../../../shared/icons/LogoTextIcon'
 import { Logo } from '../../../shared/ui/Logo/Logo'
-import { Item } from './Item/Item'
-import { OpenItem, openPathsProps } from './OpenItem/OpenItem'
-import styles from './Sidebar.module.scss'
 
 interface SidebarPage {
   id: number

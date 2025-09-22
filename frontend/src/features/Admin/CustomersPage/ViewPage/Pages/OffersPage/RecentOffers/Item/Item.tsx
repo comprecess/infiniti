@@ -1,3 +1,4 @@
+import styles from './Item.module.scss'
 import {
   RolesAccess,
   ViewOffersTypeData,
@@ -5,7 +6,6 @@ import {
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../../../../../../../shared/ui/Status/Status'
 import styleItem from '../RecentOffers.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   access: RolesAccess | undefined

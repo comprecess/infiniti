@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import { CountryList } from './CountryList/CountryList'
+import styles from './ProfileChangeInfoCard.module.scss'
 import {
   UpdateProfileInfoProps,
   UserInfo,
@@ -9,8 +11,6 @@ import { CustomInput } from '../../shared/ui/CustomInput/CustomInput'
 import { useCustomToast } from '../../shared/ui/CustomToast/CustomToast'
 import { updateProfileInfo } from '../../shared/utils/api/Client/Profile/UpdateProfileInfo'
 import { RecentCard } from '../RecentCard/RecentCard'
-import { CountryList } from './CountryList/CountryList'
-import styles from './ProfileChangeInfoCard.module.scss'
 
 interface ProfileChangeInfoCardProps {
   talent: UserInfo

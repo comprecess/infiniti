@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Dayjs } from 'dayjs'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
+import styles from './TalentDetailsPage.module.scss'
 import { TalentData } from '../../../app/constants/constants'
 import { AboutTalentCard } from '../../../features/Client/TalentDetailsPage/AboutTalentCard/AboutTalentCard'
 import { EducationCard } from '../../../features/Client/TalentDetailsPage/EducationCard/EducationCard'
@@ -20,7 +21,6 @@ import {
   useIdFromUrl,
 } from '../../../shared/utils/usefulMethods'
 import { CreatingCallModal } from '../../../widgets/CreatingCallModal/CreatingCallModal'
-import styles from './TalentDetailsPage.module.scss'
 
 export const ClientTalentDetailsPage = () => {
   const [isCreatingCall, setIsCreatingCall] = useState<boolean>(false)

@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
+import { HeaderButtons } from './HeaderButtons/HeaderButtons'
+import styles from './MakeBusinessModelPage.module.scss'
 import { BusinessModelInputData } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import {
@@ -17,8 +19,6 @@ import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
 import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
 import { removeStorage } from '../../../../shared/utils/Saving/Storage/RemoveStorage'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import { HeaderButtons } from './HeaderButtons/HeaderButtons'
-import styles from './MakeBusinessModelPage.module.scss'
 
 export const AdminMakeBusinessModelPage = () => {
   const storageKey = 'createBusinessModelForm'

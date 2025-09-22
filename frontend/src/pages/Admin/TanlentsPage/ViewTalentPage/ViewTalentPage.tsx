@@ -3,6 +3,7 @@ import { Dayjs } from 'dayjs'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
+import styles from './ViewTalentPage.module.scss'
 import {
   RolesAccess,
   TalentData,
@@ -24,7 +25,6 @@ import {
   useIdFromUrl,
 } from '../../../../shared/utils/usefulMethods'
 import { CreatingCallModal } from '../../../../widgets/CreatingCallModal/CreatingCallModal'
-import styles from './ViewTalentPage.module.scss'
 
 export const AdminViewTalentPage = () => {
   const [isCreatingCall, setIsCreatingCall] = useState<boolean>(false)

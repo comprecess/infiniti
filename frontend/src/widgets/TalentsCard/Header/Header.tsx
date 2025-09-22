@@ -1,5 +1,5 @@
-import { TalentsLevel } from '../../../shared/ui/TalentsLevel/TalentsLevel'
 import styles from './Header.module.scss'
+import { TalentsLevel } from '../../../shared/ui/TalentsLevel/TalentsLevel'
 
 interface HeaderProps {
   avatar: string

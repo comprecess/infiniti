@@ -1,9 +1,9 @@
 import { Select } from '@chakra-ui/react'
 import { ChangeEvent, useState } from 'react'
 
+import styles from './Header.module.scss'
 import { ViewFileProps } from '../../../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
-import styles from './Header.module.scss'
 
 interface HeaderProps {
   groupsList: ViewFileProps[]

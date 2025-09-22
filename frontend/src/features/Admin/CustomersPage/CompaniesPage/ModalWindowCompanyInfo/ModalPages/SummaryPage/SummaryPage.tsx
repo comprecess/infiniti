@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+import { Item } from './Item/Item'
+import styles from './SummaryPage.module.scss'
 import {
   CompanyData,
   RolesAccess,
@@ -7,8 +9,6 @@ import {
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getCompanyPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/get-company-page'
-import { Item } from './Item/Item'
-import styles from './SummaryPage.module.scss'
 
 interface SummaryPageProps {
   id: number

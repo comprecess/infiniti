@@ -15,6 +15,9 @@ import {
 import { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
+import { TaskColumn } from './TaskColumn/TaskColumn'
+import { TaskItem } from './TaskColumn/TaskItem/TaskItem'
+import styles from './TasksCard.module.scss'
 import {
   ProjectsColumnData,
   ProjectsTasksData,
@@ -22,9 +25,6 @@ import {
   ProjectsTasksInputData,
   RolesAccess,
 } from '../../app/constants/constants'
-import { TaskColumn } from './TaskColumn/TaskColumn'
-import { TaskItem } from './TaskColumn/TaskItem/TaskItem'
-import styles from './TasksCard.module.scss'
 
 interface TasksCardProps {
   access: RolesAccess

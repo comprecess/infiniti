@@ -1,10 +1,10 @@
 import { Fragment } from 'react'
 
+import { Item } from './Item/Item'
+import styles from './RecentInvoices.module.scss'
 import { DashboardRecentInvoicesData } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './RecentInvoices.module.scss'
 
 interface RecentInvoicesProps {
   invoices: DashboardRecentInvoicesData[]

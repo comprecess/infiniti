@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 
+import styles from './Item.module.scss'
 import { RolesAccess } from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
 import { Status } from '../../../../../shared/ui/Status/Status'
 import styleItem from '../RecentProjects.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   projectId: number

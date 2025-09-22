@@ -3,6 +3,7 @@ import { loadStripe, Stripe } from '@stripe/stripe-js'
 import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
+import styles from './InvoiceViewPage.module.scss'
 import { SalesViewInvoiceData } from '../../../app/constants/constants'
 import { RecentInvoices } from '../../../features/Admin/Sales/ViewInvoice/RecentInvoices/RecentInvoices'
 import { Footer } from '../../../features/General/InvoiceViewPage/Footer/Footer'
@@ -12,7 +13,6 @@ import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getInfoPublicInvoice } from '../../../shared/utils/api/Admin/Sales/PublicInvoice/GetInfoPublicInvoice'
 import { postStripePayment } from '../../../shared/utils/api/Admin/Sales/PublicInvoice/PostStripePayment'
-import styles from './InvoiceViewPage.module.scss'
 
 const extractTokenFromUrl = (url: string): string | null => {
   const regex = /\/view\/([^/]+)$/

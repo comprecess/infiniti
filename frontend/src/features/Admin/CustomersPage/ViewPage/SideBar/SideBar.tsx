@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
+import { PageItem } from './PageItem/PageItem'
+import styles from './SideBar.module.scss'
 import {
   RolesAccess,
   ViewListPagesAndInfo,
 } from '../../../../../app/constants/constants'
-import { PageItem } from './PageItem/PageItem'
-import styles from './SideBar.module.scss'
 
 interface SideBarProps {
   roles?: { [key: string]: RolesAccess }

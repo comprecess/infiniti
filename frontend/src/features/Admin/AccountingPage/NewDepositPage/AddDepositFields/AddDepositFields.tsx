@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react'
 
+import styles from './AddDepositFields.module.scss'
 import {
   AccountingDepositExpenseForm,
   AccountingInputData,
@@ -9,7 +10,6 @@ import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/Cust
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
 import { TagSelector } from '../../../../../shared/ui/TagSelector/TagSelector'
-import styles from './AddDepositFields.module.scss'
 
 interface AddDepositFieldsProps {
   inputData: AccountingInputData

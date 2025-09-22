@@ -1,5 +1,5 @@
-import { TalentsTag } from '../../../../../../../../shared/ui/TalentsTag/TalentsTag'
 import styles from './Skills.module.scss'
+import { TalentsTag } from '../../../../../../../../shared/ui/TalentsTag/TalentsTag'
 
 interface TagsProps {
   id: number

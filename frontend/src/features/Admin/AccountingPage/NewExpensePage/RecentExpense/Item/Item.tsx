@@ -1,6 +1,6 @@
+import styles from './Item.module.scss'
 import { AccountingTransactions } from '../../../../../../app/constants/constants'
 import styleItem from '../RecentExpense.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   transaction: AccountingTransactions

@@ -1,6 +1,7 @@
 import { Dayjs } from 'dayjs'
 import { Fragment, useState } from 'react'
 
+import styles from './Cart.module.scss'
 import { ItemsCartProps } from '../../../app/constants/constants'
 import { Item } from '../../../features/Client/BasketPage/Item/Item'
 import { Title } from '../../../features/Main/RecentCard/Title/Title'
@@ -15,7 +16,6 @@ import {
   CreatingCallModal,
   TimeSlotsById,
 } from '../../CreatingCallModal/CreatingCallModal'
-import styles from './Cart.module.scss'
 
 interface CartProps {
   cart: ItemsCartProps[]

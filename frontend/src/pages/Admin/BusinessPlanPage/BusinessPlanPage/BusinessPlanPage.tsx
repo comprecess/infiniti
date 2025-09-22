@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
+import styles from './BusinessPlanPage.module.scss'
 import {
   BusinessPlanItemData,
   PagesMetaData,
@@ -15,9 +16,10 @@ import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { deleteBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/delete-business-plan'
+import { getBusinessPlanDocumentFile } from '../../../../shared/utils/api/Admin/BusinessPlan/get-business-plan-document-file'
 import { getBusinessPlansList } from '../../../../shared/utils/api/Admin/BusinessPlan/get-business-plans-list'
+import { downloadDocument } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './BusinessPlanPage.module.scss'
 
 export const AdminBusinessPlanPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -43,17 +45,14 @@ export const AdminBusinessPlanPage = () => {
   }
 
   const updatePage = (newPage: string) => updateQueryParam('page', newPage)
-  const updateSearch = (newSearch: string) =>
-    updateQueryParam('search', newSearch)
+  const updateSearch = (newSearch: string) => updateQueryParam('search', newSearch)
   const updateSort = (name: string, type: number) => {
     updateQueryParam('sortName', name)
     updateQueryParam('sortType', type)
   }
 
   const handleNavigateToMakeBusinessPlan = () => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.make}/${Routes.businessPlan}`,
-    )
+    navigate(`/${Routes.adminPages}/${Routes.businessPlan}/${Routes.make}/${Routes.businessPlan}`)
   }
 
   const { data: plansData } = useQuery({
@@ -74,11 +73,33 @@ export const AdminBusinessPlanPage = () => {
     placeholderData: previousData => previousData,
   })
 
-  const changeSort = useCallback(
-    (sortNameItem: string, sortTypeItem: number) => {
-      updateSort(sortNameItem, sortTypeItem)
+  const changeSort = useCallback((sortNameItem: string, sortTypeItem: number) => {
+    updateSort(sortNameItem, sortTypeItem)
+  }, [])
+
+  const downloadFile = useCallback(
+    async (documentItem: string) => {
+      let urlOptions = `?page=${page}&sort[name]=${sortName}&sort[type]=${sortType}&document=${documentItem}`
+
+      if (search !== '') {
+        urlOptions += `&filter[search]=${search}`
+      }
+
+      const downloadInitiated = await getBusinessPlanDocumentFile(urlOptions)
+
+      if (!downloadInitiated.status) return
+
+      const { status } = await downloadDocument(downloadInitiated.data, 'Customers')
+
+      if (status && documentItem === 'copy') {
+        showToast({
+          title: 'Successfully',
+          description: 'You have successfully copied information to the clipboard',
+          status: 'success',
+        })
+      }
     },
-    [],
+    [page, search, sortName, sortType],
   )
 
   const deletePlan = async (id: number) => {
@@ -135,12 +156,8 @@ export const AdminBusinessPlanPage = () => {
           title='Business Plans'
           style={styles.recentFullScreen}
           HeaderComponent={SearchAndButtons}
-          Component={
-            plansData?.access.create === 1 ? ButtonBlue : undefined
-          }
-          PagesComponent={
-            plansData && plansData.data.length > 0 ? PagesList : undefined
-          }
+          Component={plansData?.access.create === 1 ? ButtonBlue : undefined}
+          PagesComponent={plansData && plansData.data.length > 0 ? PagesList : undefined}
           componentProps={
             plansData?.access.create === 1
               ? {
@@ -156,6 +173,7 @@ export const AdminBusinessPlanPage = () => {
           headerProps={{
             searchValue: search,
             searchChange: updateSearch,
+            rightButtons: downloadFile,
           }}
           pagesProps={
             plansData && plansData.data.length > 0

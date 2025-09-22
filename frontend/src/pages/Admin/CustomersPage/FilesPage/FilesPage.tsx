@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 
+import styles from './FilesPage.module.scss'
 import { RecentFiles } from '../../../../features/Admin/CustomersPage/Files/RecentFiles/RecentFiles'
 import { PagesList } from '../../../../features/Client/CatalogPage/TalentsList/PagesList/PagesList'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { Search } from '../../../../shared/ui/Search/Search'
 import { getCustomerFiles } from '../../../../shared/utils/api/Admin/Files/get-customer-files'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './FilesPage.module.scss'
 
 export const AdminFilesPage = () => {
   const [page, setPage] = useState<number>(1)

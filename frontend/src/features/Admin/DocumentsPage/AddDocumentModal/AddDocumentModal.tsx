@@ -1,12 +1,12 @@
 import { useState } from 'react'
 
+import styles from './AddDocumentModal.module.scss'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomCheckBox } from '../../../../shared/ui/CustomCheckBox/CustomCheckBox'
 import { CustomDropZone } from '../../../../shared/ui/CustomDropZone/CustomDropZone'
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
 import { CustomModalWindow } from '../../../../shared/ui/CustomModalWindow/CustomModalWindow'
-import styles from './AddDocumentModal.module.scss'
 
 interface AddDocumentModalProps {
   modalAddDoc: boolean

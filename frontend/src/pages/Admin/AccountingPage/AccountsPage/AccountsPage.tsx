@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './AccountsPage.module.scss'
 import { AccountingAccountsInputData } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { TableAccounts } from '../../../../features/Admin/AccountingPage/AccountsPage/TableAccounts/TableAccounts'
@@ -14,7 +15,6 @@ import { getAccountInputData } from '../../../../shared/utils/api/Admin/Accounti
 import { getAllAccounts } from '../../../../shared/utils/api/Admin/Accounting/get-all-accounts'
 import { postRecordInitialBalance } from '../../../../shared/utils/api/Admin/Accounting/post-record-initial-balance'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './AccountsPage.module.scss'
 
 export const AdminAccountsPage = () => {
   const [inputData, setInputData] =

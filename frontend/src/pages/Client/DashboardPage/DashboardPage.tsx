@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
+import styles from './DashboardPage.module.scss'
 import {
   AccountingTransactionsData,
   ClientOfferData,
@@ -16,7 +17,6 @@ import { getDashboardInfo } from '../../../shared/utils/api/Client/Dashboard/get
 import { getProfileInfo } from '../../../shared/utils/api/get-profile-info'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import { UserCard } from '../../../widgets/UserCard/UserCard'
-import styles from './DashboardPage.module.scss'
 
 export const ClientDashboardPage = () => {
   const [data, setData] = useState<{

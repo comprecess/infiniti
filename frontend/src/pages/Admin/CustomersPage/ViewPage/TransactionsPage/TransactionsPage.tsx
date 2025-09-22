@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
+import styles from './TransactionsPage.module.scss'
 import {
   RolesAccess,
   ViewPageContext,
@@ -10,7 +11,6 @@ import { RecentTransactions } from '../../../../../features/Admin/CustomersPage/
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/get-selected-type-info'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './TransactionsPage.module.scss'
 
 export const AdminContactTransactionsPage = () => {
   const context = useOutletContext<ViewPageContext>()

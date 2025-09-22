@@ -1,11 +1,11 @@
+import { ContactItem } from './ContactItem/ContactItem'
+import styles from './Header.module.scss'
 import {
   FullInfoClient,
   SalesViewOfferData,
 } from '../../../../../app/constants/constants'
 import { sanitizeMessage } from '../../../../../shared/utils/TextEditor/sanitizeMessage'
 import { Status } from '../Status/Status'
-import { ContactItem } from './ContactItem/ContactItem'
-import styles from './Header.module.scss'
 
 interface HeaderProps {
   title: string

@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query'
 import { Dayjs } from 'dayjs'
 import { useEffect, useState } from 'react'
 
+import styles from './EditBusinessPlanPage.module.scss'
+import { ModalAddTalentTeam } from './ModalAddTalentTeam/ModalAddTalentTeam'
 import {
   BusinessPlanNewPlanFormData,
   TalentInputDataBusinessPlan,
@@ -24,8 +26,6 @@ import {
 } from '../../../../shared/utils/usefulMethods'
 import { CreatingCallModal } from '../../../../widgets/CreatingCallModal/CreatingCallModal'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './EditBusinessPlanPage.module.scss'
-import { ModalAddTalentTeam } from './ModalAddTalentTeam/ModalAddTalentTeam'
 
 export const AdminEditBusinessPlanPage = () => {
   const [formData, setFormData] =

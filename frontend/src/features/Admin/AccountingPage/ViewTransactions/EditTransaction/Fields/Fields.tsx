@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react'
 
+import styles from './Fields.module.scss'
 import {
   AccountingInputData,
   AccountingTransactionsForm,
@@ -8,7 +9,6 @@ import { CustomDataPicker } from '../../../../../../shared/ui/CustomDataPicker/C
 import { CustomInput } from '../../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../../shared/ui/CustomSelect/CustomSelect'
 import { TagSelector } from '../../../../../../shared/ui/TagSelector/TagSelector'
-import styles from './Fields.module.scss'
 
 interface FieldsProps {
   form: AccountingTransactionsForm

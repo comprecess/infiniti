@@ -1,9 +1,9 @@
+import { Item } from './Item/Item'
+import styles from './RecentActivity.module.scss'
 import {
   RolesAccess,
   ViewActivityTypeData,
 } from '../../../../../../../app/constants/constants'
-import { Item } from './Item/Item'
-import styles from './RecentActivity.module.scss'
 
 interface RecentActivityProps {
   list: ViewActivityTypeData[]

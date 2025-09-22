@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
+import styles from './FilesPage.module.scss'
 import {
   CustomersFilesData,
   PagesMetaData,
@@ -17,7 +18,6 @@ import { deleteProjectFile } from '../../../../../shared/utils/api/Admin/Project
 import { getProjectsFiles } from '../../../../../shared/utils/api/Admin/Projects/get-project-files'
 import { postAddNewProjectFile } from '../../../../../shared/utils/api/Admin/Projects/post-create-new-file'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './FilesPage.module.scss'
 
 export const AdminProjectsFilesPage = () => {
   const [data, setData] = useState<{

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
+import styles from './PasswordManagerPage.module.scss'
 import {
   ViewPageContext,
   ViewPasswordManagerTypeData,
@@ -9,7 +10,6 @@ import { RecentPasswordManager } from '../../../../../features/Admin/CustomersPa
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/get-selected-type-info'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './PasswordManagerPage.module.scss'
 
 export const AdminContactPasswordManagerPage = () => {
   const [data, setData] = useState<ViewPasswordManagerTypeData[] | null>(

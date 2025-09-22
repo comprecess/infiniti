@@ -1,12 +1,12 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 
+import { Pages, Routes, To } from './routes'
 import { MainOutlet } from '../../features/Main/MainOutlet/MainOutlet'
 import { AuthOutlet } from '../../pages/Auth/AuthOutlet/AuthOutlet'
 import { RootPage } from '../../pages/General/RootPage/RootPage'
 import { ExaminationAuth } from '../../shared/utils/api/Auth/ExaminationAuth'
 import { ExaminationUser } from '../../shared/utils/api/Auth/ExaminationUser'
 import { ChatGPTProvider } from '../../shared/utils/Contexts/ChatGPTContext'
-import { Pages, Routes, To } from './routes'
 
 export const router = createBrowserRouter([
   {

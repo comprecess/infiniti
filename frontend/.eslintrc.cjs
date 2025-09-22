@@ -8,7 +8,8 @@ module.exports = {
     'plugin:react/recommended',
   ],
   ignorePatterns: [
-    'dist',
+    'node_modules/**',
+    'dist/**',
     '*.cjs',
     '*.d.ts',
     '*.mjs',
@@ -16,35 +17,24 @@ module.exports = {
     'OneSignalSDKWorker.js',
   ],
   parser: '@typescript-eslint/parser',
-  plugins: [
-    'react-refresh',
-    'import',
-    'simple-import-sort',
-    'unused-imports',
-  ],
   parserOptions: {
     project: './tsconfig.json',
     sourceType: 'module',
     tsconfigRootDir: __dirname,
-    ecmaFeatures: {
-      jsx: true,
-    },
+    ecmaFeatures: { jsx: true },
   },
+  plugins: ['react-refresh', 'import', 'simple-import-sort', 'unused-imports'],
   rules: {
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
+    'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
 
     // import
-    'simple-import-sort/imports': 'warn',
-    'simple-import-sort/exports': 'warn',
+    'simple-import-sort/imports': 'off', // выключаем сортировщик
+    'simple-import-sort/exports': 'off',
     'unused-imports/no-unused-imports': 'error',
     'import/first': 'error',
     'import/newline-after-import': 'error',
     'import/no-duplicates': 'error',
     'import/no-unresolved': 'off',
-    'import/order': 'off',
     'import/extensions': 'off',
     'import/no-amd': 'error',
     'import/no-extraneous-dependencies': [
@@ -61,11 +51,32 @@ module.exports = {
     'import/no-self-import': 'error',
     'import/prefer-default-export': 'off',
 
-    // typescript
-    '@typescript-eslint/consistent-type-definitions': [
-      'warn',
-      'interface',
+    // порядок импортов + стили внизу
+    'import/order': [
+      'error',
+      {
+        groups: [
+          ['builtin', 'external'], // node / npm модули
+          'internal', // абсолютные алиасы проекта
+          ['parent', 'sibling', 'index'], // относительные импорты
+          'object', // JSON и т.п.
+          'type', // type-only импорты
+        ],
+        pathGroups: [
+          {
+            pattern: '*.module.scss',
+            group: 'index',
+            position: 'after', // всегда после остальных
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['builtin'],
+        'newlines-between': 'always', // всегда пустая строка между группами
+        alphabetize: { order: 'asc', caseInsensitive: true },
+      },
     ],
+
+    // typescript
+    '@typescript-eslint/consistent-type-definitions': ['warn', 'interface'],
     '@typescript-eslint/return-await': ['error', 'in-try-catch'],
     '@typescript-eslint/indent': ['warn', 2],
     '@typescript-eslint/comma-dangle': ['error', 'always-multiline'],
@@ -80,7 +91,7 @@ module.exports = {
     '@typescript-eslint/space-infix-ops': 'error',
     '@typescript-eslint/keyword-spacing': 'error',
 
-    //react-hooks
+    // react-hooks
     'react-hooks/exhaustive-deps': 'off',
 
     // react
@@ -90,10 +101,7 @@ module.exports = {
     'react/jsx-max-props-per-line': [
       'error',
       {
-        maximum: {
-          single: 3,
-          multi: 1,
-        },
+        maximum: { single: 3, multi: 1 },
       },
     ],
     'react/jsx-first-prop-new-line': ['error', 'multiline-multiprop'],
@@ -107,13 +115,7 @@ module.exports = {
         noSortAlphabetically: true,
       },
     ],
-    'react/jsx-indent': [
-      'error',
-      2,
-      {
-        indentLogicalExpressions: true,
-      },
-    ],
+    'react/jsx-indent': ['error', 2, { indentLogicalExpressions: true }],
     'react/jsx-indent-props': ['error', 2],
     'react/jsx-closing-tag-location': 'error',
     'react/jsx-closing-bracket-location': 'error',
@@ -129,26 +131,10 @@ module.exports = {
         prop: 'parens-new-line',
       },
     ],
-    'react/jsx-one-expression-per-line': [
-      'warn',
-      {
-        allow: 'single-child',
-      },
-    ],
+    'react/jsx-one-expression-per-line': ['warn', { allow: 'single-child' }],
     'react/jsx-boolean-value': ['error', 'never'],
-    'react/jsx-no-useless-fragment': [
-      'warn',
-      {
-        allowExpressions: true,
-      },
-    ],
-    'react/self-closing-comp': [
-      'warn',
-      {
-        component: true,
-        html: true,
-      },
-    ],
+    'react/jsx-no-useless-fragment': ['warn', { allowExpressions: true }],
+    'react/self-closing-comp': ['warn', { component: true, html: true }],
     'react/display-name': 'off',
 
     // other
@@ -172,5 +158,8 @@ module.exports = {
     'eol-last': 'error',
     'arrow-spacing': 'error',
     'dot-notation': 'error',
+  },
+  settings: {
+    react: { version: 'detect' },
   },
 }

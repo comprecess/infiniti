@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
 
+import styles from './LocalizationPage.module.scss'
 import { LanguageSelector } from '../../../../shared/ui/LanguageSelector/LanguageSelector'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './LocalizationPage.module.scss'
 
 export const AdminLocalizationPage = () => {
   const { t } = useTranslation()

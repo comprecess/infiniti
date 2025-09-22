@@ -1,12 +1,12 @@
 import { ChangeEvent, useRef } from 'react'
 
+import { InfoItem } from './InfoItem/InfoItem'
+import styles from './ProfileCard.module.scss'
 import { UserInfo } from '../../app/constants/constants'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../shared/ui/CustomToast/CustomToast'
 import { updateProfileAvatar } from '../../shared/utils/api/Client/Profile/UpdateProfileAvatar'
 import { cropImageToSquare } from '../../shared/utils/Avatar/CropImage'
-import { InfoItem } from './InfoItem/InfoItem'
-import styles from './ProfileCard.module.scss'
 
 interface ProfileCardProps {
   talent: UserInfo

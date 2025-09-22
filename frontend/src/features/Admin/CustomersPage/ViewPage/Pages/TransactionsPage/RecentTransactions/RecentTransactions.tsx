@@ -1,13 +1,13 @@
 import { Fragment } from 'react'
 
+import { Item } from './Item/Item'
+import styles from './RecentTransactions.module.scss'
 import {
   RolesAccess,
   ViewTransactionsTypeData,
 } from '../../../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './RecentTransactions.module.scss'
 
 interface RecentTransactionsProps {
   access: RolesAccess | undefined

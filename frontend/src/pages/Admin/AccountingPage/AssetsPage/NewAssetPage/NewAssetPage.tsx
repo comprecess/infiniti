@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './NewAssetPage.module.scss'
 import {
   AccountingAssetsInputData,
   AccountingNewAssetForm,
@@ -13,7 +14,6 @@ import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingS
 import { getAssetsInputData } from '../../../../../shared/utils/api/Admin/Accounting/get-assets-input-data'
 import { postCreateNewAsset } from '../../../../../shared/utils/api/Admin/Accounting/post-create-new-asset'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './NewAssetPage.module.scss'
 
 export const AdminNewAssetPage = () => {
   const [form, setForm] = useState<Partial<AccountingNewAssetForm>>({})

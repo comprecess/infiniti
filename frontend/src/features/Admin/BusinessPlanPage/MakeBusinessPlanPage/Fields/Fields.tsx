@@ -6,6 +6,7 @@ import {
   useRef,
 } from 'react'
 
+import styles from './Fields.module.scss'
 import { BusinessPlanNewPlanFormData } from '../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
@@ -13,7 +14,6 @@ import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 import { saveStorage } from '../../../../../shared/utils/Saving/Storage/SaveStorage'
-import styles from './Fields.module.scss'
 
 interface FieldsProps {
   formData: PartialFieldsPostData

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import styles from './NewDepositPage.module.scss'
 import {
   AccountingDepositExpenseForm,
   AccountingInputData,
@@ -12,7 +13,6 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { getAccountingInputData } from '../../../../shared/utils/api/Admin/Accounting/get-accounting-input-data'
 import { postCreateNewTransaction } from '../../../../shared/utils/api/Admin/Accounting/post-create-new-transaction'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './NewDepositPage.module.scss'
 
 export const AdminNewDepositPage = () => {
   const [form, setForm] = useState<Partial<AccountingDepositExpenseForm>>(

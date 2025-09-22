@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
+import styles from './TasksPage.module.scss'
 import {
   ProjectsColumnData,
   ProjectsTasksFormData,
@@ -20,7 +21,6 @@ import { patchUpdateTaskPosition } from '../../../../../shared/utils/api/Admin/P
 import { postCreateNewTask } from '../../../../../shared/utils/api/Admin/Projects/post-create-new-task'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import { TasksCard } from '../../../../../widgets/TasksCard/TasksCard'
-import styles from './TasksPage.module.scss'
 
 export const AdminProjectsTasksPage = () => {
   const [tasksList, setTasksList] = useState<ProjectsColumnData | null>(

@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
+import styles from './EmailPage.module.scss'
 import {
   ViewEmailValuesData,
   ViewPageContext,
@@ -13,7 +14,6 @@ import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingS
 import { putSendEmail } from '../../../../../shared/utils/api/Admin/ViewContact/Email/put-send-email'
 import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/get-selected-type-info'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './EmailPage.module.scss'
 
 export interface PartialFieldsPostData
   extends Partial<ViewEmailValuesData> {

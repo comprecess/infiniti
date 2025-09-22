@@ -1,9 +1,9 @@
+import styles from './UserCard.module.scss'
 import { UserInfo } from '../../app/constants/constants'
 import { Avatar } from '../../features/Client/DashboardPage/ProfileCard/Avatar/Avatar'
 import { CurrentBalance } from '../../features/Client/DashboardPage/ProfileCard/CurrentBalance/CurrentBalance'
 import { PersonInfo } from '../../features/Client/DashboardPage/ProfileCard/PersonInfo/PersonInfo'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
-import styles from './UserCard.module.scss'
 
 interface UserCardProps {
   profileData: UserInfo

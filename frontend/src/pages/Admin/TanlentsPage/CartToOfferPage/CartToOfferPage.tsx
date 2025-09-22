@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
+import styles from './CartToOfferPage.module.scss'
 import {
   SalesEditOfferData,
   SalesOfferInputData,
@@ -17,7 +18,6 @@ import { getOfferInputData } from '../../../../shared/utils/api/Admin/Sales/NewO
 import { postCreateNewOffer } from '../../../../shared/utils/api/Admin/Sales/NewOffer/post-create-new-offer'
 import { getOfferCartInfo } from '../../../../shared/utils/api/Admin/Talents/Cart/get-offer-cart-info'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './CartToOfferPage.module.scss'
 
 const extractParamsFromUrl = (
   url: string,

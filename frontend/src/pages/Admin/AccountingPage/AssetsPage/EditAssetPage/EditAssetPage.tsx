@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './EditAssetPage.module.scss'
 import {
   AccountingAssetsInputData,
   AccountingNewAssetForm,
@@ -15,7 +16,6 @@ import { getSelectedAssetInfo } from '../../../../../shared/utils/api/Admin/Acco
 import { putUpdateAsset } from '../../../../../shared/utils/api/Admin/Accounting/put-update-asset'
 import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './EditAssetPage.module.scss'
 
 export const AdminEditAssetPage = () => {
   const [form, setForm] = useState<AccountingNewAssetForm | null>(null)

@@ -1,6 +1,6 @@
+import styles from './Item.module.scss'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../RecentPasswordManager.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   name: string

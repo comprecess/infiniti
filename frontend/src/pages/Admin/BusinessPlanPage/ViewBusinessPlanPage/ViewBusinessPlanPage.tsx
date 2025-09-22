@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 
+import styles from './ViewBusinessPlanPage.module.scss'
 import {
   BusinessPlanNewPlanFormData,
   TalentInputDataBusinessPlan,
@@ -15,7 +16,6 @@ import { getBusinessPlanFullInfo } from '../../../../shared/utils/api/Admin/Busi
 import { getBusinessPlanInputData } from '../../../../shared/utils/api/Admin/BusinessPlan/get-business-plan-input-data'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './ViewBusinessPlanPage.module.scss'
 
 const sections = [
   { key: 'exSummary', title: 'Executive Summary' },

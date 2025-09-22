@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import styles from './NewUserPage.module.scss'
 import { SettingsUserInputData } from '../../../../../app/constants/constants'
 import {
   Fields,
@@ -11,7 +12,6 @@ import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingS
 import { addNewUser } from '../../../../../shared/utils/api/Admin/Settings/Users/NewUser/AddNewUser'
 import { getUserInputData } from '../../../../../shared/utils/api/Admin/Settings/Users/NewUser/GetUserInputData'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './NewUserPage.module.scss'
 
 export const AdminNewUserPage = () => {
   const [formData, setFormData] =

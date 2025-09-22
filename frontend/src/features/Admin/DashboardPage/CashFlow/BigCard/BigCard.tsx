@@ -1,5 +1,5 @@
-import { ChevronDownIcon } from '../../../../../shared/icons/ChevronDownIcon'
 import styles from './BigCard.module.scss'
+import { ChevronDownIcon } from '../../../../../shared/icons/ChevronDownIcon'
 
 interface BigCardProps {
   icon: string

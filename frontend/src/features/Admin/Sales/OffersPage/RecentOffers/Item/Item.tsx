@@ -1,11 +1,11 @@
 import { useState } from 'react'
 
+import styles from './Item.module.scss'
 import { RolesAccess } from '../../../../../../app/constants/constants'
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../../../../../shared/ui/Status/Status'
 import styleItem from '../RecentOffers.module.scss'
-import styles from './Item.module.scss'
 
 export interface ItemProps {
   access: RolesAccess

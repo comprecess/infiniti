@@ -1,9 +1,9 @@
+import { customFetch } from './custom-fetch'
 import {
   INVALID_RESPONSE_MESSAGE,
   NETWORK_ERROR_MESSAGE,
   REQUEST_TIMEOUT_MS,
 } from '../../../app/constants/constants'
-import { customFetch } from './custom-fetch'
 
 interface SuccessResponse {
   status: true

@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
+import styles from './InvoicesPage.module.scss'
 import {
   PagesMetaData,
   RolesAccess,
@@ -24,7 +25,6 @@ import { getStatInvoices } from '../../../../shared/utils/api/Admin/Sales/Invoic
 import { postCloneStopRecurringInvoice } from '../../../../shared/utils/api/Admin/Sales/Invoices/post-clone-stop-recurring-invoice'
 import { downloadDocument } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './InvoicesPage.module.scss'
 
 export const AdminInvoicesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()

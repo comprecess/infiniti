@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 
+import styles from './ViewBusinessPlanPage.module.scss'
 import { BusinessPlanNewPlanFormData } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { Item } from '../../../features/Admin/BusinessPlanPage/ViewBusinessPlan/Item/Item'
@@ -10,7 +11,6 @@ import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner
 import { getBusinessPlanInfo } from '../../../shared/utils/api/Client/BusinessPlan/get-business-plan-info'
 import { useIdFromUrl } from '../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
-import styles from './ViewBusinessPlanPage.module.scss'
 
 const sections = [
   { key: 'exSummary', title: 'Executive Summary' },

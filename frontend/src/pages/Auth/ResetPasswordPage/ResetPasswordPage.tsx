@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './ResetPasswordPage.module.scss'
 import { ResetPasswordForm } from '../../../features/Auth/ResetPasswordForm/ResetPasswordForm'
 import { IconText } from '../../../shared/ui/IconText/IconText'
 import { AuthForm } from '../AuthForm/AuthForm'
-import styles from './ResetPasswordPage.module.scss'
 
 export const ResetPasswordPage = () => {
   const navigate = useNavigate()

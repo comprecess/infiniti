@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
+import styles from './ContactsListPage.module.scss'
 import {
   GroupContactsListProps,
   RolesAccess,
@@ -12,7 +13,6 @@ import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingS
 import { deleteGroupContact } from '../../../../../shared/utils/api/Admin/Groups/delete-group-contact'
 import { getContactsList } from '../../../../../shared/utils/api/Admin/Groups/get-contacts-list'
 import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
-import styles from './ContactsListPage.module.scss'
 
 export const AdminContactsListPage = () => {
   const [contacts, setContacts] = useState<

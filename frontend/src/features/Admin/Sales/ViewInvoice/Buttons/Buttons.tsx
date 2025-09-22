@@ -7,13 +7,13 @@ import {
   Tooltip,
 } from '@chakra-ui/react'
 
+import styles from './Buttons.module.scss'
 import { RolesAccess } from '../../../../../app/constants/constants'
 import { EmailIcon } from '../../../../../shared/icons/EmailIcon'
 import { FlagIcon } from '../../../../../shared/icons/FlagIcon'
 import { MessageIcon } from '../../../../../shared/icons/MessageIcon'
 import { PDFIcon } from '../../../../../shared/icons/PDFIcon'
 import { CustomMiniButton } from '../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
-import styles from './Buttons.module.scss'
 
 interface ButtonsProps {
   statusList: string[]

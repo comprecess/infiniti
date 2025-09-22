@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 
+import styles from './BusinessPlansPage.module.scss'
 import { BusinessPlanItemData } from '../../../app/constants/constants'
 import { CardPlan } from '../../../features/Client/BusinessPlan/CardPlan/CardPlan'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getBusinessPlansList } from '../../../shared/utils/api/Client/BusinessPlan/get-business-plans-list'
-import styles from './BusinessPlansPage.module.scss'
 
 export const ClientBusinessPlansPage = () => {
   const [plansData, setPlansData] = useState<{

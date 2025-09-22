@@ -1,11 +1,11 @@
 import { useState } from 'react'
 
+import styles from './Basket.module.scss'
 import { RolesAccess } from '../../../app/constants/constants'
 import { Item } from '../../../features/Client/BasketPage/BasketCart/Item/Item'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { ConfirmationModal } from '../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomDivider } from '../../../shared/ui/CustomDivider/CustomDivider'
-import styles from './Basket.module.scss'
 
 interface BasketProps {
   isAdmin?: boolean

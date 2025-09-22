@@ -1,13 +1,13 @@
 import { Fragment, useCallback, useState } from 'react'
 
+import { Item } from './Item/Item'
+import styles from './RecentInvoices.module.scss'
 import {
   RolesAccess,
   ViewInvoicesRecentData,
 } from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './RecentInvoices.module.scss'
 
 interface RecentInvoicesProps {
   access: RolesAccess

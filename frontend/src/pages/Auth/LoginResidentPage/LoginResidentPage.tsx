@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './LoginResidentPage.module.scss'
 import { Routes } from '../../../app/router/routes'
 import { SignInForm } from '../../../features/Auth/SignInForm/SignInForm'
 import { IconText } from '../../../shared/ui/IconText/IconText'
 import { AuthForm } from '../AuthForm/AuthForm'
-import styles from './LoginResidentPage.module.scss'
 
 export const LoginResidentPage = () => {
   const navigate = useNavigate()

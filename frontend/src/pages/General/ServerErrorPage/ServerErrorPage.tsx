@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './ServerErrorPage.module.scss'
 import { Routes } from '../../../app/router/routes'
 import { ButtonBrand } from '../../../shared/ui/ButtonBrand/ButtonBrand'
-import styles from './ServerErrorPage.module.scss'
 
 export const ServerErrorPage = () => {
   const navigate = useNavigate()

@@ -1,8 +1,8 @@
+import styles from './Item.module.scss'
 import { Routes } from '../../../../../app/router/routes'
 import { Status } from '../../../../../shared/ui/Status/Status'
 import { ManageButtons } from '../../../../Main/RecentCard/ManageButtons/ManageButtons'
 import styleItem from '../RecentInvoices.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   code: string

@@ -1,8 +1,8 @@
 import { PropsWithChildren, useState } from 'react'
 
+import styles from './CategoryItem.module.scss'
 import { ChevronDownIcon } from '../../../../../../shared/icons/ChevronDownIcon'
 import { Search } from '../../../../../../shared/ui/Search/Search'
-import styles from './CategoryItem.module.scss'
 
 interface CategoryItemProps {
   title: string

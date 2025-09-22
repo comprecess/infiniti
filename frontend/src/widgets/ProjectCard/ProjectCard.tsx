@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './ProjectCard.module.scss'
 import { ProjectsData, RolesAccess } from '../../app/constants/constants'
 import { Routes } from '../../app/router/routes'
 import { ConfirmationModal } from '../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../shared/ui/Status/Status'
-import styles from './ProjectCard.module.scss'
 
 interface ProjectCardProps {
   project: ProjectsData

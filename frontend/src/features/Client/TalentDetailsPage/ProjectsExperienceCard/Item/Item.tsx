@@ -1,5 +1,5 @@
-import { TextInfoItem } from '../../TextInfoItem/TextInfoItem'
 import styles from './Item.module.scss'
+import { TextInfoItem } from '../../TextInfoItem/TextInfoItem'
 
 interface ItemProps {
   position: string

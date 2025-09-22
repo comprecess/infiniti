@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 
+import styles from './AddProductOrService.module.scss'
+import { RecentProductService } from './RecentProductService/RecentProductService'
 import { SalesProductOrServiceData } from '../../../../app/constants/constants'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { CustomModalWindow } from '../../../../shared/ui/CustomModalWindow/CustomModalWindow'
 import { getServiceInvoice } from '../../../../shared/utils/api/Admin/Sales/AddProductOrService/get-service-invoice'
-import styles from './AddProductOrService.module.scss'
-import { RecentProductService } from './RecentProductService/RecentProductService'
 
 interface AddProductOrServiceProps {
   serviceList: string[]

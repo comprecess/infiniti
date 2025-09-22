@@ -1,9 +1,9 @@
-import { RolesAccess, TalentsProps } from '../../app/constants/constants'
-import { CustomDivider } from '../../shared/ui/CustomDivider/CustomDivider'
 import { Body } from './Body/Body'
 import { Footer } from './Footer/Footer'
 import { Header } from './Header/Header'
 import styles from './TalentsCard.module.scss'
+import { RolesAccess, TalentsProps } from '../../app/constants/constants'
+import { CustomDivider } from '../../shared/ui/CustomDivider/CustomDivider'
 
 interface TalentsCardProps {
   isAdmin?: boolean

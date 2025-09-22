@@ -1,11 +1,11 @@
 import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react'
 
+import styles from './Item.module.scss'
 import { NameIdType } from '../../../../../app/constants/constants'
 import { CrossIcon } from '../../../../../shared/icons/CrossIcon'
 import { EditPencilFill } from '../../../../../shared/icons/EditPencilFill'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
 import styleItem from '../Cart.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   idCart: number

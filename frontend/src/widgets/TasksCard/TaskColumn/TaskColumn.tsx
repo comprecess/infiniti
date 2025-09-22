@@ -5,14 +5,14 @@ import {
 } from '@dnd-kit/sortable'
 import { SetURLSearchParams } from 'react-router-dom'
 
+import styles from './TaskColumn.module.scss'
+import { TaskItem } from './TaskItem/TaskItem'
 import {
   ProjectsTasksData,
   ProjectsTasksFormData,
   ProjectsTasksInputData,
   RolesAccess,
 } from '../../../app/constants/constants'
-import styles from './TaskColumn.module.scss'
-import { TaskItem } from './TaskItem/TaskItem'
 
 interface TaskColumnProps {
   access: RolesAccess

@@ -1,5 +1,5 @@
-import { TypeFiles } from '../../../../../../shared/ui/TypeFiles/TypeFiles'
 import styles from './Item.module.scss'
+import { TypeFiles } from '../../../../../../shared/ui/TypeFiles/TypeFiles'
 
 interface ItemProps {
   title: string

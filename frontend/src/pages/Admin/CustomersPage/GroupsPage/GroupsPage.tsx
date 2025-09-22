@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './GroupsPage.module.scss'
 import {
   GroupsListProps,
   RolesAccess,
@@ -18,7 +19,6 @@ import { getGroupsList } from '../../../../shared/utils/api/Admin/Groups/get-gro
 import { postCreateNewGroup } from '../../../../shared/utils/api/Admin/Groups/post-create-new-group'
 import { putUpdateGroup } from '../../../../shared/utils/api/Admin/Groups/put-update-group'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './GroupsPage.module.scss'
 
 export const AdminGroupsPage = () => {
   const [newGroup, setNewGroup] = useState<boolean>(false)

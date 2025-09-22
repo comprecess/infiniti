@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import styles from './TalentsList.module.scss'
 import {
   PagesMetaData,
   RolesAccess,
@@ -11,7 +12,6 @@ import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingS
 import { TalentsCard } from '../../../../../widgets/TalentsCard/TalentsCard'
 import { PagesList } from '../../../../Client/CatalogPage/TalentsList/PagesList/PagesList'
 import { SortList } from '../../../../Client/CatalogPage/TalentsList/SortList/SortList'
-import styles from './TalentsList.module.scss'
 
 interface TalentsListProps {
   talentsList:

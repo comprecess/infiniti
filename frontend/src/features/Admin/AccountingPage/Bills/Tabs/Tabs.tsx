@@ -1,6 +1,6 @@
+import styles from './Tabs.module.scss'
 import { RolesAccess } from '../../../../../app/constants/constants'
 import { Tab } from '../../../Sales/InvoicesPage/Header/Tabs/Tab/Tab'
-import styles from './Tabs.module.scss'
 
 interface TabsListProps {
   id: number

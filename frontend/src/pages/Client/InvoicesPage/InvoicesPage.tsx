@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 
+import styles from './InvoicesPage.module.scss'
 import { ClientInvoiceData } from '../../../app/constants/constants'
 import { RecentInvoices } from '../../../features/Client/InvoicesPage/RecentInvoices/RecentInvoices'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getInvoiceOrOffer } from '../../../shared/utils/api/Client/GetInvoiceOrOffer'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
-import styles from './InvoicesPage.module.scss'
 
 export const ClientInvoicesPage = () => {
   const [invoices, setInvoices] = useState<ClientInvoiceData[] | null>(

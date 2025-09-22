@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 
-import { ChevronDownIcon } from '../../icons/ChevronDownIcon'
 import styles from './BackButton.module.scss'
+import { ChevronDownIcon } from '../../icons/ChevronDownIcon'
 
 export const BackButton = () => {
   const navigate = useNavigate()

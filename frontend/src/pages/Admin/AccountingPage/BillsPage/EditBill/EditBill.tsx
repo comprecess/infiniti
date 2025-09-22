@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './EditBill.module.scss'
 import {
   AccountingBillsForm,
   AccountingInputData,
@@ -14,7 +15,6 @@ import { getBill } from '../../../../../shared/utils/api/Admin/Accounting/get-bi
 import { putUpdateBill } from '../../../../../shared/utils/api/Admin/Accounting/put-update-bill'
 import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './EditBill.module.scss'
 
 export const AdminEditBillPage = () => {
   const [form, setForm] = useState<AccountingBillsForm | null>(null)

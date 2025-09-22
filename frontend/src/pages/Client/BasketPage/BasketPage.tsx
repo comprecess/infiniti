@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './BasketPage.module.scss'
 import { CartProps } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
@@ -14,7 +15,6 @@ import { getOrdersInCart } from '../../../shared/utils/api/Client/Cart/GetOrders
 import { Basket } from '../../../widgets/BasketCart/Basket/Basket'
 import { Cart } from '../../../widgets/BasketCart/Cart/Cart'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
-import styles from './BasketPage.module.scss'
 
 export const ClientBasketPage = () => {
   const [orders, setOrder] = useState<CartProps | null>(null)

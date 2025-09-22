@@ -1,6 +1,6 @@
-import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Item } from './Item/Item'
 import styles from './PersonInfo.module.scss'
+import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 
 interface PersonInfoProps {
   personalNumber: string

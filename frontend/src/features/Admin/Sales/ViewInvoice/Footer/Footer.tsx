@@ -1,12 +1,12 @@
+import styles from './Footer.module.scss'
+import { RecentFiles } from './RecentFiles/RecentFiles'
+import { RecentTransactions } from './RecentTransactions/RecentTransactions'
+import { TotalItem } from './TotalItem/TotalItem'
 import {
   SalesViewInvoiceDocuments,
   SalesViewInvoiceTransactions,
 } from '../../../../../app/constants/constants'
 import { sanitizeMessage } from '../../../../../shared/utils/TextEditor/sanitizeMessage'
-import styles from './Footer.module.scss'
-import { RecentFiles } from './RecentFiles/RecentFiles'
-import { RecentTransactions } from './RecentTransactions/RecentTransactions'
-import { TotalItem } from './TotalItem/TotalItem'
 
 interface FooterProps {
   subtotal: string

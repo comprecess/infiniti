@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './RolesPage.module.scss'
 import {
   RolesAccess,
   SettingsRolesData,
@@ -13,7 +14,6 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { deleteRole } from '../../../../shared/utils/api/Admin/Settings/Roles/DeleteRole'
 import { getListRoles } from '../../../../shared/utils/api/Admin/Settings/Roles/GetListRoles'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './RolesPage.module.scss'
 
 export const AdminRolesPage = () => {
   const [roles, setRoles] = useState<SettingsRolesData[] | null>(null)

@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react'
 
+import styles from './AddSupplierPage.module.scss'
 import { CustomerInputsData } from '../../../../app/constants/constants'
 import { Fields } from '../../../../features/Admin/AddSupplierPage/Fields/Fields'
-import { ImportButton } from '../../../../features/Admin/CustomersPage/AddCustomer/ImportButton/ImportButton'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getCustomerInputsData } from '../../../../shared/utils/api/Admin/AddCustomer/get-customer-input-data'
+import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './AddSupplierPage.module.scss'
+import { HeaderButtons } from '../../CustomersPage/AddCustomerPage/HeaderButtons/HeaderButtons'
 
 export const AdminAddSupplierPage = () => {
   const [data, setData] = useState<CustomerInputsData | null>(null)
+
+  const storageKey = 'createSupplierForm'
 
   const getInputsData = async () => {
     const response = await getCustomerInputsData('/?type=Supplier')
@@ -32,11 +35,15 @@ export const AdminAddSupplierPage = () => {
       <section className={styles.section}>
         {data ? (
           <RecentCard
-            title='Add Contact'
+            title='Add Supplier'
             style={styles.recentFullScreen}
-            Component={ImportButton}
+            Component={HeaderButtons}
+            componentProps={{
+              storageKey,
+              isClearButton: loadStorage(storageKey) ? true : false,
+            }}
           >
-            <Fields data={data} />
+            <Fields data={data} storageKey={storageKey} />
           </RecentCard>
         ) : (
           <LoadingSpinner size='xl' />

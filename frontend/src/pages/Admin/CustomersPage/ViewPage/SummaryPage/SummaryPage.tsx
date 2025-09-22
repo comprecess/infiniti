@@ -9,6 +9,7 @@ import {
 } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
+import styles from './SummaryPage.module.scss'
 import {
   SummaryPageUpdateInfo,
   ViewPageContext,
@@ -25,7 +26,6 @@ import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingS
 import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/get-selected-type-info'
 import { updateAllInfo } from '../../../../../shared/utils/api/Admin/ViewContact/Summary/put-update-full-info'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './SummaryPage.module.scss'
 
 const extractTokenFromUrl = (url: string): string | null => {
   const regex = /\/autologin\/([^/]+)$/

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './CreateNewProject.module.scss'
 import {
   ProjectsInputData,
   ProjectsNewProjectForm,
@@ -13,7 +14,6 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { getProjectsInputData } from '../../../../shared/utils/api/Admin/Projects/get-project-input-data'
 import { postCreateNewProject } from '../../../../shared/utils/api/Admin/Projects/post-create-new-project'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './CreateNewProject.module.scss'
 
 export const AdminCreateNewProject = () => {
   const [form, setForm] = useState<Partial<ProjectsNewProjectForm>>({})

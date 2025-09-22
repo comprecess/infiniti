@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
+import styles from './BusinessModelViewPage.module.scss'
 import { ListInfoItem } from '../../../features/Client/TalentDetailsPage/ListInfoItem/ListInfoItem'
 import { TextInfoItem } from '../../../features/Client/TalentDetailsPage/TextInfoItem/TextInfoItem'
 import { TitleCard } from '../../../features/Client/TalentDetailsPage/TitleCard/TitleCard'
@@ -9,10 +10,9 @@ import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner
 import { StatusProfitability } from '../../../shared/ui/StatusProfitability/StatusProfitability'
 import { getPublicBusinessModel } from '../../../shared/utils/api/Public/get-public-business-model'
 import { sanitizeMessage } from '../../../shared/utils/TextEditor/sanitizeMessage'
-import styles from './BusinessModelViewPage.module.scss'
 
 const extractTokenFromUrl = (url: string): string | null => {
-  const regex = /\/business-plan\/([^/]+)$/
+  const regex = /\/business-model\/([^/]+)$/
   const match = url.match(regex)
 
   return match ? match[1] : null
@@ -21,10 +21,7 @@ const extractTokenFromUrl = (url: string): string | null => {
 const useTokenFromUrl = () => {
   const location = useLocation()
 
-  return useMemo(
-    () => extractTokenFromUrl(location.pathname),
-    [location.pathname],
-  )
+  return useMemo(() => extractTokenFromUrl(location.pathname), [location.pathname])
 }
 
 export const BusinessModelViewPage = () => {
@@ -75,43 +72,24 @@ export const BusinessModelViewPage = () => {
                   <div className={styles.aboutModel}>
                     <div className={styles.aboutModelContainer}>
                       <TitleCard title='About Model' />
-                      <StatusProfitability
-                        profitability={model.profitability[0].value}
-                      />
+                      <StatusProfitability profitability={model.profitability[0].value} />
                     </div>
                     <div className={styles.list}>
-                      <span className={styles.description}>
-                        {model.fullDescription}
-                      </span>
+                      <span className={styles.description}>{model.fullDescription}</span>
                       {model.industries.length > 0 && (
-                        <ListInfoItem
-                          title='Industries'
-                          list={model.industries}
-                        />
+                        <ListInfoItem title='Industries' list={model.industries} />
                       )}
                       {model.technologies.length > 0 && (
-                        <ListInfoItem
-                          title='Technologies'
-                          list={model.technologies}
-                        />
+                        <ListInfoItem title='Technologies' list={model.technologies} />
                       )}
                       {model.location.length > 0 && (
-                        <ListInfoItem
-                          title='Location'
-                          list={model.location}
-                        />
+                        <ListInfoItem title='Location' list={model.location} />
                       )}
                       {model.technologies.length > 0 && (
-                        <ListInfoItem
-                          title='Technologies'
-                          list={model.technologies}
-                        />
+                        <ListInfoItem title='Technologies' list={model.technologies} />
                       )}
                       {model.category.length > 0 && (
-                        <ListInfoItem
-                          title='Category'
-                          list={model.category}
-                        />
+                        <ListInfoItem title='Category' list={model.category} />
                       )}
                       <TextInfoItem title='Price' text={model.price} />
                       <TextInfoItem title='Age' text={model.age} />

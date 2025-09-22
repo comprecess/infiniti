@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './EditTransactionPage.module.scss'
 import {
   AccountingInputData,
   AccountingTransactionsForm,
@@ -15,7 +16,6 @@ import { getSelectedTransactionInfo } from '../../../../../shared/utils/api/Admi
 import { putUpdateTransaction } from '../../../../../shared/utils/api/Admin/Accounting/put-update-transaction'
 import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './EditTransactionPage.module.scss'
 
 export const AdminEditTransactionPage = () => {
   const [form, setForm] = useState<AccountingTransactionsForm | null>(null)

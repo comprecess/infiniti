@@ -1,14 +1,14 @@
 import { Fragment, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { Item } from './Item/Item'
+import styles from './OrdersPage.module.scss'
 import { OrdersViewCompany } from '../../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../../app/router/routes'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getCompanyPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/get-company-page'
 import { Title } from '../../../../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './OrdersPage.module.scss'
 
 interface OrdersPageProps {
   id: number

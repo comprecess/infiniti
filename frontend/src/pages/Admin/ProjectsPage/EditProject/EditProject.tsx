@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './EditProject.module.scss'
 import {
   ProjectsInputData,
   ProjectsNewProjectForm,
@@ -16,7 +17,6 @@ import { getProjectsInputData } from '../../../../shared/utils/api/Admin/Project
 import { putEditProject } from '../../../../shared/utils/api/Admin/Projects/put-edit-project'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './EditProject.module.scss'
 
 export const AdminEditProject = () => {
   const [form, setForm] = useState<Partial<ProjectsNewProjectForm> | null>(

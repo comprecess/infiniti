@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 
+import styles from './ViewBusinessModelsPage.module.scss'
 import { ListInfoItem } from '../../../features/Client/TalentDetailsPage/ListInfoItem/ListInfoItem'
 import { TextInfoItem } from '../../../features/Client/TalentDetailsPage/TextInfoItem/TextInfoItem'
 import { TitleCard } from '../../../features/Client/TalentDetailsPage/TitleCard/TitleCard'
@@ -11,7 +12,6 @@ import { StatusProfitability } from '../../../shared/ui/StatusProfitability/Stat
 import { getBusinessModelFullInfo } from '../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/get-business-model-full-info'
 import { sanitizeMessage } from '../../../shared/utils/TextEditor/sanitizeMessage'
 import { useIdFromUrl } from '../../../shared/utils/usefulMethods'
-import styles from './ViewBusinessModelsPage.module.scss'
 
 export const ClientViewBusinessModelsPage = () => {
   const id = useIdFromUrl('view')

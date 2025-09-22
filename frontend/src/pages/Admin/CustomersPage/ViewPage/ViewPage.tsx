@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { Outlet, useLocation, useOutletContext } from 'react-router-dom'
 
+import styles from './ViewPage.module.scss'
 import { RolesAccess } from '../../../../app/constants/constants'
 import { ContactInfoSideBarData } from '../../../../app/data/contactInfoSideBar'
 import { SideBar } from '../../../../features/Admin/CustomersPage/ViewPage/SideBar/SideBar'
@@ -10,7 +11,6 @@ import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getPagesListInfo } from '../../../../shared/utils/api/Admin/ViewContact/get-pages-list-info'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
-import styles from './ViewPage.module.scss'
 
 export const AdminViewPage = () => {
   const [isOpenSideBar, setIsOpenSideBar] = useState<boolean>(false)

@@ -1,5 +1,7 @@
 import { Fragment, useEffect, useState } from 'react'
 
+import { Item } from './Item/Item'
+import styles from './TransactionsPage.module.scss'
 import {
   RolesAccess,
   TransactionsViewCompany,
@@ -8,8 +10,6 @@ import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/Cust
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getCompanyPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/get-company-page'
 import { Title } from '../../../../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './TransactionsPage.module.scss'
 
 interface TransactionsPageProps {
   id: number

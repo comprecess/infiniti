@@ -1,6 +1,7 @@
 import { Textarea } from '@chakra-ui/react'
 import { ChangeEvent, Dispatch, SetStateAction } from 'react'
 
+import styles from './Fields.module.scss'
 import {
   ProjectsInputData,
   ProjectsNewProjectForm,
@@ -10,7 +11,6 @@ import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
 import { TagSelector } from '../../../../../shared/ui/TagSelector/TagSelector'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
-import styles from './Fields.module.scss'
 
 interface FieldsProps {
   inputData: ProjectsInputData

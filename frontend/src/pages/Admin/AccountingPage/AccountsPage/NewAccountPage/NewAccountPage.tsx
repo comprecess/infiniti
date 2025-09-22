@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './NewAccountPage.module.scss'
 import {
   AccountingAccountsForm,
   AccountingAccountsInputData,
@@ -13,7 +14,6 @@ import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingS
 import { getAccountInputData } from '../../../../../shared/utils/api/Admin/Accounting/get-account-input-data'
 import { postCreateNewAccount } from '../../../../../shared/utils/api/Admin/Accounting/post-create-new-account'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './NewAccountPage.module.scss'
 
 export const AdminNewAccountPage = () => {
   const [form, setForm] = useState<Partial<AccountingAccountsForm>>({})

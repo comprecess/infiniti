@@ -1,8 +1,8 @@
+import styles from './Item.module.scss'
 import { SalesViewInvoiceDocuments } from '../../../../../../../app/constants/constants'
 import { CustomMiniButton } from '../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { TypeFiles } from '../../../../../../../shared/ui/TypeFiles/TypeFiles'
 import styleItem from '../RecentFiles.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   data: SalesViewInvoiceDocuments

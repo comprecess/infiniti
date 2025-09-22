@@ -1,6 +1,6 @@
-import { ValuesProps } from '../../../../app/constants/constants'
 import { Item } from './Item/Item'
 import styles from './ListInfoItem.module.scss'
+import { ValuesProps } from '../../../../app/constants/constants'
 
 interface InfoItemProps {
   title: string

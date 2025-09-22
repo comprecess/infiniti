@@ -1,5 +1,7 @@
 import { ChangeEvent, Fragment, useEffect, useRef, useState } from 'react'
 
+import styles from './Fields.module.scss'
+import { ProjectsExperienceItem } from './ProjectsExperienceItem/ProjectsExperienceItem'
 import {
   FiltersState,
   TalentEditInfoData,
@@ -17,8 +19,6 @@ import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { TagSelector } from '../../../../../shared/ui/TagSelector/TagSelector'
 import { cropImageToSquare } from '../../../../../shared/utils/Avatar/CropImage'
-import styles from './Fields.module.scss'
-import { ProjectsExperienceItem } from './ProjectsExperienceItem/ProjectsExperienceItem'
 
 export interface PartialFieldsPostData extends Partial<TalentFormData> {
   [key: string]:

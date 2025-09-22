@@ -1,7 +1,7 @@
-import { Search } from '../../../../../shared/ui/Search/Search'
-import { RecentRightButtons } from '../../../CustomersPage/CompaniesPage/RecentRightButtons/RecentRightButtons'
 import styles from './Header.module.scss'
 import { Tabs } from './Tabs/Tabs'
+import { Search } from '../../../../../shared/ui/Search/Search'
+import { RecentRightButtons } from '../../../CustomersPage/CompaniesPage/RecentRightButtons/RecentRightButtons'
 
 interface HeaderProps {
   isActiveTab: string

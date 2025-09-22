@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import styles from './Fields.module.scss'
 import {
   CustomerInputsData,
   ViewEditTypeData,
@@ -12,7 +13,6 @@ import { useCustomToast } from '../../../../../../../shared/ui/CustomToast/Custo
 import { TagSelector } from '../../../../../../../shared/ui/TagSelector/TagSelector'
 import { putUpdateProfileInfo } from '../../../../../../../shared/utils/api/Admin/ViewContact/Edit/put-update-profile-info'
 import { CustomField } from '../../../../AddCustomer/CustomField/CustomField'
-import styles from './Fields.module.scss'
 
 interface FieldsProps {
   idClient: number

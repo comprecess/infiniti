@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
+import styles from './ListCustomerPage.module.scss'
 import {
   ListCustomersData,
   PagesMetaData,
@@ -19,7 +20,6 @@ import { getCustomerDocumentFile } from '../../../../shared/utils/api/Admin/List
 import { getCustomerOrSupplierList } from '../../../../shared/utils/api/Admin/ListCustomers/get-customer-or-supplier-list'
 import { downloadDocument } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './ListCustomerPage.module.scss'
 
 export const AdminListCustomerPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()

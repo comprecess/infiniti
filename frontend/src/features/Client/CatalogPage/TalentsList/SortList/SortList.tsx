@@ -7,9 +7,9 @@ import {
 } from '@chakra-ui/react'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
+import styles from './SortList.module.scss'
 import { ChevronDownIcon } from '../../../../../shared/icons/ChevronDownIcon'
 import { LongArrowDownIcon } from '../../../../../shared/icons/LongArrowDownIcon'
-import styles from './SortList.module.scss'
 
 interface SortListProps {
   sort: { name: string; type: string }

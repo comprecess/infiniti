@@ -3,6 +3,7 @@ import { CSS } from '@dnd-kit/utilities'
 import { useEffect, useState } from 'react'
 import { SetURLSearchParams, useNavigate } from 'react-router-dom'
 
+import styles from './TaskItem.module.scss'
 import {
   ProjectsTasksData,
   ProjectsTasksFormData,
@@ -12,7 +13,6 @@ import {
 import { EditTaskModal } from '../../../../features/Admin/Projects/ViewProject/EditTaskModal/EditTaskModal'
 import { ViewTaskModal } from '../../../../features/Admin/Projects/ViewProject/ViewTaskModal/ViewTaskModal'
 import { useDeviceDetect } from '../../../../shared/utils/hooks/useDeviceDetect'
-import styles from './TaskItem.module.scss'
 
 interface TaskItemProps {
   access?: RolesAccess

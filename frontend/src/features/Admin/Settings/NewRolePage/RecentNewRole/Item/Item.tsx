@@ -1,7 +1,7 @@
+import styles from './Item.module.scss'
 import { SettingsRoleFormData } from '../../../../../../app/constants/constants'
 import { CustomSwitch } from '../../../../../../shared/ui/CustomSwitch/CustomSwitch'
 import styleItem from '../RecentNewRole.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   index: number

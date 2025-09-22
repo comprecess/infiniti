@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 
+import styles from './ExpensesPage.module.scss'
 import {
   PagesMetaData,
   ProjectsExpensesData,
@@ -17,7 +18,6 @@ import { Search } from '../../../../../shared/ui/Search/Search'
 import { deleteTransaction } from '../../../../../shared/utils/api/Admin/Accounting/delete-transaction'
 import { getProjectExpenses } from '../../../../../shared/utils/api/Admin/Projects/get-project-expenses'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './ExpensesPage.module.scss'
 
 export const AdminProjectsExpensesPage = () => {
   const [data, setData] = useState<{

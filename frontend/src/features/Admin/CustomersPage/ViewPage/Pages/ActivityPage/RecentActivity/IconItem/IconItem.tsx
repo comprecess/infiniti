@@ -1,3 +1,4 @@
+import styles from './IconItem.module.scss'
 import { CheckIcon } from '../../../../../../../../shared/icons/CheckIcon'
 import { CreditCardIcon } from '../../../../../../../../shared/icons/CreditCardIcon'
 import { EnvelopeIcon } from '../../../../../../../../shared/icons/EnvelopeIcon'
@@ -9,7 +10,6 @@ import { PhoneIcon } from '../../../../../../../../shared/icons/PhoneIcon'
 import { ReplyIcon } from '../../../../../../../../shared/icons/ReplyIcon'
 import { TaskIcon } from '../../../../../../../../shared/icons/TaskIcon'
 import { TruckIcon } from '../../../../../../../../shared/icons/TruckIcon'
-import styles from './IconItem.module.scss'
 
 interface IconItemProps {
   nameIcon: string

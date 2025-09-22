@@ -7,6 +7,9 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { CategoryItem } from './CategoryItem/CategoryItem'
+import { Item } from './CategoryItem/Item/Item'
+import styles from './Filters.module.scss'
 import {
   FiltersData,
   FiltersState,
@@ -17,9 +20,6 @@ import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivi
 import { FromTo } from '../../../../../shared/ui/FromTo/FromTo'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getDefaultCurrency } from '../../../../../shared/utils/api/Tools/get-default-currency'
-import { CategoryItem } from './CategoryItem/CategoryItem'
-import { Item } from './CategoryItem/Item/Item'
-import styles from './Filters.module.scss'
 
 interface FiltersProps {
   filters: FiltersData[] | undefined

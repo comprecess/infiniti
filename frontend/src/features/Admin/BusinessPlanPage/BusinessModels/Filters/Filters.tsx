@@ -1,5 +1,6 @@
 import { Dispatch, Fragment, SetStateAction, useState } from 'react'
 
+import styles from './Filters.module.scss'
 import {
   FiltersData,
   FiltersState,
@@ -9,7 +10,6 @@ import { FromTo } from '../../../../../shared/ui/FromTo/FromTo'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { CategoryItem } from '../../../TalentsPage/CatalogTalents/Filters/CategoryItem/CategoryItem'
 import { Item } from '../../../TalentsPage/CatalogTalents/Filters/CategoryItem/Item/Item'
-import styles from './Filters.module.scss'
 
 interface FiltersProps {
   filters: FiltersData[] | undefined

@@ -1,6 +1,6 @@
+import styles from './PlusCard.module.scss'
 import { PlusIcon } from '../../../../../../../shared/icons/PlusIcon'
 import { Icon } from '../../../../../../../shared/ui/Icon/Icon'
-import styles from './PlusCard.module.scss'
 
 interface PlusCardProps {
   onClick: () => void

@@ -1,5 +1,8 @@
 import { Dispatch, SetStateAction, useCallback } from 'react'
 
+import { PagesList } from './PagesList/PagesList'
+import { SortList } from './SortList/SortList'
+import styles from './TalentsList.module.scss'
 import {
   PagesMetaData,
   TalentData,
@@ -7,9 +10,6 @@ import {
 import { ButtonBrand } from '../../../../shared/ui/ButtonBrand/ButtonBrand'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { TalentsCard } from '../../../../widgets/TalentsCard/TalentsCard'
-import { PagesList } from './PagesList/PagesList'
-import { SortList } from './SortList/SortList'
-import styles from './TalentsList.module.scss'
 
 interface TalentsListProps {
   talentsList:

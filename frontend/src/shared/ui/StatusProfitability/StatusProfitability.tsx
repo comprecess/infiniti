@@ -1,5 +1,5 @@
-import { LightningIcon } from '../../icons/LightningIcon'
 import styles from './StatusProfitability.module.scss'
+import { LightningIcon } from '../../icons/LightningIcon'
 
 interface StatusProfitabilityProps {
   profitability: string

@@ -1,6 +1,6 @@
+import styles from './Item.module.scss'
 import { sanitizeMessage } from '../../../../../../shared/utils/TextEditor/sanitizeMessage'
 import styleItem from '../RecentOffers.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   code: number

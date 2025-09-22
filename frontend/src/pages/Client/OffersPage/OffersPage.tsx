@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 
+import styles from './OffersPage.module.scss'
 import { ClientOfferData } from '../../../app/constants/constants'
 import { RecentTotal } from '../../../features/Client/OffersPage/RecentTotal/RecentTotal'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getInvoiceOrOffer } from '../../../shared/utils/api/Client/GetInvoiceOrOffer'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
-import styles from './OffersPage.module.scss'
 
 export const ClientOffersPage = () => {
   const [offers, setOffers] = useState<ClientOfferData[] | null>(null)

@@ -1,7 +1,7 @@
+import styles from './Header.module.scss'
 import { RolesAccess } from '../../../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { TotalItem } from '../TotalItem/TotalItem'
-import styles from './Header.module.scss'
 
 interface HeaderProps {
   access: RolesAccess | undefined

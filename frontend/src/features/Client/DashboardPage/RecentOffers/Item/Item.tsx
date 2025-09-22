@@ -1,7 +1,7 @@
+import styles from './Item.module.scss'
 import { Routes } from '../../../../../app/router/routes'
 import { ManageButtons } from '../../../../Main/RecentCard/ManageButtons/ManageButtons'
 import styleItem from '../RecentOffers.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   subject: string

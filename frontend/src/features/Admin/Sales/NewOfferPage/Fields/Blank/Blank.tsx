@@ -1,10 +1,10 @@
+import styles from './Blank.module.scss'
 import { SalesNewInvoiceTaxProps } from '../../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomRadio } from '../../../../../../shared/ui/CustomRadio/CustomRadio'
 import { CustomSelect } from '../../../../../../shared/ui/CustomSelect/CustomSelect'
 import { TextEditor } from '../../../../../../shared/ui/TextEditor/TextEditor'
-import styles from './Blank.module.scss'
 
 interface BlankProps {
   id: number

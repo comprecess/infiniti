@@ -1,13 +1,13 @@
 import { Textarea } from '@chakra-ui/react'
 import { ChangeEvent, useEffect, useState } from 'react'
 
+import styles from './MemoPage.module.scss'
 import { RolesAccess } from '../../../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getCompanyPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/get-company-page'
 import { putUpdateCompanyMemo } from '../../../../../../../shared/utils/api/Admin/Companies/View/put-update-company-memo'
-import styles from './MemoPage.module.scss'
 
 interface Memo {
   notes: string

@@ -1,13 +1,13 @@
 import { Fragment, useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
+import styles from './BusinessPlanViewPage.module.scss'
 import { BusinessPlanNewPlanFormData } from '../../../app/constants/constants'
 import { Item } from '../../../features/Admin/BusinessPlanPage/ViewBusinessPlan/Item/Item'
 import { CustomDivider } from '../../../shared/ui/CustomDivider/CustomDivider'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getPublicBusinessPlan } from '../../../shared/utils/api/Public/get-public-business-plan'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
-import styles from './BusinessPlanViewPage.module.scss'
 
 const extractTokenFromUrl = (url: string): string | null => {
   const regex = /\/business-plan\/([^/]+)$/

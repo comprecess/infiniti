@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
+import styles from './UsersPage.module.scss'
 import {
   PagesMetaData,
   RolesAccess,
@@ -17,7 +18,6 @@ import { Search } from '../../../../shared/ui/Search/Search'
 import { deleteSelectedUser } from '../../../../shared/utils/api/Admin/Settings/Users/DeleteUser'
 import { getListUsers } from '../../../../shared/utils/api/Admin/Settings/Users/GetListUsers'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './UsersPage.module.scss'
 
 export const AdminUsersPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()

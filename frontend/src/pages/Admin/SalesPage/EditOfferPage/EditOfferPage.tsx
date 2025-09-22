@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './EditOfferPage.module.scss'
 import {
   SalesBlanks,
   SalesEditInvoiceBlankData,
@@ -25,7 +26,6 @@ import { putUpdateOffer } from '../../../../shared/utils/api/Admin/Sales/EditOff
 import { getOfferInputData } from '../../../../shared/utils/api/Admin/Sales/NewOffer/get-offer-input-data'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './EditOfferPage.module.scss'
 
 export const AdminEditOfferPage = () => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({})

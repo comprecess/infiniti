@@ -8,6 +8,7 @@ import {
 } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
+import styles from './Header.module.scss'
 import { CartProps } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { ChevronsLeftIcon } from '../../../shared/icons/ChevronsLeftIcon'
@@ -19,7 +20,6 @@ import { Profile } from '../../../shared/ui/Profile/Profile'
 import { getOrdersInCart } from '../../../shared/utils/api/Client/Cart/GetOrdersInCart'
 import { ChatGPT } from '../../../widgets/ChatGPT/ChatGPT'
 import { NotificationProfile } from '../../../widgets/NotificationProfile/NotificationProfile'
-import styles from './Header.module.scss'
 
 const BasketMemo = memo(Basket)
 const ProfileMemo = memo(Profile)

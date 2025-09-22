@@ -1,10 +1,10 @@
 import { useState } from 'react'
 
+import styles from './CardPlan.module.scss'
 import { RolesAccess } from '../../../../../app/constants/constants'
 import { ConfirmationModal } from '../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { sanitizeMessage } from '../../../../../shared/utils/TextEditor/sanitizeMessage'
-import styles from './CardPlan.module.scss'
 
 interface CardPlanProps {
   access: RolesAccess

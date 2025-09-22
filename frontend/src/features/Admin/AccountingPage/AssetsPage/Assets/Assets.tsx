@@ -1,15 +1,15 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './Assets.module.scss'
+import { Item } from './Item/Item'
+import { NewCategoryModal } from './NewCategoryModal/NewCategoryModal'
 import {
   AccountingAssetsInputDataCategory,
   RolesAccess,
 } from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
-import styles from './Assets.module.scss'
-import { Item } from './Item/Item'
-import { NewCategoryModal } from './NewCategoryModal/NewCategoryModal'
 
 interface AssetsProps {
   categories: AccountingAssetsInputDataCategory[]

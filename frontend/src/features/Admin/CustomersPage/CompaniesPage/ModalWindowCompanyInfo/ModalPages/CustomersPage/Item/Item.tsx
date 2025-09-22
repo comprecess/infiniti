@@ -1,5 +1,5 @@
-import styleItem from '../CustomersPage.module.scss'
 import styles from './Item.module.scss'
+import styleItem from '../CustomersPage.module.scss'
 
 interface ItemProps {
   code: number

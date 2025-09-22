@@ -1,6 +1,6 @@
+import styles from './LoadingScreen.module.scss'
 import { LogoTextIcon } from '../../icons/LogoTextIcon'
 import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner'
-import styles from './LoadingScreen.module.scss'
 
 export const LoadingScreen = () => {
   return (

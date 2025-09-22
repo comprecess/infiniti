@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import styles from './BusinessModelCard.module.scss'
+import { ConvertModal } from './ConvertModal/ConvertModal'
 import { RolesAccess, ValuesProps } from '../../app/constants/constants'
 import { Routes } from '../../app/router/routes'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
@@ -7,8 +9,6 @@ import { ConfirmationModal } from '../../shared/ui/ConfirmationModal/Confirmatio
 import { CustomMiniButton } from '../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { StatusProfitability } from '../../shared/ui/StatusProfitability/StatusProfitability'
 import { Item } from '../TalentsCard/Body/Item/Item'
-import styles from './BusinessModelCard.module.scss'
-import { ConvertModal } from './ConvertModal/ConvertModal'
 
 interface BusinessModelCardProps {
   id: number

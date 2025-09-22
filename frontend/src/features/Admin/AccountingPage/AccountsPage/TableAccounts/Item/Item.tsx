@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './Item.module.scss'
+import { RecordInitialModal } from './RecordInitialModal/RecordInitialModal'
 import {
   AccountingAccountsInputData,
   RolesAccess,
@@ -9,8 +11,6 @@ import { Routes } from '../../../../../../app/router/routes'
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../TableAccounts.module.scss'
-import styles from './Item.module.scss'
-import { RecordInitialModal } from './RecordInitialModal/RecordInitialModal'
 
 interface ItemProps {
   id: number

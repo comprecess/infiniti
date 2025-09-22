@@ -1,9 +1,9 @@
+import styles from './SimilarTalents.module.scss'
 import {
   RolesAccess,
   TalentsProps,
 } from '../../../../../app/constants/constants'
 import { TalentsCard } from '../../../../../widgets/TalentsCard/TalentsCard'
-import styles from './SimilarTalents.module.scss'
 
 interface SimilarTalentsProps {
   isAdmin?: boolean

@@ -1,8 +1,8 @@
+import styles from './ConfirmationModal.module.scss'
 import { CrossIcon } from '../../icons/CrossIcon'
 import { ButtonBlue } from '../ButtonBlue/ButtonBlue'
 import { ButtonBrand } from '../ButtonBrand/ButtonBrand'
 import { CustomModalWindow } from '../CustomModalWindow/CustomModalWindow'
-import styles from './ConfirmationModal.module.scss'
 
 interface ConfirmationModalProps {
   title?: string

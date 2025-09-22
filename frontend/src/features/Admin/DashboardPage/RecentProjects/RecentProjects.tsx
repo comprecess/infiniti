@@ -1,14 +1,14 @@
 import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { Item } from './Item/Item'
+import styles from './RecentProjects.module.scss'
 import {
   DashboardRecentProjectsData,
   RolesAccess,
 } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './RecentProjects.module.scss'
 
 interface RecentProjectsProps {
   recentProjects: DashboardRecentProjectsData[]

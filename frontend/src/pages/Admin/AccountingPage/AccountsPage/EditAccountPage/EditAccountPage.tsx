@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './EditAccountPage.module.scss'
 import { AccountingAccountForm } from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
 import { EditAccountFields } from '../../../../../features/Admin/AccountingPage/AccountsPage/EditAccount/EditAccountFields/EditAccountFields'
@@ -11,7 +12,6 @@ import { getSelectedAccountInfo } from '../../../../../shared/utils/api/Admin/Ac
 import { putUpdateAccountInfo } from '../../../../../shared/utils/api/Admin/Accounting/put-update-account-info'
 import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './EditAccountPage.module.scss'
 
 export const AdminEditAccountPage = () => {
   const [form, setForm] = useState<AccountingAccountForm | null>(null)

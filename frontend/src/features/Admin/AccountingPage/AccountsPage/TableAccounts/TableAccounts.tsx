@@ -1,5 +1,7 @@
 import { Fragment, useCallback, useState } from 'react'
 
+import { Item } from './Item/Item'
+import styles from './TableAccounts.module.scss'
 import {
   AccountingAccountsData,
   AccountingAccountsInputData,
@@ -7,8 +9,6 @@ import {
 } from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './TableAccounts.module.scss'
 
 interface TableAccountsProps {
   accounts: AccountingAccountsData[]

@@ -1,7 +1,7 @@
+import styles from './EducationCard.module.scss'
 import { TalentData } from '../../../../app/constants/constants'
 import { TextInfoItem } from '../TextInfoItem/TextInfoItem'
 import { TitleCard } from '../TitleCard/TitleCard'
-import styles from './EducationCard.module.scss'
 
 interface EducationCardProps {
   talentInfo: TalentData

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './EditBusinessModel.module.scss'
 import {
   BusinessModelInputData,
   ValuesProps,
@@ -23,7 +24,6 @@ import { getAnalysisChatGPT } from '../../../../shared/utils/api/Admin/ChatGPT/g
 import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './EditBusinessModel.module.scss'
 
 export const AdminEditBusinessModel = () => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({})

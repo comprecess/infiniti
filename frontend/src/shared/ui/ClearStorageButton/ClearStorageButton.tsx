@@ -1,7 +1,7 @@
 import { Tooltip } from '@chakra-ui/react'
 
-import { removeStorage } from '../../utils/Saving/Storage/RemoveStorage'
 import styles from './ClearStorageButton.module.scss'
+import { removeStorage } from '../../utils/Saving/Storage/RemoveStorage'
 
 interface ClearStorageButtonProps {
   storageKey: string

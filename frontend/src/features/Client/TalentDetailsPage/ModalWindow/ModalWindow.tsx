@@ -8,6 +8,7 @@ import {
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './ModalWindow.module.scss'
 import { TalentData } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { ChevronDownIcon } from '../../../../shared/icons/ChevronDownIcon'
@@ -23,7 +24,6 @@ import { addOrderToCart } from '../../../../shared/utils/api/Client/Cart/AddOrde
 import { getCalculationCart } from '../../../../shared/utils/api/Client/Cart/get-calculation-cart'
 import { Item } from '../../../../widgets/TalentsCard/Footer/Item/Item'
 import { TitleCard } from '../TitleCard/TitleCard'
-import styles from './ModalWindow.module.scss'
 
 interface ModalWindowProps {
   talent: TalentData

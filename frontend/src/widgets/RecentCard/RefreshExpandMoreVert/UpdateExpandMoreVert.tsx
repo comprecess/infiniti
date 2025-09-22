@@ -1,7 +1,7 @@
+import styles from './UpdateExpandMoreVert.module.scss'
 import { ArrowsExpandIcon } from '../../../shared/icons/ArrowsExpandIcon'
 import { MoreVertIcon } from '../../../shared/icons/MoreVertIcon'
 import { RefreshIcon } from '../../../shared/icons/RefreshIcon'
-import styles from './UpdateExpandMoreVert.module.scss'
 
 export const UpdateExpandMoreVert = () => {
   return (

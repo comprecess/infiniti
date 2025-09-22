@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom'
 
+import styles from './Item.module.scss'
 import { Routes } from '../../../../../../app/router/routes'
 import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../RecentCarts.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   idCart: number
