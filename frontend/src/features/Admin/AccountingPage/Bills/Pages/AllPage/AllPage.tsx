@@ -1,5 +1,7 @@
 import { Fragment, useCallback, useState } from 'react'
 
+import styles from './AllPage.module.scss'
+import { Item } from './Item/Item'
 import {
   AccountingBillsData,
   RolesAccess,
@@ -7,8 +9,6 @@ import {
 import { CustomDivider } from '../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Search } from '../../../../../../shared/ui/Search/Search'
 import { Title } from '../../../../../Main/RecentCard/Title/Title'
-import styles from './AllPage.module.scss'
-import { Item } from './Item/Item'
 
 interface AllPageProps {
   bills: AccountingBillsData[]

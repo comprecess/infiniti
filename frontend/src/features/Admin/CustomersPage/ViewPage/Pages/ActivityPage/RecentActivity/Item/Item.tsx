@@ -1,11 +1,11 @@
 import { useState } from 'react'
 
+import styles from './Item.module.scss'
 import { RolesAccess } from '../../../../../../../../app/constants/constants'
 import { ConfirmationModal } from '../../../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { sanitizeMessage } from '../../../../../../../../shared/utils/TextEditor/sanitizeMessage'
 import { IconItem } from '../IconItem/IconItem'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   id: number

@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { CustomField } from './CustomField/CustomField'
+import styles from './Fields.module.scss'
 import { CustomerInputsData } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -13,8 +15,6 @@ import { postCreateNewCustomer } from '../../../../shared/utils/api/Admin/AddCus
 import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
 import { removeStorage } from '../../../../shared/utils/Saving/Storage/RemoveStorage'
 import { saveStorage } from '../../../../shared/utils/Saving/Storage/SaveStorage'
-import { CustomField } from './CustomField/CustomField'
-import styles from './Fields.module.scss'
 
 interface FieldsProps {
   storageKey: string

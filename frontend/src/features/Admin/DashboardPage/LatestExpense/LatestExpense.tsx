@@ -1,11 +1,11 @@
 import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { Item } from './Item/Item'
+import styles from './LatestExpense.module.scss'
 import { DashboardLatestIncomeExpenseData } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './LatestExpense.module.scss'
 
 interface LatestExpenseProps {
   latestExpense: DashboardLatestIncomeExpenseData[]

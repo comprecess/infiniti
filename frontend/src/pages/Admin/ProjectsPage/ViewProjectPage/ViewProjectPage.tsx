@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Outlet, useOutletContext } from 'react-router-dom'
 
+import styles from './ViewProjectPage.module.scss'
 import {
   ProjectsData,
   RolesAccess,
@@ -12,7 +13,6 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { Status } from '../../../../shared/ui/Status/Status'
 import { getProjectView } from '../../../../shared/utils/api/Admin/Projects/get-project-view'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
-import styles from './ViewProjectPage.module.scss'
 
 export const AdminViewProjectPage = () => {
   const [projectInfo, setProjectInfo] = useState<ProjectsData | null>(null)

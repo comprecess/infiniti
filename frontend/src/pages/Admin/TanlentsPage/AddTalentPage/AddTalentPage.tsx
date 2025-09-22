@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './AddTalentPage.module.scss'
+import { HeaderButtons } from './HeaderButtons/HeaderButtons'
 import {
   TalentFormData,
   TalentsInputData,
@@ -15,8 +17,6 @@ import { getTalentInputData } from '../../../../shared/utils/api/Admin/Talents/g
 import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
 import { removeStorage } from '../../../../shared/utils/Saving/Storage/RemoveStorage'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './AddTalentPage.module.scss'
-import { HeaderButtons } from './HeaderButtons/HeaderButtons'
 
 export const AdminAddTalentPage = () => {
   const [formData, setFormData] = useState<Partial<TalentFormData>>({})

@@ -9,6 +9,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 
+import styles from './CatalogTalentsPage.module.scss'
 import {
   FiltersData,
   FiltersState,
@@ -25,7 +26,6 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { deleteSelectedTalent } from '../../../../shared/utils/api/Admin/Talents/delete-selected-talent'
 import { getTalentsList } from '../../../../shared/utils/api/Admin/Talents/get-talents-list'
 import { getPropertiesFiltering } from '../../../../shared/utils/api/Client/Catalog/Properties/GetPropertiesFiltering'
-import styles from './CatalogTalentsPage.module.scss'
 
 export const AdminCatalogTalentsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()

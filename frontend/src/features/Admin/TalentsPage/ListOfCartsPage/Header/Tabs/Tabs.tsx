@@ -1,6 +1,6 @@
-import { RolesAccess } from '../../../../../../app/constants/constants'
 import { Tab } from './Tab/Tab'
 import styles from './Tabs.module.scss'
+import { RolesAccess } from '../../../../../../app/constants/constants'
 
 interface TabsListProps {
   id: number

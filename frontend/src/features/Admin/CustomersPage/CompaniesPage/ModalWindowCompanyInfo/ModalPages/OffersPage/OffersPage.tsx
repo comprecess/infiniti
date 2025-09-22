@@ -1,6 +1,8 @@
 import { Fragment, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { Item } from './Item/Item'
+import styles from './OffersPage.module.scss'
 import {
   OffersViewCompany,
   RolesAccess,
@@ -10,8 +12,6 @@ import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/Cust
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getCompanyPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/get-company-page'
 import { Title } from '../../../../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './OffersPage.module.scss'
 
 interface OffersPageProps {
   id: number

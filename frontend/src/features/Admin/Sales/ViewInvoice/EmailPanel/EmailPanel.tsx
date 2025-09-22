@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import styles from './EmailPanel.module.scss'
 import { SalesInvoiceEmailTemplateData } from '../../../../../app/constants/constants'
 import { CrossIcon } from '../../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -10,7 +11,6 @@ import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 import { postSendEmailInvoice } from '../../../../../shared/utils/api/Admin/Sales/Invoices/post-send-email-invoice'
-import styles from './EmailPanel.module.scss'
 
 interface EmailPanelProps {
   idInvoice: number | null

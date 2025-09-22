@@ -1,13 +1,13 @@
 import { Fragment } from 'react'
 
+import { Item } from './Item/Item'
+import styles from './RecentCurrencies.module.scss'
 import {
   CurrencyProps,
   RolesAccess,
 } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './RecentCurrencies.module.scss'
 
 interface RecentCurrenciesProps {
   access: RolesAccess

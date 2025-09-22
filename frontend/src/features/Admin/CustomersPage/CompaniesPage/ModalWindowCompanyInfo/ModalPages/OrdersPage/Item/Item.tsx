@@ -1,6 +1,6 @@
+import styles from './Item.module.scss'
 import { Status } from '../../../../../../../../shared/ui/Status/Status'
 import styleItem from '../OrdersPage.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   id: number

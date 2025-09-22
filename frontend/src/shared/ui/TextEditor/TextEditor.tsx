@@ -3,11 +3,11 @@ import './ThemeEditor.scss'
 import JoditEditor, { Jodit } from 'jodit-react'
 import { useMemo, useRef, useState } from 'react'
 
+import styles from './TextEditor.module.scss'
 import { ChatGPTIcon } from '../../icons/ChatGPTIcon'
 import { getChatGPTReadyPrompt } from '../../utils/api/Admin/ChatGPT/get-chat-gpt-ready-prompt'
 import { sanitizeMessage } from '../../utils/TextEditor/sanitizeMessage'
 import { Icon } from '../Icon/Icon'
-import styles from './TextEditor.module.scss'
 
 interface TextEditorProps {
   placeholder?: string

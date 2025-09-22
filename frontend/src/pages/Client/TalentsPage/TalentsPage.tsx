@@ -8,6 +8,7 @@ import {
 } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
+import styles from './TalentsPage.module.scss'
 import {
   FiltersData,
   FiltersState,
@@ -21,7 +22,6 @@ import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getPropertiesFiltering } from '../../../shared/utils/api/Client/Catalog/Properties/GetPropertiesFiltering'
 import { getUsersListInfo } from '../../../shared/utils/api/Client/Catalog/User/get-user-list-info'
-import styles from './TalentsPage.module.scss'
 
 export const ClientTalentsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()

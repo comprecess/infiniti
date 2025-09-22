@@ -8,6 +8,7 @@ import {
 } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
+import styles from './BusinessModelsPage.module.scss'
 import {
   BusinessPlanBusinessModelData,
   FiltersState,
@@ -20,7 +21,6 @@ import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getBusinessModelProperties } from '../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/get-business-model-properties'
 import { getBusinessModelsList } from '../../../shared/utils/api/Client/BusinessModels/get-business-models-list'
-import styles from './BusinessModelsPage.module.scss'
 
 export const ClientBusinessModelsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()

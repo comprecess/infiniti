@@ -1,8 +1,8 @@
+import { Item } from './Item/Item'
+import styles from './TextEditorWrapper.module.scss'
 import { IconsListData } from '../../../../../../../app/data/textEditorIcons'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { TextEditor } from '../../../../../../../shared/ui/TextEditor/TextEditor'
-import { Item } from './Item/Item'
-import styles from './TextEditorWrapper.module.scss'
 
 interface TextEditorWrapperProps {
   selectedIcon: string

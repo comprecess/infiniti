@@ -1,5 +1,5 @@
-import styleItem from '../TableUnclearedTransactions.module.scss'
 import styles from './Item.module.scss'
+import styleItem from '../TableUnclearedTransactions.module.scss'
 
 interface ItemProps {
   id: number

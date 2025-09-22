@@ -1,5 +1,5 @@
-import { Chart } from '../Chart/Chart'
 import styles from './Header.module.scss'
+import { Chart } from '../Chart/Chart'
 
 interface HeaderProps {
   amount: string

@@ -1,13 +1,13 @@
 import { Fragment } from 'react'
 
+import { Item } from './Item/Item'
+import styles from './RecentFiles.module.scss'
 import {
   RolesAccess,
   ViewFileProps,
 } from '../../../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './RecentFiles.module.scss'
 
 interface RecentFilesProps {
   access: RolesAccess

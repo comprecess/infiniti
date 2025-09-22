@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './ProjectsPage.module.scss'
 import {
   ProjectsData,
   RolesAccess,
@@ -14,7 +15,6 @@ import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner
 import { deleteProject } from '../../../shared/utils/api/Admin/Projects/delete-project'
 import { getProjectsList } from '../../../shared/utils/api/Admin/Projects/get-projects-list'
 import { ProjectCard } from '../../../widgets/ProjectCard/ProjectCard'
-import styles from './ProjectsPage.module.scss'
 
 export const AdminProjectsPage = () => {
   const navigate = useNavigate()

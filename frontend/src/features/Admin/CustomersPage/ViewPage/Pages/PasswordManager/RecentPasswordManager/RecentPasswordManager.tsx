@@ -1,10 +1,10 @@
 import { Fragment } from 'react'
 
+import { Item } from './Item/Item'
+import styles from './RecentPasswordManager.module.scss'
 import { ViewPasswordManagerTypeData } from '../../../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './RecentPasswordManager.module.scss'
 
 interface RecentPasswordManagerProps {
   list: ViewPasswordManagerTypeData[]

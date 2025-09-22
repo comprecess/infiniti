@@ -1,5 +1,5 @@
-import { BackGround } from '../BackGround/BackGround'
 import styles from './ArrowItem.module.scss'
+import { BackGround } from '../BackGround/BackGround'
 
 interface ArrowItemProps {
   isLeftArrow?: boolean

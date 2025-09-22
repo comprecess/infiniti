@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
+import styles from './Item.module.scss'
 import { RolesAccess } from '../../../../../../app/constants/constants'
 import { FolderIcon } from '../../../../../../shared/icons/FolderIcon'
 import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   id: number

@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 
+import styles from './EditDocumentModal.module.scss'
 import { CustomersFilesData } from '../../../../app/constants/constants'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -10,7 +11,6 @@ import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getSelectedFileInfo } from '../../../../shared/utils/api/Admin/Documents/get-selected-file-info'
 import { putUpdateDocumentInfo } from '../../../../shared/utils/api/Admin/Documents/put-update-document-info'
-import styles from './EditDocumentModal.module.scss'
 
 interface EditDocumentModalProps {
   idDocument: number

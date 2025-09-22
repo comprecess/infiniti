@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 
-import { ChartLegend } from '../../../../../../shared/ui/ChartLegend/ChartLegend'
 import styles from './NetWorth.module.scss'
+import { ChartLegend } from '../../../../../../shared/ui/ChartLegend/ChartLegend'
 
 interface NetWorthProps {
   amount: string

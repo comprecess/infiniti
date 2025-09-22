@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from 'react'
 
+import styles from './Header.module.scss'
 import { SettingsRoleFormData } from '../../../../../app/constants/constants'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
-import styles from './Header.module.scss'
 
 interface HeaderProps {
   formData: {

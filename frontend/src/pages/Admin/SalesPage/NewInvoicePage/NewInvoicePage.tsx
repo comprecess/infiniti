@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './NewInvoicePage.module.scss'
 import {
   SalesNewInvoiceFormData,
   SalesNewInvoiceInputData,
@@ -13,7 +14,6 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { getInvoiceInputData } from '../../../../shared/utils/api/Admin/Sales/NewInvoice/get-invoice-input-data'
 import { postCreateNewInvoice } from '../../../../shared/utils/api/Admin/Sales/NewInvoice/post-create-new-invoice'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './NewInvoicePage.module.scss'
 
 export const AdminNewInvoicePage = () => {
   const [formData, setFormData] = useState<

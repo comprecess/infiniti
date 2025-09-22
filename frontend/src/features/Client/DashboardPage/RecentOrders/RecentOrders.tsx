@@ -1,10 +1,10 @@
 import { Fragment } from 'react'
 
+import { Item } from './Item/Item'
+import styles from './RecentOrders.module.scss'
 import { OrdersViewCompany } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './RecentOrders.module.scss'
 
 interface RecentOrdersProps {
   orders: OrdersViewCompany[]

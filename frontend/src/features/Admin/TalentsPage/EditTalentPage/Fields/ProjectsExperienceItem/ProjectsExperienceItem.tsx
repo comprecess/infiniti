@@ -1,10 +1,10 @@
 import { Textarea } from '@chakra-ui/react'
 import { ChangeEvent } from 'react'
 
+import styles from './ProjectsExperienceItem.module.scss'
 import { ButtonBlue } from '../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDataPicker } from '../../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomInput } from '../../../../../../shared/ui/CustomInput/CustomInput'
-import styles from './ProjectsExperienceItem.module.scss'
 
 interface ProjectsExperienceItemProps {
   company: string

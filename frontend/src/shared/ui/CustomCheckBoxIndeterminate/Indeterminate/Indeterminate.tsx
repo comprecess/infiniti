@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 
+import styles from './Indeterminate.module.scss'
 import {
   FiltersState,
   ValuesProps,
 } from '../../../../app/constants/constants'
 import { CustomCheckBox } from '../../CustomCheckBox/CustomCheckBox'
-import styles from './Indeterminate.module.scss'
 
 interface ParentChildrenProps {
   languageTitle: string

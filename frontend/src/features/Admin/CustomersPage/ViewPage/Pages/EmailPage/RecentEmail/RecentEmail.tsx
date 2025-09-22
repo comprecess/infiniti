@@ -1,10 +1,10 @@
 import { Fragment } from 'react'
 
+import { Item } from './Item/Item'
+import styles from './RecentEmail.module.scss'
 import { ViewEmailProps } from '../../../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './RecentEmail.module.scss'
 
 interface RecentEmailProps {
   list: ViewEmailProps[]

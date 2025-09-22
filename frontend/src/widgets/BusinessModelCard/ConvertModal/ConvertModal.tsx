@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './ConvertModal.module.scss'
 import { Routes } from '../../../app/router/routes'
 import { CrossIcon } from '../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -8,7 +9,6 @@ import { CustomModalWindow } from '../../../shared/ui/CustomModalWindow/CustomMo
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getConvertBusinessModel } from '../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/get-convert-business-model'
-import styles from './ConvertModal.module.scss'
 
 interface ConvertModalProps {
   id: number

@@ -5,8 +5,8 @@ import {
 } from '@stripe/react-stripe-js'
 import { FormEvent, useEffect, useState } from 'react'
 
-import { ButtonBlue } from '../ButtonBlue/ButtonBlue'
 import styles from './CreditCardInput.module.scss'
+import { ButtonBlue } from '../ButtonBlue/ButtonBlue'
 
 const cardElementOptions = {
   style: {

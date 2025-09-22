@@ -1,6 +1,6 @@
+import styles from './ChatGPTCard.module.scss'
 import { ChatGPTIcon } from '../../../../../../../shared/icons/ChatGPTIcon'
 import { Icon } from '../../../../../../../shared/ui/Icon/Icon'
-import styles from './ChatGPTCard.module.scss'
 
 interface ChatGPTCardProps {
   addNewTalentChatGPT: () => void

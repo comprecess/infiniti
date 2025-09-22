@@ -1,5 +1,9 @@
 import { ChangeEvent, Dispatch, SetStateAction, useRef } from 'react'
 
+import styles from './Fields.module.scss'
+import { ChatGPTCard } from './Team/ChatGPTCard/ChatGPTCard'
+import { PeopleCard } from './Team/PeopleCard/PeopleCard'
+import { PlusCard } from './Team/PlusCard/PlusCard'
 import {
   BusinessPlanNewPlanFormData,
   TalentInputDataBusinessPlan,
@@ -11,10 +15,6 @@ import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { Icon } from '../../../../../shared/ui/Icon/Icon'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
-import styles from './Fields.module.scss'
-import { ChatGPTCard } from './Team/ChatGPTCard/ChatGPTCard'
-import { PeopleCard } from './Team/PeopleCard/PeopleCard'
-import { PlusCard } from './Team/PlusCard/PlusCard'
 
 interface FieldsProps {
   isLoadingTeam: boolean

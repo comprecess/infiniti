@@ -1,5 +1,5 @@
-import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import styles from './ImportButton.module.scss'
+import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 
 export const ImportButton = () => {
   return (

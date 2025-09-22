@@ -1,11 +1,11 @@
 import classNames from 'classnames'
 
+import styles from './CustomCheckBoxIndeterminate.module.scss'
+import { Indeterminate } from './Indeterminate/Indeterminate'
 import {
   FiltersState,
   LanguagesList,
 } from '../../../app/constants/constants'
-import styles from './CustomCheckBoxIndeterminate.module.scss'
-import { Indeterminate } from './Indeterminate/Indeterminate'
 
 interface CheckBoxListProps {
   languages: LanguagesList[]

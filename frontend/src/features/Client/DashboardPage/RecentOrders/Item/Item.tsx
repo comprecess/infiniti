@@ -1,6 +1,6 @@
+import styles from './Item.module.scss'
 import { Status } from '../../../../../shared/ui/Status/Status'
 import styleItem from '../RecentOrders.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   date: string

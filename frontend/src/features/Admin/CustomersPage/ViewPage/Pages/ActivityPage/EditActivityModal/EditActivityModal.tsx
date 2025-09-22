@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 
+import styles from './EditActivityModal.module.scss'
 import { IconsListData } from '../../../../../../../app/data/textEditorIcons'
 import { CrossIcon } from '../../../../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomModalWindow } from '../../../../../../../shared/ui/CustomModalWindow/CustomModalWindow'
 import { TextEditor } from '../../../../../../../shared/ui/TextEditor/TextEditor'
 import { Item } from '../TextEditorWrapper/Item/Item'
-import styles from './EditActivityModal.module.scss'
 
 interface EditActivityModalProps {
   icon: string | undefined

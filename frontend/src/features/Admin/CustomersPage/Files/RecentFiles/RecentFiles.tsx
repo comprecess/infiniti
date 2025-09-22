@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom'
 
+import { Item } from './Item/Item'
+import styles from './RecentFiles.module.scss'
 import {
   CustomersFilesData,
   RolesAccess,
 } from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
-import { Item } from './Item/Item'
-import styles from './RecentFiles.module.scss'
 
 interface RecentFilesProps {
   access: RolesAccess

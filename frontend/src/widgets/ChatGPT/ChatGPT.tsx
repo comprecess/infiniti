@@ -12,6 +12,8 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
+import styles from './ChatGPT.module.scss'
+import { Message } from './Message/Message'
 import { MessageChatGPT } from '../../app/constants/constants'
 import { ChatGPTIcon } from '../../shared/icons/ChatGPTIcon'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
@@ -23,8 +25,6 @@ import { getChatGPTInputData } from '../../shared/utils/api/Admin/ChatGPT/get-ch
 import { getHistoryUserMessage } from '../../shared/utils/api/Admin/ChatGPT/get-history-user-message'
 import { postCreateUserMessage } from '../../shared/utils/api/Admin/ChatGPT/post-create-user-message'
 import { useChatGPT } from '../../shared/utils/Contexts/ChatGPTContext'
-import styles from './ChatGPT.module.scss'
-import { Message } from './Message/Message'
 
 export const ChatGPT = () => {
   const { control, register, handleSubmit, setValue, reset } = useForm<{

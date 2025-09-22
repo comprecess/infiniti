@@ -1,12 +1,12 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useLocation } from 'react-router-dom'
 
+import styles from './ResetPasswordForm.module.scss'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { Input } from '../../../shared/ui/Input/Input'
 import { postClientResetPassword } from '../../../shared/utils/api/Auth/post-client-reset-password'
 import { postResidentResetPassword } from '../../../shared/utils/api/Auth/post-resident-reset-password'
-import styles from './ResetPasswordForm.module.scss'
 
 interface FormFields {
   email: string

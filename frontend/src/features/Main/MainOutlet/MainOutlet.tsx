@@ -1,13 +1,13 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 
+import styles from './MainOutlet.module.scss'
 import { RolesAccess } from '../../../app/constants/constants'
 import { adminSidebarPages } from '../../../app/data/adminSidebarPages'
 import { clientSidebarPages } from '../../../app/data/clientSidebarPages'
 import { Routes } from '../../../app/router/routes'
 import { Header } from '../Header/Header'
 import { Sidebar } from '../Sidebar/Sidebar'
-import styles from './MainOutlet.module.scss'
 
 interface MainOutletProps {
   roles?: {

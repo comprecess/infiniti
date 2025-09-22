@@ -1,10 +1,10 @@
 import { Textarea } from '@chakra-ui/react'
 import { ChangeEvent } from 'react'
 
+import styles from './CustomField.module.scss'
 import { SettingsCustomFieldsProps } from '../../../../../app/constants/constants'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
-import styles from './CustomField.module.scss'
 
 interface CustomFiledProps {
   input: SettingsCustomFieldsProps

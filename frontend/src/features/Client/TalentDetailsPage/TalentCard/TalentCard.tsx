@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import styles from './TalentCard.module.scss'
 import { TalentData } from '../../../../app/constants/constants'
 import { InfoIcon } from '../../../../shared/icons/InfoIcon'
 import { PhoneCallIcon } from '../../../../shared/icons/PhoneCallIcon'
@@ -9,7 +10,6 @@ import { CustomModalWindow } from '../../../../shared/ui/CustomModalWindow/Custo
 import { TalentsLevel } from '../../../../shared/ui/TalentsLevel/TalentsLevel'
 import { Item } from '../../../../widgets/TalentsCard/Footer/Item/Item'
 import { ModalWindow } from '../ModalWindow/ModalWindow'
-import styles from './TalentCard.module.scss'
 
 type OrientationDivider = 'vertical' | 'horizontal'
 

@@ -1,13 +1,13 @@
 import { Dayjs } from 'dayjs'
 import { useEffect, useState } from 'react'
 
+import styles from './CreatingCallModal.module.scss'
 import i18n from '../../i18n'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomCalendar } from '../../shared/ui/CustomCalendar/CustomCalendar'
 import { CustomDivider } from '../../shared/ui/CustomDivider/CustomDivider'
 import { CustomModalWindow } from '../../shared/ui/CustomModalWindow/CustomModalWindow'
 import { CustomTimePicker } from '../../shared/ui/CustomTimePicker/CustomTimePicker'
-import styles from './CreatingCallModal.module.scss'
 
 export interface TimeSlot {
   from: string

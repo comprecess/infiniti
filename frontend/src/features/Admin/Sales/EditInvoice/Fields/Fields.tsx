@@ -1,6 +1,7 @@
 import { Textarea } from '@chakra-ui/react'
 import { Fragment, useEffect, useRef, useState } from 'react'
 
+import styles from './Fields.module.scss'
 import {
   BlankCalc,
   SalesBlanks,
@@ -20,7 +21,6 @@ import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 import { AddProductOrService } from '../../AddProductOrService/AddProductOrService'
 import { Item } from '../../NewInvoice/Fields/Item/Item'
 import { Blank } from '../Blank/Blank'
-import styles from './Fields.module.scss'
 
 interface FieldsProps {
   data: SalesEditInvoiceData

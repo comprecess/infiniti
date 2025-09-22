@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import styles from './Item.module.scss'
+import { Type } from './Type/Type'
 import {
   RolesAccess,
   ViewInvoicesRecentData,
@@ -8,8 +10,6 @@ import { ConfirmationModal } from '../../../../../../shared/ui/ConfirmationModal
 import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../../../../../shared/ui/Status/Status'
 import styleItem from '../RecentInvoices.module.scss'
-import styles from './Item.module.scss'
-import { Type } from './Type/Type'
 
 interface ItemProps extends ViewInvoicesRecentData {
   access: RolesAccess

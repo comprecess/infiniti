@@ -1,6 +1,8 @@
 import { Fragment } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { Item } from './Item/Item'
+import styles from './RecentOffers.module.scss'
 import {
   RolesAccess,
   ViewOffersTypeData,
@@ -8,8 +10,6 @@ import {
 import { Routes } from '../../../../../../../app/router/routes'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './RecentOffers.module.scss'
 
 interface RecentOffersProps {
   access: RolesAccess | undefined

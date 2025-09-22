@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
+import styles from './ActivityPage.module.scss'
 import { ViewPageContext } from '../../../../../app/constants/constants'
 import { EditActivityModal } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/ActivityPage/EditActivityModal/EditActivityModal'
 import { RecentActivity } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/ActivityPage/RecentActivity/RecentActivity'
@@ -13,7 +14,6 @@ import { putUpdateCustomerActivity } from '../../../../../shared/utils/api/Admin
 import { deleteCustomerObject } from '../../../../../shared/utils/api/Admin/ViewContact/delete-customer-object'
 import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/get-selected-type-info'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './ActivityPage.module.scss'
 
 interface EditActiveModalData {
   icon: string

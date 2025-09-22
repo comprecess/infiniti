@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './ForbiddenPage.module.scss'
 import { Routes } from '../../../app/router/routes'
 import { ButtonBrand } from '../../../shared/ui/ButtonBrand/ButtonBrand'
-import styles from './ForbiddenPage.module.scss'
 
 export const ForbiddenPage = () => {
   const navigate = useNavigate()

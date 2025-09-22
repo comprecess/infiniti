@@ -1,10 +1,10 @@
 import { Fragment } from 'react'
 
+import { Item } from './Item/Item'
+import styles from './ProjectsExperienceCard.module.scss'
 import { TalentData } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { TitleCard } from '../TitleCard/TitleCard'
-import { Item } from './Item/Item'
-import styles from './ProjectsExperienceCard.module.scss'
 
 interface ProjectsExperienceCardProps {
   talentInfo: TalentData

@@ -1,8 +1,8 @@
+import styles from './Header.module.scss'
 import { FileIcon } from '../../../../../../../shared/icons/FileIcon'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../../../../../../shared/ui/CustomInput/CustomInput'
 import { TextEditor } from '../../../../../../../shared/ui/TextEditor/TextEditor'
-import styles from './Header.module.scss'
 
 interface HeaderProps {
   inputTo: string

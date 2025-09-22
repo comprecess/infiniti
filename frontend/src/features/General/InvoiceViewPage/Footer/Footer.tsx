@@ -1,3 +1,4 @@
+import styles from './Footer.module.scss'
 import {
   SalesViewInvoiceDocuments,
   SalesViewInvoiceTransactions,
@@ -6,7 +7,6 @@ import { sanitizeMessage } from '../../../../shared/utils/TextEditor/sanitizeMes
 import { RecentFiles } from '../../../Admin/Sales/ViewInvoice/Footer/RecentFiles/RecentFiles'
 import { RecentTransactions } from '../../../Admin/Sales/ViewInvoice/Footer/RecentTransactions/RecentTransactions'
 import { TotalItem } from '../../../Admin/Sales/ViewInvoice/Footer/TotalItem/TotalItem'
-import styles from './Footer.module.scss'
 
 interface FooterProps {
   subtotal: string

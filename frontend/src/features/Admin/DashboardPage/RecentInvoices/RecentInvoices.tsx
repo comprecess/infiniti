@@ -1,6 +1,9 @@
 import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { Chart } from './Chart/Chart'
+import { Item } from './Item/Item'
+import styles from './RecentInvoices.module.scss'
 import {
   DashboardInvoicesStatusesData,
   DashboardRecentInvoicesData,
@@ -8,9 +11,6 @@ import {
 } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
-import { Chart } from './Chart/Chart'
-import { Item } from './Item/Item'
-import styles from './RecentInvoices.module.scss'
 
 interface RecentInvoicesProps {
   invoices: DashboardRecentInvoicesData[]

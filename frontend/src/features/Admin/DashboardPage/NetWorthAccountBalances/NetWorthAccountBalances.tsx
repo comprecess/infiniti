@@ -1,12 +1,12 @@
 import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { DashboardNetWorthData } from '../../../../app/constants/constants'
-import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
-import { Title } from '../../../Main/RecentCard/Title/Title'
 import { Header } from './Header/Header'
 import { Item } from './Item/Item'
 import styles from './NetWorthAccountBalances.module.scss'
+import { DashboardNetWorthData } from '../../../../app/constants/constants'
+import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
+import { Title } from '../../../Main/RecentCard/Title/Title'
 
 interface NetWorthAccountBalancesProps {
   account: DashboardNetWorthData

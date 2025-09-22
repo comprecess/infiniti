@@ -1,11 +1,11 @@
 import { Textarea } from '@chakra-ui/react'
 import { useState } from 'react'
 
+import styles from './DeclineOfferModal.module.scss'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { ButtonBrand } from '../../../../shared/ui/ButtonBrand/ButtonBrand'
 import { CustomModalWindow } from '../../../../shared/ui/CustomModalWindow/CustomModalWindow'
-import styles from './DeclineOfferModal.module.scss'
 
 interface DeclineOfferModalProps {
   modalDecline: boolean

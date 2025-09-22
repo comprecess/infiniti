@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 
+import styles from './Item.module.scss'
 import {
   RolesAccess,
   ViewInvoicesProps,
@@ -8,7 +9,6 @@ import { Routes } from '../../../../../../../../app/router/routes'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { Status } from '../../../../../../../../shared/ui/Status/Status'
 import styleItem from '../RecentInvoices.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   access: RolesAccess | undefined

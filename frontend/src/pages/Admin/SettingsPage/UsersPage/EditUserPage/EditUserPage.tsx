@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import styles from './EditUserPage.module.scss'
 import {
   SettingsEditUserData,
   SettingsUserInputData,
@@ -20,7 +21,6 @@ import { updateAvatarUser } from '../../../../../shared/utils/api/Admin/Settings
 import { getUserInputData } from '../../../../../shared/utils/api/Admin/Settings/Users/NewUser/GetUserInputData'
 import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './EditUserPage.module.scss'
 
 export const AdminEditUserPage = () => {
   const [formData, setFormData] =

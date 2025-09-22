@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 
+import styles from './InvoicesPage.module.scss'
 import {
   PagesMetaData,
   ProjectViewPageContext,
@@ -17,7 +18,6 @@ import { Search } from '../../../../../shared/ui/Search/Search'
 import { getProjectInvoices } from '../../../../../shared/utils/api/Admin/Projects/get-project-invoices'
 import { deleteInvoice } from '../../../../../shared/utils/api/Admin/Sales/Invoices/delete-invoice'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './InvoicesPage.module.scss'
 
 export const AdminProjectsInvoicesPage = () => {
   const [data, setData] = useState<{

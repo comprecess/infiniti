@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 
+import styles from './AssetsPage.module.scss'
 import { AccountingAssetsInputData } from '../../../../app/constants/constants'
 import { Assets } from '../../../../features/Admin/AccountingPage/AssetsPage/Assets/Assets'
 import { AssetsTable } from '../../../../features/Admin/AccountingPage/AssetsPage/AssetsTable/AssetsTable'
@@ -16,7 +17,6 @@ import { getAssetsList } from '../../../../shared/utils/api/Admin/Accounting/get
 import { postCreateNewAssetCategory } from '../../../../shared/utils/api/Admin/Accounting/post-create-new-asset-category'
 import { downloadDocument } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './AssetsPage.module.scss'
 
 export const AdminAssetsPage = () => {
   const [inputData, setInputData] =

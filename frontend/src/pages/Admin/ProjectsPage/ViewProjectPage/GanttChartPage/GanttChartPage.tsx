@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
+import styles from './GanttChartPage.module.scss'
 import {
   ProjectsGanttChartData,
   ProjectViewPageContext,
@@ -11,7 +12,6 @@ import { GanttChart } from '../../../../../shared/ui/GanttChart/GanttChart'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getGanttChart } from '../../../../../shared/utils/api/Admin/Projects/get-gantt-chart'
 import { patchEditTaskGanttChart } from '../../../../../shared/utils/api/Admin/Projects/patch-edit-task-gantt-chart'
-import styles from './GanttChartPage.module.scss'
 
 export const AdminProjectsGanttChartPage = () => {
   const [data, setData] = useState<ProjectsGanttChartData[] | null>(null)

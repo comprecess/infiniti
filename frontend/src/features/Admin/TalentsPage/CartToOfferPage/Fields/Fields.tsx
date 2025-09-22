@@ -1,6 +1,7 @@
 import { Textarea } from '@chakra-ui/react'
 import { Fragment, useEffect, useState } from 'react'
 
+import styles from './Fields.module.scss'
 import {
   BlankCalc,
   SalesBlankData,
@@ -20,7 +21,6 @@ import { postOfferPriceCalc } from '../../../../../shared/utils/api/Admin/Sales/
 import { AddProductOrService } from '../../../Sales/AddProductOrService/AddProductOrService'
 import { Blank } from '../../../Sales/EditOffer/Blank/Blank'
 import { TotalItem } from '../../../Sales/NewOfferPage/Fields/TotalItem/TotalItem'
-import styles from './Fields.module.scss'
 
 interface FieldsProps {
   data: SalesEditOfferData

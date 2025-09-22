@@ -1,12 +1,12 @@
 import { useState } from 'react'
 
+import styles from './NotifDevicesCard.module.scss'
 import { NotificationCardData } from '../../../../app/constants/constants'
 import { ConfirmationModal } from '../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomCheckBox } from '../../../../shared/ui/CustomCheckBox/CustomCheckBox'
 import { CustomMiniButton } from '../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { patchSetDevicePush } from '../../../../shared/utils/api/Push/patch-set-device-push'
-import styles from './NotifDevicesCard.module.scss'
 
 interface NotifDevicesCardProps {
   data: NotificationCardData

@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom'
 
+import styles from './Item.module.scss'
 import { RolesAccess } from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
 import styleItem from '../RecentClients.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   clientId: number

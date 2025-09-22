@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import styles from './CustomContactFieldsPage.module.scss'
 import {
   RolesAccess,
   SettingsCustomFieldsProps,
@@ -15,7 +16,6 @@ import { getSelectedField } from '../../../../shared/utils/api/Admin/CustomField
 import { postAddNewField } from '../../../../shared/utils/api/Admin/CustomFields/post-add-new-field'
 import { putUpdateField } from '../../../../shared/utils/api/Admin/CustomFields/put-update-field'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './CustomContactFieldsPage.module.scss'
 
 export interface FieldProps {
   name: string

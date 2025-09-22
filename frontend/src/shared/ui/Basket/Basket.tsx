@@ -1,6 +1,6 @@
-import { BasketIcon } from '../../icons/BasketIcon'
 import styles from './Basket.module.scss'
 import { Notification } from './Notification/Notification'
+import { BasketIcon } from '../../icons/BasketIcon'
 
 interface BasketProps {
   isActive: boolean

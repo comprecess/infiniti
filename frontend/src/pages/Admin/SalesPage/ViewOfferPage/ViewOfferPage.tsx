@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 
+import styles from './ViewOfferPage.module.scss'
 import {
   RolesAccess,
   SalesOfferEmailTemplateData,
@@ -23,7 +24,6 @@ import { getOfferEmailTemplate } from '../../../../shared/utils/api/Admin/Sales/
 import { changeOfferStage } from '../../../../shared/utils/api/Admin/Sales/Offers/OfferChangeStage'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './ViewOfferPage.module.scss'
 
 export const AdminViewOfferPage = () => {
   const [info, setInfo] = useState<SalesViewOfferData | null>(null)

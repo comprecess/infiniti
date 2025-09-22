@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 
+import styles from './CartPage.module.scss'
 import {
   RolesAccess,
   TalentsListCartsData,
@@ -16,7 +17,6 @@ import { getOrdersSelectedCart } from '../../../../shared/utils/api/Admin/Talent
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { Basket } from '../../../../widgets/BasketCart/Basket/Basket'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './CartPage.module.scss'
 
 export const AdminCartPage = () => {
   const [data, setData] = useState<{

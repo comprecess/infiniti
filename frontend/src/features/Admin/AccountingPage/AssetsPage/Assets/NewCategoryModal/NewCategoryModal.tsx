@@ -1,10 +1,10 @@
 import { useState } from 'react'
 
+import styles from './NewCategoryModal.module.scss'
 import { CrossIcon } from '../../../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomModalWindow } from '../../../../../../shared/ui/CustomModalWindow/CustomModalWindow'
-import styles from './NewCategoryModal.module.scss'
 
 interface NewCategoryModalProps {
   isOpen: boolean

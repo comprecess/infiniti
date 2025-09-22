@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
+import styles from './InvoiceProofTransaction.module.scss'
 import { SalesViewInvoiceData } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -11,7 +12,6 @@ import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner
 import { postAddNewDocument } from '../../../shared/utils/api/Admin/Sales/PublicDocumentProof/PostAddNewDocument'
 import { getInfoPublicInvoice } from '../../../shared/utils/api/Admin/Sales/PublicInvoice/GetInfoPublicInvoice'
 import { sanitizeMessage } from '../../../shared/utils/TextEditor/sanitizeMessage'
-import styles from './InvoiceProofTransaction.module.scss'
 
 const extractTokenFromUrl = (url: string): string | null => {
   const regex = /\/transaction\/([^/]+)$/

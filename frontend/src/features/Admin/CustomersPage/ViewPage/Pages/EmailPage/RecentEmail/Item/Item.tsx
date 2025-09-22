@@ -1,5 +1,5 @@
-import styleItem from '../RecentEmail.module.scss'
 import styles from './Item.module.scss'
+import styleItem from '../RecentEmail.module.scss'
 
 interface ItemProps {
   subject: string

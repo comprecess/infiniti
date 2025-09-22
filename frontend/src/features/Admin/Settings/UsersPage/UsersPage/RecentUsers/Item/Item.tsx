@@ -1,10 +1,10 @@
 import { useState } from 'react'
 
+import styles from './Item.module.scss'
 import { RolesAccess } from '../../../../../../../app/constants/constants'
 import { ConfirmationModal } from '../../../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../RecentUsers.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   id: number

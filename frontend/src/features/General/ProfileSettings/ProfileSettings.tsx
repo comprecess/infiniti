@@ -1,7 +1,7 @@
-import { NotificationCardData } from '../../../app/constants/constants'
-import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import { NotifDevicesCard } from './NotifDevicesCard/NotifDevicesCard'
 import styles from './ProfileSettings.module.scss'
+import { NotificationCardData } from '../../../app/constants/constants'
+import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 
 interface ProfileSettingsProps {
   listNotifications: NotificationCardData[]

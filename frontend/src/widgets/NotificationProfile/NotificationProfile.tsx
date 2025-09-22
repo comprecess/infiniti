@@ -8,6 +8,8 @@ import {
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 
+import { NotificationItem } from './NotificationItem/NotificationItem'
+import styles from './NotificationProfile.module.scss'
 import { Notifications } from '../../app/constants/constants'
 import { useWebSocket } from '../../shared/hooks/useWebSocket'
 import { NotificationIndicatorIcon } from '../../shared/icons/NotificationIndicatorIcon'
@@ -16,8 +18,6 @@ import { LoadingSpinner } from '../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getNotifications } from '../../shared/utils/api/Admin/Notifications/get-notifications'
 import { putNotificationsViewed } from '../../shared/utils/api/Admin/Notifications/put-notifications-viewed'
 import { getAuthToken } from '../../shared/utils/api/get-auth-token'
-import { NotificationItem } from './NotificationItem/NotificationItem'
-import styles from './NotificationProfile.module.scss'
 
 export const NotificationProfile = () => {
   const [notifications, setNotifications] = useState<

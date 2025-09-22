@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useOutletContext } from 'react-router-dom'
 
+import styles from './DashboardPage.module.scss'
 import {
   DashboardData,
   DashboardInvoicesStatusesData,
@@ -26,7 +27,6 @@ import { RecentProjects } from '../../../features/Admin/DashboardPage/RecentProj
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getCashFlowInfo } from '../../../shared/utils/api/Admin/Dashboard/get-cash-flow-info'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
-import styles from './DashboardPage.module.scss'
 
 export const AdminDashboardPage = () => {
   const { roles } = useOutletContext<{
@@ -36,7 +36,7 @@ export const AdminDashboardPage = () => {
   const { t } = useTranslation()
 
   const { data: dataDashboard } = useQuery({
-    queryKey: ['cashFlow'],
+    queryKey: ['dashboard-full-info'],
     queryFn: async () => {
       const response = await getCashFlowInfo()
 
@@ -82,20 +82,14 @@ export const AdminDashboardPage = () => {
               title={t('admin-dashboard-page-card-2-title')}
               style={styles.recentHalf}
             >
-              <RecentClients
-                recentClients={dataDashboard.recentClients}
-                roles={roles}
-              />
+              <RecentClients recentClients={dataDashboard.recentClients} roles={roles} />
             </RecentCard>
             <RecentCard
               ordinaryIcons
               title={t('admin-dashboard-page-card-3-title')}
               style={styles.recentHalf}
             >
-              <RecentProjects
-                recentProjects={dataDashboard.recentProjects}
-                roles={roles}
-              />
+              <RecentProjects recentProjects={dataDashboard.recentProjects} roles={roles} />
             </RecentCard>
           </section>
           <section className={styles.sectionThird}>

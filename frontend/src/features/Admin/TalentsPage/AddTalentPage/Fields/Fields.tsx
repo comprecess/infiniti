@@ -1,6 +1,8 @@
 import { Fragment, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import styles from './Fields.module.scss'
+import { ProjectsExperienceItem } from './ProjectsExperienceItem/ProjectsExperienceItem'
 import {
   FiltersState,
   TalentFormData,
@@ -17,8 +19,6 @@ import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect
 import { TagSelector } from '../../../../../shared/ui/TagSelector/TagSelector'
 import { loadStorage } from '../../../../../shared/utils/Saving/Storage/LoadStorage'
 import { saveStorage } from '../../../../../shared/utils/Saving/Storage/SaveStorage'
-import styles from './Fields.module.scss'
-import { ProjectsExperienceItem } from './ProjectsExperienceItem/ProjectsExperienceItem'
 
 interface FieldsProps {
   storageKey: string

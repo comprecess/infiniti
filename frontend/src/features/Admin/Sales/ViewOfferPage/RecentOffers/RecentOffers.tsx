@@ -1,10 +1,10 @@
 import { Fragment } from 'react'
 
+import { Item } from './Item/Item'
+import styles from './RecentOffers.module.scss'
 import { SalesEditInvoiceBlankData } from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './RecentOffers.module.scss'
 
 interface RecentOffersProps {
   blankList: SalesEditInvoiceBlankData[]

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 
+import styles from './ViewInvoicePage.module.scss'
 import {
   RolesAccess,
   SalesInvoiceEmailTemplateData,
@@ -21,7 +22,6 @@ import { getTemplatesEmailInvoice } from '../../../../shared/utils/api/Admin/Sal
 import { putChangeInvoiceStatus } from '../../../../shared/utils/api/Admin/Sales/Invoices/put-change-invoice-status'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './ViewInvoicePage.module.scss'
 
 export const AdminViewInvoicePage = () => {
   const [info, setInfo] = useState<SalesViewInvoiceData | null>(null)

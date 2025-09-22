@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import styles from './CreateTaskModal.module.scss'
 import {
   ProjectsTasksFormData,
   ProjectsTasksInputData,
@@ -11,7 +12,6 @@ import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomModalWindow } from '../../../../../shared/ui/CustomModalWindow/CustomModalWindow'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
-import styles from './CreateTaskModal.module.scss'
 
 interface CreateTaskModalProps {
   modalOpen: boolean

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './NewOfferPage.module.scss'
 import { SalesOfferInputData } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import {
@@ -13,7 +14,6 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { getOfferInputData } from '../../../../shared/utils/api/Admin/Sales/NewOffer/get-offer-input-data'
 import { postCreateNewOffer } from '../../../../shared/utils/api/Admin/Sales/NewOffer/post-create-new-offer'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './NewOfferPage.module.scss'
 
 export const AdminNewOfferPage = () => {
   const [formData, setFormData] = useState<

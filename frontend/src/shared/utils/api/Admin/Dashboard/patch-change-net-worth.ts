@@ -1,19 +1,15 @@
-import { customFetch } from './custom-fetch'
-import { getAuthToken } from './get-auth-token'
 import {
-  authTokenString,
+  AUTH_ERROR_MESSAGE,
   INVALID_RESPONSE_MESSAGE,
   NETWORK_ERROR_MESSAGE,
-  profileInfoString,
   REQUEST_TIMEOUT_MS,
-  UserInfo,
-} from '../../../app/constants/constants'
-import { removeCookies } from '../Saving/Cookies/RemoveCookies'
-import { saveSession } from '../Saving/Session/SaveSession'
+} from '../../../../../app/constants/constants'
+import { customFetch } from '../../custom-fetch'
+import { getAuthToken } from '../../get-auth-token'
 
 interface SuccessResponse {
   status: true
-  data: UserInfo
+  message: string
 }
 
 interface ErrorResponse {
@@ -24,19 +20,19 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-export const getProfileInfo = async (): Promise<Response> => {
+export const patchChangeNetWorth = async (value: number): Promise<Response> => {
   const authToken = getAuthToken()
 
   if (!authToken) {
     return {
       status: false,
-      message: 'No auth token',
+      message: AUTH_ERROR_MESSAGE,
     }
   }
 
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const apiPath = import.meta.env.VITE_USER_API
+    const apiPath = import.meta.env.VITE_RESIDENT_SET_CONFIG
 
     if (!baseUrl || !apiPath) {
       return {
@@ -45,26 +41,25 @@ export const getProfileInfo = async (): Promise<Response> => {
       }
     }
 
-    const url = new URL(apiPath, baseUrl).toString()
+    const url = new URL(`${apiPath}/networth-goal`, baseUrl).toString()
 
     const controller = new AbortController()
-    const timeoutId = setTimeout(
-      () => controller.abort(),
-      REQUEST_TIMEOUT_MS,
-    )
+    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
 
     const data = await customFetch(url, {
-      method: 'GET',
+      method: 'PATCH',
       headers: {
+        'Content-Type': 'application/json',
         Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
+      body: JSON.stringify({ value }),
       signal: controller.signal,
     })
 
     clearTimeout(timeoutId)
 
-    if (!data || typeof data !== 'object') {
+    if (!data || typeof data !== 'object' || typeof data.status !== 'boolean') {
       return {
         status: false,
         message: INVALID_RESPONSE_MESSAGE,
@@ -72,12 +67,7 @@ export const getProfileInfo = async (): Promise<Response> => {
       }
     }
 
-    saveSession(profileInfoString, data.data)
-
-    return {
-      status: true,
-      data: data.data,
-    }
+    return data
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') {
       return {
@@ -86,9 +76,6 @@ export const getProfileInfo = async (): Promise<Response> => {
         error,
       }
     }
-
-    console.error(NETWORK_ERROR_MESSAGE, error)
-    removeCookies(authTokenString)
 
     return {
       status: false,

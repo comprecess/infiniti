@@ -1,8 +1,8 @@
+import styles from './AboutTalentCard.module.scss'
 import { TalentData } from '../../../../../app/constants/constants'
 import { ListInfoItem } from '../../../../Client/TalentDetailsPage/ListInfoItem/ListInfoItem'
 import { TextInfoItem } from '../../../../Client/TalentDetailsPage/TextInfoItem/TextInfoItem'
 import { TitleCard } from '../../../../Client/TalentDetailsPage/TitleCard/TitleCard'
-import styles from './AboutTalentCard.module.scss'
 
 interface AboutTalentCardProps {
   talentInfo: TalentData

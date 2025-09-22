@@ -1,6 +1,6 @@
+import styles from './HeaderButtons.module.scss'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { ClearStorageButton } from '../../../../../shared/ui/ClearStorageButton/ClearStorageButton'
-import styles from './HeaderButtons.module.scss'
 
 interface HeaderButtonsProps {
   storageKey: string

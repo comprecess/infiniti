@@ -7,6 +7,7 @@ import {
 } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './ModelsList.module.scss'
 import {
   BusinessPlanBusinessModelData,
   PagesMetaData,
@@ -17,7 +18,6 @@ import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { BusinessModelCard } from '../../../../../widgets/BusinessModelCard/BusinessModelCard'
 import { PagesList } from '../../../../Client/CatalogPage/TalentsList/PagesList/PagesList'
-import styles from './ModelsList.module.scss'
 
 interface ModelsListProps {
   isAdmin: boolean

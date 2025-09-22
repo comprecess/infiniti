@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
 
+import { HeaderPages } from './HeaderPages/HeaderPages'
+import styles from './ModalWindowCompanyInfo.module.scss'
+import { SideBarItem } from './SideBarItem/SideBarItem'
 import {
   RolesAccess,
   ViewCompanyProps,
@@ -12,9 +15,6 @@ import { CrossIcon } from '../../../../../shared/icons/CrossIcon'
 import { CustomModalWindow } from '../../../../../shared/ui/CustomModalWindow/CustomModalWindow'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getCompanyHeaderView } from '../../../../../shared/utils/api/Admin/Companies/View/get-company-header-view'
-import { HeaderPages } from './HeaderPages/HeaderPages'
-import styles from './ModalWindowCompanyInfo.module.scss'
-import { SideBarItem } from './SideBarItem/SideBarItem'
 
 const types = [
   'summary',

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import styles from './EditRolePage.module.scss'
 import {
   RolesAccess,
   RolesAccessObject,
@@ -15,7 +16,6 @@ import { getInfoRole } from '../../../../../shared/utils/api/Admin/Settings/Edit
 import { postChangedRole } from '../../../../../shared/utils/api/Admin/Settings/EditRole/PostChangedRole'
 import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './EditRolePage.module.scss'
 
 export const AdminEditRolePage = () => {
   const [formData, setFormData] = useState<{

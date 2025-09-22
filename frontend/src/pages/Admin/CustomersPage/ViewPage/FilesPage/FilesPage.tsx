@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
+import styles from './FilesPage.module.scss'
 import { ViewPageContext } from '../../../../../app/constants/constants'
 import { Header } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/FilesPage/Header/Header'
 import { RecentFiles } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/FilesPage/RecentFiles/RecentFiles'
@@ -11,7 +12,6 @@ import { deleteCustomerObject } from '../../../../../shared/utils/api/Admin/View
 import { putAddViewFile } from '../../../../../shared/utils/api/Admin/ViewContact/Files/put-add-view-file'
 import { getSelectedTypeInfo } from '../../../../../shared/utils/api/Admin/ViewContact/get-selected-type-info'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './FilesPage.module.scss'
 
 export const AdminContactFilesPage = () => {
   const queryClient = useQueryClient()

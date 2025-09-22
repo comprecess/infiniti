@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
+import styles from './CompaniesPage.module.scss'
 import {
   CompaniesListProps,
   CompanyData,
@@ -24,7 +25,6 @@ import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage
 import { removeStorage } from '../../../../shared/utils/Saving/Storage/RemoveStorage'
 import { saveStorage } from '../../../../shared/utils/Saving/Storage/SaveStorage'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './CompaniesPage.module.scss'
 
 export const AdminCompaniesPage = () => {
   const [filteredCompanies, setFilteredCompanies] = useState<

@@ -1,5 +1,5 @@
-import styleItem from '../NetWorthAccountBalances.module.scss'
 import styles from './Item.module.scss'
+import styleItem from '../NetWorthAccountBalances.module.scss'
 
 interface ItemProps {
   account: string

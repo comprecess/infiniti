@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
+import styles from './DocumentsPage.module.scss'
 import {
   CustomersFilesData,
   PagesMetaData,
@@ -16,7 +17,6 @@ import { deleteDocument } from '../../../shared/utils/api/Admin/Documents/delete
 import { postAddNewDocument } from '../../../shared/utils/api/Admin/Documents/post-add-new-document'
 import { getCustomerFiles } from '../../../shared/utils/api/Admin/Files/get-customer-files'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
-import styles from './DocumentsPage.module.scss'
 
 export const AdminDocumentsPage = () => {
   const [data, setData] = useState<{

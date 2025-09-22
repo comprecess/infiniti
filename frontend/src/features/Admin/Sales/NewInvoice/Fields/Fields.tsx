@@ -1,6 +1,9 @@
 import { Textarea } from '@chakra-ui/react'
 import { Fragment, useEffect, useState } from 'react'
 
+import { Blank } from './Blank/Blank'
+import styles from './Fields.module.scss'
+import { Item } from './Item/Item'
 import {
   SalesBlankData,
   SalesNewInvoiceFormData,
@@ -16,9 +19,6 @@ import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 import { postInvoicePriceCalc } from '../../../../../shared/utils/api/Admin/Sales/NewInvoice/post-invoice-price-calc'
 import { AddProductOrService } from '../../AddProductOrService/AddProductOrService'
-import { Blank } from './Blank/Blank'
-import styles from './Fields.module.scss'
-import { Item } from './Item/Item'
 
 interface FieldsProps {
   data: SalesNewInvoiceInputData

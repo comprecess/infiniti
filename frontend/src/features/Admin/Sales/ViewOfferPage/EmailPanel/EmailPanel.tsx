@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import styles from './EmailPanel.module.scss'
 import { SalesOfferEmailTemplateData } from '../../../../../app/constants/constants'
 import { CrossIcon } from '../../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -10,7 +11,6 @@ import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 import { sendEmailOffer } from '../../../../../shared/utils/api/Admin/Sales/Offers/SendEmailOffer'
-import styles from './EmailPanel.module.scss'
 
 interface EmailPanelProps {
   idOffer: number | null

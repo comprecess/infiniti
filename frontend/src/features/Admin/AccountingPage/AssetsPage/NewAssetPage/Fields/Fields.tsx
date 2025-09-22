@@ -1,6 +1,7 @@
 import { Textarea } from '@chakra-ui/react'
 import { ChangeEvent, Dispatch, SetStateAction } from 'react'
 
+import styles from './Fields.module.scss'
 import {
   AccountingAssetsInputData,
   AccountingNewAssetForm,
@@ -8,7 +9,6 @@ import {
 import { CustomDataPicker } from '../../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomInput } from '../../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../../shared/ui/CustomSelect/CustomSelect'
-import styles from './Fields.module.scss'
 
 interface FieldsProps {
   inputData: AccountingAssetsInputData

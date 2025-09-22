@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 
+import styles from './UnclearedTransactionsPage.module.scss'
 import { TableUnclearedTransactions } from '../../../../features/Admin/AccountingPage/UnclearedTransactions/TableUnclearedTransactions/TableUnclearedTransactions'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { Search } from '../../../../shared/ui/Search/Search'
 import { getTransactionsList } from '../../../../shared/utils/api/Admin/Accounting/get-transactions-list'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './UnclearedTransactionsPage.module.scss'
 
 export const AdminUnclearedTransactionsPage = () => {
   const [search, setSearch] = useState<string>('')

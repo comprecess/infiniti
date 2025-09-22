@@ -1,7 +1,7 @@
+import styles from './Item.module.scss'
 import { NameIdType } from '../../../../app/constants/constants'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import styleItem from '../../../../widgets/BasketCart/Cart/Cart.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   amount: number

@@ -1,10 +1,10 @@
 import { Fragment } from 'react'
 
+import { Item } from './Item/Item'
+import styles from './RecentTotal.module.scss'
 import { ClientOfferData } from '../../../../app/constants/constants'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './RecentTotal.module.scss'
 
 interface RecentTotalProps {
   offers: ClientOfferData[]

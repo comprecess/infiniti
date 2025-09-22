@@ -1,3 +1,6 @@
+import styles from './PeopleCard.module.scss'
+import { Price } from './Price/Price'
+import { Skills } from './Skills/Skills'
 import { TalentInputDataBusinessPlan } from '../../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../../app/router/routes'
 import { PlusIcon } from '../../../../../../../shared/icons/PlusIcon'
@@ -5,9 +8,6 @@ import { TrashIcon } from '../../../../../../../shared/icons/TrashIcon'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Icon } from '../../../../../../../shared/ui/Icon/Icon'
 import { TalentsLevel } from '../../../../../../../shared/ui/TalentsLevel/TalentsLevel'
-import styles from './PeopleCard.module.scss'
-import { Price } from './Price/Price'
-import { Skills } from './Skills/Skills'
 
 interface PeopleCardProps {
   talent: TalentInputDataBusinessPlan | undefined

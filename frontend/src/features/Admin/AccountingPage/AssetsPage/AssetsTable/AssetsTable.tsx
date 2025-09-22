@@ -1,13 +1,13 @@
 import { Fragment, useCallback, useState } from 'react'
 
+import styles from './AssetsTable.module.scss'
+import { Item } from './Item/Item'
 import {
   AccountingAssetsDataData,
   RolesAccess,
 } from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
-import styles from './AssetsTable.module.scss'
-import { Item } from './Item/Item'
 
 interface AssetsTableProps {
   assets: AccountingAssetsDataData[]

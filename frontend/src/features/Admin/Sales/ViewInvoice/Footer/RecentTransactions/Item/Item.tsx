@@ -1,6 +1,6 @@
+import styles from './Item.module.scss'
 import { SalesViewInvoiceTransactions } from '../../../../../../../app/constants/constants'
 import styleItem from '../RecentTransactions.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   data: SalesViewInvoiceTransactions

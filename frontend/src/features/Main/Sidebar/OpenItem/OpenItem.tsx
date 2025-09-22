@@ -9,9 +9,9 @@ import {
 import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import styles from './OpenItem.module.scss'
 import { ChevronDownIcon } from '../../../../shared/icons/ChevronDownIcon'
 import { Item } from '../Item/Item'
-import styles from './OpenItem.module.scss'
 
 export interface openPathsProps {
   id: number

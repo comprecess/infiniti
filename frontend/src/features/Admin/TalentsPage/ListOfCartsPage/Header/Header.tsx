@@ -1,7 +1,7 @@
-import { RolesAccess } from '../../../../../app/constants/constants'
-import { Search } from '../../../../../shared/ui/Search/Search'
 import styles from './Header.module.scss'
 import { Tabs } from './Tabs/Tabs'
+import { RolesAccess } from '../../../../../app/constants/constants'
+import { Search } from '../../../../../shared/ui/Search/Search'
 
 interface HeaderProps {
   access: RolesAccess

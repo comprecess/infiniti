@@ -1,9 +1,9 @@
+import { Item } from './Item/Item'
+import styles from './SummaryPage.module.scss'
 import {
   AccountingBillsData,
   RolesAccess,
 } from '../../../../../../app/constants/constants'
-import { Item } from './Item/Item'
-import styles from './SummaryPage.module.scss'
 
 interface SummaryPageProps {
   billsPastDue: AccountingBillsData[]

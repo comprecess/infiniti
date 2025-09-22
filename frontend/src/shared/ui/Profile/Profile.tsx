@@ -9,6 +9,7 @@ import {
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './Profile.module.scss'
 import {
   AdminInfo,
   authTokenString,
@@ -29,7 +30,6 @@ import { getSession } from '../../utils/Saving/Session/GetSession'
 import { removeSession } from '../../utils/Saving/Session/RemoveSession'
 import { useCustomToast } from '../CustomToast/CustomToast'
 import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner'
-import styles from './Profile.module.scss'
 
 interface ProfileProps {
   isAdmin?: boolean

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './Header.module.scss'
 import {
   FullInfoClient,
   SalesViewInvoicePayList,
@@ -13,7 +14,6 @@ import { CustomSelect } from '../../../../shared/ui/CustomSelect/CustomSelect'
 import { sanitizeMessage } from '../../../../shared/utils/TextEditor/sanitizeMessage'
 import { ContactItem } from '../../../Admin/Sales/ViewInvoice/Header/ContactItem/ContactItem'
 import { Status } from '../../../Admin/Sales/ViewInvoice/Status/Status'
-import styles from './Header.module.scss'
 
 interface HeaderProps {
   token: string | null

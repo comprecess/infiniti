@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './EditTalentPage.module.scss'
 import {
   TalentEditInfoData,
   TalentsInputData,
@@ -20,7 +21,6 @@ import { putUpdateTalentInfo } from '../../../../shared/utils/api/Admin/Talents/
 import { getTalentInputData } from '../../../../shared/utils/api/Admin/Talents/get-talent-input-data'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './EditTalentPage.module.scss'
 
 export const AdminEditTalentPage = () => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({})

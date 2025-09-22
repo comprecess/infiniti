@@ -15,9 +15,9 @@ import {
 } from '@dnd-kit/sortable'
 import { useState } from 'react'
 
-import { GroupsListProps } from '../../../../../app/constants/constants'
 import { Item } from './Item/Item'
 import styles from './RecentReorderGroups.module.scss'
+import { GroupsListProps } from '../../../../../app/constants/constants'
 
 interface RecentReorderGroupsProps {
   groupsList: GroupsListProps[]

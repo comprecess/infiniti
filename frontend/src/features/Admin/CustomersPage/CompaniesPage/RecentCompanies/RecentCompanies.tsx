@@ -1,13 +1,13 @@
 import { Fragment } from 'react'
 
+import { Item } from './Item/Item'
+import styles from './RecentCompanies.module.scss'
 import {
   CompaniesListProps,
   RolesAccess,
 } from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './RecentCompanies.module.scss'
 
 interface RecentCompaniesProps {
   access: RolesAccess

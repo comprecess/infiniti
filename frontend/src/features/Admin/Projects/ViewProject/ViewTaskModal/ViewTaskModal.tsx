@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import styles from './ViewTaskModal.module.scss'
 import {
   ProjectsTasksData,
   RolesAccess,
@@ -10,7 +11,6 @@ import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivi
 import { CustomMiniButton } from '../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { CustomModalWindow } from '../../../../../shared/ui/CustomModalWindow/CustomModalWindow'
 import { sanitizeMessage } from '../../../../../shared/utils/TextEditor/sanitizeMessage'
-import styles from './ViewTaskModal.module.scss'
 
 interface ViewTaskModalProps {
   access?: RolesAccess

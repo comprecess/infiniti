@@ -1,6 +1,7 @@
 import { Textarea } from '@chakra-ui/react'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 
+import styles from './Fields.module.scss'
 import {
   SettingsEditUserData,
   SettingsUserInputData,
@@ -13,7 +14,6 @@ import { CustomRadio } from '../../../../../../shared/ui/CustomRadio/CustomRadio
 import { CustomSelect } from '../../../../../../shared/ui/CustomSelect/CustomSelect'
 import { useCustomToast } from '../../../../../../shared/ui/CustomToast/CustomToast'
 import { cropImageToSquare } from '../../../../../../shared/utils/Avatar/CropImage'
-import styles from './Fields.module.scss'
 
 interface FieldsProps {
   userInfo: SettingsEditUserData

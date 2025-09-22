@@ -2,11 +2,11 @@ import { Textarea } from '@chakra-ui/react'
 import { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import styles from './ProjectsExperienceItem.module.scss'
 import { TalentProjectsExperience } from '../../../../../../app/constants/constants'
 import { CustomDataPicker } from '../../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomInput } from '../../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
-import styles from './ProjectsExperienceItem.module.scss'
 
 interface ProjectsExperienceItemProps {
   form: TalentProjectsExperience

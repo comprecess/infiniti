@@ -1,5 +1,5 @@
-import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import styles from './HeaderButtons.module.scss'
+import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 
 interface HeaderButtonsProps {
   firstButtonClick: (save: 'save' | 'save & invoice') => void

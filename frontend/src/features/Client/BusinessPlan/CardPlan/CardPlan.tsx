@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom'
 
+import styles from './CardPlan.module.scss'
 import { Routes } from '../../../../app/router/routes'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { sanitizeMessage } from '../../../../shared/utils/TextEditor/sanitizeMessage'
-import styles from './CardPlan.module.scss'
 
 interface CardPlanProps {
   id: number

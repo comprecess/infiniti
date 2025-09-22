@@ -1,5 +1,5 @@
-import styleItem from '../LatestIncome.module.scss'
 import styles from './Item.module.scss'
+import styleItem from '../LatestIncome.module.scss'
 
 interface ItemProps {
   date: string

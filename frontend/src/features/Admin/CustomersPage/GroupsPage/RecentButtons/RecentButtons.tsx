@@ -1,7 +1,7 @@
+import styles from './RecentButtons.module.scss'
 import { RolesAccess } from '../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
-import styles from './RecentButtons.module.scss'
 
 interface RecentButtonsProps {
   access: RolesAccess

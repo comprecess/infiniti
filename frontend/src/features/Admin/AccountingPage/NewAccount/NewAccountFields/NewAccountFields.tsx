@@ -1,12 +1,12 @@
 import { Dispatch, SetStateAction } from 'react'
 
+import styles from './NewAccountFields.module.scss'
 import {
   AccountingAccountsForm,
   AccountingAccountsInputData,
 } from '../../../../../app/constants/constants'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
-import styles from './NewAccountFields.module.scss'
 
 interface NewAccountFieldsProps {
   inputData: AccountingAccountsInputData

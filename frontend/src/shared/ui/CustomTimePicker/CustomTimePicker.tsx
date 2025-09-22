@@ -5,8 +5,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { Dayjs } from 'dayjs'
 import { Dispatch, SetStateAction } from 'react'
 
-import i18n from '../../../i18n'
 import styles from './CustomTimePicker.module.scss'
+import i18n from '../../../i18n'
 
 const theme = createTheme({
   palette: {

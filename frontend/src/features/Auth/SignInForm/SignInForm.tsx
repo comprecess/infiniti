@@ -1,6 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './SignInForm.module.scss'
 import { Routes } from '../../../app/router/routes'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
@@ -8,7 +9,6 @@ import { IconText } from '../../../shared/ui/IconText/IconText'
 import { Input } from '../../../shared/ui/Input/Input'
 import { postLoginResident } from '../../../shared/utils/api/Auth/post-login-resident'
 import { postLoginUser } from '../../../shared/utils/api/Auth/post-login-user'
-import styles from './SignInForm.module.scss'
 
 interface FormFields {
   email: string

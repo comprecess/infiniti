@@ -1,12 +1,12 @@
 import { useState } from 'react'
 
+import styles from './Item.module.scss'
 import { RolesAccess } from '../../../../../app/constants/constants'
 import { ConfirmationModal } from '../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { TypeFiles } from '../../../../../shared/ui/TypeFiles/TypeFiles'
 import { EditDocumentModal } from '../../EditDocumentModal/EditDocumentModal'
 import styleItem from '../RecentDocuments.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   idFile: number

@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './Footer.module.scss'
+import { Item } from './Item/Item'
 import { RolesAccess } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -9,8 +11,6 @@ import { ConfirmationModal } from '../../../shared/ui/ConfirmationModal/Confirma
 import { CustomMiniButton } from '../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { postAddTalentToCart } from '../../../shared/utils/api/Admin/Talents/post-add-talent-to-cart'
-import styles from './Footer.module.scss'
-import { Item } from './Item/Item'
 
 interface FooterProps {
   id: number

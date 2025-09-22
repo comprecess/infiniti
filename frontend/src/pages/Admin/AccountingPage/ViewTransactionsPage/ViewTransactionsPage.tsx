@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 
+import styles from './ViewTransactionsPage.module.scss'
 import {
   AccountingInputData,
   AccountingTransactionsData,
@@ -19,7 +20,6 @@ import { getTransactionsDocuments } from '../../../../shared/utils/api/Admin/Acc
 import { getTransactionsList } from '../../../../shared/utils/api/Admin/Accounting/get-transactions-list'
 import { downloadDocument } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './ViewTransactionsPage.module.scss'
 
 export const AdminViewTransactionsPage = () => {
   const [inputData, setInputData] = useState<AccountingInputData | null>(

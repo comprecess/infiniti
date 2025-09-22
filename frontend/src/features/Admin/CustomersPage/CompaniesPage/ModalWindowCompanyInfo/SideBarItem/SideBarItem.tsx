@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react'
 
-import { TypeViewCompany } from '../../../../../../app/constants/constants'
 import styles from './SideBarItem.module.scss'
+import { TypeViewCompany } from '../../../../../../app/constants/constants'
 
 interface SideBarItemProps {
   name: string

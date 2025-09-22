@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import styles from './NewRolePage.module.scss'
 import {
   RolesAccess,
   RolesAccessObjectPermission,
@@ -13,7 +14,6 @@ import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingS
 import { createNewRole } from '../../../../../shared/utils/api/Admin/Settings/NewRole/CreateNewRole'
 import { getInputDataRoles } from '../../../../../shared/utils/api/Admin/Settings/NewRole/GetInputDataRoles'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './NewRolePage.module.scss'
 
 export const AdminNewRolePage = () => {
   const [formData, setFormData] = useState<{

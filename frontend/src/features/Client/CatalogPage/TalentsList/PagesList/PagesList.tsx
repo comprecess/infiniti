@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { PagesMetaData } from '../../../../../app/constants/constants'
 import { ArrowItem } from './ArrowItem/ArrowItem'
 import { BackGround } from './BackGround/BackGround'
 import { NumberItem } from './NumberItem/NumberItem'
 import styles from './PagesList.module.scss'
+import { PagesMetaData } from '../../../../../app/constants/constants'
 
 interface PagesListProps {
   meta: PagesMetaData

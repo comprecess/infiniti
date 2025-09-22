@@ -1,6 +1,6 @@
+import styles from './Item.module.scss'
 import { FiltersState } from '../../../../../../../app/constants/constants'
 import { CustomCheckBox } from '../../../../../../../shared/ui/CustomCheckBox/CustomCheckBox'
-import styles from './Item.module.scss'
 
 interface CategoriesList {
   id: number

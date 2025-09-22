@@ -1,13 +1,13 @@
 import { Fragment } from 'react'
 
+import { Item } from './Item/Item'
+import styles from './RecentRoles.module.scss'
 import {
   RolesAccess,
   SettingsRolesData,
 } from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './RecentRoles.module.scss'
 
 interface RecentRolesProps {
   roles: SettingsRolesData[]

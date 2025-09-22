@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react'
 
+import styles from './NotificationItem.module.scss'
 import { Notifications } from '../../../app/constants/constants'
 import { sanitizeMessage } from '../../../shared/utils/TextEditor/sanitizeMessage'
-import styles from './NotificationItem.module.scss'
 
 interface NotificationItemProps {
   notification: Notifications

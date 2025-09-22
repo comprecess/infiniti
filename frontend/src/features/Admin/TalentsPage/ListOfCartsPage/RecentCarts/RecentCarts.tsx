@@ -1,10 +1,10 @@
 import { Fragment, useCallback, useState } from 'react'
 
+import { Item } from './Item/Item'
+import styles from './RecentCarts.module.scss'
 import { TalentsListCartsData } from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './RecentCarts.module.scss'
 
 interface RecentCartsProps {
   cartsList: TalentsListCartsData[]

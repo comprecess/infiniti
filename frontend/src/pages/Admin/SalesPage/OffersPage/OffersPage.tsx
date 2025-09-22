@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
+import styles from './OffersPage.module.scss'
 import {
   PagesMetaData,
   RolesAccess,
@@ -19,7 +20,6 @@ import { getDocumentsOffers } from '../../../../shared/utils/api/Admin/Sales/Off
 import { getListOffers } from '../../../../shared/utils/api/Admin/Sales/Offers/GetListOffers'
 import { downloadDocument } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './OffersPage.module.scss'
 
 export const AdminOffersPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()

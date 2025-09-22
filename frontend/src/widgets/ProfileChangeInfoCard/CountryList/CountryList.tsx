@@ -7,10 +7,10 @@ import {
 } from '@chakra-ui/react'
 import { useCallback, useEffect, useState } from 'react'
 
+import styles from './CountryList.module.scss'
 import { ChevronDownIcon } from '../../../shared/icons/ChevronDownIcon'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getCountries } from '../../../shared/utils/api/Tools/get-countries'
-import styles from './CountryList.module.scss'
 
 interface CountryListProps {
   country?: string

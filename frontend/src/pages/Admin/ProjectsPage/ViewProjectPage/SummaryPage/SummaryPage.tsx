@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
+import styles from './SummaryPage.module.scss'
 import { ProjectViewPageContext } from '../../../../../app/constants/constants'
 import { sanitizeMessage } from '../../../../../shared/utils/TextEditor/sanitizeMessage'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './SummaryPage.module.scss'
 
 export const AdminProjectsSummaryPage = () => {
   const context = useOutletContext<ProjectViewPageContext>()

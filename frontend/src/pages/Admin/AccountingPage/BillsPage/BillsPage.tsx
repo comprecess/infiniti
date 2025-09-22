@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
+import styles from './BillsPage.module.scss'
 import {
   AccountingBillsForm,
   AccountingInputData,
@@ -19,7 +20,6 @@ import { getBillsDate } from '../../../../shared/utils/api/Admin/Accounting/get-
 import { postCreateNewBill } from '../../../../shared/utils/api/Admin/Accounting/post-create-new-bill'
 import { putIsPaidBill } from '../../../../shared/utils/api/Admin/Accounting/put-is-paid-bill'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './BillsPage.module.scss'
 
 export const AdminBillsPage = () => {
   const [form, setForm] = useState<Partial<AccountingBillsForm>>({})

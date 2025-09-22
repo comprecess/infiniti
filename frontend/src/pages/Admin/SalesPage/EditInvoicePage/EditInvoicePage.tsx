@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './EditInvoicePage.module.scss'
 import {
   SalesBlanks,
   SalesEditInvoiceBlankData,
@@ -25,7 +26,6 @@ import { putUpdateInvoice } from '../../../../shared/utils/api/Admin/Sales/EditI
 import { getInvoiceInputData } from '../../../../shared/utils/api/Admin/Sales/NewInvoice/get-invoice-input-data'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './EditInvoicePage.module.scss'
 
 export const AdminEditInvoicePage = () => {
   const [formData, setFormData] = useState<PartialFieldsData>({})

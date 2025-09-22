@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import styles from './TransferPage.module.scss'
 import {
   AccountingInputData,
   AccountingTransferForm,
@@ -12,7 +13,6 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { getAccountingInputData } from '../../../../shared/utils/api/Admin/Accounting/get-accounting-input-data'
 import { postCreateNewTransfer } from '../../../../shared/utils/api/Admin/Accounting/post-create-new-transfer'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './TransferPage.module.scss'
 
 export const AdminTransferPage = () => {
   const [form, setForm] = useState<Partial<AccountingTransferForm>>({})

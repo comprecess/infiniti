@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+import styles from './ReorderGroupsPage.module.scss'
 import { GroupsListProps } from '../../../../../app/constants/constants'
 import { RecentReorderGroups } from '../../../../../features/Admin/CustomersPage/GroupsPage/RecentReorderGroups/RecentReorderGroups'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
@@ -7,7 +8,6 @@ import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingS
 import { getGroupsList } from '../../../../../shared/utils/api/Admin/Groups/get-groups-list'
 import { putSortGroups } from '../../../../../shared/utils/api/Admin/Groups/put-sort-groups'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
-import styles from './ReorderGroupsPage.module.scss'
 
 export const AdminReorderGroupsPage = () => {
   const [groups, setGroups] = useState<GroupsListProps[]>([])

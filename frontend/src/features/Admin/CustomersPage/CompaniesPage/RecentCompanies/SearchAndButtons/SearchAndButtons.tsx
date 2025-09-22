@@ -1,6 +1,6 @@
+import styles from './SearchAndButtons.module.scss'
 import { Search } from '../../../../../../shared/ui/Search/Search'
 import { RecentRightButtons } from '../../RecentRightButtons/RecentRightButtons'
-import styles from './SearchAndButtons.module.scss'
 
 interface SearchAndButtonsProps {
   searchChange: (searchItem: string) => void

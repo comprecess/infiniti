@@ -1,5 +1,5 @@
-import { BackGround } from '../BackGround/BackGround'
 import styles from './NumberItem.module.scss'
+import { BackGround } from '../BackGround/BackGround'
 
 interface NumberItemProps {
   number: number

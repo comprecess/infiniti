@@ -1,6 +1,6 @@
+import styles from './SimilarTalents.module.scss'
 import { TalentsProps } from '../../../../app/constants/constants'
 import { TalentsCard } from '../../../../widgets/TalentsCard/TalentsCard'
-import styles from './SimilarTalents.module.scss'
 
 interface SimilarTalentsProps {
   similarTalents: TalentsProps[]

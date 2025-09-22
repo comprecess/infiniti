@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 
+import styles from './Item.module.scss'
 import { RolesAccess } from '../../../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../../../app/router/routes'
 import { CustomMiniButton } from '../../../../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import styleItem from '../TransactionsPage.module.scss'
-import styles from './Item.module.scss'
 
 interface ItemProps {
   code: number

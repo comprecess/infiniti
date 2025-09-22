@@ -1,13 +1,13 @@
 import { Fragment, useCallback, useState } from 'react'
 
+import { Item } from './Item/Item'
+import styles from './TableTransactions.module.scss'
 import {
   AccountingTransactionsData,
   RolesAccess,
 } from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './TableTransactions.module.scss'
 
 interface TableTransactionsProps {
   transactions: AccountingTransactionsData[]

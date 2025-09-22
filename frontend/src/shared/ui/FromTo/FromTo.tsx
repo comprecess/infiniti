@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from 'react'
 
-import { FiltersState } from '../../../app/constants/constants'
 import styles from './FromTo.module.scss'
 import { Input } from './Input/Input'
+import { FiltersState } from '../../../app/constants/constants'
 
 interface FromToProps {
   placeholderFirst: string

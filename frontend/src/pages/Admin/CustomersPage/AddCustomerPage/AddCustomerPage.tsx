@@ -1,21 +1,20 @@
 import { useEffect, useState } from 'react'
 
+import styles from './AddCustomerPage.module.scss'
+import { HeaderButtons } from './HeaderButtons/HeaderButtons'
 import { CustomerInputsData } from '../../../../app/constants/constants'
 import { Fields } from '../../../../features/Admin/CustomersPage/AddCustomer/Fields'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getCustomerInputsData } from '../../../../shared/utils/api/Admin/AddCustomer/get-customer-input-data'
 import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-import styles from './AddCustomerPage.module.scss'
-import { HeaderButtons } from './HeaderButtons/HeaderButtons'
 
 export const AdminAddCustomerPage = () => {
   const [data, setData] = useState<CustomerInputsData | null>(null)
 
   const urlParams = new URLSearchParams(window.location.search)
   const companyIdParam = urlParams.get('for-company')
-  const companyId =
-    companyIdParam !== null ? parseInt(companyIdParam) : null
+  const companyId = companyIdParam !== null ? parseInt(companyIdParam) : null
 
   const storageKey = 'createCustomerForm'
 
@@ -48,11 +47,7 @@ export const AdminAddCustomerPage = () => {
               isClearButton: loadStorage(storageKey) ? true : false,
             }}
           >
-            <Fields
-              data={data}
-              companyId={companyId}
-              storageKey={storageKey}
-            />
+            <Fields data={data} companyId={companyId} storageKey={storageKey} />
           </RecentCard>
         ) : (
           <LoadingSpinner size='xl' />

@@ -1,17 +1,17 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
+import { BigCard } from './BigCard/BigCard'
+import styles from './CashFlow.module.scss'
+import { BarChart } from './Chart/DashboardChart/BarChart'
+import { NetWorth } from './Chart/NetWorth/NetWorth'
+import { MiniCard } from './MiniCard/MiniCard'
 import {
   DashboardData,
   RolesAccess,
 } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
-import { BigCard } from './BigCard/BigCard'
-import styles from './CashFlow.module.scss'
-import { BarChart } from './Chart/DashboardChart/BarChart'
-import { NetWorth } from './Chart/NetWorth/NetWorth'
-import { MiniCard } from './MiniCard/MiniCard'
 
 interface CashFlowProps {
   data: DashboardData

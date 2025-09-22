@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
 
+import styles from './ProfilePage.module.scss'
 import { UserInfo } from '../../../app/constants/constants'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getProfileInfo } from '../../../shared/utils/api/get-profile-info'
 import { ProfileCard } from '../../../widgets/ProfileCard/ProfileCard'
 import { ProfileChangeInfoCard } from '../../../widgets/ProfileChangeInfoCard/ProfileChangeInfoCard'
-import styles from './ProfilePage.module.scss'
 
 export const ClientProfilePage = () => {
   const [profileData, setProfileData] = useState<UserInfo>()

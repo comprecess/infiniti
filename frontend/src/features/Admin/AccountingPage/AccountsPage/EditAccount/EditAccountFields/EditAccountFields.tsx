@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from 'react'
 
+import styles from './EditAccountFields.module.scss'
 import { AccountingAccountForm } from '../../../../../../app/constants/constants'
 import { CustomInput } from '../../../../../../shared/ui/CustomInput/CustomInput'
-import styles from './EditAccountFields.module.scss'
 
 interface EditAccountFieldsProps {
   form: Partial<AccountingAccountForm>

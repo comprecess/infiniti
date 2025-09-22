@@ -2,6 +2,7 @@ import { Textarea } from '@chakra-ui/react'
 import { ChangeEvent, Dispatch, SetStateAction, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import styles from './Fields.module.scss'
 import {
   BusinessModelInputData,
   BusinessPlanBusinessModelFormData,
@@ -12,7 +13,6 @@ import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect
 import { TagSelector } from '../../../../../shared/ui/TagSelector/TagSelector'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 import { saveStorage } from '../../../../../shared/utils/Saving/Storage/SaveStorage'
-import styles from './Fields.module.scss'
 
 interface FieldsProps {
   storageKey: string

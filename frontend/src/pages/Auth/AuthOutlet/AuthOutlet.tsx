@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 
+import styles from './AuthOutlet.module.scss'
 import { LogoTextIcon } from '../../../shared/icons/LogoTextIcon'
 import { Logo } from '../../../shared/ui/Logo/Logo'
-import styles from './AuthOutlet.module.scss'
 
 export const AuthOutlet = () => {
   const [isReady, setIsReady] = useState(false)

@@ -1,11 +1,11 @@
 import { Fragment } from 'react'
 
+import { Item } from './Item/Item'
+import styles from './RecentFiles.module.scss'
 import { SalesViewInvoiceDocuments } from '../../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../../shared/ui/CustomDivider/CustomDivider'
 import { getAuthToken } from '../../../../../../shared/utils/api/get-auth-token'
 import { Title } from '../../../../../Main/RecentCard/Title/Title'
-import { Item } from './Item/Item'
-import styles from './RecentFiles.module.scss'
 
 interface RecentFilesProps {
   filesList: SalesViewInvoiceDocuments[]

@@ -1,3 +1,4 @@
+import styles from './FieldModal.module.scss'
 import { FieldProps } from '../../../../pages/Admin/SettingsPage/CustomContactFieldsPage/CustomContactFieldsPage'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -5,7 +6,6 @@ import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
 import { CustomModalWindow } from '../../../../shared/ui/CustomModalWindow/CustomModalWindow'
 import { CustomRadio } from '../../../../shared/ui/CustomRadio/CustomRadio'
 import { CustomSelect } from '../../../../shared/ui/CustomSelect/CustomSelect'
-import styles from './FieldModal.module.scss'
 
 interface FieldModalProps {
   title: string

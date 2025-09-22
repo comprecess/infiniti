@@ -1,6 +1,8 @@
 import { Dayjs } from 'dayjs'
 import { Fragment, useState } from 'react'
 
+import styles from './Cart.module.scss'
+import { Item } from './Item/Item'
 import { CartItem } from '../../../../app/constants/constants'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -15,8 +17,6 @@ import {
   TimeSlotsById,
 } from '../../../../widgets/CreatingCallModal/CreatingCallModal'
 import { Title } from '../../../Main/RecentCard/Title/Title'
-import styles from './Cart.module.scss'
-import { Item } from './Item/Item'
 
 interface CartProps {
   idCart: number

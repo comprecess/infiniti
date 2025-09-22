@@ -1,6 +1,6 @@
+import styles from './Footer.module.scss'
 import { sanitizeMessage } from '../../../../shared/utils/TextEditor/sanitizeMessage'
 import { TotalItem } from '../../../Admin/Sales/ViewInvoice/Footer/TotalItem/TotalItem'
-import styles from './Footer.module.scss'
 
 interface FooterProps {
   subtotal: string

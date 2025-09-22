@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import styles from './EditTaskModal.module.scss'
 import {
   ProjectsTasksData,
   ProjectsTasksFormData,
@@ -12,7 +13,6 @@ import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomModalWindow } from '../../../../../shared/ui/CustomModalWindow/CustomModalWindow'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
-import styles from './EditTaskModal.module.scss'
 
 interface EditTaskModalProps {
   task: ProjectsTasksData

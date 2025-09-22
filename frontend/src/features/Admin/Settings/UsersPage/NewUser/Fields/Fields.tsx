@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 
+import styles from './Fields.module.scss'
 import { SettingsUserInputData } from '../../../../../../app/constants/constants'
 import { CustomInput } from '../../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomRadio } from '../../../../../../shared/ui/CustomRadio/CustomRadio'
-import styles from './Fields.module.scss'
 
 interface FieldsProps {
   inputData: SettingsUserInputData

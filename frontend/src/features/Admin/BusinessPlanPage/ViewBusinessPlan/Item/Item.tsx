@@ -1,5 +1,5 @@
-import { sanitizeMessage } from '../../../../../shared/utils/TextEditor/sanitizeMessage'
 import styles from './Item.module.scss'
+import { sanitizeMessage } from '../../../../../shared/utils/TextEditor/sanitizeMessage'
 
 interface ItemProps {
   title: string

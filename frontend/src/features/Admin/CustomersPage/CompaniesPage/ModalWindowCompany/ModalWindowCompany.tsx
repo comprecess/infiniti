@@ -1,3 +1,4 @@
+import styles from './ModalWindowCompany.module.scss'
 import { CompanyData } from '../../../../../app/constants/constants'
 import { CrossIcon } from '../../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -5,7 +6,6 @@ import { ClearStorageButton } from '../../../../../shared/ui/ClearStorageButton/
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomModalWindow } from '../../../../../shared/ui/CustomModalWindow/CustomModalWindow'
 import { CountryList } from '../../../../../widgets/ProfileChangeInfoCard/CountryList/CountryList'
-import styles from './ModalWindowCompany.module.scss'
 
 interface ModalWindowCompanyProps {
   nameWindow: string

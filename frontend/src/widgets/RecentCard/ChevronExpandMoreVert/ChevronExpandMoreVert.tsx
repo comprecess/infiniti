@@ -1,7 +1,7 @@
+import styles from './ChevronExpandMoreVert.module.scss'
 import { ArrowsExpandIcon } from '../../../shared/icons/ArrowsExpandIcon'
 import { ChevronIcon } from '../../../shared/icons/ChevronIcon'
 import { MoreVertIcon } from '../../../shared/icons/MoreVertIcon'
-import styles from './ChevronExpandMoreVert.module.scss'
 
 interface ChevronExpandMoreVertProps {
   openContent: boolean

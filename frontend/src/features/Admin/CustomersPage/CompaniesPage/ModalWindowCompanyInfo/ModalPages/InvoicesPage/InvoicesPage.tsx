@@ -1,6 +1,8 @@
 import { Fragment, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import styles from './InvoicesPage.module.scss'
+import { Item } from './Item/Item'
 import {
   InvoicesViewCompany,
   RolesAccess,
@@ -10,8 +12,6 @@ import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/Cust
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getCompanyPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/get-company-page'
 import { Title } from '../../../../../../Main/RecentCard/Title/Title'
-import styles from './InvoicesPage.module.scss'
-import { Item } from './Item/Item'
 
 interface InvoicesPageProps {
   id: number
