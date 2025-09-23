@@ -12,9 +12,7 @@ interface NetWorthAccountBalancesProps {
   account: DashboardNetWorthData
 }
 
-export const NetWorthAccountBalances = ({
-  account,
-}: NetWorthAccountBalancesProps) => {
+export const NetWorthAccountBalances = ({ account }: NetWorthAccountBalancesProps) => {
   const { t } = useTranslation()
 
   return (
@@ -27,20 +25,14 @@ export const NetWorthAccountBalances = ({
         />
         <div>
           <div className={styles.columns}>
-            <Title
-              title={t('admin-dashboard-page-card-8-table-1')}
-              style={styles.accountColumn}
-            />
-            <Title
-              title={t('admin-dashboard-page-card-8-table-2')}
-              style={styles.balanceColumn}
-            />
+            <Title title={t('admin-dashboard-page-card-8-table-1')} style={styles.accountColumn} />
+            <Title title={t('admin-dashboard-page-card-8-table-2')} style={styles.balanceColumn} />
           </div>
           <div className={styles.items}>
             {account.list.map((item, index) => {
               return (
                 <Fragment key={item.id}>
-                  <Item account={item.name} balance={item.balance} />
+                  <Item account={item.name} balance={item.balanceCurrency} />
                   {index !== account.list.length - 1 && <CustomDivider />}
                 </Fragment>
               )

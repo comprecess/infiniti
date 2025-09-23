@@ -6,6 +6,7 @@ import { RolesAccess } from '../../../app/constants/constants'
 import { adminSidebarPages } from '../../../app/data/adminSidebarPages'
 import { clientSidebarPages } from '../../../app/data/clientSidebarPages'
 import { Routes } from '../../../app/router/routes'
+import { Question, Survey } from '../../General/Survey/Survey'
 import { Header } from '../Header/Header'
 import { Sidebar } from '../Sidebar/Sidebar'
 
@@ -23,8 +24,10 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
   const [isMiniSidebar, setIsMiniSidebar] = useState<boolean>(false)
 
   const [isReady, setIsReady] = useState<boolean>(false)
-
   const [isSidebarLocked, setIsSidebarLocked] = useState<boolean>(false)
+
+  const [isSurveyOpen, setIsSurveyOpen] = useState<boolean>(false)
+  const [surveyQuestions, setSurveyQuestions] = useState<Question[]>([])
 
   const sidebarHeight = 1452
 
@@ -43,6 +46,11 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
     setIsMiniSidebar(prevState => !prevState)
   }, [])
 
+  const openSurvey = (questions: Question[]) => {
+    setSurveyQuestions(questions)
+    setIsSurveyOpen(true)
+  }
+
   useEffect(() => {
     const handleResize = () => {
       const isMobileView = window.innerWidth <= 1700
@@ -60,6 +68,25 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
 
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  useEffect(() => {
+    if (isSurveyOpen) {
+      const scrollY = window.scrollY
+
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${scrollY}px`
+      document.body.style.left = '0'
+      document.body.style.right = '0'
+    } else {
+      const scrollY = Math.abs(parseInt(document.body.style.top || '0', 10))
+
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.left = ''
+      document.body.style.right = ''
+      window.scrollTo(0, scrollY)
+    }
+  }, [isSurveyOpen])
 
   useEffect(() => {
     if (isSidebarOpen && isMobile) {
@@ -119,9 +146,19 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
                 : styles.mainFull
             }
           >
-            <Outlet context={{ roles }} />
+            <Outlet context={{ roles, openSurvey }} />
           </main>
         </div>
+      )}
+      {isSurveyOpen && (
+        <Survey
+          questions={surveyQuestions}
+          onClose={() => setIsSurveyOpen(false)}
+          onSubmit={data => {
+            console.log('Ответы:', data)
+            setIsSurveyOpen(false)
+          }}
+        />
       )}
     </div>
   )

@@ -4,8 +4,7 @@ export const profileInfoString = 'profileInfo/infiniti'
 
 export const page = '?page='
 
-export const AUTH_ERROR_MESSAGE =
-  'Authentication failed - no auth token provided'
+export const AUTH_ERROR_MESSAGE = 'Authentication failed - no auth token provided'
 export const NETWORK_ERROR_MESSAGE = 'Network error occurred'
 export const INVALID_RESPONSE_MESSAGE = 'Invalid server response'
 export const REQUEST_TIMEOUT_MS = 30000
@@ -1280,6 +1279,7 @@ export interface DashboardNetWorthData {
   list: {
     id: number
     balance: string
+    balanceCurrency: string
     name: string
   }[]
 }
