@@ -17,6 +17,7 @@ class AccountInfoResource extends JsonResource
             'id' => $this->id,
             'name' => $this->account,
             'balance' => $this->balance,
+            'balanceCurrency' => $this->printPrice('balance'),
         ];
     }
 

@@ -171,6 +171,11 @@ class Transaction extends Model implements InsertDefaultValueInterface
         ];
     }
 
+    public function isIncome()
+    {
+        return in_array($this->type, self::INCOME_TYPE);
+    }
+
     public static function create(
         #Платежный аккаунт
         Account|string|null $account = null,

@@ -7,6 +7,7 @@ use App\Console\Commands\Invoices\ExpiredInvoice;
 use App\Console\Commands\Invoices\ExpiredOffer;
 use App\Console\Commands\SetCurrency;
 use App\Console\Commands\Talents\NewTalent;
+use App\Console\Commands\Transaction\AccountBalance;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -23,6 +24,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(ExpiredInvoice::class)->daily();
         $schedule->command(ExpiredOffer::class)->daily();
         $schedule->command(NewTalent::class)->weeklyOn(5, '12:00');
+        $schedule->command(AccountBalance::class)->everyThreeHours;
     }
 
     /**
