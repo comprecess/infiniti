@@ -150,3 +150,10 @@
   justify-content: end;
   flex-wrap: wrap;
 }
+
+.buttonsClient {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  width: 100%;
+}
