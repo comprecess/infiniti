@@ -12,6 +12,8 @@ interface BlankProps {
   price: number
   itemName: string
   discountAmount: number
+  discountType: 'fixed' | 'percent'
+  taxFormData: number | null
   currencySymbol: string | undefined
   totalPrice: number | undefined
   taxInput: SalesNewInvoiceTaxProps[]
@@ -24,8 +26,10 @@ export const Blank = ({
   amount,
   price,
   itemName,
+  discountType,
   discountAmount,
   currencySymbol,
+  taxFormData,
   totalPrice,
   taxInput,
   onChange,
@@ -49,10 +53,7 @@ export const Blank = ({
         <section className={styles.sectionSecond}>
           <div className={styles.containerItems}>
             <span className={styles.containerItemsTitle}>Item Name</span>
-            <TextEditor
-              setValue={handleOnTextEditorChange}
-              defaultValue={itemName}
-            />
+            <TextEditor setValue={handleOnTextEditorChange} defaultValue={itemName} />
           </div>
         </section>
         <section className={styles.sectionFirst}>
@@ -62,9 +63,7 @@ export const Blank = ({
             id={`${'qty'}-${id}`}
             name={`${'qty'}-${id}`}
             value={amount}
-            onChange={(_name, value) =>
-              handleOnInputChange('amount', value)
-            }
+            onChange={(_name, value) => handleOnInputChange('amount', value)}
           />
           <CustomInput
             title='Price'
@@ -72,16 +71,16 @@ export const Blank = ({
             id={`${'price'}-${id}`}
             name={`${'price'}-${id}`}
             value={price}
-            onChange={(_name, value) =>
-              handleOnInputChange('price', value)
-            }
+            onChange={(_name, value) => handleOnInputChange('price', value)}
           />
           <div className={styles.containerItems}>
             <span className={styles.containerItemsTitle}>Discount</span>
             <div className={styles.discountContainer}>
               <CustomRadio
                 radioList={['%', currencySymbol || '-']}
-                defaultValue='%'
+                defaultValue={
+                  discountType ? (discountType === 'fixed' ? currencySymbol : '%') : '%'
+                }
                 onChange={handleDiscountOnChange}
               />
               <CustomInput
@@ -89,9 +88,7 @@ export const Blank = ({
                 id={`${'discount'}-${id}`}
                 name={`${'discount'}-${id}`}
                 value={discountAmount}
-                onChange={(_name, value) =>
-                  handleOnInputChange('discount', value)
-                }
+                onChange={(_name, value) => handleOnInputChange('discount', value)}
               />
             </div>
           </div>
@@ -100,7 +97,7 @@ export const Blank = ({
             titleOnChange='tax'
             idList={taxInput.map(tax => tax.id)}
             nameList={taxInput.map(tax => tax.name)}
-            value={taxInput.find(tax => tax.isDefault === 1)?.id}
+            value={taxFormData ?? taxInput.find(tax => tax.isDefault === 1)?.id}
             onChange={handleOnInputChange}
           />
           <div className={styles.wrapperTotalPrice}>

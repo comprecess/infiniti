@@ -13,23 +13,22 @@ import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getOfferInputData } from '../../../../shared/utils/api/Admin/Sales/NewOffer/get-offer-input-data'
 import { postCreateNewOffer } from '../../../../shared/utils/api/Admin/Sales/NewOffer/post-create-new-offer'
+import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
+import { removeStorage } from '../../../../shared/utils/Saving/Storage/RemoveStorage'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const AdminNewOfferPage = () => {
-  const [formData, setFormData] = useState<
-  Partial<PartialFieldsNewOfferData>
-  >({})
-  const [inputData, setInputData] = useState<SalesOfferInputData | null>(
-    null,
-  )
+  const [formData, setFormData] = useState<Partial<PartialFieldsNewOfferData>>({})
+  const [inputData, setInputData] = useState<SalesOfferInputData | null>(null)
 
   const showToast = useCustomToast()
   const navigate = useNavigate()
 
   const urlParams = new URLSearchParams(window.location.search)
   const customerIdParam = urlParams.get('for-customer')
-  const customerId =
-    customerIdParam !== null ? parseInt(customerIdParam) : null
+  const customerId = customerIdParam !== null ? parseInt(customerIdParam) : null
+
+  const storageKey = 'createOfferForm'
 
   const getNewOfferInputData = async () => {
     const response = await getOfferInputData()
@@ -45,6 +44,7 @@ export const AdminNewOfferPage = () => {
     const { status, message, id } = await postCreateNewOffer(formData)
 
     if (status) {
+      removeStorage(storageKey)
       showToast({
         title: 'Successfully',
         description: 'You have successfully created an Invoice',
@@ -53,9 +53,7 @@ export const AdminNewOfferPage = () => {
       if (save === 'save') {
         navigate(`/${Routes.adminPages}/${Routes.sales}/${Routes.offers}`)
       } else if (save === 'save & invoice') {
-        navigate(
-          `/${Routes.adminPages}/${Routes.sales}/${Routes.offer}/${Routes.view}/${id}`,
-        )
+        navigate(`/${Routes.adminPages}/${Routes.sales}/${Routes.offer}/${Routes.view}/${id}`)
       }
     } else {
       showToast({
@@ -83,6 +81,8 @@ export const AdminNewOfferPage = () => {
             style={styles.recentFullScreen}
             Component={HeaderButtons}
             componentProps={{
+              storageKey,
+              isClearButton: loadStorage(storageKey) ? true : false,
               firstButtonClick: createNewOffer,
               secondButtonClick: createNewOffer,
             }}
@@ -90,6 +90,7 @@ export const AdminNewOfferPage = () => {
             <Fields
               data={inputData}
               customerId={customerId}
+              storageKey={storageKey}
               onFormDataChange={setFormData}
             />
           </RecentCard>

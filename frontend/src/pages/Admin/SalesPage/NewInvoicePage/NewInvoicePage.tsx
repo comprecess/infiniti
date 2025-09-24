@@ -13,14 +13,13 @@ import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getInvoiceInputData } from '../../../../shared/utils/api/Admin/Sales/NewInvoice/get-invoice-input-data'
 import { postCreateNewInvoice } from '../../../../shared/utils/api/Admin/Sales/NewInvoice/post-create-new-invoice'
+import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
+import { removeStorage } from '../../../../shared/utils/Saving/Storage/RemoveStorage'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const AdminNewInvoicePage = () => {
-  const [formData, setFormData] = useState<
-  Partial<SalesNewInvoiceFormData>
-  >({})
-  const [inputData, setInputData] =
-    useState<SalesNewInvoiceInputData | null>(null)
+  const [formData, setFormData] = useState<Partial<SalesNewInvoiceFormData>>({})
+  const [inputData, setInputData] = useState<SalesNewInvoiceInputData | null>(null)
 
   const showToast = useCustomToast()
   const navigate = useNavigate()
@@ -29,8 +28,9 @@ export const AdminNewInvoicePage = () => {
   const isCreateForProject = urlParams.has('create-for-project')
   const projectId = urlParams.get('create-for-project')
   const customerIdParam = urlParams.get('for-customer')
-  const customerId =
-    customerIdParam !== null ? parseInt(customerIdParam) : null
+  const customerId = customerIdParam !== null ? parseInt(customerIdParam) : null
+
+  const storageKey = 'createInvoiceForm'
 
   const getNewInvoiceInputData = async () => {
     const response = await getInvoiceInputData()
@@ -45,14 +45,13 @@ export const AdminNewInvoicePage = () => {
 
     const { status, message, id } = await postCreateNewInvoice(
       isCreateForProject
-        ? `${
-          import.meta.env.VITE_RESIDENT_PROJECTS_API
-        }/${projectId}/invoices`
+        ? `${import.meta.env.VITE_RESIDENT_PROJECTS_API}/${projectId}/invoices`
         : import.meta.env.VITE_SALES_CREATE_NEW_INVOICE,
       formData,
     )
 
     if (status) {
+      removeStorage(storageKey)
       showToast({
         title: 'Successfully',
         description: 'You have successfully created an Invoice',
@@ -64,14 +63,10 @@ export const AdminNewInvoicePage = () => {
             `/${Routes.adminPages}/${Routes.projects}/${Routes.view}/${Routes.project}/${projectId}/${Routes.invoices}`,
           )
         } else {
-          navigate(
-            `/${Routes.adminPages}/${Routes.sales}/${Routes.invoices}?filterStatus=Unpaid`,
-          )
+          navigate(`/${Routes.adminPages}/${Routes.sales}/${Routes.invoices}?filterStatus=Unpaid`)
         }
       } else if (save === 'save & invoice') {
-        navigate(
-          `/${Routes.adminPages}/${Routes.sales}/${Routes.invoice}/${Routes.view}/${id}`,
-        )
+        navigate(`/${Routes.adminPages}/${Routes.sales}/${Routes.invoice}/${Routes.view}/${id}`)
       }
     } else {
       showToast({
@@ -99,6 +94,8 @@ export const AdminNewInvoicePage = () => {
             style={styles.recentFullScreen}
             Component={HeaderButtons}
             componentProps={{
+              storageKey,
+              isClearButton: loadStorage(storageKey) ? true : false,
               firstButtonClick: () => createNewInvoice('save'),
               secondButtonClick: () => createNewInvoice('save & invoice'),
             }}
@@ -106,6 +103,7 @@ export const AdminNewInvoicePage = () => {
             <Fields
               data={inputData}
               customerId={customerId}
+              storageKey={storageKey}
               onFormDataChange={setFormData}
             />
           </RecentCard>
