@@ -4,7 +4,7 @@
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: flex-end;
-  gap: 16px;
+  gap: 8px;
 }
 
 .buttonSave,
@@ -13,11 +13,11 @@
 }
 
 .buttonSave {
-  max-width: 100px;
+  max-width: fit-content;
 }
 
 .buttonSaveAndClose {
-  max-width: 170px;
+  max-width: fit-content;
 }
 
 .iconSave,

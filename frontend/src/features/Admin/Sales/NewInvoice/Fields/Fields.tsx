@@ -18,57 +18,58 @@ import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 import { postInvoicePriceCalc } from '../../../../../shared/utils/api/Admin/Sales/NewInvoice/post-invoice-price-calc'
+import { loadStorage } from '../../../../../shared/utils/Saving/Storage/LoadStorage'
+import { saveStorage } from '../../../../../shared/utils/Saving/Storage/SaveStorage'
 import { AddProductOrService } from '../../AddProductOrService/AddProductOrService'
 
 interface FieldsProps {
   data: SalesNewInvoiceInputData
+  storageKey: string
   customerId: number | null
   onFormDataChange: (data: Partial<SalesNewInvoiceFormData>) => void
 }
 
-export interface PartialFieldsPostData
-  extends Partial<SalesNewInvoiceFormData> {
-  [key: string]:
-  | string
-  | number
-  | SalesBlankData[]
-  | boolean
-  | undefined
-  | null
+export interface PartialFieldsPostData extends Partial<SalesNewInvoiceFormData> {
+  [key: string]: string | number | SalesBlankData[] | boolean | undefined | null
 }
 
-export const Fields = ({
-  data,
-  customerId,
-  onFormDataChange,
-}: FieldsProps) => {
-  const [formData, setFormData] = useState<PartialFieldsPostData>({
-    invoiceNum: data.invoiceNum,
-    num: data.num,
-    status: data.status[0],
-    checkPublic: 1,
-    currency: data.currency.find(currency => currency.isdefault === 1)
-      ?.code,
-    blankList: [
-      {
-        index: 0,
-        service: 'calc',
-        description: '',
-        amount: 0,
-        price: 0,
-        discount: 0,
-        discountType: 'percent',
-        tax: 1,
-      },
-    ],
-    notes: data.notes,
+export const Fields = ({ data, customerId, storageKey, onFormDataChange }: FieldsProps) => {
+  const [formData, setFormData] = useState<PartialFieldsPostData>(() => {
+    const savedData = loadStorage<PartialFieldsPostData>(storageKey)
+
+    if (savedData) return savedData
+
+    return {
+      invoiceNum: data.invoiceNum,
+      num: data.num,
+      status: data.status[0],
+      checkPublic: 1,
+      currency: data.currency.find(currency => currency.isdefault === 1)?.code,
+      blankList: [
+        {
+          index: 0,
+          service: 'calc',
+          description: '',
+          amount: 0,
+          price: 0,
+          discount: 0,
+          discountType: 'percent',
+          tax: 1,
+        },
+      ],
+      notes: data.notes,
+      clientId: customerId,
+    }
   })
 
-  const [priceCalc, setPriceCalc] =
-    useState<SalesNewInvoicePriceCalcProps | null>(null)
+  const [priceCalc, setPriceCalc] = useState<SalesNewInvoicePriceCalcProps | null>(null)
 
-  const [modalProductService, setModalProductService] =
-    useState<boolean>(false)
+  const [modalProductService, setModalProductService] = useState<boolean>(false)
+
+  const saveAndUpdate = (updatedData: PartialFieldsPostData) => {
+    setFormData(updatedData)
+    saveStorage(storageKey, updatedData)
+  }
 
   const handleOpenCloseProductService = () => {
     setModalProductService(!modalProductService)
@@ -102,113 +103,91 @@ export const Fields = ({
     field: string,
     value: string | number | SalesBlankData[] | boolean | undefined | null,
   ) => {
+    let newValue = value
+
     if (field === 'currency' && typeof value === 'number') {
-      const currencyData = data.currency.find(
-        currency => currency.id === value,
-      )
-      value = currencyData ? currencyData.code : ''
+      const currencyData = data.currency.find(c => c.id === value)
+      newValue = currencyData ? currencyData.code : ''
     } else if (field === 'status' && typeof value === 'number') {
-      value = data.status[value]
-    } else if (
-      (field === 'dueDate' || field === 'repeat') &&
-      typeof value === 'number'
-    ) {
-      if (value === 0) {
-        value = null
-      } else {
-        value = value - 1
-      }
-    } else if (
-      field === 'clientId' &&
-      typeof value === 'number' &&
-      value === 0
-    ) {
-      value = null
+      newValue = data.status[value]
+    } else if ((field === 'dueDate' || field === 'repeat') && typeof value === 'number') {
+      newValue = value === 0 ? null : value - 1
+    } else if (field === 'clientId' && typeof value === 'number') {
+      newValue = value === 0 ? null : value
     } else if (field === 'checkPublic' && typeof value === 'boolean') {
-      value = value === true ? 1 : 0
+      newValue = value === true ? 1 : 0
     }
 
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      [field]: value,
-    }))
+    const updatedFormData = {
+      ...formData,
+      [field]: newValue,
+    }
+
+    saveAndUpdate(updatedFormData)
   }
 
   const handleAddBlank = () => {
-    setFormData(prevFormData => {
-      const newId = prevFormData.blankList?.length || 0
+    const newId = formData.blankList?.length || 0
 
-      const newBlank: SalesBlankData = {
-        index: newId,
-        service: 'calc',
-        description: '',
-        amount: 0,
-        price: 0,
-        discount: 0,
-        discountType: 'percent',
-        tax: 1,
-      }
+    const newBlank: SalesBlankData = {
+      index: newId,
+      service: 'calc',
+      description: '',
+      amount: 0,
+      price: 0,
+      discount: 0,
+      discountType: 'percent',
+      tax: 1,
+    }
 
-      return {
-        ...prevFormData,
-        blankList: [...(prevFormData.blankList || []), newBlank],
-      }
+    saveAndUpdate({
+      ...formData,
+      blankList: [...(formData.blankList || []), newBlank],
     })
   }
 
-  const handleAddServiceBlank = (
-    idService: string,
-    price: number,
-    description: string,
-  ) => {
-    setFormData(prevFormData => {
-      const newId = prevFormData.blankList?.length || 0
+  const handleAddServiceBlank = (idService: string, price: number, description: string) => {
+    const newId = formData.blankList?.length || 0
 
-      const newBlank: SalesBlankData = {
-        index: newId,
-        serviceId: parseInt(idService),
-        service: 'serviceProduct',
-        description,
-        amount: 0,
-        price,
-        discount: 0,
-        discountType: 'percent',
-        tax: 1,
-      }
+    const newBlank: SalesBlankData = {
+      index: newId,
+      serviceId: parseInt(idService),
+      service: 'serviceProduct',
+      description,
+      amount: 0,
+      price,
+      discount: 0,
+      discountType: 'percent',
+      tax: 1,
+    }
 
-      return {
-        ...prevFormData,
-        blankList: [...(prevFormData.blankList || []), newBlank],
-      }
+    saveAndUpdate({
+      ...formData,
+      blankList: [...(formData.blankList || []), newBlank],
     })
   }
 
-  const handleBlankChange = (
-    id: number,
-    field: string,
-    value: string | number | undefined,
-  ) => {
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      blankList: (prevFormData.blankList || []).map(blank =>
-        blank.index === id ? { ...blank, [field]: value } : blank,
-      ),
-    }))
+  const handleBlankChange = (id: number, field: string, value: string | number | undefined) => {
+    const updatedBlankList = (formData.blankList || []).map(blank =>
+      blank.index === id ? { ...blank, [field]: value } : blank,
+    )
+
+    saveAndUpdate({
+      ...formData,
+      blankList: updatedBlankList,
+    })
   }
 
   const handleRemoveBlank = (id: number) => {
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      blankList: (prevFormData.blankList || []).filter(
-        blank => blank.index !== id,
-      ),
-    }))
+    saveAndUpdate({
+      ...formData,
+      blankList: (formData.blankList || []).filter(blank => blank.index !== id),
+    })
   }
 
   useEffect(() => {
     if (!formData.blankList) return
-
-    if (formData.blankList?.length > 0) {
+    if (formData.blankList.length > 0) {
       postPriceCalc()
     }
   }, [formData.blankList, formData.currency])
@@ -217,8 +196,7 @@ export const Fields = ({
     onFormDataChange(formData)
   }, [formData, onFormDataChange])
 
-  const isLoadBlank =
-    formData.blankList && formData.blankList.length > 0 && priceCalc?.data
+  const isLoadBlank = formData.blankList && formData.blankList.length > 0 && priceCalc?.data
 
   return (
     <div className={styles.wrapper}>
@@ -229,6 +207,7 @@ export const Fields = ({
             type='text'
             id='title'
             name='title'
+            value={formData.title}
             onChange={handleChangeInput}
           />
           <div className={styles.containerItems}>
@@ -246,10 +225,7 @@ export const Fields = ({
               fontSize='16px'
               fontWeight='400'
               lineHeight='24px'
-              value={
-                data.client.find(client => client.id === formData.clientId)
-                  ?.address
-              }
+              value={data.client.find(client => client.id === formData.clientId)?.address}
             />
           </div>
           <CustomInput
@@ -271,12 +247,13 @@ export const Fields = ({
           <CustomDataPicker
             title='Invoice Date'
             titleOnChange='date'
+            value={formData.date}
             onChange={handleChangeInput}
           />
           <div className={styles.containerItems}>
             <span className={styles.containerItemsTitle}>Hide Info</span>
             <CustomCheckBox
-              defaultChecked
+              defaultChecked={formData.checkPublic === 1 ? true : false}
               titleOnChange='checkPublic'
               title='Hide Personal Info'
               onInputChange={handleChangeInput}
@@ -288,19 +265,17 @@ export const Fields = ({
             title='Customer'
             titleOnChange='clientId'
             placeholder='Not Selected'
-            value={customerId ?? undefined}
+            value={formData.clientId || customerId || undefined}
             idList={data.client.map(item => item.id)}
             nameList={data.client.map(client =>
-              `${client.account}${
-                client.email ? ` - ${client.email}` : ''
-              }`.trim(),
+              `${client.account}${client.email ? ` - ${client.email}` : ''}`.trim(),
             )}
             onChange={handleChangeInput}
           />
           <CustomSelect
             title='Status'
             titleOnChange='status'
-            value={0}
+            value={formData.status ? data.status.findIndex(item => item === formData.status) : 0}
             idList={data.status.map((_status, index) => index)}
             nameList={data.status.map(status => status)}
             onChange={handleChangeInput}
@@ -310,9 +285,7 @@ export const Fields = ({
             titleOnChange='currency'
             idList={data.currency.map(currency => currency.id)}
             nameList={data.currency.map(currency => currency.code)}
-            value={
-              data.currency.find(currency => currency.isdefault === 1)?.id
-            }
+            value={data.currency.find(currency => currency.isdefault === 1)?.id}
             onChange={handleChangeInput}
           />
           <CustomInput
@@ -320,6 +293,7 @@ export const Fields = ({
             type='text'
             id='receiptNumber'
             name='receiptNumber'
+            value={formData.receiptNumber}
             onChange={handleChangeInput}
           />
           <CustomInput
@@ -327,12 +301,14 @@ export const Fields = ({
             type='text'
             id='showQuantity'
             name='showQuantity'
+            value={formData.showQuantity}
             onChange={handleChangeInput}
           />
           <CustomSelect
             title='Payment Terms'
             titleOnChange='dueDate'
             placeholder='None'
+            value={formData.dueDate ? formData.dueDate + 1 : 0}
             idList={data.dueDate.map((_dueDate, index) => index + 1)}
             nameList={data.dueDate.map(date => date)}
             onChange={handleChangeInput}
@@ -341,6 +317,7 @@ export const Fields = ({
             title='Repeat Every'
             titleOnChange='repeat'
             placeholder='None'
+            value={formData.repeat ? formData.repeat + 1 : 0}
             idList={data.repeat.map((_repeat, index) => index + 1)}
             nameList={data.repeat.map(date => date)}
             onChange={handleChangeInput}
@@ -357,23 +334,21 @@ export const Fields = ({
                 amount={blank.amount}
                 price={blank.price}
                 itemName={blank.description}
+                discountType={blank.discountType}
                 discountAmount={blank.discount}
                 taxInput={data.tax}
+                taxFormData={blank.tax}
                 totalPrice={
-                  priceCalc.data &&
-                  priceCalc.data[blank.index]?.total !== undefined
+                  priceCalc.data && priceCalc.data[blank.index]?.total !== undefined
                     ? priceCalc.data[blank.index].total
                     : 0
                 }
                 currencySymbol={
-                  data.currency.find(
-                    currency => currency.code === formData.currency,
-                  )?.info.symbol || ''
+                  data.currency.find(currency => currency.code === formData.currency)?.info
+                    .symbol || ''
                 }
                 onRemove={() => handleRemoveBlank(blank.index)}
-                onChange={(field, value) =>
-                  handleBlankChange(blank.index, field, value)
-                }
+                onChange={(field, value) => handleBlankChange(blank.index, field, value)}
               />
               <CustomDivider />
             </Fragment>

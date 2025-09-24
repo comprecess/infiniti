@@ -18,54 +18,55 @@ import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 import { postOfferPriceCalc } from '../../../../../shared/utils/api/Admin/Sales/NewOffer/post-offer-price-calc'
+import { loadStorage } from '../../../../../shared/utils/Saving/Storage/LoadStorage'
+import { saveStorage } from '../../../../../shared/utils/Saving/Storage/SaveStorage'
 import { AddProductOrService } from '../../AddProductOrService/AddProductOrService'
 
 export interface FieldsProps {
   data: SalesOfferInputData
+  storageKey: string
   customerId: number | null
   onFormDataChange: (data: Partial<SalesNewOfferFormData>) => void
 }
 
-export interface PartialFieldsNewOfferData
-  extends Partial<SalesNewOfferFormData> {
-  [key: string]:
-  | string
-  | number
-  | SalesBlankData[]
-  | boolean
-  | undefined
-  | null
+export interface PartialFieldsNewOfferData extends Partial<SalesNewOfferFormData> {
+  [key: string]: string | number | SalesBlankData[] | boolean | undefined | null
 }
 
-export const Fields = ({
-  data,
-  customerId,
-  onFormDataChange,
-}: FieldsProps) => {
-  const [formData, setFormData] = useState<PartialFieldsNewOfferData>({
-    offerNum: data.offerNum,
-    num: data.num,
-    checkPublic: true,
-    stage: data.stage[0],
-    blankList: [
-      {
-        index: 0,
-        service: 'calc',
-        description: '',
-        amount: 0,
-        price: 0,
-        discount: 0,
-        discountType: 'percent',
-        tax: 1,
-      },
-    ],
+export const Fields = ({ data, customerId, storageKey, onFormDataChange }: FieldsProps) => {
+  const [formData, setFormData] = useState<PartialFieldsNewOfferData>(() => {
+    const savedData = loadStorage<PartialFieldsNewOfferData>(storageKey)
+
+    if (savedData) return savedData
+
+    return {
+      offerNum: data.offerNum,
+      num: data.num,
+      checkPublic: 1,
+      stage: data.stage[0],
+      blankList: [
+        {
+          index: 0,
+          service: 'calc',
+          description: '',
+          amount: 0,
+          price: 0,
+          discount: 0,
+          discountType: 'percent',
+          tax: 1,
+        },
+      ],
+      clientId: customerId ?? undefined,
+    }
   })
 
-  const [priceCalc, setPriceCalc] =
-    useState<SalesNewInvoicePriceCalcProps | null>(null)
+  const [priceCalc, setPriceCalc] = useState<SalesNewInvoicePriceCalcProps | null>(null)
+  const [modalProductService, setModalProductService] = useState<boolean>(false)
 
-  const [modalProductService, setModalProductService] =
-    useState<boolean>(false)
+  const saveAndUpdate = (updatedData: PartialFieldsNewOfferData) => {
+    setFormData(updatedData)
+    saveStorage(storageKey, updatedData)
+  }
 
   const handleOpenCloseProductService = () => {
     setModalProductService(!modalProductService)
@@ -83,84 +84,65 @@ export const Fields = ({
       discountType: blank.discountType,
     }))
 
-    const response = await postOfferPriceCalc({
-      blankList,
-    })
-
+    const response = await postOfferPriceCalc({ blankList })
     if (!response.status) return
 
     setPriceCalc(response.data)
   }
 
-  const handleBlankChange = (
-    id: number,
-    field: string,
-    value: string | number | undefined,
-  ) => {
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      blankList: (prevFormData.blankList || []).map(blank =>
-        blank.index === id ? { ...blank, [field]: value } : blank,
-      ),
-    }))
-  }
-
-  const handleAddBlank = () => {
-    setFormData(prevFormData => {
-      const newId = prevFormData.blankList?.length || 0
-
-      const newBlank: SalesBlankData = {
-        index: newId,
-        service: 'calc',
-        description: '',
-        amount: 0,
-        price: 0,
-        discount: 0,
-        discountType: 'percent',
-        tax: 1,
-      }
-
-      return {
-        ...prevFormData,
-        blankList: [...(prevFormData.blankList || []), newBlank],
-      }
+  const handleBlankChange = (id: number, field: string, value: string | number | undefined) => {
+    const updatedBlankList = (formData.blankList || []).map(blank =>
+      blank.index === id ? { ...blank, [field]: value } : blank,
+    )
+    saveAndUpdate({
+      ...formData,
+      blankList: updatedBlankList,
     })
   }
 
-  const handleAddServiceBlank = (
-    idService: string,
-    price: number,
-    description: string,
-  ) => {
-    setFormData(prevFormData => {
-      const newId = prevFormData.blankList?.length || 0
+  const handleAddBlank = () => {
+    const newId = formData.blankList?.length || 0
 
-      const newBlank: SalesBlankData = {
-        index: newId,
-        serviceId: parseInt(idService),
-        service: 'serviceProduct',
-        description,
-        amount: 0,
-        price,
-        discount: 0,
-        discountType: 'percent',
-        tax: 1,
-      }
+    const newBlank: SalesBlankData = {
+      index: newId,
+      service: 'calc',
+      description: '',
+      amount: 0,
+      price: 0,
+      discount: 0,
+      discountType: 'percent',
+      tax: 1,
+    }
+    saveAndUpdate({
+      ...formData,
+      blankList: [...(formData.blankList || []), newBlank],
+    })
+  }
 
-      return {
-        ...prevFormData,
-        blankList: [...(prevFormData.blankList || []), newBlank],
-      }
+  const handleAddServiceBlank = (idService: string, price: number, description: string) => {
+    const newId = formData.blankList?.length || 0
+    const newBlank: SalesBlankData = {
+      index: newId,
+      serviceId: parseInt(idService),
+      service: 'serviceProduct',
+      description,
+      amount: 0,
+      price,
+      discount: 0,
+      discountType: 'percent',
+      tax: 1,
+    }
+    saveAndUpdate({
+      ...formData,
+      blankList: [...(formData.blankList || []), newBlank],
     })
   }
 
   const handleRemoveBlank = (id: number) => {
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      blankList: (prevFormData.blankList || []).filter(
-        blank => blank.index !== id,
-      ),
-    }))
+    saveAndUpdate({
+      ...formData,
+      blankList: (formData.blankList || []).filter(blank => blank.index !== id),
+    })
   }
 
   const handleChangeInput = (
@@ -169,26 +151,21 @@ export const Fields = ({
   ) => {
     if (field === 'stage' && typeof value === 'number') {
       value = data.stage[value]
-    } else if (
-      field === 'clientId' &&
-      typeof value === 'number' &&
-      value === 0
-    ) {
+    } else if (field === 'clientId' && typeof value === 'number' && value === 0) {
       value = null
     } else if (field === 'checkPublic' && typeof value === 'boolean') {
       value = value === true ? 1 : 0
     }
 
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      [field]: value,
-    }))
+    const updatedFormData = { ...formData, [field]: value }
+
+    saveAndUpdate(updatedFormData)
   }
 
   useEffect(() => {
     if (!formData.blankList) return
 
-    if (formData.blankList?.length > 0) {
+    if (formData.blankList.length > 0) {
       postPriceCalc()
     }
   }, [formData.blankList])
@@ -197,8 +174,7 @@ export const Fields = ({
     onFormDataChange(formData)
   }, [formData, onFormDataChange])
 
-  const isLoadBlank =
-    formData.blankList && formData.blankList.length > 0 && priceCalc?.data
+  const isLoadBlank = formData.blankList && formData.blankList.length > 0 && priceCalc?.data
 
   return (
     <div className={styles.wrapper}>
@@ -209,6 +185,7 @@ export const Fields = ({
             type='text'
             id='subject'
             name='subject'
+            value={formData.subject}
             onChange={handleChangeInput}
           />
           <div className={styles.containerItems}>
@@ -226,10 +203,7 @@ export const Fields = ({
               fontSize='16px'
               fontWeight='400'
               lineHeight='24px'
-              value={
-                data.client.find(client => client.id === formData.clientId)
-                  ?.address
-              }
+              value={data.client.find(client => client.id === formData.clientId)?.address}
             />
           </div>
           <CustomInput
@@ -254,19 +228,17 @@ export const Fields = ({
             title='Customer'
             titleOnChange='clientId'
             placeholder='Not Selected'
-            value={customerId ?? undefined}
+            value={formData.clientId || customerId || undefined}
             idList={data.client.map(item => item.id)}
             nameList={data.client.map(client =>
-              `${client.account}${
-                client.email ? ` - ${client.email}` : ''
-              }`.trim(),
+              `${client.account}${client.email ? ` - ${client.email}` : ''}`.trim(),
             )}
             onChange={handleChangeInput}
           />
           <CustomSelect
             title='Stage'
             titleOnChange='stage'
-            value={0}
+            value={formData.stage ? data.stage.findIndex(s => s === formData.stage) : 0}
             idList={data.stage.map((_stage, index) => index)}
             nameList={data.stage.map(stage => stage)}
             onChange={handleChangeInput}
@@ -274,17 +246,19 @@ export const Fields = ({
           <CustomDataPicker
             title='Date Created'
             titleOnChange='dateCreated'
+            value={formData.dateCreated}
             onChange={handleChangeInput}
           />
           <CustomDataPicker
             title='Expiry Date'
             titleOnChange='validUntil'
+            value={formData.validUntil}
             onChange={handleChangeInput}
           />
           <div className={styles.containerItems}>
             <span className={styles.containerItemsTitle}>Hide Info</span>
             <CustomCheckBox
-              defaultChecked
+              defaultChecked={formData.checkPublic === 1}
               titleOnChange='checkPublic'
               title='Hide Personal Info'
               onInputChange={handleChangeInput}
@@ -303,17 +277,16 @@ export const Fields = ({
                 price={blank.price}
                 itemName={blank.description}
                 discountAmount={blank.discount}
+                discountType={blank.discountType}
                 taxInput={data.tax}
+                taxFormData={blank.tax}
                 totalPrice={
-                  priceCalc.data &&
-                  priceCalc.data[blank.index]?.total !== undefined
+                  priceCalc.data && priceCalc.data[blank.index]?.total !== undefined
                     ? priceCalc.data[blank.index].total
                     : 0
                 }
                 onRemove={() => handleRemoveBlank(blank.index)}
-                onChange={(field, value) =>
-                  handleBlankChange(blank.index, field, value)
-                }
+                onChange={(field, value) => handleBlankChange(blank.index, field, value)}
               />
               <CustomDivider />
             </Fragment>
@@ -349,26 +322,22 @@ export const Fields = ({
           <span className={styles.containerItemsTitle}>Proposal Text</span>
           <div className={styles.containerEditorDesc}>
             <TextEditor
+              defaultValue={formData.proposal}
               setValue={message => handleChangeInput('proposal', message)}
             />
-            <span className={styles.editorDesc}>
-              Displayed at the Top of the Offer
-            </span>
+            <span className={styles.editorDesc}>Displayed at the Top of the Offer</span>
           </div>
         </div>
       </section>
       <section className={styles.footerTextEditor}>
         <div className={styles.containerItems}>
-          <span className={styles.containerItemsTitle}>
-            Customer Notes
-          </span>
+          <span className={styles.containerItemsTitle}>Customer Notes</span>
           <div className={styles.containerEditorDesc}>
             <TextEditor
+              defaultValue={formData.notes}
               setValue={message => handleChangeInput('notes', message)}
             />
-            <span className={styles.editorDesc}>
-              Displayed as a Footer to the Offer
-            </span>
+            <span className={styles.editorDesc}>Displayed as a Footer to the Offer</span>
           </div>
         </div>
       </section>

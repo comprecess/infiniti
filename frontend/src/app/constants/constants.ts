@@ -664,6 +664,15 @@ export interface SalesNewInvoiceFormData {
   status: string
   currency: string
   notes: string
+  title: string
+  date: string
+  checkPublic: number
+  clientId: number | null
+  receiptNumber: string
+  showQuantity: string
+  dueDate: number
+  repeat: number
+  tax: number
   blankList: SalesBlankData[]
 }
 
@@ -855,6 +864,13 @@ export interface SalesNewOfferFormData {
   num: string
   offerNum: string
   stage: string
+  subject: string
+  clientId: number
+  checkPublic: number
+  dateCreated: string
+  validUntil: string
+  proposal: string
+  notes: string
 }
 
 export interface SalesViewOfferData {
