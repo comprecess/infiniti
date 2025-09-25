@@ -49,12 +49,12 @@ class DashboardController extends ResidentController
 //        $id = auth()->id();
 //        $cashFlow = Cache::remember('dash_' . $id, config('cache.time.1hour'), function(){
             $cashFlow = [];
-
+            $printPrice = new Transaction();
             $cashFlow['client'] = Client::hasType()->checkAccess('all', 'customers')->count();
             $cashFlow['company'] = Company::checkAccess('all', 'companies')->count();
             $cashFlow['leads'] = Leads::checkAccess('all', 'leads')->count();
             $transactions = Transaction::byAdmin();
-            $cashFlow['newWorth'] = (new Transaction)->printPrice($transactions->getNetWorth());
+            $cashFlow['newWorth'] = $printPrice->printPrice($transactions->getNetWorth());
 
             $transaction = Transaction::checkAccess(...self::ACCESS)
                 ->with(['getCurrencyIso', 'currencyHistory']);
@@ -140,8 +140,8 @@ class DashboardController extends ResidentController
 
             $dataCache['account'] = [
                 'list' => AccountInfoResource::collection($accounts),
-                'netWorth' => round($accountBalances->getNetWorth()),
-                'limit' => Config::get('networth_goal', 35000),
+                'netWorth' => $printPrice->printPrice(round($accountBalances->getNetWorth())),
+                'limit' => $printPrice->printPrice((float) Config::get('networth_goal', 35000)),
             ];
 
 
