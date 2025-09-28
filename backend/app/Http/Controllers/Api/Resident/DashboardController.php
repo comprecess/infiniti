@@ -144,7 +144,7 @@ class DashboardController extends ResidentController
                 'limit' => (float) Config::get('networth_goal', 35000),
             ];
 
-            $dataCache['account']['netWorthCurrency'] = $printPrice->printPrice($dataCache['account']['netWorthCurrency']);
+            $dataCache['account']['netWorthCurrency'] = $printPrice->printPrice($dataCache['account']['netWorth']);
             $dataCache['account']['limitCurrency'] = $printPrice->printPrice($dataCache['account']['limit']);
 
 
