@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { ChangeEvent, KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react'
 
 import styles from './Chart.module.scss'
@@ -8,25 +9,24 @@ import { patchChangeNetWorth } from '../../../../../shared/utils/api/Admin/Dashb
 import { getSession } from '../../../../../shared/utils/Saving/Session/GetSession'
 
 interface ChartProps {
-  amount: string
-  total: string
+  netWorth: number
+  netWorthCurrency: string
+  limit: number
+  limitCurrency: string
 }
 
-export const Chart = ({ amount, total }: ChartProps) => {
+export const Chart = ({ netWorth, netWorthCurrency, limit, limitCurrency }: ChartProps) => {
   const [profileData, setProfileData] = useState<AdminInfo | null>(null)
 
-  const [editedAmount, setEditedAmount] = useState<string>(total || '0')
+  const [editedAmount, setEditedAmount] = useState<string>(limit.toString())
   const [isEditing, setIsEditing] = useState(false)
 
   const showToast = useCustomToast()
+  const queryClient = useQueryClient()
 
   const amountInputRef = useRef<HTMLInputElement>(null)
 
-  const amountValue = parseFloat(amount.replace(/[$,]/g, ''))
-  const totalValue = parseFloat(total.replace(/[$,]/g, ''))
-
-  const percentage =
-    amountValue > totalValue ? (totalValue / totalValue) * 100 : (amountValue / totalValue) * 100
+  const percentage = limit > netWorth ? (netWorth / netWorth) * 100 : (limit / netWorth) * 100
 
   const fetchProfileData = useCallback(async () => {
     const profileData = getSession(profileInfoString) as AdminInfo
@@ -43,6 +43,7 @@ export const Chart = ({ amount, total }: ChartProps) => {
         description: 'You have successfully changed Net Worth',
         status: 'success',
       })
+      queryClient.invalidateQueries({ queryKey: ['dashboard-full-info'] })
     } else {
       showToast({
         title: 'Error',
@@ -71,9 +72,11 @@ export const Chart = ({ amount, total }: ChartProps) => {
 
     const numberValue = Number(editedAmount) || 0
 
-    setEditedAmount(String(numberValue))
+    if (numberValue !== limit) {
+      setEditedAmount(String(numberValue))
 
-    await changeNetWorth(numberValue)
+      await changeNetWorth(numberValue)
+    }
   }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -89,7 +92,7 @@ export const Chart = ({ amount, total }: ChartProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.labels}>
-        <span className={styles.amount}>{amount}</span>
+        <span className={styles.amount}>{netWorthCurrency}</span>
         <span className={styles.syllable}>of</span>
         {profileData && profileData.roleId === 0 ? (
           <div
@@ -116,7 +119,7 @@ export const Chart = ({ amount, total }: ChartProps) => {
               />
             ) : (
               <span className={styles.total} onClick={() => setIsEditing(true)}>
-                {editedAmount}
+                {limitCurrency}
               </span>
             )}
             <EditPencilFill style={styles.editIcon} />
