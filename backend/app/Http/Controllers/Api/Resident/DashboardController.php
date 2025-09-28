@@ -141,10 +141,11 @@ class DashboardController extends ResidentController
             $dataCache['account'] = [
                 'list' => AccountInfoResource::collection($accounts),
                 'netWorth' => round($accountBalances->getNetWorth()),
-                'netWorthCurrency' => $printPrice->printPrice($dataCache['account']['netWorthCurrency']),
                 'limit' => (float) Config::get('networth_goal', 35000),
-                'limitCurrency' => $printPrice->printPrice($dataCache['account']['limit']),
             ];
+
+            $dataCache['account']['netWorthCurrency'] = $printPrice->printPrice($dataCache['account']['netWorthCurrency']);
+            $dataCache['account']['limitCurrency'] = $printPrice->printPrice($dataCache['account']['limit']);
 
 
             foreach (['latestExpense' => Transaction::TYPE[1], 'latestIncome' => Transaction::TYPE[0]] as $name => $type) {
