@@ -1290,8 +1290,10 @@ export interface DashboardLatestIncomeExpenseData {
 }
 
 export interface DashboardNetWorthData {
-  limit: string
+  limit: number
+  limitCurrency: string
   netWorth: number
+  netWorthCurrency: string
   list: {
     id: number
     balance: string

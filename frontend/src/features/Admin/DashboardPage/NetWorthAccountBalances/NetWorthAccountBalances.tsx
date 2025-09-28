@@ -19,8 +19,10 @@ export const NetWorthAccountBalances = ({ account }: NetWorthAccountBalancesProp
     <div className={styles.wrapper}>
       <div className={styles.card}>
         <Header
-          amount={String(account.netWorth)}
-          total={account.limit}
+          netWorth={account.netWorth}
+          netWorthCurrency={account.netWorthCurrency}
+          limit={account.limit}
+          limitCurrency={account.limitCurrency}
           name={t('admin-dashboard-page-card-8-mini-title')}
         />
         <div>
