@@ -6,9 +6,11 @@ namespace App\Http\Controllers\Api\Client\Business;
 
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Client\BusinessPlan\QuestionResource;
 use App\Http\Resources\Resident\BusinessPlan\BusinessPlanListResource;
 use App\Http\Resources\Resident\BusinessPlan\BusinessPlanResource;
 use App\Models\Resident\BusinessPlan;
+use App\Models\Resident\Question;
 use Illuminate\Http\Request;
 
 class BusinessPlanController extends Controller
@@ -33,6 +35,16 @@ class BusinessPlanController extends Controller
             ->with(['client', 'client.files', 'businessModel', 'businessModel.values', 'businessModel.props', 'businessModel.values.prop'])
             ->firstOrFail();
         return new BusinessPlanResource($plan);
+    }
+
+    public function getQuestion()
+    {
+        $question = Question::whereNull('parent_id')
+            ->with(['childrenRecursive'])
+            ->orderBy('position')
+            ->get();
+
+        return QuestionResource::collection($question);
     }
 
 //    public function delete(BusinessPlan $plan)
