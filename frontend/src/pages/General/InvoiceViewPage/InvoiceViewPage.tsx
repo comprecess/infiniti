@@ -11,8 +11,8 @@ import { Header } from '../../../features/General/InvoiceViewPage/Header/Header'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getInfoPublicInvoice } from '../../../shared/utils/api/Admin/Sales/PublicInvoice/GetInfoPublicInvoice'
-import { postStripePayment } from '../../../shared/utils/api/Admin/Sales/PublicInvoice/PostStripePayment'
+import { getInfoPublicInvoice } from '../../../shared/utils/api/Admin/Sales/PublicInvoice/get-info-public-invoice'
+import { postStripePayment } from '../../../shared/utils/api/Admin/Sales/PublicInvoice/post-stripe-payment'
 
 const extractTokenFromUrl = (url: string): string | null => {
   const regex = /\/view\/([^/]+)$/
@@ -24,10 +24,7 @@ const extractTokenFromUrl = (url: string): string | null => {
 const useTokenFromUrl = () => {
   const location = useLocation()
 
-  return useMemo(
-    () => extractTokenFromUrl(location.pathname),
-    [location.pathname],
-  )
+  return useMemo(() => extractTokenFromUrl(location.pathname), [location.pathname])
 }
 
 export const InvoiceViewPage = () => {
@@ -41,16 +38,16 @@ export const InvoiceViewPage = () => {
   const getInvoiceInfo = async () => {
     if (token === null) return
 
-    const getResponse = await getInfoPublicInvoice(token, '?type=view')
+    const response = await getInfoPublicInvoice(token, '?type=view')
 
-    setInfo(getResponse)
+    if (!response.status) return
+
+    setInfo(response.data)
   }
 
   const handleGetTokenStripe = async () => {
     if (!info?.payList) return
-    const stripeValue = info.payList.find(
-      item => item.idName === 'stripe',
-    )?.value
+    const stripeValue = info.payList.find(item => item.idName === 'stripe')?.value
     if (!stripeValue) return
     const stripe = await loadStripe(stripeValue)
     setStripePromise(stripe)
@@ -122,16 +119,8 @@ export const InvoiceViewPage = () => {
         {info ? (
           <div className={styles.container}>
             <div className={styles.pdfButtons}>
-              <ButtonBlue
-                title='Download PDF'
-                style={styles.downloadPDF}
-                onClick={downloadPDF}
-              />
-              <ButtonBlue
-                title='View PDF'
-                style={styles.viewPDF}
-                onClick={viewPDF}
-              />
+              <ButtonBlue title='Download PDF' style={styles.downloadPDF} onClick={downloadPDF} />
+              <ButtonBlue title='View PDF' style={styles.viewPDF} onClick={viewPDF} />
             </div>
             <div className={styles.header}>
               <Header

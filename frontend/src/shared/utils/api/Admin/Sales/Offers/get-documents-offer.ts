@@ -1,0 +1,91 @@
+import {
+  AUTH_ERROR_MESSAGE,
+  INVALID_RESPONSE_MESSAGE,
+  NETWORK_ERROR_MESSAGE,
+  REQUEST_TIMEOUT_MS,
+} from '../../../../../../app/constants/constants'
+import { customFetch } from '../../../custom-fetch'
+import { getAuthToken } from '../../../get-auth-token'
+
+interface SuccessResponse {
+  status: true
+  data: Blob
+}
+
+interface ErrorResponse {
+  status: false
+  message: string
+  error?: unknown
+}
+
+type Response = SuccessResponse | ErrorResponse
+
+export const getDocumentsOffer = async (options: string): Promise<Response> => {
+  if (typeof options !== 'string' || !options.trim()) {
+    return {
+      status: false,
+      message: 'Invalid request options',
+    }
+  }
+
+  const authToken = getAuthToken()
+
+  if (!authToken) {
+    return {
+      status: false,
+      message: AUTH_ERROR_MESSAGE,
+    }
+  }
+
+  try {
+    const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
+    const apiPath = import.meta.env.VITE_SALES_GET_OFFERS
+
+    if (!baseUrl || !apiPath) {
+      throw new Error('Configuration error - missing environment variables')
+    }
+
+    const url = new URL(`${apiPath}${options}`, baseUrl).toString()
+
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
+
+    const data = await customFetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+      responseType: 'blob',
+      signal: controller.signal,
+    })
+
+    clearTimeout(timeoutId)
+
+    if (!data) {
+      return {
+        status: false,
+        message: INVALID_RESPONSE_MESSAGE,
+        error: data,
+      }
+    }
+
+    return {
+      status: true,
+      data,
+    }
+  } catch (error) {
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      return {
+        status: false,
+        message: 'Request timeout',
+        error,
+      }
+    }
+
+    return {
+      status: false,
+      message: NETWORK_ERROR_MESSAGE,
+      error,
+    }
+  }
+}

@@ -19,22 +19,20 @@ import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getSelectedInfoOffer } from '../../../../shared/utils/api/Admin/Sales/EditOffer/get-selected-info-offer'
-import { convertOfferToInvoice } from '../../../../shared/utils/api/Admin/Sales/Offers/ConvertToInvoice'
-import { getOfferEmailTemplate } from '../../../../shared/utils/api/Admin/Sales/Offers/GetOfferEmailTemplates'
-import { changeOfferStage } from '../../../../shared/utils/api/Admin/Sales/Offers/OfferChangeStage'
+import { getTemplatesEmailOffer } from '../../../../shared/utils/api/Admin/Sales/Offers/get-templates-email-offer'
+import { putChangeOfferStage } from '../../../../shared/utils/api/Admin/Sales/Offers/put-change-offer-stage'
+import { putConvertToInvoice } from '../../../../shared/utils/api/Admin/Sales/Offers/put-convert-to-invoice'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const AdminViewOfferPage = () => {
   const [info, setInfo] = useState<SalesViewOfferData | null>(null)
 
-  const [emailInfo, setEmailInfo] =
-    useState<SalesOfferEmailTemplateData | null>(null)
+  const [emailInfo, setEmailInfo] = useState<SalesOfferEmailTemplateData | null>(null)
   const [emailTemplate, setEmailTemplate] = useState<string>('')
   const [emailPanel, setEmailPanel] = useState<boolean>(false)
 
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
-    useState<boolean>(false)
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState<boolean>(false)
 
   const id = useIdFromUrl('view')
   const showToast = useCustomToast()
@@ -55,10 +53,12 @@ export const AdminViewOfferPage = () => {
   const setTemplateEmail = async (template: 'offer-create') => {
     if (template === null || id === null) return
 
-    const getResponse = await getOfferEmailTemplate(id, template)
+    const response = await getTemplatesEmailOffer(id, template)
+
+    if (!response.status) return
 
     setEmailTemplate(template)
-    setEmailInfo(getResponse)
+    setEmailInfo(response.data)
   }
 
   const getOfferInfo = async () => {
@@ -72,9 +72,7 @@ export const AdminViewOfferPage = () => {
   }
 
   const navigateToEditOffer = () => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.sales}/${Routes.edit}/${Routes.offer}/${info?.id}`,
-    )
+    navigate(`/${Routes.adminPages}/${Routes.sales}/${Routes.edit}/${Routes.offer}/${info?.id}`)
   }
 
   const navigateToPreviewOffer = () => {
@@ -111,9 +109,9 @@ export const AdminViewOfferPage = () => {
   const handleChangeStage = async (stage: string) => {
     if (id === null) return
 
-    const changeResponse = await changeOfferStage(id, stage)
+    const { status, message } = await putChangeOfferStage(id, stage)
 
-    if (changeResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully changed the Offer stage',
@@ -123,7 +121,7 @@ export const AdminViewOfferPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: changeResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -132,13 +130,9 @@ export const AdminViewOfferPage = () => {
   const convertToInvoice = async () => {
     if (id === null) return
 
-    const convertResponse: {
-      invoiceId: number
-      status: boolean
-      message: string
-    } = await convertOfferToInvoice(id)
+    const { status, message, invoiceId } = await putConvertToInvoice(id)
 
-    if (convertResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully converted Offer to Invoice',
@@ -146,12 +140,12 @@ export const AdminViewOfferPage = () => {
       })
       openConfirmationModal()
       navigate(
-        `/${Routes.adminPages}/${Routes.sales}/${Routes.invoice}/${Routes.view}/${convertResponse.invoiceId}`,
+        `/${Routes.adminPages}/${Routes.sales}/${Routes.invoice}/${Routes.view}/${invoiceId}`,
       )
     } else {
       showToast({
         title: 'Error',
-        description: convertResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -185,9 +179,9 @@ export const AdminViewOfferPage = () => {
             name='uniqueURL'
             id='uniqueURL'
             styleInput={styles.input}
-            value={`${import.meta.env.VITE_MAIN_DOMAIN}/${Routes.public}/${
-              Routes.offer
-            }/${Routes.view}/${info.token}`}
+            value={`${import.meta.env.VITE_MAIN_DOMAIN}/${Routes.public}/${Routes.offer}/${
+              Routes.view
+            }/${info.token}`}
             onChange={() => {}}
           />
           <RecentCard
@@ -196,9 +190,7 @@ export const AdminViewOfferPage = () => {
             Component={Buttons}
             PagesComponent={Footer}
             componentProps={{
-              stageList: info.listStage.filter(
-                stage => stage !== info.stage,
-              ),
+              stageList: info.listStage.filter(stage => stage !== info.stage),
               roles,
               previewOffer: navigateToPreviewOffer,
               editOffer: navigateToEditOffer,

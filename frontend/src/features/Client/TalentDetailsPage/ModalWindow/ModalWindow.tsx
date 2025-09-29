@@ -1,10 +1,4 @@
-import {
-  Button,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-} from '@chakra-ui/react'
+import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react'
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -20,8 +14,8 @@ import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { Input } from '../../../../shared/ui/FromTo/Input/Input'
 import { TalentsLevel } from '../../../../shared/ui/TalentsLevel/TalentsLevel'
-import { addOrderToCart } from '../../../../shared/utils/api/Client/Cart/AddOrderToCart'
 import { getCalculationCart } from '../../../../shared/utils/api/Client/Cart/get-calculation-cart'
+import { postAddNewOrder } from '../../../../shared/utils/api/Client/Cart/post-add-new-order'
 import { Item } from '../../../../widgets/TalentsCard/Footer/Item/Item'
 import { TitleCard } from '../TitleCard/TitleCard'
 
@@ -31,11 +25,7 @@ interface ModalWindowProps {
   onClose: () => void
 }
 
-export const ModalWindow = ({
-  talent,
-  dividerOrientation,
-  onClose,
-}: ModalWindowProps) => {
+export const ModalWindow = ({ talent, dividerOrientation, onClose }: ModalWindowProps) => {
   const [item, setItem] = useState<'priceHour' | 'priceDay'>('priceHour')
   const [unit, setUnit] = useState<string>('Hours (h)')
   const [total, setTotal] = useState<string>('0.00')
@@ -74,11 +64,7 @@ export const ModalWindow = ({
 
   const handleAddOrderToCart = async () => {
     if (amount > 0) {
-      const { status, message } = await addOrderToCart(
-        talent.id,
-        amount,
-        item,
-      )
+      const { status, message } = await postAddNewOrder(talent.id, amount, item)
 
       if (status) {
         showToast({
@@ -121,9 +107,7 @@ export const ModalWindow = ({
         </div>
         <div className={styles.available}>
           <InfoIcon fill={styles.infoIcon} />
-          <span className={styles.availableText}>
-            Will be available: next week
-          </span>
+          <span className={styles.availableText}>Will be available: next week</span>
         </div>
         <div className={styles.rates}>
           <Item title={talent.priceDay} description='Daily rate (8h)' />
@@ -138,9 +122,7 @@ export const ModalWindow = ({
       <div className={styles.rightItem}>
         <div className={styles.title}>
           <TitleCard title='Add to order' />
-          <span className={styles.description}>
-            Select quantity of hours/days you needed
-          </span>
+          <span className={styles.description}>Select quantity of hours/days you needed</span>
         </div>
         <div className={styles.inputs}>
           <Input
@@ -172,12 +154,8 @@ export const ModalWindow = ({
               {unit}
             </MenuButton>
             <MenuList>
-              <MenuItem onClick={() => handleItemClick('priceHour')}>
-                Hours (h)
-              </MenuItem>
-              <MenuItem onClick={() => handleItemClick('priceDay')}>
-                Days
-              </MenuItem>
+              <MenuItem onClick={() => handleItemClick('priceHour')}>Hours (h)</MenuItem>
+              <MenuItem onClick={() => handleItemClick('priceDay')}>Days</MenuItem>
             </MenuList>
           </Menu>
         </div>
@@ -186,10 +164,7 @@ export const ModalWindow = ({
           <h4 className={styles.totalPrice}>{total}</h4>
         </div>
         <ButtonBlue title='Add to order' onClick={handleAddOrderToCart} />
-        <ButtonBrand
-          title='Continue search'
-          onClick={handleContinueSearch}
-        />
+        <ButtonBrand title='Continue search' onClick={handleContinueSearch} />
       </div>
     </div>
   )

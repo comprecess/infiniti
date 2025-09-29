@@ -3,11 +3,6 @@ import { useCallback, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import styles from './UsersPage.module.scss'
-import {
-  PagesMetaData,
-  RolesAccess,
-  SettingsUsersData,
-} from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { RecentUsers } from '../../../../features/Admin/Settings/UsersPage/UsersPage/RecentUsers/RecentUsers'
 import { PagesList } from '../../../../features/Client/CatalogPage/TalentsList/PagesList/PagesList'
@@ -15,8 +10,8 @@ import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { Search } from '../../../../shared/ui/Search/Search'
-import { deleteSelectedUser } from '../../../../shared/utils/api/Admin/Settings/Users/DeleteUser'
-import { getListUsers } from '../../../../shared/utils/api/Admin/Settings/Users/GetListUsers'
+import { deleteSelectedUser } from '../../../../shared/utils/api/Admin/Settings/Users/delete-selected-user'
+import { getListUsers } from '../../../../shared/utils/api/Admin/Settings/Users/get-list-users'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const AdminUsersPage = () => {
@@ -43,36 +38,30 @@ export const AdminUsersPage = () => {
   }
 
   const updatePage = (newPage: string) => updateQueryParam('page', newPage)
-  const updateSearch = (newSearch: string) =>
-    updateQueryParam('search', newSearch)
+  const updateSearch = (newSearch: string) => updateQueryParam('search', newSearch)
   const updateSort = (name: string, type: number) => {
     updateQueryParam('sortName', name)
     updateQueryParam('sortType', type)
   }
 
-  const changeSort = useCallback(
-    (sortNameItem: string, sortTypeItem: number) => {
-      updateSort(sortNameItem, sortTypeItem)
-    },
-    [],
-  )
+  const changeSort = useCallback((sortNameItem: string, sortTypeItem: number) => {
+    updateSort(sortNameItem, sortTypeItem)
+  }, [])
 
   const { data: usersData } = useQuery({
     queryKey: ['usersData', page, search, sortName, sortType],
     queryFn: async () => {
-      const response: {
-        access: RolesAccess
-        data: SettingsUsersData[]
-        meta: PagesMetaData
-      } = await getListUsers(
+      const response = await getListUsers(
         `?page=${page}&filter[search]=${search}&sort[name]=${sortName}&sort[type]=${sortType}&document=json`,
       )
 
-      if (page && parseInt(page) > response.meta.last_page) {
+      if (!response.status) return
+
+      if (page && parseInt(page) > response.data.meta.last_page) {
         updatePage('1')
       }
 
-      return response
+      return response.data
     },
     placeholderData: previousData => previousData,
   })
@@ -84,9 +73,9 @@ export const AdminUsersPage = () => {
   }
 
   const handleDeleteSelectedUser = async (idUser: number) => {
-    const deleteResponse = await deleteSelectedUser(idUser)
+    const { status, message } = await deleteSelectedUser(idUser)
 
-    if (deleteResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully deleted the user',
@@ -96,7 +85,7 @@ export const AdminUsersPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: deleteResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -144,12 +133,8 @@ export const AdminUsersPage = () => {
             title='Users'
             style={styles.recentFullScreen}
             HeaderComponent={Search}
-            Component={
-              usersData.access.create === 1 ? ButtonBlue : undefined
-            }
-            PagesComponent={
-              usersData.data.length > 0 ? PagesList : undefined
-            }
+            Component={usersData.access.create === 1 ? ButtonBlue : undefined}
+            PagesComponent={usersData.data.length > 0 ? PagesList : undefined}
             pagesProps={
               usersData.data.length > 0
                 ? {

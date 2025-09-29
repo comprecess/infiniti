@@ -5,7 +5,7 @@ import styles from './ProfileCard.module.scss'
 import { UserInfo } from '../../app/constants/constants'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../shared/ui/CustomToast/CustomToast'
-import { updateProfileAvatar } from '../../shared/utils/api/Client/Profile/UpdateProfileAvatar'
+import { postUpdateProfileAvatar } from '../../shared/utils/api/Client/Profile/post-update-profile-avatar'
 import { cropImageToSquare } from '../../shared/utils/Avatar/CropImage'
 
 interface ProfileCardProps {
@@ -13,10 +13,7 @@ interface ProfileCardProps {
   onChangeInfo: () => void
 }
 
-export const ProfileCard = ({
-  talent,
-  onChangeInfo,
-}: ProfileCardProps) => {
+export const ProfileCard = ({ talent, onChangeInfo }: ProfileCardProps) => {
   const showToast = useCustomToast()
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -24,15 +21,11 @@ export const ProfileCard = ({
     inputRef.current?.click()
   }
 
-  const handleAvatarChange = async (
-    event: ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleAvatarChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files
 
     if (files && files.length > 0) {
-      if (
-        !['image/jpeg', 'image/jpg', 'image/png'].includes(files[0].type)
-      ) {
+      if (!['image/jpeg', 'image/jpg', 'image/png'].includes(files[0].type)) {
         showToast({
           title: 'Error',
           description: 'Only JPEG and PNG images are allowed',
@@ -43,13 +36,13 @@ export const ProfileCard = ({
       }
 
       const croppedFile = await cropImageToSquare(files[0])
-
       const formData = new FormData()
+
       formData.append('file', croppedFile)
 
-      const updateResponse = await updateProfileAvatar(formData)
+      const { status, message } = await postUpdateProfileAvatar(formData)
 
-      if (updateResponse.status) {
+      if (status) {
         showToast({
           title: 'Successfully',
           description: 'Your photo has been successfully uploaded',
@@ -59,7 +52,7 @@ export const ProfileCard = ({
       } else {
         showToast({
           title: 'Error',
-          description: updateResponse.message,
+          description: message,
           status: 'error',
         })
       }
@@ -77,46 +70,27 @@ export const ProfileCard = ({
       <div className={styles.avatar}>
         <img
           alt='Avatar'
-          src={
-            talent.img
-              ? `${talent.img}?width=128&height=128`
-              : '/profileWithoutAvatar.svg'
-          }
+          src={talent.img ? `${talent.img}?width=128&height=128` : '/profileWithoutAvatar.svg'}
         />
       </div>
       <h3 className={styles.name}>{talent.account}</h3>
       <div className={styles.info}>
-        <InfoItem
-          title='Phone:'
-          description={talent.phone ? talent.phone : '-'}
-        />
-        <InfoItem
-          title='Email:'
-          description={talent.email ? talent.email : '-'}
-        />
+        <InfoItem title='Phone:' description={talent.phone ? talent.phone : '-'} />
+        <InfoItem title='Email:' description={talent.email ? talent.email : '-'} />
         <InfoItem
           title='Business Number:'
           description={talent.businessNumber ? talent.businessNumber : '-'}
         />
       </div>
       <div className={styles.address}>
-        <InfoItem
-          title='Company Name:'
-          description={talent.company ? talent.company : '-'}
-        />
-        <InfoItem
-          title='Address:'
-          description={talent.address ? talent.address : '-'}
-        />
-        <InfoItem
-          title='City:'
-          description={talent.city ? talent.city : '-'}
-        />
+        <InfoItem title='Company Name:' description={talent.company ? talent.company : '-'} />
+        <InfoItem title='Address:' description={talent.address ? talent.address : '-'} />
+        <InfoItem title='City:' description={talent.city ? talent.city : '-'} />
         <InfoItem
           title='State/Region:'
-          description={`${
-            talent.state ? talent.state : 'Not Indicate'
-          } — ${talent.zip ? talent.zip : 'Not Indicate'}`}
+          description={`${talent.state ? talent.state : 'Not Indicate'} — ${
+            talent.zip ? talent.zip : 'Not Indicate'
+          }`}
         />
       </div>
       <div className={styles.uploadPicture}>

@@ -8,10 +8,7 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
-import {
-  SortableContext,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable'
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
@@ -30,15 +27,8 @@ interface TasksCardProps {
   access: RolesAccess
   data: ProjectsColumnData
   inputData: ProjectsTasksInputData
-  updateTaskPosition: (
-    taskId: number,
-    newIndex: number,
-    columnTitle: string,
-  ) => void
-  editSelectedTask: (
-    idTask: number,
-    form: Partial<ProjectsTasksFormData>,
-  ) => void
+  updateTaskPosition: (taskId: number, newIndex: number, columnTitle: string) => void
+  editSelectedTask: (idTask: number, form: Partial<ProjectsTasksFormData>) => void
   deleteSelectedTask: (idTask: number) => void
 }
 
@@ -57,6 +47,8 @@ export const TasksCard = ({
 }: TasksCardProps) => {
   const [columns, setColumns] = useState<ProjectsColumnData>(data)
   const [activeTask, setActiveTask] = useState<ActiveTaskInfo | null>(null)
+
+  const [visibleCount, setVisibleCount] = useState<number>(6)
 
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -101,9 +93,7 @@ export const TasksCard = ({
 
     const sourceColumn = activeTask.fromColumn
     const sourceTasks = [...columns[sourceColumn]]
-    const activeIndex = sourceTasks.findIndex(
-      t => t.id.toString() === activeId,
-    )
+    const activeIndex = sourceTasks.findIndex(t => t.id.toString() === activeId)
     if (activeIndex === -1) return
 
     let targetColumn = sourceColumn
@@ -144,6 +134,7 @@ export const TasksCard = ({
 
   useEffect(() => {
     const children = containerRef.current?.children
+
     if (!children) return
 
     Array.from(children).forEach(child => {
@@ -151,26 +142,20 @@ export const TasksCard = ({
       ;(child as HTMLElement).style.height = 'auto'
     })
 
-    const maxHeight = Math.max(
-      ...Array.from(children).map(el => (el as HTMLElement).offsetHeight),
-    )
+    const maxHeight = Math.max(...Array.from(children).map(el => (el as HTMLElement).offsetHeight))
 
     Array.from(children).forEach(child => {
       // eslint-disable-next-line no-extra-semi
       ;(child as HTMLElement).style.height = `${maxHeight}px`
     })
-  }, [columns])
+  }, [columns, visibleCount])
 
   useEffect(() => {
     setColumns(data)
   }, [data])
 
   return (
-    <DndContext
-      sensors={sensors}
-      onDragStart={onDragStart}
-      onDragEnd={onDragEnd}
-    >
+    <DndContext sensors={sensors} onDragStart={onDragStart} onDragEnd={onDragEnd}>
       <div ref={containerRef} className={styles.wrapper}>
         {Object.entries(columns).map(([status, tasks]) => (
           <SortableContext
@@ -180,6 +165,8 @@ export const TasksCard = ({
           >
             <TaskColumn
               access={access}
+              visibleCount={visibleCount}
+              setVisibleCount={setVisibleCount}
               taskIdFromUrl={taskIdFromUrl}
               inputData={inputData}
               isDragging={!!activeTask}

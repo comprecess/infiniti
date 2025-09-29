@@ -9,8 +9,8 @@ import { CustomDropZone } from '../../../shared/ui/CustomDropZone/CustomDropZone
 import { CustomInput } from '../../../shared/ui/CustomInput/CustomInput'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { postAddNewDocument } from '../../../shared/utils/api/Admin/Sales/PublicDocumentProof/PostAddNewDocument'
-import { getInfoPublicInvoice } from '../../../shared/utils/api/Admin/Sales/PublicInvoice/GetInfoPublicInvoice'
+import { postAddNewDocument } from '../../../shared/utils/api/Admin/Sales/PublicDocumentProof/post-add-new-document'
+import { getInfoPublicInvoice } from '../../../shared/utils/api/Admin/Sales/PublicInvoice/get-info-public-invoice'
 import { sanitizeMessage } from '../../../shared/utils/TextEditor/sanitizeMessage'
 
 const extractTokenFromUrl = (url: string): string | null => {
@@ -23,10 +23,7 @@ const extractTokenFromUrl = (url: string): string | null => {
 const useTokenFromUrl = () => {
   const location = useLocation()
 
-  return useMemo(
-    () => extractTokenFromUrl(location.pathname),
-    [location.pathname],
-  )
+  return useMemo(() => extractTokenFromUrl(location.pathname), [location.pathname])
 }
 
 export const InvoiceProofTransaction = () => {
@@ -41,10 +38,7 @@ export const InvoiceProofTransaction = () => {
   const showToast = useCustomToast()
   const token = useTokenFromUrl()
 
-  const onChangeInput = (
-    name: string,
-    value: string | number | boolean,
-  ) => {
+  const onChangeInput = (name: string, value: string | number | boolean) => {
     setFormData(prevFormData => {
       return {
         ...prevFormData,
@@ -63,9 +57,11 @@ export const InvoiceProofTransaction = () => {
   const getInvoiceInfo = async () => {
     if (token === null) return
 
-    const getResponse = await getInfoPublicInvoice(token, '?type=view')
+    const response = await getInfoPublicInvoice(token, '?type=view')
 
-    setInfo(getResponse)
+    if (!response.status) return
+
+    setInfo(response.data)
   }
 
   const addNewDocument = async () => {
@@ -76,21 +72,19 @@ export const InvoiceProofTransaction = () => {
     if (formData.title) form.append('title', formData.title)
     if (formData.file) form.append('file', formData.file)
 
-    const addResponse = await postAddNewDocument(form, token)
+    const { status, message } = await postAddNewDocument(form, token)
 
-    if (addResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully added a Document',
         status: 'success',
       })
-      navigate(
-        `/${Routes.public}/${Routes.invoice}/${Routes.view}/${token}`,
-      )
+      navigate(`/${Routes.public}/${Routes.invoice}/${Routes.view}/${token}`)
     } else {
       showToast({
         title: 'Error',
-        description: addResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -107,18 +101,13 @@ export const InvoiceProofTransaction = () => {
           <span className={styles.title}>Invoice</span>
           <div className={styles.header}>
             <div className={styles.invoiceTitle}>
-              {info.title && (
-                <h4 className={styles.titleInvoice}>{`${info.title}`}</h4>
-              )}
+              {info.title && <h4 className={styles.titleInvoice}>{`${info.title}`}</h4>}
               <h4 className={styles.invoiceCode}>{`#${info.code}`}</h4>
             </div>
             <div className={styles.totalEnd}>
               <div className={styles.totalWrapper}>
                 <span className={styles.totalTitle}>Invoice Total:</span>
-                <span
-                  className={styles.totalValue}
-                  contentEditable={false}
-                >
+                <span className={styles.totalValue} contentEditable={false}>
                   {info.blankCalc.total}
                 </span>
               </div>
@@ -145,11 +134,7 @@ export const InvoiceProofTransaction = () => {
               onChange={onChangeInput}
             />
             <CustomDropZone onDrop={handleDrop} />
-            <ButtonBlue
-              title='Send'
-              style={styles.buttonSubmit}
-              onClick={addNewDocument}
-            />
+            <ButtonBlue title='Send' style={styles.buttonSubmit} onClick={addNewDocument} />
           </div>
         </div>
       ) : (

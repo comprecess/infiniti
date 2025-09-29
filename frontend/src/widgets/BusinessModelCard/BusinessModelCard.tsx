@@ -5,7 +5,7 @@ import styles from './BusinessModelCard.module.scss'
 import { ConvertModal } from './ConvertModal/ConvertModal'
 import { RolesAccess, ValuesProps } from '../../app/constants/constants'
 import { Routes } from '../../app/router/routes'
-import { Question } from '../../features/General/Survey/Survey'
+import { Block } from '../../features/General/Survey/types'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
 import { ConfirmationModal } from '../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../shared/ui/CustomMiniButton/CustomMiniButton'
@@ -14,6 +14,7 @@ import { Item } from '../TalentsCard/Body/Item/Item'
 
 interface BusinessModelCardProps {
   id: number
+  survey: Block[]
   title: string
   image: string
   isAdmin: boolean
@@ -34,6 +35,7 @@ interface BusinessModelCardProps {
 
 export const BusinessModelCard = ({
   id,
+  survey,
   title,
   image,
   isAdmin,
@@ -54,7 +56,7 @@ export const BusinessModelCard = ({
   const [modalDelete, setModalDelete] = useState<boolean>(false)
   const [modalConvert, setModalConvert] = useState<boolean>(false)
 
-  const { openSurvey } = useOutletContext<{ openSurvey: (q: Question[]) => void }>()
+  const { openSurvey } = useOutletContext<{ openSurvey: (q: Block[]) => void }>()
 
   const handleOpenConfirmationModal = () => {
     setModalDelete(state => !state)
@@ -69,29 +71,6 @@ export const BusinessModelCard = ({
 
     window.open(url, '_blank')
   }
-
-  const testQuestions: Question[] = [
-    {
-      id: 'q1',
-      type: 'string',
-      question: 'Расскажите кратко о вашем бизнесе',
-      required: true,
-    },
-    {
-      id: 'q2',
-      type: 'checkbox',
-      question: 'Какие отрасли вам ближе?',
-      options: ['IT', 'Финансы', 'Здравоохранение', 'Образование'],
-      required: true,
-    },
-    {
-      id: 'q3',
-      type: 'radiobox',
-      question: 'Есть ли у вас команда?',
-      options: ['Да', 'Нет'],
-      required: true,
-    },
-  ]
 
   return (
     <>
@@ -177,10 +156,7 @@ export const BusinessModelCard = ({
                 )}
                 {!isAdmin && (
                   <div className={styles.buttonsClient}>
-                    <ButtonBlue
-                      title='Convert to a Business Plan'
-                      onClick={() => openSurvey(testQuestions)}
-                    />
+                    <ButtonBlue title='Convert to Plan' onClick={() => openSurvey(survey)} />
                     <ButtonBlue title='Details' onClick={() => onNavigate(id)} />
                   </div>
                 )}

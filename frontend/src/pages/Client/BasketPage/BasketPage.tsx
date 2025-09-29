@@ -10,8 +10,8 @@ import { BackButton } from '../../../shared/ui/BackButton/BackButton'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getTeamDatesBusy } from '../../../shared/utils/api/Admin/Meeting/get-team-dates-busy'
-import { getConvertToInvoice } from '../../../shared/utils/api/Client/Basket/GetConvertToInvoice'
-import { getOrdersInCart } from '../../../shared/utils/api/Client/Cart/GetOrdersInCart'
+import { getConvertToInvoice } from '../../../shared/utils/api/Client/Basket/get-convert-to-invoice'
+import { getOrderCart } from '../../../shared/utils/api/Client/Cart/get-order-cart'
 import { Basket } from '../../../widgets/BasketCart/Basket/Basket'
 import { Cart } from '../../../widgets/BasketCart/Cart/Cart'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
@@ -27,9 +27,7 @@ export const ClientBasketPage = () => {
     queryFn: async () => {
       if (orders?.items === undefined) return
 
-      const teamIdsQuery = orders.items
-        .map(item => `ids[]=${item.userCatalog.id}`)
-        .join('&')
+      const teamIdsQuery = orders.items.map(item => `ids[]=${item.userCatalog.id}`).join('&')
 
       const response = await getTeamDatesBusy(
         teamIdsQuery,
@@ -44,9 +42,11 @@ export const ClientBasketPage = () => {
   })
 
   const getOrders = async () => {
-    const ordersResponse: CartProps = await getOrdersInCart()
+    const response = await getOrderCart()
 
-    setOrder(ordersResponse)
+    if (!response.status) return
+
+    setOrder(response.data)
   }
 
   const handleNavigateToInvoice = (token: string) => {
@@ -56,7 +56,7 @@ export const ClientBasketPage = () => {
   const convertBasketToInvoice = async () => {
     const response = await getConvertToInvoice()
 
-    if (response.success) {
+    if (response.status) {
       handleNavigateToInvoice(response.token)
     } else {
       showToast({
@@ -87,10 +87,7 @@ export const ClientBasketPage = () => {
             <BackButton />
           </div>
           <div className={styles.title}>
-            <TitlePage
-              title='My orders'
-              secondTitle={String(orders.count)}
-            />
+            <TitlePage title='My orders' secondTitle={String(orders.count)} />
           </div>
           <section className={styles.sectionFirst}>
             <RecentCard style={styles.cart}>

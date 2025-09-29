@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import styles from './NewRolePage.module.scss'
 import {
-  RolesAccess,
   RolesAccessObjectPermission,
   SettingsRoleFormData,
 } from '../../../../../app/constants/constants'
+import { Routes } from '../../../../../app/router/routes'
 import { Header } from '../../../../../features/Admin/Settings/NewRolePage/Header/Header'
 import { RecentNewRole } from '../../../../../features/Admin/Settings/NewRolePage/RecentNewRole/RecentNewRole'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { createNewRole } from '../../../../../shared/utils/api/Admin/Settings/NewRole/CreateNewRole'
-import { getInputDataRoles } from '../../../../../shared/utils/api/Admin/Settings/NewRole/GetInputDataRoles'
+import { getInputDataRoles } from '../../../../../shared/utils/api/Admin/Settings/NewRole/get-input-data-roles'
+import { postCreateNewRole } from '../../../../../shared/utils/api/Admin/Settings/NewRole/post-create-new-role'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 
 export const AdminNewRolePage = () => {
@@ -21,37 +22,35 @@ export const AdminNewRolePage = () => {
     access: SettingsRoleFormData[]
   } | null>(null)
 
-  const [permission, setPermission] = useState<
-  RolesAccessObjectPermission[] | null
-  >(null)
+  const [permission, setPermission] = useState<RolesAccessObjectPermission[] | null>(null)
 
   const showToast = useCustomToast()
+  const navigate = useNavigate()
 
   const getInputData = async () => {
-    const getResponse: {
-      access: RolesAccess
-      permission: RolesAccessObjectPermission[]
-      status: boolean
-    } = await getInputDataRoles()
+    const response = await getInputDataRoles()
 
-    setPermission(getResponse.permission)
+    if (!response.status) return
+
+    setPermission(response.data.permission)
   }
 
   const createRole = async () => {
     if (!formData) return
 
-    const createResponse = await createNewRole(formData)
+    const { status, message } = await postCreateNewRole(formData)
 
-    if (createResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully created a role',
         status: 'success',
       })
+      navigate(`/${Routes.adminPages}/${Routes.settings}/${Routes.roles}`)
     } else {
       showToast({
         title: 'Error',
-        description: createResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -81,11 +80,7 @@ export const AdminNewRolePage = () => {
               style: styles.buttonSave,
             }}
           >
-            <RecentNewRole
-              permission={permission}
-              formData={formData}
-              setFormData={setFormData}
-            />
+            <RecentNewRole permission={permission} formData={formData} setFormData={setFormData} />
           </RecentCard>
         ) : (
           <LoadingSpinner size='xl' />

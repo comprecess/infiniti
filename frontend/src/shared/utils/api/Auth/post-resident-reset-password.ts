@@ -19,26 +19,19 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-export const postResidentResetPassword = async (
-  email: string,
-): Promise<Response> => {
+export const postResidentResetPassword = async (email: string): Promise<Response> => {
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
     const apiPath = import.meta.env.VITE_AUTH_RESIDENT_RESET_PASSWORD_API
 
     if (!baseUrl || !apiPath) {
-      throw new Error(
-        'Configuration error - missing environment variables',
-      )
+      throw new Error('Configuration error - missing environment variables')
     }
 
     const url = new URL(apiPath, baseUrl).toString()
 
     const controller = new AbortController()
-    const timeoutId = setTimeout(
-      () => controller.abort(),
-      REQUEST_TIMEOUT_MS,
-    )
+    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
 
     const data = await customFetch(url, {
       method: 'POST',
@@ -48,7 +41,6 @@ export const postResidentResetPassword = async (
       },
       body: JSON.stringify({ email }),
       signal: controller.signal,
-      redirectOnError: false,
     })
 
     clearTimeout(timeoutId)

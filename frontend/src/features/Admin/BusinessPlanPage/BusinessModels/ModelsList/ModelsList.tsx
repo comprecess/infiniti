@@ -1,10 +1,4 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react'
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import styles from './ModelsList.module.scss'
@@ -16,8 +10,10 @@ import {
 import { Routes } from '../../../../../app/router/routes'
 import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { getBusinessPlanSurvey } from '../../../../../shared/utils/api/Client/BusinessPlan/get-business-plan-survey'
 import { BusinessModelCard } from '../../../../../widgets/BusinessModelCard/BusinessModelCard'
 import { PagesList } from '../../../../Client/CatalogPage/TalentsList/PagesList/PagesList'
+import { Block } from '../../../../General/Survey/types'
 
 interface ModelsListProps {
   isAdmin: boolean
@@ -38,9 +34,19 @@ export const ModelsList = ({
   setCurrentPage,
   deleteBusinessModel,
 }: ModelsListProps) => {
+  const [survey, setSurvey] = useState<Block[] | null>(null)
+
   const [modelsOpen, setModelsOpen] = useState<boolean[]>([])
 
   const navigate = useNavigate()
+
+  const getSurvey = async () => {
+    const response = await getBusinessPlanSurvey()
+
+    if (!response.status) return
+
+    setSurvey(response.data.data)
+  }
 
   const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page)
@@ -78,6 +84,10 @@ export const ModelsList = ({
     if (modelsList) setModelsOpen(Array(modelsList.meta.total).fill(false))
   }, [modelsList])
 
+  useEffect(() => {
+    getSurvey()
+  }, [])
+
   if (!modelsList) {
     return (
       <div className={styles.wrapper}>
@@ -99,7 +109,7 @@ export const ModelsList = ({
             )}
           </div>
         </div>
-        {modelsList ? (
+        {modelsList && survey ? (
           <div className={styles.list}>
             {modelsList.data.length > 0 ? (
               <>
@@ -108,6 +118,7 @@ export const ModelsList = ({
                     return (
                       <BusinessModelCard
                         key={model.id}
+                        survey={survey}
                         id={model.id}
                         isAdmin={isAdmin}
                         title={model.title}
@@ -124,25 +135,16 @@ export const ModelsList = ({
                         onMobileCLick={() => handleModelOpenClose(index)}
                         onNavigate={handleNavigateToViewBusinessModel}
                         onEdit={handleNavigateToEditBusinessModel}
-                        onDelete={
-                          deleteBusinessModel
-                            ? deleteBusinessModel
-                            : () => {}
-                        }
+                        onDelete={deleteBusinessModel ? deleteBusinessModel : () => {}}
                       />
                     )
                   })}
                 </div>
-                <PagesList
-                  meta={modelsList.meta}
-                  nextPage={handlePageChange}
-                />
+                <PagesList meta={modelsList.meta} nextPage={handlePageChange} />
               </>
             ) : (
               <div className={styles.nothingFound}>
-                <span className={styles.nothingFoundText}>
-                  Nothing Found
-                </span>
+                <span className={styles.nothingFoundText}>Nothing Found</span>
               </div>
             )}
             <div
@@ -154,9 +156,7 @@ export const ModelsList = ({
             >
               <ButtonBrand
                 title='Back to top'
-                onClick={() =>
-                  window.scrollTo({ top: 0, behavior: 'smooth' })
-                }
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               />
             </div>
           </div>

@@ -2,17 +2,14 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import styles from './RolesPage.module.scss'
-import {
-  RolesAccess,
-  SettingsRolesData,
-} from '../../../../app/constants/constants'
+import { RolesAccess, SettingsRolesData } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { RecentRoles } from '../../../../features/Admin/Settings/RolesPage/RecentRoles/RecentRoles'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { deleteRole } from '../../../../shared/utils/api/Admin/Settings/Roles/DeleteRole'
-import { getListRoles } from '../../../../shared/utils/api/Admin/Settings/Roles/GetListRoles'
+import { deleteRole } from '../../../../shared/utils/api/Admin/Settings/Roles/delete-role'
+import { getListRoles } from '../../../../shared/utils/api/Admin/Settings/Roles/get-list-roles'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const AdminRolesPage = () => {
@@ -24,26 +21,24 @@ export const AdminRolesPage = () => {
   const showToast = useCustomToast()
 
   const getRoles = async () => {
-    const getResponse: {
-      access: RolesAccess
-      data: SettingsRolesData[]
-      status: boolean
-    } = await getListRoles()
+    const response = await getListRoles()
+
+    if (!response.status) return
 
     setAccess({
-      all: getResponse.access.all,
-      create: getResponse.access.create,
-      delete: getResponse.access.delete,
-      edit: getResponse.access.edit,
-      view: getResponse.access.view,
+      all: response.data.access.all,
+      create: response.data.access.create,
+      delete: response.data.access.delete,
+      edit: response.data.access.edit,
+      view: response.data.access.view,
     })
-    setRoles(getResponse.data)
+    setRoles(response.data.data)
   }
 
   const deleteSelectedRole = async (idRole: number) => {
-    const deleteResponse = await deleteRole(idRole)
+    const { status, message } = await deleteRole(idRole)
 
-    if (deleteResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully deleted the role',
@@ -53,7 +48,7 @@ export const AdminRolesPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: deleteResponse.message,
+        description: message,
         status: 'error',
       })
     }

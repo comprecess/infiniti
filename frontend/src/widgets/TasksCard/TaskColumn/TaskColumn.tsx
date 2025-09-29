@@ -1,8 +1,6 @@
 import { useDroppable } from '@dnd-kit/core'
-import {
-  SortableContext,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable'
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import { Dispatch, SetStateAction } from 'react'
 import { SetURLSearchParams } from 'react-router-dom'
 
 import styles from './TaskColumn.module.scss'
@@ -16,6 +14,8 @@ import {
 
 interface TaskColumnProps {
   access: RolesAccess
+  visibleCount: number
+  setVisibleCount: Dispatch<SetStateAction<number>>
   inputData: ProjectsTasksInputData
   taskIdFromUrl: string | null
   title: string
@@ -25,15 +25,13 @@ interface TaskColumnProps {
   isDragging: boolean
   searchParams: URLSearchParams
   setSearchParams: SetURLSearchParams
-  editSelectedTask: (
-    idTask: number,
-    form: Partial<ProjectsTasksFormData>,
-  ) => void
+  editSelectedTask: (idTask: number, form: Partial<ProjectsTasksFormData>) => void
   deleteSelectedTask: (idTask: number) => void
 }
 
 export const TaskColumn = ({
   access,
+  visibleCount,
   inputData,
   taskIdFromUrl,
   title,
@@ -42,33 +40,31 @@ export const TaskColumn = ({
   activeTaskId,
   isDragging,
   searchParams,
+  setVisibleCount,
   setSearchParams,
   editSelectedTask,
   deleteSelectedTask,
 }: TaskColumnProps) => {
   const { setNodeRef } = useDroppable({ id: columnId })
 
+  const handleShowMore = () => {
+    setVisibleCount(prev => prev + 6)
+  }
+
+  const visibleTasks = tasks.slice(0, visibleCount)
+
   return (
     <div className={styles.wrapper}>
-      <div
-        className={`${styles.titleWrapper} ${
-          styles[`title_${title.replace(' ', '_')}`]
-        }`}
-      >
+      <div className={`${styles.titleWrapper} ${styles[`title_${title.replace(' ', '_')}`]}`}>
         <span className={styles.title}>{title}</span>
       </div>
-      <div
-        ref={setNodeRef}
-        className={
-          isDragging ? styles.droppableDragging : styles.droppable
-        }
-      >
+      <div ref={setNodeRef} className={isDragging ? styles.droppableDragging : styles.droppable}>
         <SortableContext
           items={tasks.map(t => t.id.toString())}
           strategy={verticalListSortingStrategy}
         >
           <div className={styles.tasks}>
-            {tasks.map(task => {
+            {visibleTasks.map(task => {
               const isActive = task.id.toString() === activeTaskId
 
               return (
@@ -100,6 +96,15 @@ export const TaskColumn = ({
             })}
           </div>
         </SortableContext>
+        {tasks.length > visibleCount && (
+          <div className={styles.nothingFound} onClick={handleShowMore}>
+            <span className={styles.nothingFoundText}>
+              Show more (
+              {tasks.length - visibleCount}
+              )
+            </span>
+          </div>
+        )}
       </div>
     </div>
   )

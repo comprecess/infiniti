@@ -2,14 +2,11 @@ import { useState } from 'react'
 
 import { CountryList } from './CountryList/CountryList'
 import styles from './ProfileChangeInfoCard.module.scss'
-import {
-  UpdateProfileInfoProps,
-  UserInfo,
-} from '../../app/constants/constants'
+import { UpdateProfileInfoProps, UserInfo } from '../../app/constants/constants'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../shared/ui/CustomInput/CustomInput'
 import { useCustomToast } from '../../shared/ui/CustomToast/CustomToast'
-import { updateProfileInfo } from '../../shared/utils/api/Client/Profile/UpdateProfileInfo'
+import { putUpdateProfileInfo } from '../../shared/utils/api/Client/Profile/put-update-profile-info'
 import { RecentCard } from '../RecentCard/RecentCard'
 
 interface ProfileChangeInfoCardProps {
@@ -17,13 +14,8 @@ interface ProfileChangeInfoCardProps {
   onChangeInfo: () => void
 }
 
-export const ProfileChangeInfoCard = ({
-  talent,
-  onChangeInfo,
-}: ProfileChangeInfoCardProps) => {
-  const [formData, setFormData] = useState<
-  Partial<UpdateProfileInfoProps>
-  >({
+export const ProfileChangeInfoCard = ({ talent, onChangeInfo }: ProfileChangeInfoCardProps) => {
+  const [formData, setFormData] = useState<Partial<UpdateProfileInfoProps>>({
     account: talent.account,
     email: talent.email,
   })
@@ -43,9 +35,7 @@ export const ProfileChangeInfoCard = ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { account, email, ...rest } = data
 
-    return Object.values(rest).some(
-      value => value !== undefined && value !== '',
-    )
+    return Object.values(rest).some(value => value !== undefined && value !== '')
   }
 
   const isDataChanged = () => {
@@ -58,20 +48,19 @@ export const ProfileChangeInfoCard = ({
 
   const handleSendUpdateInfo = async () => {
     if (isDataChanged()) {
-      const updateInfoResponse = await updateProfileInfo(formData)
+      const { status, message } = await putUpdateProfileInfo(formData)
 
-      if (updateInfoResponse.status) {
+      if (status) {
         showToast({
           title: 'Successfully',
-          description:
-            'You have successfully updated your profile information',
+          description: 'You have successfully updated your profile information',
           status: 'success',
         })
         onChangeInfo()
       } else {
         showToast({
           title: 'Error',
-          description: updateInfoResponse.message,
+          description: message,
           status: 'error',
         })
       }
@@ -155,10 +144,7 @@ export const ProfileChangeInfoCard = ({
               name='zip'
               onChange={handleInputChange}
             />
-            <CountryList
-              country={talent.country}
-              onChange={handleInputChange}
-            />
+            <CountryList country={talent.country} onChange={handleInputChange} />
             <div className={styles.inputDescription}>
               <CustomInput
                 id='password'
@@ -167,9 +153,7 @@ export const ProfileChangeInfoCard = ({
                 name='password'
                 onChange={handleInputChange}
               />
-              <span className={styles.description}>
-                Keep Blank to do not change Password
-              </span>
+              <span className={styles.description}>Keep Blank to do not change Password</span>
             </div>
           </div>
           <div className={styles.buttonSubmit}>

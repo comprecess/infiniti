@@ -1,6 +1,6 @@
 import './ThemeEditor.scss'
 
-import JoditEditor, { Jodit } from 'jodit-react'
+import JoditEditor from 'jodit-react'
 import { useMemo, useRef, useState } from 'react'
 
 import styles from './TextEditor.module.scss'
@@ -28,7 +28,7 @@ export const TextEditor = ({
 }: TextEditorProps) => {
   const [isLoadingPrompt, setIsLoadingPrompt] = useState<boolean>(false)
 
-  const editor = useRef<Jodit | null>(null)
+  const editor = useRef(null)
 
   const handleOnChange = (value: string) => {
     const safeMessage = sanitizeMessage(value)
@@ -75,12 +75,16 @@ export const TextEditor = ({
       spellcheck: true,
       askBeforePasteHTML: false,
       askBeforePasteFromWord: false,
+      observer: { timeout: 500 },
       minHeight: 180,
       placeholder,
       buttons: tools,
       buttonsXS: tools,
       buttonsMD: tools,
       buttonsSM: tools,
+      iframeBodyStyle: {
+        spellcheck: 'false',
+      },
       style: {
         color: 'white',
       },
@@ -93,16 +97,11 @@ export const TextEditor = ({
       <JoditEditor
         ref={editor}
         config={config}
-        value={
-          isLoadingPrompt ? 'ChatGPT has an answer for you' : defaultValue
-        }
+        value={isLoadingPrompt ? 'ChatGPT has an answer for you' : defaultValue}
         onBlur={handleOnChange}
       />
       {chatGPT && (
-        <button
-          className={styles.chatGPTButton}
-          onClick={handleSendPromptToChatGPT}
-        >
+        <button className={styles.chatGPTButton} onClick={handleSendPromptToChatGPT}>
           <Icon
             style={styles.chatGPTIconFirst}
             icon={<ChatGPTIcon style={styles.chatGPTIconSecond} />}

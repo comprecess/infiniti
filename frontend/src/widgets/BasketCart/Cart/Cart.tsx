@@ -10,12 +10,9 @@ import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDivider } from '../../../shared/ui/CustomDivider/CustomDivider'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { postCreateNewMeeting } from '../../../shared/utils/api/Admin/Meeting/post-create-new-meeting'
-import { deleteOrderInCart } from '../../../shared/utils/api/Client/Cart/DeleteOrdernInCart'
+import { deleteOrderCart } from '../../../shared/utils/api/Client/Cart/delete-order-cart'
 import { getLocalDateTimeString } from '../../../shared/utils/usefulMethods'
-import {
-  CreatingCallModal,
-  TimeSlotsById,
-} from '../../CreatingCallModal/CreatingCallModal'
+import { CreatingCallModal, TimeSlotsById } from '../../CreatingCallModal/CreatingCallModal'
 
 interface CartProps {
   cart: ItemsCartProps[]
@@ -29,9 +26,9 @@ export const Cart = ({ cart, datesEmployment, onDelete }: CartProps) => {
   const showToast = useCustomToast()
 
   const handleDelete = async (id: number) => {
-    const deleteResponse = await deleteOrderInCart(id)
+    const { status, message } = await deleteOrderCart(id)
 
-    if (deleteResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully removed from the recycle bin',
@@ -41,16 +38,13 @@ export const Cart = ({ cart, datesEmployment, onDelete }: CartProps) => {
     } else {
       showToast({
         title: 'Error',
-        description: deleteResponse.message,
+        description: message,
         status: 'error',
       })
     }
   }
 
-  const createMeetingWithCart = async (
-    dates: string[] | null,
-    selectedTime: Dayjs | null,
-  ) => {
+  const createMeetingWithCart = async (dates: string[] | null, selectedTime: Dayjs | null) => {
     if (dates === null || selectedTime === null) return
 
     const time = getLocalDateTimeString()
