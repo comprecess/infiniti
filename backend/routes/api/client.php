@@ -28,7 +28,8 @@ Route::group(['prefix' => 'client',], function(){
     Route::controller(Client\Business\BusinessPlanController::class)->prefix('business-plan')
         ->group(function(){
             Route::get('list', 'list');
-            Route::get('{id}', 'item')->where('id', '[0-9]+');;
+            Route::get('{id}', 'item')->where('id', '[0-9]+');
+            Route::get('question', 'getQuestion');
         });
 });
 
