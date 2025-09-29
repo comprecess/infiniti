@@ -16,6 +16,11 @@ html body[data-scroll-locked] {
 html {
   overflow-x: hidden !important;
   overflow-y: scroll !important;
+}
+
+html,
+body,
+#root {
   background-color: $brand-1000;
 }
 

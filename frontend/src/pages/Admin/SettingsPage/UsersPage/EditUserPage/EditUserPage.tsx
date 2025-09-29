@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import styles from './EditUserPage.module.scss'
-import {
-  SettingsEditUserData,
-  SettingsUserInputData,
-} from '../../../../../app/constants/constants'
+import { SettingsEditUserData, SettingsUserInputData } from '../../../../../app/constants/constants'
 import {
   Fields,
   PartialFieldsEditUserData,
@@ -15,23 +12,18 @@ import { CustomSwitch } from '../../../../../shared/ui/CustomSwitch/CustomSwitch
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getUserInfo } from '../../../../../shared/utils/api/Admin/Settings/Users/EditUser/get-user-info'
-import { updateAdditionallyUserInfo } from '../../../../../shared/utils/api/Admin/Settings/Users/EditUser/UpdateAdditionallyUserInfo'
-import { updateSelectedUserInfo } from '../../../../../shared/utils/api/Admin/Settings/Users/EditUser/UpdateSelectedUserInfo'
-import { updateAvatarUser } from '../../../../../shared/utils/api/Admin/Settings/Users/EditUser/UpdateUserAvatar'
-import { getUserInputData } from '../../../../../shared/utils/api/Admin/Settings/Users/NewUser/GetUserInputData'
+import { postUpdateAvatarUser } from '../../../../../shared/utils/api/Admin/Settings/Users/EditUser/post-update-avatar-user'
+import { putUpdateAdditionallyUserInfo } from '../../../../../shared/utils/api/Admin/Settings/Users/EditUser/put-update-additionally-user-info'
+import { putUpdateUserInfo } from '../../../../../shared/utils/api/Admin/Settings/Users/EditUser/put-update-user-info'
+import { getUserInputData } from '../../../../../shared/utils/api/Admin/Settings/Users/NewUser/get-user-input-data'
 import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 
 export const AdminEditUserPage = () => {
-  const [formData, setFormData] =
-    useState<PartialFieldsEditUserData | null>(null)
+  const [formData, setFormData] = useState<PartialFieldsEditUserData | null>(null)
 
-  const [userInfo, setUserInfo] = useState<SettingsEditUserData | null>(
-    null,
-  )
-  const [inputData, setInputData] = useState<SettingsUserInputData | null>(
-    null,
-  )
+  const [userInfo, setUserInfo] = useState<SettingsEditUserData | null>(null)
+  const [inputData, setInputData] = useState<SettingsUserInputData | null>(null)
 
   const id = useIdFromUrl('user')
   const showToast = useCustomToast()
@@ -47,17 +39,19 @@ export const AdminEditUserPage = () => {
   }
 
   const getInputData = async () => {
-    const getResponse = await getUserInputData()
+    const response = await getUserInputData()
 
-    setInputData(getResponse)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
   const updateUserInfo = async () => {
     if (id === null || formData === null) return
 
-    const updateResponse = await updateSelectedUserInfo(id, formData)
+    const { status, message } = await putUpdateUserInfo(id, formData)
 
-    if (updateResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully updated your User information',
@@ -66,7 +60,7 @@ export const AdminEditUserPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: updateResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -75,9 +69,9 @@ export const AdminEditUserPage = () => {
   const updateUserAvatar = async (file: FormData) => {
     if (id === null) return
 
-    const updateResponse = await updateAvatarUser(id, file)
+    const { status, message } = await postUpdateAvatarUser(id, file)
 
-    if (updateResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: "You have successfully updated the user's avatar",
@@ -87,20 +81,18 @@ export const AdminEditUserPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: updateResponse.message,
+        description: message,
         status: 'error',
       })
     }
   }
 
-  const updateAdditionallyInfoUser = async (data: {
-    [key: string]: number
-  }) => {
+  const updateAdditionallyInfoUser = async (data: { [key: string]: number }) => {
     if (id === null) return
 
-    const updateResponse = await updateAdditionallyUserInfo(id, data)
+    const { status, message } = await putUpdateAdditionallyUserInfo(id, data)
 
-    if (updateResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully updated User information',
@@ -110,7 +102,7 @@ export const AdminEditUserPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: updateResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -150,10 +142,7 @@ export const AdminEditUserPage = () => {
               onFormDataChange={setFormData}
             />
           </RecentCard>
-          <RecentCard
-            title='Notifications'
-            style={styles.recentFullScreen}
-          >
+          <RecentCard title='Notifications' style={styles.recentFullScreen}>
             <div className={styles.itemsContainer}>
               <CustomCheckBox
                 title='Email'
@@ -179,15 +168,10 @@ export const AdminEditUserPage = () => {
             <div className={styles.itemsContainer}>
               {inputData.department.map(department => {
                 return (
-                  <div
-                    key={department.id}
-                    className={styles.switchContainer}
-                  >
+                  <div key={department.id} className={styles.switchContainer}>
                     <CustomSwitch
                       isChecked={
-                        !!userInfo.departments.find(
-                          departments => departments.id === department.id,
-                        )
+                        !!userInfo.departments.find(departments => departments.id === department.id)
                       }
                       onChange={() =>
                         updateAdditionallyInfoUser({
@@ -195,9 +179,7 @@ export const AdminEditUserPage = () => {
                         })
                       }
                     />
-                    <span className={styles.departmentTitle}>
-                      {department.name}
-                    </span>
+                    <span className={styles.departmentTitle}>{department.name}</span>
                   </div>
                 )
               })}

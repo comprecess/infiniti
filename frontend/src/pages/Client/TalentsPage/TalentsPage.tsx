@@ -1,26 +1,15 @@
 import { useQuery } from '@tanstack/react-query'
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-} from 'react'
+import { Dispatch, SetStateAction, useEffect, useLayoutEffect, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import styles from './TalentsPage.module.scss'
-import {
-  FiltersData,
-  FiltersState,
-  PagesMetaData,
-  TalentData,
-} from '../../../app/constants/constants'
+import { FiltersState, PagesMetaData, TalentData } from '../../../app/constants/constants'
 import { CategoriesItem } from '../../../features/Client/CatalogPage/CategoriesItem/CategoriesItem'
 import { Filters } from '../../../features/Client/CatalogPage/Filters/Filters'
 import { TalentsList } from '../../../features/Client/CatalogPage/TalentsList/TalentsList'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getPropertiesFiltering } from '../../../shared/utils/api/Client/Catalog/Properties/GetPropertiesFiltering'
+import { getPropertiesFiltering } from '../../../shared/utils/api/Client/Catalog/Properties/get-properties-filtering'
 import { getUsersListInfo } from '../../../shared/utils/api/Client/Catalog/User/get-user-list-info'
 
 export const ClientTalentsPage = () => {
@@ -67,10 +56,11 @@ export const ClientTalentsPage = () => {
   const { data: categories } = useQuery({
     queryKey: ['categories'],
     queryFn: async () => {
-      const response: { data: FiltersData[] } =
-        await getPropertiesFiltering('?prop=specialization')
+      const response = await getPropertiesFiltering('?prop=specialization')
 
-      return response.data[0]
+      if (!response.status) return
+
+      return response.data.data[0]
     },
     placeholderData: previousData => previousData,
   })
@@ -81,7 +71,7 @@ export const ClientTalentsPage = () => {
     const values = selectedFilters[categoryKey] || []
     if (values.length === 0) return 0
     const firstValueIndex = categories.values.findIndex(
-      v => v.id === values[0],
+      (v: { id: string | number | null }) => v.id === values[0],
     )
 
     return firstValueIndex >= 0 ? firstValueIndex + 1 : 0
@@ -90,10 +80,11 @@ export const ClientTalentsPage = () => {
   const { data: filters } = useQuery({
     queryKey: ['filters'],
     queryFn: async () => {
-      const response: { data: FiltersData[] } =
-        await getPropertiesFiltering()
+      const response = await getPropertiesFiltering()
 
-      return response.data
+      if (!response.status) return
+
+      return response.data.data
     },
     placeholderData: previousData => previousData,
   })
@@ -101,9 +92,7 @@ export const ClientTalentsPage = () => {
   const { data: talentsList } = useQuery({
     queryKey: ['client-talents', window.location.search],
     queryFn: async () => {
-      const response = await getUsersListInfo(
-        window.location.search.toString(),
-      )
+      const response = await getUsersListInfo(window.location.search.toString())
 
       if (!response.status) return
 
@@ -118,8 +107,7 @@ export const ClientTalentsPage = () => {
   })
 
   const updateFilters: Dispatch<SetStateAction<FiltersState>> = value => {
-    const newFilters =
-      typeof value === 'function' ? value(selectedFilters) : value
+    const newFilters = typeof value === 'function' ? value(selectedFilters) : value
     setSearchParams(prev => {
       const params = new URLSearchParams(prev)
       for (const key of Array.from(params.keys())) {
@@ -137,8 +125,7 @@ export const ClientTalentsPage = () => {
   }
 
   const updateActiveCategory: Dispatch<SetStateAction<number>> = value => {
-    const index =
-      typeof value === 'function' ? value(activeCategory) : value
+    const index = typeof value === 'function' ? value(activeCategory) : value
     if (!categories || categories.id === undefined) return
     const categoryKey = categories.id.toString()
     const newFilters = { ...selectedFilters }
@@ -185,18 +172,16 @@ export const ClientTalentsPage = () => {
                 isActive={activeCategory === 0}
                 onClick={() => updateActiveCategory(0)}
               />
-              {categories.values.map(
-                (category: { value: string }, index: number) => {
-                  return (
-                    <CategoriesItem
-                      key={index + 1}
-                      name={category.value.replace(/&amp;/g, '&')}
-                      isActive={activeCategory === index + 1}
-                      onClick={() => updateActiveCategory(index + 1)}
-                    />
-                  )
-                },
-              )}
+              {categories.values.map((category: { value: string }, index: number) => {
+                return (
+                  <CategoriesItem
+                    key={index + 1}
+                    name={category.value.replace(/&amp;/g, '&')}
+                    isActive={activeCategory === index + 1}
+                    onClick={() => updateActiveCategory(index + 1)}
+                  />
+                )
+              })}
             </div>
           </div>
         </section>
@@ -214,9 +199,7 @@ export const ClientTalentsPage = () => {
             setActiveCategory={updateActiveCategory}
             setSort={value => {
               const newSort =
-                typeof value === 'function'
-                  ? value({ name: sortName, type: sortType })
-                  : value
+                typeof value === 'function' ? value({ name: sortName, type: sortType }) : value
               updateSort(newSort.name, newSort.type)
             }}
           />
@@ -225,9 +208,7 @@ export const ClientTalentsPage = () => {
             talentsList={talentsList}
             setSort={value => {
               const newSort =
-                typeof value === 'function'
-                  ? value({ name: sortName, type: sortType })
-                  : value
+                typeof value === 'function' ? value({ name: sortName, type: sortType }) : value
               updateSort(newSort.name, newSort.type)
             }}
             setCurrentPage={value => {

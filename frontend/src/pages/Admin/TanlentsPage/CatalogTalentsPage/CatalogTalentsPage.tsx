@@ -1,17 +1,10 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-} from 'react'
+import { Dispatch, SetStateAction, useEffect, useLayoutEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 
 import styles from './CatalogTalentsPage.module.scss'
 import {
-  FiltersData,
   FiltersState,
   PagesMetaData,
   RolesAccess,
@@ -25,7 +18,7 @@ import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { deleteSelectedTalent } from '../../../../shared/utils/api/Admin/Talents/delete-selected-talent'
 import { getTalentsList } from '../../../../shared/utils/api/Admin/Talents/get-talents-list'
-import { getPropertiesFiltering } from '../../../../shared/utils/api/Client/Catalog/Properties/GetPropertiesFiltering'
+import { getPropertiesFiltering } from '../../../../shared/utils/api/Client/Catalog/Properties/get-properties-filtering'
 
 export const AdminCatalogTalentsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -76,10 +69,11 @@ export const AdminCatalogTalentsPage = () => {
   const { data: categories } = useQuery({
     queryKey: ['categories'],
     queryFn: async () => {
-      const response: { data: FiltersData[] } =
-        await getPropertiesFiltering('?prop=specialization')
+      const response = await getPropertiesFiltering('?prop=specialization')
 
-      return response.data[0]
+      if (!response.status) return
+
+      return response.data.data[0]
     },
     placeholderData: prev => prev,
   })
@@ -90,7 +84,7 @@ export const AdminCatalogTalentsPage = () => {
     const values = selectedFilters[categoryKey] || []
     if (values.length === 0) return 0
     const firstValueIndex = categories.values.findIndex(
-      v => v.id === values[0],
+      (v: { id: string | number | null }) => v.id === values[0],
     )
 
     return firstValueIndex >= 0 ? firstValueIndex + 1 : 0
@@ -99,10 +93,11 @@ export const AdminCatalogTalentsPage = () => {
   const { data: filters } = useQuery({
     queryKey: ['filters'],
     queryFn: async () => {
-      const response: { data: FiltersData[] } =
-        await getPropertiesFiltering()
+      const response = await getPropertiesFiltering()
 
-      return response.data
+      if (!response.status) return
+
+      return response.data.data
     },
     placeholderData: prev => prev,
   })
@@ -110,9 +105,7 @@ export const AdminCatalogTalentsPage = () => {
   const { data: talentsList, refetch } = useQuery({
     queryKey: ['admin-talents', window.location.search],
     queryFn: async () => {
-      const response = await getTalentsList(
-        window.location.search.toString(),
-      )
+      const response = await getTalentsList(window.location.search.toString())
 
       if (!response.status) return
 
@@ -128,8 +121,7 @@ export const AdminCatalogTalentsPage = () => {
   })
 
   const updateFilters: Dispatch<SetStateAction<FiltersState>> = value => {
-    const newFilters =
-      typeof value === 'function' ? value(selectedFilters) : value
+    const newFilters = typeof value === 'function' ? value(selectedFilters) : value
     setSearchParams(prev => {
       const params = new URLSearchParams(prev)
       for (const key of Array.from(params.keys())) {
@@ -147,8 +139,7 @@ export const AdminCatalogTalentsPage = () => {
   }
 
   const updateActiveCategory: Dispatch<SetStateAction<number>> = value => {
-    const index =
-      typeof value === 'function' ? value(activeCategory) : value
+    const index = typeof value === 'function' ? value(activeCategory) : value
     if (!categories || categories.id === undefined) return
     const categoryKey = categories.id.toString()
     const newFilters = { ...selectedFilters }
@@ -207,25 +198,21 @@ export const AdminCatalogTalentsPage = () => {
       {categories ? (
         <section className={styles.sectionFirst}>
           <div className={styles.itemsFirst}>
-            <span className={styles.categoriesText}>
-              {t('admin-catalog-talents-page-text-1')}
-            </span>
+            <span className={styles.categoriesText}>{t('admin-catalog-talents-page-text-1')}</span>
             <div className={styles.categories}>
               <CategoriesItem
                 name={t('admin-catalog-talents-page-text-5')}
                 isActive={activeCategory === 0}
                 onClick={() => updateActiveCategory(0)}
               />
-              {categories.values.map(
-                (category: { value: string }, index: number) => (
-                  <CategoriesItem
-                    key={index + 1}
-                    name={category.value.replace(/&amp;/g, '&')}
-                    isActive={activeCategory === index + 1}
-                    onClick={() => updateActiveCategory(index + 1)}
-                  />
-                ),
-              )}
+              {categories.values.map((category: { value: string }, index: number) => (
+                <CategoriesItem
+                  key={index + 1}
+                  name={category.value.replace(/&amp;/g, '&')}
+                  isActive={activeCategory === index + 1}
+                  onClick={() => updateActiveCategory(index + 1)}
+                />
+              ))}
             </div>
           </div>
         </section>
@@ -243,9 +230,7 @@ export const AdminCatalogTalentsPage = () => {
             setActiveCategory={updateActiveCategory}
             setSort={value => {
               const newSort =
-                typeof value === 'function'
-                  ? value({ name: sortName, type: sortType })
-                  : value
+                typeof value === 'function' ? value({ name: sortName, type: sortType }) : value
               updateSort(newSort.name, newSort.type)
             }}
           />
@@ -256,9 +241,7 @@ export const AdminCatalogTalentsPage = () => {
             talentsList={talentsList}
             setSort={value => {
               const newSort =
-                typeof value === 'function'
-                  ? value({ name: sortName, type: sortType })
-                  : value
+                typeof value === 'function' ? value({ name: sortName, type: sortType }) : value
               updateSort(newSort.name, newSort.type)
             }}
             setCurrentPage={value => {

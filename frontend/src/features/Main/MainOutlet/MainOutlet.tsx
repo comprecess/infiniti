@@ -6,7 +6,8 @@ import { RolesAccess } from '../../../app/constants/constants'
 import { adminSidebarPages } from '../../../app/data/adminSidebarPages'
 import { clientSidebarPages } from '../../../app/data/clientSidebarPages'
 import { Routes } from '../../../app/router/routes'
-import { Question, Survey } from '../../General/Survey/Survey'
+import { Survey } from '../../General/Survey/Survey'
+import { Block } from '../../General/Survey/types'
 import { Header } from '../Header/Header'
 import { Sidebar } from '../Sidebar/Sidebar'
 
@@ -27,7 +28,7 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
   const [isSidebarLocked, setIsSidebarLocked] = useState<boolean>(false)
 
   const [isSurveyOpen, setIsSurveyOpen] = useState<boolean>(false)
-  const [surveyQuestions, setSurveyQuestions] = useState<Question[]>([])
+  const [surveyBlocks, setSurveyBlocks] = useState<Block[]>([])
 
   const sidebarHeight = 1452
 
@@ -46,8 +47,8 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
     setIsMiniSidebar(prevState => !prevState)
   }, [])
 
-  const openSurvey = (questions: Question[]) => {
-    setSurveyQuestions(questions)
+  const openSurvey = (questions: Block[]) => {
+    setSurveyBlocks(questions)
     setIsSurveyOpen(true)
   }
 
@@ -152,10 +153,9 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
       )}
       {isSurveyOpen && (
         <Survey
-          questions={surveyQuestions}
+          blocks={surveyBlocks}
           onClose={() => setIsSurveyOpen(false)}
-          onSubmit={data => {
-            console.log('Ответы:', data)
+          onSubmit={() => {
             setIsSurveyOpen(false)
           }}
         />

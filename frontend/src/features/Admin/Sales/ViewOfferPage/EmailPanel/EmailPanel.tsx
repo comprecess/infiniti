@@ -10,7 +10,7 @@ import { CustomModalWindow } from '../../../../../shared/ui/CustomModalWindow/Cu
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
-import { sendEmailOffer } from '../../../../../shared/utils/api/Admin/Sales/Offers/SendEmailOffer'
+import { postSendEmailOffer } from '../../../../../shared/utils/api/Admin/Sales/Offers/post-send-email-offer'
 
 interface EmailPanelProps {
   idOffer: number | null
@@ -54,10 +54,7 @@ export const EmailPanel = ({
     })
   }
 
-  const onChangeInput = (
-    name: string,
-    value: string | number | boolean | null | undefined,
-  ) => {
+  const onChangeInput = (name: string, value: string | number | boolean | null | undefined) => {
     setFormData(prevFormData => {
       const updatedFormData = { ...prevFormData }
 
@@ -90,9 +87,9 @@ export const EmailPanel = ({
   const sendEmail = async () => {
     if (idOffer === null) return
 
-    const sendResponse = await sendEmailOffer(idOffer, template, formData)
+    const { status, message } = await postSendEmailOffer(idOffer, template, formData)
 
-    if (sendResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully sent your email',
@@ -102,7 +99,7 @@ export const EmailPanel = ({
     } else {
       showToast({
         title: 'Error',
-        description: sendResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -113,11 +110,7 @@ export const EmailPanel = ({
   }, [info])
 
   return (
-    <CustomModalWindow
-      maxWidth={'600px'}
-      isOpen={modalEmailPanel}
-      onClose={handleOpenCloseModal}
-    >
+    <CustomModalWindow maxWidth={'600px'} isOpen={modalEmailPanel} onClose={handleOpenCloseModal}>
       {info ? (
         <div className={styles.wrapper}>
           <div className={styles.header}>
@@ -162,10 +155,7 @@ export const EmailPanel = ({
                   onChange={onChangeInput}
                 />
               )}
-              <span
-                className={styles.description}
-                onClick={handleBccClick}
-              >
+              <span className={styles.description} onClick={handleBccClick}>
                 Send Bcc to Admin? Click Here.
               </span>
             </div>
@@ -193,11 +183,7 @@ export const EmailPanel = ({
               />
             )}
           </div>
-          <ButtonBlue
-            title='Send'
-            style={styles.buttonSend}
-            onClick={sendEmail}
-          />
+          <ButtonBlue title='Send' style={styles.buttonSend} onClick={sendEmail} />
         </div>
       ) : (
         <div className={styles.loading}>

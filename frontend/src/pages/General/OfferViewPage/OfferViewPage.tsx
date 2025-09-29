@@ -10,8 +10,8 @@ import { Header } from '../../../features/General/OfferViewPage/Header/Header'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getInfoPublicOffer } from '../../../shared/utils/api/Admin/Sales/PublicOffer/GetInfoPublicOffer'
-import { postAcceptOrDecline } from '../../../shared/utils/api/Admin/Sales/PublicOffer/PostAcceptOrDecline'
+import { getInfoPublicOffer } from '../../../shared/utils/api/Admin/Sales/PublicOffer/get-info-public-offer'
+import { postAcceptDecline } from '../../../shared/utils/api/Admin/Sales/PublicOffer/post-accept-decline'
 import { getAuthToken } from '../../../shared/utils/api/get-auth-token'
 
 const extractTokenFromUrl = (url: string): string | null => {
@@ -24,10 +24,7 @@ const extractTokenFromUrl = (url: string): string | null => {
 const useTokenFromUrl = () => {
   const location = useLocation()
 
-  return useMemo(
-    () => extractTokenFromUrl(location.pathname),
-    [location.pathname],
-  )
+  return useMemo(() => extractTokenFromUrl(location.pathname), [location.pathname])
 }
 
 export const OfferViewPage = () => {
@@ -46,9 +43,11 @@ export const OfferViewPage = () => {
   const getOfferInfo = async () => {
     if (token === null) return
 
-    const getResponse = await getInfoPublicOffer(token, '?type=view')
+    const response = await getInfoPublicOffer(token, '?type=view')
 
-    setInfo(getResponse)
+    if (!response.status) return
+
+    setInfo(response.data)
   }
 
   const viewPDF = async () => {
@@ -78,20 +77,12 @@ export const OfferViewPage = () => {
     document.body.removeChild(a)
   }
 
-  const handleAcceptOrDeclineOffer = async (
-    stage: 'Accepted' | 'Decline',
-    message?: string,
-  ) => {
+  const handleAcceptOrDeclineOffer = async (stage: 'Accepted' | 'Decline', text?: string) => {
     if (token === null) return
 
-    const response = await postAcceptOrDecline(
-      token,
-      stage,
-      message,
-      authToken,
-    )
+    const { status, message } = await postAcceptDecline(token, stage, text, authToken)
 
-    if (response.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description:
@@ -107,7 +98,7 @@ export const OfferViewPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: response.message,
+        description: message,
         status: 'error',
       })
     }
@@ -127,16 +118,8 @@ export const OfferViewPage = () => {
         {info ? (
           <div className={styles.container}>
             <div className={styles.pdfButtons}>
-              <ButtonBlue
-                title='Download PDF'
-                style={styles.downloadPDF}
-                onClick={downloadPDF}
-              />
-              <ButtonBlue
-                title='View PDF'
-                style={styles.viewPDF}
-                onClick={viewPDF}
-              />
+              <ButtonBlue title='Download PDF' style={styles.downloadPDF} onClick={downloadPDF} />
+              <ButtonBlue title='View PDF' style={styles.viewPDF} onClick={viewPDF} />
               {info.status.publicButton && (
                 <>
                   <ButtonBlue

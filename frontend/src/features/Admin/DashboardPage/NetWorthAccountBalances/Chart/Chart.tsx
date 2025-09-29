@@ -26,7 +26,7 @@ export const Chart = ({ netWorth, netWorthCurrency, limit, limitCurrency }: Char
 
   const amountInputRef = useRef<HTMLInputElement>(null)
 
-  const percentage = limit > netWorth ? (netWorth / netWorth) * 100 : (limit / netWorth) * 100
+  const percentage = netWorth > limit ? (limit / limit) * 100 : (netWorth / limit) * 100
 
   const fetchProfileData = useCallback(async () => {
     const profileData = getSession(profileInfoString) as AdminInfo
@@ -111,7 +111,7 @@ export const Chart = ({ netWorth, netWorthCurrency, limit, limitCurrency }: Char
                 value={editedAmount !== '' ? editedAmount : ''}
                 className={styles.amountInput}
                 style={{
-                  width: `${(editedAmount?.toString().length || 1) + 1}ch`,
+                  width: `${editedAmount?.toString().length || 1}ch`,
                 }}
                 onChange={handleAmountChange}
                 onBlur={handleAmountBlur}

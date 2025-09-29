@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 
 import styles from './EditRolePage.module.scss'
 import {
-  RolesAccess,
-  RolesAccessObject,
   RolesAccessObjectPermission,
   SettingsRoleFormData,
 } from '../../../../../app/constants/constants'
@@ -12,8 +10,8 @@ import { RecentEditRole } from '../../../../../features/Admin/Settings/EditRoleP
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getInfoRole } from '../../../../../shared/utils/api/Admin/Settings/EditRole/GetInfoRole'
-import { postChangedRole } from '../../../../../shared/utils/api/Admin/Settings/EditRole/PostChangedRole'
+import { getInfoRole } from '../../../../../shared/utils/api/Admin/Settings/EditRole/get-info-role'
+import { postChangedRole } from '../../../../../shared/utils/api/Admin/Settings/EditRole/post-changed-role'
 import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 
@@ -23,9 +21,7 @@ export const AdminEditRolePage = () => {
     access: SettingsRoleFormData[]
   } | null>(null)
 
-  const [permission, setPermission] = useState<
-  RolesAccessObjectPermission[] | null
-  >(null)
+  const [permission, setPermission] = useState<RolesAccessObjectPermission[] | null>(null)
 
   const id = useIdFromUrl('role')
   const showToast = useCustomToast()
@@ -33,13 +29,19 @@ export const AdminEditRolePage = () => {
   const getInfo = async () => {
     if (id === null) return
 
-    const getResponse: {
-      access: RolesAccess
-      data: { access: RolesAccessObject[]; id: number; name: string }
-    } = await getInfoRole(id)
+    const response = await getInfoRole(id)
 
-    const accessData: SettingsRoleFormData[] = getResponse.data.access.map(
-      accessObj => ({
+    if (!response.status) return
+
+    const accessData: SettingsRoleFormData[] = response.data.data.access.map(
+      (accessObj: {
+        permission: { id: any }
+        view: any
+        edit: any
+        create: any
+        delete: any
+        all: any
+      }) => ({
         permissionId: accessObj.permission.id,
         view: accessObj.view,
         edit: accessObj.edit,
@@ -50,12 +52,12 @@ export const AdminEditRolePage = () => {
     )
 
     setFormData({
-      name: getResponse.data.name,
+      name: response.data.data.name,
       access: accessData,
     })
 
     setPermission(
-      getResponse.data.access.map(permission => permission.permission),
+      response.data.data.access.map((permission: { permission: any }) => permission.permission),
     )
   }
 
@@ -63,9 +65,7 @@ export const AdminEditRolePage = () => {
     if (!formData) return
 
     const allItemsOn = formData.access.every(item =>
-      [item.view, item.edit, item.create, item.delete, item.all].every(
-        v => v === 1,
-      ),
+      [item.view, item.edit, item.create, item.delete, item.all].every(v => v === 1),
     )
 
     const newValue = allItemsOn ? 0 : 1
@@ -129,9 +129,9 @@ export const AdminEditRolePage = () => {
   const postUpdateRole = async () => {
     if (id === null || formData == null) return
 
-    const postResponse = await postChangedRole(id, formData)
+    const { status, message } = await postChangedRole(id, formData)
 
-    if (postResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully changed role',
@@ -140,7 +140,7 @@ export const AdminEditRolePage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: postResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -175,9 +175,7 @@ export const AdminEditRolePage = () => {
               formData={formData}
               handleChangeAllPermissions={handleChangeAllPermissions}
               handleChangeItemPermission={handleChangeItemPermission}
-              handleChangeFullItemPermission={
-                handleChangeFullItemPermission
-              }
+              handleChangeFullItemPermission={handleChangeFullItemPermission}
             />
           </RecentCard>
         ) : (

@@ -3,11 +3,6 @@ import { useCallback, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import styles from './OffersPage.module.scss'
-import {
-  PagesMetaData,
-  RolesAccess,
-  SalesOffersListData,
-} from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { RecentOffers } from '../../../../features/Admin/Sales/OffersPage/RecentOffers/RecentOffers'
 import { SearchAndButtons } from '../../../../features/Admin/Sales/OffersPage/SearchAndButtons/SearchAndButtons'
@@ -15,9 +10,9 @@ import { PagesList } from '../../../../features/Client/CatalogPage/TalentsList/P
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { deleteOffer } from '../../../../shared/utils/api/Admin/Sales/Offers/DeleteOffer'
-import { getDocumentsOffers } from '../../../../shared/utils/api/Admin/Sales/Offers/GetDocumentsOffers'
-import { getListOffers } from '../../../../shared/utils/api/Admin/Sales/Offers/GetListOffers'
+import { deleteOffer } from '../../../../shared/utils/api/Admin/Sales/Offers/delete-offer'
+import { getDocumentsOffer } from '../../../../shared/utils/api/Admin/Sales/Offers/get-documents-offer'
+import { getListOffers } from '../../../../shared/utils/api/Admin/Sales/Offers/get-list-offers'
 import { downloadDocument } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
@@ -45,8 +40,7 @@ export const AdminOffersPage = () => {
   }
 
   const updatePage = (newPage: string) => updateQueryParam('page', newPage)
-  const updateSearch = (newSearch: string) =>
-    updateQueryParam('search', newSearch)
+  const updateSearch = (newSearch: string) => updateQueryParam('search', newSearch)
   const updateSort = (name: string, type: number) => {
     updateQueryParam('sortName', name)
     updateQueryParam('sortType', type)
@@ -55,19 +49,17 @@ export const AdminOffersPage = () => {
   const { data: offersData } = useQuery({
     queryKey: ['offersData', page, search, sortName, sortType],
     queryFn: async () => {
-      const response: {
-        access: RolesAccess
-        data: SalesOffersListData[]
-        meta: PagesMetaData
-      } = await getListOffers(
+      const response = await getListOffers(
         `?page=${page}&filter[search]=${search}&sort[name]=${sortName}&sort[type]=${sortType}&document=json`,
       )
 
-      if (page && parseInt(page) > response.meta.last_page) {
+      if (!response.status) return
+
+      if (page && parseInt(page) > response.data.meta.last_page) {
         updatePage('1')
       }
 
-      return response
+      return response.data
     },
     placeholderData: previousData => previousData,
   })
@@ -77,18 +69,16 @@ export const AdminOffersPage = () => {
       // eslint-disable-next-line max-len
       const urlOptions = `?page=${page}&filter[search]=${search}&sort[name]=${sortName}&sort[type]=${sortType}&document=${documentItem}`
 
-      const downloadInitiated = await getDocumentsOffers(urlOptions)
+      const downloadInitiated = await getDocumentsOffer(urlOptions)
 
-      const { status } = await downloadDocument(
-        downloadInitiated,
-        'Offers',
-      )
+      if (!downloadInitiated.status) return
+
+      const { status } = await downloadDocument(downloadInitiated, 'Offers')
 
       if (status && documentItem === 'copy') {
         showToast({
           title: 'Successfully',
-          description:
-            'You have successfully copied information to the clipboard',
+          description: 'You have successfully copied information to the clipboard',
           status: 'success',
         })
       }
@@ -97,9 +87,9 @@ export const AdminOffersPage = () => {
   )
 
   const deleteSelectedOffer = async (idOffer: number) => {
-    const deleteResponse = await deleteOffer(idOffer)
+    const { status, message } = await deleteOffer(idOffer)
 
-    if (deleteResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully deleted Offer',
@@ -109,16 +99,14 @@ export const AdminOffersPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: deleteResponse.message,
+        description: message,
         status: 'error',
       })
     }
   }
 
   const navigateToViewOffer = (idOffer: number) => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.sales}/${Routes.offer}/${Routes.view}/${idOffer}`,
-    )
+    navigate(`/${Routes.adminPages}/${Routes.sales}/${Routes.offer}/${Routes.view}/${idOffer}`)
   }
 
   const navigateToSelectAccount = (idAccount: number) => {
@@ -128,23 +116,16 @@ export const AdminOffersPage = () => {
   }
 
   const navigateToEditOffer = (idOffer: number) => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.sales}/${Routes.edit}/${Routes.offer}/${idOffer}`,
-    )
+    navigate(`/${Routes.adminPages}/${Routes.sales}/${Routes.edit}/${Routes.offer}/${idOffer}`)
   }
 
   const navigateToAddOffer = () => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.sales}/${Routes.new}/${Routes.offer}`,
-    )
+    navigate(`/${Routes.adminPages}/${Routes.sales}/${Routes.new}/${Routes.offer}`)
   }
 
-  const changeSort = useCallback(
-    (sortNameItem: string, sortTypeItem: number) => {
-      updateSort(sortNameItem, sortTypeItem)
-    },
-    [],
-  )
+  const changeSort = useCallback((sortNameItem: string, sortTypeItem: number) => {
+    updateSort(sortNameItem, sortTypeItem)
+  }, [])
 
   useEffect(() => {
     const params = new URLSearchParams(location.search)
@@ -182,12 +163,8 @@ export const AdminOffersPage = () => {
             title={`Total: ${offersData.meta.total}`}
             style={styles.recentFullScreen}
             HeaderComponent={SearchAndButtons}
-            PagesComponent={
-              offersData.data.length > 0 ? PagesList : undefined
-            }
-            Component={
-              offersData.access.create === 1 ? ButtonBlue : undefined
-            }
+            PagesComponent={offersData.data.length > 0 ? PagesList : undefined}
+            Component={offersData.access.create === 1 ? ButtonBlue : undefined}
             componentProps={
               offersData.access.create === 1
                 ? {

@@ -18,22 +18,18 @@ export const ConfirmationModal = ({
   agree,
 }: ConfirmationModalProps) => {
   return (
-    <CustomModalWindow
-      maxWidth='400px'
-      isOpen={isOpened}
-      onClose={handleOpenCloseModal}
-    >
+    <CustomModalWindow maxWidth='400px' isOpen={isOpened} onClose={handleOpenCloseModal}>
       <div className={styles.wrapper}>
         <div className={styles.header}>
-          <h4 className={styles.title}>
-            {title ? title : `Are You Sure?`}
-          </h4>
+          <h4 className={styles.title}>{title ? title : `Are You Sure?`}</h4>
           <div className={styles.cross} onClick={handleOpenCloseModal}>
             <CrossIcon />
           </div>
         </div>
-        <ButtonBlue title='Yes' onClick={agree} />
-        <ButtonBrand title='Cancel' onClick={handleOpenCloseModal} />
+        <div className={styles.buttons}>
+          <ButtonBlue title='Yes' onClick={agree} />
+          <ButtonBrand title='Cancel' onClick={handleOpenCloseModal} />
+        </div>
       </div>
     </CustomModalWindow>
   )

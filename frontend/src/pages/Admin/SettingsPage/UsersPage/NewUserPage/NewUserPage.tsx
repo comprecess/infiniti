@@ -9,29 +9,28 @@ import {
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { addNewUser } from '../../../../../shared/utils/api/Admin/Settings/Users/NewUser/AddNewUser'
-import { getUserInputData } from '../../../../../shared/utils/api/Admin/Settings/Users/NewUser/GetUserInputData'
+import { getUserInputData } from '../../../../../shared/utils/api/Admin/Settings/Users/NewUser/get-user-input-data'
+import { postAddNewUser } from '../../../../../shared/utils/api/Admin/Settings/Users/NewUser/post-add-new-user'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 
 export const AdminNewUserPage = () => {
-  const [formData, setFormData] =
-    useState<PartialFieldsNewUserData | null>(null)
-  const [inputData, setInputData] = useState<SettingsUserInputData | null>(
-    null,
-  )
+  const [formData, setFormData] = useState<PartialFieldsNewUserData | null>(null)
+  const [inputData, setInputData] = useState<SettingsUserInputData | null>(null)
 
   const showToast = useCustomToast()
 
   const getInputData = async () => {
-    const getResponse = await getUserInputData()
+    const response = await getUserInputData()
 
-    setInputData(getResponse)
+    if (!response.status) return
+
+    setInputData(response.data)
   }
 
   const createNewUser = async () => {
-    const createResponse = await addNewUser(formData)
+    const { status, message } = await postAddNewUser(formData)
 
-    if (createResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully created a User',
@@ -40,7 +39,7 @@ export const AdminNewUserPage = () => {
     } else {
       showToast({
         title: 'Error',
-        description: createResponse.message,
+        description: message,
         status: 'error',
       })
     }

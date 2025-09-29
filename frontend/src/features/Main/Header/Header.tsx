@@ -1,11 +1,4 @@
-import {
-  Dispatch,
-  memo,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import { Dispatch, memo, SetStateAction, useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import styles from './Header.module.scss'
@@ -17,7 +10,7 @@ import { MenuIcon } from '../../../shared/icons/MenuIcon'
 import { Basket } from '../../../shared/ui/Basket/Basket'
 import { Icon } from '../../../shared/ui/Icon/Icon'
 import { Profile } from '../../../shared/ui/Profile/Profile'
-import { getOrdersInCart } from '../../../shared/utils/api/Client/Cart/GetOrdersInCart'
+import { getOrderCart } from '../../../shared/utils/api/Client/Cart/get-order-cart'
 import { ChatGPT } from '../../../widgets/ChatGPT/ChatGPT'
 import { NotificationProfile } from '../../../widgets/NotificationProfile/NotificationProfile'
 
@@ -45,19 +38,15 @@ export const Header = ({
 
   const location = useLocation()
 
-  const isBasket = useMemo(
-    () => location.pathname.includes(Routes.basket),
-    [location.pathname],
-  )
-  const isAdmin = useMemo(
-    () => location.pathname.includes(Routes.adminPages),
-    [location.pathname],
-  )
+  const isBasket = useMemo(() => location.pathname.includes(Routes.basket), [location.pathname])
+  const isAdmin = useMemo(() => location.pathname.includes(Routes.adminPages), [location.pathname])
 
   const getOrders = async () => {
-    const ordersResponse: CartProps = await getOrdersInCart()
+    const response = await getOrderCart()
 
-    setOrder(ordersResponse)
+    if (!response.status) return
+
+    setOrder(response.data)
   }
 
   useEffect(() => {
@@ -99,11 +88,7 @@ export const Header = ({
         )}
         <NotificationProfile />
         <ProfileMemo />
-        <Icon
-          fill={false}
-          icon={<MenuIcon />}
-          onIconClick={toggleSidebar}
-        />
+        <Icon fill={false} icon={<MenuIcon />} onIconClick={toggleSidebar} />
       </div>
     </div>
   )

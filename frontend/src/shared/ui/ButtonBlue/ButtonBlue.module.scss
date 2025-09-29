@@ -10,6 +10,14 @@
   @include hover() {
     background-color: $brand-400;
   }
+
+  &:disabled {
+    background-color: $gray-400;
+    cursor: not-allowed;
+    &:hover {
+      background-color: $gray-400;
+    }
+  }
 }
 
 .title,
