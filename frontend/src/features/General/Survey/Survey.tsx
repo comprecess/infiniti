@@ -7,14 +7,12 @@ import { Block, getVisibleQuestions } from './types'
 import { ChevronDownIcon } from '../../../shared/icons/ChevronDownIcon'
 import { LogoTextIcon } from '../../../shared/icons/LogoTextIcon'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
-import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { Logo } from '../../../shared/ui/Logo/Logo'
-import { postSubmitSurvey } from '../../../shared/utils/api/Client/BusinessPlan/post-submit-survey'
 
 interface SurveyProps {
   blocks: Block[]
-  onSubmit: (data: Record<number, string | string[]> | null) => void
   onClose: () => void
+  onSubmit: (data: Record<number, string | string[]>) => void
 }
 
 export const Survey = ({ blocks, onSubmit, onClose }: SurveyProps) => {
@@ -27,8 +25,6 @@ export const Survey = ({ blocks, onSubmit, onClose }: SurveyProps) => {
   const visibleQuestions = getVisibleQuestions(blocks, answers)
   const currentQuestion = visibleQuestions[step]
   const totalSteps = visibleQuestions.length
-
-  const showToast = useCustomToast()
 
   const currentAnswer = answers[currentQuestion.id]
 
@@ -43,22 +39,7 @@ export const Survey = ({ blocks, onSubmit, onClose }: SurveyProps) => {
     if (step < totalSteps - 1) {
       setStep(prev => prev + 1)
     } else {
-      const { status, message } = await postSubmitSurvey(answers)
-
-      if (status) {
-        showToast({
-          title: 'Successfully',
-          description: 'You have successfully completed the Survey',
-          status: 'success',
-        })
-        onSubmit(answers)
-      } else {
-        showToast({
-          title: 'Error',
-          description: message,
-          status: 'error',
-        })
-      }
+      onSubmit(answers)
     }
   }
 
@@ -108,6 +89,17 @@ export const Survey = ({ blocks, onSubmit, onClose }: SurveyProps) => {
                 render={({ field }) => (
                   <Textarea
                     {...field}
+                    minHeight='140px'
+                    maxHeight='232px'
+                    color='gray.400'
+                    backgroundColor='brand.800'
+                    border='none'
+                    _hover={{ border: 'none' }}
+                    _focusVisible={{ border: 'none' }}
+                    _focusWithin={{ border: 'none' }}
+                    fontSize='16px'
+                    fontWeight='400'
+                    lineHeight='24px'
                     placeholder='Введите ваш ответ...'
                     value={(currentAnswer as string) || ''}
                     onChange={e => handleChange(e.target.value)}
@@ -127,7 +119,19 @@ export const Survey = ({ blocks, onSubmit, onClose }: SurveyProps) => {
                   >
                     <Stack spacing={3}>
                       {currentQuestion.options?.map(opt => (
-                        <Checkbox key={opt.id} value={opt.id.toString()}>
+                        <Checkbox
+                          key={opt.id}
+                          value={opt.id.toString()}
+                          iconSize='16px'
+                          iconColor='white'
+                          colorScheme='brand'
+                          tabIndex={-1}
+                          sx={{
+                            '&:focus': {
+                              outline: 'none',
+                            },
+                          }}
+                        >
                           {opt.description}
                         </Checkbox>
                       ))}
@@ -143,6 +147,10 @@ export const Survey = ({ blocks, onSubmit, onClose }: SurveyProps) => {
                 render={({ field }) => (
                   <RadioGroup
                     {...field}
+                    fontSize='17px'
+                    fontWeight='400'
+                    lineHeight='24px'
+                    _focus={{ border: 'none' }}
                     value={typeof currentAnswer === 'string' ? currentAnswer : ''}
                     onChange={v => handleChange(v)}
                   >

@@ -1,11 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-} from 'react'
+import { Dispatch, SetStateAction, useEffect, useLayoutEffect, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import styles from './BusinessModelsPage.module.scss'
@@ -61,9 +55,7 @@ export const AdminBusinessModelsPage = () => {
   const { data: categories } = useQuery({
     queryKey: ['categories'],
     queryFn: async () => {
-      const response = await getBusinessModelProperties(
-        '?prop=specialization',
-      )
+      const response = await getBusinessModelProperties('?prop=specialization')
 
       if (!response.status) return
 
@@ -99,9 +91,7 @@ export const AdminBusinessModelsPage = () => {
   const { data: modelsList } = useQuery({
     queryKey: ['admin-models', window.location.search],
     queryFn: async () => {
-      const response = await getBusinessModelsList(
-        window.location.search.toString(),
-      )
+      const response = await getBusinessModelsList(window.location.search.toString())
 
       if (!response.status) return
 
@@ -117,8 +107,7 @@ export const AdminBusinessModelsPage = () => {
   })
 
   const updateFilters: Dispatch<SetStateAction<FiltersState>> = value => {
-    const newFilters =
-      typeof value === 'function' ? value(selectedFilters) : value
+    const newFilters = typeof value === 'function' ? value(selectedFilters) : value
     setSearchParams(prev => {
       const params = new URLSearchParams(prev)
       for (const key of Array.from(params.keys())) {
@@ -136,8 +125,7 @@ export const AdminBusinessModelsPage = () => {
   }
 
   const updateActiveCategory: Dispatch<SetStateAction<number>> = value => {
-    const index =
-      typeof value === 'function' ? value(activeCategory) : value
+    const index = typeof value === 'function' ? value(activeCategory) : value
     if (!categories || categories.id === undefined) return
     const categoryKey = categories.id.toString()
     const newFilters = { ...selectedFilters }
@@ -201,23 +189,18 @@ export const AdminBusinessModelsPage = () => {
                 isActive={activeCategory === 0}
                 onClick={() => updateActiveCategory(0)}
               />
-              {categories.values.map(
-                (category: { value: string }, index: number) => {
-                  const updatedCategory = category.value.replace(
-                    /&amp;/g,
-                    '&',
-                  )
+              {categories.values.map((category: { value: string }, index: number) => {
+                const updatedCategory = category.value.replace(/&amp;/g, '&')
 
-                  return (
-                    <CategoriesItem
-                      key={index + 1}
-                      name={updatedCategory}
-                      isActive={activeCategory === index + 1}
-                      onClick={() => updateActiveCategory(index + 1)}
-                    />
-                  )
-                },
-              )}
+                return (
+                  <CategoriesItem
+                    key={index + 1}
+                    name={updatedCategory}
+                    isActive={activeCategory === index + 1}
+                    onClick={() => updateActiveCategory(index + 1)}
+                  />
+                )
+              })}
             </div>
           </div>
         </section>

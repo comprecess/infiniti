@@ -27,6 +27,9 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
   const [isReady, setIsReady] = useState<boolean>(false)
   const [isSidebarLocked, setIsSidebarLocked] = useState<boolean>(false)
 
+  const [customSurveySubmit, setCustomSurveySubmit] = useState<
+  ((answers: Record<number, string | string[]>) => void) | null
+  >(null)
   const [isSurveyOpen, setIsSurveyOpen] = useState<boolean>(false)
   const [surveyBlocks, setSurveyBlocks] = useState<Block[]>([])
 
@@ -47,8 +50,12 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
     setIsMiniSidebar(prevState => !prevState)
   }, [])
 
-  const openSurvey = (questions: Block[]) => {
+  const openSurvey = (
+    questions: Block[],
+    onSubmit?: (answers: Record<number, string | string[]>) => void,
+  ) => {
     setSurveyBlocks(questions)
+    setCustomSurveySubmit(() => onSubmit || null)
     setIsSurveyOpen(true)
   }
 
@@ -155,7 +162,10 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
         <Survey
           blocks={surveyBlocks}
           onClose={() => setIsSurveyOpen(false)}
-          onSubmit={() => {
+          onSubmit={answers => {
+            if (customSurveySubmit) {
+              customSurveySubmit(answers)
+            }
             setIsSurveyOpen(false)
           }}
         />
