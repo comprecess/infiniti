@@ -41,11 +41,13 @@ export const ModelsList = ({
   const navigate = useNavigate()
 
   const getSurvey = async () => {
-    const response = await getBusinessPlanSurvey()
+    if (!isAdmin) {
+      const response = await getBusinessPlanSurvey()
 
-    if (!response.status) return
+      if (!response.status) return
 
-    setSurvey(response.data.data)
+      setSurvey(response.data.data)
+    }
   }
 
   const handlePageChange = useCallback((page: number) => {
@@ -109,7 +111,7 @@ export const ModelsList = ({
             )}
           </div>
         </div>
-        {modelsList && survey ? (
+        {modelsList ? (
           <div className={styles.list}>
             {modelsList.data.length > 0 ? (
               <>

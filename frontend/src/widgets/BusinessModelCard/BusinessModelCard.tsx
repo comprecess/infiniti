@@ -9,12 +9,14 @@ import { Block } from '../../features/General/Survey/types'
 import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
 import { ConfirmationModal } from '../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../shared/ui/CustomMiniButton/CustomMiniButton'
+import { useCustomToast } from '../../shared/ui/CustomToast/CustomToast'
 import { StatusProfitability } from '../../shared/ui/StatusProfitability/StatusProfitability'
+import { postSubmitSurvey } from '../../shared/utils/api/Client/BusinessPlan/post-submit-survey'
 import { Item } from '../TalentsCard/Body/Item/Item'
 
 interface BusinessModelCardProps {
   id: number
-  survey: Block[]
+  survey: Block[] | null
   title: string
   image: string
   isAdmin: boolean
@@ -56,7 +58,14 @@ export const BusinessModelCard = ({
   const [modalDelete, setModalDelete] = useState<boolean>(false)
   const [modalConvert, setModalConvert] = useState<boolean>(false)
 
-  const { openSurvey } = useOutletContext<{ openSurvey: (q: Block[]) => void }>()
+  const showToast = useCustomToast()
+
+  const { openSurvey } = useOutletContext<{
+    openSurvey: (
+      questions: Block[],
+      onSubmit?: (answers: Record<number, string | string[]>) => void,
+    ) => void
+  }>()
 
   const handleOpenConfirmationModal = () => {
     setModalDelete(state => !state)
@@ -70,6 +79,24 @@ export const BusinessModelCard = ({
     const url = `/${Routes.public}/${Routes.view}/${Routes.businessModel}/${token}`
 
     window.open(url, '_blank')
+  }
+
+  const handleSurveySubmit = async (answers: Record<number, string | string[]>) => {
+    const { status, message } = await postSubmitSurvey(answers, id)
+
+    if (status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully completed the Survey',
+        status: 'success',
+      })
+    } else {
+      showToast({
+        title: 'Error',
+        description: message,
+        status: 'error',
+      })
+    }
   }
 
   return (
@@ -154,9 +181,12 @@ export const BusinessModelCard = ({
                     )}
                   </div>
                 )}
-                {!isAdmin && (
+                {!isAdmin && survey && (
                   <div className={styles.buttonsClient}>
-                    <ButtonBlue title='Convert to Plan' onClick={() => openSurvey(survey)} />
+                    <ButtonBlue
+                      title='Convert to Plan'
+                      onClick={() => openSurvey(survey, handleSurveySubmit)}
+                    />
                     <ButtonBlue title='Details' onClick={() => onNavigate(id)} />
                   </div>
                 )}

@@ -22,7 +22,15 @@ type Response = SuccessResponse | ErrorResponse
 
 export const postSubmitSurvey = async (
   answers: Record<number, string | string[]>,
+  idModel: number,
 ): Promise<Response> => {
+  if (!Number.isInteger(idModel) || idModel <= 0) {
+    return {
+      status: false,
+      message: 'Invalid model ID',
+    }
+  }
+
   const authToken = getAuthToken()
 
   if (!authToken) {
@@ -43,7 +51,7 @@ export const postSubmitSurvey = async (
   }
 
   try {
-    const url = new URL(`${apiPath}/question`, baseUrl).toString()
+    const url = new URL(`${apiPath}/item/${idModel}/question`, baseUrl).toString()
 
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
