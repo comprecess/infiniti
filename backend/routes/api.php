@@ -76,7 +76,14 @@ Route::get('/{type}/view/{token}', [\App\Http\Controllers\Api\BusinessModelContr
 
 
 #test
+Route::controller(\App\Http\Controllers\Api\TestController::class)
+    ->prefix('test')
+    ->group(function(){
+        Route::get('promt', 'getData');
+        Route::post('promt', 'queryPromt');
+    });
 Route::get('test/list', [\App\Http\Controllers\Api\Resident\Client\ClientController::class, 'test']);
 Route::get('test2/list', [\App\Http\Controllers\Api\Resident\Client\ClientController::class, 'test2']);
 Route::get('test3/list', [\App\Http\Controllers\Api\Resident\Client\ClientController::class, 'test3']);
 Route::get('test4/list', [\App\Http\Controllers\Api\Resident\Client\ClientController::class, 'test4'])/*->middleware(['testDB'])*/;
+
