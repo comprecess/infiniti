@@ -9,6 +9,7 @@ import { Routes } from '../../../../app/router/routes'
 import { PeopleCard } from '../../../../features/Admin/BusinessPlanPage/EditBusinessPlanPage/Fields/Team/PeopleCard/PeopleCard'
 import { Item } from '../../../../features/Admin/BusinessPlanPage/ViewBusinessPlan/Item/Item'
 import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
+import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
@@ -31,11 +32,8 @@ const sections = [
 ]
 
 export const AdminViewBusinessPlanPage = () => {
-  const [fullInfo, setFullInfo] =
-    useState<BusinessPlanNewPlanFormData | null>(null)
-  const [inputData, setInputData] = useState<
-  TalentInputDataBusinessPlan[] | null
-  >(null)
+  const [fullInfo, setFullInfo] = useState<BusinessPlanNewPlanFormData | null>(null)
+  const [inputData, setInputData] = useState<TalentInputDataBusinessPlan[] | null>(null)
 
   const id = useIdFromUrl('business-plan')
 
@@ -57,6 +55,16 @@ export const AdminViewBusinessPlanPage = () => {
     setInputData(response.data.talents)
   }
 
+  const handleNavigateToPreview = () => {
+    if (!fullInfo) return
+
+    const url = `${import.meta.env.VITE_MAIN_DOMAIN}/${Routes.public}/${Routes.view}/${
+      Routes.businessPlan
+    }/${fullInfo.publicToken}`
+
+    window.open(url, '_blank')
+  }
+
   useEffect(() => {
     document.title = 'infiniti | View Business Plan'
   }, [])
@@ -67,8 +75,7 @@ export const AdminViewBusinessPlanPage = () => {
   }, [id])
 
   const filteredSections = sections.filter(
-    ({ key }) =>
-      fullInfo && fullInfo[key as keyof BusinessPlanNewPlanFormData],
+    ({ key }) => fullInfo && fullInfo[key as keyof BusinessPlanNewPlanFormData],
   )
 
   return (
@@ -78,56 +85,45 @@ export const AdminViewBusinessPlanPage = () => {
           <div className={styles.backButton}>
             <BackButton />
           </div>
-          <CustomInput
-            readOnly
-            title='Unique Business Plan URL:'
-            type='text'
-            name='uniqueURL'
-            id='uniqueURL'
-            styleInput={styles.input}
-            value={`${import.meta.env.VITE_MAIN_DOMAIN}/${Routes.public}/${
-              Routes.view
-            }/${Routes.businessPlan}/${fullInfo.publicToken}`}
-            onChange={() => {}}
-          />
-          <div className={styles.header}>
-            <img
-              src='/logoInfinitiWhite.svg'
-              alt='Logo'
-              className={styles.logo}
+          <div className={styles.publicURLWrapper}>
+            <CustomInput
+              readOnly
+              title='Unique Business Plan URL:'
+              type='text'
+              name='uniqueURL'
+              id='uniqueURL'
+              styleInput={styles.input}
+              value={`${import.meta.env.VITE_MAIN_DOMAIN}/${Routes.public}/${Routes.view}/${
+                Routes.businessPlan
+              }/${fullInfo.publicToken}`}
+              onChange={() => {}}
             />
+            <ButtonBlue
+              title='Preview'
+              style={styles.buttonWrapper}
+              onClick={handleNavigateToPreview}
+            />
+          </div>
+          <div className={styles.header}>
+            <img src='/logoInfinitiWhite.svg' alt='Logo' className={styles.logo} />
             <div className={styles.titleWrapper}>
               <span className={styles.title}>{fullInfo.companyName}</span>
               <span className={styles.businessPlan}>BUSINESS PLAN</span>
             </div>
             <div className={styles.preparedBy}>
-              {fullInfo.name && (
-                <span className={styles.name}>{fullInfo.name}</span>
-              )}
-              {fullInfo.email && (
-                <span className={styles.email}>{fullInfo.email}</span>
-              )}
-              {fullInfo.website && (
-                <span className={styles.website}>{fullInfo.website}</span>
-              )}
-              {fullInfo.phone && (
-                <span className={styles.phone}>{fullInfo.phone}</span>
-              )}
+              {fullInfo.name && <span className={styles.name}>{fullInfo.name}</span>}
+              {fullInfo.email && <span className={styles.email}>{fullInfo.email}</span>}
+              {fullInfo.website && <span className={styles.website}>{fullInfo.website}</span>}
+              {fullInfo.phone && <span className={styles.phone}>{fullInfo.phone}</span>}
             </div>
-            {fullInfo.date && (
-              <span className={styles.dateTitle}>{fullInfo.date}</span>
-            )}
+            {fullInfo.date && <span className={styles.dateTitle}>{fullInfo.date}</span>}
           </div>
           <RecentCard>
             <div className={styles.contentWrapper}>
               {filteredSections.map(({ key, title }, index) => {
-                const content =
-                  fullInfo[key as keyof BusinessPlanNewPlanFormData]
+                const content = fullInfo[key as keyof BusinessPlanNewPlanFormData]
 
-                const isEmpty =
-                  content === null ||
-                  content === '' ||
-                  content === '<p><br></p>'
+                const isEmpty = content === null || content === '' || content === '<p><br></p>'
 
                 if (isEmpty) return null
 
@@ -141,9 +137,7 @@ export const AdminViewBusinessPlanPage = () => {
                             return (
                               <PeopleCard
                                 key={id}
-                                talent={inputData.find(
-                                  item => item.id === id,
-                                )}
+                                talent={inputData.find(item => item.id === id)}
                               />
                             )
                           })}
