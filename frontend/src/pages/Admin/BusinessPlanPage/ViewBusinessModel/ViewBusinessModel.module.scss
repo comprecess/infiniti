@@ -134,3 +134,16 @@
 .input {
   background-color: $brand-900;
 }
+
+.publicURLWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  width: 100%;
+  align-items: end;
+}
+
+.buttonWrapper {
+  width: fit-content;
+  height: 44px;
+}

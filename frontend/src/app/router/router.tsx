@@ -42,6 +42,10 @@ export const router = createBrowserRouter([
     element: Pages.publicBusinessModelViewPage,
   },
   {
+    path: `${Routes.public}/test-ai`,
+    element: Pages.testPageAI,
+  },
+  {
     path: Routes.adminPages,
     element: (
       <ChatGPTProvider>
@@ -181,12 +185,7 @@ export const router = createBrowserRouter([
           },
           {
             index: true,
-            element: (
-              <Navigate
-                replace
-                to={`/${Routes.adminPages}/${Routes.dashboard}`}
-              />
-            ),
+            element: <Navigate replace to={`/${Routes.adminPages}/${Routes.dashboard}`} />,
           },
         ],
       },
@@ -227,12 +226,7 @@ export const router = createBrowserRouter([
           },
           {
             index: true,
-            element: (
-              <Navigate
-                replace
-                to={`/${Routes.adminPages}/${Routes.dashboard}`}
-              />
-            ),
+            element: <Navigate replace to={`/${Routes.adminPages}/${Routes.dashboard}`} />,
           },
         ],
       },
@@ -297,12 +291,7 @@ export const router = createBrowserRouter([
           },
           {
             index: true,
-            element: (
-              <Navigate
-                replace
-                to={`/${Routes.adminPages}/${Routes.dashboard}`}
-              />
-            ),
+            element: <Navigate replace to={`/${Routes.adminPages}/${Routes.dashboard}`} />,
           },
         ],
       },
@@ -343,12 +332,7 @@ export const router = createBrowserRouter([
           },
           {
             index: true,
-            element: (
-              <Navigate
-                replace
-                to={`/${Routes.adminPages}/${Routes.dashboard}`}
-              />
-            ),
+            element: <Navigate replace to={`/${Routes.adminPages}/${Routes.dashboard}`} />,
           },
         ],
       },
@@ -365,12 +349,7 @@ export const router = createBrowserRouter([
           },
           {
             index: true,
-            element: (
-              <Navigate
-                replace
-                to={`/${Routes.adminPages}/${Routes.dashboard}`}
-              />
-            ),
+            element: <Navigate replace to={`/${Routes.adminPages}/${Routes.dashboard}`} />,
           },
         ],
       },
@@ -475,12 +454,7 @@ export const router = createBrowserRouter([
           },
           {
             index: true,
-            element: (
-              <Navigate
-                replace
-                to={`/${Routes.adminPages}/${Routes.dashboard}`}
-              />
-            ),
+            element: <Navigate replace to={`/${Routes.adminPages}/${Routes.dashboard}`} />,
           },
         ],
       },
@@ -587,12 +561,7 @@ export const router = createBrowserRouter([
       {
         path: '*',
         index: true,
-        element: (
-          <Navigate
-            replace
-            to={`/${Routes.auth}/${Routes.sign}/${Routes.in}`}
-          />
-        ),
+        element: <Navigate replace to={`/${Routes.auth}/${Routes.sign}/${Routes.in}`} />,
       },
     ],
   },

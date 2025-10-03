@@ -8,6 +8,7 @@ import { TextInfoItem } from '../../../../features/Client/TalentDetailsPage/Text
 import { TitleCard } from '../../../../features/Client/TalentDetailsPage/TitleCard/TitleCard'
 import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
 import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
+import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { StatusProfitability } from '../../../../shared/ui/StatusProfitability/StatusProfitability'
@@ -32,6 +33,14 @@ export const AdminViewBusinessModel = () => {
     placeholderData: previousData => previousData,
   })
 
+  const handleNavigateToPreview = () => {
+    const url = `${import.meta.env.VITE_MAIN_DOMAIN}/${Routes.public}/${Routes.view}/${
+      Routes.businessModel
+    }/${model.publicToken}`
+
+    window.open(url, '_blank')
+  }
+
   const isValidHTML = (value?: string) => {
     return !!value && value !== '<p><br></p>'
   }
@@ -47,18 +56,25 @@ export const AdminViewBusinessModel = () => {
           <div className={styles.backButton}>
             <BackButton />
           </div>
-          <CustomInput
-            readOnly
-            title='Unique Business Model URL:'
-            type='text'
-            name='uniqueURL'
-            id='uniqueURL'
-            styleInput={styles.input}
-            value={`${import.meta.env.VITE_MAIN_DOMAIN}/${Routes.public}/${
-              Routes.view
-            }/${Routes.businessModel}/${model.publicToken}`}
-            onChange={() => {}}
-          />
+          <div className={styles.publicURLWrapper}>
+            <CustomInput
+              readOnly
+              title='Unique Business Model URL:'
+              type='text'
+              name='uniqueURL'
+              id='uniqueURL'
+              styleInput={styles.input}
+              value={`${import.meta.env.VITE_MAIN_DOMAIN}/${Routes.public}/${Routes.view}/${
+                Routes.businessModel
+              }/${model.publicToken}`}
+              onChange={() => {}}
+            />
+            <ButtonBlue
+              title='Preview'
+              style={styles.buttonWrapper}
+              onClick={handleNavigateToPreview}
+            />
+          </div>
           <div className={styles.titleModel}>
             <TitlePage title={model.title} />
           </div>
@@ -75,43 +91,24 @@ export const AdminViewBusinessModel = () => {
                 <div className={styles.aboutModel}>
                   <div className={styles.aboutModelContainer}>
                     <TitleCard title='About Model' />
-                    <StatusProfitability
-                      profitability={model.profitability[0].value}
-                    />
+                    <StatusProfitability profitability={model.profitability[0].value} />
                   </div>
                   <div className={styles.list}>
-                    <span className={styles.description}>
-                      {model.fullDescription}
-                    </span>
+                    <span className={styles.description}>{model.fullDescription}</span>
                     {model.industries.length > 0 && (
-                      <ListInfoItem
-                        title='Industries'
-                        list={model.industries}
-                      />
+                      <ListInfoItem title='Industries' list={model.industries} />
                     )}
                     {model.technologies.length > 0 && (
-                      <ListInfoItem
-                        title='Technologies'
-                        list={model.technologies}
-                      />
+                      <ListInfoItem title='Technologies' list={model.technologies} />
                     )}
                     {model.location.length > 0 && (
-                      <ListInfoItem
-                        title='Location'
-                        list={model.location}
-                      />
+                      <ListInfoItem title='Location' list={model.location} />
                     )}
                     {model.technologies.length > 0 && (
-                      <ListInfoItem
-                        title='Technologies'
-                        list={model.technologies}
-                      />
+                      <ListInfoItem title='Technologies' list={model.technologies} />
                     )}
                     {model.category.length > 0 && (
-                      <ListInfoItem
-                        title='Category'
-                        list={model.category}
-                      />
+                      <ListInfoItem title='Category' list={model.category} />
                     )}
                     <TextInfoItem title='Price' text={model.price} />
                     <TextInfoItem title='Age' text={model.age} />

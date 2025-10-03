@@ -125,6 +125,7 @@ import { InvoiceViewPage } from '../../pages/General/InvoiceViewPage/InvoiceView
 import { NotFoundPage } from '../../pages/General/NotFoundPage/NotFoundPage'
 import { OfferViewPage } from '../../pages/General/OfferViewPage/OfferViewPage'
 import { ServerErrorPage } from '../../pages/General/ServerErrorPage/ServerErrorPage'
+import { TestAIPage } from '../../pages/General/TestAIPage/TestAIPage'
 
 export const Routes = {
   root: '/',
@@ -371,4 +372,5 @@ export const Pages = {
   notFoundPage: <NotFoundPage />,
   forbiddenPage: <ForbiddenPage />,
   serverErrorPage: <ServerErrorPage />,
+  testPageAI: <TestAIPage />,
 }

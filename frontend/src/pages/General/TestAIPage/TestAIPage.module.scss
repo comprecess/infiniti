@@ -1,0 +1,48 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: start;
+  padding: 20px;
+  background-color: $brand-1000;
+
+  @include scrollbar;
+}
+
+.content {
+  display: flex;
+  width: 100%;
+  max-width: 800px;
+  height: fit-content;
+}
+
+.form {
+  width: 100%;
+  max-width: 100%;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+.loading {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.containerItems {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+}
+
+.containerItemsTitle {
+  font-family: $fontSpaceGrotesk;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}

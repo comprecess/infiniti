@@ -97,8 +97,8 @@ export const TaskColumn = ({
           </div>
         </SortableContext>
         {tasks.length > visibleCount && (
-          <div className={styles.nothingFound} onClick={handleShowMore}>
-            <span className={styles.nothingFoundText}>
+          <div className={styles.showMore} onClick={handleShowMore}>
+            <span className={styles.showMoreText}>
               Show more (
               {tasks.length - visibleCount}
               )
