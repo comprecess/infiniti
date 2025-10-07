@@ -37,6 +37,13 @@ Route::group(['prefix' => 'client',], function(){
         ->group(function(){
             Route::get('list', 'list');
         });
+
+    #file
+    Route::controller(Client\DocumentController::class)->prefix('document')->middleware('testDB')
+        ->group(function(){
+            Route::get('list', 'list');
+            Route::post('/', 'create');
+        });
 });
 
 
