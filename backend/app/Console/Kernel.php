@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(ExpiredInvoice::class)->daily();
         $schedule->command(ExpiredOffer::class)->daily();
         $schedule->command(NewTalent::class)->weeklyOn(5, '12:00');
-        $schedule->command(AccountBalance::class)->everyThreeHours;
+        $schedule->command(AccountBalance::class)->everyThreeHours();
     }
 
     /**
