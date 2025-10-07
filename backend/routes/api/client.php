@@ -31,6 +31,12 @@ Route::group(['prefix' => 'client',], function(){
             Route::get('{id}', 'item')->where('id', '[0-9]+');
             Route::get('question', 'getQuestion');
         });
+
+    #transaction
+    Route::controller(Client\TransactionController::class)->prefix('transaction')
+        ->group(function(){
+            Route::get('list', 'list');
+        });
 });
 
 
