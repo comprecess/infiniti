@@ -7,6 +7,7 @@ use App\Models\Resident\Invoices\Invoice;
 use App\Models\Traits\BootTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\Traits\UserTrait;
+use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\FileStorageTrait;
@@ -35,6 +36,12 @@ class Document extends Model implements InsertDefaultValueInterface
     public function subscriptions()
     {
         return $this->hasMany(DocumentSubscribe::class, 'did');
+    }
+
+    public function clients()
+    {
+        return $this->belongsToMany(Client::class, 'ib_doc_rel',  'did', 'rid',)
+            ->withPivot(['rtype', 'can_download']);
     }
 
     public function getDefault() :array
