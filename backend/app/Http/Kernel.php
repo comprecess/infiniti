@@ -74,6 +74,6 @@ class Kernel extends HttpKernel
         'haveAccess' => HaveAccess::class,
         'accessResponse' => AccessResponse::class,
         'my_auth' => Authenticate::class,
-        'testDB' => DBQueryLog::class
+//        'testDB' => DBQueryLog::class
     ];
 }
