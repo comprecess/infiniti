@@ -21,7 +21,7 @@ class DocumentResource extends JsonResource
             'type' => $this->file_mime_type,
             'global' => $this->is_global,
             'link' => $this->getLink(),
-            'update' => $this->updated_at?->format('d/m/Y')
+            'update' => $this->updated_at?->format('d/m/Y') ?? $this->created_at?->format('d/m/Y')
         ];
 
         return $data;
