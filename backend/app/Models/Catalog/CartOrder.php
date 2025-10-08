@@ -29,4 +29,9 @@ class CartOrder extends Model
         return $this->belongsTo(Cart::class, 'id_catalog_cart');
     }
 
+    public function cartOrder()
+    {
+        return $this->belongsTo(Cart::class, 'id_catalog_cart')->withTrashed();
+    }
+
 }

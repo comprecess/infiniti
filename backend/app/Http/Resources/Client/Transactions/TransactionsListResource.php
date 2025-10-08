@@ -16,7 +16,7 @@ class TransactionsListResource extends JsonResource
             'date' => $this->date?->format(Config::get('df')),
             'account' => $this->account,
 //            'amount' => $this->transformPrice('amount', $user->getCurrencyIso, true),
-            'amount' => $this->printPrice('amount', $this->getCurrencyIso, true),
+            'amount' => $this->printPrice('amount', $this->getCurrencyIso),
             'description' => $this->description,
         ];
     }

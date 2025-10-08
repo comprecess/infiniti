@@ -44,6 +44,19 @@ Route::group(['prefix' => 'client',], function(){
             Route::get('list', 'list');
             Route::post('/', 'create');
         });
+
+    #order
+    Route::controller(Client\OrderController::class)->prefix('order')
+        ->group(function(){
+            Route::get('list', 'list');
+            Route::get('view/{order}', 'item');
+        });
+
+    #invoice
+    Route::controller(Client\InvoiceController::class)->prefix('invoice')
+        ->group(function(){
+            Route::get('list', 'list');
+        });
 });
 
 
