@@ -37,6 +37,11 @@ class Order extends Model implements InsertDefaultValueInterface
         return $this->morphTo('model');
     }
 
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class, 'order_id');
+    }
+
     public function setModel(Model $model)
     {
         $this->model_type = $model::class;
