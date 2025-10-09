@@ -4,7 +4,7 @@
   width: 100%;
   height: 100%;
 
-  @include mobileBreakpoint('min', $bpL - 1) {
+  @include mobileBreakpoint('min', $bpL) {
     max-width: 357px;
   }
 }

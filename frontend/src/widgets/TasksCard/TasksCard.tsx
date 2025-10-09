@@ -48,7 +48,7 @@ export const TasksCard = ({
   const [columns, setColumns] = useState<ProjectsColumnData>(data)
   const [activeTask, setActiveTask] = useState<ActiveTaskInfo | null>(null)
 
-  const [visibleCount, setVisibleCount] = useState<number>(4)
+  const [visibleCount, setVisibleCount] = useState<number>(10)
 
   const [searchParams, setSearchParams] = useSearchParams()
 

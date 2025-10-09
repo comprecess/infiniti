@@ -1,11 +1,46 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import styles from './DocumentsPage.module.scss'
+import { ClientDocumentsData } from '../../../app/constants/constants'
+import { Item } from '../../../features/Client/DocumentsPage/Item/Item'
+import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { getDocumentsList } from '../../../shared/utils/api/Client/Documents/get-documents-list'
+import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 
 export const ClientDocumentsPage = () => {
+  const [documents, setDocuments] = useState<{ data: ClientDocumentsData[] } | null>(null)
+
+  const getDocumentList = async () => {
+    const response = await getDocumentsList()
+
+    if (!response.status) return
+
+    setDocuments(response.data)
+  }
+
   useEffect(() => {
     document.title = 'infiniti | Documents'
+
+    getDocumentList()
   }, [])
 
-  return <div className={styles.wrapper}>Client Documents Page</div>
+  return (
+    <div className={styles.wrapper}>
+      <section className={styles.section}>
+        {documents ? (
+          <RecentCard title='Documents' style={styles.recentFullScreen}>
+            <div className={styles.documents}>
+              {documents.data.map((document, index) => (
+                <Item key={`${document.title}-${index}`} data={document} />
+              ))}
+            </div>
+          </RecentCard>
+        ) : (
+          <div className={styles.loading}>
+            <LoadingSpinner size='xl' />
+          </div>
+        )}
+      </section>
+    </div>
+  )
 }
