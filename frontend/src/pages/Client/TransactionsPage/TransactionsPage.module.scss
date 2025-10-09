@@ -7,3 +7,19 @@
 
   @include scrollbar;
 }
+
+.section {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.recentFullScreen {
+  max-width: $maxContentSize;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

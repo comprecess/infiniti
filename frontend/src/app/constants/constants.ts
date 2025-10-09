@@ -1607,3 +1607,36 @@ export interface ProjectsGanttChartData {
   type: string
   duration: number
 }
+
+export interface ClientTransactionsData {
+  account: string
+  amount: string
+  date: string
+  description: string
+}
+
+export interface ClientDocumentsData {
+  title: string
+  type: string
+  global: number
+  link: string
+  update: string
+}
+
+export interface ClientMyOrdersData {
+  id: number
+  amount: string
+  date: string
+  orderNum: string
+  status: string
+}
+
+export interface ClientMyOrdersPreviewData {
+  amount: string
+  cName: string
+  date: string
+  orderNum: string
+  status: string
+  items: { amount: string; name: string; price: string; total: string }[]
+  catalog: any
+}

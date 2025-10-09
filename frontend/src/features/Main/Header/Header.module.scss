@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: space-between;
 
-  @include mobileBreakpoint('max', $custom-bpXXL) {
+  @include mobileBreakpoint('max', $bpXL) {
     justify-content: end;
   }
 }
@@ -19,11 +19,8 @@
 }
 
 .itemsLeft {
+  display: flex;
   transition: all 0.3s;
-
-  @include mobileBreakpoint('max', $custom-bpXXL) {
-    display: none;
-  }
 }
 
 .reverseIcon {
@@ -38,4 +35,28 @@
 
 .iconActive * {
   fill: $gray-100;
+}
+
+.iconIsMobile {
+  display: none;
+
+  @include mobileBreakpoint('max', $bpXL) {
+    display: flex;
+  }
+}
+
+.iconIsTablet {
+  display: flex;
+
+  @include mobileBreakpoint('max', $bpXL) {
+    display: none;
+  }
+}
+
+.iconIsDesktop {
+  display: flex;
+
+  @include mobileBreakpoint('max', $custom-bpXXL) {
+    display: none;
+  }
 }

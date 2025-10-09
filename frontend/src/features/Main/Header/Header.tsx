@@ -58,17 +58,24 @@ export const Header = ({
   return (
     <div className={styles.wrapper}>
       <div className={styles.itemsLeft}>
-        <Icon
-          fill={false}
-          style={isMiniSidebar ? styles.reverseIcon : ''}
-          icon={<ChevronsLeftIcon />}
-          onIconClick={toggleMiniSidebar}
-        />
-        <Icon
-          icon={<LockIcon />}
-          style={isSidebarLocked ? styles.iconActive : ''}
-          onIconClick={() => setIsSidebarLocked(prev => !prev)}
-        />
+        <div className={styles.iconIsDesktop}>
+          <Icon
+            fill={false}
+            style={isMiniSidebar ? styles.reverseIcon : ''}
+            icon={<ChevronsLeftIcon />}
+            onIconClick={toggleMiniSidebar}
+          />
+        </div>
+        <div className={styles.iconIsTablet}>
+          <Icon fill={false} icon={<MenuIcon />} onIconClick={toggleSidebar} />
+        </div>
+        <div className={styles.iconIsDesktop}>
+          <Icon
+            icon={<LockIcon />}
+            style={isSidebarLocked ? styles.iconActive : ''}
+            onIconClick={() => setIsSidebarLocked(prev => !prev)}
+          />
+        </div>
       </div>
       <div className={styles.itemsRight}>
         {isAdmin ? (
@@ -88,7 +95,9 @@ export const Header = ({
         )}
         <NotificationProfile />
         <ProfileMemo />
-        <Icon fill={false} icon={<MenuIcon />} onIconClick={toggleSidebar} />
+        <div className={styles.iconIsMobile}>
+          <Icon fill={false} icon={<MenuIcon />} onIconClick={toggleSidebar} />
+        </div>
       </div>
     </div>
   )

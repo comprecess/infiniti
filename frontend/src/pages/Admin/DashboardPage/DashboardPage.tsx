@@ -14,10 +14,7 @@ import {
   DashboardRecentProjectsData,
   RolesAccess,
 } from '../../../app/constants/constants'
-import { Calendar } from '../../../features/Admin/DashboardPage/Calendar/Calendar'
 import { CashFlow } from '../../../features/Admin/DashboardPage/CashFlow/CashFlow'
-import { ExpensesCategory } from '../../../features/Admin/DashboardPage/ExpensesCategory/ExpensesCategory'
-import { IncomeExpenseMonthly } from '../../../features/Admin/DashboardPage/IncomeExpenseMonthly/IncomeExpenseMonthly'
 import { LatestExpense } from '../../../features/Admin/DashboardPage/LatestExpense/LatestExpense'
 import { LatestIncome } from '../../../features/Admin/DashboardPage/LatestIncome/LatestIncome'
 import { NetWorthAccountBalances } from '../../../features/Admin/DashboardPage/NetWorthAccountBalances/NetWorthAccountBalances'
@@ -104,13 +101,13 @@ export const AdminDashboardPage = () => {
                 roles={roles}
               />
             </RecentCard>
-            <RecentCard
+            {/* <RecentCard
               ordinaryIcons
               title={t('admin-dashboard-page-card-5-title')}
               style={styles.recentHalf}
             >
               <Calendar />
-            </RecentCard>
+            </RecentCard> */}
           </section>
           <section className={styles.sectionFourth}>
             <RecentCard
@@ -136,15 +133,15 @@ export const AdminDashboardPage = () => {
             >
               <NetWorthAccountBalances account={dataDashboard.account} />
             </RecentCard>
-            <RecentCard
+            {/* <RecentCard
               ordinaryIcons
               title={t('admin-dashboard-page-card-9-title')}
               style={styles.recentHalf}
             >
               <ExpensesCategory />
-            </RecentCard>
+            </RecentCard> */}
           </section>
-          <section className={styles.sectionSixth}>
+          {/* <section className={styles.sectionSixth}>
             <RecentCard
               ordinaryIcons
               title={t('admin-dashboard-page-card-10-title')}
@@ -152,7 +149,7 @@ export const AdminDashboardPage = () => {
             >
               <IncomeExpenseMonthly />
             </RecentCard>
-          </section>
+          </section> */}
         </div>
       ) : (
         <div className={styles.loading}>

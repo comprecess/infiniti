@@ -3,11 +3,19 @@ import { useNavigate } from 'react-router-dom'
 import styles from './BackButton.module.scss'
 import { ChevronDownIcon } from '../../icons/ChevronDownIcon'
 
-export const BackButton = () => {
+interface BackButtonProps {
+  onClick?: () => void
+}
+
+export const BackButton = ({ onClick }: BackButtonProps) => {
   const navigate = useNavigate()
 
   const handleNavigateBack = () => {
-    navigate(-1)
+    if (onClick) {
+      onClick()
+    } else {
+      navigate(-1)
+    }
   }
 
   return (

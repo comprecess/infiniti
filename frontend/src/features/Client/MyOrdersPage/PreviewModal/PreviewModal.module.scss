@@ -1,0 +1,55 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+
+  @include scrollbar;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 26px;
+  letter-spacing: -0.03em;
+  text-align: left;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.items {
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-grow: 1;
+  height: auto;
+  opacity: 1;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cross {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  transition: 0.3s ease;
+  cursor: pointer;
+
+  &:hover * {
+    stroke: $gray-200;
+  }
+}

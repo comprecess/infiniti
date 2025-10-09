@@ -1,6 +1,6 @@
 .wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 6px;
   width: 100%;
   border-radius: 8px;
@@ -11,6 +11,12 @@
   @include hover {
     background-color: lighten($brand-800, 3%);
   }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .container {
@@ -33,30 +39,17 @@
 
   @include hover {
     color: $brand-200;
+
     @include underlineText($brand-200);
   }
 }
 
-.customerTitle,
 .uploadedTitle,
-.customerValue,
 .uploadedValue {
   font-size: 16px;
   font-weight: 400;
   line-height: 22px;
   letter-spacing: -0.03em;
   text-align: left;
-  color: $white;
-}
-
-.customerValue {
-  position: relative;
-  transition: color 0.15s ease;
-
-  @include hover {
-    color: $brand-200;
-    @include underlineText($brand-200);
-  }
-
-  cursor: pointer;
+  color: $gray-400;
 }

@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
-import { Outlet, useOutletContext } from 'react-router-dom'
+import { Outlet, useNavigate, useOutletContext } from 'react-router-dom'
 
 import styles from './ViewProjectPage.module.scss'
-import {
-  ProjectsData,
-  RolesAccess,
-} from '../../../../app/constants/constants'
+import { ProjectsData, RolesAccess } from '../../../../app/constants/constants'
 import { ProjectInfoSidebar } from '../../../../app/data/projectInfoSidebar'
+import { Routes } from '../../../../app/router/routes'
 import { SideBar } from '../../../../features/Admin/CustomersPage/ViewPage/SideBar/SideBar'
 import { ArrowBackGroundIcon } from '../../../../shared/icons/ArrowBackGroundIcon'
+import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { Status } from '../../../../shared/ui/Status/Status'
 import { getProjectView } from '../../../../shared/utils/api/Admin/Projects/get-project-view'
@@ -29,6 +28,7 @@ export const AdminViewProjectPage = () => {
   }>()
 
   const id = useIdFromUrl('project')
+  const navigate = useNavigate()
 
   const getProjectViewInfo = async () => {
     if (!id) return
@@ -104,13 +104,13 @@ export const AdminViewProjectPage = () => {
       {projectInfo ? (
         <section className={styles.section}>
           <div className={styles.container}>
+            <div className={styles.backButton}>
+              <BackButton onClick={() => navigate(`/${Routes.adminPages}/${Routes.projects}`)} />
+            </div>
             {!isMobile && (
               <div className={styles.titleStatus}>
                 <h4 className={styles.accountName}>{projectInfo.name}</h4>
-                <Status
-                  title={projectInfo.status}
-                  status={projectInfo.status}
-                />
+                <Status title={projectInfo.status} status={projectInfo.status} />
               </div>
             )}
             <div className={styles.contentContainer}>
@@ -142,21 +142,13 @@ export const AdminViewProjectPage = () => {
               </div>
               <main className={styles.content}>
                 <div className={styles.openSidebarWrapper}>
-                  <div
-                    className={styles.openSideBarButton}
-                    onClick={handleOpenCloseSidebar}
-                  >
+                  <div className={styles.openSideBarButton} onClick={handleOpenCloseSidebar}>
                     <ArrowBackGroundIcon />
                   </div>
                   {isMobile && (
                     <div className={styles.titleStatus}>
-                      <h4 className={styles.accountName}>
-                        {projectInfo.name}
-                      </h4>
-                      <Status
-                        title={projectInfo.status}
-                        status={projectInfo.status}
-                      />
+                      <h4 className={styles.accountName}>{projectInfo.name}</h4>
+                      <Status title={projectInfo.status} status={projectInfo.status} />
                     </div>
                   )}
                 </div>
