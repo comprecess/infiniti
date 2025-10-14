@@ -113,7 +113,7 @@ import { ClientTalentDetailsPage } from '../../pages/Client/TalentDetailsPage/Ta
 import { ClientTalentsPage } from '../../pages/Client/TalentsPage/TalentsPage'
 import { ClientOpenNewTicketPage } from '../../pages/Client/TicketsPage/OpenNewTicketPage/OpenNewTicketPage'
 import { ClientTicketsPage } from '../../pages/Client/TicketsPage/TicketsPage/TicketsPage'
-import { ClientViewTicketPage } from '../../pages/Client/TicketsPage/ViewTciketPage/ViewTicketPage'
+import { ClientViewTicketPage } from '../../pages/Client/TicketsPage/ViewTicketPage/ViewTicketPage'
 import { ClientTransactionsPage } from '../../pages/Client/TransactionsPage/TransactionsPage'
 import { ClientViewBusinessModelsPage } from '../../pages/Client/ViewBusinessModelsPage/ViewBusinessModelsPage'
 import { ClientViewBusinessPlanPage } from '../../pages/Client/ViewBusinessPlanPage/ViewBusinessPlanPage'

@@ -1,12 +1,11 @@
 import { useNavigate } from 'react-router-dom'
 
 import styles from './ViewItem.module.scss'
-import { ClientTicketsData } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { Status } from '../../../../shared/ui/Status/Status'
 
 interface ViewItemProps {
-  data: ClientTicketsData
+  data: any
 }
 
 export const ViewItem = ({ data }: ViewItemProps) => {

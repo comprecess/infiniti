@@ -23,7 +23,8 @@
 .statusPending,
 .statusPartiallyPaid,
 .statusDead,
-.statusDecline {
+.statusDecline,
+.statusClose {
   background-color: $cherry-transparent;
   color: $cherry-500;
 }

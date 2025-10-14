@@ -21,9 +21,24 @@
   width: 100%;
 }
 
+.titleWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  width: fit-content;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .title {
   display: flex;
   width: 100%;
   justify-content: center;
+}
+
+.backButton {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   margin-bottom: 40px;
 }
