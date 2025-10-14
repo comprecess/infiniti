@@ -1648,3 +1648,16 @@ export interface ClientTicketsData {
   updateAt: string
   status: string
 }
+
+export interface ClientTicketMessageData {
+  id: number
+  date: string
+  account: { name: string; img: string | null }
+  message: string
+}
+
+export interface ClientTicketsListData {
+  title: string
+  status: string
+  tickets: ClientTicketMessageData[]
+}

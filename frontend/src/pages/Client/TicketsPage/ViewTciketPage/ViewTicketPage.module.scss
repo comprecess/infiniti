@@ -1,0 +1,29 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+
+  @include scrollbar;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+  max-width: $maxContentSize;
+}
+
+.tickets {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.title {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 40px;
+}

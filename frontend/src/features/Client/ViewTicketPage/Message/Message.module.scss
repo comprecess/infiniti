@@ -1,0 +1,175 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 44px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 18px;
+    width: 2px;
+    background-color: $gray-400;
+    z-index: 0;
+    bottom: -44px;
+  }
+
+  &.writeMessage,
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &.lastClose::before {
+    bottom: calc(32px + 16px + 5px);
+  }
+
+  &.lineToReply::before {
+    bottom: -44px;
+  }
+
+  &.writeMessage::before {
+    top: 0;
+    bottom: 160px;
+  }
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: fit-content;
+  height: fit-content;
+  align-items: flex-end;
+  z-index: 1;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: calc(32px + 18px + 16px);
+    right: calc(100% - 36px - 16px - 2px - 12px);
+    height: 2px;
+    width: calc(100px - 36px - 18px);
+    background-color: $gray-400;
+    z-index: 0;
+  }
+}
+
+.date,
+.addReply {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 32px;
+  border-radius: 8px;
+  padding: 4px 8px;
+  background-color: $brand-800;
+}
+
+.date {
+  color: $gray-400;
+}
+
+.addReply {
+  color: $brand-400;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-top: 40px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  background-color: $brand-900;
+}
+
+.messageName {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-top: 40px;
+  height: fit-content;
+}
+
+.attach {
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+  align-items: center;
+  width: fit-content;
+  font-family: $fontSpaceGrotesk;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: -0.03em;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  color: $gray-400;
+
+  @include hover() {
+    color: $brand-400;
+
+    .icon * {
+      stroke: $brand-400;
+    }
+  }
+}
+
+.icon * {
+  stroke: $gray-400;
+  width: 18px;
+  height: 18px;
+  transition: all 0.1s ease;
+}
+
+.buttonSend {
+  margin-top: 6px;
+  width: fit-content;
+  height: 44px;
+}
+
+.writeMessage::after {
+  content: '';
+  position: absolute;
+  bottom: 160px;
+  left: 6.5px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  background-color: $brand-400;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-image: url('/icons/plus.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 55%;
+  z-index: 1;
+}
