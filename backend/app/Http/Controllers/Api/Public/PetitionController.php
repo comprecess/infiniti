@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Api\Public;
 
 
+use App\Events\InvoicePay;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Controllers\Api\Traits\IsAuthTrait;
 use App\Http\Controllers\Controller;
@@ -130,11 +131,15 @@ class PetitionController extends Controller
     public function pay(PayContract $pay, PayRequest $request)
     {
         list($type, $model) = $this->getDataByToken();
+
         if(!($model instanceof Invoice)) {
             abort(404);
         }
 
-        return $pay->setPay($request->route('payType'), $model)->execute();
+        $response = $pay->setPay($request->route('payType'), $model)->execute();
+
+        event(new InvoicePay($model));
+        return $response;
     }
 
     public function myData($type)

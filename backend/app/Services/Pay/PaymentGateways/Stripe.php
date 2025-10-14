@@ -35,7 +35,7 @@ class Stripe extends PaymentGateways implements PaymentGatewaysContract
             throw new \Exception("Model not found");
         }
 
-        Log::alert('data', $data);
+        Log::alert('*****STRIPE****data', $data);
 
         try {
             StripeLibrary\Stripe::setApiKey($info->c1);

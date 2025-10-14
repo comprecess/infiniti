@@ -11,6 +11,8 @@ use App\Models\Resident\Settings\Tax;
 use App\Models\Traits\CollectionTrait;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
+use App\Models\User;
+use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\ValidationException;
@@ -28,6 +30,10 @@ class InvoiceItem extends Model implements InsertDefaultValueInterface
     const DISCOUNT_TYPE = [
         'percent' => 'p',
         'fixed' => 'f'
+    ];
+
+    const TYPE = [
+        'AddFund'
     ];
 
     protected $table = "sys_invoiceitems";
@@ -62,7 +68,9 @@ class InvoiceItem extends Model implements InsertDefaultValueInterface
 
     public function getDefault(): array
     {
-        return [
+        $user = User::getAuth();
+
+        $deff = [
             'type' => [''],
             'relid' => [0],
             'duedate' => [now()],
@@ -71,8 +79,17 @@ class InvoiceItem extends Model implements InsertDefaultValueInterface
             'itemcode' => [''],
             'taxed' => [0],
             'invoiceid' =>[0],
-            'currency_iso_code' => [Currency::getDefault()?->iso_code]
+            'qty' => [1],
+//            'currency_iso_code' => [Currency::getDefault()?->iso_code]
         ];
+
+        if($user instanceof Client) {
+            $this->setClient($user);
+        }else{
+            $deff['currency_iso_code'] = [Currency::getDefault()?->iso_code];
+        }
+
+        return $deff;
     }
 
     public function getNameService($nameNull = 'calc')
@@ -237,4 +254,17 @@ class InvoiceItem extends Model implements InsertDefaultValueInterface
         }
     }
 
+    public function setClient(Client $client)
+    {
+        $this->userid = $client->id;
+        $this->setCurrency($client->getCurrencyIso);
+    }
+
+
+    public function setDocument($model)
+    {
+        $this->document_type = $model::class;
+        $this->document_id = $model->id;
+        $this->invoiceid = $model instanceof Invoice ? $model->id : 0;
+    }
 }

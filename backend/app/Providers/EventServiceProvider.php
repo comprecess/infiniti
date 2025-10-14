@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Events\Catalog;
+use App\Events\InvoicePay;
 use App\Events\Resident\Talents\DeleteTalent;
 use App\Events\Resident;
 use App\Events\User\CreateOrder;
@@ -53,6 +54,10 @@ class EventServiceProvider extends ServiceProvider
         /** Удаление транзакции */
         Resident\Transactions\Delete::class => [
             Listeners\Resident\Transaction\CalculateCategory::class
+        ],
+        /** Оплата */
+        InvoicePay::class => [
+            Listeners\Invoice\Check::class
         ]
     ];
 

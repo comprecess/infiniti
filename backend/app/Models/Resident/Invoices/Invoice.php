@@ -3,6 +3,7 @@
 namespace App\Models\Resident\Invoices;
 
 use App\Models\Collection\InvoiceCollection;
+use App\Models\Config;
 use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Resident\Project\Project;
 use App\Models\Resident\Settings\Currency;
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class Invoice extends Model implements InsertDefaultValueInterface, PayModelContract
 {
@@ -148,12 +150,12 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
         foreach(['vtoken', 'ptoken'] as $name) {
             $this->setRandomNum($name, 10, true);
         }
+        $date = now();
 
         $user = User::getAuth();
 
-        return [
+        $deff = [
             'notes' => ['', 'notes'],
-            'account' => [''],
             'taxname' => [''],
             'tax2' => [0.0],
             'taxrate' => [0.0],
@@ -161,8 +163,29 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
             'paymentmethod' => [''],
             'status' => [self::STATUS[0]],
             'r' => ['0'],
-            'aid' =>[$user instanceof Client ? 0 : $user->id]
+            'aid' => [$user instanceof Client ? 0 : $user->id],
+            'invoicenum' => [Config::get('invoice_code_prefix', 'INV-')],
+            'date' => [$date],
+            'duedate' => [$date],
+            'nd' => [$date],
+            'datepaid' => [$date],
+            'discount_type' => ['f'],
+            'discount_value' => [0.0],
+            'discount' => [0.0],
+            'tax' => [0.0],
+            'cn' => [self::getNextNum()],
+            'is_credit_invoice' => [0]
+
         ];
+
+        if($user instanceof Client) {
+            $this->setClient($user);
+        }else{
+            $deff['account'] = [''];
+        }
+
+
+        return $deff;
     }
 
     public function getKeyRepeat()
@@ -218,6 +241,7 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
     public function paySuccess(Pay $pay, mixed $result = null): void
     {
         $this->status = self::STATUS[1];
+        $this->paymentmethod = $pay->getMethod();
         $this->save();
 
         if($pay->getMethod() == 'stripe') {
@@ -247,5 +271,35 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
     public function getPublicUrl()
     {
         return frontLink("/public/invoice/view/{$this->vtoken}");
+    }
+
+    public function setClient(Client $client)
+    {
+        $this->userid = $client->id;
+        $this->account = $client->account;
+        $this->setCurrency($client->getCurrencyIso);
+    }
+
+    public static function createItem($price, $description, $type = null)
+    {
+        DB::beginTransaction();
+        $invoice = self::newDefault();
+
+        $invoice->subtotal = $price;
+        $invoice->total = $price;
+        $invoice->save();
+
+        $item = InvoiceItem::newDefault();
+        $item->setDocument($invoice);
+        $item->description = $description;
+        $item->amount = $price;
+        $item->total = $price;
+        if($type) {
+            $item->type = $type;
+        }
+        $item->save();
+        DB::commit();
+
+        return $invoice;
     }
 }
