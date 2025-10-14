@@ -147,6 +147,10 @@
   margin-top: 6px;
   width: fit-content;
   height: 44px;
+
+  @include mobileBreakpoint('max', $bpL) {
+    width: 100%;
+  }
 }
 
 .writeMessage::after {

@@ -1,5 +1,4 @@
 import styles from './Message.module.scss'
-import { ClientTicketMessageData } from '../../../../app/constants/constants'
 import { PaperClipIcon } from '../../../../shared/icons/PaperClipIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
@@ -7,7 +6,7 @@ import { TextEditor } from '../../../../shared/ui/TextEditor/TextEditor'
 import { sanitizeMessage } from '../../../../shared/utils/TextEditor/sanitizeMessage'
 
 interface MessageProps {
-  data?: ClientTicketMessageData
+  data?: any
   isWriteMessage: boolean
   isNextWriteMessage?: boolean
   isLast?: boolean

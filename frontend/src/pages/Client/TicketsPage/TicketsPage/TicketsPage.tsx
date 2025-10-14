@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import styles from './TicketsPage.module.scss'
-import { ClientTicketsData } from '../../../../app/constants/constants'
+import { dataTicket } from '../../../../app/data/test'
 import { Routes } from '../../../../app/router/routes'
 import { ViewItem } from '../../../../features/Client/TicketsPage/ViewItem/ViewItem'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -10,32 +10,6 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const ClientTicketsPage = () => {
-  const [tickets] = useState<{ data: ClientTicketsData[] } | null>({
-    data: [
-      {
-        id: 0,
-        code: '#ROE-45104617',
-        title: 'Orders not works',
-        updateAt: '10.10.2025',
-        status: 'Open',
-      },
-      {
-        id: 1,
-        code: '#OJI-74626539',
-        title: 'Sales persons for business',
-        updateAt: '11.10.2025',
-        status: 'Open',
-      },
-      {
-        id: 2,
-        code: '#TRY-74626539',
-        title: 'Test',
-        updateAt: '12.10.2025',
-        status: 'Open',
-      },
-    ],
-  })
-
   const navigate = useNavigate()
 
   const handleNavigateToNewTicket = () => {
@@ -49,7 +23,7 @@ export const ClientTicketsPage = () => {
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
-        {tickets ? (
+        {dataTicket ? (
           <RecentCard
             title='Tickets'
             style={styles.recentFullScreen}
@@ -60,9 +34,9 @@ export const ClientTicketsPage = () => {
               onClick: handleNavigateToNewTicket,
             }}
           >
-            {tickets.data.length > 0 ? (
+            {dataTicket.length > 0 ? (
               <div className={styles.tickets}>
-                {tickets.data.map(ticket => (
+                {dataTicket.map(ticket => (
                   <ViewItem key={ticket.id} data={ticket} />
                 ))}
               </div>

@@ -1,41 +1,27 @@
-import { useState } from 'react'
-
 import styles from './ViewTicketPage.module.scss'
-import { ClientTicketsListData } from '../../../../app/constants/constants'
+import { dataTicket } from '../../../../app/data/test'
 import { Message } from '../../../../features/Client/ViewTicketPage/Message/Message'
 import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
+import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { Status } from '../../../../shared/ui/Status/Status'
+import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 
 export const ClientViewTicketPage = () => {
-  const [data] = useState<ClientTicketsListData>({
-    title: 'Test Task',
-    status: 'Open',
-    tickets: [
-      {
-        id: 0,
-        date: '10/10/2025',
-        account: { name: 'Paul D.', img: null },
-        message: 'Pls. Ch',
-      },
-      {
-        id: 1,
-        date: '11/10/2025',
-        account: { name: 'Alexey', img: null },
-        message: 'Test da test',
-      },
-      {
-        id: 2,
-        date: '12/10/2025',
-        account: { name: 'Paul D.', img: null },
-        message: 'Pls. Ch',
-      },
-    ],
-  })
+  const id = useIdFromUrl('ticket')
+
+  const data = dataTicket[id || 0]
 
   return (
     <div>
-      <div className={styles.title}>
-        <TitlePage title={data.title} />
+      <div className={styles.backButton}>
+        <BackButton />
+      </div>
+      <div className={styles.titleWrapper}>
+        <div className={styles.title}>
+          <TitlePage title={data.title} />
+        </div>
+        <Status title={data.status} status={data.status} />
       </div>
       <div className={styles.wrapper}>
         {data ? (
