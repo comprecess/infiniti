@@ -1,19 +1,70 @@
 .wrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
   width: 100%;
   border-radius: 8px;
   padding: 18px;
-  transition: all 0.15s ease;
   background-color: $brand-800;
   cursor: pointer;
 
   @include hover {
     background-color: lighten($brand-800, 3%);
   }
+}
+
+.topWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.topRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+}
+
+.statusDesktop {
+  margin-left: auto;
+  display: block;
+}
+
+.statusMobile {
+  display: none;
+}
+
+@include mobileBreakpoint('max', $bpL) {
+  .topWrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .topRow {
+    justify-content: flex-start; // code + статус на одной строке
+  }
+
+  .statusDesktop {
+    display: none; // скрываем на мобилке
+  }
+
+  .statusMobile {
+    display: block; // показываем на мобилке
+    margin-left: 8px; // чтобы была справа от code
+  }
+
+  .content {
+    width: 100%;
+    margin-top: 8px; // под code + статус
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
 }
 
 .containerWrapper {
@@ -23,12 +74,6 @@
   align-items: center;
 }
 
-.content {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
 .container {
   display: flex;
   flex-direction: row;
@@ -36,6 +81,7 @@
 }
 
 .code {
+  width: fit-content;
   display: inline-block;
   position: relative;
   font-size: 18px;
@@ -43,6 +89,7 @@
   line-height: 24px;
   letter-spacing: -0.03em;
   text-align: left;
+  white-space: nowrap;
   color: $gray-400;
 }
 

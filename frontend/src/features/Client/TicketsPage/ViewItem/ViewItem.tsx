@@ -18,8 +18,13 @@ export const ViewItem = ({ data }: ViewItemProps) => {
 
   return (
     <div className={styles.wrapper} onClick={handleNavigateToViewTicket}>
-      <div className={styles.containerWrapper}>
-        <span className={styles.code}>{data.code}</span>
+      <div className={styles.topWrapper}>
+        <div className={styles.topRow}>
+          <span className={styles.code}>{data.code}</span>
+          <div className={styles.statusMobile}>
+            <Status title={data.status} status={data.status} />
+          </div>
+        </div>
         <div className={styles.content}>
           <span className={styles.title}>{data.title}</span>
           {data.updateAt && (
@@ -29,8 +34,10 @@ export const ViewItem = ({ data }: ViewItemProps) => {
             </div>
           )}
         </div>
+        <div className={styles.statusDesktop}>
+          <Status title={data.status} status={data.status} />
+        </div>
       </div>
-      <Status title={data.status} status={data.status} />
     </div>
   )
 }
