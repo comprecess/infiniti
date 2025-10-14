@@ -13,23 +13,31 @@ interface RecentTotalProps {
 export const RecentTotal = ({ offers }: RecentTotalProps) => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.columns}>
-        <Title title='Subject' style={styles.subjectColumn} />
-        <Title title='Amount' style={styles.amountColumn} />
-        <Title title='Date Created' style={styles.dateCreatedColumn} />
-        <Title title='Expiry Date' style={styles.expiryDateColumn} />
-        <Title title='Manage' style={styles.manageColumn} />
-      </div>
-      <div className={styles.items}>
-        {offers.map((offer, index) => {
-          return (
-            <Fragment key={offer.id}>
-              <Item {...offer} />
-              {index !== offers.length - 1 && <CustomDivider />}
-            </Fragment>
-          )
-        })}
-      </div>
+      {offers.length > 0 ? (
+        <>
+          <div className={styles.columns}>
+            <Title title='Subject' style={styles.subjectColumn} />
+            <Title title='Amount' style={styles.amountColumn} />
+            <Title title='Date Created' style={styles.dateCreatedColumn} />
+            <Title title='Expiry Date' style={styles.expiryDateColumn} />
+            <Title title='Manage' style={styles.manageColumn} />
+          </div>
+          <div className={styles.items}>
+            {offers.map((offer, index) => {
+              return (
+                <Fragment key={offer.id}>
+                  <Item {...offer} />
+                  {index !== offers.length - 1 && <CustomDivider />}
+                </Fragment>
+              )
+            })}
+          </div>
+        </>
+      ) : (
+        <div className={styles.nothingFound}>
+          <span className={styles.nothingFoundText}>Nothing Found</span>
+        </div>
+      )}
     </div>
   )
 }

@@ -1,5 +1,6 @@
 .wrapper {
   display: flex;
+  width: fit-content;
   height: 24px;
   border-radius: 100px;
   padding: 1px 8px 1px 8px;
@@ -13,93 +14,42 @@
   letter-spacing: -0.03em;
 }
 
-.statusUnpaid {
-  width: 62px;
+.statusUnpaid,
+.statusDelivered {
   background-color: $amber-transparent;
   color: $amber-500;
 }
 
-.statusPending {
-  width: 69px;
+.statusPending,
+.statusPartiallyPaid,
+.statusDead,
+.statusDecline {
   background-color: $cherry-transparent;
   color: $cherry-500;
 }
 
 .statusActive,
 .statusPaid {
-  width: 57px;
   background-color: $mint-transparent;
   color: $mint-500;
 }
 
-.statusPaid {
-  width: 44px;
-}
-
 .statusDraft,
-.statusPaused {
+.statusPaused,
+.statusCancelled,
+.statusLost {
   background-color: $gray-600;
   color: $gray-100;
 }
 
-.statusDraft {
-  width: 49px;
-}
-
-.statusPaused {
-  width: 64px;
-}
-
 .statusStarted {
-  width: 64px;
   background-color: $brand-transparent;
   color: $brand-300;
 }
 
-.statusCompleted {
-  width: 87px;
+.statusCompleted,
+.statusAccepted,
+.statusOpen {
   background-color: $mint-transparent;
   color: $mint-500;
-}
-
-.statusPartiallyPaid {
-  width: 98px;
-  background-color: $cherry-transparent;
-  color: $cherry-500;
-}
-
-.statusAccepted {
-  width: 78px;
-  background-color: $mint-transparent;
-  color: $mint-500;
-}
-
-.statusCancelled {
-  width: 79px;
-  background-color: $gray-600;
-  color: $gray-100;
-}
-
-.statusDead {
-  width: 49px;
-  background-color: $cherry-transparent;
-  color: $cherry-500;
-}
-
-.statusDelivered {
-  width: 75px;
-  background-color: $amber-transparent;
-  color: $amber-500;
-}
-
-.statusLost {
-  width: 44px;
-  background-color: $gray-600;
-  color: $gray-100;
-}
-
-.statusDecline {
-  width: 63px;
-  background-color: $cherry-transparent;
-  color: $cherry-500;
 }

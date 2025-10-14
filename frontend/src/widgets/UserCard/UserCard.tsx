@@ -7,15 +7,16 @@ import { ButtonBlue } from '../../shared/ui/ButtonBlue/ButtonBlue'
 
 interface UserCardProps {
   profileData: UserInfo
+  handleOpenCloseAddFund: () => void
 }
 
-export const UserCard = ({ profileData }: UserCardProps) => {
+export const UserCard = ({ profileData, handleOpenCloseAddFund }: UserCardProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.items}>
         <Avatar avatar={profileData.img} name={profileData.account} />
         <CurrentBalance currentBalance={profileData.balance} />
-        <ButtonBlue title='Add fund' />
+        <ButtonBlue title='Add Fund' onClick={handleOpenCloseAddFund} />
         <PersonInfo
           personalNumber={profileData.phone}
           email={profileData.email}

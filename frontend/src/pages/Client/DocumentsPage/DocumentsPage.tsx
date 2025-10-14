@@ -29,11 +29,17 @@ export const ClientDocumentsPage = () => {
       <section className={styles.section}>
         {documents ? (
           <RecentCard title='Documents' style={styles.recentFullScreen}>
-            <div className={styles.documents}>
-              {documents.data.map((document, index) => (
-                <Item key={`${document.title}-${index}`} data={document} />
-              ))}
-            </div>
+            {documents.data.length > 0 ? (
+              <div className={styles.documents}>
+                {documents.data.map((document, index) => (
+                  <Item key={`${document.title}-${index}`} data={document} />
+                ))}
+              </div>
+            ) : (
+              <div className={styles.nothingFound}>
+                <span className={styles.nothingFoundText}>Nothing Found</span>
+              </div>
+            )}
           </RecentCard>
         ) : (
           <div className={styles.loading}>

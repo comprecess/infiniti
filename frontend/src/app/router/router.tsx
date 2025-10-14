@@ -522,6 +522,7 @@ export const router = createBrowserRouter([
             element: Pages.clientOpenNewTicketPage,
           },
           { path: Routes.tickets, element: Pages.clientTicketsPage },
+          { path: `${Routes.view}/${Routes.ticket}/:id`, element: Pages.clientViewTicketPage },
         ],
       },
       { path: Routes.profile, element: Pages.clientProfilePage },
