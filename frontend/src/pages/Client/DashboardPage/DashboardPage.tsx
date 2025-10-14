@@ -8,12 +8,15 @@ import {
   OrdersViewCompany,
   UserInfo,
 } from '../../../app/constants/constants'
+import { Routes } from '../../../app/router/routes'
+import { AddFundModal } from '../../../features/Admin/CustomersPage/ViewPage/Pages/SummaryPage/AddFundModal/AddFundModal'
 import { RecentInvoices } from '../../../features/Client/DashboardPage/RecentInvoices/RecentInvoices'
 import { RecentOffers } from '../../../features/Client/DashboardPage/RecentOffers/RecentOffers'
 import { RecentOrders } from '../../../features/Client/DashboardPage/RecentOrders/RecentOrders'
 import { RecentTransactions } from '../../../features/Client/DashboardPage/RecentTransactions/RecentTransactions'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getDashboardInfo } from '../../../shared/utils/api/Client/Dashboard/get-dashboard-info'
+import { postAddFund } from '../../../shared/utils/api/Client/Dashboard/post-add-fund'
 import { getProfileInfo } from '../../../shared/utils/api/get-profile-info'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import { UserCard } from '../../../widgets/UserCard/UserCard'
@@ -26,6 +29,12 @@ export const ClientDashboardPage = () => {
     order: OrdersViewCompany[]
   } | null>(null)
   const [profileData, setProfileData] = useState<UserInfo | null>(null)
+
+  const [isAddFund, setIsAddFund] = useState<boolean>(false)
+
+  const handleOpenCloseAddFund = () => {
+    setIsAddFund(prev => !prev)
+  }
 
   const getDashboardData = useCallback(async () => {
     const response = await getDashboardInfo()
@@ -43,6 +52,16 @@ export const ClientDashboardPage = () => {
     setProfileData(response.data)
   }, [])
 
+  const addFund = async (_name: string, value: string) => {
+    const response = await postAddFund(value)
+
+    if (!response.status) return
+
+    const url = `/${Routes.public}/${Routes.invoice}/${Routes.view}/${response.data.public}`
+
+    window.open(url, '_blank')
+  }
+
   useEffect(() => {
     getDashboardData()
     getProfileData()
@@ -51,45 +70,48 @@ export const ClientDashboardPage = () => {
   }, [])
 
   return (
-    <div className={styles.wrapper}>
-      {profileData && data ? (
-        <>
-          <section className={styles.sectionFirst}>
-            <UserCard profileData={profileData} />
-            <RecentCard title='Recent Orders' style={styles.recentOrders}>
-              <RecentOrders orders={data.order} />
-            </RecentCard>
-          </section>
-          <section className={styles.sectionSecond}>
-            <RecentCard
-              title='Recent Transactions'
-              style={styles.recentFullScreen}
-            >
-              <RecentTransactions transactions={data.transaction} />
-            </RecentCard>
-          </section>
-          <section className={styles.sectionThird}>
-            <RecentCard
-              title='Recent Invoices'
-              style={styles.recentFullScreen}
-            >
-              <RecentInvoices invoices={data.invoice} />
-            </RecentCard>
-          </section>
-          <section className={styles.sectionFourth}>
-            <RecentCard
-              title='Recent Offers'
-              style={styles.recentFullScreen}
-            >
-              <RecentOffers offers={data.offer} />
-            </RecentCard>
-          </section>
-        </>
-      ) : (
-        <div className={styles.loading}>
-          <LoadingSpinner size='xl' />
-        </div>
+    <>
+      <div className={styles.wrapper}>
+        {profileData && data ? (
+          <>
+            <section className={styles.sectionFirst}>
+              <UserCard profileData={profileData} handleOpenCloseAddFund={handleOpenCloseAddFund} />
+              <RecentCard title='Recent Orders' style={styles.recentOrders}>
+                <RecentOrders orders={data.order} />
+              </RecentCard>
+            </section>
+            <section className={styles.sectionSecond}>
+              <RecentCard title='Recent Transactions' style={styles.recentFullScreen}>
+                <RecentTransactions transactions={data.transaction} />
+              </RecentCard>
+            </section>
+            <section className={styles.sectionThird}>
+              <RecentCard title='Recent Invoices' style={styles.recentFullScreen}>
+                <RecentInvoices invoices={data.invoice} />
+              </RecentCard>
+            </section>
+            <section className={styles.sectionFourth}>
+              <RecentCard title='Recent Offers' style={styles.recentFullScreen}>
+                <RecentOffers offers={data.offer} />
+              </RecentCard>
+            </section>
+          </>
+        ) : (
+          <div className={styles.loading}>
+            <LoadingSpinner size='xl' />
+          </div>
+        )}
+      </div>
+      {isAddFund && (
+        <AddFundModal
+          title='Add Fund'
+          name='addAmount'
+          buttonTitle='Add'
+          modalAddFund={isAddFund}
+          handleOpenCloseModal={handleOpenCloseAddFund}
+          onSendValue={addFund}
+        />
       )}
-    </div>
+    </>
   )
 }

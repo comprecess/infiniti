@@ -1640,3 +1640,11 @@ export interface ClientMyOrdersPreviewData {
   items: { amount: string; name: string; price: string; total: string }[]
   catalog: any
 }
+
+export interface ClientTicketsData {
+  id: number
+  code: string
+  title: string
+  updateAt: string
+  status: string
+}

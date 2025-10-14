@@ -2,10 +2,7 @@ import { Fragment, useCallback, useState } from 'react'
 
 import { Item } from './Item/Item'
 import styles from './RecentOffers.module.scss'
-import {
-  RolesAccess,
-  SalesOffersListData,
-} from '../../../../../app/constants/constants'
+import { RolesAccess, SalesOffersListData } from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
 
@@ -28,9 +25,7 @@ export const RecentOffers = ({
   navigateToSelectAccount,
   deleteOffer,
 }: RecentOffersProps) => {
-  const [sortNumbers, setSortNumbers] = useState<number[]>([
-    1, 1, 1, 1, 1, 1, 1,
-  ])
+  const [sortNumbers, setSortNumbers] = useState<number[]>([1, 1, 1, 1, 1, 1, 1])
 
   const handleSortChange = useCallback(
     (index: number, sortNameItem: string, sortTypeItem: number) => {
@@ -50,7 +45,6 @@ export const RecentOffers = ({
     <div className={styles.wrapper}>
       {offersList.length > 0 ? (
         <>
-          {' '}
           <div className={styles.columns}>
             <Title
               sorted
