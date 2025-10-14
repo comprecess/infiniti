@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Client\AddFundRequest;
 use App\Http\Requests\User\Client\AvatarRequest;
 use App\Http\Requests\User\Client\UpdateRequest;
+use App\Http\Resources\Client\Invoice\InvoiceListResource;
 use App\Http\Resources\UserResource;
+use App\Models\Log;
+use App\Models\Resident\Invoices\Invoice;
 use App\Services\Tools\Countries;
 use Illuminate\Http\Request;
 
@@ -56,5 +60,13 @@ class ClientController extends UserController
         });
 
         return response()->json(['success' => true]);
+    }
+
+    public function addFund(AddFundRequest $request)
+    {
+
+        $amount = $request->amount;
+        $invoice = Invoice::createItem($amount, 'Credit', 'AddFund');
+        return new InvoiceListResource($invoice);
     }
 }

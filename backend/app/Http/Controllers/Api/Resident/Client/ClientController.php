@@ -398,8 +398,8 @@ class ClientController extends MainClientController
 
         if($request->isSet('addAmount') || $request->isSet('returnAmount')) {
             $type = isset($data['addAmount']);
-            $amount = $type ? $data['addAmount'] : $data['returnAmount'];
-            if($amount < 0) {
+            $amount = $type ? $data['addAmount'] : Arr::get($data, 'returnAmount', 0);
+            if($amount < 1) {
                 $nameValidate = $type ? 'addAmount' : 'returnAmount';
                 throw ValidationException::withMessages([$nameValidate => __('validation.min.numeric', ['attribute' => 'amount', "min" => '0'])]);
             }

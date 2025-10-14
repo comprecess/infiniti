@@ -4,6 +4,7 @@
 namespace App\Models\Traits;
 
 
+use App\Models\User;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 
@@ -53,5 +54,11 @@ trait UserTrait
         if($admin->checkAccess(...$data) === 0) {
             $query->where($this->getTable() .'.' . $this->getAdminColumn(), $admin->id);
         }
+    }
+
+    public function setUser(User $user)
+    {
+        $column = $user instanceof Admin ? $this->getAdminColumn() : $this->getClientColumn();
+        $this->{$column} = $user->id;
     }
 }
