@@ -18,7 +18,7 @@ class InvoicePay
     /**
      * Create a new event instance.
      */
-    public function __construct(public Invoice $model)
+    public function __construct(public Invoice $model, public string $type)
     {
         //
     }

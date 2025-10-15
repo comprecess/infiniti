@@ -57,7 +57,8 @@ class EventServiceProvider extends ServiceProvider
         ],
         /** Оплата */
         InvoicePay::class => [
-            Listeners\Invoice\Check::class
+            Listeners\Invoice\Check::class,
+            Listeners\Invoice\AdminNotification::class
         ]
     ];
 
