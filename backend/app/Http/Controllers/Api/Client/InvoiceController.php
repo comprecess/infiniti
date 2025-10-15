@@ -14,7 +14,12 @@ class InvoiceController extends Controller
 
     public function list()
     {
-        return $this->index(User::getAuth()->invoices()->with(['getCurrencyIso']), InvoiceListResource::class, true);
+        $query = User::getAuth()->invoices()
+            ->with(['getCurrencyIso'])
+            ->orderBy('id', 'desc')
+            ->limit(50);
+
+        return $this->index($query, InvoiceListResource::class, true);
     }
 
 
