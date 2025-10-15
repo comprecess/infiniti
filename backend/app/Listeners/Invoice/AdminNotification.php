@@ -35,9 +35,7 @@ class AdminNotification implements ShouldQueue
         ]);
 
         $adminActionDate = $date->copy()->subMonth(3);
-//        $admins = Admin::where((new Admin())->getColumnLastTime(), '>=', $adminActionDate)->get();
-
-        $admins = Admin::where('id', 19)->get();
+        $admins = Admin::where((new Admin())->getColumnLastTime(), '>=', $adminActionDate)->get();
 
         foreach($admins as $admin){
             Notification::createMain(
