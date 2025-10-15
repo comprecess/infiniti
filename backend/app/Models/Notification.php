@@ -52,9 +52,11 @@ class Notification extends Model
     public function getMessage()
     {
         if($model = $this->modelTrashed) {
-            $message = $model->getMessage($this);
-            if($message !== null) {
-                return $message;
+            if(method_exists($model, 'getMessage')) {
+                $message = $model->getMessage($this);
+                if ($message !== null) {
+                    return $message;
+                }
             }
         }
 
