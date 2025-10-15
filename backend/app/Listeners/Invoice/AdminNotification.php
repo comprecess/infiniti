@@ -2,6 +2,7 @@
 
 namespace App\Listeners\Invoice;
 
+use App\Events\InvoicePay;
 use App\Models\Notification;
 use App\Models\Users\Admin;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -20,7 +21,7 @@ class AdminNotification implements ShouldQueue
     /**
      * Handle the event.
      */
-    public function handle(object $event): void
+    public function handle(InvoicePay $event): void
     {
         $date = now();
         $model = $event->model;
