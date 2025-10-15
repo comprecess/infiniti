@@ -26,10 +26,10 @@ class AdminNotification implements ShouldQueue
         $model = $event->model;
         $user = $model->user;
         $message = __('pay.adminNotification', [
-           'typePay' =>  $event->type,
-           'idAccount' =>  $user->id,
+           'type_pay' =>  $event->type,
+           'id_account' =>  $user->id,
            'account' =>  $user->account,
-           'idInvoice' =>  $model->id,
+           'id_invoice' =>  $model->id,
            'code' =>  $model->getCode(),
         ]);
 
