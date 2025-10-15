@@ -34,4 +34,9 @@ class InvoicePay
             new PrivateChannel('channel-name'),
         ];
     }
+
+    public function getType()
+    {
+        return $this->type;
+    }
 }
