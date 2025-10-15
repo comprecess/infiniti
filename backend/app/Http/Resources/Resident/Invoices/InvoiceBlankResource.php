@@ -14,6 +14,7 @@ class InvoiceBlankResource extends JsonResource
     {
         $service = $this->service;
         $serviceObject = $service?->getServiceResources();
+        $currency = $this->getCurrencyIso;
         $resource = [
             'id' => $this->id,
             'service' => $this->getNameService(),
@@ -30,8 +31,8 @@ class InvoiceBlankResource extends JsonResource
         ];
 
         if($request->type == 'view') {
-            $resource['price'] = $this->transformPrice('amount', $this->getCurrencyIso, true);
-            $resource['total'] = $this->transformPrice('total', $this->getCurrencyIso, true);
+            $resource['price'] = $this->transformPrice('amount', $currency, true);
+            $resource['total'] = $this->transformPrice('total', $currency, true);
             $resource['discount'] = $this->printDiscount();
         }else {
             $resource['price'] = $this->amount;

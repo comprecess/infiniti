@@ -34,7 +34,7 @@ class InvoiceItemResource extends JsonResource implements ListInterface
         $this->setList($resource);
 
         $items = $this->items;
-
+        $currency = $this->getCurrencyIso;
 
         $resource = array_merge($resource, [
             'id' => $this->id,
@@ -53,10 +53,10 @@ class InvoiceItemResource extends JsonResource implements ListInterface
             'transactions' => TransactionResource::collection($this->transaction),
             'pdf' => route('pdf', ['name' => 'invoice', 'token' => $this->vtoken]),
             'blankCalc' => [
-                'price' => $items->summPrice(),
-                'discount' => $items->summDiscount(),
-                'tax' => $items->summTax(),
-                'total' => $items->summTotal()
+                'price' => $items->summPrice($currency),
+                'discount' => $items->summDiscount($currency),
+                'tax' => $items->summTax($currency),
+                'total' => $items->summTotal($currency)
             ]
         ]);
 
