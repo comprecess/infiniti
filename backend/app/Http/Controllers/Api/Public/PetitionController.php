@@ -130,15 +130,16 @@ class PetitionController extends Controller
 
     public function pay(PayContract $pay, PayRequest $request)
     {
+        $payType = $request->route('payType');
         list($type, $model) = $this->getDataByToken();
 
         if(!($model instanceof Invoice)) {
             abort(404);
         }
 
-        $response = $pay->setPay($request->route('payType'), $model)->execute();
+        $response = $pay->setPay($payType, $model)->execute();
 
-        event(new InvoicePay($model));
+        event(new InvoicePay($model, $payType));
         return $response;
     }
 
@@ -152,7 +153,7 @@ class PetitionController extends Controller
         $data = self::PUBLIC_TOKEN[$type];
         $client = auth()->user();
 
-        return $data['myResource']::collection($client->{$data['my']});
+        return $data['myResource']::collection($client->{$data['my']}()->orderBy('id', 'desc')->limit(50)->get());
     }
 
 
