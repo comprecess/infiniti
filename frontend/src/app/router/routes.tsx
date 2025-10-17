@@ -83,7 +83,9 @@ import { AdminUsersPage } from '../../pages/Admin/SettingsPage/UsersPage/UsersPa
 import { AdminSMSPage } from '../../pages/Admin/SMSPage/SMSPage'
 import { AdminAddSupplierPage } from '../../pages/Admin/SuppliersPage/AddSupplierPage/AddSupplierPage'
 import { AdminListSuppliersPage } from '../../pages/Admin/SuppliersPage/ListSuppliersPage/ListSuppliersPage'
-import { AdminSupportPage } from '../../pages/Admin/SupportPage/SupportPage'
+import { AdminNewTicketPage } from '../../pages/Admin/SupportPage/NewTicketPage/NewTicketPage'
+import { AdminTicketsListPage } from '../../pages/Admin/SupportPage/TicketsListPage/TicketsListPage'
+import { AdminViewTicketPage } from '../../pages/Admin/SupportPage/ViewTicketPage/ViewTicketPage'
 import { AdminAddTalentPage } from '../../pages/Admin/TanlentsPage/AddTalentPage/AddTalentPage'
 import { AdminCartPage } from '../../pages/Admin/TanlentsPage/CartPage/CartPage'
 import { AdminCartToOfferPage } from '../../pages/Admin/TanlentsPage/CartToOfferPage/CartToOfferPage'
@@ -317,7 +319,9 @@ export const Pages = {
   adminProjectsGanttChartPage: <AdminProjectsGanttChartPage />,
   adminLeadsPage: <AdminLeadsPage />,
   adminSMSPage: <AdminSMSPage />,
-  adminSupportPage: <AdminSupportPage />,
+  adminNewTicketPage: <AdminNewTicketPage />,
+  adminTicketsListPage: <AdminTicketsListPage />,
+  adminViewTicketPage: <AdminViewTicketPage />,
   adminKnowledgeBasePage: <AdminKnowledgeBasePage />,
   adminOrdersPage: <AdminOrdersPage />,
   adminHRMPage: <AdminHRMPage />,

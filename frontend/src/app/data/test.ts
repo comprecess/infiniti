@@ -5,6 +5,7 @@ export const dataTicket = [
     title: 'Orders not works',
     updateAt: '10.10.2025',
     status: 'Open',
+    account: { name: 'Paul D.', img: null },
     tickets: [
       {
         id: 0,
@@ -31,7 +32,8 @@ export const dataTicket = [
     code: '#OJI-74626539',
     title: 'Sales persons for business',
     updateAt: '11.10.2025',
-    status: 'Close',
+    status: 'Closed',
+    account: { name: 'Paul D.', img: null },
     tickets: [
       {
         id: 0,
@@ -46,7 +48,8 @@ export const dataTicket = [
     code: '#TRY-74626539',
     title: 'Test',
     updateAt: '12.10.2025',
-    status: 'Close',
+    status: 'Closed',
+    account: { name: 'Paul D.', img: null },
     tickets: [
       {
         id: 0,

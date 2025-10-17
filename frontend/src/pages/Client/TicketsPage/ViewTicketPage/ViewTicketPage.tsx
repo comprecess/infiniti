@@ -13,41 +13,53 @@ export const ClientViewTicketPage = () => {
   const data = dataTicket[id || 0]
 
   return (
-    <div>
-      <div className={styles.backButton}>
-        <BackButton />
-      </div>
-      <div className={styles.titleWrapper}>
-        <div className={styles.title}>
-          <TitlePage title={data.title} />
-        </div>
-        <Status title={data.status} status={data.status} />
-      </div>
-      <div className={styles.wrapper}>
-        {data ? (
-          <section className={styles.section}>
-            <div className={styles.tickets}>
-              {data.tickets.map((ticket, index) => {
-                return (
-                  <Message
-                    key={ticket.id}
-                    isWriteMessage={false}
-                    isLast={index === data.tickets.length - 1}
-                    isNextWriteMessage={data.status === 'Open' && index === data.tickets.length - 1}
-                    data={ticket}
-                    status={data.status}
-                  />
-                )
-              })}
-              {data.status === 'Open' && (
-                <Message key='write-message' isWriteMessage status={data.status} />
-              )}
+    <div className={styles.wrapper}>
+      <section className={styles.section}>
+        <div className={styles.content}>
+          <div className={styles.backButton}>
+            <BackButton />
+          </div>
+          <div className={styles.titleWrapper}>
+            <div className={styles.title}>
+              <TitlePage title={data.title} />
             </div>
-          </section>
-        ) : (
-          <LoadingSpinner size='xl' />
-        )}
-      </div>
+            <Status title={data.status} status={data.status} />
+          </div>
+          <div className={styles.wrapper}>
+            {data ? (
+              <section className={styles.section}>
+                <div className={styles.tickets}>
+                  {data.tickets.map((ticket, index) => {
+                    return (
+                      <Message
+                        key={ticket.id}
+                        isAdmin={false}
+                        isWriteMessage={false}
+                        isLast={index === data.tickets.length - 1}
+                        data={ticket}
+                        status={data.status}
+                        isNextWriteMessage={
+                          data.status === 'Open' && index === data.tickets.length - 1
+                        }
+                      />
+                    )
+                  })}
+                  {data.status === 'Open' && (
+                    <Message
+                      key='write-message'
+                      isWriteMessage
+                      isAdmin={false}
+                      status={data.status}
+                    />
+                  )}
+                </div>
+              </section>
+            ) : (
+              <LoadingSpinner size='xl' />
+            )}
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

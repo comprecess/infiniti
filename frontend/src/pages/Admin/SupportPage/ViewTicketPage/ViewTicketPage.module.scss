@@ -1,0 +1,123 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.section {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: $maxContentSize;
+}
+
+.titleWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  width: fit-content;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.backButton {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+
+  @include mobileBreakpoint('max', $bpXL) {
+    flex-direction: column;
+  }
+}
+
+.cardFirst {
+  width: 100%;
+  max-width: 357px;
+  height: fit-content;
+
+  @include mobileBreakpoint('max', $bpXL) {
+    max-width: 100%;
+  }
+}
+
+.cardSecond {
+  width: 100%;
+  max-width: 1170px;
+  height: fit-content;
+
+  @include mobileBreakpoint('max', $bpXL) {
+    max-width: 100%;
+  }
+}
+
+.tickets {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.cardFirstContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.cardFirstHeader {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 12px;
+  padding-left: 1px;
+  padding-right: 1px;
+}
+
+.containerItems {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+}
+
+.containerItemsTitle {
+  font-family: $fontSpaceGrotesk;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.buttonSave {
+  margin-top: 8px;
+  width: 100%;
+  height: 44px;
+}

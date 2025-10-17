@@ -468,7 +468,7 @@ export const adminSidebarPages = [
       {
         id: 0,
         title: 'admin-sidebar-subsidiary-page-new-ticket',
-        path: '',
+        path: `${Routes.new}/${Routes.ticket}`,
 
         // Access
         create: true,
@@ -476,7 +476,7 @@ export const adminSidebarPages = [
       {
         id: 1,
         title: 'admin-sidebar-subsidiary-page-tickets',
-        path: '',
+        path: `${Routes.tickets}/${Routes.list}`,
 
         // Access
         create: false,

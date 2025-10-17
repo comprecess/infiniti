@@ -22,7 +22,7 @@ const statusColors = {
   Lost: styles.statusLost,
   Decline: styles.statusDecline,
   Open: styles.statusOpen,
-  Close: styles.statusClose,
+  Closed: styles.statusClosed,
 }
 
 export const Status = ({ title, status }: StatusProps) => {
@@ -77,8 +77,8 @@ export const Status = ({ title, status }: StatusProps) => {
     case 'Open':
       statusStyle = statusColors.Open
       break
-    case 'Close':
-      statusStyle = statusColors.Close
+    case 'Closed':
+      statusStyle = statusColors.Closed
       break
   }
 
