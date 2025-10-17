@@ -404,7 +404,27 @@ export const router = createBrowserRouter([
       },
       { path: Routes.leads, element: Pages.adminLeadsPage },
       { path: Routes.sms, element: Pages.adminSMSPage },
-      { path: Routes.support, element: Pages.adminSupportPage },
+      {
+        path: Routes.support,
+        children: [
+          {
+            path: `${Routes.new}/${Routes.ticket}`,
+            element: Pages.adminNewTicketPage,
+          },
+          {
+            path: `${Routes.tickets}/${Routes.list}`,
+            element: Pages.adminTicketsListPage,
+          },
+          {
+            path: `${Routes.tickets}/${Routes.view}/${Routes.ticket}/:id`,
+            element: Pages.adminViewTicketPage,
+          },
+          {
+            index: true,
+            element: <Navigate replace to={`/${Routes.adminPages}/${Routes.dashboard}`} />,
+          },
+        ],
+      },
       {
         path: Routes.knowledgeBase,
         element: Pages.adminKnowledgeBasePage,

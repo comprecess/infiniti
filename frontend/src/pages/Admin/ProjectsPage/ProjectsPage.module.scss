@@ -37,7 +37,7 @@
 }
 
 .buttonCreateProject {
-  max-width: 210px;
+  width: fit-content;
   height: 44px;
 
   @include mobileBreakpoint('max', $bpS) {

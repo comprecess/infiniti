@@ -1,0 +1,73 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  gap: 40px;
+
+  @include scrollbar;
+}
+
+.titleContainer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  max-width: $maxContentSize;
+}
+
+.sectionFirst,
+.title {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.buttonCreate {
+  width: fit-content;
+  height: 44px;
+
+  @include mobileBreakpoint('max', $bpS) {
+    width: 60px;
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+
+  @include mobileBreakpoint('max', $bpXL) {
+    flex-direction: column;
+  }
+}
+
+.cardFirst {
+  max-width: 357px;
+  height: fit-content;
+
+  @include mobileBreakpoint('max', $bpXL) {
+    max-width: 100%;
+  }
+}
+
+.cardSecond {
+  max-width: 1170px;
+  height: fit-content;
+
+  @include mobileBreakpoint('max', $bpXL) {
+    max-width: 100%;
+  }
+}
+
+.search {
+  @include mobileBreakpoint('min', $bpL) {
+    max-width: 400px;
+  }
+
+  @include mobileBreakpoint('max', $bpL) {
+    width: 100%;
+  }
+}
