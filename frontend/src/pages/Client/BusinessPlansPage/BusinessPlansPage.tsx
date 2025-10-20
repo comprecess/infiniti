@@ -32,20 +32,26 @@ export const ClientBusinessPlansPage = () => {
       <div className={styles.wrapper}>
         {plansData ? (
           <section className={styles.section}>
-            <div className={styles.plans}>
-              {plansData.data.map(plan => {
-                return (
-                  <CardPlan
-                    key={plan.id}
-                    id={plan.id}
-                    title={plan.companyName}
-                    description={plan.exSummary}
-                    picture={plan.file}
-                    token={plan.publicToken}
-                  />
-                )
-              })}
-            </div>
+            {plansData.data.length > 0 ? (
+              <div className={styles.plans}>
+                {plansData.data.map(plan => {
+                  return (
+                    <CardPlan
+                      key={plan.id}
+                      id={plan.id}
+                      title={plan.companyName}
+                      description={plan.exSummary}
+                      picture={plan.file}
+                      token={plan.publicToken}
+                    />
+                  )
+                })}
+              </div>
+            ) : (
+              <div className={styles.nothingFound}>
+                <span className={styles.nothingFoundText}>Nothing Found</span>
+              </div>
+            )}
           </section>
         ) : (
           <LoadingSpinner size='xl' />
