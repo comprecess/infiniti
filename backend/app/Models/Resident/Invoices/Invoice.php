@@ -174,8 +174,8 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
             'discount' => [0.0],
             'tax' => [0.0],
             'cn' => [self::getNextNum()],
-            'is_credit_invoice' => [0]
-
+            'is_credit_invoice' => [0],
+            'currency_iso_code' => [Currency::getDefault()->iso_code]
         ];
 
         if($user instanceof Client) {
@@ -280,13 +280,14 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
         $this->setCurrency($client->getCurrencyIso);
     }
 
-    public static function createItem($price, $description, $type = null)
+    public static function createItem($price, Currency $currency, $description, $type = null)
     {
         DB::beginTransaction();
         $invoice = self::newDefault();
 
         $invoice->subtotal = $price;
         $invoice->total = $price;
+        $invoice->currency_iso_code = $currency->iso_code;
         $invoice->save();
 
         $item = InvoiceItem::newDefault();
@@ -294,6 +295,7 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
         $item->description = $description;
         $item->amount = $price;
         $item->total = $price;
+        $item->currency_iso_code = $currency->iso_code;
         if($type) {
             $item->type = $type;
         }

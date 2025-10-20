@@ -49,6 +49,7 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
 
     protected $casts = [
         'lastlogin' => 'datetime',
+        'created_at' => 'datetime'
     ];
 
     public function getColumnLastTime()

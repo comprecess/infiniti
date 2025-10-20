@@ -6,9 +6,13 @@ use App\Http\Requests\Client\AddFundRequest;
 use App\Http\Requests\User\Client\AvatarRequest;
 use App\Http\Requests\User\Client\UpdateRequest;
 use App\Http\Resources\Client\Invoice\InvoiceListResource;
+use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Http\Resources\UserResource;
+use App\Models\Config;
 use App\Models\Log;
 use App\Models\Resident\Invoices\Invoice;
+use App\Models\Resident\Settings\Currency;
+use App\Models\User;
 use App\Services\Tools\Countries;
 use Illuminate\Http\Request;
 
@@ -62,11 +66,30 @@ class ClientController extends UserController
         return response()->json(['success' => true]);
     }
 
+    public function inputData()
+    {
+        $user = User::getAuth();
+        $defCurrency = Currency::getDefault();
+        $currency = $user->getCurrencyIso ?? $defCurrency;
+
+        $min = Config::get('add_fund_minimum_deposit');
+        $max = Config::get('add_fund_maximum_deposit');
+
+        return response()->json([
+            'currency' => new CurrencyResource($currency),
+            'min' =>(int) $defCurrency->transform((int) $min, $currency),
+            'max' =>(int) $defCurrency->transform((int) $max, $currency),
+        ]);
+    }
+
     public function addFund(AddFundRequest $request)
     {
+        $user = User::getAuth();
+        $defCurrency = Currency::getDefault();
+        $currency = $user->getCurrencyIso ?? $defCurrency;
 
         $amount = $request->amount;
-        $invoice = Invoice::createItem($amount, 'Credit', 'AddFund');
+        $invoice = Invoice::createItem($amount, $currency, 'Credit', 'AddFund');
         return new InvoiceListResource($invoice);
     }
 }
