@@ -100,7 +100,7 @@ export const Survey = ({ blocks, onSubmit, onClose }: SurveyProps) => {
                     fontSize='16px'
                     fontWeight='400'
                     lineHeight='24px'
-                    placeholder='Введите ваш ответ...'
+                    placeholder='Enter your answer...'
                     value={(currentAnswer as string) || ''}
                     onChange={e => handleChange(e.target.value)}
                   />

@@ -18,3 +18,19 @@
   border-radius: 8px;
   background-color: $brand-900;
 }
+
+.header {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: start;
+  justify-content: space-between;
+}
+
+.edit {
+  cursor: pointer;
+
+  * {
+    fill: $gray-300;
+  }
+}

@@ -76,21 +76,24 @@ export const ClientDashboardPage = () => {
           <>
             <section className={styles.sectionFirst}>
               <UserCard profileData={profileData} handleOpenCloseAddFund={handleOpenCloseAddFund} />
-              <RecentCard title='Recent Orders' style={styles.recentOrders}>
+              <div className={styles.recentRightCard}>Charts</div>
+            </section>
+            <section className={styles.section}>
+              <RecentCard title='Recent Orders' style={styles.recentFullScreen}>
                 <RecentOrders orders={data.order} />
               </RecentCard>
             </section>
-            <section className={styles.sectionSecond}>
+            <section className={styles.section}>
               <RecentCard title='Recent Transactions' style={styles.recentFullScreen}>
                 <RecentTransactions transactions={data.transaction} />
               </RecentCard>
             </section>
-            <section className={styles.sectionThird}>
+            <section className={styles.section}>
               <RecentCard title='Recent Invoices' style={styles.recentFullScreen}>
                 <RecentInvoices invoices={data.invoice} />
               </RecentCard>
             </section>
-            <section className={styles.sectionFourth}>
+            <section className={styles.section}>
               <RecentCard title='Recent Offers' style={styles.recentFullScreen}>
                 <RecentOffers offers={data.offer} />
               </RecentCard>
