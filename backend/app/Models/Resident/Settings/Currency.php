@@ -77,4 +77,15 @@ class Currency extends Model
 
         return $isoCode;
     }
+
+    private function getRateNow(Currency $currency)
+    {
+        return $this->iso_code != $currency->iso_code ?  $currency->rate / $this->rate : 1;
+    }
+
+    public function transform(int|float $price, Currency $currency)
+    {
+        return round($price * $this->getRateNow($currency), 2);
+    }
+
 }

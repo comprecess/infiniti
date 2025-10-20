@@ -11,6 +11,7 @@ Route::group(['prefix' => 'client',], function(){
     Route::put('/', [ClientController::class, 'update']);
     Route::post('/avatar', [ClientController::class, 'updateAvatar']);
     Route::post('add-fund', [ClientController::class, 'addFund']);
+    Route::get('add-fund', [ClientController::class, 'inputData']);
 
     #invoice and offer
     Route::controller(PetitionController::class)->prefix('/my/{type}')
