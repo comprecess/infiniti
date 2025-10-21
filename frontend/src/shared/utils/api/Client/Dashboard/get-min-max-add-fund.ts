@@ -3,9 +3,9 @@ import {
   INVALID_RESPONSE_MESSAGE,
   NETWORK_ERROR_MESSAGE,
   REQUEST_TIMEOUT_MS,
-} from '../../../../../../app/constants/constants'
-import { customFetch } from '../../../custom-fetch'
-import { getAuthToken } from '../../../get-auth-token'
+} from '../../../../../app/constants/constants'
+import { customFetch } from '../../custom-fetch'
+import { getAuthToken } from '../../get-auth-token'
 
 interface SuccessResponse {
   status: true
@@ -20,7 +20,7 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-export const getListRoles = async (): Promise<Response> => {
+export const getMinMaxAddFund = async (): Promise<Response> => {
   const authToken = getAuthToken()
 
   if (!authToken) {
@@ -32,10 +32,13 @@ export const getListRoles = async (): Promise<Response> => {
 
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const apiPath = import.meta.env.VITE_SETTINGS_GET_LIST_ROLES
+    const apiPath = import.meta.env.VITE_CLIENT_ADD_FUND
 
     if (!baseUrl || !apiPath) {
-      throw new Error('Configuration error - missing environment variables')
+      return {
+        status: false,
+        message: 'Configuration error - missing environment variables',
+      }
     }
 
     const url = new URL(apiPath, baseUrl).toString()
@@ -55,7 +58,7 @@ export const getListRoles = async (): Promise<Response> => {
 
     clearTimeout(timeoutId)
 
-    if (!data) {
+    if (!data || typeof data !== 'object') {
       return {
         status: false,
         message: INVALID_RESPONSE_MESSAGE,

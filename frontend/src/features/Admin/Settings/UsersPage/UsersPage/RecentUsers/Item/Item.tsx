@@ -60,33 +60,21 @@ export const Item = ({
           <div className={styles.avatar}>
             <img
               alt='Avatar'
-              src={
-                avatar
-                  ? `${avatar}?width=128&height=128`
-                  : '/profileWithoutAvatar.svg'
-              }
+              src={avatar ? `${avatar}?width=128&height=128` : '/profileWithoutAvatar.svg'}
             />
           </div>
         </div>
         <div className={styleItem.detailsColumn}>
           <div className={styles.detailsContainer}>
-            {name && <span className={styles.detailsItem}>{name}</span>}
+            {name && <span className={styles.name}>{name}</span>}
             {email && <span className={styles.detailsItem}>{email}</span>}
             {phone && <span className={styles.detailsItem}>{phone}</span>}
             {city && <span className={styles.detailsItem}>{city}</span>}
-            {state && zip && (
-              <span className={styles.detailsItem}>
-                {`${state} - ${zip}`}
-              </span>
-            )}
-            {country && (
-              <span className={styles.detailsItem}>{country}</span>
-            )}
+            {state && zip && <span className={styles.detailsItem}>{`${state} - ${zip}`}</span>}
+            {country && <span className={styles.detailsItem}>{country}</span>}
           </div>
         </div>
-        <div
-          className={`${styleItem.typeColumn} ${styles.typesContainer}`}
-        >
+        <div className={`${styleItem.typeColumn} ${styles.typesContainer}`}>
           <span className={styles.typeItem}>{type}</span>
           {departments.map(item => {
             return (

@@ -1,12 +1,6 @@
 import { Textarea } from '@chakra-ui/react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import {
-  ChangeEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import styles from './SummaryPage.module.scss'
@@ -41,8 +35,7 @@ const generateAutoLoginUrl = (autologin: string | null) => {
   return `${domain}/${Routes.public}/${Routes.auto}/${Routes.login}/${token}`
 }
 
-export interface PartialFieldsPostData
-  extends Partial<SummaryPageUpdateInfo> {
+export interface PartialFieldsPostData extends Partial<SummaryPageUpdateInfo> {
   [key: string]: string | boolean | undefined | number | null
 }
 
@@ -68,10 +61,7 @@ export const AdminContactSummaryPage = () => {
   const { data: profileInfo } = useQuery({
     queryKey: ['profile', context.idClient],
     queryFn: async () => {
-      const response = await getSelectedTypeInfo(
-        context.idClient,
-        'summary',
-      )
+      const response = await getSelectedTypeInfo(context.idClient, 'summary')
 
       if (!response.status) return
 
@@ -81,11 +71,7 @@ export const AdminContactSummaryPage = () => {
   })
 
   const updateData = useCallback(async () => {
-    const updateResponse = await updateAllInfo(
-      context.idClient,
-      'summary',
-      updateInfo,
-    )
+    const updateResponse = await updateAllInfo(context.idClient, 'summary', updateInfo)
 
     if (updateResponse.status) {
       showToast({
@@ -107,10 +93,7 @@ export const AdminContactSummaryPage = () => {
     return item === true ? 1 : 0
   }
 
-  const onChangeInput = (
-    name: string,
-    value: string | boolean | undefined | number | null,
-  ) => {
+  const onChangeInput = (name: string, value: string | boolean | undefined | number | null) => {
     if (typeof value === 'boolean') {
       value = changeToBooleanInt(value)
     }
@@ -135,11 +118,7 @@ export const AdminContactSummaryPage = () => {
   }
 
   const addInformationSeparately = async (name: string, value: string) => {
-    const updateResponse = await updateAllInfo(
-      context.idClient,
-      'summary',
-      { [name]: value },
-    )
+    const updateResponse = await updateAllInfo(context.idClient, 'summary', { [name]: value })
 
     if (updateResponse.status) {
       showToast({
@@ -157,9 +136,7 @@ export const AdminContactSummaryPage = () => {
     }
   }
 
-  const handleTextAreaChange = (
-    event: ChangeEvent<HTMLTextAreaElement>,
-  ) => {
+  const handleTextAreaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     onChangeInput('notes', event.target.value)
   }
 
@@ -187,33 +164,15 @@ export const AdminContactSummaryPage = () => {
             <div className={styles.wrapperInfo}>
               <div className={styles.infoContainer}>
                 <div>
-                  <InfoItem
-                    title='Full Name'
-                    value={profileInfo.data.account}
-                  />
-                  <InfoItem
-                    title='Company Name'
-                    value={profileInfo.data.company}
-                  />
+                  <InfoItem title='Full Name' value={profileInfo.data.account} />
+                  <InfoItem title='Company Name' value={profileInfo.data.company} />
                   <InfoItem title='Email' value={profileInfo.data.email} />
                   <InfoItem title='Phone' value={profileInfo.data.phone} />
-                  <InfoItem
-                    title='Address'
-                    value={profileInfo.data.address}
-                  />
+                  <InfoItem title='Address' value={profileInfo.data.address} />
                   <InfoItem title='City' value={profileInfo.data.city} />
-                  <InfoItem
-                    title='State/Region'
-                    value={profileInfo.data.state}
-                  />
-                  <InfoItem
-                    title='ZIP/Postal Code'
-                    value={profileInfo.data.zip}
-                  />
-                  <InfoItem
-                    title='Country'
-                    value={profileInfo.data.country}
-                  />
+                  <InfoItem title='State/Region' value={profileInfo.data.state} />
+                  <InfoItem title='ZIP/Postal Code' value={profileInfo.data.zip} />
+                  <InfoItem title='Country' value={profileInfo.data.country} />
                   <InfoItem title='Tags' value={profileInfo.data.tags} />
                   <InfoItem title='Group' value={profileInfo.data.group} />
                 </div>
@@ -223,29 +182,17 @@ export const AdminContactSummaryPage = () => {
                       <div style={{ display: 'none' }} />
                     ) : (
                       <div className={styles.primaryContact}>
-                        <span className={styles.primaryContactText}>
-                          Primary Contact?
-                        </span>
+                        <span className={styles.primaryContactText}>Primary Contact?</span>
                         <CustomSwitch
                           titleOnChange='primaryContact'
-                          isChecked={
-                            profileInfo.data.primaryContact === 0
-                              ? false
-                              : true
-                          }
+                          isChecked={profileInfo.data.primaryContact === 0 ? false : true}
                           onChange={onChangeInput}
                         />
                       </div>
                     )}
                     <div>
                       {profileInfo.data.customFields.map(item => {
-                        return (
-                          <InfoItem
-                            key={item.id}
-                            title={item.name}
-                            value={item.value}
-                          />
-                        )
+                        return <InfoItem key={item.id} title={item.name} value={item.value} />
                       })}
                     </div>
                   </div>
@@ -273,9 +220,7 @@ export const AdminContactSummaryPage = () => {
               </div>
             </div>
             <div className={styles.balanceContainer}>
-              <h5 className={styles.balanceText}>
-                {`Balance: ${profileInfo.data.balance}`}
-              </h5>
+              <h5 className={styles.balanceText}>{`Balance: ${profileInfo.data.balance}`}</h5>
               {context.roles && context.roles.customers.edit === 0 ? (
                 <div style={{ display: 'none' }} />
               ) : (
@@ -296,9 +241,7 @@ export const AdminContactSummaryPage = () => {
             {profileInfo.data.autologin !== null ? (
               <div className={styles.autoLoginWrapper}>
                 <div className={styles.autoLoginURL}>
-                  <span className={styles.titleAutoLogin}>
-                    Auto Login URL
-                  </span>
+                  <span className={styles.titleAutoLogin}>Auto Login URL</span>
                   <div className={styles.wrapperAutoLoginLink}>
                     <span className={styles.autoLoginLink}>
                       {generateAutoLoginUrl(profileInfo.data.autologin)}
@@ -309,9 +252,7 @@ export const AdminContactSummaryPage = () => {
                   <span
                     className={styles.loginCustomerText}
                     onClick={() =>
-                      navigateToAutoLogin(
-                        generateAutoLoginUrl(profileInfo.data.autologin),
-                      )
+                      navigateToAutoLogin(generateAutoLoginUrl(profileInfo.data.autologin))
                     }
                   >
                     Login As Customer
@@ -323,18 +264,14 @@ export const AdminContactSummaryPage = () => {
                       <span className={styles.miniDivider}>|</span>
                       <span
                         className={styles.revokeCustomerText}
-                        onClick={() =>
-                          addInformationSeparately('autologin', '0')
-                        }
+                        onClick={() => addInformationSeparately('autologin', '0')}
                       >
                         Revoke Auto Login
                       </span>
                       <span className={styles.miniDivider}>|</span>
                       <span
                         className={styles.reGenerateCustomerText}
-                        onClick={() =>
-                          addInformationSeparately('autologin', '1')
-                        }
+                        onClick={() => addInformationSeparately('autologin', '1')}
                       >
                         Re Generate URL
                       </span>
@@ -353,9 +290,7 @@ export const AdminContactSummaryPage = () => {
               </span>
             )}
             <div className={styles.accountingSummaryWrapper}>
-              <h5 className={styles.accountingTitle}>
-                Accounting Summary
-              </h5>
+              <h5 className={styles.accountingTitle}>Accounting Summary</h5>
               <div className={styles.accountingList}>
                 <AccountingItem
                   title='Total Income'
@@ -380,6 +315,7 @@ export const AdminContactSummaryPage = () => {
         <LoadingSpinner size='xl' />
       )}
       <AddFundModal
+        isAdmin
         title='Add Fund'
         name='addAmount'
         buttonTitle='Add'
@@ -388,6 +324,7 @@ export const AdminContactSummaryPage = () => {
         onSendValue={addInformationSeparately}
       />
       <AddFundModal
+        isAdmin
         title='Return Fund'
         name='returnAmount'
         buttonTitle='Return'
