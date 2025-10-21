@@ -50,7 +50,6 @@ export const getUserInputData = async (): Promise<Response> => {
         Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
-      responseType: 'json',
       signal: controller.signal,
     })
 

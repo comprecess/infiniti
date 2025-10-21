@@ -12,6 +12,8 @@ interface CustomInputProps {
   onInputChange?: boolean
   readOnly?: boolean
   styleInput?: string
+  min?: number
+  max?: number
   onChange: (name: string, value: string | number) => void
 }
 
@@ -25,11 +27,11 @@ export const CustomInput = ({
   onInputChange = true,
   readOnly = false,
   styleInput,
+  min,
+  max,
   onChange,
 }: CustomInputProps) => {
-  const [inputValue, setInputValue] = useState<number | string | null>(
-    value,
-  )
+  const [inputValue, setInputValue] = useState<number | string | null>(value)
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value
@@ -62,6 +64,8 @@ export const CustomInput = ({
           type={type}
           readOnly={readOnly}
           tabIndex={-1}
+          min={min}
+          max={max}
           value={inputValue ?? ''}
           placeholder={placeHolder}
           className={`${styles.input} ${styleInput}`}

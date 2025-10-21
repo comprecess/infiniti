@@ -57,7 +57,6 @@ export const getListUsers = async (options: string): Promise<Response> => {
         Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
-      responseType: 'json',
       signal: controller.signal,
     })
 

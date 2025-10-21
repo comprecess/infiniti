@@ -27,3 +27,30 @@
     stroke: $gray-200;
   }
 }
+
+.error {
+  color: $cherry-500;
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.inputWithCurrency {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.currencySymbol {
+  position: absolute;
+  right: 10px;
+  font-size: 16px;
+  color: $gray-400;
+  pointer-events: none;
+}
+
+.loading {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}

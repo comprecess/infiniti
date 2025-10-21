@@ -49,8 +49,6 @@ export const ClientKnowledgeBasePage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-
-    console.log('Submitted:', value)
   }
 
   useEffect(() => {

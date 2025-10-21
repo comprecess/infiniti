@@ -56,7 +56,6 @@ export const postUpdateAvatarUser = async (idUser: number, img: FormData): Promi
     const data = await customFetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },

@@ -107,6 +107,7 @@ export const ClientDashboardPage = () => {
       </div>
       {isAddFund && (
         <AddFundModal
+          isAdmin={false}
           title='Add Fund'
           name='addAmount'
           buttonTitle='Add'
