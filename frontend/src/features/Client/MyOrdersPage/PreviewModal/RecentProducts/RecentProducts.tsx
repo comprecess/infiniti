@@ -2,11 +2,12 @@ import { Fragment } from 'react/jsx-runtime'
 
 import { Item } from './Item/Item'
 import styles from './RecentProducts.module.scss'
+import { ClientMyOrdersItemsData } from '../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { Title } from '../../../../Main/RecentCard/Title/Title'
 
 interface RecentProductsProps {
-  items: { amount: string; name: string; price: string; total: string }[]
+  items: ClientMyOrdersItemsData[]
 }
 
 export const RecentProducts = ({ items }: RecentProductsProps) => {

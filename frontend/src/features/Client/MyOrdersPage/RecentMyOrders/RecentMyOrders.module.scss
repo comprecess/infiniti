@@ -26,8 +26,18 @@
 .dateColumn,
 .orderColumn,
 .amountColumn,
-.statusColumn {
+.businessPlanColumn {
   width: 100%;
+}
+
+.dateColumn,
+.amountColumn {
+  max-width: 250px;
+}
+
+.amountColumn {
+  text-align: end;
+  justify-content: end;
 }
 
 .nothingFound {
