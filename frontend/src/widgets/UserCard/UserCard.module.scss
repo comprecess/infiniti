@@ -2,10 +2,19 @@
   display: flex;
   justify-content: center;
   width: 100%;
+  min-width: 350px;
   height: 100%;
 
   @include mobileBreakpoint('min', $bpL) {
-    max-width: 357px;
+    max-width: 528px;
+  }
+
+  @include mobileBreakpoint('max', $custom-bpXL) {
+    max-width: 376px;
+
+    @include mobileBreakpoint('max', $bpL - 1) {
+      max-width: 100%;
+    }
   }
 }
 
