@@ -5,17 +5,13 @@ interface BigCardProps {
   icon: string
   amount: string
   title: string
+  style?: string
   onClick: () => void
 }
 
-export const BigCard = ({
-  icon,
-  amount,
-  title,
-  onClick,
-}: BigCardProps) => {
+export const BigCard = ({ icon, amount, title, style, onClick }: BigCardProps) => {
   return (
-    <div className={styles.wrapper} onClick={onClick}>
+    <div className={`${styles.wrapper} ${style}`} onClick={onClick}>
       <img src={icon} alt='Icon' className={styles.icon} />
       <div className={styles.items}>
         <h3 className={styles.amount}>{amount}</h3>

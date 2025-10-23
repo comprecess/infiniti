@@ -30,16 +30,12 @@
   width: 100%;
 }
 
-.orderColumn,
-.amountColumn {
-  max-width: 393px;
-}
-
 .dateColumn {
   max-width: 150px;
 }
 
 .statusColumn {
+  max-width: 150px;
   justify-content: end;
 }
 
