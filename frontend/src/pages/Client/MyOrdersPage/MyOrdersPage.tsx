@@ -56,9 +56,11 @@ export const ClientMyOrdersPage = () => {
   }, [])
 
   useEffect(() => {
-    document.title = 'infiniti | My Orders'
-
     getDocumentList()
+  }, [page])
+
+  useEffect(() => {
+    document.title = 'infiniti | My Orders'
   }, [])
 
   return (
@@ -72,10 +74,10 @@ export const ClientMyOrdersPage = () => {
             pagesProps={
               orders
                 ? {
-                  meta: orders?.meta,
-                  nextPage: updatePage,
-                  size: 'sm',
-                }
+                    meta: orders?.meta,
+                    nextPage: updatePage,
+                    size: 'sm',
+                  }
                 : undefined
             }
           >

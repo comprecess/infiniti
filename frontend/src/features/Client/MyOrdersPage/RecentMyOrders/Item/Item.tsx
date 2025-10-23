@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 import styles from './Item.module.scss'
 import { ClientMyOrdersData } from '../../../../../app/constants/constants'
-import { Status } from '../../../../../shared/ui/Status/Status'
 import { PreviewModal } from '../../PreviewModal/PreviewModal'
 import styleItem from '../RecentMyOrders.module.scss'
 
@@ -27,14 +26,17 @@ export const Item = ({ data }: ItemProps) => {
         >
           {data.orderNum}
         </span>
+        <span
+          className={`${styleItem.businessPlanColumn} ${styles.businessPlanItem}`}
+          onClick={handleOnChangePreview}
+        >
+          {data.businessPlan}
+        </span>
         <span className={`${styleItem.amountColumn} ${styles.amountItem}`}>{data.amount}</span>
-        <div className={styleItem.statusColumn}>
-          <Status title={data.status} status={data.status} />
-        </div>
       </div>
       {preview && (
         <PreviewModal
-          idOrder={data.id}
+          order={data}
           isOpened={preview}
           handleOpenCloseModal={handleOnChangePreview}
         />

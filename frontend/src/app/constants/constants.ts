@@ -1626,9 +1626,19 @@ export interface ClientDocumentsData {
 export interface ClientMyOrdersData {
   id: number
   amount: string
+  businessPlan: string
   date: string
+  items: ClientMyOrdersItemsData[]
   orderNum: string
-  status: string
+}
+
+export interface ClientMyOrdersItemsData {
+  id: number
+  amount: number
+  nameIdType: string
+  price: string
+  total: string
+  userCatalog: { name: string }
 }
 
 export interface ClientMyOrdersPreviewData {

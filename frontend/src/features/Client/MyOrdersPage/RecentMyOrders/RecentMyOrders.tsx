@@ -17,9 +17,9 @@ export const RecentMyOrders = ({ orders }: RecentMyOrdersProps) => {
         <>
           <div className={styles.columns}>
             <Title title='Date' style={styles.dateColumn} />
+            <Title title='Business Plan' style={styles.businessPlanColumn} />
             <Title title='Order #' style={styles.orderColumn} />
             <Title title='Amount' style={styles.amountColumn} />
-            <Title title='Status' style={styles.statusColumn} />
           </div>
           <div className={styles.items}>
             {orders.map((order, index) => {
