@@ -3,6 +3,7 @@
 namespace App\Models\Catalog;
 
 use App\Models\Contracts\MeetingContract;
+use App\Models\Resident\BusinessPlan;
 use App\Models\Resident\Invoices\Offer;
 use App\Models\Resident\Orders\Order;
 use App\Models\Resident\Settings\Currency;
@@ -66,12 +67,18 @@ class Cart extends Model implements MeetingContract
 
     public function order()
     {
-        return $this->hasMany(CartOrder::class, 'id_catalog_cart')->with(['model']);
+//        return $this->hasMany(CartOrder::class, 'id_catalog_cart')->with(['model']);
+        return $this->hasOne(CartOrder::class, 'id_catalog_cart')->with(['model']);
     }
 
     public function offerOrder()
     {
         return $this->morphedByMany(Offer::class, 'model', CartOrder::class, 'id_catalog_cart');
+    }
+
+    public function businessPlan()
+    {
+        return $this->belongsTo(BusinessPlan::class, 'business_plan_id');
     }
 
     public function calculation($skipActualPriceUser = false)
