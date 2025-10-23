@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Client\Order\OrderCatalogListResource;
 use App\Http\Resources\Client\Order\OrderListResource;
 use App\Http\Resources\Client\Order\OrderResource;
 use App\Models\Resident\Orders\Order;
@@ -16,7 +17,24 @@ class OrderController extends Controller
 
     public function list()
     {
-        return $this->index(User::getAuth()->orders()->with(['getCurrencyIso']), OrderListResource::class, true);
+        $user = User::getAuth();
+        $query = $user->cart()
+            ->with([
+                'order',
+                'getCurrencyIso',
+                'items',
+                'businessPlan',
+                'items.userCatalog',
+                'items.userCatalog.values',
+                'items.userCatalog.values.prop',
+                'items.userCatalog.blockExperience',
+                'items.userCatalog.files'
+            ])
+            ->has('order')
+            ->withTrashed();
+
+        return $this->index($query, OrderCatalogListResource::class, true);
+//        return $this->index(User::getAuth()->orders()->with(['getCurrencyIso']), OrderListResource::class, true);
     }
 
     public function item(Order $order)
