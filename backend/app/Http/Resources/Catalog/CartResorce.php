@@ -26,6 +26,7 @@ class CartResorce extends JsonResource
             "count" => $items->count(),
             "items" => CartItemResorce::collection($items),
             "createdAt" => $this->created_at,
+            'type' => $this->getTypeBusinessPlan()
         ];
     }
 
