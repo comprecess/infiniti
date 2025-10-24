@@ -13,6 +13,7 @@ use App\Models\Resident\Document;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Invoices\Offer;
 use App\Models\Resident\Orders\Order;
+use App\Models\Resident\Project\Project;
 use App\Models\Resident\Settings\CustomFields;
 use App\Models\Resident\Settings\CustomFieldsValues;
 use App\Models\Resident\Settings\EmailLog;
@@ -115,6 +116,11 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
     public function passwordManager()
     {
         return $this->hasMany(PasswordManager::class, 'client_id');
+    }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class, 'contact_id');
     }
 
     public function logs()
