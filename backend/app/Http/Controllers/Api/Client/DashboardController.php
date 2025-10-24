@@ -7,6 +7,8 @@ use App\Http\Resources\Resident\Invoices\InvoiceListResource;
 use App\Http\Resources\Resident\Invoices\OfferListResource;
 use App\Http\Resources\Resident\Orders\OrderListClientResource;
 use App\Http\Resources\Resident\Transactions\TransactionsListResource;
+use App\Models\BusinessModel\BusinessModel;
+use App\Models\Catalog\User as Talent;
 use App\Models\Config;
 use App\Models\User;
 
@@ -17,6 +19,11 @@ class DashboardController extends Controller
     public function index()
     {
         $user = User::getAuth();
+        $quantity = [
+            'project' => $user->projects()->count(),
+            'businessModel' => BusinessModel::count(),
+            'talent' => Talent::count()
+        ];
 
         $invoices = $user->invoices()->with(['getCurrencyIso', 'user', 'user.companyClient','user.group'])->orderByDesc('id')->limit(10)->get();
         $offers = $user->offers()->with(['getCurrencyIso', 'user', 'user.companyClient','user.group'])->orderByDesc('id')->limit(10)->get();
@@ -35,6 +42,7 @@ class DashboardController extends Controller
             'invoice' => InvoiceListResource::collection($invoices),
             'offer' => OfferListResource::collection($offers),
             'transaction' => TransactionsListResource::collection($transactions),
+            'quantity' => $quantity,
         ]);
     }
 
