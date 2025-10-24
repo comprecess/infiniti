@@ -200,4 +200,10 @@ class Cart extends Model implements MeetingContract
     {
         return "cart-" . $this->id;
     }
+
+    public function getTypeBusinessPlan()
+    {
+        $bp = $this->businessPlan;
+        return $bp ? __('catalog.cart.businessPlan.type.model', ['name' => $bp->company_name]) :  __('catalog.cart.businessPlan.type.individual');
+    }
 }

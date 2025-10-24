@@ -19,12 +19,12 @@ class OrderCatalogListResource extends JsonResource
         return [
             'id' => $order->id,
             'date' => $this->deleted_at?->format(Config::get('df')),
-            'orderNum' => $this->ordernum,
             'amount' => $this->printPrice('total', $this->getCurrencyIso),
 //            'status' => $this->status,
-//            'itemCount' => $this->items->count(),
-            'items' => CartItemResorce::collection($this->items),
-            'businessPlan' => new BusinessPlanResource($this->businessPlan)
+            'itemCount' => $this->items->count(),
+//            'items' => CartItemResorce::collection($this->items),
+//            'businessPlan' => new BusinessPlanResource($this->businessPlan),
+            'type' => $this->getTypeBusinessPlan()
         ];
     }
 }
