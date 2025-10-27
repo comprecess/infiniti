@@ -26,7 +26,7 @@ class ProjectItemResource extends JsonResource
             'type' => $this->billing_type,
             'status' => $this->status,
             'summary' => $this->summary,
-            'budget' => $this->budget,
+            'budget' => round($this->budget, 2),
             'currency' => new CurrencyResource($this->getCurrencyIso),
             'description' => $this->description,
             'startDate' => $this->start_date?->format($format),
