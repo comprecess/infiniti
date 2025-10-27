@@ -304,4 +304,17 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
 
         return $invoice;
     }
+
+    public function addAmount($amount)
+    {
+        $prePay = $this->total - $this->credit;
+        if($prePay <= $amount) {
+            $this->status = self::STATUS[1];
+        }else{
+            $this->status = self::STATUS[2];
+        }
+
+        $this->credit += $amount;
+        return $this;
+    }
 }

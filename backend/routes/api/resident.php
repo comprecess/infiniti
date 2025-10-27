@@ -85,6 +85,8 @@ Route::controller(Resident\Sale\InvoiceController::class)->prefix('invoice')
         Route::get('/{invoice}', 'item');
         Route::delete('/{invoice}', 'delete');
 //        Route::get('/service/{service}', 'listService');
+        Route::get('/{invoice}/pay-info', 'payInfo');
+        Route::post('/{invoice}/add-pay', 'addPay');
     });
 #offer
 Route::controller(Resident\Sale\OfferController::class)->prefix('offer')

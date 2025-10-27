@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Api\Resident\Sale;
 
 
 use App\Http\Controllers\Api\Traits\CRUD;
+use App\Http\Requests\Resident\Invoices\AddPayRequest;
 use App\Http\Requests\Resident\Invoices\InvoiceBlankRequest;
 use App\Http\Requests\Resident\Invoices\InvoiceListRequest;
 use App\Http\Requests\Resident\Invoices\InvoicePriceCalcRequest;
 use App\Http\Requests\Resident\Invoices\InvoiceRequest;
 use App\Http\Requests\Resident\Invoices\InvoiceUpdateRequest;
 use App\Http\Resources\Resident\Client\ClientResource;
+use App\Http\Resources\Resident\Invoices\AccountInfoResource;
+use App\Http\Resources\Resident\Invoices\CategoryInfoResource;
 use App\Http\Resources\Resident\Invoices\InvoiceBlankResource;
 use App\Http\Resources\Resident\Invoices\InvoiceExcelResource;
 use App\Http\Resources\Resident\Invoices\InvoiceItemResource;
@@ -18,15 +21,23 @@ use App\Http\Resources\Resident\Invoices\InvoiceListResource;
 use App\Http\Resources\Resident\Invoices\InvoicePdfResource;
 use App\Http\Resources\Resident\Invoices\InvoiceResource;
 use App\Http\Resources\Resident\Invoices\OfferItemResource;
+use App\Http\Resources\Resident\Invoices\PayMethodsResource;
 use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Http\Resources\Resident\Settings\TaxResource;
+use App\Http\Resources\UserResource;
 use App\Models\Config;
 use App\Models\Contracts\ModelServiceInterface;
+use App\Models\Log;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Invoices\InvoiceItem;
 use App\Models\Resident\Invoices\Offer;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\Tax;
+use App\Models\Resident\Transactions\Account;
+use App\Models\Resident\Transactions\Category;
+use App\Models\Resident\Transactions\PayMethods;
+use App\Models\Resident\Transactions\Transaction;
+use App\Models\User;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
 use Carbon\Carbon;
@@ -317,6 +328,59 @@ class InvoiceController extends SaleController
     {
         $request->setModel($invoice, true);
         $invoice->save();
+        return response()->json(['success' => true]);
+    }
+
+    public function payInfo(Invoice $invoice)
+    {
+        $accounts = Account::with('getCurrencyIso')->get();
+        $categories = Category::income()->orderBy('sorder')->get();
+        $paymethods = PayMethods::orderBy('sorder', 'asc')->get();
+
+        return response()->json([
+            'invoice' => [
+                'dueAmount' => $invoice->getDueAmount(),
+                'dueAmountCurrency' => $invoice->printPrice($invoice->getDueAmount()),
+                'currency' => new CurrencyResource($invoice->getCurrencyIso),
+                'description' => __('pay.payment', ['code' => $invoice->getCode()])
+            ],
+            'client' => new UserResource($invoice->client),
+            'accounts' => AccountInfoResource::collection($accounts),
+            'categories' => CategoryInfoResource::collection($categories),
+            'payMethods' => PayMethodsResource::collection($paymethods),
+        ]);
+    }
+
+    public function addPay(AddPayRequest $request, Invoice $invoice)
+    {
+        $amount = $request->amount;
+        $owner =  User::getAuth();
+
+        DB::beginTransaction();
+
+        $transaction = Transaction::create(
+            account: $request->getModel('account'),
+            payer: $invoice->client,
+            amount: $amount,
+            category: $request->getModel('category'),
+            method: $request->getModel('method'),
+            description: $request->description,
+            date: $request->date,
+            invoice: $invoice,
+            owner: $owner
+        );
+
+        Log::send(__('log.new_deposit', [
+            'description' => $request->description,
+            'trid' => $transaction->id,
+            'amount' => $amount,
+            'ownerid' => $owner->id
+        ]));
+
+        $invoice->addAmount($amount)->save();
+
+        DB::commit();
+
         return response()->json(['success' => true]);
     }
 

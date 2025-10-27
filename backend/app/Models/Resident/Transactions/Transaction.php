@@ -19,6 +19,7 @@ use App\Models\Traits\TagsTrait;
 use App\Models\Traits\UserTrait;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -199,7 +200,9 @@ class Transaction extends Model implements InsertDefaultValueInterface
         $cr = null,
         $bal = null,
         Currency|string|null $currency = null,
-        ?Admin $owner = null
+        ?Admin $owner = null,
+        $ref = null,
+        ?Carbon $date = null
     )
     {
         $transaction = self::newDefault();
@@ -286,6 +289,14 @@ class Transaction extends Model implements InsertDefaultValueInterface
         $transaction->company_id = $clientOnly->companyClient?->id ?? 0;
         if($owner) {
             $transaction->aid = $owner->id;
+        }
+
+        if($ref) {
+            $transaction->ref = $ref;
+        }
+
+        if($date) {
+            $transaction->date = $date;
         }
 
         try{
