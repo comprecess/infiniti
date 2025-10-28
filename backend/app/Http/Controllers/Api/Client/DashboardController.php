@@ -42,8 +42,8 @@ class DashboardController extends Controller
         $currency = $user->getCurrencyIso;
         $invoicesQuery = $user->invoices();
         foreach([
-            Invoice::STATUS[0] => [Invoice::STATUS[0], Invoice::STATUS[2]],
-            Invoice::STATUS[1] => [Invoice::STATUS[1]]
+                    Invoice::STATUS[1] => [Invoice::STATUS[1]],
+                    Invoice::STATUS[0] => [Invoice::STATUS[0], Invoice::STATUS[2]],
                 ] as $name => $status) {
 
             $newQuery = $invoicesQuery->clone();
