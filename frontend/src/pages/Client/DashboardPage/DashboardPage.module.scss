@@ -49,15 +49,12 @@
   align-items: center;
 }
 
-.chartWrapper {
-  max-height: max-content;
-}
-
 .chart {
   display: flex;
   flex-direction: column;
   gap: 8px;
   width: 100%;
+  min-width: max-content;
 }
 
 .cards {

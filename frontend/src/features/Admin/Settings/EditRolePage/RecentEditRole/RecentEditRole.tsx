@@ -31,46 +31,46 @@ export const RecentEditRole = ({
   handleChangeItemPermission,
   handleChangeFullItemPermission,
 }: RecentEditRoleProps) => {
+  if (permission.length === 0) {
+    return (
+      <div className={styles.nothingFound}>
+        <span className={styles.nothingFoundText}>Nothing Found</span>
+      </div>
+    )
+  }
+
   return (
     <div className={styles.wrapper}>
-      {permission.length > 0 && formData ? (
-        <>
-          <div className={styles.columns}>
-            <Title
-              title='Permission'
-              style={styles.permissionColumn}
-              onTitleClick={handleChangeAllPermissions}
-            />
-            <Title title='View' style={styles.viewColumn} />
-            <Title title='Edit' style={styles.editColumn} />
-            <Title title='Create' style={styles.createColumn} />
-            <Title title='Delete' style={styles.deleteColumn} />
-            <Title title='All Data' style={styles.allInformationColumn} />
-          </div>
-          <div className={styles.items}>
-            {permission.map((item, index) => {
-              const accessItem = formData.access[index]
+      <div className={styles.columns}>
+        <Title
+          title='Permission'
+          style={styles.permissionColumn}
+          onTitleClick={handleChangeAllPermissions}
+        />
+        <Title title='View' style={styles.viewColumn} />
+        <Title title='Edit' style={styles.editColumn} />
+        <Title title='Create' style={styles.createColumn} />
+        <Title title='Delete' style={styles.deleteColumn} />
+        <Title title='All Data' style={styles.allInformationColumn} />
+      </div>
+      {formData && (
+        <div className={styles.items}>
+          {permission.map((item, index) => {
+            const accessItem = formData.access[index]
 
-              return (
-                <Fragment key={item.id}>
-                  <Item
-                    index={index}
-                    name={item.name}
-                    handleChangeItemPermission={handleChangeItemPermission}
-                    accessItem={{ ...accessItem }}
-                    handleChangeFullItemPermission={
-                      handleChangeFullItemPermission
-                    }
-                  />
-                  {index !== permission.length - 1 && <CustomDivider />}
-                </Fragment>
-              )
-            })}
-          </div>
-        </>
-      ) : (
-        <div className={styles.nothingFound}>
-          <span className={styles.nothingFoundText}>Nothing Found</span>
+            return (
+              <Fragment key={item.id}>
+                <Item
+                  index={index}
+                  name={item.name}
+                  handleChangeItemPermission={handleChangeItemPermission}
+                  accessItem={{ ...accessItem }}
+                  handleChangeFullItemPermission={handleChangeFullItemPermission}
+                />
+                {index !== permission.length - 1 && <CustomDivider />}
+              </Fragment>
+            )
+          })}
         </div>
       )}
     </div>

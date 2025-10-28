@@ -149,6 +149,17 @@ export const Scrollable = ({
     }
   }, [isDragging])
 
+  useEffect(() => {
+    const el = containerRef.current
+
+    if (!el) return
+
+    const ro = new ResizeObserver(() => updateScroll())
+    ro.observe(el)
+
+    return () => ro.disconnect()
+  }, [])
+
   return (
     <div className={`${styles.wrapper} ${className || ''}`}>
       {showArrows && canScrollLeft && (

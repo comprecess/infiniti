@@ -11,32 +11,32 @@ interface RecentMyOrdersProps {
 }
 
 export const RecentMyOrders = ({ orders }: RecentMyOrdersProps) => {
+  if (orders.length === 0) {
+    return (
+      <div className={styles.nothingFound}>
+        <span className={styles.nothingFoundText}>Nothing Found</span>
+      </div>
+    )
+  }
+
   return (
     <div className={styles.wrapper}>
-      {orders.length > 0 ? (
-        <>
-          <div className={styles.columns}>
-            <Title title='Date' style={styles.dateColumn} />
-            <Title title='Type' style={styles.typeColumn} />
-            <Title title='Number Talents' style={styles.countColumn} />
-            <Title title='Amount' style={styles.amountColumn} />
-          </div>
-          <div className={styles.items}>
-            {orders.map((order, index) => {
-              return (
-                <Fragment key={order.id}>
-                  <Item data={order} />
-                  {index !== orders.length - 1 && <CustomDivider />}
-                </Fragment>
-              )
-            })}
-          </div>
-        </>
-      ) : (
-        <div className={styles.nothingFound}>
-          <span className={styles.nothingFoundText}>Nothing Found</span>
-        </div>
-      )}
+      <div className={styles.columns}>
+        <Title title='Date' style={styles.dateColumn} />
+        <Title title='Type' style={styles.typeColumn} />
+        <Title title='Number Talents' style={styles.countColumn} />
+        <Title title='Amount' style={styles.amountColumn} />
+      </div>
+      <div className={styles.items}>
+        {orders.map((order, index) => {
+          return (
+            <Fragment key={order.id}>
+              <Item data={order} />
+              {index !== orders.length - 1 && <CustomDivider />}
+            </Fragment>
+          )
+        })}
+      </div>
     </div>
   )
 }

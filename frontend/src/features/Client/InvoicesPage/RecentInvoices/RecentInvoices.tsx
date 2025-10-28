@@ -11,34 +11,34 @@ interface RecentInvoicesProps {
 }
 
 export const RecentInvoices = ({ invoices }: RecentInvoicesProps) => {
+  if (invoices.length === 0) {
+    return (
+      <div className={styles.nothingFound}>
+        <span className={styles.nothingFoundText}>Nothing Found</span>
+      </div>
+    )
+  }
+
   return (
     <div className={styles.wrapper}>
-      {invoices ? (
-        <>
-          <div className={styles.columns}>
-            <Title title='#' style={styles.hashtagColumn} />
-            <Title title='Amount' style={styles.amountColumn} />
-            <Title title='Invoice date' style={styles.invoiceDateColumn} />
-            <Title title='Due date' style={styles.dueDateColumn} />
-            <Title title='Status' style={styles.statusColumn} />
-            <Title title='Manage' style={styles.manageColumn} />
-          </div>
-          <div className={styles.items}>
-            {invoices.map((invoice, index) => {
-              return (
-                <Fragment key={invoice.id}>
-                  <Item {...invoice} />
-                  {index !== invoices.length - 1 && <CustomDivider />}
-                </Fragment>
-              )
-            })}
-          </div>
-        </>
-      ) : (
-        <div className={styles.nothingFound}>
-          <span className={styles.nothingFoundText}>Nothing Found</span>
-        </div>
-      )}
+      <div className={styles.columns}>
+        <Title title='#' style={styles.hashtagColumn} />
+        <Title title='Amount' style={styles.amountColumn} />
+        <Title title='Invoice date' style={styles.invoiceDateColumn} />
+        <Title title='Due date' style={styles.dueDateColumn} />
+        <Title title='Status' style={styles.statusColumn} />
+        <Title title='Manage' style={styles.manageColumn} />
+      </div>
+      <div className={styles.items}>
+        {invoices.map((invoice, index) => {
+          return (
+            <Fragment key={invoice.id}>
+              <Item {...invoice} />
+              {index !== invoices.length - 1 && <CustomDivider />}
+            </Fragment>
+          )
+        })}
+      </div>
     </div>
   )
 }

@@ -5,6 +5,7 @@ import { NotificationCardData } from '../../../app/constants/constants'
 import { ProfileSettings } from '../../../features/General/ProfileSettings/ProfileSettings'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { ProjectVersion } from '../../../shared/ui/ProjectVersion/ProjectVersion'
 import { getListPush } from '../../../shared/utils/api/Push/get-list-push'
 import { patchSetDevicePush } from '../../../shared/utils/api/Push/patch-set-device-push'
 import { postUnsubPush } from '../../../shared/utils/api/Push/post-unsub-push'
@@ -59,7 +60,7 @@ export const AdminProfileSettingsPage = () => {
           <LoadingSpinner size='xl' />
         </div>
       )}
-      <span className={styles.version}>{`version: ${__APP_VERSION__}`}</span>
+      <ProjectVersion />
     </div>
   )
 }
