@@ -10,6 +10,7 @@ use App\Http\Resources\Resident\Transactions\TransactionsListResource;
 use App\Models\BusinessModel\BusinessModel;
 use App\Models\Catalog\User as Talent;
 use App\Models\Config;
+use App\Models\Resident\Invoices\Invoice;
 use App\Models\User;
 
 
@@ -37,12 +38,44 @@ class DashboardController extends Controller
         }
         $transactions = $transactionQuery->orderByDesc('id')->limit(10)->get();
 
+        $graph = [];
+        $currency = $user->getCurrencyIso;
+        $invoicesQuery = $user->invoices();
+        foreach([
+            Invoice::STATUS[0] => [Invoice::STATUS[0], Invoice::STATUS[2]],
+            Invoice::STATUS[1] => [Invoice::STATUS[1]]
+                ] as $name => $status) {
+
+            $newQuery = $invoicesQuery->clone();
+            $newQuery->whereIn('status', $status);
+
+            $i = 12;
+            $dateGraph = now();
+            while ($i) {
+                $start = $dateGraph->startOfMonth()->copy();
+                $end = $dateGraph->endOfMonth()->copy();
+
+                $graph[$start->format('Y M')][$name] = $newQuery->clone()
+                    ->where('date', '>=', $start)
+                    ->where('date', '<=', $end)
+                    ->get()
+                    ->getSumTotal($currency);
+
+
+
+                $dateGraph = $start->subMonths(1)->copy();
+                $i--;
+            }
+
+        }
+
         return response()->json([
             'order' => OrderListClientResource::collection($order),
             'invoice' => InvoiceListResource::collection($invoices),
             'offer' => OfferListResource::collection($offers),
             'transaction' => TransactionsListResource::collection($transactions),
             'quantity' => $quantity,
+            'graph' => $graph
         ]);
     }
 
