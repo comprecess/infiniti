@@ -32,7 +32,7 @@ export const ClientMyOrdersPage = () => {
 
   const updatePage = (newPage: string) => updateQueryParam('page', newPage)
 
-  const getDocumentList = async () => {
+  const getOrdersList = async () => {
     const response = await getMyOrderList(`?page=${page}`)
 
     if (!response.status) return
@@ -56,7 +56,7 @@ export const ClientMyOrdersPage = () => {
   }, [])
 
   useEffect(() => {
-    getDocumentList()
+    getOrdersList()
   }, [page])
 
   useEffect(() => {
@@ -74,10 +74,10 @@ export const ClientMyOrdersPage = () => {
             pagesProps={
               orders
                 ? {
-                    meta: orders?.meta,
-                    nextPage: updatePage,
-                    size: 'sm',
-                  }
+                  meta: orders?.meta,
+                  nextPage: updatePage,
+                  size: 'sm',
+                }
                 : undefined
             }
           >

@@ -1626,10 +1626,10 @@ export interface ClientDocumentsData {
 export interface ClientMyOrdersData {
   id: number
   amount: string
-  businessPlan: string
   date: string
+  itemCount: number
+  type: string
   items: ClientMyOrdersItemsData[]
-  orderNum: string
 }
 
 export interface ClientMyOrdersItemsData {
@@ -1649,4 +1649,12 @@ export interface ClientMyOrdersPreviewData {
   status: string
   items: { amount: string; name: string; price: string; total: string }[]
   catalog: any
+}
+
+export interface AdminInvoiceAddPaymentInfoData {
+  accounts: any
+  categories: any
+  client: { account: string }
+  invoice: { description: string }
+  payMethods: any
 }

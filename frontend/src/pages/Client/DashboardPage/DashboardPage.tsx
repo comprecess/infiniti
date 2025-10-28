@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import styles from './DashboardPage.module.scss'
 import {
@@ -11,12 +12,17 @@ import {
 import { Routes } from '../../../app/router/routes'
 import { AddFundModal } from '../../../features/Admin/CustomersPage/ViewPage/Pages/SummaryPage/AddFundModal/AddFundModal'
 import { BigCard } from '../../../features/Admin/DashboardPage/CashFlow/BigCard/BigCard'
-import { BarChart } from '../../../features/Admin/DashboardPage/CashFlow/Chart/DashboardChart/BarChart'
+import {
+  BarChart,
+  DataJson,
+} from '../../../features/Admin/DashboardPage/CashFlow/Chart/DashboardChart/BarChart'
 import { RecentInvoices } from '../../../features/Client/DashboardPage/RecentInvoices/RecentInvoices'
 import { RecentOffers } from '../../../features/Client/DashboardPage/RecentOffers/RecentOffers'
 import { RecentOrders } from '../../../features/Client/DashboardPage/RecentOrders/RecentOrders'
 import { RecentTransactions } from '../../../features/Client/DashboardPage/RecentTransactions/RecentTransactions'
+import { ChartLegend } from '../../../shared/ui/ChartLegend/ChartLegend'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { Scrollable } from '../../../shared/ui/Scrollable/Scrollable'
 import { getDashboardInfo } from '../../../shared/utils/api/Client/Dashboard/get-dashboard-info'
 import { postAddFund } from '../../../shared/utils/api/Client/Dashboard/post-add-fund'
 import { getProfileInfo } from '../../../shared/utils/api/get-profile-info'
@@ -29,10 +35,18 @@ export const ClientDashboardPage = () => {
     invoice: DashboardRecentInvoicesData[]
     offer: ClientOfferData[]
     order: OrdersViewCompany[]
+    quantity: {
+      businessModel: number
+      project: number
+      talent: number
+    }
+    graph: DataJson
   } | null>(null)
   const [profileData, setProfileData] = useState<UserInfo | null>(null)
 
   const [isAddFund, setIsAddFund] = useState<boolean>(false)
+
+  const navigate = useNavigate()
 
   const handleOpenCloseAddFund = () => {
     setIsAddFund(prev => !prev)
@@ -79,59 +93,51 @@ export const ClientDashboardPage = () => {
             <section className={styles.sectionFirst}>
               <UserCard profileData={profileData} handleOpenCloseAddFund={handleOpenCloseAddFund} />
               <div className={styles.recentRightCard}>
-                <div className={styles.cardsContent}>
+                <Scrollable>
                   <div className={styles.cards}>
                     <BigCard
-                      title='Income'
+                      title='Talents'
                       icon='/icons/user.svg'
-                      amount='15'
+                      amount={data.quantity.talent.toString()}
                       style={styles.bigCard}
-                      onClick={() => {}}
+                      onClick={() => navigate(`/${Routes.clientPages}/${Routes.talents}`)}
                     />
                     <BigCard
                       title='Projects'
                       icon='/icons/elements.svg'
-                      amount='8'
+                      amount={data.quantity.project.toString()}
                       style={styles.bigCard}
-                      onClick={() => {}}
+                      onClick={() => navigate(`/${Routes.clientPages}/${Routes.projects}`)}
                     />
                     <BigCard
-                      title='Invoices'
+                      title='Business Models'
                       icon='/icons/userPlusPurple.svg'
-                      amount='10'
+                      amount={data.quantity.businessModel.toString()}
                       style={styles.bigCard}
-                      onClick={() => {}}
-                    />
-                    <BigCard
-                      title='Offers'
-                      icon='/icons/user.svg'
-                      amount='13'
-                      style={styles.bigCard}
-                      onClick={() => {}}
+                      onClick={() =>
+                        navigate(
+                          `/${Routes.clientPages}/${Routes.businessPlan}/${Routes.businessModels}`,
+                        )
+                      }
                     />
                   </div>
-                </div>
-                <RecentCard title='Chart' style={styles.chartWrapper}>
-                  <div className={styles.chart}>
-                    <BarChart
-                      data={{
-                        'Oct 2025': { Income: 327, Expense: 812 },
-                        'Nov 2025': { Income: 915, Expense: 432 },
-                        'Dec 2025': { Income: 158, Expense: 974 },
-                        'Jan 2025': { Income: 604, Expense: 289 },
-                        'Feb 2025': { Income: 217, Expense: 643 },
-                        'Mar 2025': { Income: 789, Expense: 455 },
-                        'Apr 2025': { Income: 482, Expense: 1103 },
-                        'May 2025': { Income: 1015, Expense: 302 },
-                        'Jun 2025': { Income: 366, Expense: 588 },
-                        'Jul 2025': { Income: 742, Expense: 955 },
-                        'Aug 2025': { Income: 529, Expense: 437 },
-                        'Sep 2025': { Income: 892, Expense: 1201 },
-                      }}
-                    />
-                    {' '}
-                  </div>
-                  {' '}
+                </Scrollable>
+                <RecentCard title='Paid/Unpaid Invoices' style={styles.chartWrapper}>
+                  <Scrollable>
+                    <div className={styles.chart}>
+                      <div className={styles.legends}>
+                        <ChartLegend title='Paid' color={styles.paidColor} />
+                        <ChartLegend title='Unpaid' color={styles.unpaidColor} />
+                      </div>
+                      <BarChart
+                        data={data.graph}
+                        namesKeys={[
+                          'admin-dashboard-page-bar-chart-legend-3',
+                          'admin-dashboard-page-bar-chart-legend-4',
+                        ]}
+                      />
+                    </div>
+                  </Scrollable>
                 </RecentCard>
               </div>
             </section>

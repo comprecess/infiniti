@@ -24,18 +24,19 @@
 }
 
 .dateColumn,
-.orderColumn,
+.countColumn,
 .amountColumn,
-.businessPlanColumn {
+.typeColumn {
   width: 100%;
 }
 
 .dateColumn,
-.amountColumn {
-  max-width: 250px;
+.countColumn {
+  max-width: 150px;
 }
 
 .amountColumn {
+  max-width: 200px;
   text-align: end;
   justify-content: end;
 }

@@ -10,9 +10,7 @@ import { patchSetDevicePush } from '../../../shared/utils/api/Push/patch-set-dev
 import { postUnsubPush } from '../../../shared/utils/api/Push/post-unsub-push'
 
 export const AdminProfileSettingsPage = () => {
-  const [listNotifications, setListNotifications] = useState<
-  NotificationCardData[] | null
-  >(null)
+  const [listNotifications, setListNotifications] = useState<NotificationCardData[] | null>(null)
 
   const showToast = useCustomToast()
 
@@ -61,6 +59,7 @@ export const AdminProfileSettingsPage = () => {
           <LoadingSpinner size='xl' />
         </div>
       )}
+      <span className={styles.version}>{`version: ${__APP_VERSION__}`}</span>
     </div>
   )
 }

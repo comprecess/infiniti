@@ -21,16 +21,16 @@ export const Item = ({ data }: ItemProps) => {
       <div className={styles.wrapper}>
         <span className={`${styleItem.dateColumn} ${styles.dateItem}`}>{data.date}</span>
         <span
-          className={`${styleItem.orderColumn} ${styles.orderItem}`}
+          className={`${styleItem.typeColumn} ${styles.typeItem}`}
           onClick={handleOnChangePreview}
         >
-          {data.orderNum}
+          {data.type}
         </span>
         <span
-          className={`${styleItem.businessPlanColumn} ${styles.businessPlanItem}`}
+          className={`${styleItem.countColumn} ${styles.countItem}`}
           onClick={handleOnChangePreview}
         >
-          {data.businessPlan}
+          {data.itemCount}
         </span>
         <span className={`${styleItem.amountColumn} ${styles.amountItem}`}>{data.amount}</span>
       </div>

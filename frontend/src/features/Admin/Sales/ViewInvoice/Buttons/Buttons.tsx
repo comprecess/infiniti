@@ -1,11 +1,4 @@
-import {
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Tooltip,
-} from '@chakra-ui/react'
+import { IconButton, Menu, MenuButton, MenuItem, MenuList, Tooltip } from '@chakra-ui/react'
 
 import styles from './Buttons.module.scss'
 import { RolesAccess } from '../../../../../app/constants/constants'
@@ -24,6 +17,7 @@ interface ButtonsProps {
   selectPDF: (name: string) => void
   selectStatus: (status: string) => void
   email: (template: string) => void
+  addPayment: () => void
 }
 
 export const Buttons = ({
@@ -35,6 +29,7 @@ export const Buttons = ({
   selectPDF,
   selectStatus,
   email,
+  addPayment,
 }: ButtonsProps) => {
   return (
     <div className={styles.wrapper}>
@@ -61,21 +56,11 @@ export const Buttons = ({
           />
         </Tooltip>
         <MenuList>
-          <MenuItem onClick={() => email('invoice-create')}>
-            Invoice Created
-          </MenuItem>
-          <MenuItem onClick={() => email('reminder')}>
-            Invoice Payment Reminder
-          </MenuItem>
-          <MenuItem onClick={() => email('overdue')}>
-            Invoice Overdue Notice
-          </MenuItem>
-          <MenuItem onClick={() => email('confirm')}>
-            Invoice Payment Confirmation
-          </MenuItem>
-          <MenuItem onClick={() => email('refund')}>
-            Invoice Refund Confirmation
-          </MenuItem>
+          <MenuItem onClick={() => email('invoice-create')}>Invoice Created</MenuItem>
+          <MenuItem onClick={() => email('reminder')}>Invoice Payment Reminder</MenuItem>
+          <MenuItem onClick={() => email('overdue')}>Invoice Overdue Notice</MenuItem>
+          <MenuItem onClick={() => email('confirm')}>Invoice Payment Confirmation</MenuItem>
+          <MenuItem onClick={() => email('refund')}>Invoice Refund Confirmation</MenuItem>
         </MenuList>
       </Menu>
       <Menu isLazy>
@@ -104,12 +89,8 @@ export const Buttons = ({
           <MenuItem onClick={() => {}}>Invoice Created</MenuItem>
           <MenuItem onClick={() => {}}>Invoice Payment Reminder</MenuItem>
           <MenuItem onClick={() => {}}>Invoice Overdue Notice</MenuItem>
-          <MenuItem onClick={() => {}}>
-            Invoice Payment Confirmation
-          </MenuItem>
-          <MenuItem onClick={() => {}}>
-            Invoice Refund Confirmation
-          </MenuItem>
+          <MenuItem onClick={() => {}}>Invoice Payment Confirmation</MenuItem>
+          <MenuItem onClick={() => {}}>Invoice Refund Confirmation</MenuItem>
         </MenuList>
       </Menu>
       {roles && roles.sales.view === 0 ? (
@@ -138,12 +119,8 @@ export const Buttons = ({
             />
           </Tooltip>
           <MenuList>
-            <MenuItem onClick={() => selectPDF('View PDF')}>
-              View PDF
-            </MenuItem>
-            <MenuItem onClick={() => selectPDF('Download PDF')}>
-              Download PDF
-            </MenuItem>
+            <MenuItem onClick={() => selectPDF('View PDF')}>View PDF</MenuItem>
+            <MenuItem onClick={() => selectPDF('Download PDF')}>Download PDF</MenuItem>
           </MenuList>
         </Menu>
       )}
@@ -175,10 +152,7 @@ export const Buttons = ({
           <MenuList>
             {statusList.map((status, index) => {
               return (
-                <MenuItem
-                  key={`${status}-${index}`}
-                  onClick={() => selectStatus(status)}
-                >
+                <MenuItem key={`${status}-${index}`} onClick={() => selectStatus(status)}>
                   {status}
                 </MenuItem>
               )
@@ -194,6 +168,7 @@ export const Buttons = ({
           icon='/icons/addWallet.svg'
           alt='Add Payment'
           tooltipTitle='Add Payment'
+          onClick={addPayment}
         />
       )}
       {roles && roles.sales.view === 0 ? (

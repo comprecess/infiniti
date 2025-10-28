@@ -1,14 +1,17 @@
 {
   "name": "infiniti",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.1-alpha.1gw",
   "type": "module",
   "scripts": {
     "dev": "vite --force",
     "build": "tsc && vite build && mv ./dist ../",
     "preview": "vite preview",
     "lint": "eslint . --ext .js,.ts,.jsx,.tsx",
-    "lint:fix": "eslint . --ext .js,.ts,.jsx,.tsx --fix"
+    "lint:fix": "eslint . --ext .js,.ts,.jsx,.tsx --fix",
+    "bump:patch": "ts-node src/shared/utils/git/bump-version.ts patch",
+    "bump:minor": "ts-node src/shared/utils/git/bump-version.ts minor",
+    "bump:major": "ts-node src/shared/utils/git/bump-version.ts major"
   },
   "dependencies": {
     "@base-ui-components/react": "^1.0.0-alpha.7",
@@ -70,7 +73,8 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
-    "typescript": "^5.2.2",
+    "ts-node": "^10.9.2",
+    "typescript": "5.4.4",
     "vite": "^5.2.0"
   }
 }
