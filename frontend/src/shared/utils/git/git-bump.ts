@@ -27,6 +27,7 @@ try {
   }
 
   execSync(`git commit -m "${commitMsg}"`, { stdio: 'inherit' })
+  execSync('git push')
 } catch (err) {
   console.error('Error during git-bump:', err)
   process.exit(1)
