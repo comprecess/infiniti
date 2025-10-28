@@ -336,10 +336,11 @@ class InvoiceController extends SaleController
         $accounts = Account::with('getCurrencyIso')->get();
         $categories = Category::income()->orderBy('sorder')->get();
         $paymethods = PayMethods::orderBy('sorder', 'asc')->get();
+        $dueAmount = $invoice->getDueAmount();
 
         return response()->json([
             'invoice' => [
-                'dueAmount' => $invoice->getDueAmount(),
+                'dueAmount' => $dueAmount < 0 ? 0 : $dueAmount,
                 'dueAmountCurrency' => $invoice->printPrice($invoice->getDueAmount()),
                 'currency' => new CurrencyResource($invoice->getCurrencyIso),
                 'description' => __('pay.payment', ['code' => $invoice->getCode()])
