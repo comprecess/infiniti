@@ -56,7 +56,9 @@ class InvoiceItemResource extends JsonResource implements ListInterface
                 'price' => $items->summPrice($currency),
                 'discount' => $items->summDiscount($currency),
                 'tax' => $items->summTax($currency),
-                'total' => $items->summTotal($currency)
+                'total' => $items->summTotal($currency),
+                'credit' => $this->printPrice('credit', $currency),
+                'dueAmount' => $this->printPrice($this->getDueAmount(), $currency),
             ]
         ]);
 
