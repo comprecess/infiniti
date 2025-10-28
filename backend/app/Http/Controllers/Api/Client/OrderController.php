@@ -24,11 +24,11 @@ class OrderController extends Controller
                 'getCurrencyIso',
                 'items',
                 'businessPlan',
-//                'items.userCatalog',
-//                'items.userCatalog.values',
-//                'items.userCatalog.values.prop',
-//                'items.userCatalog.blockExperience',
-//                'items.userCatalog.files'
+                'items.userCatalog',
+                'items.userCatalog.values',
+                'items.userCatalog.values.prop',
+                'items.userCatalog.blockExperience',
+                'items.userCatalog.files'
             ])
             ->has('order')
             ->withTrashed();
