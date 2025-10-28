@@ -1,7 +1,7 @@
 {
   "name": "infiniti",
   "private": true,
-  "version": "0.0.1-alpha.1gw",
+  "version": "0.0.3-alpha.3qf",
   "type": "module",
   "scripts": {
     "dev": "vite --force",
@@ -9,9 +9,9 @@
     "preview": "vite preview",
     "lint": "eslint . --ext .js,.ts,.jsx,.tsx",
     "lint:fix": "eslint . --ext .js,.ts,.jsx,.tsx --fix",
-    "bump:patch": "ts-node src/shared/utils/git/bump-version.ts patch",
-    "bump:minor": "ts-node src/shared/utils/git/bump-version.ts minor",
-    "bump:major": "ts-node src/shared/utils/git/bump-version.ts major"
+    "git:patch": "ts-node src/shared/utils/git/git-bump.ts patch",
+    "git:minor": "ts-node src/shared/utils/git/git-bump.ts minor",
+    "git:major": "ts-node src/shared/utils/git/git-bump.ts major"
   },
   "dependencies": {
     "@base-ui-components/react": "^1.0.0-alpha.7",
