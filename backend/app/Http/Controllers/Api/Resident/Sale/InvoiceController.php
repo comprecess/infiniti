@@ -365,7 +365,7 @@ class InvoiceController extends SaleController
             category: $request->getModel('category'),
             method: $request->getModel('method'),
             description: $request->description,
-            date: $request->date,
+            date: $request->date('date'),
             invoice: $invoice,
             owner: $owner
         );
