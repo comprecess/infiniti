@@ -6,6 +6,7 @@ namespace App\Models\Collection;
 
 use App\Models\MultipleConditions\InvoiceStatus;
 use App\Models\Resident\Invoices\Invoice;
+use App\Models\Resident\Settings\Currency;
 use Illuminate\Database\Eloquent\Collection;
 
 class InvoiceCollection extends Collection
@@ -44,6 +45,13 @@ class InvoiceCollection extends Collection
             return $this->calcValue[$key];
         }
         return parent::__get($key);
+    }
+
+    public function getSumTotal(?Currency $currency = null)
+    {
+        return round($this->sum(function($item) use($currency){
+            return $item->transformPrice('total', $currency);
+        }), 2);
     }
 
 }
