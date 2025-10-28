@@ -22,7 +22,7 @@ class OrderCatalogListResource extends JsonResource
             'amount' => $this->printPrice('total', $this->getCurrencyIso),
 //            'status' => $this->status,
             'itemCount' => $this->items->count(),
-//            'items' => CartItemResorce::collection($this->items),
+            'items' => CartItemResorce::collection($this->items),
 //            'businessPlan' => new BusinessPlanResource($this->businessPlan),
             'type' => $this->getTypeBusinessPlan()
         ];
