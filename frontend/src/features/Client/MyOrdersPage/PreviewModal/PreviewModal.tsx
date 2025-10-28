@@ -20,7 +20,7 @@ export const PreviewModal = ({ order, isOpened, handleOpenCloseModal }: PreviewM
             <CrossIcon />
           </div>
           <div className={styles.header}>
-            <span className={styles.title}>{`Order number - ${order.orderNum}`}</span>
+            <span className={styles.title}>{order.type}</span>
           </div>
           <div className={styles.info}>
             <span className={styles.amount}>{`Amount: ${order.amount}`}</span>

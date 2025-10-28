@@ -6,10 +6,7 @@ import styles from './CashFlow.module.scss'
 import { BarChart } from './Chart/DashboardChart/BarChart'
 import { NetWorth } from './Chart/NetWorth/NetWorth'
 import { MiniCard } from './MiniCard/MiniCard'
-import {
-  DashboardData,
-  RolesAccess,
-} from '../../../../app/constants/constants'
+import { DashboardData, RolesAccess } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 
@@ -27,9 +24,7 @@ export const CashFlow = ({ data, roles }: CashFlowProps) => {
     if (roles && roles.customers.view === 0) {
       navigate(`/403`)
     } else {
-      navigate(
-        `/${Routes.adminPages}/${Routes.customers}/${Routes.list}/${Routes.customer}`,
-      )
+      navigate(`/${Routes.adminPages}/${Routes.customers}/${Routes.list}/${Routes.customer}`)
     }
   }
 
@@ -37,9 +32,7 @@ export const CashFlow = ({ data, roles }: CashFlowProps) => {
     if (roles && roles.companies.view === 0) {
       navigate(`/403`)
     } else {
-      navigate(
-        `/${Routes.adminPages}/${Routes.customers}/${Routes.companies}`,
-      )
+      navigate(`/${Routes.adminPages}/${Routes.customers}/${Routes.companies}`)
     }
   }
 
@@ -76,7 +69,13 @@ export const CashFlow = ({ data, roles }: CashFlowProps) => {
         </div>
         <div className={styles.chart}>
           <NetWorth amount={data.newWorth} />
-          <BarChart data={data.graph} />
+          <BarChart
+            data={data.graph}
+            namesKeys={[
+              'admin-dashboard-page-bar-chart-legend-1',
+              'admin-dashboard-page-bar-chart-legend-2',
+            ]}
+          />
         </div>
       </div>
       <div className={styles.rightItem}>

@@ -8,6 +8,7 @@ import {
   SalesViewInvoiceData,
 } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
+import { AddPaymentModal } from '../../../../features/Admin/Sales/ViewInvoice/AddPaymentModal/AddPaymentModal'
 import { Buttons } from '../../../../features/Admin/Sales/ViewInvoice/Buttons/Buttons'
 import { EmailPanel } from '../../../../features/Admin/Sales/ViewInvoice/EmailPanel/EmailPanel'
 import { Footer } from '../../../../features/Admin/Sales/ViewInvoice/Footer/Footer'
@@ -26,10 +27,11 @@ import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 export const AdminViewInvoicePage = () => {
   const [info, setInfo] = useState<SalesViewInvoiceData | null>(null)
 
-  const [emailInfo, setEmailInfo] =
-    useState<SalesInvoiceEmailTemplateData | null>(null)
+  const [emailInfo, setEmailInfo] = useState<SalesInvoiceEmailTemplateData | null>(null)
   const [emailTemplate, setEmailTemplate] = useState<string>('')
   const [emailPanel, setEmailPanel] = useState<boolean>(false)
+
+  const [isAddPayment, setIsAddPayment] = useState<boolean>(false)
 
   const id = useIdFromUrl('view')
   const showToast = useCustomToast()
@@ -39,17 +41,8 @@ export const AdminViewInvoicePage = () => {
     roles?: { [key: string]: RolesAccess }
   }>()
 
-  const openCloseEmailPanel = () => {
-    setEmailPanel(!emailPanel)
-  }
-
   const setTemplateEmail = async (
-    template:
-    | 'invoice-create'
-    | 'reminder'
-    | 'overdue'
-    | 'confirm'
-    | 'refund',
+    template: 'invoice-create' | 'reminder' | 'overdue' | 'confirm' | 'refund',
   ) => {
     if (template === null || id === null) return
 
@@ -72,9 +65,7 @@ export const AdminViewInvoicePage = () => {
   }
 
   const navigateToEditInvoice = () => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.sales}/${Routes.edit}/${Routes.invoice}/${info?.id}`,
-    )
+    navigate(`/${Routes.adminPages}/${Routes.sales}/${Routes.edit}/${Routes.invoice}/${info?.id}`)
   }
 
   const navigateToPreviewInvoice = () => {
@@ -139,7 +130,7 @@ export const AdminViewInvoicePage = () => {
 
   useEffect(() => {
     if (emailInfo && emailTemplate) {
-      openCloseEmailPanel()
+      setEmailPanel(prev => !prev)
     }
   }, [emailInfo, emailTemplate])
 
@@ -157,9 +148,9 @@ export const AdminViewInvoicePage = () => {
             name='uniqueURL'
             id='uniqueURL'
             styleInput={styles.input}
-            value={`${import.meta.env.VITE_MAIN_DOMAIN}/${Routes.public}/${
-              Routes.invoice
-            }/${Routes.view}/${info.token}`}
+            value={`${import.meta.env.VITE_MAIN_DOMAIN}/${Routes.public}/${Routes.invoice}/${
+              Routes.view
+            }/${info.token}`}
             onChange={() => {}}
           />
           <RecentCard
@@ -177,11 +168,10 @@ export const AdminViewInvoicePage = () => {
               documents: info.documents,
             }}
             componentProps={{
-              statusList: info.listStatus.filter(
-                status => status !== info.status,
-              ),
+              statusList: info.listStatus.filter(status => status !== info.status),
               blockEditButton: info.blockEdit,
               roles,
+              addPayment: () => setIsAddPayment(prev => !prev),
               editInvoice: navigateToEditInvoice,
               previewInvoice: navigateToPreviewInvoice,
               selectPDF: interactPDF,
@@ -210,9 +200,16 @@ export const AdminViewInvoicePage = () => {
         <EmailPanel
           info={emailInfo}
           modalEmailPanel={emailPanel}
-          handleOpenCloseModal={openCloseEmailPanel}
           idInvoice={id}
           template={emailTemplate}
+          handleOpenCloseModal={() => setEmailPanel(prev => !prev)}
+        />
+      )}
+      {isAddPayment && id && (
+        <AddPaymentModal
+          idInvoice={id}
+          isOpen={isAddPayment}
+          handleOpenClose={() => setIsAddPayment(prev => !prev)}
         />
       )}
     </div>

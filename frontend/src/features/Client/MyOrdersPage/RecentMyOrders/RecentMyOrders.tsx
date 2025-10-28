@@ -17,8 +17,8 @@ export const RecentMyOrders = ({ orders }: RecentMyOrdersProps) => {
         <>
           <div className={styles.columns}>
             <Title title='Date' style={styles.dateColumn} />
-            <Title title='Business Plan' style={styles.businessPlanColumn} />
-            <Title title='Order #' style={styles.orderColumn} />
+            <Title title='Type' style={styles.typeColumn} />
+            <Title title='Number Talents' style={styles.countColumn} />
             <Title title='Amount' style={styles.amountColumn} />
           </div>
           <div className={styles.items}>

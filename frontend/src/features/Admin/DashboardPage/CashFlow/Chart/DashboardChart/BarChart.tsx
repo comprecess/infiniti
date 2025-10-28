@@ -6,48 +6,40 @@ import { useTranslation } from 'react-i18next'
 
 import { LoadingSpinner } from '../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 
-interface DataEntry {
-  Income: number
-  Expense: number
-}
-
-interface DataJson {
-  [key: string]: DataEntry
+export interface DataJson {
+  [key: string]: any
 }
 
 interface DashboardChartProps {
   data: DataJson
+  namesKeys:
+    | ['admin-dashboard-page-bar-chart-legend-1', 'admin-dashboard-page-bar-chart-legend-2']
+    | ['admin-dashboard-page-bar-chart-legend-3', 'admin-dashboard-page-bar-chart-legend-4']
 }
 
-export const BarChart = ({ data }: DashboardChartProps) => {
+export const BarChart = ({ data, namesKeys }: DashboardChartProps) => {
   const [chartData, setChartData] = useState<any>(null)
 
   const { t } = useTranslation()
 
   useEffect(() => {
-    const typedDataJson = Object.fromEntries(
-      Object.entries(data).reverse(),
-    )
-
+    const typedDataJson = Object.fromEntries(Object.entries(data).reverse())
     const labels = Object.keys(typedDataJson)
 
-    const incomeData = labels.map(label => typedDataJson[label].Income)
-    const expenseData = labels.map(label => typedDataJson[label].Expense)
+    const allKeys = new Set<string>()
+    labels.forEach(label => {
+      Object.keys(typedDataJson[label] || {}).forEach(key => allKeys.add(key))
+    })
 
-    const series = [
-      {
-        name: `${t('admin-dashboard-page-bar-chart-legend-1')}`,
-        type: 'bar',
-        data: incomeData,
-        color: '#5965E7',
-      },
-      {
-        name: `${t('admin-dashboard-page-bar-chart-legend-2')}`,
-        type: 'area',
-        data: expenseData,
-        color: '#DC286A',
-      },
-    ]
+    const colorPalette = ['#5965E7', '#DC286A', '#20C997', '#F59E0B', '#8B5CF6']
+    const typePalette = ['bar', 'area', 'line', 'bar', 'area']
+
+    const series = Array.from(allKeys).map((key, index) => ({
+      name: t(namesKeys[index]),
+      type: typePalette[index % typePalette.length],
+      data: labels.map(label => typedDataJson[label]?.[key] ?? 0),
+      color: colorPalette[index % colorPalette.length],
+    }))
 
     setChartData({
       options: {

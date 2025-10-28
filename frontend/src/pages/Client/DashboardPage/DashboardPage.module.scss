@@ -50,22 +50,14 @@
 }
 
 .chartWrapper {
-  width: 100%;
   max-height: max-content;
-  overflow-x: auto;
 }
 
 .chart {
-  min-width: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-
-.cardsContent {
-  width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
 }
 
 .cards {
@@ -81,8 +73,18 @@
 .bigCard {
   flex: 0 0 auto;
   max-width: 250px;
+}
 
-  @include mobileBreakpoint('max', $bpL - 1) {
-    max-width: 175px;
-  }
+.legends {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
+.unpaidColor {
+  background-color: $cherry-600;
+}
+
+.paidColor {
+  background-color: $brand-400;
 }

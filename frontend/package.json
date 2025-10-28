@@ -1,14 +1,22 @@
 {
   "name": "infiniti",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite --force",
     "build": "tsc && vite build && mv ./dist ../",
     "preview": "vite preview",
     "lint": "eslint . --ext .js,.ts,.jsx,.tsx",
-    "lint:fix": "eslint . --ext .js,.ts,.jsx,.tsx --fix"
+    "lint:fix": "eslint . --ext .js,.ts,.jsx,.tsx --fix",
+    "bump:patch": "ts-node scripts/bump-version.ts patch",
+    "bump:minor": "ts-node scripts/bump-version.ts minor",
+    "bump:major": "ts-node scripts/bump-version.ts major"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn bump:patch && git add package.json && git commit -m 'chore: bump version [skip ci]' || echo 'No changes to commit'"
+    }
   },
   "dependencies": {
     "@base-ui-components/react": "^1.0.0-alpha.7",
@@ -38,6 +46,7 @@
     "eslint-plugin-unused-imports": "^3.1.0",
     "file-saver": "^2.0.5",
     "framer-motion": "^11.3.31",
+    "husky": "^9.1.7",
     "i18next": "^24.2.0",
     "jodit-react": "^5.2.26",
     "js-cookie": "^3.0.5",
