@@ -2,10 +2,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { Item } from './Item/Item'
 import styles from './RecentFiles.module.scss'
-import {
-  CustomersFilesData,
-  RolesAccess,
-} from '../../../../../app/constants/constants'
+import { CustomersFilesData, RolesAccess } from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
 
 interface RecentFilesProps {
@@ -17,9 +14,7 @@ export const RecentFiles = ({ files }: RecentFilesProps) => {
   const navigate = useNavigate()
 
   const navigateToCustomer = (name: string, idTalent: number) => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${idTalent}/${name}`,
-    )
+    navigate(`/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${idTalent}/${name}`)
   }
 
   return (

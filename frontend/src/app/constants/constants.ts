@@ -1652,9 +1652,9 @@ export interface ClientMyOrdersPreviewData {
 }
 
 export interface AdminInvoiceAddPaymentInfoData {
-  accounts: any
-  categories: any
+  accounts: { id: number; name: string }[]
+  categories: { id: number; name: string }[]
   client: { account: string }
   invoice: { description: string }
-  payMethods: any
+  payMethods: { id: number; name: string }[]
 }

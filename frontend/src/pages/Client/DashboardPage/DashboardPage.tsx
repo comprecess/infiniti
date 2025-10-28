@@ -122,7 +122,7 @@ export const ClientDashboardPage = () => {
                     />
                   </div>
                 </Scrollable>
-                <RecentCard title='Paid/Unpaid Invoices' style={styles.chartWrapper}>
+                <RecentCard title='Paid/Unpaid Invoices'>
                   <Scrollable>
                     <div className={styles.chart}>
                       <div className={styles.legends}>
