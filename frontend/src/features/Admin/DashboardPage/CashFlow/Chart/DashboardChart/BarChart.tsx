@@ -13,8 +13,8 @@ export interface DataJson {
 interface DashboardChartProps {
   data: DataJson
   namesKeys:
-    | ['admin-dashboard-page-bar-chart-legend-1', 'admin-dashboard-page-bar-chart-legend-2']
-    | ['admin-dashboard-page-bar-chart-legend-3', 'admin-dashboard-page-bar-chart-legend-4']
+  | ['admin-dashboard-page-bar-chart-legend-1', 'admin-dashboard-page-bar-chart-legend-2']
+  | ['admin-dashboard-page-bar-chart-legend-3', 'admin-dashboard-page-bar-chart-legend-4']
 }
 
 export const BarChart = ({ data, namesKeys }: DashboardChartProps) => {

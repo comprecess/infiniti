@@ -57,8 +57,6 @@ export const ClientDashboardPage = () => {
 
     if (!response.status) return
 
-    console.log(response.data)
-
     setData(response.data)
   }, [])
 

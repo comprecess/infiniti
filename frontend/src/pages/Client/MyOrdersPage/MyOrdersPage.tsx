@@ -74,10 +74,10 @@ export const ClientMyOrdersPage = () => {
             pagesProps={
               orders
                 ? {
-                    meta: orders?.meta,
-                    nextPage: updatePage,
-                    size: 'sm',
-                  }
+                  meta: orders?.meta,
+                  nextPage: updatePage,
+                  size: 'sm',
+                }
                 : undefined
             }
           >

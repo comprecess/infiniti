@@ -1,7 +1,7 @@
 {
   "name": "infiniti",
   "private": true,
-  "version": "0.0.0.1",
+  "version": "0.0.1-alpha.1gw",
   "type": "module",
   "scripts": {
     "dev": "vite --force",
@@ -9,14 +9,9 @@
     "preview": "vite preview",
     "lint": "eslint . --ext .js,.ts,.jsx,.tsx",
     "lint:fix": "eslint . --ext .js,.ts,.jsx,.tsx --fix",
-    "bump:patch": "ts-node scripts/bump-version.ts patch",
-    "bump:minor": "ts-node scripts/bump-version.ts minor",
-    "bump:major": "ts-node scripts/bump-version.ts major"
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "yarn bump:patch && git add package.json && git commit -m 'chore: bump version [skip ci]' || echo 'No changes to commit'"
-    }
+    "bump:patch": "ts-node src/shared/utils/git/bump-version.ts patch",
+    "bump:minor": "ts-node src/shared/utils/git/bump-version.ts minor",
+    "bump:major": "ts-node src/shared/utils/git/bump-version.ts major"
   },
   "dependencies": {
     "@base-ui-components/react": "^1.0.0-alpha.7",
@@ -46,7 +41,6 @@
     "eslint-plugin-unused-imports": "^3.1.0",
     "file-saver": "^2.0.5",
     "framer-motion": "^11.3.31",
-    "husky": "^9.1.7",
     "i18next": "^24.2.0",
     "jodit-react": "^5.2.26",
     "js-cookie": "^3.0.5",
@@ -79,7 +73,8 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
-    "typescript": "^5.2.2",
+    "ts-node": "^10.9.2",
+    "typescript": "5.4.4",
     "vite": "^5.2.0"
   }
 }

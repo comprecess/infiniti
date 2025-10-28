@@ -206,7 +206,12 @@ export const Buttons = ({
       {roles && roles.sales.create === 0 ? (
         <div style={{ display: 'none' }} />
       ) : (
-        <CustomMiniButton style='blue' icon='/icons/clone.svg' alt='Clone' tooltipTitle='Clone' />
+        <CustomMiniButton
+          style='blue'
+          icon='/icons/clone.svg'
+          alt='Clone'
+          tooltipTitle='Clone'
+        />
       )}
     </div>
   )
