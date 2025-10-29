@@ -1655,6 +1655,11 @@ export interface AdminInvoiceAddPaymentInfoData {
   accounts: { id: number; name: string }[]
   categories: { id: number; name: string }[]
   client: { account: string }
-  invoice: { description: string }
+  invoice: {
+    description: string
+    currency: { code: string }
+    dueAmount: number
+    dueAmountCurrency: string
+  }
   payMethods: { id: number; name: string }[]
 }

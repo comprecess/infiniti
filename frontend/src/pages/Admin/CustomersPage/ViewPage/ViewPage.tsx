@@ -98,9 +98,11 @@ export const AdminViewPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.backButton}>
-        <BackButton />
-      </div>
+      <section className={styles.section}>
+        <div className={styles.backButton}>
+          <BackButton />
+        </div>
+      </section>
       <section className={styles.section}>
         {pagesInfo ? (
           <div className={styles.container}>
@@ -134,10 +136,7 @@ export const AdminViewPage = () => {
             </div>
             <main className={styles.content}>
               <div className={styles.openSidebarWrapper}>
-                <div
-                  className={styles.openSideBarButton}
-                  onClick={handleOpenCloseSidebar}
-                >
+                <div className={styles.openSideBarButton} onClick={handleOpenCloseSidebar}>
                   <ArrowBackGroundIcon />
                 </div>
                 <h4 className={styles.accountName}>{pagesInfo.account}</h4>

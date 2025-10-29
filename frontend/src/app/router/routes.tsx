@@ -45,7 +45,8 @@ import { AdminDashboardPage } from '../../pages/Admin/DashboardPage/DashboardPag
 import { AdminDocumentsPage } from '../../pages/Admin/DocumentsPage/DocumentsPage'
 import { AdminHRMPage } from '../../pages/Admin/HRMPage/HRMPage'
 import { AdminKnowledgeBasePage } from '../../pages/Admin/KnowledgeBasePage/KnowledgeBasePage'
-import { AdminLeadsPage } from '../../pages/Admin/LeadsPage/LeadsPage'
+import { AdminLeadsPage } from '../../pages/Admin/LeadsPage/LeadsPage/LeadsPage'
+import { AdminWebToLeadPage } from '../../pages/Admin/LeadsPage/WebToLeadPage/WebToLeadPage'
 import { AdminOrdersPage } from '../../pages/Admin/OrdersPage/OrdersPage'
 import { AdminPluginsPage } from '../../pages/Admin/PluginsPage/PluginsPage'
 import { AdminProductsServicesPage } from '../../pages/Admin/ProductsServicesPage/ProductsServicesPage'
@@ -229,6 +230,7 @@ export const Routes = {
   register: 'register',
   reset: 'reset',
   password: 'password',
+  leadsWebToLead: 'web-to-lead',
   notFound: '404',
   forbidden: '403',
   serverError: '500',
@@ -318,6 +320,7 @@ export const Pages = {
   adminProjectsExpensesPage: <AdminProjectsExpensesPage />,
   adminProjectsGanttChartPage: <AdminProjectsGanttChartPage />,
   adminLeadsPage: <AdminLeadsPage />,
+  adminWebToLeadPage: <AdminWebToLeadPage />,
   adminSMSPage: <AdminSMSPage />,
   adminNewTicketPage: <AdminNewTicketPage />,
   adminTicketsListPage: <AdminTicketsListPage />,
