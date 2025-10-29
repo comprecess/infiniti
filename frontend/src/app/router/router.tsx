@@ -402,7 +402,13 @@ export const router = createBrowserRouter([
           },
         ],
       },
-      { path: Routes.leads, element: Pages.adminLeadsPage },
+      {
+        path: Routes.leads,
+        children: [
+          { path: '', element: Pages.adminLeadsPage },
+          { path: `${Routes.leadsWebToLead}`, element: Pages.adminWebToLeadPage },
+        ],
+      },
       { path: Routes.sms, element: Pages.adminSMSPage },
       {
         path: Routes.support,

@@ -1,0 +1,15 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 1px;
+
+  @include mobileBreakpoint('max', $bpL) {
+    width: 100%;
+  }
+}
+
+.buttonSubmit {
+  margin-top: 12px;
+}

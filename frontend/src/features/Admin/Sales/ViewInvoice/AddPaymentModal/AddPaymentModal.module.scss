@@ -65,3 +65,18 @@
   line-height: 24px;
   letter-spacing: -0.03em;
 }
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.textRemainder {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 14px;
+  letter-spacing: -0.03em;
+  text-align: left;
+  color: $brand-400;
+}

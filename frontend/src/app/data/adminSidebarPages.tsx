@@ -398,7 +398,7 @@ export const adminSidebarPages = [
       {
         id: 1,
         title: 'admin-sidebar-subsidiary-page-web-to-Lead',
-        path: '',
+        path: `${Routes.leadsWebToLead}`,
 
         // Access
         create: false,

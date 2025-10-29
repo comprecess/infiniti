@@ -45,6 +45,8 @@ export const AddPaymentModal = ({ idInvoice, isOpen, handleOpenClose }: AddPayme
 
     if (!response.status) return
 
+    console.log(response.data)
+
     setInfo(response.data)
   }
 
@@ -124,13 +126,19 @@ export const AddPaymentModal = ({ idInvoice, isOpen, handleOpenClose }: AddPayme
                 }
               />
             </div>
-            <CustomInput
-              title='Amount'
-              type='number'
-              id='amount'
-              name='amount'
-              onChange={onChangeInput}
-            />
+            <div className={styles.inputContainer}>
+              <CustomInput
+                title={`Amount (${info.invoice.currency.code})`}
+                type='number'
+                id='amount'
+                name='amount'
+                placeHolder={info.invoice.dueAmount.toString()}
+                onChange={onChangeInput}
+              />
+              <span className={styles.textRemainder}>
+                {`Remainder: ${info.invoice.dueAmountCurrency}`}
+              </span>
+            </div>
             <CustomSelect
               title='Category'
               titleOnChange='category'
