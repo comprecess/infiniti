@@ -84,31 +84,3 @@ async function main() {
 }
 
 main()
-
-// --- PWA service worker registration ---
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', async () => {
-    const reg = await navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
-
-    const regs = await navigator.serviceWorker.getRegistrations()
-
-    for (const r of regs) {
-      if (r.scope !== reg.scope) {
-        await r.unregister()
-      }
-    }
-
-    reg.onupdatefound = () => {
-      const newWorker = reg.installing
-
-      if (newWorker) {
-        newWorker.onstatechange = () => {
-          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            newWorker.postMessage({ type: 'SKIP_WAITING' })
-            window.location.reload()
-          }
-        }
-      }
-    }
-  })
-}
