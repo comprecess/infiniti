@@ -1,17 +1,15 @@
-const APP_VERSION = '0.0.10-alpha.10nc'
+const APP_VERSION = '0.0.11-alpha.11ls'
 const CACHE_NAME = `infiniti-${APP_VERSION}`
 const ASSETS_TO_CACHE = ['/']
 
+// Install
 self.addEventListener('install', event => {
   console.log('[SW] Installing...')
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(ASSETS_TO_CACHE)
-    }),
-  )
+  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS_TO_CACHE)))
   self.skipWaiting()
 })
 
+// Activate
 self.addEventListener('activate', event => {
   console.log('[SW] Activating...')
   event.waitUntil(
@@ -26,12 +24,20 @@ self.addEventListener('activate', event => {
   self.clients.claim()
 })
 
+// Fetch
 self.addEventListener('fetch', event => {
   const req = event.request
+
+  // 🔹 Не кэшировать API и POST-запросы (JWT / сессии работают)
+  if (req.url.includes('/api/') || req.method !== 'GET') {
+    return event.respondWith(fetch(req))
+  }
+
+  // 🔹 Кэш для статических ресурсов
   event.respondWith(
     caches.match(req).then(cached => {
       const fetchPromise = fetch(req).then(response => {
-        if (response && response.status === 200 && req.method === 'GET') {
+        if (response && response.status === 200) {
           const clone = response.clone()
           caches.open(CACHE_NAME).then(cache => cache.put(req, clone))
         }
@@ -42,6 +48,7 @@ self.addEventListener('fetch', event => {
   )
 })
 
+// Skip waiting (обновление при новой версии)
 self.addEventListener('message', event => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting()
