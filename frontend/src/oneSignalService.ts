@@ -1,7 +1,4 @@
-import {
-  authTokenString,
-  notificationTokenString,
-} from './app/constants/constants'
+import { authTokenString, notificationTokenString } from './app/constants/constants'
 import { getKeyPush } from './shared/utils/api/Push/get-key-push'
 import { postKeyPush } from './shared/utils/api/Push/post-key-push'
 import { saveCookies } from './shared/utils/Saving/Cookies/SaveCookies'
@@ -49,10 +46,7 @@ export const initOneSignal = async () => {
       }
     })
   } catch (error) {
-    console.error(
-      '❌ Ошибка при загрузке OneSignal SDK или получении данных:',
-      error,
-    )
+    console.error('❌ Ошибка при загрузке OneSignal SDK или получении данных:', error)
   }
 }
 

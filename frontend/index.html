@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="theme-color" content="#0f1119" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <title>infiniti</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="manifest" href="/manifest.json" />
@@ -12,6 +11,13 @@
   <body>
     <div id="root"></div>
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" defer></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+          .register('/OneSignalSDKWorker.js')
+          .then(reg => console.debug('Service worker registered sucessfully'))
+      }
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
