@@ -1,7 +1,7 @@
 importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js')
 
 try {
-  const APP_VERSION = '0.0.17-alpha.17hr'
+  const APP_VERSION = '0.0.18-alpha.18fz'
 
   self.addEventListener('install', event => {
     console.log('[INF SW] Installing version', APP_VERSION)
