@@ -12,7 +12,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const pkgPath = path.resolve(__dirname, '../../../../package.json')
-const swPath = path.resolve(__dirname, '../../../../public/service-worker.js')
+const swPath = path.resolve(__dirname, '../../../../public/OneSignalSDKWorker.js')
 
 const pkgRaw = fs.readFileSync(pkgPath, 'utf-8')
 const pkg = JSON.parse(pkgRaw) as { version: string }
