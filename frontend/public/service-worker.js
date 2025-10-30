@@ -1,4 +1,4 @@
-const APP_VERSION = '0.0.11-alpha.11ls'
+const APP_VERSION = '0.0.12-alpha.12mw'
 const CACHE_NAME = `infiniti-${APP_VERSION}`
 const ASSETS_TO_CACHE = ['/']
 
@@ -12,15 +12,21 @@ self.addEventListener('install', event => {
 // Activate
 self.addEventListener('activate', event => {
   console.log('[SW] Activating...')
+
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
+    (async () => {
+      const keys = await caches.keys()
+      await Promise.all(
         keys.map(key => {
-          if (key !== CACHE_NAME) return caches.delete(key)
+          if (key !== CACHE_NAME && key.startsWith('infiniti-')) {
+            console.log('[SW] Deleting old cache:', key)
+            return caches.delete(key)
+          }
         }),
-      ),
-    ),
+      )
+    })(),
   )
+
   self.clients.claim()
 })
 
@@ -53,4 +59,9 @@ self.addEventListener('message', event => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting()
   }
+})
+
+self.addEventListener('activate', async () => {
+  const clients = await self.clients.matchAll({ type: 'window' })
+  clients.forEach(client => client.navigate(client.url))
 })
