@@ -85,7 +85,7 @@ swContent = swContent.replace(/const APP_VERSION = '.*?'/, `const APP_VERSION = 
 fs.writeFileSync(swPath, swContent)
 
 try {
-  execSync('git add package.json public/service-worker.js', { stdio: 'inherit' })
+  execSync('git add package.json', { stdio: 'inherit' })
 
   const commitMsg = `chore: bump version to ${pkg.version}`
 
