@@ -112,18 +112,7 @@ export const ClientDashboardPage = () => {
                     <BigCard
                       title='Business Plans'
                       icon='/icons/userPlusPurple.svg'
-                      amount={'-'}
-                      style={styles.bigCard}
-                      onClick={() =>
-                        navigate(
-                          `/${Routes.clientPages}/${Routes.businessPlan}/${Routes.businessPlans}`,
-                        )
-                      }
-                    />
-                    <BigCard
-                      title='Business Plans Test'
-                      icon='/icons/userPlusPurple.svg'
-                      amount={'test'}
+                      amount={'-0-'}
                       style={styles.bigCard}
                       onClick={() =>
                         navigate(
