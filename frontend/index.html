@@ -11,13 +11,6 @@
   <body>
     <div id="root"></div>
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" defer></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker
-          .register('/OneSignalSDKWorker.js')
-          .then(reg => console.debug('Service worker registered sucessfully'))
-      }
-    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
