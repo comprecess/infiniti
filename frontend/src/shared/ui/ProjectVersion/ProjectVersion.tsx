@@ -10,23 +10,20 @@ export const ProjectVersion = () => {
       if ('caches' in window) {
         const keys = await caches.keys()
         const version = keys.find(key => key.startsWith('infiniti-')) || ''
+
         setCacheVersion(version)
       }
     }
 
-    // Защищаемся: navigator.serviceWorker может быть undefined
-    if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-      updateCacheVersion()
-    }
+    if ('serviceWorker' in navigator) {
+      if (navigator.serviceWorker.controller) {
+        updateCacheVersion()
+      }
 
-    const onControllerChange = () => updateCacheVersion()
-
-    if (navigator.serviceWorker) {
+      const onControllerChange = () => updateCacheVersion()
       navigator.serviceWorker.addEventListener('controllerchange', onControllerChange)
-    }
 
-    return () => {
-      if (navigator.serviceWorker) {
+      return () => {
         navigator.serviceWorker.removeEventListener('controllerchange', onControllerChange)
       }
     }
