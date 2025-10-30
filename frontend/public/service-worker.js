@@ -1,4 +1,4 @@
-const APP_VERSION = '__APP_VERSION__'
+const APP_VERSION = '0.0.8-alpha.8cr'
 const CACHE_NAME = `infiniti-${APP_VERSION}`
 const ASSETS_TO_CACHE = ['/']
 

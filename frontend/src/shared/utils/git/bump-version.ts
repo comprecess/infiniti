@@ -1,3 +1,4 @@
+import { execSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -11,11 +12,14 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const pkgPath = path.resolve(__dirname, '../../../../package.json')
+const swPath = path.resolve(__dirname, '../../../../public/service-worker.js')
+
 const pkgRaw = fs.readFileSync(pkgPath, 'utf-8')
 const pkg = JSON.parse(pkgRaw) as { version: string }
 
 function parseVersion(version: string) {
   const match = version.match(/^(\d+)\.(\d+)\.(\d+)(?:-(\w+)\.(\d+)([a-z]*)?)?$/)
+
   if (!match) throw new Error('Invalid version format')
 
   const [, major, minor, patch, suffix, number, letters] = match
@@ -32,7 +36,9 @@ function parseVersion(version: string) {
 
 function randomLetters(length: number) {
   const chars = 'abcdefghijklmnopqrstuvwxyz'
+
   let result = ''
+
   for (let i = 0; i < length; i++) {
     result += chars[Math.floor(Math.random() * chars.length)]
   }
@@ -72,3 +78,19 @@ function bumpVersion(version: string, type: BumpType) {
 
 pkg.version = bumpVersion(pkg.version, type)
 fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n')
+
+let swContent = fs.readFileSync(swPath, 'utf-8')
+
+swContent = swContent.replace(/const APP_VERSION = '.*?'/, `const APP_VERSION = '${pkg.version}'`)
+fs.writeFileSync(swPath, swContent)
+
+try {
+  execSync('git add package.json public/service-worker.js', { stdio: 'inherit' })
+
+  const commitMsg = `chore: bump version to ${pkg.version}`
+
+  execSync(`git commit -m "${commitMsg}"`, { stdio: 'inherit' })
+  execSync('git push', { stdio: 'inherit' })
+} catch (err) {
+  console.error('[Git] Error during commit/push:', err)
+}

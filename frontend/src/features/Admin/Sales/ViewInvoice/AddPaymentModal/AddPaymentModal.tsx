@@ -45,8 +45,6 @@ export const AddPaymentModal = ({ idInvoice, isOpen, handleOpenClose }: AddPayme
 
     if (!response.status) return
 
-    console.log(response.data)
-
     setInfo(response.data)
   }
 
