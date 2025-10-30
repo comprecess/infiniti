@@ -84,3 +84,25 @@ async function main() {
 }
 
 main()
+
+// --- PWA service worker registration ---
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/service-worker.js', { scope: '/' })
+      .then(reg => {
+        reg.onupdatefound = () => {
+          const newWorker = reg.installing
+          if (newWorker) {
+            newWorker.onstatechange = () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                newWorker.postMessage({ type: 'SKIP_WAITING' })
+                window.location.reload()
+              }
+            }
+          }
+        }
+      })
+      .catch(err => console.error('SW registration failed', err))
+  })
+}

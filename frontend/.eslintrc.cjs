@@ -15,6 +15,7 @@ module.exports = {
     '*.mjs',
     'vite.config.ts',
     'OneSignalSDKWorker.js',
+    'service-worker.js',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
