@@ -16,12 +16,13 @@ export const ProjectVersion = () => {
     }
 
     if ('serviceWorker' in navigator) {
+      const onControllerChange = () => updateCacheVersion()
+
+      navigator.serviceWorker.addEventListener('controllerchange', onControllerChange)
+
       if (navigator.serviceWorker.controller) {
         updateCacheVersion()
       }
-
-      const onControllerChange = () => updateCacheVersion()
-      navigator.serviceWorker.addEventListener('controllerchange', onControllerChange)
 
       return () => {
         navigator.serviceWorker.removeEventListener('controllerchange', onControllerChange)
