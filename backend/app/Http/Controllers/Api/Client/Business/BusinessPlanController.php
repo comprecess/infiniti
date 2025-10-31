@@ -4,13 +4,16 @@
 namespace App\Http\Controllers\Api\Client\Business;
 
 
+use App\Events\Client\BusinessPlan\Generate;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Client\BusinessPlan\QuestionResource;
 use App\Http\Resources\Resident\BusinessPlan\BusinessPlanListResource;
 use App\Http\Resources\Resident\BusinessPlan\BusinessPlanResource;
+use App\Models\BusinessModel\BusinessModel;
 use App\Models\Resident\BusinessPlan;
 use App\Models\Resident\Question;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class BusinessPlanController extends Controller
@@ -47,8 +50,21 @@ class BusinessPlanController extends Controller
         return QuestionResource::collection($question);
     }
 
-//    public function delete(BusinessPlan $plan)
-//    {
-//        return $this->deleteCRUD($plan);
-//    }
+    public function cretaeBusinessPlan(BusinessModel $businessModel, Request $request)
+    {
+        $user = User::getAuth();
+        $answers = json_decode($request->answers, true);
+
+        $plan = new BusinessPlan();
+        $plan->setUser($user);
+        $plan->date = now();
+        $plan->status_generate = BusinessPlan::STATUS_GENERATE[0];
+        $plan->answer = ['original' => $answers];
+        $plan->business_model_id = $businessModel->id;
+        $plan->save();
+
+        event(new Generate($plan));
+
+        return response()->json(['success' => true, 'id' => $plan->id]);
+    }
 }

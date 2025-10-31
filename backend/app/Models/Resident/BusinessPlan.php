@@ -12,6 +12,8 @@ use App\Models\Traits\ChatGPTTrait;
 use App\Models\Traits\FileStorageTrait;
 use App\Models\Traits\HelperTrait;
 use App\Models\Traits\UserTrait;
+use App\Models\User;
+use App\Models\Users\Admin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,9 +23,12 @@ class BusinessPlan extends Model implements ChatGPTContract, MeetingContract
 
     public $table = 'app_business_plan';
 
+    const STATUS_GENERATE = ['New', 'Processing', 'Ready', 'Error', 'Stopped'];
+
     protected $casts = [
         'updated_at' => 'datetime',
         'date' => 'date',
+        'answer' => 'array'
     ];
 
     public static function creatingEvent($item)
@@ -81,5 +86,19 @@ class BusinessPlan extends Model implements ChatGPTContract, MeetingContract
     public function getNameRoomToMeeting(): ?string
     {
         return "business_plan-" . $this->id;
+    }
+
+    public function setUser(User $user)
+    {
+        if($user instanceof Admin) {
+            $this->name = $user->fullname;
+            $this->email = $user->username;
+            $this->phone = $user->phonenumber;
+        }else{
+            $this->name = $user->account;
+            $this->email = $user->email;
+            $this->phone = $user->phone;
+            $this->cid = $user->id;
+        }
     }
 }

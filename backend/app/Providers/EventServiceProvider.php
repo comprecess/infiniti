@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Events\Catalog;
+use App\Events\Client\BusinessPlan\Generate;
 use App\Events\InvoicePay;
 use App\Events\Resident\Talents\DeleteTalent;
 use App\Events\Resident;
@@ -59,6 +60,11 @@ class EventServiceProvider extends ServiceProvider
         InvoicePay::class => [
             Listeners\Invoice\Check::class,
             Listeners\Invoice\AdminNotification::class
+        ],
+        Generate::class => [
+            Listeners\Client\BusinessPlan\Answers::class,
+            Listeners\Client\BusinessPlan\GeneratePlan::class,
+            Listeners\Client\BusinessPlan\CreateTeams::class
         ]
     ];
 
