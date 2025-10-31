@@ -5,6 +5,7 @@ namespace App\Models\Users;
 use App\Models\Cart;
 use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Log;
+use App\Models\Resident\BusinessPlan;
 use App\Models\Resident\Client\Activity;
 use App\Models\Resident\Client\Company;
 use App\Models\Resident\Client\Group;
@@ -111,6 +112,11 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
     public function emailLog()
     {
         return $this->hasMany(EmailLog::class, 'userid');
+    }
+
+    public function myBusinessPlans()
+    {
+        return $this->hasMany(BusinessPlan::class, 'cid');
     }
 
     public function passwordManager()
