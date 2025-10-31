@@ -23,7 +23,8 @@ class DashboardController extends Controller
         $quantity = [
             'project' => $user->projects()->count(),
             'businessModel' => BusinessModel::count(),
-            'talent' => Talent::count()
+            'businessPlan' => $user->myBusinessPlans()->count(),
+            'talent' => Talent::active()->count()
         ];
 
         $invoices = $user->invoices()->with(['getCurrencyIso', 'user', 'user.companyClient','user.group'])->orderByDesc('id')->limit(10)->get();
