@@ -33,14 +33,14 @@ class Answers implements  ShouldQueue
 
         if($original){
             $questionList = Question::whereIn('id', array_keys($original))->get();
-
             foreach($original as $id => $value){
                 $question = $questionList->where('id', $id)->first();
-                $chatGptAnswer[__($question->key_lang)] = $question->getValue($value);
+                $chatGptAnswer[__($question->key_lang.".text")] = $question->getValue($value);
             }
         }
 
-        $event->businessPlan->answer['values'] = $chatGptAnswer;
+        $event->businessPlan->answer = ['original' => $original, 'values' => $chatGptAnswer];
+        $event->businessPlan->save();
 
 //        for($i = 0; $i < 20; $i++) {
 //            sleep(1);

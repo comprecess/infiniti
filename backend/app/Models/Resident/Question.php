@@ -43,13 +43,13 @@ class Question extends Model
             }
 
             if($this->field == self::FIELD[1]) {
-                return __($this->children->where('id', $value[0])->first()?->key_lang);
+                return __($this->children->where('id', $value[0])->first()?->key_lang . ".text");
             }
 
             if($this->field == self::FIELD[2]) {
                 $val = [];
                 foreach($value as $v){
-                    $val[] = __($this->children->where('id', $v)->first()?->key_lang);
+                    $val[] = __($this->children->where('id', $v)->first()?->key_lang. ".text");
                 }
                 return $val;
             }
