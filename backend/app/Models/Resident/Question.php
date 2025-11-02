@@ -33,4 +33,28 @@ class Question extends Model
     {
         return $this->belongsTo($this::class, 'parent_id')->with(['parentRecursive']);
     }
+
+    public function getValue($value)
+    {
+        $value = is_array($value) ? $value : [$value];
+        if($this->type == self::TYPE[1]) {
+            if($this->field == self::FIELD[0]) {
+                return $value[0];
+            }
+
+            if($this->field == self::FIELD[1]) {
+                return __($this->children->where('id', $value[0])->first()?->key_lang);
+            }
+
+            if($this->field == self::FIELD[2]) {
+                $val = [];
+                foreach($value as $v){
+                    $val[] = __($this->children->where('id', $v)->first()?->key_lang);
+                }
+                return $val;
+            }
+        }
+
+        return null;
+    }
 }

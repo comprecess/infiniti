@@ -53,7 +53,11 @@ class BusinessPlanController extends Controller
     public function cretaeBusinessPlan(BusinessModel $businessModel, Request $request)
     {
         $user = User::getAuth();
-        $answers = json_decode($request->answers, true);
+        if(is_array($request->answers)) {
+            $answers = $request->answers;
+        }else {
+            $answers = json_decode($request->answers, true);
+        }
 
         $plan = new BusinessPlan();
         $plan->setUser($user);
