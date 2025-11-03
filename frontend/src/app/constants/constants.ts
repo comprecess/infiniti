@@ -1155,6 +1155,7 @@ export interface BusinessPlanItemData {
   client: { id: number; account: string; code: string; img: string }
   businessModel: { id: number; title: string }
   publicToken: string
+  status: 'New' | 'Processing' | 'Ready' | 'Error' | 'Stopped'
 }
 
 export interface BusinessPlanNewPlanFormData {

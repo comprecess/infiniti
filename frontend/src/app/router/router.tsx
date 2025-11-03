@@ -7,6 +7,7 @@ import { RootPage } from '../../pages/General/RootPage/RootPage'
 import { ExaminationAuth } from '../../shared/utils/api/Auth/ExaminationAuth'
 import { ExaminationUser } from '../../shared/utils/api/Auth/ExaminationUser'
 import { ChatGPTProvider } from '../../shared/utils/Contexts/ChatGPTContext'
+import { VersionProvider } from '../../shared/utils/Contexts/VersionContext'
 
 export const router = createBrowserRouter([
   {
@@ -48,11 +49,13 @@ export const router = createBrowserRouter([
   {
     path: Routes.adminPages,
     element: (
-      <ChatGPTProvider>
-        <ExaminationUser>
-          <MainOutlet />
-        </ExaminationUser>
-      </ChatGPTProvider>
+      <ExaminationUser>
+        <VersionProvider>
+          <ChatGPTProvider>
+            <MainOutlet />
+          </ChatGPTProvider>
+        </VersionProvider>
+      </ExaminationUser>
     ),
     children: [
       { path: Routes.dashboard, element: Pages.adminDashboardPage },

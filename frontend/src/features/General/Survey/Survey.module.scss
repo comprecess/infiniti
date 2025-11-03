@@ -13,6 +13,13 @@
   box-sizing: border-box;
 }
 
+.wrapperBlur {
+  background-color: rgba($brand-1000, 0.4);
+  backdrop-filter: blur(24px);
+
+  -webkit-backdrop-filter: blur(12px);
+}
+
 .header {
   display: flex;
   align-items: center;

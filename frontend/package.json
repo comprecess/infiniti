@@ -1,7 +1,7 @@
 {
   "name": "infiniti",
   "private": true,
-  "version": "0.0.20-alpha.20tw",
+  "version": "0.0.26-alpha.26qg",
   "type": "module",
   "scripts": {
     "dev": "vite --force",

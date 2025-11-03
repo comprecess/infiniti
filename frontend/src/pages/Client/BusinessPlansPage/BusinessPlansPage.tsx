@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import styles from './BusinessPlansPage.module.scss'
 import { BusinessPlanItemData } from '../../../app/constants/constants'
 import { CardPlan } from '../../../features/Client/BusinessPlan/CardPlan/CardPlan'
+import { CardPlanError } from '../../../features/Client/BusinessPlan/CardPlanError/CardPlanError'
+import { CardPlanLoading } from '../../../features/Client/BusinessPlan/CardPlanLoading/CardPlanLoading'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getBusinessPlansList } from '../../../shared/utils/api/Client/BusinessPlan/get-business-plans-list'
@@ -35,6 +37,14 @@ export const ClientBusinessPlansPage = () => {
             {plansData.data.length > 0 ? (
               <div className={styles.plans}>
                 {plansData.data.map(plan => {
+                  if (plan.status === 'Processing' || plan.status === 'New') {
+                    return <CardPlanLoading key={plan.id} />
+                  }
+
+                  if (plan.status === 'Error') {
+                    return <CardPlanError key={plan.id} />
+                  }
+
                   return (
                     <CardPlan
                       key={plan.id}

@@ -160,6 +160,7 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
       )}
       {isSurveyOpen && (
         <Survey
+          isBlur
           blocks={surveyBlocks}
           onClose={() => setIsSurveyOpen(false)}
           onSubmit={answers => {

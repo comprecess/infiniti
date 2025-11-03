@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import styles from './SignInPage.module.scss'
 import { Routes } from '../../../app/router/routes'
 import { SignInForm } from '../../../features/Auth/SignInForm/SignInForm'
+import { AuthGoogleButton } from '../../../shared/ui/AuthGoogleButton/AuthGoogleButton'
 import { CustomDivider } from '../../../shared/ui/CustomDivider/CustomDivider'
 import { IconText } from '../../../shared/ui/IconText/IconText'
 import { AuthForm } from '../AuthForm/AuthForm'
@@ -26,6 +27,7 @@ export const SignInPage = () => {
   return (
     <AuthForm title='Sign in'>
       <SignInForm resident={false} />
+      <AuthGoogleButton />
       <div className={styles.items}>
         <IconText
           styleIcon={styles.userIconPerson}

@@ -31,6 +31,7 @@ export const sanitizeMessage = (value: string): string => {
       'td',
       'caption',
       'hr',
+      'input',
     ],
     ALLOWED_ATTR: [
       'src',
@@ -52,6 +53,9 @@ export const sanitizeMessage = (value: string): string => {
       'rowspan',
       'colspan',
       'data-sheets-root',
+      'checked',
+      'value',
+      'name',
     ],
   })
 

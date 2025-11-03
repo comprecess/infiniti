@@ -1,4 +1,3 @@
-import { execSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -83,14 +82,3 @@ let swContent = fs.readFileSync(swPath, 'utf-8')
 
 swContent = swContent.replace(/const APP_VERSION = '.*?'/, `const APP_VERSION = '${pkg.version}'`)
 fs.writeFileSync(swPath, swContent)
-
-try {
-  execSync('git add package.json', { stdio: 'inherit' })
-
-  const commitMsg = `chore: bump version to ${pkg.version}`
-
-  execSync(`git commit -m "${commitMsg}"`, { stdio: 'inherit' })
-  execSync('git push', { stdio: 'inherit' })
-} catch (err) {
-  console.error('[Git] Error during commit/push:', err)
-}

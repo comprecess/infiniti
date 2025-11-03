@@ -89,7 +89,7 @@ export const AdminDashboardPage = () => {
               <RecentProjects recentProjects={dataDashboard.recentProjects} roles={roles} />
             </RecentCard>
           </section>
-          <section className={styles.sectionThird}>
+          {/*<section className={styles.sectionThird}>
             <RecentCard
               ordinaryIcons
               title={t('admin-dashboard-page-card-4-title')}
@@ -101,14 +101,14 @@ export const AdminDashboardPage = () => {
                 roles={roles}
               />
             </RecentCard>
-            {/* <RecentCard
+             <RecentCard
               ordinaryIcons
               title={t('admin-dashboard-page-card-5-title')}
               style={styles.recentHalf}
             >
               <Calendar />
-            </RecentCard> */}
-          </section>
+            </RecentCard>
+          </section> */}
           <section className={styles.sectionFourth}>
             <RecentCard
               ordinaryIcons
@@ -132,6 +132,17 @@ export const AdminDashboardPage = () => {
               style={styles.recentHalf}
             >
               <NetWorthAccountBalances account={dataDashboard.account} />
+            </RecentCard>
+            <RecentCard
+              ordinaryIcons
+              title={t('admin-dashboard-page-card-4-title')}
+              style={styles.recentHalf}
+            >
+              <RecentInvoices
+                invoices={dataDashboard.invoices}
+                statuses={dataDashboard.invoiceStatus}
+                roles={roles}
+              />
             </RecentCard>
             {/* <RecentCard
               ordinaryIcons
