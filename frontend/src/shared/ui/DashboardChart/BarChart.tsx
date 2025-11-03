@@ -76,7 +76,7 @@ export const BarChart = ({ data, namesKeys }: DashboardChartProps) => {
         },
         xaxis: {
           categories: labels,
-          type: 'datetime',
+          type: 'category',
           labels: {
             style: {
               fontSize: '14px',
