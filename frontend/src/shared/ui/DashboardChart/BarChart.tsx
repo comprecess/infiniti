@@ -76,7 +76,7 @@ export const BarChart = ({ data, namesKeys }: DashboardChartProps) => {
         },
         xaxis: {
           categories: labels,
-          type: 'category',
+          type: 'categories',
           labels: {
             style: {
               fontSize: '14px',
@@ -127,7 +127,7 @@ export const BarChart = ({ data, namesKeys }: DashboardChartProps) => {
           y: {
             formatter(val: number) {
               if (typeof val !== 'undefined') {
-                return val.toFixed(0)
+                return val
               }
 
               return val
@@ -182,7 +182,8 @@ export const BarChart = ({ data, namesKeys }: DashboardChartProps) => {
         options={chartData.options}
         series={chartData.series}
         type='line'
-        height={282}
+        height='100%'
+        width='100%'
       />
     </div>
   )
