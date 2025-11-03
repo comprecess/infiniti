@@ -1,7 +1,7 @@
 import './BarChart.scss'
 
 import { useEffect, useState } from 'react'
-import Chart from 'react-apexcharts'
+import ReactApexChart from 'react-apexcharts'
 import { useTranslation } from 'react-i18next'
 
 import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner'
@@ -178,12 +178,11 @@ export const BarChart = ({ data, namesKeys }: DashboardChartProps) => {
 
   return (
     <div className='wrapper'>
-      <Chart
+      <ReactApexChart
         options={chartData.options}
         series={chartData.series}
         type='line'
-        height='100%'
-        width='100%'
+        height={282}
       />
     </div>
   )
