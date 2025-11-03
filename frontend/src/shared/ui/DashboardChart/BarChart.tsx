@@ -1,7 +1,7 @@
 import './BarChart.scss'
 
 import { useEffect, useState } from 'react'
-import ReactApexChart from 'react-apexcharts'
+import Chart from 'react-apexcharts'
 import { useTranslation } from 'react-i18next'
 
 import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner'
@@ -13,8 +13,8 @@ export interface DataJson {
 interface DashboardChartProps {
   data: DataJson
   namesKeys:
-  | ['admin-dashboard-page-bar-chart-legend-1', 'admin-dashboard-page-bar-chart-legend-2']
-  | ['admin-dashboard-page-bar-chart-legend-3', 'admin-dashboard-page-bar-chart-legend-4']
+    | ['admin-dashboard-page-bar-chart-legend-1', 'admin-dashboard-page-bar-chart-legend-2']
+    | ['admin-dashboard-page-bar-chart-legend-3', 'admin-dashboard-page-bar-chart-legend-4']
 }
 
 export const BarChart = ({ data, namesKeys }: DashboardChartProps) => {
@@ -178,7 +178,7 @@ export const BarChart = ({ data, namesKeys }: DashboardChartProps) => {
 
   return (
     <div className='wrapper'>
-      <ReactApexChart
+      <Chart
         options={chartData.options}
         series={chartData.series}
         type='line'
