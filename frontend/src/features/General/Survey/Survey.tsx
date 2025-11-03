@@ -11,11 +11,12 @@ import { Logo } from '../../../shared/ui/Logo/Logo'
 
 interface SurveyProps {
   blocks: Block[]
+  isBlur?: boolean
   onClose: () => void
   onSubmit: (data: Record<number, string | string[]>) => void
 }
 
-export const Survey = ({ blocks, onSubmit, onClose }: SurveyProps) => {
+export const Survey = ({ blocks, isBlur = false, onSubmit, onClose }: SurveyProps) => {
   const [step, setStep] = useState(0)
 
   const [answers, setAnswers] = useState<Record<number, string | string[]>>({})
@@ -51,7 +52,7 @@ export const Survey = ({ blocks, onSubmit, onClose }: SurveyProps) => {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper} ${isBlur ? styles.wrapperBlur : ''}`}>
       <div className={styles.header}>
         <Logo logo={<LogoTextIcon style={styles.logoTextColor} />} />
         <button className={styles.closeBtn} onClick={onClose}>

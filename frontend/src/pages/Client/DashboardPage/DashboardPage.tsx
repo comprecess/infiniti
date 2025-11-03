@@ -12,15 +12,12 @@ import {
 import { Routes } from '../../../app/router/routes'
 import { AddFundModal } from '../../../features/Admin/CustomersPage/ViewPage/Pages/SummaryPage/AddFundModal/AddFundModal'
 import { BigCard } from '../../../features/Admin/DashboardPage/CashFlow/BigCard/BigCard'
-import {
-  BarChart,
-  DataJson,
-} from '../../../features/Admin/DashboardPage/CashFlow/Chart/DashboardChart/BarChart'
 import { RecentInvoices } from '../../../features/Client/DashboardPage/RecentInvoices/RecentInvoices'
 import { RecentOffers } from '../../../features/Client/DashboardPage/RecentOffers/RecentOffers'
 import { RecentOrders } from '../../../features/Client/DashboardPage/RecentOrders/RecentOrders'
 import { RecentTransactions } from '../../../features/Client/DashboardPage/RecentTransactions/RecentTransactions'
 import { ChartLegend } from '../../../shared/ui/ChartLegend/ChartLegend'
+import { BarChart, DataJson } from '../../../shared/ui/DashboardChart/BarChart'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { Scrollable } from '../../../shared/ui/Scrollable/Scrollable'
 import { getDashboardInfo } from '../../../shared/utils/api/Client/Dashboard/get-dashboard-info'
@@ -37,6 +34,7 @@ export const ClientDashboardPage = () => {
     order: OrdersViewCompany[]
     quantity: {
       businessModel: number
+      businessPlan: number
       project: number
       talent: number
     }
@@ -100,7 +98,11 @@ export const ClientDashboardPage = () => {
                       icon='/icons/user.svg'
                       amount={data.quantity.talent.toString()}
                       style={styles.bigCard}
-                      onClick={() => navigate(`/${Routes.clientPages}/${Routes.talents}`)}
+                      onClick={() =>
+                        navigate(
+                          `/${Routes.clientPages}/${Routes.talents}?page=1&sort%5Bname%5D=priceDay&sort%5Btype%5D=asc`,
+                        )
+                      }
                     />
                     <BigCard
                       title='Projects'
@@ -112,18 +114,7 @@ export const ClientDashboardPage = () => {
                     <BigCard
                       title='Business Plans'
                       icon='/icons/userPlusPurple.svg'
-                      amount={'-0-'}
-                      style={styles.bigCard}
-                      onClick={() =>
-                        navigate(
-                          `/${Routes.clientPages}/${Routes.businessPlan}/${Routes.businessPlans}`,
-                        )
-                      }
-                    />
-                    <BigCard
-                      title='test'
-                      icon='/icons/userPlusPurple.svg'
-                      amount={'-test-'}
+                      amount={data.quantity.businessPlan.toString()}
                       style={styles.bigCard}
                       onClick={() =>
                         navigate(
@@ -138,7 +129,7 @@ export const ClientDashboardPage = () => {
                       style={styles.bigCard}
                       onClick={() =>
                         navigate(
-                          `/${Routes.clientPages}/${Routes.businessPlan}/${Routes.businessModels}`,
+                          `/${Routes.clientPages}/${Routes.businessPlan}/${Routes.businessModels}?page=1`,
                         )
                       }
                     />

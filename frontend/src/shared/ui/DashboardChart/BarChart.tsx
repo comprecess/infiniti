@@ -1,10 +1,10 @@
 import './BarChart.scss'
 
 import { useEffect, useState } from 'react'
-import Chart from 'react-apexcharts'
+import ReactApexChart from 'react-apexcharts'
 import { useTranslation } from 'react-i18next'
 
-import { LoadingSpinner } from '../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner'
 
 export interface DataJson {
   [key: string]: any
@@ -31,14 +31,14 @@ export const BarChart = ({ data, namesKeys }: DashboardChartProps) => {
       Object.keys(typedDataJson[label] || {}).forEach(key => allKeys.add(key))
     })
 
-    const colorPalette = ['#5965E7', '#DC286A', '#20C997', '#F59E0B', '#8B5CF6']
-    const typePalette = ['bar', 'area', 'line', 'bar', 'area']
+    const colorPalette = ['#5965E7', '#DC286A']
+    const typePalette = ['column', 'area']
 
     const series = Array.from(allKeys).map((key, index) => ({
       name: t(namesKeys[index]),
-      type: typePalette[index % typePalette.length],
+      type: typePalette[index],
       data: labels.map(label => typedDataJson[label]?.[key] ?? 0),
-      color: colorPalette[index % colorPalette.length],
+      color: colorPalette[index],
     }))
 
     setChartData({
@@ -76,6 +76,7 @@ export const BarChart = ({ data, namesKeys }: DashboardChartProps) => {
         },
         xaxis: {
           categories: labels,
+          type: 'datetime',
           labels: {
             style: {
               fontSize: '14px',
@@ -124,7 +125,13 @@ export const BarChart = ({ data, namesKeys }: DashboardChartProps) => {
             formatter: undefined,
           },
           y: {
-            formatter: (val: number) => `Value: ${val}`, // Форматируем значение по оси Y
+            formatter(val: number) {
+              if (typeof val !== 'undefined') {
+                return val.toFixed(0)
+              }
+
+              return val
+            },
           },
         },
         grid: {
@@ -171,7 +178,7 @@ export const BarChart = ({ data, namesKeys }: DashboardChartProps) => {
 
   return (
     <div className='wrapper'>
-      <Chart
+      <ReactApexChart
         options={chartData.options}
         series={chartData.series}
         type='line'
