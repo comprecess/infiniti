@@ -56,7 +56,7 @@ class DashboardController extends Controller
                 $start = $dateGraph->startOfMonth()->copy();
                 $end = $dateGraph->endOfMonth()->copy();
 
-                $graph[$start->format('d/m/Y')][$name] = $newQuery->clone()
+                $graph[$start->format('m/d/Y')][$name] = $newQuery->clone()
                     ->where('date', '>=', $start)
                     ->where('date', '<=', $end)
                     ->get()
