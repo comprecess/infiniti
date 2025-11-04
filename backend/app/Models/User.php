@@ -151,9 +151,13 @@ class User extends Authenticatable
         }
     }
 
-    public function setApiToken()
+    public function setApiToken($setLasTime = false)
     {
         $this->api_token = hash('sha256', Hash::make(Str::random(36)));
+        if($setLasTime){
+            $nameColumn = $this->getColumnLastTime();
+            $this->{$nameColumn} = now();
+        }
     }
 
     public function getAvatar($isLink = false)
