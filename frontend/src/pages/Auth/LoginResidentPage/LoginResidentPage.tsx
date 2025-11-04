@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import styles from './LoginResidentPage.module.scss'
 import { Routes } from '../../../app/router/routes'
 import { SignInForm } from '../../../features/Auth/SignInForm/SignInForm'
+import { AuthGoogleButton } from '../../../shared/ui/AuthGoogleButton/AuthGoogleButton'
 import { IconText } from '../../../shared/ui/IconText/IconText'
 import { AuthForm } from '../AuthForm/AuthForm'
 
@@ -28,6 +29,7 @@ export const LoginResidentPage = () => {
       />
       <AuthForm title='Login as a resident'>
         <SignInForm resident />
+        <AuthGoogleButton isAdmin />
       </AuthForm>
     </div>
   )

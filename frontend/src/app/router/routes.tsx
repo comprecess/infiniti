@@ -124,6 +124,7 @@ import { AutoLoginPage } from '../../pages/General/AutoLoginPage/AutoLoginPage'
 import { BusinessModelViewPage } from '../../pages/General/BusinessModelPage/BusinessModelViewPage'
 import { BusinessPlanViewPage } from '../../pages/General/BusinessPlanPage/BusinessPlanViewPage'
 import { ForbiddenPage } from '../../pages/General/ForbiddenPage/ForbiddenPage'
+import { GoogleAuthPage } from '../../pages/General/GoogleAuthPage/GoogleAuthPage'
 import { InvoiceProofTransaction } from '../../pages/General/InvoiceProofTransaction/InvoiceProofTransaction'
 import { InvoiceViewPage } from '../../pages/General/InvoiceViewPage/InvoiceViewPage'
 import { NotFoundPage } from '../../pages/General/NotFoundPage/NotFoundPage'
@@ -133,6 +134,7 @@ import { TestAIPage } from '../../pages/General/TestAIPage/TestAIPage'
 
 export const Routes = {
   root: '/',
+  google: 'google',
   adminPages: 'admin',
   clientPages: 'client',
   dashboard: 'dashboard',
@@ -378,6 +380,7 @@ export const Pages = {
   publicBusinessPlanViewPage: <BusinessPlanViewPage />,
   publicBusinessModelViewPage: <BusinessModelViewPage />,
   publicAutoLoginPage: <AutoLoginPage />,
+  publicGoogleAuthPage: <GoogleAuthPage />,
   notFoundPage: <NotFoundPage />,
   forbiddenPage: <ForbiddenPage />,
   serverErrorPage: <ServerErrorPage />,

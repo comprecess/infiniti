@@ -23,6 +23,14 @@ export const router = createBrowserRouter([
     element: Pages.publicAutoLoginPage,
   },
   {
+    path: `${Routes.public}/${Routes.google}/${Routes.auth}`,
+    element: Pages.publicGoogleAuthPage,
+  },
+  {
+    path: `${Routes.public}/${Routes.google}/${Routes.auth}/:token`,
+    element: Pages.publicGoogleAuthPage,
+  },
+  {
     path: `${Routes.public}/${Routes.invoice}/${Routes.view}/:id`,
     element: Pages.publicViewInvoice,
   },
