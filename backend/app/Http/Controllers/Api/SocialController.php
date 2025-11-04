@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Users\Admin;
+use App\Models\Users\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Arr;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\InvalidStateException;
@@ -38,21 +40,46 @@ class SocialController extends Controller
             $error = true;
         }catch (ClientException $e){
             $error = true;
+        }catch (RequestException $e) {
+            $error = true;
         }
 
         if($error || !$user) {
-            return redirect('/google/auth/');
+            return redirect('/public/google/auth');
         }
 
-        dd($user, $user->getEmail(), $user->getName(), $user->getNickname());
+//        dd($user, $user->getEmail(), $user->getName());
 
         $type = Cache::get($this->getKey($request->state)) ?? 'client';
+        $token = '';
+        $urlAvatar = null;
 
         if($type == 'admin') {
-//            Admin::where('username', $user)
+            $userPlatform = Admin::where('username', $user->getEmail())->first();
+        }else{
+            $userPlatform = Client::where('email', $user->getEmail())->first();
+            if(!$userPlatform) {
+                $userPlatform = new Client();
+                $userPlatform->insertDefaultValue();
+                $userPlatform->email = $user->getEmail();
+                $userPlatform->account = $user->getName();
+                $userPlatform->state = '';
+                $urlAvatar = $user->getAvatar();
+            }
         }
 
+        if($userPlatform) {
+            $userPlatform->google = $user->getId();
+            $userPlatform->setApiToken(true);
+            $userPlatform->save();
+            $token = '/' . $userPlatform->api_token;
+        }
 
+        if($urlAvatar) {
+            $userPlatform->urlFile($urlAvatar);
+        }
+
+        return redirect('/public/google/auth' . $token);
 
     }
 
@@ -63,7 +90,7 @@ class SocialController extends Controller
 
         Cache::put($this->getKey($this->getState($redirectUrl)), $request->admin == 'admin' ? 'admin' : 'client', 30*60);
 
-//        return $redirect;
+        return $redirect;
         return response()->json([
             'redirect' => $redirectUrl,
         ]);
