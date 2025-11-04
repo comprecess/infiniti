@@ -75,7 +75,7 @@ class SocialController extends Controller
             $userPlatform->save();
             $token = '/' . $userPlatform->api_token;
         }else{
-            $messge = __('auth.google.error');
+            $messge = __('auth.google.no_access');
         }
 
         if($urlAvatar) {
