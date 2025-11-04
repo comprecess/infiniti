@@ -18,6 +18,14 @@ use App\Http\Controllers\Api\Public\PetitionController;
 |
 */
 
+Route::controller(\App\Http\Controllers\Api\SocialController::class)
+    ->middleware(['session'])
+    ->prefix('social')
+    ->group(function(){
+        Route::any('/auth/google/callback', 'auth');
+        Route::get('/auth/google/redirect/{admin?}', 'redirect');
+    });
+
 
 Route::post('/client/login', [AuthController::class, 'clientLogin']);
 Route::post('/client/register', [AuthController::class, 'registration']);
