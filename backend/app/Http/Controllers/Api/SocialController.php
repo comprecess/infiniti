@@ -44,7 +44,8 @@ class SocialController extends Controller
         }
 
         if($error || !$user) {
-            return redirect('/public/google/auth');
+
+            return redirect('/public/google/auth' . __('auth.google.error'));
         }
 
 //        dd($user, $user->getEmail(), $user->getName());
@@ -52,6 +53,7 @@ class SocialController extends Controller
         $type = Cache::get($this->getKey($request->state)) ?? 'client';
         $token = '';
         $urlAvatar = null;
+        $messge = '';
 
         if($type == 'admin') {
             $userPlatform = Admin::where('username', $user->getEmail())->first();
@@ -72,13 +74,15 @@ class SocialController extends Controller
             $userPlatform->setApiToken(true);
             $userPlatform->save();
             $token = '/' . $userPlatform->api_token;
+        }else{
+            $messge = __('auth.google.error');
         }
 
         if($urlAvatar) {
             $userPlatform->urlFile($urlAvatar);
         }
 
-        return redirect('/public/google/auth' . $token);
+        return redirect('/public/google/auth' . $token . $messge);
 
     }
 
