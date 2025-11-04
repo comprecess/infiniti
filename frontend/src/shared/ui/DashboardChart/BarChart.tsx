@@ -1,10 +1,10 @@
-import './BarChart.scss'
-
 import { useEffect, useState } from 'react'
 import ReactApexChart from 'react-apexcharts'
 import { useTranslation } from 'react-i18next'
 
 import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner'
+
+import './BarChart.scss'
 
 export interface DataJson {
   [key: string]: any
@@ -13,8 +13,8 @@ export interface DataJson {
 interface DashboardChartProps {
   data: DataJson
   namesKeys:
-    | ['admin-dashboard-page-bar-chart-legend-1', 'admin-dashboard-page-bar-chart-legend-2']
-    | ['admin-dashboard-page-bar-chart-legend-3', 'admin-dashboard-page-bar-chart-legend-4']
+  | ['admin-dashboard-page-bar-chart-legend-1', 'admin-dashboard-page-bar-chart-legend-2']
+  | ['admin-dashboard-page-bar-chart-legend-3', 'admin-dashboard-page-bar-chart-legend-4']
 }
 
 export const BarChart = ({ data, namesKeys }: DashboardChartProps) => {
@@ -76,7 +76,7 @@ export const BarChart = ({ data, namesKeys }: DashboardChartProps) => {
         },
         xaxis: {
           categories: labels,
-          type: 'categories',
+          type: 'datetime',
           labels: {
             style: {
               fontSize: '14px',

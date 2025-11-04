@@ -27,7 +27,7 @@ export const SignInPage = () => {
   return (
     <AuthForm title='Sign in'>
       <SignInForm resident={false} />
-      <AuthGoogleButton />
+      <AuthGoogleButton isAdmin={false} />
       <div className={styles.items}>
         <IconText
           styleIcon={styles.userIconPerson}

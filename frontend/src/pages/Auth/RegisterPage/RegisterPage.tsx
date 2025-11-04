@@ -29,7 +29,7 @@ export const RegisterPage = () => {
       />
       <AuthForm title='Register'>
         <RegisterForm />
-        <AuthGoogleButton />
+        <AuthGoogleButton isAdmin={false} />
         <IconText
           styleText={styles.alreadyRegisteredText}
           icon='/icons/logInBlue.svg'

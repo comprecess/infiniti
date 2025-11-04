@@ -1,15 +1,10 @@
-import {
-  cloneElement,
-  PropsWithChildren,
-  ReactElement,
-  useEffect,
-  useState,
-} from 'react'
+import { cloneElement, PropsWithChildren, ReactElement, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import { roles } from '../../../../app/constants/constants'
+import { authTokenString, roles } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { subscribeNavigation } from '../../hooks/navigationService'
+import { removeCookies } from '../../Saving/Cookies/RemoveCookies'
 import { getProfileInfo } from '../get-profile-info'
 
 interface ChildProps {
@@ -54,6 +49,7 @@ export const ExaminationUser = ({ children }: PropsWithChildren) => {
           setIsAuthenticated(isAuth)
         }
       } catch (error: any) {
+        removeCookies(authTokenString)
         navigate(`/${Routes.auth}/${Routes.sign}/${Routes.in}`)
       } finally {
         setIsLoading(false)
