@@ -85,7 +85,7 @@ class DashboardController extends ResidentController
                 while ($i) {
                     $start = $dateGraph->startOfMonth()->copy();
                     $end = $dateGraph->endOfMonth()->copy();
-                    $cashFlow['graph'][$start->format('Y M')][$type] =$newTrans
+                    $cashFlow['graph'][$start->format('d/m/Y')][$type] =$newTrans
                         ->clone()
                         ->where('date', '>=', $start)
                         ->where('date', '<=', $end)
