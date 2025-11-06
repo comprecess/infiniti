@@ -27,12 +27,14 @@ class ProjectController extends ProjectAccessController
 
     public function inputData()
     {
-        $client = Client::with(['files', 'companyClient', 'group'])->get();
+        $client = Client::hasType()->with(['files', 'companyClient', 'group'])->get();
+        $supplier = Client::hasType(Client::TYPE[1])->with(['files', 'companyClient', 'group'])->get();
         $staff = Admin::all();
         $currency = Currency::all();
 
         return response()->json([
             'client' => ClientResource::collection($client),
+            'supplier' => ClientResource::collection($supplier),
             'staff' => AdminListResource::collection($staff),
             'currency' => CurrencyResource::collection($currency),
             'status' => Project::STATUS,
@@ -68,7 +70,11 @@ class ProjectController extends ProjectAccessController
         if(!$project->id) {
             $project = Project::newDefault();
         }
-        return $this->createOrUpdateCRUD($request, $project);
+        return $this->createOrUpdateCRUD($request, $project, null, function($model, $request, $isNew){
+            $admins = Admin::whereIn('id', $request->members)->get();
+            $supplier = Client::whereIn('id', $request->supplier)->hasType(Client::TYPE[1])->get();
+            $model->setPersonal($admins->merge($supplier));
+        });
     }
 
     public function delete(Project $project)
