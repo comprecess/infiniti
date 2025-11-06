@@ -7,6 +7,7 @@ import { Fields } from '../../../../features/Admin/CustomersPage/AddCustomer/Fie
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getCustomerInputsData } from '../../../../shared/utils/api/Admin/AddCustomer/get-customer-input-data'
 import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
+import { generateStorageKey } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const AdminAddCustomerPage = () => {
@@ -16,7 +17,7 @@ export const AdminAddCustomerPage = () => {
   const companyIdParam = urlParams.get('for-company')
   const companyId = companyIdParam !== null ? parseInt(companyIdParam) : null
 
-  const storageKey = 'createCustomerForm'
+  const storageKey = generateStorageKey('create_customer_form')
 
   const getInputsData = async () => {
     const response = await getCustomerInputsData()

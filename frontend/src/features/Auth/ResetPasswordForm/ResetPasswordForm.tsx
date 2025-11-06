@@ -18,9 +18,7 @@ export const ResetPasswordForm = () => {
   const showToast = useCustomToast()
   const location = useLocation()
 
-  const userType = location.pathname.includes('/resident/')
-    ? 'resident'
-    : 'client'
+  const userType = location.pathname.includes('/resident/') ? 'resident' : 'client'
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
     let response

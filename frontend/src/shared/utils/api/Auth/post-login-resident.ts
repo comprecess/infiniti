@@ -42,6 +42,7 @@ export const postLoginResident = async (login: string, password: string): Promis
       },
       body: JSON.stringify({ login, password }),
       signal: controller.signal,
+      redirectOnError: false,
     })
 
     clearTimeout(timeoutId)

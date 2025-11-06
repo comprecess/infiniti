@@ -15,6 +15,7 @@ import { getInvoiceInputData } from '../../../../shared/utils/api/Admin/Sales/Ne
 import { postCreateNewInvoice } from '../../../../shared/utils/api/Admin/Sales/NewInvoice/post-create-new-invoice'
 import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
 import { removeStorage } from '../../../../shared/utils/Saving/Storage/RemoveStorage'
+import { generateStorageKey } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const AdminNewInvoicePage = () => {
@@ -30,7 +31,7 @@ export const AdminNewInvoicePage = () => {
   const customerIdParam = urlParams.get('for-customer')
   const customerId = customerIdParam !== null ? parseInt(customerIdParam) : null
 
-  const storageKey = 'createInvoiceForm'
+  const storageKey = generateStorageKey('create_invoice_form')
 
   const getNewInvoiceInputData = async () => {
     const response = await getInvoiceInputData()

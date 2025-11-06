@@ -54,8 +54,6 @@ export const sanitizeMessage = (value: string): string => {
       'colspan',
       'data-sheets-root',
       'checked',
-      'value',
-      'name',
     ],
   })
 

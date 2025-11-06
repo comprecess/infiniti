@@ -4,10 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import styles from './AddTalentPage.module.scss'
 import { HeaderButtons } from './HeaderButtons/HeaderButtons'
-import {
-  TalentFormData,
-  TalentsInputData,
-} from '../../../../app/constants/constants'
+import { TalentFormData, TalentsInputData } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { Fields } from '../../../../features/Admin/TalentsPage/AddTalentPage/Fields/Fields'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
@@ -16,6 +13,7 @@ import { postCreateNewTalent } from '../../../../shared/utils/api/Admin/Talents/
 import { getTalentInputData } from '../../../../shared/utils/api/Admin/Talents/get-talent-input-data'
 import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
 import { removeStorage } from '../../../../shared/utils/Saving/Storage/RemoveStorage'
+import { generateStorageKey } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const AdminAddTalentPage = () => {
@@ -27,15 +25,14 @@ export const AdminAddTalentPage = () => {
   const showToast = useCustomToast()
   const navigate = useNavigate()
 
-  const storageKey = 'createTalentForm'
+  const storageKey = generateStorageKey('create_talent_form')
 
   const getInputData = async () => {
     const response = await getTalentInputData()
 
     if (!response.status) return
 
-    const { allSkills, industries, keySkills, ...otherData } =
-      response.data
+    const { allSkills, industries, keySkills, ...otherData } = response.data
 
     const updatedResponse = {
       allSkills: allSkills.map((skill: any) => ({
@@ -91,17 +88,11 @@ export const AdminAddTalentPage = () => {
             componentProps={{
               storageKey,
               isClearButton: loadStorage(storageKey) ? true : false,
-              titleButton: `${t(
-                'admin-talents-add-talent-page-button-1',
-              )}`,
+              titleButton: `${t('admin-talents-add-talent-page-button-1')}`,
               onClick: createNewTalent,
             }}
           >
-            <Fields
-              storageKey={storageKey}
-              inputData={inputData}
-              onFormDataChange={setFormData}
-            />
+            <Fields storageKey={storageKey} inputData={inputData} onFormDataChange={setFormData} />
           </RecentCard>
         ) : (
           <LoadingSpinner size='xl' />

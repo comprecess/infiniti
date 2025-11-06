@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 
@@ -12,100 +13,100 @@ import { Header } from '../Header/Header'
 import { Sidebar } from '../Sidebar/Sidebar'
 
 interface MainOutletProps {
-  roles?: {
-    [key: string]: RolesAccess
-  }
+  roles?: Record<string, RolesAccess>
 }
 
 const MemoizedHeader = memo(Header)
 
 export const MainOutlet = ({ roles }: MainOutletProps) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true)
-  const [isMobile, setIsMobile] = useState<boolean>(false)
-  const [isMiniSidebar, setIsMiniSidebar] = useState<boolean>(false)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const [isMobile, setIsMobile] = useState(false)
+  const [isMiniSidebar, setIsMiniSidebar] = useState(false)
+  const [isReady, setIsReady] = useState(false)
+  const [isSidebarLocked, setIsSidebarLocked] = useState(false)
+  const [surveyState, setSurveyState] = useState<{
+    isOpen: boolean
+    blocks: Block[]
+    localStorageKey: string
+    isBlur: boolean
+    onSubmit: ((answers: Record<number, string | string[]>) => void) | null
+  }>({
+        isOpen: false,
+        blocks: [],
+        isBlur: false,
+        onSubmit: null,
+        localStorageKey: '',
+      })
 
-  const [isReady, setIsReady] = useState<boolean>(false)
-  const [isSidebarLocked, setIsSidebarLocked] = useState<boolean>(false)
-
-  const [customSurveySubmit, setCustomSurveySubmit] = useState<
-  ((answers: Record<number, string | string[]>) => void) | null
-  >(null)
-  const [isSurveyOpen, setIsSurveyOpen] = useState<boolean>(false)
-  const [surveyBlocks, setSurveyBlocks] = useState<Block[]>([])
-
-  const sidebarHeight = 1452
-
+  const sidebarRef = useRef<HTMLDivElement | null>(null)
   const location = useLocation()
 
   const isAdmin = location.pathname.includes(Routes.adminPages)
   const sidebarPages = isAdmin ? adminSidebarPages : clientSidebarPages
 
-  const sidebarRef = useRef<HTMLDivElement | null>(null)
+  const toggleSidebar = useCallback(() => setIsSidebarOpen(prev => !prev), [])
+  const toggleMiniSidebar = useCallback(() => setIsMiniSidebar(prev => !prev), [])
 
-  const toggleSidebar = useCallback(() => {
-    setIsSidebarOpen(prevState => !prevState)
-  }, [])
-
-  const toggleMiniSidebar = useCallback(() => {
-    setIsMiniSidebar(prevState => !prevState)
-  }, [])
-
-  const openSurvey = (
-    questions: Block[],
-    onSubmit?: (answers: Record<number, string | string[]>) => void,
-  ) => {
-    setSurveyBlocks(questions)
-    setCustomSurveySubmit(() => onSubmit || null)
-    setIsSurveyOpen(true)
-  }
+  const openSurvey = useCallback(
+    (
+      blocks: Block[],
+      isBlur: boolean,
+      localStorageKey: string,
+      onSubmit?: (answers: Record<number, string | string[]>) => void,
+    ) => {
+      setSurveyState({
+        isOpen: true,
+        blocks,
+        isBlur,
+        localStorageKey,
+        onSubmit: onSubmit || null,
+      })
+    },
+    [],
+  )
 
   useEffect(() => {
     const handleResize = () => {
-      const isMobileView = window.innerWidth <= 1700
-
-      setIsMobile(isMobileView)
+      const mobile = window.innerWidth <= 1700
+      setIsMobile(mobile)
       setIsMiniSidebar(false)
-      setIsSidebarOpen(!isMobileView)
-
+      setIsSidebarOpen(!mobile)
       setIsReady(true)
     }
 
     handleResize()
-
     window.addEventListener('resize', handleResize)
 
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   useEffect(() => {
-    if (isSurveyOpen) {
+    if (surveyState.isOpen) {
       const scrollY = window.scrollY
-
-      document.body.style.position = 'fixed'
-      document.body.style.top = `-${scrollY}px`
-      document.body.style.left = '0'
-      document.body.style.right = '0'
+      Object.assign(document.body.style, {
+        position: 'fixed',
+        top: `-${scrollY}px`,
+        left: '0',
+        right: '0',
+      })
     } else {
       const scrollY = Math.abs(parseInt(document.body.style.top || '0', 10))
-
-      document.body.style.position = ''
-      document.body.style.top = ''
-      document.body.style.left = ''
-      document.body.style.right = ''
+      Object.assign(document.body.style, {
+        position: '',
+        top: '',
+        left: '',
+        right: '',
+      })
       window.scrollTo(0, scrollY)
     }
-  }, [isSurveyOpen])
+  }, [surveyState.isOpen])
 
   useEffect(() => {
-    if (isSidebarOpen && isMobile) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'auto'
-    }
+    document.body.style.overflow = isSidebarOpen && isMobile ? 'hidden' : 'auto'
   }, [isSidebarOpen, isMobile])
 
   return (
-    <div className={!isReady ? styles.wrapperLoading : styles.wrapper}>
+    <div className={clsx(!isReady ? styles.wrapperLoading : styles.wrapper)}>
       {!isReady ? (
         <div />
       ) : (
@@ -121,14 +122,13 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
             isLocked={isSidebarLocked}
             onClose={toggleSidebar}
           />
+
           <div
-            className={
-              isSidebarOpen
-                ? isMiniSidebar
-                  ? styles.headerMini
-                  : styles.headerStandard
-                : styles.headerFull
-            }
+            className={clsx({
+              [styles.headerFull]: !isSidebarOpen,
+              [styles.headerMini]: isSidebarOpen && isMiniSidebar,
+              [styles.headerStandard]: isSidebarOpen && !isMiniSidebar,
+            })}
           >
             <MemoizedHeader
               isSidebarLocked={isSidebarLocked}
@@ -139,35 +139,26 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
             />
           </div>
           <main
-            style={
-              isSidebarLocked
-                ? {
-                  minHeight: `${sidebarHeight}px`,
-                }
-                : {}
-            }
-            className={
-              isSidebarOpen
-                ? isMiniSidebar
-                  ? styles.mainMini
-                  : styles.mainStandard
-                : styles.mainFull
-            }
+            style={isSidebarLocked ? { minHeight: '1452px' } : undefined}
+            className={clsx({
+              [styles.mainFull]: !isSidebarOpen,
+              [styles.mainMini]: isSidebarOpen && isMiniSidebar,
+              [styles.mainStandard]: isSidebarOpen && !isMiniSidebar,
+            })}
           >
             <Outlet context={{ roles, openSurvey }} />
           </main>
         </div>
       )}
-      {isSurveyOpen && (
+      {surveyState.isOpen && (
         <Survey
-          isBlur
-          blocks={surveyBlocks}
-          onClose={() => setIsSurveyOpen(false)}
+          blocks={surveyState.blocks}
+          isBlur={surveyState.isBlur}
+          localStorageKey={surveyState.localStorageKey}
+          onClose={() => setSurveyState(prev => ({ ...prev, isOpen: false }))}
           onSubmit={answers => {
-            if (customSurveySubmit) {
-              customSurveySubmit(answers)
-            }
-            setIsSurveyOpen(false)
+            surveyState.onSubmit?.(answers)
+            setSurveyState(prev => ({ ...prev, isOpen: false }))
           }}
         />
       )}

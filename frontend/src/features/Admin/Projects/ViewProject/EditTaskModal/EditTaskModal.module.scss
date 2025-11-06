@@ -3,6 +3,8 @@
   flex-direction: column;
   gap: 38px;
   color: $white;
+
+  @include scrollbar;
 }
 
 .header {

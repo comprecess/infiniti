@@ -18,15 +18,14 @@ interface TaskItemProps {
   access?: RolesAccess
   task: ProjectsTasksData
   taskIdFromUrl?: string | null
+  filterStatus: string
   isSelected: boolean
   isDragging: boolean
   inputData?: ProjectsTasksInputData | null
   searchParams?: URLSearchParams
+  updateFilterStatus: (name: string) => void
   setSearchParams?: SetURLSearchParams
-  editSelectedTask: (
-    idTask: number,
-    form: Partial<ProjectsTasksFormData>,
-  ) => void
+  editSelectedTask: (idTask: number, form: Partial<ProjectsTasksFormData>) => void
   deleteSelectedTask: (idTask: number) => void
 }
 
@@ -34,10 +33,12 @@ export const TaskItem = ({
   access,
   inputData,
   taskIdFromUrl,
+  filterStatus,
   task,
   isSelected,
   isDragging,
   searchParams,
+  updateFilterStatus,
   setSearchParams,
   editSelectedTask,
   deleteSelectedTask,
@@ -47,17 +48,11 @@ export const TaskItem = ({
 
   const canDrag = access?.edit === 1
 
-  const {
-    attributes,
-    listeners,
-    transform,
-    transition,
-    setNodeRef,
-    setActivatorNodeRef,
-  } = useSortable({
-    id: task.id.toString(),
-    disabled: !canDrag,
-  })
+  const { attributes, listeners, transform, transition, setNodeRef, setActivatorNodeRef } =
+    useSortable({
+      id: task.id.toString(),
+      disabled: !canDrag,
+    })
 
   const { isMobile } = useDeviceDetect()
   const navigate = useNavigate()
@@ -71,7 +66,10 @@ export const TaskItem = ({
     if (!searchParams || !setSearchParams) return
 
     setIsViewed(false)
+
     searchParams.delete('task')
+    searchParams.delete('filter')
+
     setSearchParams(searchParams)
 
     const timer = setTimeout(() => {
@@ -83,15 +81,11 @@ export const TaskItem = ({
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation()
-    navigate(`?task=${task.id}`)
+    navigate(`?task=${task.id}&filter=Main`)
   }
 
   useEffect(() => {
-    if (
-      taskIdFromUrl &&
-      parseInt(taskIdFromUrl) === task.id &&
-      access?.view === 1
-    ) {
+    if (taskIdFromUrl && parseInt(taskIdFromUrl) === task.id && access?.view === 1) {
       setIsViewed(true)
     } else {
       setIsViewed(false)
@@ -104,9 +98,9 @@ export const TaskItem = ({
         ref={setNodeRef}
         style={style}
         {...(isMobile ? attributes : { ...attributes, ...listeners })}
-        className={`${
-          isSelected ? styles.wrapperSelected : styles.wrapper
-        } ${canDrag ? styles.grab : styles.default}`}
+        className={`${isSelected ? styles.wrapperSelected : styles.wrapper} ${
+          canDrag ? styles.grab : styles.default
+        }`}
         onClick={handleClick}
       >
         <div className={styles.header}>
@@ -119,15 +113,9 @@ export const TaskItem = ({
                 : '/profileWithoutAvatar.svg'
             }
           />
-          <span className={styles.account}>
-            {task.admin ? task.admin.account : '-'}
-          </span>
+          <span className={styles.account}>{task.admin ? task.admin.account : '-'}</span>
           {isMobile && (
-            <div
-              ref={setActivatorNodeRef}
-              className={styles.dragHandle}
-              {...listeners}
-            >
+            <div ref={setActivatorNodeRef} className={styles.dragHandle} {...listeners}>
               ⠿
             </div>
           )}
@@ -141,14 +129,19 @@ export const TaskItem = ({
         <ViewTaskModal
           access={access}
           task={task}
+          filterStatus={filterStatus}
           modalOpen={isViewed}
+          updateFilterStatus={updateFilterStatus}
           handleIsEditTask={handleSetIsEdited}
           deleteSelectedTask={deleteSelectedTask}
           handleOpenCloseModal={() => {
             if (!searchParams || !setSearchParams) return
 
             setIsViewed(false)
+
             searchParams.delete('task')
+            searchParams.delete('filter')
+
             setSearchParams(searchParams)
           }}
         />

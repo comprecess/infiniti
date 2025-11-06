@@ -1,21 +1,22 @@
 import { useState } from 'react'
 
+import { Tabs } from './Tabs/Tabs'
 import styles from './ViewTaskModal.module.scss'
-import {
-  ProjectsTasksData,
-  RolesAccess,
-} from '../../../../../app/constants/constants'
+import { ProjectsTasksData, RolesAccess } from '../../../../../app/constants/constants'
 import { CrossIcon } from '../../../../../shared/icons/CrossIcon'
 import { ConfirmationModal } from '../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomDivider } from '../../../../../shared/ui/CustomDivider/CustomDivider'
 import { CustomMiniButton } from '../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { CustomModalWindow } from '../../../../../shared/ui/CustomModalWindow/CustomModalWindow'
+import { Scrollable } from '../../../../../shared/ui/Scrollable/Scrollable'
 import { sanitizeMessage } from '../../../../../shared/utils/TextEditor/sanitizeMessage'
 
 interface ViewTaskModalProps {
   access?: RolesAccess
   modalOpen: boolean
   task: ProjectsTasksData
+  filterStatus: string
+  updateFilterStatus: (name: string) => void
   handleIsEditTask: () => void
   handleOpenCloseModal: () => void
   deleteSelectedTask: (idTask: number) => void
@@ -25,15 +26,15 @@ export const ViewTaskModal = ({
   access,
   modalOpen,
   task,
+  filterStatus,
+  updateFilterStatus,
   handleIsEditTask,
   handleOpenCloseModal,
   deleteSelectedTask,
 }: ViewTaskModalProps) => {
   const [confirmModal, setConfirmModal] = useState<boolean>(false)
 
-  const safeHTML = task.description
-    ? sanitizeMessage(task.description)
-    : null
+  const safeHTML = task.description ? sanitizeMessage(task.description) : null
 
   const handleSetConfirmModal = () => {
     setConfirmModal(prev => !prev)
@@ -47,11 +48,7 @@ export const ViewTaskModal = ({
 
   return (
     <>
-      <CustomModalWindow
-        maxWidth='700px'
-        isOpen={modalOpen}
-        onClose={handleOpenCloseModal}
-      >
+      <CustomModalWindow maxWidth='700px' isOpen={modalOpen} onClose={handleOpenCloseModal}>
         <div className={styles.wrapper}>
           <div className={styles.header}>
             <h4 className={styles.title}>{task.title}</h4>
@@ -59,8 +56,8 @@ export const ViewTaskModal = ({
               <CrossIcon />
             </div>
           </div>
+          <Tabs isActiveTab={filterStatus} setIsActiveTab={updateFilterStatus} />
           <div className={styles.content}>
-            <CustomDivider styles={styles.dividerTop} />
             {task.start && (
               <div className={styles.text}>
                 <span className={styles.textTitle}>Start Date:</span>
@@ -76,9 +73,7 @@ export const ViewTaskModal = ({
             {task.client && (
               <div className={styles.text}>
                 <span className={styles.textTitle}>Related Customer:</span>
-                <span className={styles.textValue}>
-                  {task.client.account}
-                </span>
+                <span className={styles.textValue}>{task.client.account}</span>
               </div>
             )}
             {safeHTML && (
@@ -86,14 +81,15 @@ export const ViewTaskModal = ({
                 <CustomDivider styles={styles.divider} />
                 <div className={styles.description}>
                   <span className={styles.textTitle}>Description:</span>
-                  <span
-                    dangerouslySetInnerHTML={{ __html: safeHTML }}
-                    className='dangerouslySetInnerHTML'
-                  />
+                  <Scrollable>
+                    <span
+                      dangerouslySetInnerHTML={{ __html: safeHTML }}
+                      className='dangerouslySetInnerHTML'
+                    />
+                  </Scrollable>
                 </div>
               </>
             )}
-            <CustomDivider styles={styles.divider} />
             <div className={styles.buttons}>
               {access?.edit === 1 && (
                 <CustomMiniButton
