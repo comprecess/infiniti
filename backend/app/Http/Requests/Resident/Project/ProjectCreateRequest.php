@@ -33,6 +33,8 @@ class ProjectCreateRequest extends FormRequest implements ConvertingPropertiesIn
             'type' => 'required|in:' . implode(',', Project::TYPE),
             'members' => 'nullable|array',
             'members.*' => 'required|integer|exists:sys_users,id',
+            'supplier' => 'nullable|array',
+            'supplier.*' => 'required|integer|exists:crm_accounts,id',
             'budget' => 'nullable|numeric',
             'description' => 'nullable',
 
