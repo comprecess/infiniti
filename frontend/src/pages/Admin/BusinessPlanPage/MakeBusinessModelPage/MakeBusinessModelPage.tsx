@@ -18,16 +18,16 @@ import { getAnalysisChatGPT } from '../../../../shared/utils/api/Admin/ChatGPT/g
 import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
 import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
 import { removeStorage } from '../../../../shared/utils/Saving/Storage/RemoveStorage'
+import { generateStorageKey } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const AdminMakeBusinessModelPage = () => {
-  const storageKey = 'createBusinessModelForm'
+  const storageKey = generateStorageKey('create_business_model_form')
 
   const [formData, setFormData] = useState<PartialFieldsPostData>(
     () => loadStorage<PartialFieldsPostData>(storageKey) || {},
   )
-  const [inputData, setInputData] =
-    useState<BusinessModelInputData | null>(null)
+  const [inputData, setInputData] = useState<BusinessModelInputData | null>(null)
 
   const { t } = useTranslation()
   const { chatGPTChangeForm, setChatGPTChangeForm } = useChatGPT()
@@ -67,9 +67,7 @@ export const AdminMakeBusinessModelPage = () => {
         status: 'success',
       })
       removeStorage(storageKey)
-      navigate(
-        `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.businessModels}`,
-      )
+      navigate(`/${Routes.adminPages}/${Routes.businessPlan}/${Routes.businessModels}`)
     } else {
       showToast({
         title: 'Error',
@@ -80,9 +78,7 @@ export const AdminMakeBusinessModelPage = () => {
   }
 
   const handleGetFormInfo = async () => {
-    const response = await getAnalysisChatGPT(
-      '?discussionModel=businessModel',
-    )
+    const response = await getAnalysisChatGPT('?discussionModel=businessModel')
 
     if (!response.status) return
 

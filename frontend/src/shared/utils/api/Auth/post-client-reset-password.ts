@@ -41,6 +41,7 @@ export const postClientResetPassword = async (email: string): Promise<Response> 
       },
       body: JSON.stringify({ email }),
       signal: controller.signal,
+      redirectOnError: false,
     })
 
     clearTimeout(timeoutId)

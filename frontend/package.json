@@ -1,7 +1,7 @@
 {
   "name": "infiniti",
   "private": true,
-  "version": "0.0.28-alpha.28jr",
+  "version": "0.0.30-alpha.30eg",
   "type": "module",
   "scripts": {
     "dev": "vite --force",
@@ -33,6 +33,7 @@
     "@types/react-dnd": "^3.0.2",
     "apexcharts": "^3.54.1",
     "classnames": "^2.5.1",
+    "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "dompurify": "^3.1.6",
     "eslint-plugin-import": "^2.29.1",

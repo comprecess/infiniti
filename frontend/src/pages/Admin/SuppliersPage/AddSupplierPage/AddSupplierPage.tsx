@@ -6,13 +6,14 @@ import { Fields } from '../../../../features/Admin/AddSupplierPage/Fields/Fields
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getCustomerInputsData } from '../../../../shared/utils/api/Admin/AddCustomer/get-customer-input-data'
 import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
+import { generateStorageKey } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 import { HeaderButtons } from '../../CustomersPage/AddCustomerPage/HeaderButtons/HeaderButtons'
 
 export const AdminAddSupplierPage = () => {
   const [data, setData] = useState<CustomerInputsData | null>(null)
 
-  const storageKey = 'createSupplierForm'
+  const storageKey = generateStorageKey('create_supplier_form')
 
   const getInputsData = async () => {
     const response = await getCustomerInputsData('/?type=Supplier')

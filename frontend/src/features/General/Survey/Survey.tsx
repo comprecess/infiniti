@@ -8,18 +8,29 @@ import { ChevronDownIcon } from '../../../shared/icons/ChevronDownIcon'
 import { LogoTextIcon } from '../../../shared/icons/LogoTextIcon'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { Logo } from '../../../shared/ui/Logo/Logo'
+import { loadStorage } from '../../../shared/utils/Saving/Storage/LoadStorage'
+import { saveStorage } from '../../../shared/utils/Saving/Storage/SaveStorage'
 
 interface SurveyProps {
   blocks: Block[]
+  localStorageKey: string
   isBlur?: boolean
   onClose: () => void
   onSubmit: (data: Record<number, string | string[]>) => void
 }
 
-export const Survey = ({ blocks, isBlur = false, onSubmit, onClose }: SurveyProps) => {
-  const [step, setStep] = useState(0)
+export const Survey = ({
+  blocks,
+  isBlur = false,
+  localStorageKey,
+  onSubmit,
+  onClose,
+}: SurveyProps) => {
+  const [answers, setAnswers] = useState<Record<number, string | string[]>>(
+    loadStorage<Record<number, string | string[]>>(localStorageKey) ?? {},
+  )
 
-  const [answers, setAnswers] = useState<Record<number, string | string[]>>({})
+  const [step, setStep] = useState(0)
 
   const { control, setValue } = useForm()
 
@@ -47,7 +58,13 @@ export const Survey = ({ blocks, isBlur = false, onSubmit, onClose }: SurveyProp
   const handlePrev = () => step > 0 && setStep(prev => prev - 1)
 
   const handleChange = (value: string | string[]) => {
-    setAnswers(prev => ({ ...prev, [currentQuestion.id]: value }))
+    setAnswers(prev => {
+      const updatedData = { ...prev, [currentQuestion.id]: value }
+
+      if (localStorageKey) saveStorage(localStorageKey, updatedData)
+
+      return updatedData
+    })
     setValue(currentQuestion.id.toString(), value)
   }
 

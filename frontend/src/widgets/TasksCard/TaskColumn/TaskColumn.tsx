@@ -15,7 +15,8 @@ import {
 interface TaskColumnProps {
   access: RolesAccess
   visibleCount: number
-  setVisibleCount: Dispatch<SetStateAction<number>>
+  filterStatus: string
+
   inputData: ProjectsTasksInputData
   taskIdFromUrl: string | null
   title: string
@@ -24,6 +25,8 @@ interface TaskColumnProps {
   activeTaskId?: string
   isDragging: boolean
   searchParams: URLSearchParams
+  setVisibleCount: Dispatch<SetStateAction<number>>
+  updateFilterStatus: (name: string) => void
   setSearchParams: SetURLSearchParams
   editSelectedTask: (idTask: number, form: Partial<ProjectsTasksFormData>) => void
   deleteSelectedTask: (idTask: number) => void
@@ -33,6 +36,7 @@ export const TaskColumn = ({
   access,
   visibleCount,
   inputData,
+  filterStatus,
   taskIdFromUrl,
   title,
   columnId,
@@ -40,6 +44,7 @@ export const TaskColumn = ({
   activeTaskId,
   isDragging,
   searchParams,
+  updateFilterStatus,
   setVisibleCount,
   setSearchParams,
   editSelectedTask,
@@ -81,12 +86,14 @@ export const TaskColumn = ({
                 >
                   <TaskItem
                     access={access}
+                    filterStatus={filterStatus}
                     taskIdFromUrl={taskIdFromUrl}
                     inputData={inputData}
                     task={task}
                     isSelected={isActive}
                     isDragging={isDragging}
                     searchParams={searchParams}
+                    updateFilterStatus={updateFilterStatus}
                     setSearchParams={setSearchParams}
                     deleteSelectedTask={deleteSelectedTask}
                     editSelectedTask={editSelectedTask}

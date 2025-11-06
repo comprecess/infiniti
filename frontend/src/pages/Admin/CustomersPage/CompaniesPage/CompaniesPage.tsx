@@ -3,11 +3,7 @@ import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import styles from './CompaniesPage.module.scss'
-import {
-  CompaniesListProps,
-  CompanyData,
-  RolesAccess,
-} from '../../../../app/constants/constants'
+import { CompaniesListProps, CompanyData, RolesAccess } from '../../../../app/constants/constants'
 import { ModalWindowCompany } from '../../../../features/Admin/CustomersPage/CompaniesPage/ModalWindowCompany/ModalWindowCompany'
 import { ModalWindowCompanyInfo } from '../../../../features/Admin/CustomersPage/CompaniesPage/ModalWindowCompanyInfo/ModalWindowCompanyInfo'
 import { RecentCompanies } from '../../../../features/Admin/CustomersPage/CompaniesPage/RecentCompanies/RecentCompanies'
@@ -24,22 +20,19 @@ import { putUpdateCompanyInfo } from '../../../../shared/utils/api/Admin/Compani
 import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
 import { removeStorage } from '../../../../shared/utils/Saving/Storage/RemoveStorage'
 import { saveStorage } from '../../../../shared/utils/Saving/Storage/SaveStorage'
+import { generateStorageKey } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const AdminCompaniesPage = () => {
-  const [filteredCompanies, setFilteredCompanies] = useState<
-  CompaniesListProps[] | null
-  >(null)
+  const [filteredCompanies, setFilteredCompanies] = useState<CompaniesListProps[] | null>(null)
 
-  const [selectedCompanyId, setSelectedCompanyId] = useState<
-  number | null
-  >(null)
+  const [selectedCompanyId, setSelectedCompanyId] = useState<number | null>(null)
 
   const [modalNewCompany, setModalNewCompany] = useState<boolean>(false)
   const [modalEditCompany, setModalEditCompany] = useState<boolean>(false)
   const [modalCompanyInfo, setModalCompanyInfo] = useState<boolean>(false)
 
-  const storageKey = 'createCompanyForm'
+  const storageKey = generateStorageKey('create_company_form')
 
   const [companyData, setCompanyData] = useState<CompanyData>(() => {
     const saved = loadStorage<CompanyData>(storageKey)
@@ -125,9 +118,7 @@ export const AdminCompaniesPage = () => {
   const reloadSearchFilter = () => {
     setFilteredCompanies(prevFilteredCompanies =>
       prevFilteredCompanies
-        ? prevFilteredCompanies.filter(
-          company => company.id !== selectedCompanyId,
-        )
+        ? prevFilteredCompanies.filter(company => company.id !== selectedCompanyId)
         : [],
     )
   }
@@ -167,12 +158,7 @@ export const AdminCompaniesPage = () => {
 
   const filterEmptyFields = (data: CompanyData): Partial<CompanyData> => {
     return Object.entries(data).reduce((acc, [key, value]) => {
-      if (
-        key !== 'id' &&
-        value !== '' &&
-        value !== false &&
-        value !== null
-      ) {
+      if (key !== 'id' && value !== '' && value !== false && value !== null) {
         acc[key as keyof CompanyData] = value
       }
 
@@ -198,10 +184,7 @@ export const AdminCompaniesPage = () => {
     }
   }
 
-  const loadCompanyInfoEdit = async (
-    id: number,
-    type: 'edit' | 'view',
-  ) => {
+  const loadCompanyInfoEdit = async (id: number, type: 'edit' | 'view') => {
     await loadCompanyInfo(id, type)
     setSelectedCompanyId(id)
     handleOpenCloseModalEditCompany()
@@ -258,10 +241,7 @@ export const AdminCompaniesPage = () => {
   const editSelectedCompany = async () => {
     if (selectedCompanyId === null) return
 
-    const editResponse = await putUpdateCompanyInfo(
-      selectedCompanyId,
-      companyData,
-    )
+    const editResponse = await putUpdateCompanyInfo(selectedCompanyId, companyData)
 
     if (editResponse.status) {
       showToast({
@@ -295,9 +275,7 @@ export const AdminCompaniesPage = () => {
             style={styles.recentFullScreen}
             HeaderComponent={SearchAndButtons}
             headerProps={{ searchChange: handleSearchChange }}
-            Component={
-              companiesData.access.create ? ButtonBlue : undefined
-            }
+            Component={companiesData.access.create ? ButtonBlue : undefined}
             componentProps={
               companiesData.access.create
                 ? {

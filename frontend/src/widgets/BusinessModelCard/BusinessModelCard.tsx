@@ -12,6 +12,7 @@ import { CustomMiniButton } from '../../shared/ui/CustomMiniButton/CustomMiniBut
 import { useCustomToast } from '../../shared/ui/CustomToast/CustomToast'
 import { StatusProfitability } from '../../shared/ui/StatusProfitability/StatusProfitability'
 import { postSubmitSurvey } from '../../shared/utils/api/Client/BusinessPlan/post-submit-survey'
+import { generateStorageKey } from '../../shared/utils/usefulMethods'
 import { Item } from '../TalentsCard/Body/Item/Item'
 
 interface BusinessModelCardProps {
@@ -63,6 +64,8 @@ export const BusinessModelCard = ({
   const { openSurvey } = useOutletContext<{
     openSurvey: (
       questions: Block[],
+      isBlur: boolean,
+      localStorageKey: string,
       onSubmit?: (answers: Record<number, string | string[]>) => void,
     ) => void
   }>()
@@ -185,7 +188,14 @@ export const BusinessModelCard = ({
                   <div className={styles.buttonsClient}>
                     <ButtonBlue
                       title='Convert to Plan'
-                      onClick={() => openSurvey(survey, handleSurveySubmit)}
+                      onClick={() =>
+                        openSurvey(
+                          survey,
+                          false,
+                          generateStorageKey(`business_plan-${id}`),
+                          handleSurveySubmit,
+                        )
+                      }
                     />
                     <ButtonBlue title='Details' onClick={() => onNavigate(id)} />
                   </div>

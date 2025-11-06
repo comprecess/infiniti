@@ -53,6 +53,7 @@ export const postRegisterUser = async (
         confirmationPassword,
       }),
       signal: controller.signal,
+      redirectOnError: false,
     })
 
     clearTimeout(timeoutId)

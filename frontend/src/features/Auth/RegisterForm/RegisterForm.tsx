@@ -22,17 +22,17 @@ export const RegisterForm = () => {
   const showToast = useCustomToast()
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
-    const registerResponse = await postRegisterUser(
+    const { status, message } = await postRegisterUser(
       data.userName,
       data.email,
       data.password,
       data.confirmPassword,
     )
 
-    if (registerResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
-        description: registerResponse.message,
+        description: message,
         status: 'success',
       })
 
@@ -40,7 +40,7 @@ export const RegisterForm = () => {
     } else {
       showToast({
         title: 'Error',
-        description: registerResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -83,9 +83,7 @@ export const RegisterForm = () => {
             register={register}
             validationRules={{
               required: true,
-              validate: value =>
-                value === watch('password') ||
-                'The passwords do not match',
+              validate: value => value === watch('password') || 'The passwords do not match',
             }}
           />
         </div>

@@ -65,9 +65,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   const fetchPushNotifications = useCallback(async () => {
     if (isMobile && !sessionToken && notificationToken.status) {
       try {
-        const response = await getDevicePush(
-          notificationToken.cookie || '',
-        )
+        const response = await getDevicePush(notificationToken.cookie || '')
 
         if (response.status) {
           setIsSubscribed(response.data.data.enabled === 1 ? true : false)
@@ -112,14 +110,8 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
       if (!notificationToken.status) {
         await subscribeOneSignal(`${os}, ${deviceModel}, ${browser}`)
       } else {
-        await postKeyPush(
-          notificationToken.cookie || '',
-          `${os}, ${deviceModel}, ${browser}`,
-        )
-        await patchSetDevicePush(
-          notificationToken.cookie || '',
-          isSubscribed === true ? 1 : 0,
-        )
+        await postKeyPush(notificationToken.cookie || '', `${os}, ${deviceModel}, ${browser}`)
+        await patchSetDevicePush(notificationToken.cookie || '', isSubscribed === true ? 1 : 0)
       }
 
       setTimeout(() => {
@@ -148,9 +140,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
         <div className={styles.wrapper} onClick={onToggle}>
           {profileData ? (
             <>
-              <span className={styles.name}>
-                {profileData.account ? profileData.account : '-'}
-              </span>
+              <span className={styles.name}>{profileData.account ? profileData.account : '-'}</span>
               <div className={styles.avatar}>
                 <img
                   alt='Profile Avatar'
@@ -197,8 +187,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
               alignItems: 'center',
               borderTopLeftRadius: 8,
               borderTopRightRadius: 8,
-              background:
-                'linear-gradient(to right, #838ced, #5965e7, #303fe1)',
+              background: 'linear-gradient(to right, #838ced, #5965e7, #303fe1)',
               borderBottom: 'none',
               padding: '18px 24px',
             }}
@@ -233,13 +222,9 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
               className={styles.modalItem}
               onClick={() => {
                 if (profileData.userType === 'Admin') {
-                  navigate(
-                    `/${Routes.adminPages}/${Routes.profile}/${Routes.settings}`,
-                  )
+                  navigate(`/${Routes.adminPages}/${Routes.profile}/${Routes.settings}`)
                 } else {
-                  navigate(
-                    `/${Routes.clientPages}/${Routes.settings}/${Routes.profile}`,
-                  )
+                  navigate(`/${Routes.clientPages}/${Routes.settings}/${Routes.profile}`)
                 }
                 onClose()
               }}
@@ -249,9 +234,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
             {isMobile && !sessionToken && (
               <div
                 className={`${styles.modalItem} ${styles.notifications}`}
-                onClick={() =>
-                  toggleNotificationSubscription(!isSubscribed)
-                }
+                onClick={() => toggleNotificationSubscription(!isSubscribed)}
               >
                 <span>Notifications</span>
                 {isLoading ? (
@@ -259,9 +242,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
                 ) : (
                   <span
                     className={
-                      isSubscribed === true
-                        ? styles.notificationsOn
-                        : styles.notificationsOff
+                      isSubscribed === true ? styles.notificationsOn : styles.notificationsOff
                     }
                   >
                     {isSubscribed === true ? 'On' : 'Off'}

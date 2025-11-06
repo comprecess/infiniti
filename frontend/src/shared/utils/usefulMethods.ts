@@ -2,6 +2,9 @@ import saveAs from 'file-saver'
 import { useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
 
+import { getSession } from './Saving/Session/GetSession'
+import { profileInfoString } from '../../app/constants/constants'
+
 export const useIdFromUrl = (word: string): number | null => {
   const location = useLocation()
 
@@ -84,4 +87,12 @@ export const getLocalDateTimeString = (): string => {
   const minutes = pad(now.getMinutes())
 
   return `${year}-${month}-${day} ${hours}:${minutes}`
+}
+
+export const generateStorageKey = (sectionPart: string): string => {
+  const profileData = getSession(profileInfoString)
+
+  const userPart = `user-${profileData.id}`
+
+  return `infiniti-[${userPart}]-[${sectionPart}]`
 }

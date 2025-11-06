@@ -12,10 +12,11 @@ import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { postCreateNewBusinessPlan } from '../../../../shared/utils/api/Admin/BusinessPlan/post-create-new-business-plan'
 import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
 import { removeStorage } from '../../../../shared/utils/Saving/Storage/RemoveStorage'
+import { generateStorageKey } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const AdminMakeBusinessPlanPage = () => {
-  const storageKey = 'createBusinessPlanForm'
+  const storageKey = generateStorageKey('create_business_plan_form')
 
   const [formData, setFormData] = useState<PartialFieldsPostData>(
     () => loadStorage<PartialFieldsPostData>(storageKey) || {},
@@ -36,9 +37,7 @@ export const AdminMakeBusinessPlanPage = () => {
         status: 'success',
       })
       removeStorage(storageKey)
-      navigate(
-        `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.businessPlans}`,
-      )
+      navigate(`/${Routes.adminPages}/${Routes.businessPlan}/${Routes.businessPlans}`)
     } else {
       showToast({
         title: 'Error',
@@ -67,11 +66,7 @@ export const AdminMakeBusinessPlanPage = () => {
             onClick: handleCreateNewBusinessPlan,
           }}
         >
-          <Fields
-            formData={formData}
-            setFormData={setFormData}
-            storageKey={storageKey}
-          />
+          <Fields formData={formData} setFormData={setFormData} storageKey={storageKey} />
         </RecentCard>
       </section>
     </div>

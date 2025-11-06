@@ -52,8 +52,19 @@ export const TasksCard = ({
 
   const [searchParams, setSearchParams] = useSearchParams()
 
+  const filterStatus = searchParams.get('filter') || 'Main'
   const taskIdFromUrl = searchParams.get('task')
   const containerRef = useRef<HTMLDivElement>(null)
+
+  const updateQueryParam = (key: string, value: string | number) => {
+    const newParams = new URLSearchParams(location.search)
+
+    newParams.set(key, String(value))
+
+    setSearchParams(newParams, { replace: true })
+  }
+
+  const updateFilterStatus = (newStatus: string) => updateQueryParam('filter', newStatus)
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -165,8 +176,8 @@ export const TasksCard = ({
           >
             <TaskColumn
               access={access}
+              filterStatus={filterStatus}
               visibleCount={visibleCount}
-              setVisibleCount={setVisibleCount}
               taskIdFromUrl={taskIdFromUrl}
               inputData={inputData}
               isDragging={!!activeTask}
@@ -174,8 +185,10 @@ export const TasksCard = ({
               title={status}
               tasks={tasks}
               searchParams={searchParams}
-              setSearchParams={setSearchParams}
               activeTaskId={activeTask?.task.id.toString()}
+              setSearchParams={setSearchParams}
+              updateFilterStatus={updateFilterStatus}
+              setVisibleCount={setVisibleCount}
               editSelectedTask={editSelectedTask}
               deleteSelectedTask={deleteSelectedTask}
             />
@@ -187,6 +200,8 @@ export const TasksCard = ({
           <TaskItem
             isSelected
             isDragging
+            filterStatus=''
+            updateFilterStatus={updateFilterStatus}
             task={activeTask.task}
             editSelectedTask={() => {}}
             deleteSelectedTask={() => {}}

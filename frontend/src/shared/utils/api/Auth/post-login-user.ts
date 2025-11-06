@@ -43,6 +43,7 @@ export const postLoginUser = async (login: string, password: string): Promise<Re
       },
       body: JSON.stringify({ login, password }),
       signal: controller.signal,
+      redirectOnError: false,
     })
 
     clearTimeout(timeoutId)

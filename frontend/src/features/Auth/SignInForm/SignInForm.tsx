@@ -26,26 +26,22 @@ export const SignInForm = ({ resident }: SignInFormProps) => {
   const showToast = useCustomToast()
 
   const onSubmit: SubmitHandler<FormFields> = async data => {
-    const loginResponse = await (resident
+    const { status, message } = await (resident
       ? postLoginResident(data.email, data.password)
       : postLoginUser(data.email, data.password))
 
-    if (loginResponse.status) {
+    if (status) {
       showToast({
         title: 'Successfully',
-        description: loginResponse.message,
+        description: message,
         status: 'success',
       })
 
-      navigate(
-        `/${resident ? Routes.adminPages : Routes.clientPages}/${
-          Routes.dashboard
-        }`,
-      )
+      navigate(`/${resident ? Routes.adminPages : Routes.clientPages}/${Routes.dashboard}`)
     } else {
       showToast({
         title: 'Error',
-        description: loginResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -53,13 +49,9 @@ export const SignInForm = ({ resident }: SignInFormProps) => {
 
   const handleNavigateResetPassword = () => {
     if (resident) {
-      navigate(
-        `/${Routes.auth}/${Routes.reset}/${Routes.resident}/${Routes.password}`,
-      )
+      navigate(`/${Routes.auth}/${Routes.reset}/${Routes.resident}/${Routes.password}`)
     } else {
-      navigate(
-        `/${Routes.auth}/${Routes.reset}/${Routes.clientPages}/${Routes.password}`,
-      )
+      navigate(`/${Routes.auth}/${Routes.reset}/${Routes.clientPages}/${Routes.password}`)
     }
   }
 

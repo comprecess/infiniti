@@ -15,6 +15,7 @@ import { getOfferInputData } from '../../../../shared/utils/api/Admin/Sales/NewO
 import { postCreateNewOffer } from '../../../../shared/utils/api/Admin/Sales/NewOffer/post-create-new-offer'
 import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
 import { removeStorage } from '../../../../shared/utils/Saving/Storage/RemoveStorage'
+import { generateStorageKey } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const AdminNewOfferPage = () => {
@@ -28,7 +29,7 @@ export const AdminNewOfferPage = () => {
   const customerIdParam = urlParams.get('for-customer')
   const customerId = customerIdParam !== null ? parseInt(customerIdParam) : null
 
-  const storageKey = 'createOfferForm'
+  const storageKey = generateStorageKey('create_offer_form')
 
   const getNewOfferInputData = async () => {
     const response = await getOfferInputData()

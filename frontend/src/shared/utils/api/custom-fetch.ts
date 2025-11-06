@@ -5,13 +5,21 @@ export interface CustomFetchOptions extends RequestInit {
   headers?: HeadersInit
   queryParams?: Record<string, string | number | boolean>
   responseType?: 'json' | 'blob' | 'text'
+  redirectOnError?: boolean
 }
 
 export const customFetch = async <T = any>(
   url: string,
   options: CustomFetchOptions = {},
 ): Promise<T> => {
-  const { headers = {}, queryParams, body, responseType = 'json', ...restOptions } = options
+  const {
+    headers = {},
+    queryParams,
+    body,
+    responseType = 'json',
+    redirectOnError = true,
+    ...restOptions
+  } = options
 
   let fullUrl = url
 
@@ -37,12 +45,14 @@ export const customFetch = async <T = any>(
       },
     })
 
-    if (response.status === 403) {
-      navigateTo('/403')
-    } else if (response.status === 404) {
-      navigateTo('/404')
-    } else if (response.status === 500) {
-      navigateTo('/500')
+    if (redirectOnError) {
+      if (response.status === 403) {
+        navigateTo('/403')
+      } else if (response.status === 404) {
+        navigateTo('/404')
+      } else if (response.status === 500) {
+        navigateTo('/500')
+      }
     }
 
     switch (responseType) {
@@ -56,7 +66,9 @@ export const customFetch = async <T = any>(
     }
   } catch (error) {
     console.error('Fetch error:', error)
-    navigateTo('/404')
+    if (redirectOnError) {
+      navigateTo('/404')
+    }
     throw error
   }
 }
