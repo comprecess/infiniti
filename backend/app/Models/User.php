@@ -9,11 +9,13 @@ use App\Models\Resident\Project\Calendar;
 use App\Models\Traits\AuthPasswordTrait;
 use App\Models\Traits\FileStorageTrait;
 use App\Models\Users\Admin;
+use App\Models\Users\Client;
 use App\Models\Users\Interfaces\LoginIntarface;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -24,6 +26,11 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable, AuthPasswordTrait, FileStorageTrait;
 
     protected $authHours = 168;
+
+    const USER_TYPE = [
+        'Client' => Client::class,
+        'Admin' => Admin::class,
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -181,6 +188,17 @@ class User extends Authenticatable
         }
 
         return $this->account;
+    }
+
+    public static function getUserType(int $id, string $type)
+    {
+        $typeClass = Arr::get(self::USER_TYPE, $type);
+        if($typeClass === null){
+            return null;
+        }
+
+        return $typeClass::find($id);
+
     }
 
 

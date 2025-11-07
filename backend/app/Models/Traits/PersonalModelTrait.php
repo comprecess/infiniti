@@ -10,6 +10,7 @@ use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use App\Support\Collection;
 use Illuminate\Database\Eloquent\Collection as CollectionModel;
+use Illuminate\Support\Collection as CollectionSupport;
 use Illuminate\Database\UniqueConstraintViolationException;
 
 trait PersonalModelTrait
@@ -29,7 +30,7 @@ trait PersonalModelTrait
         return $this->personals()->where('user_type', Client::class);
     }
 
-    public function setPersonal(Collection|CollectionModel|User $users, array $data = null)
+    public function setPersonal(Collection|CollectionModel|CollectionSupport|User $users, array $data = null)
     {
         if($users instanceof User){
             $users = collect([$users]);

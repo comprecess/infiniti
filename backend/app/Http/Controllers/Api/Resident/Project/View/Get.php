@@ -18,6 +18,7 @@ use App\Http\Resources\Resident\Project\ProjectListResource;
 use App\Http\Resources\Resident\Project\View\TaskGanttChartResource;
 use App\Http\Resources\Resident\Project\View\TaskResource;
 use App\Http\Resources\Resident\Transactions\TransactionsListResource;
+use App\Http\Resources\UserResource;
 use App\Models\Resident\Project\Task;
 use App\Models\Resident\Transactions\Transaction;
 use App\Models\Users\Client;
@@ -56,10 +57,11 @@ class Get extends View
 
     public function tasksInputData()
     {
-        $client = Client::with(['files', 'companyClient', 'group'])->get();
+//        $client = Client::with(['files', 'companyClient', 'group'])->get();
 
         return response()->json([
-            'client' => ClientResource::collection($client),
+//            'client' => ClientResource::collection($client),
+            'users' => UserResource::collection($this->getProjectUser()),
             'status' => Task::getStatusColumn()
         ]);
     }

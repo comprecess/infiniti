@@ -58,4 +58,27 @@ abstract class View
 
         return null;
     }
+
+    protected function getProjectUser()
+    {
+        $users = collect([]);
+        foreach([$this->model->client, $this->model->admin, $this->model->manager] as $u) {
+            if($u) {
+                $users->push($u);
+            }
+        }
+
+        foreach($this->model->personals as $personal)
+        {
+            if($personal) {
+                $users->push($personal->user);
+            }
+        }
+
+        $users = $users->unique(function($item){
+            return $item::class . "_" . $item->id;
+        });
+
+        return $users;
+    }
 }

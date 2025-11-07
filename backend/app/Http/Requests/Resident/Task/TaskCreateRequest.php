@@ -7,9 +7,11 @@ use App\Http\Requests\Interfaces\ModelInterface;
 use App\Http\Requests\Traits\ConvertingPropertiesTrait;
 use App\Http\Requests\Traits\ModelTrait;
 use App\Models\Resident\Project;
-use App\Models\Users\Client;
-use App\Models\Users\Admin;
+use App\Models\User;
+//use App\Models\Users\Client;
+//use App\Models\Users\Admin;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
 
 class TaskCreateRequest extends FormRequest implements ConvertingPropertiesInterface, ModelInterface
 {
@@ -29,10 +31,13 @@ class TaskCreateRequest extends FormRequest implements ConvertingPropertiesInter
             'startDate' => 'nullable|date_format:Y-m-d',
             'dueDate' => 'nullable|date_format:Y-m-d',
             'description' => 'nullable',
+            'users' => 'required|array',
+            'users.*.userType' => "required|in:Client,Admin",
+            'users.*.id' => "required|integer",
         ];
 
         $this->setRule($rules)
-            ->applyModel('client')
+//            ->applyModel('client')
             ->applyModel('project');
 //            ->applyModel('owner');
 
@@ -44,7 +49,7 @@ class TaskCreateRequest extends FormRequest implements ConvertingPropertiesInter
     {
         return [
             'title',
-            'client' => 'cid',
+//            'client' => 'cid',
             'startDate' => 'started',
             'dueDate' => 'due_date',
             'description',
@@ -57,7 +62,7 @@ class TaskCreateRequest extends FormRequest implements ConvertingPropertiesInter
     public function getListPropertiesModel(): array
     {
         return [
-            'client' => Client::class,
+//            'client' => Client::class,
             'project' => Project::class,
 //            'owner' => Admin::class
         ];
@@ -66,5 +71,19 @@ class TaskCreateRequest extends FormRequest implements ConvertingPropertiesInter
     public function setData(array $data)
     {
         $this->merge($data);
+    }
+
+    public function getUsers()
+    {
+        $collect = collect([]);
+        foreach($this->users as $user){
+            $userClass = User::getUserType($user['id'], $user['userType']);
+            if(!$userClass) {
+                throw ValidationException::withMessages(['users' => "Users not found"]);
+            }
+            $collect->push($userClass);
+        }
+
+        return $collect;
     }
 }
