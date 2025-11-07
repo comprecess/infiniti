@@ -11,6 +11,7 @@ use App\Http\Requests\Resident\DocumentFileRequest;
 use App\Http\Resources\Resident\DocumentResource;
 use App\Models\Resident\Document;
 use App\Models\User;
+use App\Models\Users\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -119,7 +120,7 @@ class DocumentController extends ResidentController
         return $this->deleteCRUD($document);
     }
 
-    public function load($token)
+    public function load(Request $request, $token)
     {
         $document = Document::where('file_dl_token', $token)->orderBy('id', 'desc')->first();
         $file_storage = $document?->files()?->first();
@@ -129,7 +130,16 @@ class DocumentController extends ResidentController
         }
 
         $userController = new UserController();
+        $fileUser = true;
 
+        if($request->token){
+            $user = Client::where('api_token', $request->token)->first();
+            foreach($document->clients as $client) {
+                if($client->id == $user?->id) {
+                    $fileUser = false;
+                }
+            }
+        }
 
         if(!$document->is_global && !$userController->getUserModel(false)) {
             abort(403);

@@ -5,6 +5,7 @@ namespace App\Models\Resident\Project;
 use App\Http\Requests\Traits\TimeZoneTrait;
 use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Traits\InsertDefaultValueTrait;
+use App\Models\Traits\PersonalModelTrait;
 use App\Models\Traits\UserTrait;
 use App\Models\User;
 use Illuminate\Support\Collection;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Cache;
 
 class Task extends Model implements InsertDefaultValueInterface
 {
-    use HasFactory, UserTrait, InsertDefaultValueTrait, SoftDeletes, TimeZoneTrait;
+    use HasFactory, UserTrait, InsertDefaultValueTrait, SoftDeletes, TimeZoneTrait, PersonalModelTrait;
 
     const STATUS = ['Not Started', 'In Progress', 'Completed', 'Deferred', 'Waiting', 'Archived'];
     const STATUS_COMPLETED = [self::STATUS[2], self::STATUS[5]];

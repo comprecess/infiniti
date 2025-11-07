@@ -9,6 +9,7 @@ use App\Http\Requests\Resident\Task\TaskCreateRequest;
 use App\Http\Requests\Resident\Task\TaskUpdateStatusRequest;
 use App\Models\Resident\Project\Task;
 use App\Models\User;
+use App\Models\Users\Admin;
 
 class TaskController extends TaskAccessController
 {
@@ -26,12 +27,16 @@ class TaskController extends TaskAccessController
         return $this->createOrUpdateCRUD($request, $task, function($model, $request, $isNew){
             if($isNew) {
                 $admin = User::getAuth();
-                $model->aid = $admin->id;
+                if($admin instanceof Admin) {
+                    $model->aid = $admin->id;
+                }
             }
             $date = now();
             $model->pid = $model->pid?->id ?? $model->pid;
             $model->started = $request->startDate ?? $date->format('Y-m-d');
             $model->due_date = $request->dueDate ?? null;
+        }, function($model, $request, $isNew){
+            $model->setPersonal($request->getUsers());
         });
     }
 
