@@ -41,6 +41,10 @@ class Task extends Model implements InsertDefaultValueInterface
         return $this->belongsTo(Ticket::class, 'tid');
     }
 */
+    public function times()
+    {
+        return $this->belongsToMany(TaskTime::class, 'task_id');
+    }
 
     public function getDefault(): array
     {

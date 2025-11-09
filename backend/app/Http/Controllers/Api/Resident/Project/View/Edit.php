@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Calendar\CalendarCreateRequest;
 use App\Http\Requests\Resident\DocumentFileCreateRequest;
 use App\Http\Requests\Resident\Invoices\InvoiceRequest;
+use App\Http\Requests\Resident\Project\View\AddTimeRequest;
 use App\Http\Requests\Resident\Project\View\GanttChartRequest;
 use App\Http\Requests\Resident\Task\TaskCreateRequest;
 use App\Http\Requests\Resident\Task\TaskUpdateStatusRequest;
@@ -20,8 +21,12 @@ use App\Models\Resident\Document;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Project\Calendar;
 use App\Models\Resident\Project\Task;
+use App\Models\Resident\Project\TaskTime;
 use App\Models\Resident\Transactions\Transaction;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 
 class Edit extends View
@@ -36,10 +41,18 @@ class Edit extends View
         return $document->createOrUpdate(new Document(), $request);
     }
 
+    private function getTask($id)
+    {
+        return $id ? $this->model->tasks()->where('id', $id)->firstOrFail() : null;
+    }
+
     public function tasks()
     {
-        $id = $this->urlToMethod(true);
-        $task = $id ? $this->model->tasks()->where('id', $id)->firstOrFail() : null;
+        $id = $this->urlToMethodInt();
+        if(!is_int($id)) {
+            return $id;
+        }
+        $task = $this->getTask($id);
 
         $controller = new TaskController();
         $method = strtolower($this->request->method());
@@ -52,6 +65,31 @@ class Edit extends View
             $request = app(TaskUpdateStatusRequest::class);
             $request->merge(['pid' => $this->model->id]);
             return $controller->updateStatus($task, $request);
+        }
+    }
+
+    public function tasksTimes($integer)
+    {
+        $method = $this->request->getMethod();
+        $task = $this->getTask(Arr::get($integer, 0));
+        $request = app(AddTimeRequest::class);
+        $time = null;
+
+        if(in_array($method, ['POST', 'PUT'])) {
+            $time = new TaskTime();
+            $time->setUser(User::getAuth());
+            $time->project_id = $this->model->id;
+            $time->task_id = $task->id;
+        }elseif ($method == 'PATCH') {
+            $time = $task->time()->where('id', Arr::get($integer, 1))->where('project_id', $this->model->id)->firstOrFail();
+        }
+
+        if($time !== null) {
+            $time->setTime($request->getTime());
+            $time->description = $request->description;
+            $time->save();
+
+            return response()->json(['success' => true, 'id' => $time->id]);
         }
     }
 
