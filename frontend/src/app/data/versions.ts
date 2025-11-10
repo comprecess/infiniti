@@ -7,7 +7,7 @@ export interface VersionInfo {
 
 export const versions: VersionInfo[] = [
   {
-    version: '0.0.31-alpha.31jp',
+    version: '0.0.32-alpha.32sq',
     description: `
             <ul>
               <li>Изменен функционал проектов, добавлены новые поля</li>
