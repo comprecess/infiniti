@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Client\Document\DocumentResource;
 use App\Http\Resources\Resident\Invoices\InvoiceListResource;
 use App\Http\Resources\Resident\Invoices\OfferListResource;
 use App\Http\Resources\Resident\Orders\OrderListClientResource;
@@ -27,9 +28,10 @@ class DashboardController extends Controller
             'talent' => Talent::active()->count()
         ];
 
-        $invoices = $user->invoices()->with(['getCurrencyIso', 'user', 'user.companyClient','user.group'])->orderByDesc('id')->limit(10)->get();
-        $offers = $user->offers()->with(['getCurrencyIso', 'user', 'user.companyClient','user.group'])->orderByDesc('id')->limit(10)->get();
-        $order = $user->orders()->with(['getCurrencyIso'])->orderByDesc('id')->limit(10)->get();
+        $invoices = $user->invoices()->with(['getCurrencyIso', 'user', 'user.companyClient','user.group'])->orderByDesc('id')->limit(5)->get();
+        $offers = $user->offers()->with(['getCurrencyIso', 'user', 'user.companyClient','user.group'])->orderByDesc('id')->limit(5)->get();
+        $order = $user->orders()->with(['getCurrencyIso'])->orderByDesc('id')->limit(5)->get();
+        $documents = $user->documents()->orderByDesc('id')->limit(5)->get();
 
         $hideExpense = Config::get('hide_expense_client');
         if($hideExpense) {
@@ -37,7 +39,7 @@ class DashboardController extends Controller
         }else{
             $transactionQuery = $user->transaction();
         }
-        $transactions = $transactionQuery->orderByDesc('id')->limit(10)->get();
+        $transactions = $transactionQuery->orderByDesc('id')->limit(5)->get();
 
         $graph = [];
         $currency = $user->getCurrencyIso;
@@ -76,7 +78,8 @@ class DashboardController extends Controller
             'offer' => OfferListResource::collection($offers),
             'transaction' => TransactionsListResource::collection($transactions),
             'quantity' => $quantity,
-            'graph' => $graph
+            'graph' => $graph,
+            '$document' => DocumentResource::collection($documents),
         ]);
     }
 
