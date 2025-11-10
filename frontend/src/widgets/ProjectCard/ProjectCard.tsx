@@ -14,15 +14,10 @@ interface ProjectCardProps {
   deleteProject: (id: number) => void
 }
 
-export const ProjectCard = ({
-  project,
-  access,
-  deleteProject,
-}: ProjectCardProps) => {
+export const ProjectCard = ({ project, access, deleteProject }: ProjectCardProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
 
-  const isMiniButtons =
-    access.view === 1 || access.edit === 1 || access.delete === 1
+  const isMiniButtons = access.view === 1 || access.edit === 1 || access.delete === 1
 
   const navigate = useNavigate()
 
@@ -55,27 +50,23 @@ export const ProjectCard = ({
               alt='Avatar'
               className={styles.avatar}
               src={
-                project.admin.img !== ''
-                  ? `${project.admin.img}?width=176&height=176`
+                project.users.admin.img !== ''
+                  ? `${project.users.admin.img}?width=176&height=176`
                   : '/profileWithoutAvatar.svg'
               }
             />
-            <span className={styles.name}>{project.admin.account}</span>
+            <span className={styles.name}>{project.users.admin.account}</span>
           </div>
           <div className={styles.container}>
-            {project.budget && (
-              <div className={styles.budget}>
-                {`Budget: ${project.budget.format}`}
-              </div>
-            )}
-            {project.expense && (
-              <div className={styles.budget}>
-                {`Expense: ${project.expense.format}`}
-              </div>
-            )}
-            {project.summary && (
-              <div className={styles.description}>{project.summary}</div>
-            )}
+            <div>
+              {project.budget && (
+                <div className={styles.budget}>{`Budget: ${project.budget.format}`}</div>
+              )}
+              {project.expense && (
+                <div className={styles.budget}>{`Expense: ${project.expense.format}`}</div>
+              )}
+            </div>
+            {project.summary && <div className={styles.description}>{project.summary}</div>}
           </div>
           {(project.startDate || project.dueDate) && (
             <div className={styles.dateList}>
@@ -99,9 +90,7 @@ export const ProjectCard = ({
                       <span className={styles.dateText}>Start Date</span>
                     </div>
                     <div>
-                      <span className={styles.startDate}>
-                        {project.startDate}
-                      </span>
+                      <span className={styles.startDate}>{project.startDate}</span>
                     </div>
                   </div>
                 </div>
@@ -117,24 +106,18 @@ export const ProjectCard = ({
                         gap: '4px',
                       }}
                     >
-                      <img
-                        src='/icons/calendar.svg'
-                        alt='calendar'
-                        className={styles.dateImgDue}
-                      />
+                      <img src='/icons/calendar.svg' alt='calendar' className={styles.dateImgDue} />
                       <span className={styles.dateText}>Due Date</span>
                     </div>
-                    <span className={styles.startDate}>
-                      {project.dueDate}
-                    </span>
+                    <span className={styles.startDate}>{project.dueDate}</span>
                   </div>
                 </div>
               )}
             </div>
           )}
-          {project.members && project.members.length > 0 && (
+          {project.users.staff.length > 0 && (
             <div className={styles.profiles}>
-              {project.members.map(member => (
+              {project.users.staff.map(member => (
                 <img
                   key={member.id}
                   alt='Avatar'
@@ -178,9 +161,7 @@ export const ProjectCard = ({
 
                   return (
                     <>
-                      <span className={styles.amount}>
-                        {`${percentSpent}% budget spent`}
-                      </span>
+                      <span className={styles.amount}>{`${percentSpent}% budget spent`}</span>
                       <span className={styles.amount}>
                         {`${project.expense.format} / ${project.budget.format}`}
                       </span>

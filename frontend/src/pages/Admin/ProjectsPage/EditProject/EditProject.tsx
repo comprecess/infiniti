@@ -3,10 +3,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import styles from './EditProject.module.scss'
-import {
-  ProjectsInputData,
-  ProjectsNewProjectForm,
-} from '../../../../app/constants/constants'
+import { ProjectsInputData, ProjectsNewProjectForm } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { Fields } from '../../../../features/Admin/Projects/EditProject/Fields/Fields'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -19,12 +16,8 @@ import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const AdminEditProject = () => {
-  const [form, setForm] = useState<Partial<ProjectsNewProjectForm> | null>(
-    null,
-  )
-  const [inputData, setInputData] = useState<ProjectsInputData | null>(
-    null,
-  )
+  const [form, setForm] = useState<Partial<ProjectsNewProjectForm> | null>(null)
+  const [inputData, setInputData] = useState<ProjectsInputData | null>(null)
 
   const id = useIdFromUrl('project')
   const navigate = useNavigate()
@@ -45,27 +38,22 @@ export const AdminEditProject = () => {
 
     if (response.status === false) return
 
-    const {
-      id: _,
-      client,
-      owner,
-      members,
-      staff,
-      currency,
-      ...rest
-    } = response.data.data
+    const { id: _, users, currency, ...rest } = response.data.data
 
     const form: Record<string, any> = {
       ...rest,
     }
 
     if (currency?.id) form.currency = currency.id
-    if (client?.id) form.client = client.id
-    if (owner?.id) form.owner = owner.id
-    if (staff?.id) form.staff = staff.id
+    if (users.client) form.client = users.client.id
+    if (users.manager) form.manager = users.manager.id
+    if (users.admin) form.owner = users.admin.id
 
-    if (Array.isArray(members) && members.length > 0) {
-      form.members = members.map(member => member.id)
+    if (Array.isArray(users.staff) && users.staff.length > 0) {
+      form.members = users.staff.map((member: { id: any }) => member.id)
+    }
+    if (Array.isArray(users.suppliers) && users.suppliers.length > 0) {
+      form.suppliers = users.suppliers.map((supplier: { id: any }) => supplier.id)
     }
 
     setForm(form)

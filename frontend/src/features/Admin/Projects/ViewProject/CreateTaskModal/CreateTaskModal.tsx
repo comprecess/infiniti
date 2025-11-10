@@ -10,7 +10,7 @@ import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomModalWindow } from '../../../../../shared/ui/CustomModalWindow/CustomModalWindow'
-import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
+import { TagSelector } from '../../../../../shared/ui/TagSelector/TagSelector'
 import { TextEditor } from '../../../../../shared/ui/TextEditor/TextEditor'
 
 interface CreateTaskModalProps {
@@ -30,12 +30,8 @@ export const CreateTaskModal = ({
 
   const handleChangeInput = (
     field: string,
-    value: string | number | string[] | undefined | null,
+    value: string | number | string[] | { userType: string; id: number }[] | undefined | null,
   ) => {
-    if (field === 'client' && typeof value === 'number' && value === 0) {
-      value = null
-    }
-
     setForm(prevFormData => ({
       ...prevFormData,
       [field]: value,
@@ -43,11 +39,7 @@ export const CreateTaskModal = ({
   }
 
   return (
-    <CustomModalWindow
-      maxWidth='700px'
-      isOpen={modalOpen}
-      onClose={handleOpenCloseModal}
-    >
+    <CustomModalWindow maxWidth='700px' isOpen={modalOpen} onClose={handleOpenCloseModal}>
       <div className={styles.wrapper}>
         <div className={styles.header}>
           <h4 className={styles.title}>New Task</h4>
@@ -75,25 +67,27 @@ export const CreateTaskModal = ({
               onChange={handleChangeInput}
             />
           </div>
-          <CustomSelect
-            title='Related Customer'
-            titleOnChange='client'
-            placeholder='Not Selected'
-            idList={inputData.client.map(client => client.id)}
-            nameList={inputData.client.map(item =>
-              item.email !== ''
-                ? `${item.account} - ${item.email}`
-                : `${item.account}`,
-            )}
-            onChange={handleChangeInput}
+          <TagSelector
+            title='Users'
+            list={inputData.users.map(item => item.account)}
+            selectedTags={[]}
+            onTagsChange={tags => {
+              const formattedUsers = tags.map(tag => {
+                const user = inputData.users.find(u => u.account === tag)
+
+                return {
+                  userType: user?.userType ?? 'Client',
+                  id: user?.id ?? 0,
+                }
+              })
+              handleChangeInput('users', formattedUsers)
+            }}
           />
           <div className={styles.containerItems}>
             <span className={styles.containerItemsTitle}>Description</span>
             <TextEditor
               fieldName='description'
-              setValue={message =>
-                handleChangeInput('description', message)
-              }
+              setValue={message => handleChangeInput('description', message)}
             />
           </div>
         </div>

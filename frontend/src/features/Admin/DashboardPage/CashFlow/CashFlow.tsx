@@ -68,7 +68,11 @@ export const CashFlow = ({ data, roles }: CashFlowProps) => {
           />
         </div>
         <div className={styles.chart}>
-          <NetWorth amount={data.newWorth} />
+          <NetWorth
+            amount={data.newWorth}
+            firstTitle='admin-dashboard-page-chart-legend-1'
+            secondTitle='admin-dashboard-page-chart-legend-2'
+          />
           <BarChart
             data={data.graph}
             namesKeys={[

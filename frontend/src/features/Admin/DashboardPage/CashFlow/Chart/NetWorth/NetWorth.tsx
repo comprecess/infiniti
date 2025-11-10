@@ -5,28 +5,22 @@ import { ChartLegend } from '../../../../../../shared/ui/ChartLegend/ChartLegend
 
 interface NetWorthProps {
   amount: string
+  firstTitle: string
+  secondTitle: string
 }
 
-export const NetWorth = ({ amount }: NetWorthProps) => {
+export const NetWorth = ({ amount, firstTitle, secondTitle }: NetWorthProps) => {
   const { t } = useTranslation()
 
   return (
     <div className={styles.wrapper}>
       <div>
         <h3 className={styles.title}>{amount}</h3>
-        <span className={styles.name}>
-          {t('admin-dashboard-page-chart-title')}
-        </span>
+        <span className={styles.name}>{t('admin-dashboard-page-chart-title')}</span>
       </div>
       <div className={styles.legends}>
-        <ChartLegend
-          title={t('admin-dashboard-page-chart-legend-1')}
-          color={styles.expensesColor}
-        />
-        <ChartLegend
-          title={t('admin-dashboard-page-chart-legend-2')}
-          color={styles.incomeColor}
-        />
+        <ChartLegend title={t(secondTitle)} color={styles.incomeColor} />
+        <ChartLegend title={t(firstTitle)} color={styles.expensesColor} />
       </div>
     </div>
   )

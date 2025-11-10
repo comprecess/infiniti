@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import styles from './CreateNewProject.module.scss'
-import {
-  ProjectsInputData,
-  ProjectsNewProjectForm,
-} from '../../../../app/constants/constants'
+import { ProjectsInputData, ProjectsNewProjectForm } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { Fields } from '../../../../features/Admin/Projects/CreateNewProject/Fields/Fields'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -17,9 +14,7 @@ import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const AdminCreateNewProject = () => {
   const [form, setForm] = useState<Partial<ProjectsNewProjectForm>>({})
-  const [inputData, setInputData] = useState<ProjectsInputData | null>(
-    null,
-  )
+  const [inputData, setInputData] = useState<ProjectsInputData | null>(null)
 
   const navigate = useNavigate()
   const showToast = useCustomToast()

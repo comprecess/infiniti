@@ -1505,11 +1505,12 @@ export interface AccountingTransactionsForm {
 }
 
 export interface ProjectsInputData {
-  client: { id: number; account: string }[]
-  staff: { id: number; account: string }[]
   currency: { id: number; code: string }[]
   status: string[]
   type: string[]
+  client: { id: number; account: string }[]
+  supplier: { id: number; account: string }[]
+  staff: { id: number; account: string }[]
 }
 
 export interface ProjectsNewProjectForm {
@@ -1525,8 +1526,9 @@ export interface ProjectsNewProjectForm {
   members: number[]
   owner: number
   currency: number
-  staff: number
+  manager: number
   client: number
+  suppliers: number[]
 }
 
 export interface ProjectsData {
@@ -1541,10 +1543,13 @@ export interface ProjectsData {
     value: number
     format: string
   }
-  admin: { account: string; img: string }
+  users: {
+    admin: { account: string; img: string }
+    staff: { id: number; img: string }[]
+    suppliers: { id: number; img: string }[]
+  }
   status: string
   summary: string
-  members?: { id: number; img: string }[]
   completed?: { completed: number; percent: number; total: number }
   startDate: string
   dueDate: string
@@ -1576,7 +1581,7 @@ export interface ProjectsColumnData {
 export interface ProjectsTasksData {
   id: number
   admin: { id: number; account: string; img: string }
-  client: { id: number; account: string; img: string }
+  users: { id: number; account: string }[]
   created: string
   description: string
   dueDate: string
@@ -1588,7 +1593,7 @@ export interface ProjectsTasksData {
 
 export interface ProjectsTasksInputData {
   status: { id: number; title: string; sort: number }[]
-  client: { id: number; account: string; email: string }[]
+  users: { id: number; account: string; email: string; userType: string }[]
 }
 
 export interface ProjectsTasksFormData {
@@ -1596,7 +1601,7 @@ export interface ProjectsTasksFormData {
   startDate: string
   dueDate: string
   description: string
-  client: string
+  users: { id: number; userType: string }[]
 }
 
 export interface ProjectsGanttChartData {
