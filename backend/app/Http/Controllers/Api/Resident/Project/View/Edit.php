@@ -76,6 +76,7 @@ class Edit extends View
         $time = null;
 
         if(in_array($method, ['POST', 'PUT'])) {
+
             $time = new TaskTime();
             $time->setUser(User::getAuth());
             $time->project_id = $this->model->id;

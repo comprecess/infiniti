@@ -16,7 +16,7 @@ class TaskTime extends Model
     protected $table = 'sys_tasks_time';
 
     protected $casts = [
-        'timeDate' => 'time',
+        'timeDate' => 'datetime:H:i',
     ];
 
     public function project()
