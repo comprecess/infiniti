@@ -31,7 +31,14 @@ class ProjectItemResource extends JsonResource
             'description' => $this->description,
             'startDate' => $this->start_date?->format($format),
             'dueDate' => $this->due_date?->format($format),
-            'members' => UserResource::collection($this->getMembers())
+//            'members' => UserResource::collection($this->getMembers())
+            'users' => [
+                'admin' => new UserResource($this->admin),
+                'manager' => new UserResource($this->manager ?? $this->admin),
+                'client' => new UserResource($this->client),
+                'suppliers' => UserResource::collection($this->personalClients->pluck('user')),
+                'staff' => UserResource::collection($this->personalAdmins->pluck('user')),
+            ]
         ];
 
         return $resource;
