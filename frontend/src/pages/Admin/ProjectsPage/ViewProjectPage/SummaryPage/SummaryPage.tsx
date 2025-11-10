@@ -10,7 +10,7 @@ export const AdminProjectsSummaryPage = () => {
   const context = useOutletContext<ProjectViewPageContext>()
 
   const projectInfo = context?.projectInfo || {}
-  const members = projectInfo.members || []
+  const members = projectInfo.users.staff || []
   const completed = projectInfo.completed || {
     percent: 0,
     completed: 0,
@@ -20,9 +20,7 @@ export const AdminProjectsSummaryPage = () => {
   const isMembers = members.length > 0
   const isTasks = completed.total > 0
 
-  const safeDetails = projectInfo.details
-    ? sanitizeMessage(projectInfo.details)
-    : null
+  const safeDetails = projectInfo.details ? sanitizeMessage(projectInfo.details) : null
 
   useEffect(() => {
     document.title = 'infiniti | Project Summary'
@@ -32,25 +30,19 @@ export const AdminProjectsSummaryPage = () => {
     <div className={styles.wrapper}>
       <RecentCard>
         <div className={styles.container}>
-          <span className={styles.title}>
-            {projectInfo.name || 'No project name'}
-          </span>
+          <span className={styles.title}>{projectInfo.name || 'No project name'}</span>
           {(projectInfo.budget || projectInfo.expense) && (
             <div className={styles.budgetExpense}>
               {projectInfo.budget && (
                 <div className={styles.budget}>
                   <span className={styles.budgetTitle}>Budget:</span>
-                  <span className={styles.budgetAmount}>
-                    {projectInfo.budget.format}
-                  </span>
+                  <span className={styles.budgetAmount}>{projectInfo.budget.format}</span>
                 </div>
               )}
               {projectInfo.expense && (
                 <div className={styles.budget}>
                   <span className={styles.budgetTitle}>Expense:</span>
-                  <span className={styles.budgetAmount}>
-                    {projectInfo.expense.format}
-                  </span>
+                  <span className={styles.budgetAmount}>{projectInfo.expense.format}</span>
                 </div>
               )}
             </div>
@@ -77,9 +69,7 @@ export const AdminProjectsSummaryPage = () => {
                       />
                       <span className={styles.dateText}>Start Date</span>
                     </div>
-                    <span className={styles.startDate}>
-                      {projectInfo.startDate || 'Not set'}
-                    </span>
+                    <span className={styles.startDate}>{projectInfo.startDate || 'Not set'}</span>
                   </div>
                 </div>
               )}
@@ -94,9 +84,7 @@ export const AdminProjectsSummaryPage = () => {
                       />
                       <span className={styles.dateText}>Due Date</span>
                     </div>
-                    <span className={styles.startDate}>
-                      {projectInfo.dueDate || 'Not set'}
-                    </span>
+                    <span className={styles.startDate}>{projectInfo.dueDate || 'Not set'}</span>
                   </div>
                 </div>
               )}
@@ -125,9 +113,7 @@ export const AdminProjectsSummaryPage = () => {
             <div className={styles.tasks}>
               <div className={styles.chart}>
                 <div className={styles.chartTexts}>
-                  <span className={styles.amount}>
-                    {`${completed.percent}% tasks completed`}
-                  </span>
+                  <span className={styles.amount}>{`${completed.percent}% tasks completed`}</span>
                   <span className={styles.amount}>
                     {`${completed.completed} / ${completed.total}`}
                   </span>
@@ -149,16 +135,12 @@ export const AdminProjectsSummaryPage = () => {
                 <div className={styles.chartTexts}>
                   {(() => {
                     const percentSpent = Math.round(
-                      (projectInfo.expense.value /
-                        projectInfo.budget.value) *
-                        100,
+                      (projectInfo.expense.value / projectInfo.budget.value) * 100,
                     )
 
                     return (
                       <>
-                        <span className={styles.amount}>
-                          {`${percentSpent}% budget spent`}
-                        </span>
+                        <span className={styles.amount}>{`${percentSpent}% budget spent`}</span>
                         <span className={styles.amount}>
                           {`${projectInfo.expense.format} / ${projectInfo.budget.format}`}
                         </span>
@@ -171,9 +153,7 @@ export const AdminProjectsSummaryPage = () => {
                     className={styles.segmentBudget}
                     style={{
                       width: `${Math.min(
-                        (projectInfo.expense.value /
-                          projectInfo.budget.value) *
-                          100,
+                        (projectInfo.expense.value / projectInfo.budget.value) * 100,
                         100,
                       )}%`,
                     }}

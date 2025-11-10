@@ -55,10 +55,12 @@ export const AdminViewProjectPage = () => {
   const handleTouchEnd = () => {
     if (touchStartX !== null && touchEndX !== null) {
       const deltaX = touchEndX - touchStartX
+
       if (deltaX < -50) {
         setIsOpenSideBar(false)
       }
     }
+
     setTouchStartX(null)
     setTouchEndX(null)
   }
