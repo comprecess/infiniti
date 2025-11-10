@@ -106,9 +106,12 @@ abstract class View
                 $users->push($personal->user);
             }
         }
-
-        $users = $users->unique(function($item){
-            return $item::class . "_" . $item->id;
+        $users = $users->filter(function($value){
+            return !empty($value);
+        })->unique(function($item){
+            if($item) {
+                return $item::class . "_" . $item->id;
+            }
         });
 
         return $users;

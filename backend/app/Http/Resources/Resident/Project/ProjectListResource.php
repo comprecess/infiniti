@@ -35,8 +35,8 @@ class ProjectListResource extends JsonResource
                 'admin' => new UserResource($this->admin),
                 'manager' => new UserResource($this->manager ?? $this->admin),
                 'client' => new UserResource($this->client),
-                'suppliers' => UserResource::collection($this->personalClients->pluck('user')),
-                'staff' => UserResource::collection($this->personalAdmins->pluck('user')),
+                'suppliers' => UserResource::collection($this->personalClients->where('user', '!=', null)->pluck('user')),
+                'staff' => UserResource::collection($this->personalAdmins->where('user', '!=', null)->pluck('user')),
             ]
 
         ];

@@ -20,9 +20,9 @@ class ProjectItemResource extends JsonResource
         $resource = [
             'id' => $this->id,
             'name' => $this->name,
-            'owner' => new UserResource($this->admin),
-            'staff' => new UserResource($this->manager),
-            'client' => new UserResource($this->client),
+//            'owner' => new UserResource($this->admin),
+//            'staff' => new UserResource($this->manager),
+//            'client' => new UserResource($this->client),
             'type' => $this->billing_type,
             'status' => $this->status,
             'summary' => $this->summary,
@@ -36,8 +36,8 @@ class ProjectItemResource extends JsonResource
                 'admin' => new UserResource($this->admin),
                 'manager' => new UserResource($this->manager ?? $this->admin),
                 'client' => new UserResource($this->client),
-                'suppliers' => UserResource::collection($this->personalClients->pluck('user')),
-                'staff' => UserResource::collection($this->personalAdmins->pluck('user')),
+                'suppliers' => UserResource::collection($this->personalClients->where('user', '!=', null)->pluck('user')),
+                'staff' => UserResource::collection($this->personalAdmins->where('user', '!=', null)->pluck('user')),
             ]
         ];
 
