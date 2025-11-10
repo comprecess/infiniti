@@ -43,7 +43,7 @@ class Task extends Model implements InsertDefaultValueInterface
 */
     public function times()
     {
-        return $this->belongsToMany(TaskTime::class, 'task_id');
+        return $this->hasMany(TaskTime::class, 'task_id');
     }
 
     public function getDefault(): array

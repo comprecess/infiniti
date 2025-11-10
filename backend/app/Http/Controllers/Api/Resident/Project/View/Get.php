@@ -17,11 +17,13 @@ use App\Http\Resources\Resident\Invoices\InvoiceListResource;
 use App\Http\Resources\Resident\Project\ProjectListResource;
 use App\Http\Resources\Resident\Project\View\TaskGanttChartResource;
 use App\Http\Resources\Resident\Project\View\TaskResource;
+use App\Http\Resources\Resident\Project\View\TaskTimeResource;
 use App\Http\Resources\Resident\Transactions\TransactionsListResource;
 use App\Http\Resources\UserResource;
 use App\Models\Resident\Project\Task;
 use App\Models\Resident\Transactions\Transaction;
 use App\Models\Users\Client;
+use Illuminate\Support\Arr;
 
 class Get extends View
 {
@@ -32,10 +34,17 @@ class Get extends View
         return new ProjectListResource($this->model);
     }
 
+    private function getTask($id)
+    {
+        return $id ? $this->model->tasks()->where('id', $id)->firstOrFail() : null;
+    }
+
     public function tasks()
     {
-        if($result = $this->urlToMethod()) {
-            return $result;
+        $id = $this->urlToMethodInt();
+
+        if(!is_int($id) && $id) {
+            return $id;
         }
 
         $tasks = $this->model->tasks()
@@ -64,6 +73,14 @@ class Get extends View
             'users' => UserResource::collection($this->getProjectUser()),
             'status' => Task::getStatusColumn()
         ]);
+    }
+
+    public function tasksTimes($integer)
+    {
+        $task = $this->getTask(Arr::get($integer, 0));
+        $times = $task->times()->with(['user', 'user.files'])->where('project_id', $this->model->id)->get();
+
+        return TaskTimeResource::collection($times);
     }
 
     public function files()
