@@ -94,9 +94,14 @@ class ProjectController extends ProjectAccessController
             $project = Project::newDefault();
         }
         return $this->createOrUpdateCRUD($request, $project, null, function($model, $request, $isNew){
-            $admins = Admin::whereIn('id', $request->members)->get();
-            $supplier = Client::whereIn('id', $request->supplier)->hasType(Client::TYPE[1])->get();
-            $model->setPersonal($admins->merge($supplier));
+            $collect = collect([]);
+            if($request->members) {
+                $collect =  $collect->merge(Admin::whereIn('id', $request->members)->get());
+            }
+            if($request->suppliers) {
+                $collect = $collect->merge(Client::whereIn('id', $request->suppliers)->hasType(Client::TYPE[1])->get());
+            }
+            $model->setPersonal($collect);
         });
     }
 
