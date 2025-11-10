@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import styles from './DashboardPage.module.scss'
 import {
   AccountingTransactionsData,
+  ClientDocumentsData,
   ClientOfferData,
   DashboardRecentInvoicesData,
   OrdersViewCompany,
@@ -12,11 +13,12 @@ import {
 import { Routes } from '../../../app/router/routes'
 import { AddFundModal } from '../../../features/Admin/CustomersPage/ViewPage/Pages/SummaryPage/AddFundModal/AddFundModal'
 import { BigCard } from '../../../features/Admin/DashboardPage/CashFlow/BigCard/BigCard'
+import { NetWorth } from '../../../features/Admin/DashboardPage/CashFlow/Chart/NetWorth/NetWorth'
+import { RecentDocuments } from '../../../features/Client/DashboardPage/RecentDocuments/RecentDocuments'
 import { RecentInvoices } from '../../../features/Client/DashboardPage/RecentInvoices/RecentInvoices'
 import { RecentOffers } from '../../../features/Client/DashboardPage/RecentOffers/RecentOffers'
 import { RecentOrders } from '../../../features/Client/DashboardPage/RecentOrders/RecentOrders'
 import { RecentTransactions } from '../../../features/Client/DashboardPage/RecentTransactions/RecentTransactions'
-import { ChartLegend } from '../../../shared/ui/ChartLegend/ChartLegend'
 import { BarChart, DataJson } from '../../../shared/ui/DashboardChart/BarChart'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { Scrollable } from '../../../shared/ui/Scrollable/Scrollable'
@@ -39,6 +41,7 @@ export const ClientDashboardPage = () => {
       talent: number
     }
     graph: DataJson
+    document: ClientDocumentsData[]
   } | null>(null)
   const [profileData, setProfileData] = useState<UserInfo | null>(null)
 
@@ -97,7 +100,6 @@ export const ClientDashboardPage = () => {
                       title='Talents'
                       icon='/icons/user.svg'
                       amount={data.quantity.talent.toString()}
-                      style={styles.bigCard}
                       onClick={() =>
                         navigate(
                           `/${Routes.clientPages}/${Routes.talents}?page=1&sort%5Bname%5D=priceDay&sort%5Btype%5D=asc`,
@@ -108,14 +110,12 @@ export const ClientDashboardPage = () => {
                       title='Projects'
                       icon='/icons/elements.svg'
                       amount={data.quantity.project.toString()}
-                      style={styles.bigCard}
                       onClick={() => navigate(`/${Routes.clientPages}/${Routes.projects}`)}
                     />
                     <BigCard
                       title='Business Plans'
                       icon='/icons/userPlusPurple.svg'
                       amount={data.quantity.businessPlan.toString()}
-                      style={styles.bigCard}
                       onClick={() =>
                         navigate(
                           `/${Routes.clientPages}/${Routes.businessPlan}/${Routes.businessPlans}`,
@@ -126,7 +126,6 @@ export const ClientDashboardPage = () => {
                       title='Business Models'
                       icon='/icons/userPlusPurple.svg'
                       amount={data.quantity.businessModel.toString()}
-                      style={styles.bigCard}
                       onClick={() =>
                         navigate(
                           `/${Routes.clientPages}/${Routes.businessPlan}/${Routes.businessModels}?page=1`,
@@ -138,10 +137,11 @@ export const ClientDashboardPage = () => {
                 <RecentCard title='Paid/Unpaid Invoices'>
                   <Scrollable>
                     <div className={styles.chart}>
-                      <div className={styles.legends}>
-                        <ChartLegend title='Paid' color={styles.paidColor} />
-                        <ChartLegend title='Unpaid' color={styles.unpaidColor} />
-                      </div>
+                      <NetWorth
+                        amount='$ 14,497.51'
+                        firstTitle='admin-dashboard-page-bar-chart-legend-4'
+                        secondTitle='admin-dashboard-page-bar-chart-legend-3'
+                      />
                       <BarChart
                         data={data.graph}
                         namesKeys={[
@@ -153,6 +153,11 @@ export const ClientDashboardPage = () => {
                   </Scrollable>
                 </RecentCard>
               </div>
+            </section>
+            <section className={styles.section}>
+              <RecentCard title='Recent Documents' style={styles.recentFullScreen}>
+                <RecentDocuments documents={data.document} />
+              </RecentCard>
             </section>
             <section className={styles.section}>
               <RecentCard title='Recent Orders' style={styles.recentFullScreen}>

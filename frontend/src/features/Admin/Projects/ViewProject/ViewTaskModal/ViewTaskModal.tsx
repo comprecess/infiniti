@@ -57,60 +57,66 @@ export const ViewTaskModal = ({
             </div>
           </div>
           <Tabs isActiveTab={filterStatus} setIsActiveTab={updateFilterStatus} />
-          <div className={styles.content}>
-            {task.start && (
-              <div className={styles.text}>
-                <span className={styles.textTitle}>Start Date:</span>
-                <span className={styles.textValue}>{task.start}</span>
-              </div>
-            )}
-            {task.dueDate && (
-              <div className={styles.text}>
-                <span className={styles.textTitle}>Due Date:</span>
-                <span className={styles.textValue}>{task.end}</span>
-              </div>
-            )}
-            {task.client && (
-              <div className={styles.text}>
-                <span className={styles.textTitle}>Related Customer:</span>
-                <span className={styles.textValue}>{task.client.account}</span>
-              </div>
-            )}
-            {safeHTML && (
-              <>
-                <CustomDivider styles={styles.divider} />
-                <div className={styles.description}>
-                  <span className={styles.textTitle}>Description:</span>
-                  <Scrollable>
-                    <span
-                      dangerouslySetInnerHTML={{ __html: safeHTML }}
-                      className='dangerouslySetInnerHTML'
-                    />
-                  </Scrollable>
+          {filterStatus === 'Main' && (
+            <div className={styles.content}>
+              {task.start && (
+                <div className={styles.text}>
+                  <span className={styles.textTitle}>Start Date:</span>
+                  <span className={styles.textValue}>{task.start}</span>
                 </div>
-              </>
-            )}
-            <div className={styles.buttons}>
-              {access?.edit === 1 && (
-                <CustomMiniButton
-                  style='amber'
-                  icon='/icons/edit.svg'
-                  alt='Edit'
-                  tooltipTitle='Edit'
-                  onClick={handleIsEditTask}
-                />
               )}
-              {access?.delete === 1 && (
-                <CustomMiniButton
-                  style='cherry'
-                  icon='/icons/trash.svg'
-                  alt='Delete'
-                  tooltipTitle='Delete'
-                  onClick={handleSetConfirmModal}
-                />
+              {task.dueDate && (
+                <div className={styles.text}>
+                  <span className={styles.textTitle}>Due Date:</span>
+                  <span className={styles.textValue}>{task.end}</span>
+                </div>
               )}
+              {task.users && (
+                <div className={styles.text}>
+                  <span className={styles.textTitle}>Users:</span>
+                  <span className={styles.textValue}>
+                    {task.users.map(u => u.account).join(', ')}
+                  </span>
+                </div>
+              )}
+              {safeHTML && (
+                <>
+                  <CustomDivider styles={styles.divider} />
+                  <div className={styles.description}>
+                    <span className={styles.textTitle}>Description:</span>
+                    <Scrollable>
+                      <span
+                        dangerouslySetInnerHTML={{ __html: safeHTML }}
+                        className='dangerouslySetInnerHTML'
+                      />
+                    </Scrollable>
+                  </div>
+                </>
+              )}
+              <div className={styles.buttons}>
+                {access?.edit === 1 && (
+                  <CustomMiniButton
+                    style='amber'
+                    icon='/icons/edit.svg'
+                    alt='Edit'
+                    tooltipTitle='Edit'
+                    onClick={handleIsEditTask}
+                  />
+                )}
+                {access?.delete === 1 && (
+                  <CustomMiniButton
+                    style='cherry'
+                    icon='/icons/trash.svg'
+                    alt='Delete'
+                    tooltipTitle='Delete'
+                    onClick={handleSetConfirmModal}
+                  />
+                )}
+              </div>
             </div>
-          </div>
+          )}
+          {filterStatus === 'Time Spent' && <div>Time Spent</div>}
+          {filterStatus === 'Logs' && <div>Logs</div>}
         </div>
       </CustomModalWindow>
       {confirmModal && (

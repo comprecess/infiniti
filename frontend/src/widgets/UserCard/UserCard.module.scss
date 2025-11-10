@@ -6,7 +6,7 @@
   height: 100%;
 
   @include mobileBreakpoint('min', $bpL) {
-    max-width: 528px;
+    max-width: 376px;
   }
 
   @include mobileBreakpoint('max', $custom-bpXL) {

@@ -23,12 +23,9 @@ import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import { TasksCard } from '../../../../../widgets/TasksCard/TasksCard'
 
 export const AdminProjectsTasksPage = () => {
-  const [tasksList, setTasksList] = useState<ProjectsColumnData | null>(
-    null,
-  )
+  const [tasksList, setTasksList] = useState<ProjectsColumnData | null>(null)
   const [access, setAccess] = useState<RolesAccess | null>(null)
-  const [inputData, setInputData] =
-    useState<ProjectsTasksInputData | null>(null)
+  const [inputData, setInputData] = useState<ProjectsTasksInputData | null>(null)
 
   const [isCreated, setIsCreated] = useState<boolean>(false)
 
@@ -60,10 +57,7 @@ export const AdminProjectsTasksPage = () => {
   const createNewTask = async (form: Partial<ProjectsTasksFormData>) => {
     if (!context.idProject) return
 
-    const { status, message } = await postCreateNewTask(
-      context.idProject,
-      form,
-    )
+    const { status, message } = await postCreateNewTask(context.idProject, form)
 
     if (status) {
       showToast({
@@ -81,17 +75,10 @@ export const AdminProjectsTasksPage = () => {
     }
   }
 
-  const editTask = async (
-    idTask: number,
-    form: Partial<ProjectsTasksFormData>,
-  ) => {
+  const editTask = async (idTask: number, form: Partial<ProjectsTasksFormData>) => {
     if (!context.idProject) return
 
-    const { status, message } = await patchProjectEditTask(
-      context.idProject,
-      idTask,
-      form,
-    )
+    const { status, message } = await patchProjectEditTask(context.idProject, idTask, form)
 
     if (status) {
       showToast({
@@ -112,10 +99,7 @@ export const AdminProjectsTasksPage = () => {
   const deleteSelectedTask = async (idTask: number) => {
     if (!context.idProject) return
 
-    const { status, message } = await deleteProjectTask(
-      context.idProject,
-      idTask,
-    )
+    const { status, message } = await deleteProjectTask(context.idProject, idTask)
 
     if (status) {
       showToast({
@@ -133,11 +117,7 @@ export const AdminProjectsTasksPage = () => {
     }
   }
 
-  const updateTaskPosition = async (
-    taskId: number,
-    newIndex: number,
-    columnTitle: string,
-  ) => {
+  const updateTaskPosition = async (taskId: number, newIndex: number, columnTitle: string) => {
     if (!context.idProject) return
 
     const { status, message } = await patchUpdateTaskPosition(

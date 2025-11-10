@@ -29,7 +29,7 @@ export const UserCard = ({ profileData, handleOpenCloseAddFund }: UserCardProps)
           </div>
         </div>
         <CurrentBalance currentBalance={profileData.balance} />
-        <ButtonBlue title='Add Fund' onClick={handleOpenCloseAddFund} />
+        <ButtonBlue title='Add Fund' variant='outline' onClick={handleOpenCloseAddFund} />
         {/* <PersonInfo
           personalNumber={profileData.phone}
           email={profileData.email}

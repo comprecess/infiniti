@@ -1,14 +1,17 @@
 import styles from './Item.module.scss'
 import { ClientDocumentsData } from '../../../../app/constants/constants'
 import { TypeFiles } from '../../../../shared/ui/TypeFiles/TypeFiles'
+import { getAuthToken } from '../../../../shared/utils/api/get-auth-token'
 
 interface ItemProps {
   data: ClientDocumentsData
 }
 
 export const Item = ({ data }: ItemProps) => {
+  const authToken = getAuthToken()
+
   const handleDownloadFile = async () => {
-    const response = await fetch(data.link)
+    const response = await fetch(`${data.link}?token=${authToken}`)
 
     if (response.ok) {
       const blob = await response.blob()

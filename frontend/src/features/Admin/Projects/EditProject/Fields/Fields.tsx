@@ -2,10 +2,7 @@ import { Textarea } from '@chakra-ui/react'
 import { ChangeEvent, Dispatch, SetStateAction } from 'react'
 
 import styles from './Fields.module.scss'
-import {
-  ProjectsInputData,
-  ProjectsNewProjectForm,
-} from '../../../../../app/constants/constants'
+import { ProjectsInputData, ProjectsNewProjectForm } from '../../../../../app/constants/constants'
 import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
@@ -27,30 +24,24 @@ export const Fields = ({ inputData, form, setForm }: FieldsProps) => {
       value = inputData.type[value]
     } else if (field === 'status' && typeof value === 'number') {
       value = inputData.status[value]
-    } else if (
-      field === 'client' &&
-      typeof value === 'number' &&
-      value === 0
-    ) {
+    } else if (field === 'client' && typeof value === 'number' && value === 0) {
       value = null
-    } else if (
-      field === 'owner' &&
-      typeof value === 'number' &&
-      value === 0
-    ) {
+    } else if (field === 'owner' && typeof value === 'number' && value === 0) {
       value = null
-    } else if (
-      field === 'staff' &&
-      typeof value === 'number' &&
-      value === 0
-    ) {
+    } else if (field === 'staff' && typeof value === 'number' && value === 0) {
       value = null
     } else if (field === 'members') {
       value = (value as string[])
         .map(account => {
-          const staffMember = inputData.staff.find(
-            staff => staff.account === account,
-          )
+          const staffMember = inputData.staff.find(staff => staff.account === account)
+
+          return staffMember ? staffMember.id : null
+        })
+        .filter(id => id !== null) as number[]
+    } else if (field === 'suppliers') {
+      value = (value as string[])
+        .map(account => {
+          const staffMember = inputData.supplier.find(supplier => supplier.account === account)
 
           return staffMember ? staffMember.id : null
         })
@@ -119,6 +110,14 @@ export const Fields = ({ inputData, form, setForm }: FieldsProps) => {
               .map(item => item.account)}
             onTagsChange={tags => handleChangeInput('members', tags)}
           />
+          <TagSelector
+            title='Suppliers'
+            list={inputData.supplier.map(item => item.account)}
+            selectedTags={inputData.supplier
+              .filter(item => form.suppliers?.includes(item.id))
+              .map(item => item.account)}
+            onTagsChange={tags => handleChangeInput('suppliers', tags)}
+          />
         </section>
         <section className={styles.section}>
           <CustomSelect
@@ -130,6 +129,7 @@ export const Fields = ({ inputData, form, setForm }: FieldsProps) => {
             nameList={inputData.client.map(item => item.account)}
             onChange={handleChangeInput}
           />
+
           <CustomSelect
             title='Owner'
             titleOnChange='owner'
@@ -152,16 +152,14 @@ export const Fields = ({ inputData, form, setForm }: FieldsProps) => {
             titleOnChange='status'
             idList={inputData.status.map((_item, index) => index)}
             nameList={inputData.status.map(item => item)}
-            value={inputData.status.findIndex(
-              item => item === form.status,
-            )}
+            value={inputData.status.findIndex(item => item === form.status)}
             onChange={handleChangeInput}
           />
           <CustomSelect
             title='Project Manager'
-            titleOnChange='staff'
+            titleOnChange='manager'
             placeholder='Not Selected'
-            value={form.staff}
+            value={form.manager}
             idList={inputData.staff.map(item => item.id)}
             nameList={inputData.staff.map(item => item.account)}
             onChange={handleChangeInput}
