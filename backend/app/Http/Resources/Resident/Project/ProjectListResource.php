@@ -40,10 +40,10 @@ class ProjectListResource extends JsonResource
             ]
 
         ];
-        $members = $this->getMembers();
-        if($members->count()) {
-            $resource['members'] = UserResource::collection($members);
-        }
+//        $members = $this->getMembers();
+//        if($members->count()) {
+//            $resource['members'] = UserResource::collection($members);
+//        }
 
         if(!self::$isCollection) {
             $resource['details'] = $this->description;
