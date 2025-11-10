@@ -66,6 +66,18 @@ class Transaction extends Model implements InsertDefaultValueInterface
         'cat_id',
     ];
 
+    public static function createdEvent(Transaction $model)
+    {
+        $currency = Currency::getDefault();
+        $account = $model->accountModel;
+        if($model->isIncome()) {
+            $account->balance += $model->transformPrice('amount', $currency);
+        }else{
+            $account->balance -= $model->transformPrice('amount', $currency);
+        }
+        $account->save();
+    }
+
     public static function deletedEvent($model)
     {
         self::deleteEventFileStorage($model);

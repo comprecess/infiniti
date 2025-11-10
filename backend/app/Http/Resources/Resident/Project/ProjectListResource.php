@@ -22,7 +22,6 @@ class ProjectListResource extends JsonResource
         $resource = [
             'id' => $this->id,
             'name' => $this->name,
-            'admin' => new UserResource($this->admin),
             'status' => $this->status,
             'summary' => $this->summary,
 //            'budget' => $this->budget,
@@ -32,6 +31,14 @@ class ProjectListResource extends JsonResource
             'completed' => $this->getTaskCompleted(),
             'startDate' => $this->start_date?->format($format),
             'dueDate' => $this->due_date?->format($format),
+            'users' => [
+                'admin' => new UserResource($this->admin),
+                'manager' => new UserResource($this->manager ?? $this->admin),
+                'client' => new UserResource($this->client),
+                'suppliers' => UserResource::collection($this->personalClients->pluck('user')),
+                'staff' => UserResource::collection($this->personalAdmins->pluck('user')),
+            ]
+
         ];
         $members = $this->getMembers();
         if($members->count()) {
