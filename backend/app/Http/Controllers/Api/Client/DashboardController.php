@@ -79,7 +79,7 @@ class DashboardController extends Controller
             'transaction' => TransactionsListResource::collection($transactions),
             'quantity' => $quantity,
             'graph' => $graph,
-            '$document' => DocumentResource::collection($documents),
+            'document' => DocumentResource::collection($documents),
         ]);
     }
 
