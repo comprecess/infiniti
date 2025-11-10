@@ -57,9 +57,32 @@ class ProjectController extends ProjectAccessController
         }
 
         $projectQuery
-            ->with(['admin.files', 'admin.myRole', 'getCurrencyIso', 'transactionExpense', 'transactionExpense.getCurrencyIso'])
+            ->with([
+                'admin',
+                'admin.files',
+                'admin.myRole',
+                'manager',
+                'manager.files',
+                'manager.myRole',
+                'client',
+                'client.files',
+                'client.companyClient',
+                'getCurrencyIso',
+                'transactionExpense',
+                'transactionExpense.getCurrencyIso',
+                'personalClients',
+                'personalClients.user',
+                'personalClients.user.files',
+                'personalClients.user.companyClient',
+                'personalAdmins',
+                'personalAdmins.user',
+                'personalAdmins.user.files',
+                'personalAdmins.user.myRole',
+            ])
             ->orderBy('id', 'desc')
             ->limit(100);
+
+//        dd($projectQuery->get()->where('id',8)->first()->personalClients->pluck('user'));
 
         return ProjectListResource::collection($projectQuery->get());
     }
