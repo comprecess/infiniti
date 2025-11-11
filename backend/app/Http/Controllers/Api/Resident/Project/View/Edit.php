@@ -49,7 +49,7 @@ class Edit extends View
     public function tasks()
     {
         $id = $this->urlToMethodInt();
-        if(!is_int($id)) {
+        if(!is_int($id) && $id) {
             return $id;
         }
         $task = $this->getTask($id);
@@ -92,6 +92,15 @@ class Edit extends View
 
             return response()->json(['success' => true, 'id' => $time->id]);
         }
+    }
+
+    public function tasksStatus($integer)
+    {
+        $controller = new TaskController();
+        $task = $this->getTask(Arr::get($integer, 0));
+        $request = app(TaskUpdateStatusRequest::class);
+        $request->merge(['pid' => $this->model->id]);
+        return $controller->updateStatus($task, $request);
     }
 
     public function expenses()

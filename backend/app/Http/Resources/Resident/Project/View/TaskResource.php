@@ -37,6 +37,7 @@ class TaskResource extends JsonResource
             'description' => $this->description,
             'start' => $started?->format('Y-m-d'),
             'end' => $dueDate?->format('Y-m-d'),
+            'users' => UserResource::collection($this->personals->where('user', '!=', null)->pluck('user')),
         ];
 
 
