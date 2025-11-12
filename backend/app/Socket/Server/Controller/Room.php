@@ -25,10 +25,10 @@ class Room extends Controller implements Main
 
         if($in) {
             $this->roomIn($in, $conn);
-            return $conn->send($this->response());
+            return $conn->send($this->response($this->getStat($in)));
         }elseif ($out) {
             $this->roomOut($out, $conn);
-            return $conn->send($this->response());
+            return $conn->send($this->response($this->getStat($out)));
         }
 
         return $conn->send($this->response(code: 404));
@@ -63,6 +63,19 @@ class Room extends Controller implements Main
             $conn,
             [$this->getName() => $data]
         );
+    }
+
+    private function getStat($name)
+    {
+        $stat = ['clients' => count($this->clients), 'inRoom' => 0];
+        foreach($this->clients as $client){
+            $user = $this->socket->getUser($client);
+            if(in_array($name, Arr::get($user, 'room', []))); {
+                $stat['inRoom']++;
+            }
+        }
+
+        return $stat;
     }
 
 }
