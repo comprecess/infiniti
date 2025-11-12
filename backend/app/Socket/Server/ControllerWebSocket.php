@@ -2,6 +2,7 @@
 namespace App\Socket\Server;
 
 use App\Socket\Server\Controller;
+use App\Socket\Server\Controller\Contract\Main;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Ratchet\ConnectionInterface;
@@ -16,14 +17,17 @@ class ControllerWebSocket extends Socket
     {
         return [
             Controller\Auth::class,
-            Controller\Notification::class
+            Controller\Room::class,
+            Controller\Notification::class,
+            Controller\Task::class
         ];
     }
 
     private function listMain() :array
     {
         return [
-          'auth'
+          'auth',
+          'room'
         ];
     }
 
@@ -37,16 +41,17 @@ class ControllerWebSocket extends Socket
             foreach($this->list() as $class) {
                 $object = new $class($user, $this->clients, $this);
                 if($object->getName() === $data['c']) {
-                    if($type = Arr::get($auth, 'type')) {
+                    if($object instanceof Main) {
+                        return $object->main($data, $conn);
+                    }else{
+                        $type = Arr::get($auth, 'type');
 //                        print_r($class . "\r\n");
 //                        print_r($type. "\r\n");
-//                        print_r(method_exists($object, $type) ? 1 : 0);
+//                        echo (method_exists($object, $type) ? 9 : 8) ."\r\n";
 
                         if(method_exists($object, $type)) {
                             return $object->{$type}($data, $conn);
                         }
-                    }else{
-                        return $object->main($data, $conn);
                     }
 
                     return $conn->send(json_encode(['code' => 402]));
@@ -81,7 +86,7 @@ class ControllerWebSocket extends Socket
 
     public function setUser(ConnectionInterface $conn, array $data) :void
     {
-        $user = $this->getUser();
+        $user = $this->getUser($conn);
         $this->users[$conn->resourceId] = array_merge($user, $data);
     }
 

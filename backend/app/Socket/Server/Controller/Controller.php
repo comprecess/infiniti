@@ -4,13 +4,13 @@
 namespace App\Socket\Server\Controller;
 
 
-use App\Socket\Server\Controller\Contract\Main;
+/*use App\Socket\Server\Controller\Contract\Main;*/
 use App\Socket\Server\Controller\Contract\Server;
 use App\Socket\Server\ControllerWebSocket;
 use Illuminate\Support\Arr;
 use Ratchet\ConnectionInterface;
 
-class Controller implements Server, Main
+class Controller implements Server/*, Main*/
 {
     public function __construct(
         protected array $userData,
@@ -35,7 +35,7 @@ class Controller implements Server, Main
 
     public function server(array $data, ConnectionInterface $conn)
     {
-        echo ($this->getName());
+//        echo ($this->getName());
         $stat = ['clients' => count($this->clients)];
         $i = 0;
         $message = Arr::get($data, 'data');
@@ -82,8 +82,24 @@ class Controller implements Server, Main
         return false;
     }
 
-    public function main(array $data, ConnectionInterface $conn)
+ /*   public function main(array $data, ConnectionInterface $conn)
     {
 
+    }*/
+
+    public function sendAll($message, callable $checkSendCallable = null)
+    {
+        $stat = ['clients' => count($this->clients)];
+        $i = 0;
+        foreach ($this->clients as $client) {
+            $call = $checkSendCallable($client);
+            if ($call) {
+                $client->send($this->response($message));
+                $i++;
+            }
+        }
+
+        $stat['sent'] = $i;
+        return $stat;
     }
 }
