@@ -98,7 +98,6 @@ export const CreateTaskModal = ({
             form
               ? () => {
                 createTask(form)
-                handleOpenCloseModal()
               }
               : undefined
           }

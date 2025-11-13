@@ -24,7 +24,7 @@ import { TransparentSelect } from '../../shared/ui/TransparentSelect/Transparent
 import { getChatGPTInputData } from '../../shared/utils/api/Admin/ChatGPT/get-chat-gpt-input-data'
 import { getHistoryUserMessage } from '../../shared/utils/api/Admin/ChatGPT/get-history-user-message'
 import { postCreateUserMessage } from '../../shared/utils/api/Admin/ChatGPT/post-create-user-message'
-import { useChatGPT } from '../../shared/utils/Contexts/ChatGPTContext'
+import { useChatGPT } from '../../shared/utils/contexts/ChatGPTContext'
 
 export const ChatGPT = () => {
   const { control, register, handleSubmit, setValue, reset } = useForm<{
@@ -71,10 +71,7 @@ export const ChatGPT = () => {
 
     setIsLoading(true)
 
-    const currentDate = new Date()
-      .toISOString()
-      .slice(0, 19)
-      .replace('T', ' ')
+    const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
 
     const userMessage: MessageChatGPT = {
       id: messages?.length || 0,
@@ -110,9 +107,7 @@ export const ChatGPT = () => {
       isLoadingMessage: true,
     }
 
-    setMessages(prev =>
-      prev ? [...prev, loadingMessage] : [loadingMessage],
-    )
+    setMessages(prev => (prev ? [...prev, loadingMessage] : [loadingMessage]))
 
     let dots = ''
 
@@ -142,9 +137,9 @@ export const ChatGPT = () => {
     clearInterval(interval)
     setMessages(
       prev =>
-        prev
-          ?.filter(msg => msg.id !== loadingMessage.id)
-          .concat(response.data.data) || [response.data.data],
+        prev?.filter(msg => msg.id !== loadingMessage.id).concat(response.data.data) || [
+          response.data.data,
+        ],
     )
     setIsLoading(false)
   }
@@ -196,9 +191,7 @@ export const ChatGPT = () => {
       /\/admin\/business-plan\/make\/business-plan$/,
     ]
 
-    setShowCheckbox(
-      urlPatterns.some(pattern => pattern.test(window.location.pathname)),
-    )
+    setShowCheckbox(urlPatterns.some(pattern => pattern.test(window.location.pathname)))
   }, [window.location.pathname])
 
   useEffect(() => {
@@ -246,11 +239,7 @@ export const ChatGPT = () => {
       >
         <PopoverHeader className={styles.popoverHeader}>
           <div className={styles.chatGPTContainer}>
-            <Icon
-              icon={<ChatGPTIcon />}
-              hover={false}
-              style={styles.iconChatGPT}
-            />
+            <Icon icon={<ChatGPTIcon />} hover={false} style={styles.iconChatGPT} />
             <span className={styles.chatGPTTitle}>ChatGPT</span>
           </div>
           {models && (
@@ -291,14 +280,9 @@ export const ChatGPT = () => {
                 <div ref={messagesEndRef} />
               </div>
             ) : (
-              <span className={styles.noMessages}>
-                You don&apos;t have any messages yet
-              </span>
+              <span className={styles.noMessages}>You don&apos;t have any messages yet</span>
             )}
-            <form
-              className={styles.footer}
-              onSubmit={handleSubmit(sendMessage)}
-            >
+            <form className={styles.footer} onSubmit={handleSubmit(sendMessage)}>
               {showCheckbox && (
                 <Controller
                   name='onTopic'

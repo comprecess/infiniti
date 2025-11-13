@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react'
+/* eslint-disable no-console */
+
+import { useEffect, useState, useCallback } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import styles from './TasksPage.module.scss'
 import {
   ProjectsColumnData,
+  ProjectsTasksData,
   ProjectsTasksFormData,
   ProjectsTasksInputData,
   ProjectViewPageContext,
@@ -19,6 +22,7 @@ import { getProjectsTasksInputData } from '../../../../../shared/utils/api/Admin
 import { patchProjectEditTask } from '../../../../../shared/utils/api/Admin/Projects/patch-project-edit-task'
 import { patchUpdateTaskPosition } from '../../../../../shared/utils/api/Admin/Projects/patch-update-task-position'
 import { postCreateNewTask } from '../../../../../shared/utils/api/Admin/Projects/post-create-new-task'
+import { useAppWebSocket } from '../../../../../shared/utils/providers/WebSocketProvider'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 import { TasksCard } from '../../../../../widgets/TasksCard/TasksCard'
 
@@ -26,12 +30,43 @@ export const AdminProjectsTasksPage = () => {
   const [tasksList, setTasksList] = useState<ProjectsColumnData | null>(null)
   const [access, setAccess] = useState<RolesAccess | null>(null)
   const [inputData, setInputData] = useState<ProjectsTasksInputData | null>(null)
-
   const [isCreated, setIsCreated] = useState<boolean>(false)
+  const [clientsCount, setClientsCount] = useState<number | null>(null)
 
   const context = useOutletContext<ProjectViewPageContext>()
-
   const showToast = useCustomToast()
+
+  const { isConnected, isAuth, on, send } = useAppWebSocket()
+
+  const handleSetIsCreated = () => setIsCreated(prev => !prev)
+
+  const sendMessage = useCallback(
+    (msg: any) => {
+      if (!isConnected || !isAuth) return
+      send(msg)
+    },
+    [isConnected, isAuth, send],
+  )
+
+  const joinRoom = useCallback(() => {
+    if (!isConnected || !isAuth) return
+
+    sendMessage({ c: 'room', data: { in: 'task' } })
+
+    console.log('🟢 Joined room: Task')
+  }, [isConnected, isAuth, sendMessage])
+
+  const leaveRoom = useCallback(() => {
+    if (!isConnected || !isAuth) return
+
+    try {
+      sendMessage({ c: 'room', data: { out: 'task' } })
+      setClientsCount(null)
+      console.log('🔴 Left room: Task')
+    } catch (err) {
+      console.warn('WebSocket send failed on leave room:', err)
+    }
+  }, [isConnected, isAuth, sendMessage])
 
   const getTasks = async () => {
     if (!context.idProject) return
@@ -65,7 +100,9 @@ export const AdminProjectsTasksPage = () => {
         description: 'You have successfully created a Task',
         status: 'success',
       })
+      handleSetIsCreated()
       getTasks()
+      // sendMessage({ c: 'task', data: { action: 'create', form } }) TODO:
     } else {
       showToast({
         title: 'Error',
@@ -86,6 +123,7 @@ export const AdminProjectsTasksPage = () => {
         description: 'You have successfully changed the Task',
         status: 'success',
       })
+      // sendMessage({ c: 'task', data: { action: 'edit', idTask, form } }) TODO:
       getTasks()
     } else {
       showToast({
@@ -107,6 +145,7 @@ export const AdminProjectsTasksPage = () => {
         description: 'You have successfully deleted the Task',
         status: 'success',
       })
+      // sendMessage({ c: 'task', data: { action: 'delete', idTask } }) TODO:
       getTasks()
     } else {
       showToast({
@@ -127,7 +166,12 @@ export const AdminProjectsTasksPage = () => {
       columnTitle,
     )
 
-    if (!status) {
+    if (status) {
+      sendMessage({
+        c: 'task',
+        data: { action: 'move', taskId, newIndex, columnTitle },
+      })
+    } else {
       showToast({
         title: 'Error',
         description: message,
@@ -136,9 +180,94 @@ export const AdminProjectsTasksPage = () => {
     }
   }
 
-  const handleSetIsCreated = () => {
-    setIsCreated(prev => !prev)
-  }
+  useEffect(() => {
+    on('room', (data: any) => {
+      if (data.code === 200) {
+        setClientsCount(data.data.clients)
+      }
+    })
+
+    on('task', (data: any) => {
+      console.log('📩 Task event:', data)
+
+      if (!data.data) return
+
+      const { action } = data.data
+
+      if (!action) return
+
+      setTasksList(prev => {
+        if (!prev) return prev
+
+        const newColumns = { ...prev }
+
+        switch (action) {
+          case 'create': {
+            if (data.data.task) {
+              const column = newColumns[data.data.task.column] || []
+              newColumns[data.data.task.column] = [...column, data.data.task]
+            }
+            break
+          }
+
+          case 'edit': {
+            Object.keys(newColumns).forEach(col => {
+              newColumns[col] = newColumns[col].map(task =>
+                task.id === data.data.task.id ? { ...task, ...data.data.task } : task,
+              )
+            })
+            break
+          }
+
+          case 'delete': {
+            Object.keys(newColumns).forEach(col => {
+              newColumns[col] = newColumns[col].filter(task => task.id !== data.data.taskId)
+            })
+            break
+          }
+
+          case 'move': {
+            let movedTask: ProjectsTasksData | undefined
+
+            Object.keys(newColumns).forEach(col => {
+              newColumns[col] = newColumns[col].filter(task => {
+                if (task.id === data.data.taskId) {
+                  movedTask = task
+
+                  return false
+                }
+
+                return true
+              })
+            })
+
+            if (movedTask) {
+              const targetCol = newColumns[data.data.columnTitle] || []
+
+              targetCol.splice(data.data.newIndex, 0, movedTask)
+              newColumns[data.data.columnTitle] = targetCol
+            }
+            break
+          }
+
+          default:
+            break
+        }
+
+        return newColumns
+      })
+    })
+  }, [on])
+
+  useEffect(() => {
+    if (isConnected && isAuth) {
+      joinRoom()
+    }
+
+    return () => {
+      leaveRoom()
+    }
+  }, [isConnected, isAuth, joinRoom, leaveRoom])
 
   useEffect(() => {
     if (!context.idProject) return
@@ -157,9 +286,9 @@ export const AdminProjectsTasksPage = () => {
         <section className={styles.section}>
           {access && tasksList && inputData ? (
             <RecentCard
-              title='Project Tasks'
               style={styles.recentFullScreen}
               Component={access.create === 1 ? ButtonBlue : undefined}
+              title={`${clientsCount !== null ? `Online: ${clientsCount}` : 'Connection...'}`}
               componentProps={
                 access.create === 1
                   ? {

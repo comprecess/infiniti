@@ -3,10 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import styles from './EditBusinessModel.module.scss'
-import {
-  BusinessModelInputData,
-  ValuesProps,
-} from '../../../../app/constants/constants'
+import { BusinessModelInputData, ValuesProps } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import {
   Fields,
@@ -21,14 +18,13 @@ import { postAddBusinessModelPicture } from '../../../../shared/utils/api/Admin/
 import { putRemoveBusinessModelPicture } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/put-remove-business-model-picture'
 import { putUpdateBusinessModel } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/put-update-business-model'
 import { getAnalysisChatGPT } from '../../../../shared/utils/api/Admin/ChatGPT/get-analysis-chat-gpt'
-import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
+import { useChatGPT } from '../../../../shared/utils/contexts/ChatGPTContext'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const AdminEditBusinessModel = () => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({})
-  const [inputData, setInputData] =
-    useState<BusinessModelInputData | null>(null)
+  const [inputData, setInputData] = useState<BusinessModelInputData | null>(null)
 
   const { t } = useTranslation()
   const { chatGPTChangeForm, setChatGPTChangeForm } = useChatGPT()
@@ -101,8 +97,7 @@ export const AdminEditBusinessModel = () => {
     if (updateResponse.status) {
       showToast({
         title: 'Successfully',
-        description:
-          'You have successfully changed the picture of the Business Model',
+        description: 'You have successfully changed the picture of the Business Model',
         status: 'success',
       })
       getModelData()
@@ -123,8 +118,7 @@ export const AdminEditBusinessModel = () => {
     if (updateResponse.status) {
       showToast({
         title: 'Successfully',
-        description:
-          'You have successfully deleted a picture from Business Model',
+        description: 'You have successfully deleted a picture from Business Model',
         status: 'success',
       })
       getModelData()
@@ -148,13 +142,10 @@ export const AdminEditBusinessModel = () => {
     if (response.status) {
       showToast({
         title: 'Successfully',
-        description:
-          'You have successfully changed the data from the Business Model',
+        description: 'You have successfully changed the data from the Business Model',
         status: 'success',
       })
-      navigate(
-        `/${Routes.adminPages}/${Routes.businessPlan}/${Routes.businessModels}`,
-      )
+      navigate(`/${Routes.adminPages}/${Routes.businessPlan}/${Routes.businessModels}`)
     } else {
       showToast({
         title: 'Error',
@@ -165,9 +156,7 @@ export const AdminEditBusinessModel = () => {
   }
 
   const handleGetFormInfo = async () => {
-    const response = await getAnalysisChatGPT(
-      '?discussionModel=businessModel',
-    )
+    const response = await getAnalysisChatGPT('?discussionModel=businessModel')
 
     if (!response.status) return
 

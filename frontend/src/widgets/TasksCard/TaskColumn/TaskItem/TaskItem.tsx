@@ -55,6 +55,7 @@ export const TaskItem = ({
     })
 
   const { isMobile } = useDeviceDetect()
+
   const navigate = useNavigate()
 
   const style = {
@@ -104,16 +105,41 @@ export const TaskItem = ({
         onClick={handleClick}
       >
         <div className={styles.header}>
-          <img
-            alt='avatar'
-            className={styles.avatar}
-            src={
-              task.admin && task.admin.img
-                ? `${task.admin.img}?width=176&height=176`
-                : '/profileWithoutAvatar.svg'
-            }
-          />
-          <span className={styles.account}>{task.admin ? task.admin.account : '-'}</span>
+          {task.users && task.users.length > 0 ? (
+            task.users.length === 1 ? (
+              <>
+                <img
+                  alt='avatar'
+                  className={styles.avatar}
+                  src={
+                    task.users[0].img
+                      ? `${task.users[0].img}?width=176&height=176`
+                      : '/profileWithoutAvatar.svg'
+                  }
+                />
+                <span className={styles.account}>{task.users[0].account || '-'}</span>
+              </>
+            ) : (
+              <div className={styles.multiAvatars}>
+                {task.users.slice(0, 3).map(user => (
+                  <img
+                    key={user.id}
+                    alt='avatar'
+                    className={styles.avatarOverlap}
+                    src={
+                      user.img ? `${user.img}?width=176&height=176` : '/profileWithoutAvatar.svg'
+                    }
+                  />
+                ))}
+              </div>
+            )
+          ) : (
+            <>
+              <img alt='avatar' className={styles.avatar} src='/profileWithoutAvatar.svg' />
+              <span className={styles.account}>-</span>
+            </>
+          )}
+
           {isMobile && (
             <div ref={setActivatorNodeRef} className={styles.dragHandle} {...listeners}>
               ⠿

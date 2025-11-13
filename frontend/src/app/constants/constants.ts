@@ -1581,7 +1581,7 @@ export interface ProjectsColumnData {
 export interface ProjectsTasksData {
   id: number
   admin: { id: number; account: string; img: string }
-  users: { id: number; account: string }[]
+  users: { id: number; account: string; img: string }[]
   created: string
   description: string
   dueDate: string
