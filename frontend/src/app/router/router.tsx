@@ -6,8 +6,8 @@ import { AuthOutlet } from '../../pages/Auth/AuthOutlet/AuthOutlet'
 import { RootPage } from '../../pages/General/RootPage/RootPage'
 import { ExaminationAuth } from '../../shared/utils/api/Auth/ExaminationAuth'
 import { ExaminationUser } from '../../shared/utils/api/Auth/ExaminationUser'
-import { ChatGPTProvider } from '../../shared/utils/contextss/ChatGPTContext'
-import { VersionProvider } from '../../shared/utils/contextss/VersionContext'
+import { ChatGPTProvider } from '../../shared/utils/contexts/ChatGPTContext'
+import { VersionProvider } from '../../shared/utils/contexts/VersionContext'
 import { WebSocketProvider } from '../../shared/utils/providers/WebSocketProvider'
 
 export const router = createBrowserRouter([

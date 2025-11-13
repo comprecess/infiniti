@@ -18,7 +18,7 @@ import { postAddBusinessModelPicture } from '../../../../shared/utils/api/Admin/
 import { putRemoveBusinessModelPicture } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/put-remove-business-model-picture'
 import { putUpdateBusinessModel } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/put-update-business-model'
 import { getAnalysisChatGPT } from '../../../../shared/utils/api/Admin/ChatGPT/get-analysis-chat-gpt'
-import { useChatGPT } from '../../../../shared/utils/contextss/ChatGPTContext'
+import { useChatGPT } from '../../../../shared/utils/contexts/ChatGPTContext'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
