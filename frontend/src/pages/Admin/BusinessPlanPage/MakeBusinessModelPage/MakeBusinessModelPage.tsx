@@ -15,7 +15,7 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { getBusinessModelInputData } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/get-business-model-input-data'
 import { postCreateNewBusinessModel } from '../../../../shared/utils/api/Admin/BusinessPlan/BusinessModel/post-create-new-business-model'
 import { getAnalysisChatGPT } from '../../../../shared/utils/api/Admin/ChatGPT/get-analysis-chat-gpt'
-import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
+import { useChatGPT } from '../../../../shared/utils/contexts/ChatGPTContext'
 import { loadStorage } from '../../../../shared/utils/Saving/Storage/LoadStorage'
 import { removeStorage } from '../../../../shared/utils/Saving/Storage/RemoveStorage'
 import { generateStorageKey } from '../../../../shared/utils/usefulMethods'

@@ -18,8 +18,7 @@ export const useWebSocket = ({
 }: WebSocketOptions) => {
   const [isConnected, setIsConnected] = useState(false)
   const [isAuth, setIsAuth] = useState(false)
-  const [hasReachedReconnectLimit, setHasReachedReconnectLimit] =
-    useState(false)
+  const [hasReachedReconnectLimit, setHasReachedReconnectLimit] = useState(false)
   const [data, setData] = useState<any>(null)
 
   const wsRef = useRef<WebSocket | null>(null)
@@ -39,16 +38,13 @@ export const useWebSocket = ({
 
     if (reconnectAttemptsRef.current >= maxReconnectAttempts) {
       console.warn('WebSocket: max reconnect attempts reached')
-
       setHasReachedReconnectLimit(true)
 
       return
     }
 
     console.log(
-      `WebSocket: trying to connect to ${url} (attempt ${
-        reconnectAttemptsRef.current + 1
-      })`,
+      `WebSocket: trying to connect to ${url} (attempt ${reconnectAttemptsRef.current + 1})`,
     )
 
     try {
@@ -61,11 +57,8 @@ export const useWebSocket = ({
 
     wsRef.current.onopen = () => {
       console.log('WebSocket: connected')
-
       setIsConnected(true)
-
       reconnectAttemptsRef.current = 0
-
       setHasReachedReconnectLimit(false)
 
       if (token) {
@@ -92,7 +85,6 @@ export const useWebSocket = ({
         setTimeout(connect, reconnectInterval)
       } else {
         console.warn('WebSocket: max reconnect attempts exceeded')
-
         setHasReachedReconnectLimit(true)
       }
     }
@@ -139,11 +131,21 @@ export const useWebSocket = ({
     handlersRef.current[command] = handler
   }, [])
 
+  const send = useCallback((msg: any) => {
+    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify(msg))
+      console.log('📤 Sent message:', msg)
+    } else {
+      console.warn('⚠️ WebSocket is not open. Message not sent:', msg)
+    }
+  }, [])
+
   return {
     isConnected,
     isAuth,
     data,
     hasReachedReconnectLimit,
     on,
+    send,
   }
 }

@@ -19,20 +19,14 @@ import { getAnalysisChatGPT } from '../../../../shared/utils/api/Admin/ChatGPT/g
 import { getChatGPTReadyPrompt } from '../../../../shared/utils/api/Admin/ChatGPT/get-chat-gpt-ready-prompt'
 import { getTeamDatesBusy } from '../../../../shared/utils/api/Admin/Meeting/get-team-dates-busy'
 import { postCreateNewMeeting } from '../../../../shared/utils/api/Admin/Meeting/post-create-new-meeting'
-import { useChatGPT } from '../../../../shared/utils/Contexts/ChatGPTContext'
-import {
-  getLocalDateTimeString,
-  useIdFromUrl,
-} from '../../../../shared/utils/usefulMethods'
+import { useChatGPT } from '../../../../shared/utils/contexts/ChatGPTContext'
+import { getLocalDateTimeString, useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { CreatingCallModal } from '../../../../widgets/CreatingCallModal/CreatingCallModal'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const AdminEditBusinessPlanPage = () => {
-  const [formData, setFormData] =
-    useState<Partial<BusinessPlanNewPlanFormData> | null>(null)
-  const [inputData, setInputData] = useState<
-  TalentInputDataBusinessPlan[] | null
-  >(null)
+  const [formData, setFormData] = useState<Partial<BusinessPlanNewPlanFormData> | null>(null)
+  const [inputData, setInputData] = useState<TalentInputDataBusinessPlan[] | null>(null)
 
   const [modalAddTalent, setModalAddTalent] = useState<boolean>(false)
   const [isCreatingCall, setIsCreatingCall] = useState<boolean>(false)
@@ -66,9 +60,7 @@ export const AdminEditBusinessPlanPage = () => {
     queryFn: async () => {
       if (formData?.teams === undefined) return
 
-      const teamIdsQuery = formData.teams
-        .map(id => `ids[]=${id}`)
-        .join('&')
+      const teamIdsQuery = formData.teams.map(id => `ids[]=${id}`).join('&')
 
       const response = await getTeamDatesBusy(
         teamIdsQuery,
@@ -117,9 +109,7 @@ export const AdminEditBusinessPlanPage = () => {
 
     if (!response.status) return
 
-    const idsArray = response.data.ids
-      .split(',')
-      .map((id: string) => parseInt(id.trim(), 10))
+    const idsArray = response.data.ids.split(',').map((id: string) => parseInt(id.trim(), 10))
 
     setFormData(prevFormData => ({
       ...prevFormData,
@@ -144,8 +134,7 @@ export const AdminEditBusinessPlanPage = () => {
     if (response.status) {
       showToast({
         title: 'Successfully',
-        description:
-          'You have successfully changed the information in the Business Plan',
+        description: 'You have successfully changed the information in the Business Plan',
         status: 'success',
       })
     } else {
@@ -158,9 +147,7 @@ export const AdminEditBusinessPlanPage = () => {
   }
 
   const handleGetFormInfo = async () => {
-    const response = await getAnalysisChatGPT(
-      `?discussionModel=businessPlan`,
-    )
+    const response = await getAnalysisChatGPT(`?discussionModel=businessPlan`)
 
     if (!response.status) return
 
