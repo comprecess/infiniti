@@ -81,6 +81,8 @@ class BusinessModelController extends BusinessPlanAccessController
 
                 if(!$isNew) {
                     BusinessModelValue::where('id_business_model', $model->id)->delete();
+                }else{
+                    $model->setRandomNum('public', 32, true);
                 }
 
                 $data = $request->all();
