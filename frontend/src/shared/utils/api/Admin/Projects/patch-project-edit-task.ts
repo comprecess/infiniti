@@ -60,16 +60,10 @@ export const patchProjectEditTask = async (
       }
     }
 
-    const url = new URL(
-      `${apiPath}/${idProject}/tasks/${idTask}`,
-      baseUrl,
-    ).toString()
+    const url = new URL(`${apiPath}/${idProject}/tasks/${idTask}`, baseUrl).toString()
 
     const controller = new AbortController()
-    const timeoutId = setTimeout(
-      () => controller.abort(),
-      REQUEST_TIMEOUT_MS,
-    )
+    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
 
     const data = await customFetch(url, {
       method: 'PATCH',
@@ -84,11 +78,7 @@ export const patchProjectEditTask = async (
 
     clearTimeout(timeoutId)
 
-    if (
-      !data ||
-      typeof data !== 'object' ||
-      typeof data.status !== 'boolean'
-    ) {
+    if (!data || typeof data !== 'object' || typeof data.status !== 'boolean') {
       return {
         status: false,
         message: INVALID_RESPONSE_MESSAGE,

@@ -2,7 +2,6 @@ import {
   AUTH_ERROR_MESSAGE,
   INVALID_RESPONSE_MESSAGE,
   NETWORK_ERROR_MESSAGE,
-  ProjectsTasksFormData,
   REQUEST_TIMEOUT_MS,
 } from '../../../../../app/constants/constants'
 import { customFetch } from '../../custom-fetch'
@@ -10,27 +9,32 @@ import { getAuthToken } from '../../get-auth-token'
 
 interface SuccessResponse {
   status: true
-  message: string
-  id: number
+  data: any
 }
 
 interface ErrorResponse {
   status: false
   message: string
-  id?: unknown
   error?: unknown
 }
 
 type Response = SuccessResponse | ErrorResponse
 
-export const postCreateNewTask = async (
+export const getProjectSelectedTaskInfo = async (
   idProject: number,
-  form: Partial<ProjectsTasksFormData>,
+  idTask: number,
 ): Promise<Response> => {
   if (!Number.isInteger(idProject) || idProject <= 0) {
     return {
       status: false,
       message: 'Invalid project ID',
+    }
+  }
+
+  if (!Number.isInteger(idTask) || idTask <= 0) {
+    return {
+      status: false,
+      message: 'Invalid task ID',
     }
   }
 
@@ -48,25 +52,21 @@ export const postCreateNewTask = async (
     const apiPath = import.meta.env.VITE_RESIDENT_PROJECTS_API
 
     if (!baseUrl || !apiPath) {
-      return {
-        status: false,
-        message: 'Configuration error - missing environment variables',
-      }
+      throw new Error('Configuration error - missing environment variables')
     }
 
-    const url = new URL(`${apiPath}/${idProject}/tasks`, baseUrl).toString()
+    const url = new URL(`${apiPath}/${idProject}/tasks/${idTask}`, baseUrl).toString()
 
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
 
     const data = await customFetch(url, {
-      method: 'POST',
+      method: 'GET',
       headers: {
-        Accept: 'application/json',
         'Content-Type': 'application/json',
+        Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
-      body: JSON.stringify({ ...form }),
       signal: controller.signal,
     })
 
@@ -80,7 +80,10 @@ export const postCreateNewTask = async (
       }
     }
 
-    return data
+    return {
+      status: true,
+      data,
+    }
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') {
       return {
