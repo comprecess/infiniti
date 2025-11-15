@@ -53,7 +53,7 @@ export const AdminProjectsTasksPage = () => {
 
     sendMessage({ c: 'room', data: { in: `task:${context.idProject}` } })
 
-    console.log('🟢 Joined room: Task')
+    console.log(`🟢 Joined room Project:${context.idProject}`)
   }, [isConnected, isAuth, sendMessage])
 
   const leaveRoom = useCallback(() => {
@@ -62,7 +62,7 @@ export const AdminProjectsTasksPage = () => {
     try {
       sendMessage({ c: 'room', data: { out: `task:${context.idProject}` } })
       setClientsCount(null)
-      console.log('🔴 Left room: Task')
+      console.log(`🔴 Left room Project:${context.idProject}`)
     } catch (err) {
       console.warn('WebSocket send failed on leave room:', err)
     }
@@ -193,7 +193,7 @@ export const AdminProjectsTasksPage = () => {
   useEffect(() => {
     on('room', (data: any) => {
       if (data.code === 200) {
-        setClientsCount(data.data.clients)
+        setClientsCount(data.data.inRoom)
       }
     })
 
@@ -302,12 +302,12 @@ export const AdminProjectsTasksPage = () => {
               componentProps={
                 access.create === 1
                   ? {
-                    titleNone: true,
-                    title: 'New Task',
-                    icon: '/icons/plus.svg',
-                    style: styles.buttonNewTask,
-                    onClick: handleSetIsCreated,
-                  }
+                      titleNone: true,
+                      title: 'New Task',
+                      icon: '/icons/plus.svg',
+                      style: styles.buttonNewTask,
+                      onClick: handleSetIsCreated,
+                    }
                   : undefined
               }
             >
