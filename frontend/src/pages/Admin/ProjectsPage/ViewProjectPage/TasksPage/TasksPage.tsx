@@ -225,8 +225,6 @@ export const AdminProjectsTasksPage = () => {
 
         switch (action) {
           case 'create': {
-            console.log('⚙️ Create triggered')
-
             if (data.data.task) {
               const firstColumnKey = Object.keys(newColumns)[0]
               const newTask = { id: Date.now(), ...data.data.task }
@@ -236,8 +234,6 @@ export const AdminProjectsTasksPage = () => {
           }
 
           case 'edit': {
-            console.log('⚙️ Edit triggered')
-
             Object.keys(newColumns).forEach(col => {
               newColumns[col] = newColumns[col].map(task =>
                 task.id === data.data.task.id ? { ...task, ...data.data.task } : task,
@@ -247,8 +243,6 @@ export const AdminProjectsTasksPage = () => {
           }
 
           case 'delete': {
-            console.log('⚙️ Delete triggered')
-
             Object.keys(newColumns).forEach(col => {
               newColumns[col] = newColumns[col].filter(task => task.id !== data.data.idTask)
             })
@@ -256,8 +250,6 @@ export const AdminProjectsTasksPage = () => {
           }
 
           case 'move': {
-            console.log('⚙️ Move triggered')
-
             let movedTask: ProjectsTasksData | undefined
 
             Object.keys(newColumns).forEach(col => {
@@ -323,12 +315,12 @@ export const AdminProjectsTasksPage = () => {
               componentProps={
                 access.create === 1
                   ? {
-                      titleNone: true,
-                      title: 'New Task',
-                      icon: '/icons/plus.svg',
-                      style: styles.buttonNewTask,
-                      onClick: handleSetIsCreated,
-                    }
+                    titleNone: true,
+                    title: 'New Task',
+                    icon: '/icons/plus.svg',
+                    style: styles.buttonNewTask,
+                    onClick: handleSetIsCreated,
+                  }
                   : undefined
               }
             >
