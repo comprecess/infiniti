@@ -213,14 +213,19 @@ export const AdminProjectsTasksPage = () => {
 
         switch (action) {
           case 'create': {
-            if (data.data.task) {
-              const column = newColumns[data.data.task.column] || []
-              newColumns[data.data.task.column] = [data.data.task, ...column]
+            console.log('⚙️ Create triggered')
+
+            if (data.data.form) {
+              const firstColumnKey = Object.keys(newColumns)[0]
+              const newTask = { id: Date.now(), ...data.data.form }
+              newColumns[firstColumnKey] = [newTask, ...newColumns[firstColumnKey]]
             }
             break
           }
 
           case 'edit': {
+            console.log('⚙️ Edit triggered')
+
             Object.keys(newColumns).forEach(col => {
               newColumns[col] = newColumns[col].map(task =>
                 task.id === data.data.task.id ? { ...task, ...data.data.task } : task,
@@ -230,13 +235,17 @@ export const AdminProjectsTasksPage = () => {
           }
 
           case 'delete': {
+            console.log('⚙️ Delete triggered')
+
             Object.keys(newColumns).forEach(col => {
-              newColumns[col] = newColumns[col].filter(task => task.id !== data.data.taskId)
+              newColumns[col] = newColumns[col].filter(task => task.id !== data.data.idTask)
             })
             break
           }
 
           case 'move': {
+            console.log('⚙️ Move triggered')
+
             let movedTask: ProjectsTasksData | undefined
 
             Object.keys(newColumns).forEach(col => {
