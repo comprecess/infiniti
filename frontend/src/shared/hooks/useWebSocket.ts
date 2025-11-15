@@ -31,32 +31,32 @@ export const useWebSocket = ({
       (wsRef.current.readyState === WebSocket.OPEN ||
         wsRef.current.readyState === WebSocket.CONNECTING)
     ) {
-      console.log('WebSocket: already connecting or connected')
+      console.log('🟢 WebSocket: already connecting or connected')
 
       return
     }
 
     if (reconnectAttemptsRef.current >= maxReconnectAttempts) {
-      console.warn('WebSocket: max reconnect attempts reached')
+      console.warn('⚠️ WebSocket: max reconnect attempts reached')
       setHasReachedReconnectLimit(true)
 
       return
     }
 
     console.log(
-      `WebSocket: trying to connect to ${url} (attempt ${reconnectAttemptsRef.current + 1})`,
+      `🟡 WebSocket: trying to connect to ${url} (attempt ${reconnectAttemptsRef.current + 1})`,
     )
 
     try {
       wsRef.current = new WebSocket(url)
     } catch (err) {
-      console.error('WebSocket: constructor failed', err)
+      console.error(`🔴 WebSocket: constructor failed: ${err}`)
 
       return
     }
 
     wsRef.current.onopen = () => {
-      console.log('WebSocket: connected')
+      console.log('🟢 WebSocket: connected')
       setIsConnected(true)
       reconnectAttemptsRef.current = 0
       setHasReachedReconnectLimit(false)
@@ -73,7 +73,7 @@ export const useWebSocket = ({
 
     wsRef.current.onclose = event => {
       console.warn(
-        `WebSocket: closed (code=${event.code}, reason=${event.reason}, wasClean=${event.wasClean})`,
+        `⚠️ WebSocket: closed (code=${event.code}, reason=${event.reason}, wasClean=${event.wasClean})`,
       )
 
       setIsConnected(false)
@@ -84,13 +84,13 @@ export const useWebSocket = ({
       if (reconnectAttemptsRef.current < maxReconnectAttempts) {
         setTimeout(connect, reconnectInterval)
       } else {
-        console.warn('WebSocket: max reconnect attempts exceeded')
+        console.warn('⚠️ WebSocket: max reconnect attempts exceeded')
         setHasReachedReconnectLimit(true)
       }
     }
 
     wsRef.current.onerror = event => {
-      console.error('WebSocket: error', event)
+      console.error('🔴 WebSocket: error', event)
     }
 
     wsRef.current.onmessage = event => {
@@ -102,10 +102,10 @@ export const useWebSocket = ({
         if (data.c === 'auth') {
           if (data.code === 200) {
             setIsAuth(true)
-            console.log('✅ Auth success')
+            console.log('🟢 Auth WebSocket Success')
           } else {
             setIsAuth(false)
-            console.warn('❌ Auth failed', data)
+            console.warn(`⚠️ Auth WebSocket Failed: ${data.message}`)
           }
         }
 
@@ -113,7 +113,7 @@ export const useWebSocket = ({
           handlersRef.current[data.c](data)
         }
       } catch (err) {
-        console.error('WebSocket message parse error:', err)
+        console.error('🔴 WebSocket message parse error:', err)
       }
     }
   }, [url, token, reconnectInterval, maxReconnectAttempts])
@@ -122,7 +122,7 @@ export const useWebSocket = ({
     connect()
 
     return () => {
-      console.log('WebSocket: cleanup, closing connection')
+      console.log('🟢 WebSocket: cleanup, closing connection')
       wsRef.current?.close()
     }
   }, [connect])
@@ -134,9 +134,9 @@ export const useWebSocket = ({
   const send = useCallback((msg: any) => {
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
       wsRef.current.send(JSON.stringify(msg))
-      console.log('📤 Sent message:', msg)
+      console.log(`➡️ WebSocket sent message: ${JSON.stringify(msg)}`)
     } else {
-      console.warn('⚠️ WebSocket is not open. Message not sent:', msg)
+      console.warn(`⚠️ WebSocket is not connected. Unable to send message: ${JSON.stringify(msg)}`)
     }
   }, [])
 

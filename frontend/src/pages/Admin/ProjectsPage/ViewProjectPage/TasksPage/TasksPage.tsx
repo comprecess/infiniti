@@ -101,8 +101,11 @@ export const AdminProjectsTasksPage = () => {
         status: 'success',
       })
       handleSetIsCreated()
-      getTasks()
-      // sendMessage({ c: 'task', data: { action: 'create', form } }) TODO:
+      sendMessage({
+        c: 'task',
+        data: { action: 'create', form },
+        room: `task:${context.idProject}`,
+      })
     } else {
       showToast({
         title: 'Error',
@@ -123,8 +126,11 @@ export const AdminProjectsTasksPage = () => {
         description: 'You have successfully changed the Task',
         status: 'success',
       })
-      // sendMessage({ c: 'task', data: { action: 'edit', idTask, form } }) TODO:
-      getTasks()
+      sendMessage({
+        c: 'task',
+        data: { action: 'edit', idTask, form },
+        room: `task:${context.idProject}`,
+      })
     } else {
       showToast({
         title: 'Error',
@@ -145,8 +151,11 @@ export const AdminProjectsTasksPage = () => {
         description: 'You have successfully deleted the Task',
         status: 'success',
       })
-      // sendMessage({ c: 'task', data: { action: 'delete', idTask } }) TODO:
-      getTasks()
+      sendMessage({
+        c: 'task',
+        data: { action: 'delete', idTask },
+        room: `task:${context.idProject}`,
+      })
     } else {
       showToast({
         title: 'Error',
@@ -293,12 +302,12 @@ export const AdminProjectsTasksPage = () => {
               componentProps={
                 access.create === 1
                   ? {
-                      titleNone: true,
-                      title: 'New Task',
-                      icon: '/icons/plus.svg',
-                      style: styles.buttonNewTask,
-                      onClick: handleSetIsCreated,
-                    }
+                    titleNone: true,
+                    title: 'New Task',
+                    icon: '/icons/plus.svg',
+                    style: styles.buttonNewTask,
+                    onClick: handleSetIsCreated,
+                  }
                   : undefined
               }
             >
