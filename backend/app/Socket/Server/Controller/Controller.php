@@ -15,17 +15,22 @@ class Controller implements Server/*, Main*/
     public function __construct(
         protected array $userData,
         protected $clients,
-        protected ControllerWebSocket $socket
+        protected ControllerWebSocket $socket,
+        protected array $data
     )
     {}
 
-    public function response($data = null, $code = 200)
+    public function response($data = null, $code = 200,array $allResp = [])
     {
         $name = null;
         if(method_exists($this, 'getName')) {
             $name = $this->getName();
         }
-        return json_encode(['code' => $code, 'data' => $data, 'c' => $name]) . "\n";
+        $res = ['code' => $code, 'data' => $data, 'c' => $name];
+        if($allResp) {
+            $res = array_merge($res, $allResp);
+        }
+        return json_encode($res) . "\n";
     }
 
     public function getName(): string
@@ -87,14 +92,14 @@ class Controller implements Server/*, Main*/
 
     }*/
 
-    public function sendAll($message, callable $checkSendCallable = null)
+    public function sendAll($message, callable $checkSendCallable = null, $allResp = [])
     {
         $stat = ['clients' => count($this->clients)];
         $i = 0;
         foreach ($this->clients as $client) {
             $call = $checkSendCallable($client);
             if ($call) {
-                $client->send($this->response($message));
+                $client->send($this->response(data: $message, allResp: $allResp));
                 $i++;
             }
         }

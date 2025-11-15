@@ -39,7 +39,7 @@ class ControllerWebSocket extends Socket
 
         if(($auth = Arr::get($user, "auth")) || in_array($data['c'], $this->listMain())) {
             foreach($this->list() as $class) {
-                $object = new $class($user, $this->clients, $this);
+                $object = new $class($user, $this->clients, $this, $data);
                 if($object->getName() === $data['c']) {
                     if($object instanceof Main) {
                         return $object->main($data, $conn);
