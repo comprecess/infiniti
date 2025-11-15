@@ -215,7 +215,7 @@ export const AdminProjectsTasksPage = () => {
           case 'create': {
             if (data.data.task) {
               const column = newColumns[data.data.task.column] || []
-              newColumns[data.data.task.column] = [...column, data.data.task]
+              newColumns[data.data.task.column] = [data.data.task, ...column]
             }
             break
           }
