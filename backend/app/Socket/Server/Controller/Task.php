@@ -22,7 +22,7 @@ class Task extends Controller implements Server, Client
     {
         $stat = $this->sendAll(Arr::get($data, 'data'), function($client) use($conn){
             return $client != $conn && $this->checkClientRoom($client);
-        });
+        }, ['room' => Arr::get($this->data, 'room')]);
 
         $conn->send($this->response($stat));
     }
