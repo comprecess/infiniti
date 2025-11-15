@@ -17,6 +17,7 @@ import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { deleteProjectTask } from '../../../../../shared/utils/api/Admin/Projects/delete-project-task'
+import { getProjectSelectedTaskInfo } from '../../../../../shared/utils/api/Admin/Projects/get-project-selected-task-info'
 import { getProjectTasks } from '../../../../../shared/utils/api/Admin/Projects/get-project-tasks'
 import { getProjectsTasksInputData } from '../../../../../shared/utils/api/Admin/Projects/get-projects-tasks-input-data'
 import { patchProjectEditTask } from '../../../../../shared/utils/api/Admin/Projects/patch-project-edit-task'
@@ -92,7 +93,7 @@ export const AdminProjectsTasksPage = () => {
   const createNewTask = async (form: Partial<ProjectsTasksFormData>) => {
     if (!context.idProject) return
 
-    const { status, message } = await postCreateNewTask(context.idProject, form)
+    const { status, message, id } = await postCreateNewTask(context.idProject, form)
 
     if (status) {
       showToast({
@@ -100,10 +101,16 @@ export const AdminProjectsTasksPage = () => {
         description: 'You have successfully created a Task',
         status: 'success',
       })
+
       handleSetIsCreated()
+
+      const response = await getProjectSelectedTaskInfo(context.idProject, id)
+
+      if (!response.status) return
+
       sendMessage({
         c: 'task',
-        data: { action: 'create', form },
+        data: { action: 'create', task: response.data.data },
         room: `task:${context.idProject}`,
       })
     } else {
@@ -126,9 +133,14 @@ export const AdminProjectsTasksPage = () => {
         description: 'You have successfully changed the Task',
         status: 'success',
       })
+
+      const response = await getProjectSelectedTaskInfo(context.idProject, idTask)
+
+      if (!response.status) return
+
       sendMessage({
         c: 'task',
-        data: { action: 'edit', idTask, form },
+        data: { action: 'edit', task: response.data.data },
         room: `task:${context.idProject}`,
       })
     } else {
@@ -215,9 +227,9 @@ export const AdminProjectsTasksPage = () => {
           case 'create': {
             console.log('⚙️ Create triggered')
 
-            if (data.data.form) {
+            if (data.data.task) {
               const firstColumnKey = Object.keys(newColumns)[0]
-              const newTask = { id: Date.now(), ...data.data.form }
+              const newTask = { id: Date.now(), ...data.data.task }
               newColumns[firstColumnKey] = [newTask, ...newColumns[firstColumnKey]]
             }
             break
