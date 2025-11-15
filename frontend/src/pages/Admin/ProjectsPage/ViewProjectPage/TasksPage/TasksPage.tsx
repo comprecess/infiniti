@@ -51,7 +51,7 @@ export const AdminProjectsTasksPage = () => {
   const joinRoom = useCallback(() => {
     if (!isConnected || !isAuth) return
 
-    sendMessage({ c: 'room', data: { in: `task${context.idProject}` } })
+    sendMessage({ c: 'room', data: { in: `task:${context.idProject}` } })
 
     console.log('🟢 Joined room: Task')
   }, [isConnected, isAuth, sendMessage])
@@ -60,7 +60,7 @@ export const AdminProjectsTasksPage = () => {
     if (!isConnected || !isAuth) return
 
     try {
-      sendMessage({ c: 'room', data: { out: `task${context.idProject}` } })
+      sendMessage({ c: 'room', data: { out: `task:${context.idProject}` } })
       setClientsCount(null)
       console.log('🔴 Left room: Task')
     } catch (err) {
@@ -170,7 +170,7 @@ export const AdminProjectsTasksPage = () => {
       sendMessage({
         c: 'task',
         data: { action: 'move', taskId, newIndex, columnTitle },
-        room: `task${context.idProject}`,
+        room: `task:${context.idProject}`,
       })
     } else {
       showToast({
@@ -293,12 +293,12 @@ export const AdminProjectsTasksPage = () => {
               componentProps={
                 access.create === 1
                   ? {
-                    titleNone: true,
-                    title: 'New Task',
-                    icon: '/icons/plus.svg',
-                    style: styles.buttonNewTask,
-                    onClick: handleSetIsCreated,
-                  }
+                      titleNone: true,
+                      title: 'New Task',
+                      icon: '/icons/plus.svg',
+                      style: styles.buttonNewTask,
+                      onClick: handleSetIsCreated,
+                    }
                   : undefined
               }
             >
