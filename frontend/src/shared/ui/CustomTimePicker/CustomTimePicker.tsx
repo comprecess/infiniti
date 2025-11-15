@@ -37,10 +37,7 @@ export const CustomTimePicker = ({
   return (
     <div className={styles.wrapper}>
       <ThemeProvider theme={theme}>
-        <LocalizationProvider
-          dateAdapter={AdapterDayjs}
-          adapterLocale={i18n.language}
-        >
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={i18n.language}>
           <div className={styles.container}>
             {title && <span className={styles.title}>{title}</span>}
             <TimeField
