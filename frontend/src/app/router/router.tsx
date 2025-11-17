@@ -513,7 +513,9 @@ export const router = createBrowserRouter([
     path: Routes.clientPages,
     element: (
       <ExaminationUser>
-        <MainOutlet />
+        <WebSocketProvider>
+          <MainOutlet />
+        </WebSocketProvider>
       </ExaminationUser>
     ),
     children: [
