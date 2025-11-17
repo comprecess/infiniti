@@ -24,8 +24,7 @@ export const NotificationProfile = () => {
   const [hasUnreadNotifications, setHasUnreadNotifications] = useState<boolean>(false)
 
   const { isOpen, onToggle, onClose } = useDisclosure()
-
-  const { isConnected, isAuth, data } = useAppWebSocket()
+  const { isConnected, isAuth, on } = useAppWebSocket()
 
   const handleGetNotifications = async () => {
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -51,8 +50,8 @@ export const NotificationProfile = () => {
     setNotifications(prev =>
       prev
         ? prev.map(notification =>
-          notification.id === id ? { ...notification, viewed: 1 } : notification,
-        )
+            notification.id === id ? { ...notification, viewed: 1 } : notification,
+          )
         : prev,
     )
   }
@@ -64,10 +63,18 @@ export const NotificationProfile = () => {
   }, [isOpen])
 
   useEffect(() => {
-    if (isConnected && isAuth && data && data.c === 'notification') {
+    if (!isConnected || !isAuth) return
+
+    const handleNotification = () => {
       handleGetNotifications()
     }
-  }, [data])
+
+    on('notification', handleNotification)
+
+    return () => {
+      on('notification', () => {})
+    }
+  }, [isConnected, isAuth, on])
 
   return (
     <Popover

@@ -41,22 +41,49 @@ export const Item = ({
   }
 
   const handleDownloadFile = async (link: string) => {
-    const headers: HeadersInit =
-      global === 0
-        ? {
-          Authorization: `Bearer ${authToken}`,
-        }
-        : {}
+    const headers: HeadersInit = global === 0 ? { Authorization: `Bearer ${authToken}` } : {}
 
-    const response = await fetch(link, { headers })
+    try {
+      const response = await fetch(link, { headers })
 
-    if (response.ok) {
+      if (!response.ok) throw new Error('Ошибка загрузки файла')
+
       const blob = await response.blob()
+
+      // Определяем можно ли просмотреть в браузере
+      const canView =
+        blob.type.startsWith('image/') ||
+        blob.type === 'application/pdf' ||
+        blob.type.startsWith('text/')
+
       const url = URL.createObjectURL(blob)
 
-      window.open(url, '_blank')
+      if (canView) {
+        // Пытаемся открыть в новой вкладке
+        const newWindow = window.open(url, '_blank')
+        if (!newWindow) {
+          // Если окно заблокировано, предлагаем скачать
+          const a = document.createElement('a')
+          a.href = url
+          a.download = title
+          document.body.appendChild(a)
+          a.click()
+          a.remove()
+        }
+      } else {
+        // Если нельзя просмотреть — скачиваем
+        const a = document.createElement('a')
+        a.href = url
+        a.download = title
+        document.body.appendChild(a)
+        a.click()
+        a.remove()
+      }
 
-      URL.revokeObjectURL(url)
+      // Удаляем URL через небольшой таймаут
+      setTimeout(() => URL.revokeObjectURL(url), 1000)
+    } catch (error) {
+      console.error('Не удалось скачать/просмотреть файл', error)
     }
   }
 
@@ -66,9 +93,7 @@ export const Item = ({
         <div className={styleItem.typeColumn}>
           <TypeFiles type={type} />
         </div>
-        <span className={`${styleItem.titleColumn} ${styles.titleItem}`}>
-          {title}
-        </span>
+        <span className={`${styleItem.titleColumn} ${styles.titleItem}`}>{title}</span>
         <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
           <CustomMiniButton
             style='mint'
