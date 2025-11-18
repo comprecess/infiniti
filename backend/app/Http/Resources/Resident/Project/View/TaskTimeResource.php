@@ -20,7 +20,8 @@ class TaskTimeResource extends JsonResource
 
         $resource = [
             'id' => $this->id,
-            'time' => $this->timeDate->format('H:i'),
+            'date' => $this->date?->format('Y-m-d'),
+            'time' => $this->time,
             'description' => $this->description,
             'user' => new UserResource($this->user)
         ];
