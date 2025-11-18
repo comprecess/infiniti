@@ -7,11 +7,10 @@ export interface VersionInfo {
 
 export const versions: VersionInfo[] = [
   {
-    version: '0.0.33-alpha.33ft',
+    version: '0.0.34-alpha.34pc',
     description: `
             <ul>
-              <li>Таски перенесены на сокеты</li>
-              <li>Новый вид тасков теперь выводятся users в карточке таска</li>
+              <li>Возможность добавлять время в тасках</li>
             </ul>
     `,
   },

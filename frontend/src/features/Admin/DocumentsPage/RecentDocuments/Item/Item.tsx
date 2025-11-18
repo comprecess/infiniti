@@ -5,6 +5,7 @@ import { RolesAccess } from '../../../../../app/constants/constants'
 import { ConfirmationModal } from '../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
 import { CustomMiniButton } from '../../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { TypeFiles } from '../../../../../shared/ui/TypeFiles/TypeFiles'
+import { downloadOrViewFile } from '../../../../../shared/utils/usefulMethods'
 import { EditDocumentModal } from '../../EditDocumentModal/EditDocumentModal'
 import styleItem from '../RecentDocuments.module.scss'
 
@@ -50,38 +51,7 @@ export const Item = ({
 
       const blob = await response.blob()
 
-      // Определяем можно ли просмотреть в браузере
-      const canView =
-        blob.type.startsWith('image/') ||
-        blob.type === 'application/pdf' ||
-        blob.type.startsWith('text/')
-
-      const url = URL.createObjectURL(blob)
-
-      if (canView) {
-        // Пытаемся открыть в новой вкладке
-        const newWindow = window.open(url, '_blank')
-        if (!newWindow) {
-          // Если окно заблокировано, предлагаем скачать
-          const a = document.createElement('a')
-          a.href = url
-          a.download = title
-          document.body.appendChild(a)
-          a.click()
-          a.remove()
-        }
-      } else {
-        // Если нельзя просмотреть — скачиваем
-        const a = document.createElement('a')
-        a.href = url
-        a.download = title
-        document.body.appendChild(a)
-        a.click()
-        a.remove()
-      }
-
-      // Удаляем URL через небольшой таймаут
-      setTimeout(() => URL.revokeObjectURL(url), 1000)
+      await downloadOrViewFile(blob, title)
     } catch (error) {
       console.error('Не удалось скачать/просмотреть файл', error)
     }

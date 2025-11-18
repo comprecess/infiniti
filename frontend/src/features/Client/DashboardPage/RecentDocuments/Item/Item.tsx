@@ -2,6 +2,7 @@ import styles from './Item.module.scss'
 import { ClientDocumentsData } from '../../../../../app/constants/constants'
 import { TypeFiles } from '../../../../../shared/ui/TypeFiles/TypeFiles'
 import { getAuthToken } from '../../../../../shared/utils/api/get-auth-token'
+import { downloadOrViewFile } from '../../../../../shared/utils/usefulMethods'
 import styleItem from '../RecentDocuments.module.scss'
 
 interface ItemProps {
@@ -12,15 +13,16 @@ export const Item = ({ document }: ItemProps) => {
   const authToken = getAuthToken()
 
   const handleDownloadFile = async () => {
-    const response = await fetch(`${document.link}?token=${authToken}`)
+    try {
+      const response = await fetch(`${document.link}?token=${authToken}`)
 
-    if (response.ok) {
+      if (!response.ok) throw new Error('Ошибка загрузки файла')
+
       const blob = await response.blob()
-      const url = URL.createObjectURL(blob)
 
-      window.open(url, '_blank')
-
-      URL.revokeObjectURL(url)
+      await downloadOrViewFile(blob, document.title)
+    } catch (error) {
+      console.error('Не удалось скачать/просмотреть файл', error)
     }
   }
 

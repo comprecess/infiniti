@@ -1,6 +1,9 @@
 import { useState } from 'react'
 
+import { AddTimeModal } from './AddTimeModal/AddTimeModal'
+import { LogsTable } from './LogsTable/LogsTable'
 import { Tabs } from './Tabs/Tabs'
+import { TimeSpentTable } from './TimeSpentTable/TimeSpentTable'
 import styles from './ViewTaskModal.module.scss'
 import { ProjectsTasksData, RolesAccess } from '../../../../../app/constants/constants'
 import { CrossIcon } from '../../../../../shared/icons/CrossIcon'
@@ -33,11 +36,16 @@ export const ViewTaskModal = ({
   deleteSelectedTask,
 }: ViewTaskModalProps) => {
   const [confirmModal, setConfirmModal] = useState<boolean>(false)
+  const [addTimeModal, setAddTimeModal] = useState<boolean>(false)
 
   const safeHTML = task.description ? sanitizeMessage(task.description) : null
 
   const handleSetConfirmModal = () => {
     setConfirmModal(prev => !prev)
+  }
+
+  const handleSetAddTimeModal = () => {
+    setAddTimeModal(prev => !prev)
   }
 
   const deleteTask = () => {
@@ -94,6 +102,15 @@ export const ViewTaskModal = ({
                 </>
               )}
               <div className={styles.buttons}>
+                {access?.create === 1 && (
+                  <CustomMiniButton
+                    style='blue'
+                    icon='/icons/clock.svg'
+                    alt='Add Time'
+                    tooltipTitle='Add Time'
+                    onClick={handleSetAddTimeModal}
+                  />
+                )}
                 {access?.edit === 1 && (
                   <CustomMiniButton
                     style='amber'
@@ -115,8 +132,8 @@ export const ViewTaskModal = ({
               </div>
             </div>
           )}
-          {filterStatus === 'Time Spent' && <div>Time Spent</div>}
-          {filterStatus === 'Logs' && <div>Logs</div>}
+          {filterStatus === 'Time Spent' && <TimeSpentTable idTask={task.id} />}
+          {filterStatus === 'Logs' && <LogsTable />}
         </div>
       </CustomModalWindow>
       {confirmModal && (
@@ -124,6 +141,13 @@ export const ViewTaskModal = ({
           isOpened={confirmModal}
           agree={deleteTask}
           handleOpenCloseModal={handleSetConfirmModal}
+        />
+      )}
+      {addTimeModal && (
+        <AddTimeModal
+          idTask={task.id}
+          isOpened={addTimeModal}
+          handleOpenCloseModal={handleSetAddTimeModal}
         />
       )}
     </>
