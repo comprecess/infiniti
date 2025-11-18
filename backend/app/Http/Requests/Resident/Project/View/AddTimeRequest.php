@@ -4,6 +4,7 @@ namespace App\Http\Requests\Resident\Project\View;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
 
 class AddTimeRequest extends FormRequest
 {
@@ -17,7 +18,8 @@ class AddTimeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'time' => 'required|date_format:H:i',
+            'date' => 'required|date_format:d.m.Y',
+            'time' => 'required|regex:/[0-9]{1,3}\:[0-9]{1,2}/',
             'description' => 'nullable'
         ];
 
@@ -25,7 +27,11 @@ class AddTimeRequest extends FormRequest
 
     public function getTime()
     {
-        return Carbon::createFromFormat('H:i', $this->time);
+        $time = explode(':', $this->time);
+        if(intval($time[1]) > 59 || intval($time[0]) > 999) {
+            throw ValidationException::withMessages(['time' => "The time field format is invalid."]);
+        }
+        return ['date' => Carbon::createFromFormat('d.m.Y', $this->date), 'time' => $this->time];
     }
 
 }
