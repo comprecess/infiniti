@@ -8,6 +8,7 @@ use App\Models\Users\Client;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class TaskTime extends Model
 {
@@ -40,12 +41,10 @@ class TaskTime extends Model
         $this->user_id = $user->id;
     }
 
-    public function setTime(Carbon $time)
+    public function setTime(array $time)
     {
-        $date = $time->clone();
-        $date = $date->setHours(0)->setMinutes(0);
-        $this->timeDate = $time->format('H:i');
-        $this->time = $time->getTimestamp() - $date->getTimestamp();
+        $this->date = Arr::get($time, 'date');
+        $this->time = Arr::get($time, 'time');
     }
 
 
