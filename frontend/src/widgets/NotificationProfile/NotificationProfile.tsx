@@ -50,8 +50,8 @@ export const NotificationProfile = () => {
     setNotifications(prev =>
       prev
         ? prev.map(notification =>
-            notification.id === id ? { ...notification, viewed: 1 } : notification,
-          )
+          notification.id === id ? { ...notification, viewed: 1 } : notification,
+        )
         : prev,
     )
   }

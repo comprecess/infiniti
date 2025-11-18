@@ -1,5 +1,6 @@
 import styles from './Item.module.scss'
 import { TypeFiles } from '../../../../../../shared/ui/TypeFiles/TypeFiles'
+import { downloadOrViewFile } from '../../../../../../shared/utils/usefulMethods'
 
 interface ItemProps {
   title: string
@@ -27,15 +28,16 @@ export const Item = ({
   }
 
   const handleDownloadFile = async () => {
-    const response = await fetch(link)
+    try {
+      const response = await fetch(link)
 
-    if (response.ok) {
+      if (!response.ok) throw new Error('Ошибка загрузки файла')
+
       const blob = await response.blob()
-      const url = URL.createObjectURL(blob)
 
-      window.open(url, '_blank')
-
-      URL.revokeObjectURL(url)
+      await downloadOrViewFile(blob, title)
+    } catch (error) {
+      console.error('Не удалось скачать/просмотреть файл', error)
     }
   }
 
@@ -50,10 +52,7 @@ export const Item = ({
       {customerId && customerName && (
         <div className={styles.container}>
           <span className={styles.customerTitle}>Customer:</span>
-          <span
-            className={styles.customerValue}
-            onClick={handleNavigateToCustomer}
-          >
+          <span className={styles.customerValue} onClick={handleNavigateToCustomer}>
             {customerName}
           </span>
         </div>

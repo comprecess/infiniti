@@ -96,3 +96,34 @@ export const generateStorageKey = (sectionPart: string): string => {
 
   return `infiniti-[${userPart}]-[${sectionPart}]`
 }
+
+export const downloadOrViewFile = async (blob: Blob, fileName: string): Promise<void> => {
+  const canView =
+    blob.type.startsWith('image/') ||
+    blob.type === 'application/pdf' ||
+    blob.type.startsWith('text/')
+
+  const url = URL.createObjectURL(blob)
+
+  if (canView) {
+    const newWindow = window.open(url, '_blank')
+
+    if (!newWindow) {
+      const a = document.createElement('a')
+      a.href = url
+      a.download = fileName
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+    }
+  } else {
+    const a = document.createElement('a')
+    a.href = url
+    a.download = fileName
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+  }
+
+  setTimeout(() => URL.revokeObjectURL(url), 1000)
+}

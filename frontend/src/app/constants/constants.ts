@@ -1669,3 +1669,10 @@ export interface AdminInvoiceAddPaymentInfoData {
   }
   payMethods: { id: number; name: string }[]
 }
+
+export interface ProjectsViewTaskTimeSpentData {
+  id: number
+  time: string
+  description: string
+  user: { id: number; account: string; img: string }
+}
