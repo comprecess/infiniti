@@ -18,7 +18,7 @@ class AddTimeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date' => 'required|date_format:d.m.Y',
+            'date' => 'required|date_format:Y-m-d',
             'time' => 'required|regex:/[0-9]{1,3}\:[0-9]{1,2}/',
             'description' => 'nullable'
         ];
@@ -31,7 +31,7 @@ class AddTimeRequest extends FormRequest
         if(intval($time[1]) > 59 || intval($time[0]) > 999) {
             throw ValidationException::withMessages(['time' => "The time field format is invalid."]);
         }
-        return ['date' => Carbon::createFromFormat('d.m.Y', $this->date), 'time' => $this->time];
+        return ['date' => Carbon::createFromFormat('Y-m-d', $this->date), 'time' => $this->time];
     }
 
 }
