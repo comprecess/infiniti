@@ -132,7 +132,11 @@ export const ViewTaskModal = ({
               </div>
             </div>
           )}
-          {filterStatus === 'Time Spent' && <TimeSpentTable idTask={task.id} />}
+          {filterStatus === 'Time Spent' && (
+            <div className={styles.timeSpentScroll}>
+              <TimeSpentTable idTask={task.id} />
+            </div>
+          )}
           {filterStatus === 'Logs' && <LogsTable />}
         </div>
       </CustomModalWindow>
