@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Collection\PersonalCollection;
+use App\Models\Traits\CollectionTrait;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PersonalModel extends Model
 {
-    use HasFactory;
+    use HasFactory, CollectionTrait;
 
 
     protected $table = 'personal_model';
@@ -17,6 +19,8 @@ class PersonalModel extends Model
     protected $casts = [
         'data' => 'json',
     ];
+
+    protected $collection = PersonalCollection::class;
 
 
     public function model()

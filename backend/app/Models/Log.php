@@ -68,4 +68,20 @@ class Log extends Model
         return $this;
     }
 
+    public static function comparisonModelsMismatch(Model $model1, Model $model2)
+    {
+        if($model1::class != $model2::class) {
+            return null;
+        }
+        $data = [];
+        $model2Arr = $model2->toArray();
+        foreach($model1->toArray() as $key => $value){
+            if($value != $model2Arr[$key]) {
+                $data[$key] = ['new' => $value, 'old' => $model2Arr[$key]];
+            }
+        }
+
+        return ['class' => $model1::class,'data' => $data];
+    }
+
 }

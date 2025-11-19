@@ -46,6 +46,11 @@ class Task extends Model implements InsertDefaultValueInterface
         return $this->hasMany(TaskTime::class, 'task_id');
     }
 
+    public function log()
+    {
+        return $this->hasMany(ProjectLog::class, 'task_id');
+    }
+
     public function getDefault(): array
     {
         return [

@@ -9,7 +9,7 @@ trait RoomTrait
     {
         $name = $name ?? $this->getName();
         $user = $user ?? $this->userData;
-        return in_array($name, Arr::get($user, 'room'));
+        return in_array($name, Arr::get($user, 'room', []));
     }
 
     public function checkClientRoom($client, $name = null)

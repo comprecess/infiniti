@@ -96,4 +96,15 @@ trait PersonalModelTrait
 
         $query->delete();
     }
+
+    public function getPersonaleSerilize()
+    {
+        $data = [];
+        foreach($this->personals as $personal) {
+            $user = $personal->user;
+            $data[] = ['type' => $user->getNameClass(), 'id' => $user->id];
+        }
+
+        return $data;
+    }
 }
