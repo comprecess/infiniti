@@ -23,6 +23,8 @@ class DocumentController extends ResidentController
         delete as deleteCRUD;
     }
 
+    public $file = null;
+
     public function roleAccess($request)
     {
         $method = $request->method();
@@ -88,8 +90,8 @@ class DocumentController extends ResidentController
             $document,
             null,
             function($model, $request, $isNew){
-                $fileStorage = $model->uploads($request->file);
-                $model->file_mime_type = $fileStorage->ext;
+                $this->file = $model->uploads($request->file);
+                $model->file_mime_type = $this->file->ext;
                 $model->is_global = (bool) $request->global;
                 $model->save();
 

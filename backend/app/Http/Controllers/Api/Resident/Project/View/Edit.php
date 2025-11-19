@@ -20,6 +20,7 @@ use App\Http\Requests\Resident\Task\TaskUpdateStatusRequest;
 use App\Models\Resident\Document;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Project\Calendar;
+use App\Models\Resident\Project\ProjectLog;
 use App\Models\Resident\Project\Task;
 use App\Models\Resident\Project\TaskTime;
 use App\Models\Resident\Transactions\Transaction;
@@ -38,7 +39,13 @@ class Edit extends View
         $document = new DocumentController();
         $request = app(DocumentFileCreateRequest::class);
         $request->setModel($this->model);
-        return $document->createOrUpdate(new Document(), $request);
+        $result = $document->createOrUpdate(new Document(), $request);
+        if($document->file) {
+            $data = $document->file->toArray();
+            $dopDescription = __('project_log.project.fileName',['fileName' => $document->file->original_name, 'fileId' => $document->file->id]);
+        }
+        ProjectLog::create($this->model, ProjectLog::TYPE[4], null, $data, null, $dopDescription);
+        return $result;
     }
 
     private function getTask($id)

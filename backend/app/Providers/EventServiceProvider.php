@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events;
 use App\Events\Catalog;
 use App\Events\Client\BusinessPlan\Generate;
 use App\Events\InvoicePay;
@@ -65,6 +66,9 @@ class EventServiceProvider extends ServiceProvider
             Listeners\Client\BusinessPlan\Answers::class,
             Listeners\Client\BusinessPlan\GeneratePlan::class,
             Listeners\Client\BusinessPlan\CreateTeams::class
+        ],
+        Events\Project\Log::class => [
+            Listeners\Project\Log::class
         ]
     ];
 

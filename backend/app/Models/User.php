@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Events\UserIsAuthorized;
 use App\Models\Catalog\Cart as CatalogCart;
 use App\Models\Resident\Project\Calendar;
+use App\Models\Resident\Project\ProjectLog;
 use App\Models\Traits\AuthPasswordTrait;
 use App\Models\Traits\FileStorageTrait;
 use App\Models\Users\Admin;
@@ -99,6 +100,11 @@ class User extends Authenticatable
     public function settings()
     {
         return $this->morphMany(UserSettings::class, 'user');
+    }
+
+    public function projectLog()
+    {
+        return $this->morphMany(ProjectLog::class, 'user');
     }
 
     public function calendar()

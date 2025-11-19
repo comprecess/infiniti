@@ -3,7 +3,7 @@
 
 namespace App\Http\Controllers\Api\Resident\Project;
 
-
+use App\Http\Controllers\Api\Resident\Project\Traits\ProjectLogTrait;
 use App\Http\Controllers\Api\Resident\Project\View\View;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Project\ProjectCreateRequest;
@@ -13,14 +13,14 @@ use App\Http\Resources\Resident\Project\ProjectListResource;
 use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Http\Resources\Users\AdminListResource;
 use App\Models\Resident\Project\Project;
+use App\Models\Resident\Project\ProjectLog;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
-use Illuminate\Support\Facades\DB;
 
 class ProjectController extends ProjectAccessController
 {
-    use CRUD {
+    use ProjectLogTrait, CRUD {
         createOrUpdate as createOrUpdateCRUD;
         delete as deleteCRUD;
     }
@@ -82,18 +82,19 @@ class ProjectController extends ProjectAccessController
             ->orderBy('id', 'desc')
             ->limit(100);
 
-//        dd($projectQuery->get()->where('id',8)->first()->personalClients->pluck('user'));
-
         return ProjectListResource::collection($projectQuery->get());
     }
 
     public function createOrUpdate(Project $project, ProjectCreateRequest $request)
     {
+        $this->setOldModel($project);
+
         $this->isPut = true;
         if(!$project->id) {
             $project = Project::newDefault();
         }
-        return $this->createOrUpdateCRUD($request, $project, null, function($model, $request, $isNew){
+
+        $result = $this->createOrUpdateCRUD($request, $project, null, function($model, $request, $isNew){
             $collect = collect([]);
             if($request->members) {
                 $collect =  $collect->merge(Admin::whereIn('id', $request->members)->get());
@@ -102,11 +103,16 @@ class ProjectController extends ProjectAccessController
                 $collect = $collect->merge(Client::whereIn('id', $request->suppliers)->hasType(Client::TYPE[1])->get());
             }
             $model->setPersonal($collect);
+
         });
+        $this->sendLog($project);
+
+        return $result;
     }
 
     public function delete(Project $project)
     {
+        $this->sendLog($project, ProjectLog::TYPE[2]);
         return $this->deleteCRUD($project);
     }
 

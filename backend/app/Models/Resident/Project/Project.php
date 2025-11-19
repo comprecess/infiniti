@@ -65,6 +65,11 @@ class Project extends Model implements InsertDefaultValueInterface
         return $this->belongsTo(Admin::class, 'project_manager_id');
     }
 
+    public function log()
+    {
+        return $this->hasMany(ProjectLog::class, 'project_id');
+    }
+
     public function getTaskCompleted()
     {
         $count = $this->tasks()->count();

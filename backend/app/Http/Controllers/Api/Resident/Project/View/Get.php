@@ -15,6 +15,7 @@ use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\DocumentResource;
 use App\Http\Resources\Resident\Invoices\InvoiceListResource;
 use App\Http\Resources\Resident\Project\ProjectListResource;
+use App\Http\Resources\Resident\Project\View\LogResource;
 use App\Http\Resources\Resident\Project\View\TaskGanttChartResource;
 use App\Http\Resources\Resident\Project\View\TaskResource;
 use App\Http\Resources\Resident\Project\View\TaskTimeResource;
@@ -42,15 +43,16 @@ class Get extends View
     public function tasks()
     {
         $id = $this->urlToMethodInt();
+        $tasqQuery = $tasks = $this->model->tasks()
+            ->with(['admin.files', 'admin.myRole', 'client.companyClient', 'client.files', 'personals', 'personals.user', 'personals.user.files']);
 
         if(!is_int($id) && $id) {
             return $id;
+        }elseif(is_int($id) && $id){
+            return new TaskResource($tasqQuery->where('id', $id)->first());
         }
 
-        $tasks = $this->model->tasks()
-            ->with(['admin.files', 'admin.myRole', 'client.companyClient', 'client.files', 'personals', 'personals.user', 'personals.user.files'])
-            ->sort()
-            ->get();
+        $tasks = $tasqQuery->sort()->get();
         $group = $tasks->groupBy('status');
 
         $taskColumns = Task::getStatusColumn()->sortBy('sort');
@@ -81,6 +83,14 @@ class Get extends View
         $times = $task->times()->with(['user', 'user.files'])->where('project_id', $this->model->id)->get();
 
         return TaskTimeResource::collection($times);
+    }
+
+    public function tasksLogs($integer)
+    {
+        $task = $this->getTask(Arr::get($integer, 0));
+        $queryLog = $task->log()->orderBy('id', 'desc')->with(['user', 'user.files']);
+
+        return $this->index($queryLog, LogResource::class, true);
     }
 
     public function files()
@@ -181,6 +191,12 @@ class Get extends View
             ->sort();
 
         return $this->index($tasks, TaskGanttChartResource::class);
+    }
+
+    public function logs()
+    {
+        $queryLog = $this->model->log()->orderBy('id', 'desc')->with(['user', 'user.files']);
+        return $this->index($queryLog, LogResource::class, true);
     }
 
 }

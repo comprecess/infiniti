@@ -4,27 +4,31 @@
 namespace App\Http\Controllers\Api\Resident\Task;
 
 
+use App\Http\Controllers\Api\Resident\Project\Traits\ProjectLogTrait;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Task\TaskCreateRequest;
 use App\Http\Requests\Resident\Task\TaskUpdateStatusRequest;
+use App\Models\Resident\Project\ProjectLog;
 use App\Models\Resident\Project\Task;
 use App\Models\User;
 use App\Models\Users\Admin;
 
 class TaskController extends TaskAccessController
 {
-    use CRUD {
+    use ProjectLogTrait, CRUD {
         createOrUpdate as createOrUpdateCRUD;
         delete as deleteCRUD;
     }
 
     public function createOrUpdate(Task $task, TaskCreateRequest $request)
     {
+        $this->setOldModel($task);
+
         $this->isPut = true;
         if(!$task->id) {
             $task = Task::newDefault();
         }
-        return $this->createOrUpdateCRUD($request, $task, function($model, $request, $isNew){
+        $result = $this->createOrUpdateCRUD($request, $task, function($model, $request, $isNew){
             if($isNew) {
                 $admin = User::getAuth();
                 if($admin instanceof Admin) {
@@ -38,16 +42,20 @@ class TaskController extends TaskAccessController
         }, function($model, $request, $isNew){
             $model->setPersonal($request->getUsers());
         });
+        $this->sendLog($task);
+
+        return $result;
     }
 
     public function delete(Task $task)
     {
+        $this->sendLog($task, ProjectLog::TYPE[2]);
         return $this->deleteCRUD($task);
     }
 
     public function updateStatus(Task $task, TaskUpdateStatusRequest $request)
     {
-
+        $this->setOldModel($task);
         $tasksRequest = Task::where('status',$request->status)
             ->where('id', '!=', $task->id)
             ->sort();
@@ -70,6 +78,9 @@ class TaskController extends TaskAccessController
         $task->status = $request->status;
         $task->position = $request->position;
         $task->save();
+
+        $dopDescription = __('project_log.task.updateStatusName',['statusName' => $task->status, 'statusPosition' => $task->position]);
+        $this->sendLog($task, ProjectLog::TYPE[3], $dopDescription);
 
         return $this->defResponse();
     }

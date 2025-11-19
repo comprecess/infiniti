@@ -40,6 +40,7 @@ trait HelperTrait
                     break;
                 }
                 $random = $this->randomNum($col, $onlyNum, $i);
+                $i++;
             }
         }
         $this->{$nameColumn} = $random;

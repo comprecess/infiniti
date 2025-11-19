@@ -4,14 +4,16 @@
 namespace App\Http\Controllers\Api\Resident\Project\View;
 
 
+use App\Http\Controllers\Api\Resident\Project\Traits\ProjectLogTrait;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Models\Resident\Project\Calendar;
+use App\Models\Resident\Project\ProjectLog;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
 class Delete extends View
 {
-    use CRUD;
+    use CRUD, ProjectLogTrait;
 
     private function getTask($id)
     {
@@ -26,6 +28,7 @@ class Delete extends View
         }
         $task = $this->getTask($id);
         if($task) {
+            $this->sendLog($task, ProjectLog::TYPE[2]);
             return $this->delete($task);
         }
 
