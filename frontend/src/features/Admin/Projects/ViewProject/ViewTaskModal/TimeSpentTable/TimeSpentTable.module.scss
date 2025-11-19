@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-width: 1000px;
+  min-width: 975px;
   overflow-y: hidden;
 }
 
@@ -29,6 +29,28 @@
 .timeColumn,
 .manageColumn {
   width: 100%;
+}
+
+.avatarColumn {
+  max-width: 75px;
+}
+
+.accountColumn {
+  max-width: 250px;
+}
+
+.timeColumn {
+  max-width: 200px;
+}
+
+.descriptionColumn {
+  max-width: 300px;
+}
+
+.manageColumn {
+  max-width: 150px;
+  text-align: end;
+  justify-content: end;
 }
 
 .loading {

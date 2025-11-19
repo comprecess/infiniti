@@ -3,6 +3,8 @@
   flex-direction: column;
   gap: 38px;
   color: $white;
+
+  @include scrollbar;
 }
 
 .header {
@@ -72,6 +74,7 @@
   width: 100%;
   align-items: end;
   justify-content: end;
+  margin-top: 12px;
 }
 
 .dividerTop {
@@ -81,4 +84,11 @@
 .divider {
   margin-top: 12px;
   margin-bottom: 12px;
+}
+
+.timeSpentScroll {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 4px;
 }

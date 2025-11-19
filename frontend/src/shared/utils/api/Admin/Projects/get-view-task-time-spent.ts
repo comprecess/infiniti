@@ -23,7 +23,6 @@ type Response = SuccessResponse | ErrorResponse
 export const getViewTaskTimeSpent = async (
   idProject: number,
   idTask: number,
-  options: string,
 ): Promise<Response> => {
   if (!Number.isInteger(idProject) || idProject <= 0) {
     return {
@@ -56,10 +55,7 @@ export const getViewTaskTimeSpent = async (
       throw new Error('Configuration error - missing environment variables')
     }
 
-    const url = new URL(
-      `${apiPath}/${idProject}/tasks/${idTask}/times${options}`,
-      baseUrl,
-    ).toString()
+    const url = new URL(`${apiPath}/${idProject}/tasks/${idTask}/times`, baseUrl).toString()
 
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
