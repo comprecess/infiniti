@@ -4,7 +4,9 @@ import { Item } from './Item/Item'
 import styles from './TimeSpentTable.module.scss'
 import { ProjectsViewTaskTimeSpentData } from '../../../../../../app/constants/constants'
 import { CustomDivider } from '../../../../../../shared/ui/CustomDivider/CustomDivider'
+import { useCustomToast } from '../../../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { deleteProjectTimeSpentTask } from '../../../../../../shared/utils/api/Admin/Projects/delete-project-time-spent-task'
 import { getViewTaskTimeSpent } from '../../../../../../shared/utils/api/Admin/Projects/get-view-task-time-spent'
 import { useIdFromUrl } from '../../../../../../shared/utils/usefulMethods'
 import { Title } from '../../../../../Main/RecentCard/Title/Title'
@@ -18,6 +20,8 @@ export const TimeSpentTable = ({ idTask }: TimeSpentTableProps) => {
 
   const idProject = useIdFromUrl('project')
 
+  const showToast = useCustomToast()
+
   const getTimeSpentTask = async () => {
     if (!idProject) return
 
@@ -26,6 +30,27 @@ export const TimeSpentTable = ({ idTask }: TimeSpentTableProps) => {
     if (!response.status) return
 
     setTimeSpentData(response.data.data)
+  }
+
+  const deleteTimeSpent = async (idTime: number) => {
+    if (!idProject) return
+
+    const { status, message } = await deleteProjectTimeSpentTask(idProject, idTask, idTime)
+
+    if (status) {
+      showToast({
+        title: 'Successfully',
+        description: 'You have successfully deleted the Entry',
+        status: 'success',
+      })
+      getTimeSpentTask()
+    } else {
+      showToast({
+        title: 'Error',
+        description: message,
+        status: 'error',
+      })
+    }
   }
 
   useEffect(() => {
@@ -61,7 +86,12 @@ export const TimeSpentTable = ({ idTask }: TimeSpentTableProps) => {
         {timeSpentData.map((data, index) => {
           return (
             <Fragment key={data.id}>
-              <Item data={data} />
+              <Item
+                data={data}
+                idTask={idTask}
+                refreshList={getTimeSpentTask}
+                deleteTimeSpent={deleteTimeSpent}
+              />
               {index !== timeSpentData.length - 1 && <CustomDivider />}
             </Fragment>
           )

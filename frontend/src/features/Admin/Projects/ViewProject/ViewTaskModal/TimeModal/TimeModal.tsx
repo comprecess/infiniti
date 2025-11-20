@@ -1,73 +1,100 @@
 import { Textarea } from '@chakra-ui/react'
 import { ChangeEvent, useState } from 'react'
 
-import styles from './AddTimeModal.module.scss'
+import styles from './TimeModal.module.scss'
+import { ProjectsViewTaskTimeSpentData } from '../../../../../../app/constants/constants'
 import { CrossIcon } from '../../../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDataPicker } from '../../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomInput } from '../../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomModalWindow } from '../../../../../../shared/ui/CustomModalWindow/CustomModalWindow'
 import { useCustomToast } from '../../../../../../shared/ui/CustomToast/CustomToast'
+import { patchUpdateTimeTask } from '../../../../../../shared/utils/api/Admin/Projects/patch-update-time-task'
 import { postAddNewTimeTask } from '../../../../../../shared/utils/api/Admin/Projects/post-add-new-time-task'
 import { useIdFromUrl } from '../../../../../../shared/utils/usefulMethods'
+// import { postUpdateTimeTask } from '../../../../../../...'
 
-interface AddTimeModalProps {
+interface TimeModalProps {
+  data?: ProjectsViewTaskTimeSpentData
+  title: string
   idTask: number
   isOpened: boolean
+  refreshList?: () => void
   handleOpenCloseModal: () => void
 }
 
-export const AddTimeModal = ({ idTask, isOpened, handleOpenCloseModal }: AddTimeModalProps) => {
-  const [form, setForm] = useState<{
-    date: string
-    hours: string
-    minutes: string
-    description: string
-  }>({
-    date: '',
-    hours: '',
-    minutes: '',
-    description: '',
-  })
+export const TimeModal = ({
+  data,
+  title,
+  idTask,
+  isOpened,
+  refreshList,
+  handleOpenCloseModal,
+}: TimeModalProps) => {
+  const parseInitialForm = () => {
+    if (!data) {
+      return { date: '', hours: '', minutes: '', description: '' }
+    }
+    const [hh, mm] = data.time.split(':')
+
+    return {
+      date: data.date,
+      hours: hh === '00' ? '' : hh,
+      minutes: mm === '00' ? '' : mm,
+      description: data.description,
+    }
+  }
+
+  const [form, setForm] = useState(parseInitialForm)
 
   const idProject = useIdFromUrl('project')
   const showToast = useCustomToast()
 
-  const handleChangeInput = (field: string, value: string | number) => {
-    setForm(prev => ({
-      ...prev,
-      [field]: value,
-    }))
+  const updateForm = (field: string, value: string | number) => {
+    setForm(prev => ({ ...prev, [field]: value }))
   }
 
-  const addNewTime = async () => {
+  const normalizeTime = () => {
+    const hh = String(Number(form.hours || 0)).padStart(2, '0')
+    const mm = String(Number(form.minutes || 0)).padStart(2, '0')
+
+    return `${hh}:${mm}`
+  }
+
+  const submitTime = async () => {
     if (!idProject) return
 
-    const hhRaw = String(Number(form.hours))
-    const hh = hhRaw.length < 2 ? hhRaw.padStart(2, '0') : hhRaw
-
-    const mmRaw = String(Number(form.minutes))
-    const mm = mmRaw.padStart(2, '0')
-
-    const time = `${hh}:${mm}`
-
-    const { status, message } = await postAddNewTimeTask(idProject, idTask, {
+    const payload = {
       date: form.date,
-      time,
+      time: normalizeTime(),
       description: form.description,
-    })
+    }
 
-    if (status) {
+    let response
+
+    if (data) {
+      response = await patchUpdateTimeTask(idProject, idTask, data.id, payload)
+    } else {
+      response = await postAddNewTimeTask(idProject, idTask, payload)
+    }
+
+    if (response?.status) {
       showToast({
         title: 'Successfully',
-        description: 'You have successfully added Time.',
+        description: data
+          ? 'You have successfully updated Time.'
+          : 'You have successfully added Time.',
         status: 'success',
       })
       handleOpenCloseModal()
+
+      if (data && refreshList) {
+        refreshList()
+      }
     } else {
       showToast({
         title: 'Error',
-        description: message,
+        description: response?.message || 'Something went wrong',
         status: 'error',
       })
     }
@@ -77,14 +104,19 @@ export const AddTimeModal = ({ idTask, isOpened, handleOpenCloseModal }: AddTime
     <CustomModalWindow maxWidth='600px' isOpen={isOpened} onClose={handleOpenCloseModal}>
       <div className={styles.wrapper}>
         <div className={styles.header}>
-          <h4 className={styles.title}>Add Time</h4>
+          <h4 className={styles.title}>{title}</h4>
           <div className={styles.cross} onClick={handleOpenCloseModal}>
             <CrossIcon />
           </div>
         </div>
         <div className={styles.form}>
           <div className={styles.container}>
-            <CustomDataPicker title='Date' titleOnChange='date' onChange={handleChangeInput} />
+            <CustomDataPicker
+              title='Date'
+              titleOnChange='date'
+              value={form.date}
+              onChange={updateForm}
+            />
             <div className={styles.inputs}>
               <CustomInput
                 title='Hours'
@@ -92,7 +124,7 @@ export const AddTimeModal = ({ idTask, isOpened, handleOpenCloseModal }: AddTime
                 id='hours'
                 name='hours'
                 value={form.hours}
-                onChange={handleChangeInput}
+                onChange={updateForm}
               />
               <CustomInput
                 title='Minutes'
@@ -100,7 +132,7 @@ export const AddTimeModal = ({ idTask, isOpened, handleOpenCloseModal }: AddTime
                 id='minutes'
                 name='minutes'
                 value={form.minutes}
-                onChange={handleChangeInput}
+                onChange={updateForm}
               />
             </div>
           </div>
@@ -114,17 +146,13 @@ export const AddTimeModal = ({ idTask, isOpened, handleOpenCloseModal }: AddTime
               border='none'
               _hover={{ border: 'none' }}
               _focusVisible={{ border: 'none' }}
-              _focusWithin={{ border: 'none' }}
-              fontSize='16px'
-              fontWeight='400'
-              lineHeight='24px'
               value={form.description}
-              onChange={(event: ChangeEvent<HTMLTextAreaElement>) =>
-                handleChangeInput('description', event.target.value)
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+                updateForm('description', e.target.value)
               }
             />
           </div>
-          <ButtonBlue title='Save' style={styles.buttonSave} onClick={addNewTime} />
+          <ButtonBlue title='Save' style={styles.buttonSave} onClick={submitTime} />
         </div>
       </div>
     </CustomModalWindow>

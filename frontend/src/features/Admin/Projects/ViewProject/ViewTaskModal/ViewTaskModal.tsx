@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
-import { AddTimeModal } from './AddTimeModal/AddTimeModal'
 import { LogsTable } from './LogsTable/LogsTable'
 import { Tabs } from './Tabs/Tabs'
+import { TimeModal } from './TimeModal/TimeModal'
 import { TimeSpentTable } from './TimeSpentTable/TimeSpentTable'
 import styles from './ViewTaskModal.module.scss'
 import { ProjectsTasksData, RolesAccess } from '../../../../../app/constants/constants'
@@ -133,11 +133,11 @@ export const ViewTaskModal = ({
             </div>
           )}
           {filterStatus === 'Time Spent' && (
-            <div className={styles.timeSpentScroll}>
+            <div className={styles.scrollTable}>
               <TimeSpentTable idTask={task.id} />
             </div>
           )}
-          {filterStatus === 'Logs' && <LogsTable />}
+          {filterStatus === 'Logs' && <LogsTable idTask={task.id} />}
         </div>
       </CustomModalWindow>
       {confirmModal && (
@@ -148,7 +148,8 @@ export const ViewTaskModal = ({
         />
       )}
       {addTimeModal && (
-        <AddTimeModal
+        <TimeModal
+          title='Add Time'
           idTask={task.id}
           isOpened={addTimeModal}
           handleOpenCloseModal={handleSetAddTimeModal}
