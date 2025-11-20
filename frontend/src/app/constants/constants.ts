@@ -1677,3 +1677,11 @@ export interface ProjectsViewTaskTimeSpentData {
   description: string
   user: { id: number; account: string; img: string }
 }
+
+export interface ProjectsViewLogsData {
+  id: number
+  time: string
+  date: string
+  description: string
+  user: { id: number; account: string; img: string }
+}

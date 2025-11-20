@@ -7,10 +7,13 @@ export interface VersionInfo {
 
 export const versions: VersionInfo[] = [
   {
-    version: '0.0.34-alpha.34pc',
+    version: '0.0.35-alpha.35ra',
     description: `
             <ul>
-              <li>Возможность добавлять время в тасках</li>
+              <li>Обновлена таблица контроля времени в тасках, так как новые поля</li>
+              <li>Добавлено удаление и редактирование времени в тасках</li>
+              <li>Добавлены логи в тасках</li>
+              <li>Добавлены логи в проектах</li>
             </ul>
     `,
   },
