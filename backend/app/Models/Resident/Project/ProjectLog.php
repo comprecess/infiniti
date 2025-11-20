@@ -22,7 +22,14 @@ class ProjectLog extends Model
         'edit',
         'delete',
         'updateStatus',
-        'addFile'
+        'addFile',
+        'addExpenses',
+        'addInvoices',
+        'ganttChart',
+        'addTime',
+        'editTime',
+        'deleteTime',
+        'deleteFile'
     ];
 
     protected $table = 'clx_projects_log';
@@ -99,6 +106,11 @@ class ProjectLog extends Model
         }
 
         return $result;
+    }
+
+    public static function dopDescription($name, array $data)
+    {
+        return __("project_log.{$name}", $data);
     }
 
 
