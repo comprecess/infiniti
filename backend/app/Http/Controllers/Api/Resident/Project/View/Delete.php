@@ -31,14 +31,15 @@ class Delete extends View
             $this->sendLog($task, ProjectLog::TYPE[2]);
             return $this->delete($task);
         }
-
+        ProjectLog::create($task, ProjectLog::TYPE[2]);
         return response()->json(['success' => false]);
     }
 
     public function tasksTimes($integer)
     {
         $task = $this->getTask(Arr::get($integer, 0));
-        $time = $task->time()->where('id', Arr::get($integer, 1))->where('project_id', $this->model->id)->firstOrFail();
+        $time = $task->times()->where('id', Arr::get($integer, 1))->where('project_id', $this->model->id)->firstOrFail();
+        ProjectLog::create($task, ProjectLog::TYPE[10]);
         return $this->delete($time);
     }
 
@@ -61,6 +62,7 @@ class Delete extends View
     {
         $id = $this->urlToMethod(true);
         $result = $this->model->deleteDocument($id);
+        ProjectLog::create($this->model, ProjectLog::TYPE[11]);
         return response()->json(['success' => $result]);
     }
 

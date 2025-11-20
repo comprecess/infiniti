@@ -6,7 +6,10 @@ return [
         'edit' => '(:userUsertype) :userAccount [ID::userId], сhanged the project [ID::projectId];',
         'delete' => '(:userUsertype) :userAccount [ID::userId], deleted the project [ID::projectId];',
         'addFile' => '(:userUsertype) :userAccount [ID::userId], added a file to the project [ID::projectId];',
-        'fileName' => ' File name: :fileName, ID: :fileId;'
+        'fileName' => ' File name: :fileName, ID: :fileId;',
+        'addExpenses' => '(:userUsertype) :userAccount [ID::userId], added expense;',
+        'transaction' => 'Transaction [ID::id]',
+        'deleteFile' => '(:userUsertype) :userAccount [ID::userId], deleted a file from the project [ID::projectId];',
     ],
     'task' => [
         'create' => '(:userUsertype) :userAccount [ID::userId], created a new task [ID::taskId];',
@@ -14,6 +17,11 @@ return [
         'delete' => '(:userUsertype) :userAccount [ID::userId], deleted the task [ID::taskId];',
         'updateStatus' => '(:userUsertype) :userAccount [ID::userId], сhanged the task status [ID::taskId];',
         'updateStatusName' => ' Name status: :statusName, position: :statusPosition;',
+        'ganttChart' => '(:userUsertype) :userAccount [ID::userId], changed the task [ID::taskId] timeframe via ganttChart;',
+        'addTime' => '(:userUsertype) :userAccount [ID::userId], recorded the time;',
+        'editTime' => '(:userUsertype) :userAccount [ID::userId], changed the time;',
+        'deleteTime' => '(:userUsertype) :userAccount [ID::userId], deleted time from the task [ID::taskId];',
+        'time' => ' Time [ID::id], Description: :description]',
     ],
     'personal' => [
         'new' => 'Added staff: :staff;',

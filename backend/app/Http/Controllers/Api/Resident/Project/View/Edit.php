@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\Resident\Project\View;
 
 use App\Http\Controllers\Api\Resident\DocumentController;
 use App\Http\Controllers\Api\Resident\Project\CalendarController;
+use App\Http\Controllers\Api\Resident\Project\Traits\ProjectLogTrait;
 use App\Http\Controllers\Api\Resident\Sale\InvoiceController;
 use App\Http\Controllers\Api\Resident\Task\TaskController;
 use App\Http\Controllers\Api\Resident\Transactions\TransactionsController;
@@ -32,7 +33,7 @@ use Illuminate\Validation\ValidationException;
 
 class Edit extends View
 {
-    use CRUD;
+    use CRUD, ProjectLogTrait;
 
     public function files()
     {
@@ -88,14 +89,17 @@ class Edit extends View
             $time->setUser(User::getAuth());
             $time->project_id = $this->model->id;
             $time->task_id = $task->id;
+            $type = ProjectLog::TYPE[8];
         }elseif ($method == 'PATCH') {
-            $time = $task->time()->where('id', Arr::get($integer, 1))->where('project_id', $this->model->id)->firstOrFail();
+            $time = $task->times()->where('id', Arr::get($integer, 1))->where('project_id', $this->model->id)->firstOrFail();
+            $type = ProjectLog::TYPE[9];
         }
 
         if($time !== null) {
             $time->setTime($request->getTime());
             $time->description = $request->description;
             $time->save();
+            ProjectLog::create(model: $task, type: $type, descriptionDop: ProjectLog::dopDescription('task.time', $time->toArray()));
 
             return response()->json(['success' => true, 'id' => $time->id]);
         }
@@ -136,6 +140,7 @@ class Edit extends View
     {
         $id = $this->urlToMethod(true);
         $task = $this->model->tasks()->where('id', $id)->firstOrFail();
+        $this->setOldModel($task);
         $request = app(GanttChartRequest::class);
 
         if($request->start) {
@@ -147,6 +152,7 @@ class Edit extends View
         }
 
         $task->save();
+        $this->sendLog($task, ProjectLog::TYPE[7]);
 
         return $this->defResponse();
 

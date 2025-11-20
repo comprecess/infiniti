@@ -28,6 +28,7 @@ use App\Http\Resources\Users\AdminListResource;
 use App\Models\Config;
 use App\Models\Log;
 use App\Models\Resident\Client\Company;
+use App\Models\Resident\Project\ProjectLog;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\Tag;
 use App\Models\Resident\Transactions\Account;
@@ -220,6 +221,14 @@ class TransactionsController extends TransactionsAccessController
                 ' | Amount: ' .
                 $request->getAmount() .
                 ']');
+
+            if($project = $model->project) {
+                $type = Arr::get([Transaction::TYPE[1] => ProjectLog::TYPE[5], Transaction::TYPE[0] => ProjectLog::TYPE[6]],$request->type);
+                if($type) {
+                    $dopDescription = ProjectLog::dopDescription('project.transaction', ['id', $model->id]);
+                    ProjectLog::create(model: $project, type: $type, descriptionDop: $dopDescription);
+                }
+            }
         });
     }
 
