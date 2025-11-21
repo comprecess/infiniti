@@ -1,10 +1,10 @@
 import { BookOpenIcon } from '../../shared/icons/BookOpenIcon'
 import { ChartIcon } from '../../shared/icons/ChartIcon'
-import { ClockBGIcon } from '../../shared/icons/ClockBGIcon'
 import { ExpensesIcon } from '../../shared/icons/ExpensesIcon'
 import { DashboardIcon } from '../../shared/icons/sidebarList/DashboardIcon'
 import { FileIcon } from '../../shared/icons/sidebarList/FileIcon'
 import { InvoicesIcon } from '../../shared/icons/sidebarList/InvoicesIcon'
+import { LogIcon } from '../../shared/icons/sidebarList/LogIcon'
 import { TasksIcon } from '../../shared/icons/sidebarList/TasksIcon'
 
 export const ProjectInfoSidebar = [
@@ -52,16 +52,16 @@ export const ProjectInfoSidebar = [
   },
   {
     id: 6,
-    name: 'TimeLog',
-    page: 'time-log',
-    type: 'time-log',
-    icon: <ClockBGIcon />,
-  },
-  {
-    id: 7,
     name: 'Analytics',
     page: 'analytics',
     type: 'analytics',
     icon: <BookOpenIcon />,
+  },
+  {
+    id: 7,
+    name: 'Logs',
+    page: 'logs',
+    type: 'logs',
+    icon: <LogIcon />,
   },
 ]

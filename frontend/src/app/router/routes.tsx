@@ -58,6 +58,7 @@ import { AdminProjectsExpensesPage } from '../../pages/Admin/ProjectsPage/ViewPr
 import { AdminProjectsFilesPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/FilesPage/FilesPage'
 import { AdminProjectsGanttChartPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/GanttChartPage/GanttChartPage'
 import { AdminProjectsInvoicesPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/InvoicesPage/InvoicesPage'
+import { AdminProjectsLogsPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/LogsPage/LogsPage'
 import { AdminProjectsSummaryPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/SummaryPage/SummaryPage'
 import { AdminProjectsTasksPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/TasksPage/TasksPage'
 import { AdminViewProjectPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/ViewProjectPage'
@@ -146,6 +147,7 @@ export const Routes = {
   catalog: 'catalog',
   generalSettings: 'general-settings',
   talents: 'talents',
+  logs: 'logs',
   customers: 'customers',
   view: 'view',
   new: 'new',
@@ -321,6 +323,7 @@ export const Pages = {
   adminProjectsInvoicesPage: <AdminProjectsInvoicesPage />,
   adminProjectsExpensesPage: <AdminProjectsExpensesPage />,
   adminProjectsGanttChartPage: <AdminProjectsGanttChartPage />,
+  adminProjectsLogsPage: <AdminProjectsLogsPage />,
   adminLeadsPage: <AdminLeadsPage />,
   adminWebToLeadPage: <AdminWebToLeadPage />,
   adminSMSPage: <AdminSMSPage />,

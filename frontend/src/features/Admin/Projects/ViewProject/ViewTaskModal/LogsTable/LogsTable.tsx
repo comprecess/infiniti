@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useCallback, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { Item } from './Item/Item'
@@ -29,18 +29,15 @@ export const LogsTable = ({ idTask }: LogsTableProps) => {
 
   const updateQueryParam = (key: string, value: string | number) => {
     const newParams = new URLSearchParams(location.search)
-    newParams.set(key, String(value))
 
-    if (key !== 'page') {
-      newParams.set('page', '1')
-    }
+    newParams.set(key, String(value))
 
     setSearchParams(newParams, { replace: true })
   }
 
   const updatePage = (newPage: number) => updateQueryParam('page', newPage)
 
-  const getLogsTask = async () => {
+  const getLogsTask = useCallback(async () => {
     if (!idProject) return
 
     const response = await getProjectTaskLogs(idProject, idTask, `?page=${page}`)
@@ -48,7 +45,7 @@ export const LogsTable = ({ idTask }: LogsTableProps) => {
     if (!response.status) return
 
     setLogsData(response.data)
-  }
+  }, [searchParams])
 
   useEffect(() => {
     const params = new URLSearchParams(location.search)
@@ -66,7 +63,7 @@ export const LogsTable = ({ idTask }: LogsTableProps) => {
 
   useEffect(() => {
     getLogsTask()
-  }, [idProject])
+  }, [searchParams, idProject])
 
   if (!logsData) {
     return (
