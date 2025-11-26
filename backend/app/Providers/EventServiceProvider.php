@@ -62,6 +62,10 @@ class EventServiceProvider extends ServiceProvider
             Listeners\Invoice\Check::class,
             Listeners\Invoice\AdminNotification::class
         ],
+        /** Invoice Полностью оплатили*/
+        Events\Invoice\InvoiceIsPay::class => [
+            Listeners\Project\ProjectFromBusinessPlan::class
+        ],
         Generate::class => [
             Listeners\Client\BusinessPlan\Answers::class,
             Listeners\Client\BusinessPlan\GeneratePlan::class,

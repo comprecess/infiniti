@@ -120,7 +120,11 @@ class Notification extends Model
         $not->save();
 
         #socket send
-        (new ClientSocket())->setUser($user)->setController('notification')->sendData();
+        try {
+            (new ClientSocket())->setUser($user)->setController('notification')->sendData();
+        }catch (\Exception $e){
+            \Illuminate\Support\Facades\Log::error($e->getMessage(), $e->getTrace());
+        }
 
         #push
         if(($push = $user->push) && $isPush) {

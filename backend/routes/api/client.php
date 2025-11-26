@@ -31,9 +31,11 @@ Route::group(['prefix' => 'client',], function(){
         ->group(function(){
             Route::get('list', 'list');
             Route::get('{id}', 'item')->where('id', '[0-9]+');
+            Route::patch('{id}', 'update')->where('id', '[0-9]+');
             Route::get('question', 'getQuestion');
-            Route::get('question', 'getQuestion');
-            Route::post('item/{businessModel}/question', 'cretaeBusinessPlan')->where('businessModel', '[0-9]+');
+//            Route::get('question', 'getQuestion');
+            Route::post('item/{businessModel}/question', 'createBusinessPlan')->where('businessModel', '[0-9]+');
+            Route::post('{plan}/add-cart', 'addCart');
             //https://console.infiniti.stream/api/v1/client/business-plan/item/77/question
         });
 

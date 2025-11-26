@@ -32,5 +32,10 @@
         ],
         'CatalogUser' => [
             'newCount' => 'In the last :day days were added: :count talent',
+        ],
+        'message' => [
+            'project' => [
+                'suppler-invite' => "You've been added to the project as a contractor. Details can be found at the link :link"
+            ]
         ]
     ];

@@ -4,8 +4,11 @@ namespace App\Models\Resident;
 
 use App\Http\Resources\Resident\BusinessPlan\BusinessPlanChatGPTResource;
 use App\Models\BusinessModel\BusinessModel;
+use App\Models\Catalog\Cart;
+use App\Models\Catalog\CartItem;
 use App\Models\Contracts\ChatGPTContract;
 use App\Models\Contracts\MeetingContract;
+use App\Models\Resident\Settings\Currency;
 use App\Models\Traits\BootTrait;
 use App\Models\Traits\CatalogUserTeamTrait;
 use App\Models\Traits\ChatGPTTrait;
@@ -100,5 +103,37 @@ class BusinessPlan extends Model implements ChatGPTContract, MeetingContract
             $this->phone = $user->phone;
             $this->cid = $user->id;
         }
+    }
+
+    public function toCart()
+    {
+        $user = User::getAuth();
+        $currency = Currency::getDefault()->iso_code;
+        $teams = $this->teams;
+
+        if(!$teams->count()) {
+            return false;
+        }
+        $cart = new Cart();
+        $cart->setSecret();
+        $cart->user_type = $user::class;
+        $cart->user_id = $user->id;
+        $cart->currency_iso_code = $currency;
+        $cart->business_plan_id = $this->id;
+        $cart->save();
+
+        foreach($teams as $userCatalog) {
+            $item = new CartItem();
+            $item->id_catalog_cart = $cart->id;
+            $item->id_catalog_user = $userCatalog->id;
+            $item->name_id_type = 'priceHour';
+            $item->amount = 1;
+            $item->currency_iso_code = $currency;
+            $item->business_plan_id = $this->id;
+            $item->save();
+        }
+
+        $cart->calculation();
+        return true;
     }
 }

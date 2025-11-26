@@ -2,18 +2,24 @@
 
 namespace App\Models\Catalog;
 
+use App\Models\Collection\Catalog\CartItemCollection;
 use App\Models\Resident\BusinessPlan;
+use App\Models\Traits\CollectionTrait;
 use App\Models\Traits\CurrencyTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class CartItem extends Model
 {
-    use HasFactory, CurrencyTrait;
+    use HasFactory, CurrencyTrait, CollectionTrait;
+
+    const ID_TYPE = ['priceHour','priceDay'];
 
     public $table = "catalog_cart_item";
 
     public static $caclData = null;
+
+    public $collection = CartItemCollection::class;
 
     public function userCatalog()
     {
