@@ -60,7 +60,7 @@ class ChatGPTRequest extends FormRequest
     {
         $model = $this->getModel();
         if(!$model) {
-            throw ValidationException::withMessages(["discussio1nModel" => __('validation.required', ['attribute' => 'discussionModel'])]);
+            throw ValidationException::withMessages(["discussionModel" => __('validation.required', ['attribute' => 'discussionModel'])]);
         }
 
         $chatGPT = $model->chatGPT();

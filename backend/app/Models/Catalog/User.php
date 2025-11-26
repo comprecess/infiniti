@@ -5,6 +5,7 @@ namespace App\Models\Catalog;
 use App\Contracts\FilterContract;
 use App\Models\Contracts\MeetingContract;
 use App\Models\Resident\BusinessPlan;
+use App\Models\Resident\Settings\Currency;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\FileStorageTrait;
 use App\Models\Users\Client;
@@ -265,5 +266,30 @@ class User extends Model implements MeetingContract
     public function getNameRoomToMeeting(): ?string
     {
         return "individual-" . $this->id;
+    }
+
+    public function createSupplierClient() :Client
+    {
+        $client = Client::where('email', $this->email)->first();
+
+        if(!$client) {
+            $currency = Currency::getDefault();
+            $client = new Client();
+            $client->account = $this->name;
+            $client->email = $this->email;
+            $client->currency_iso_code = $currency->iso_code;
+            $client->setAutologin();
+            $client->setTypeAttribute(Client::TYPE[1]);
+
+        }else{
+            $type = $client->getTypeAttribute();
+            if(!in_array(Client::TYPE[1], $type)) {
+                $client->setTypeAttribute(array_merge($type, [Client::TYPE[1]]));
+            }
+        }
+
+        $client->catalog_user_id = $this->id;
+        $client->save();
+        return $client;
     }
 }

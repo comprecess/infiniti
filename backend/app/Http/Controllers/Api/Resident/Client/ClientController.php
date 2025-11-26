@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Api\Resident\Client;
 
 
+use App\Events\Invoice\InvoiceIsPay;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\Client\ClientCreateRequest;
 use App\Http\Requests\Resident\Client\ClientListRequest;
@@ -24,10 +25,8 @@ use App\Http\Resources\Resident\Settings\CustomFieldsResource;
 use App\Http\Resources\UserResource;
 use App\Mail\EmailTemplateMail;
 use App\Mail\Resident\Client\WelcomeEmail;
-use App\Models\BusinessModel\BusinessModel;
 use App\Models\Log;
 use App\Models\Notification;
-use App\Models\Resident\BusinessPlan;
 use App\Models\Resident\Client\Activity;
 use App\Models\Resident\Client\Company;
 use App\Models\Resident\Client\Group;
@@ -36,12 +35,10 @@ use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Settings\CustomFields;
 use App\Models\Resident\Settings\Tag;
-use App\Models\Resident\Transactions\Transaction;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
 use App\Services\Tools\Countries;
-use App\Services\Zoom\Requests\MeetingData;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
@@ -534,18 +531,7 @@ class ClientController extends MainClientController
 
     public function test4(Request $request)
     {
-        foreach([BusinessPlan::class, BusinessModel::class] as $class){
-            $class::whereNull('public')->each(function($item){
-                $item->setRandomNum('public', 32, true);
-                $item->save();
-            });
-        }
-//        BusinessPlan::whereNull('public')->each(function($item){
-//            $item->setRandomNum('public', 32);
-//        });
-//
-//        BusinessModel::whereNull('public')->each(function($item){
-//            $item->setRandomNum('public', 32);
-//        });
+        $invoice = Invoice::find(105);
+        event(new InvoiceIsPay($invoice));
     }
 }

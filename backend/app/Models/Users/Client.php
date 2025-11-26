@@ -80,7 +80,7 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
 
     public function getTypeAttribute()
     {
-        return explode(',', $this->attributes['type']);
+        return array_filter(explode(',', $this->attributes['type'] ?? ''));
     }
 
     public function group()
@@ -261,6 +261,16 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
     public function getAutologin()
     {
         return $this->autologin ? route('autologin', [$this->autologin]) : null;
+    }
+
+    public function getAutologinUrlFrontend()
+    {
+        return $this->autologin ? env('FRONT_URL', env('APP_URL')) . "/public/auto/login/{$this->autologin}" : null;
+    }
+
+    public function setAutologin()
+    {
+        $this->autologin = str()->random(64);
     }
 
     public function getCustomFieldsValues()

@@ -2,12 +2,14 @@
 
 namespace App\Models\Resident\Invoices;
 
+use App\Events\Invoice\InvoiceIsPay;
 use App\Models\Collection\InvoiceCollection;
 use App\Models\Config;
 use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Resident\Project\Project;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Resident\Transactions\Transaction;
+use App\Models\Traits\BootTrait;
 use App\Models\Traits\CollectionTrait;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\DocumentTrait;
@@ -27,7 +29,7 @@ use Illuminate\Support\Facades\DB;
 
 class Invoice extends Model implements InsertDefaultValueInterface, PayModelContract
 {
-    use HasFactory, CurrencyTrait, CollectionTrait, HelperTrait, InsertDefaultValueTrait, SoftDeletes, UserTrait, DocumentTrait, ModelToCartTrait;
+    use HasFactory, CurrencyTrait, CollectionTrait, HelperTrait, InsertDefaultValueTrait, SoftDeletes, UserTrait, DocumentTrait, ModelToCartTrait, BootTrait;
 
     const STATUS = [
         'Unpaid', 'Paid', 'Partially Paid', 'Cancelled'
@@ -69,6 +71,13 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
       'credit' => 'float',
       'total' => 'float',
     ];
+
+    public static function updatedEvent($item)
+    {
+        if($item->status == self::STATUS[1]) {
+            event(new InvoiceIsPay($item));
+        }
+    }
 
     public function getCode()
     {

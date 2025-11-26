@@ -7,10 +7,12 @@ namespace App\Http\Controllers\Api\Client\Business;
 use App\Events\Client\BusinessPlan\Generate;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Resident\BusinessPlan\BusinessPlanUpdateRequest;
 use App\Http\Resources\Client\BusinessPlan\QuestionResource;
 use App\Http\Resources\Resident\BusinessPlan\BusinessPlanListResource;
 use App\Http\Resources\Resident\BusinessPlan\BusinessPlanResource;
 use App\Models\BusinessModel\BusinessModel;
+use App\Models\Catalog\Prop;
 use App\Models\Resident\BusinessPlan;
 use App\Models\Resident\Question;
 use App\Models\User;
@@ -50,7 +52,7 @@ class BusinessPlanController extends Controller
         return QuestionResource::collection($question);
     }
 
-    public function cretaeBusinessPlan(BusinessModel $businessModel, Request $request)
+    public function createBusinessPlan(BusinessModel $businessModel, Request $request)
     {
         $user = User::getAuth();
         if(is_array($request->answers)) {
@@ -71,4 +73,33 @@ class BusinessPlanController extends Controller
 
         return response()->json(['success' => true, 'id' => $plan->id]);
     }
+
+    public function addCart(BusinessPlan $plan)
+    {
+        $userId = User::getAuth()->id;
+        $plan = BusinessPlan::where('id', $plan->id)
+            ->where('cid', $userId)
+            ->firstOrFail();
+        if($plan->toCart()) {
+            return response()->json(['success' => true, 'id' => $plan->id]);
+        }else{
+            return response()->json(['success' => false, 'error' => "No talent found in the business plan", 'id' => $plan->id], 422);
+        }
+    }
+
+    public function update(BusinessPlanUpdateRequest $request, $id)
+    {
+        $userId = $request->user()->id;
+        $plan = BusinessPlan::where('id', $id)
+            ->where('cid', $userId)
+            ->firstOrFail();
+
+        if($request->teams) {
+            $plan->teams()->sync($request->teams);
+        }
+
+        return response()->json(['success' => true, 'id' => $plan->id]);
+    }
+
+
 }
