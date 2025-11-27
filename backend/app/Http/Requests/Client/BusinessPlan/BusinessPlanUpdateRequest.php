@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Resident\BusinessPlan;
+namespace App\Http\Requests\Client\BusinessPlan;
 
 
 use App\Http\Requests\Interfaces\ConvertingPropertiesInterface;
