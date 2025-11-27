@@ -106,7 +106,7 @@ class BusinessPlanController extends Controller
             ->where('cid', $userId)
             ->firstOrFail();
 
-        if($request->teams) {
+        if(is_array($request->teams)) {
             $plan->teams()->sync($request->teams);
         }
 
