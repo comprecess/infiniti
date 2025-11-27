@@ -531,7 +531,7 @@ class ClientController extends MainClientController
 
     public function test4(Request $request)
     {
-        $invoice = Invoice::find(105);
+        $invoice = Invoice::find(1);
         event(new InvoiceIsPay($invoice));
     }
 }

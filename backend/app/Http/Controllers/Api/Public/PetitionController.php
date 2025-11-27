@@ -106,7 +106,7 @@ class PetitionController extends Controller
             $message->push("[<a href=\"{$model->getUrlFront()}\" target=\"_blank\">Offer: {$model->id}</a>]");
             $message->push($request->message);
 
-            $resident = $model->orderCart()->withTrashed()->orderByDesc('id')->first()?->user;
+            $resident = $model->orderCart()->orderByDesc('id')->first()?->user;
             if(!$resident || !($resident instanceof Admin)) {
                 $resident = Admin::orderBy('id')->first();
             }
