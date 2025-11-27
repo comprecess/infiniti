@@ -33,6 +33,7 @@ Route::group(['prefix' => 'client',], function(){
             Route::get('{id}', 'item')->where('id', '[0-9]+');
             Route::patch('{id}', 'update')->where('id', '[0-9]+');
             Route::get('question', 'getQuestion');
+            Route::get('/input-data', 'inputData');
 //            Route::get('question', 'getQuestion');
             Route::post('item/{businessModel}/question', 'createBusinessPlan')->where('businessModel', '[0-9]+');
             Route::post('{plan}/add-cart', 'addCart');
