@@ -24,7 +24,7 @@ class CreateTeams implements ShouldQueue
     public function handle(Generate $event): void
     {
 
-        for($i = 0; $i < 15; $i++) {
+        for($i = 0; $i < 5; $i++) {
             sleep(1);
         }
 
