@@ -25,6 +25,7 @@ class CartItemResorce extends JsonResource
             'price' => $this->printPrice('price'),
             'taxes' => $taxesPrice ? $this->printPrice($taxesPrice) : $taxesPrice,
             'total' => $this->printPrice('total'),
+            'idBusinessPlan' => $this?->business_plan_id,
         ];
     }
 }
