@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Api\Client\Business;
 use App\Events\Client\BusinessPlan\Generate;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Resident\BusinessPlan\BusinessPlanUpdateRequest;
+use App\Http\Requests\Client\BusinessPlan\BusinessPlanUpdateRequest;
 use App\Http\Resources\Client\BusinessPlan\QuestionResource;
 use App\Http\Resources\Resident\BusinessPlan\BusinessPlanListResource;
 use App\Http\Resources\Resident\BusinessPlan\BusinessPlanResource;
