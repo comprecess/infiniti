@@ -92,7 +92,7 @@ class BusinessPlanController extends Controller
 
         $file = $businessModel->getFileType('content')->first();
         if($file) {
-            $file->replicateNewModel($plan);
+            $file->replicateNewModel($plan)->save();
         }
 
         event(new Generate($plan));
