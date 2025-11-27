@@ -38,8 +38,12 @@ class ProjectFromBusinessPlan implements ShouldQueue
         $cartItemsQuery->select('catalog_cart_item.*')->join('catalog_user', function($join){
             $join->on('catalog_cart_item.id_catalog_user', '=', 'catalog_user.id')
             ->whereNull('catalog_user.deleted_at');
-        });
+        })->where('business_plan_id', $cart->business_plan_id);
         $cartItems = $cartItemsQuery->get();
+
+        if(!$cartItems->count()) {
+            return;
+        }
 
         $businessPlan = $cart->businessPlan;
 

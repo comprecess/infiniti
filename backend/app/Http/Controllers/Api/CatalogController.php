@@ -184,6 +184,10 @@ class CatalogController extends Controller
             $cartItem->delete();
             $cart->calculation();
 
+            if(!$cart?->items->count()) {
+                $cart->delete();
+            }
+
             return response()->json(['success' => true]);
         } else {
             return response()->json(['success' => false]);
