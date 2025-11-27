@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useOutletContext } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 
 import styles from './BusinessModelCard.module.scss'
 import { ConvertModal } from './ConvertModal/ConvertModal'
@@ -60,6 +60,7 @@ export const BusinessModelCard = ({
   const [modalConvert, setModalConvert] = useState<boolean>(false)
 
   const showToast = useCustomToast()
+  const navigate = useNavigate()
 
   const { openSurvey } = useOutletContext<{
     openSurvey: (
@@ -93,6 +94,7 @@ export const BusinessModelCard = ({
         description: 'You have successfully completed the Survey',
         status: 'success',
       })
+      navigate(`/${Routes.clientPages}/${Routes.businessPlan}/${Routes.businessPlans}`)
     } else {
       showToast({
         title: 'Error',

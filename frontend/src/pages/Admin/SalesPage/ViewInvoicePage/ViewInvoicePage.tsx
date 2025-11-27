@@ -34,6 +34,7 @@ export const AdminViewInvoicePage = () => {
   const [isAddPayment, setIsAddPayment] = useState<boolean>(false)
 
   const id = useIdFromUrl('view')
+
   const showToast = useCustomToast()
   const navigate = useNavigate()
 
@@ -210,6 +211,10 @@ export const AdminViewInvoicePage = () => {
           idInvoice={id}
           isOpen={isAddPayment}
           handleOpenClose={() => setIsAddPayment(prev => !prev)}
+          onAddPayment={() => {
+            setIsAddPayment(prev => !prev)
+            getInvoiceInfo()
+          }}
         />
       )}
     </div>
