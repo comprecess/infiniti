@@ -123,14 +123,20 @@ export const ClientViewBusinessPlanPage = () => {
     getInputData()
   }, [id])
 
-  const filteredSections = sections.filter(
-    ({ key }) => fullInfo && fullInfo[key as keyof BusinessPlanNewPlanFormData],
-  )
+  const filteredSections = sections.filter(({ key }) => {
+    if (key === 'management') return true
+
+    const content = fullInfo?.[key as keyof BusinessPlanNewPlanFormData]
+
+    const isEmpty = content === null || content === '' || content === '<p><br></p>'
+
+    return !isEmpty
+  })
 
   return (
     <>
       <div className={styles.wrapper}>
-        {fullInfo ? (
+        {fullInfo && inputData ? (
           <section className={styles.section}>
             <div className={styles.backButton}>
               <BackButton />
@@ -175,13 +181,17 @@ export const ClientViewBusinessPlanPage = () => {
 
                   const isEmpty = content === null || content === '' || content === '<p><br></p>'
 
-                  if (isEmpty) return null
+                  if (key !== 'management' && isEmpty) return null
 
                   return (
                     <Fragment key={key}>
                       {key === 'management' ? (
                         <div className={styles.contentManagement}>
-                          <Item title={title} content={content as string} />
+                          <Item
+                            title={title}
+                            content={content as string}
+                            forceShow={key === 'management'}
+                          />
                           {inputData && fullInfo.teams && (
                             <div className={styles.teamWrapper}>
                               {fullInfo.teams.map(id => {
