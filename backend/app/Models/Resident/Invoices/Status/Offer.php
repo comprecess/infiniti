@@ -15,7 +15,7 @@ class Offer
     }
     public function checkCart()
     {
-        return $this->offer->orderCart()->withTrashed()->count();
+        return $this->offer->orderCart()->count();
     }
 
 
