@@ -36,15 +36,44 @@
   object-fit: cover;
 }
 
+.buttonsContainer {
+  display: flex;
+  gap: 8px;
+  width: fit-content;
+
+  .button {
+    max-width: fit-content;
+  }
+
+  @include mobileBreakpoint('max', 695px) {
+    width: 100%;
+
+    .button {
+      max-width: 100%;
+    }
+  }
+}
+
 .buttons {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  flex-wrap: wrap;
   gap: 8px;
-}
+  width: 100%;
 
-.button {
-  width: fit-content;
+  .buttonPreview {
+    max-width: fit-content;
+  }
+
+  @include mobileBreakpoint('max', $bpM) {
+    flex-direction: column;
+  }
+
+  @include mobileBreakpoint('max', 695px) {
+    .buttonPreview {
+      max-width: 100%;
+    }
+  }
 }
 
 .title {
