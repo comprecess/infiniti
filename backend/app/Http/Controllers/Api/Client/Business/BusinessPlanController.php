@@ -11,12 +11,14 @@ use App\Http\Requests\Resident\BusinessPlan\BusinessPlanUpdateRequest;
 use App\Http\Resources\Client\BusinessPlan\QuestionResource;
 use App\Http\Resources\Resident\BusinessPlan\BusinessPlanListResource;
 use App\Http\Resources\Resident\BusinessPlan\BusinessPlanResource;
+use App\Http\Resources\Resident\Talents\TalentResource;
 use App\Models\BusinessModel\BusinessModel;
 use App\Models\Catalog\Prop;
 use App\Models\Resident\BusinessPlan;
 use App\Models\Resident\Question;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class BusinessPlanController extends Controller
 {
@@ -30,6 +32,16 @@ class BusinessPlanController extends Controller
 
 
         return $this->index($query, BusinessPlanListResource::class);
+    }
+
+    public function inputData()
+    {
+        $users = \App\Models\Catalog\User::active()
+            ->with(['files','values', 'values.prop', 'blockExperience'])
+            ->get();
+        $data['talents'] = TalentResource::collection($users);
+
+        return response()->json($data);
     }
 
     public function item($id, Request $request)
@@ -83,7 +95,7 @@ class BusinessPlanController extends Controller
         if($plan->toCart()) {
             return response()->json(['success' => true, 'id' => $plan->id]);
         }else{
-            return response()->json(['success' => false, 'error' => "No talent found in the business plan", 'id' => $plan->id], 422);
+            throw ValidationException::withMessages(['talents' => "Talents not found in the business plan"]);
         }
     }
 
