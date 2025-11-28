@@ -87,8 +87,9 @@ class ProjectFromBusinessPlan implements ShouldQueue
 
         $end = $start->clone();
         while($days) {
-            $end = $end->addDay();
-            if(!$start->isWeekend()) {
+            $end->addDay();
+
+            if(!$end->isWeekend()) {
                 $days--;
             }
         }

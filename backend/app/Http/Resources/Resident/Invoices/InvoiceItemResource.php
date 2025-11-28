@@ -70,6 +70,7 @@ class InvoiceItemResource extends JsonResource implements ListInterface
         foreach($resource['blankCalc'] as &$value) {
             $value = $this->printPrice($value);
         }
+        $resource['blankCalc']['isCredit'] = $this->credit ? true : false;
 
         $this->typeContent($resource, $request);
 
