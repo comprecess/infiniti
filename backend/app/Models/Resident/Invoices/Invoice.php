@@ -74,7 +74,9 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
 
     public static function updatedEvent($item)
     {
-        if($item->status == self::STATUS[1]) {
+        //create project
+        //!$item->pid - заглушка от бесконечного цикла
+        if($item->status == self::STATUS[1] && !$item->pid) {
             event(new InvoiceIsPay($item));
         }
     }
@@ -235,13 +237,13 @@ class Invoice extends Model implements InsertDefaultValueInterface, PayModelCont
 
     public function getDueAmount()
     {
-        return round($this->credit ? $this->total - $this->credit : $this->total);
+        return round($this->credit ? $this->total - $this->credit : $this->total, 2);
     }
 
     public function paySetDate(array $data, Pay $pay): array
     {
         $currency = $this->getCurrencyIso ?? Currency::getDefault();
-        $data['amount'] = round($this->getDueAmount() * 100);
+        $data['amount'] = round($this->getDueAmount() * 100, 2);
         $data['currency'] = $currency->iso_code;
         $data['description'] = $this->getCode();
         return $data;
