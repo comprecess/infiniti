@@ -30,6 +30,7 @@ Route::controller(CatalogController::class)
     Route::get('cart/total', 'totalCart');
     Route::post('cart', 'addCart');
     Route::delete('cart/item/{id}', 'deleteItemCart');
+    Route::patch('cart/item/{id}', 'updateItemCart');
     Route::get('cart/create-pay', 'createPay');
 });
 
