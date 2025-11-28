@@ -26,6 +26,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\User as UserCrm;
 use Stripe\StripeClient;
+use App\Http\Requests\Resident\Talents\CartRequest as UpdateCartItemRequest;
 
 
 class CatalogController extends Controller
@@ -192,6 +193,21 @@ class CatalogController extends Controller
         } else {
             return response()->json(['success' => false]);
         }
+    }
+
+    public function updateItemCart(UpdateCartItemRequest $request)
+    {
+        $id = $request->route('id');
+        $cart = UserCrm::getAuth()?->myCart;
+        $cartItem = $cart?->items?->where('id', $id)?->first();
+        if($cartItem) {
+            $request->setModel($cartItem);
+            $cartItem->save();
+            $cart->calculation();
+            return response()->json(['success' => true]);
+        }
+
+        return response()->json(['success' => false]);
     }
 
     public function createPay()
