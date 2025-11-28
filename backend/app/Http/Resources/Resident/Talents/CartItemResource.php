@@ -15,13 +15,10 @@ class CartItemResource extends JsonResource
             'id' => $this->id,
             'talent' => new TalentResource($this->userCatalog),
             'amount' => $this->amount,
-//            'total' => number_format($this->total, 2, '.', ''),
             'total' => $this->printPrice('total', $currency),
             'nameType' => $this->name_id_type,
-//            'price' => number_format($this->price, 2, '.', ''),
             'price' => $this->printPrice('price', $currency),
             'taxesInclude' => $this->taxes_include,
-//            'tax' => number_format(round($this->getTaxesTotalPrice(), 2), 2, '.', '')
             'tax' => $this->printPrice(round($this->getTaxesTotalPrice(), 2), $currency)
         ];
     }
