@@ -114,7 +114,7 @@ class BusinessPlan extends Model implements ChatGPTContract, MeetingContract
         if(!$teams->count()) {
             return false;
         }
-        $cart = new Cart();
+        $cart = $user->myCart ?? new Cart();
         $cart->setSecret();
         $cart->user_type = $user::class;
         $cart->user_id = $user->id;
