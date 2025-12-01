@@ -40,8 +40,6 @@ class DashboardController extends Controller
             ];
         }
 
-        $quantity['isSupplier'] = $user->isType();
-
         $invoices = $user->invoices()->with(['getCurrencyIso', 'user', 'user.companyClient','user.group'])->orderByDesc('id')->limit(5)->get();
         $offers = $user->offers()->with(['getCurrencyIso', 'user', 'user.companyClient','user.group'])->orderByDesc('id')->limit(5)->get();
         $order = $user->orders()->with(['getCurrencyIso'])->orderByDesc('id')->limit(5)->get();
@@ -93,6 +91,7 @@ class DashboardController extends Controller
             'transaction' => TransactionsListResource::collection($transactions),
             'quantity' => $quantity,
             'graph' => $graph,
+            'isSupplier' => $this->isType(),
             'document' => DocumentResource::collection($documents),
         ]);
     }
