@@ -201,7 +201,7 @@ class CatalogController extends Controller
         $cart = UserCrm::getAuth()?->myCart;
         $cartItem = $cart?->items?->where('id', $id)?->first();
         if($cartItem) {
-            $request->setModel($cartItem);
+            $request->setModel($cartItem, true);
             $cartItem->save();
             $cart->calculation();
             return response()->json(['success' => true]);

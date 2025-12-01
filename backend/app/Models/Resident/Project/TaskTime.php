@@ -3,6 +3,8 @@
 namespace App\Models\Resident\Project;
 
 
+use App\Models\Collection\ProjectTaskTimeCollection;
+use App\Models\Traits\CollectionTrait;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use Carbon\Carbon;
@@ -12,13 +14,15 @@ use Illuminate\Support\Arr;
 
 class TaskTime extends Model
 {
-    use HasFactory;
+    use HasFactory, CollectionTrait;
 
     protected $table = 'sys_tasks_time';
 
     protected $casts = [
         'date' => 'date',
     ];
+
+    public $collection = ProjectTaskTimeCollection::class;
 
     public function project()
     {

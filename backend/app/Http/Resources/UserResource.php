@@ -37,6 +37,7 @@ class UserResource extends JsonResource implements ListInterface
         }else{
             $resource['balance'] = $this->printPrice('balance');
             $resource['company'] = $this->companyClient?->company_name;
+            $resource['status'] = ['isSupplier' => $this->isType(), 'isCustomer' => $this->isType(Client::TYPE[0])];
         }
 
         return $resource;
