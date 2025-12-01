@@ -109,7 +109,7 @@ class BusinessPlanController extends Controller
         if($plan->toCart()) {
             return response()->json(['success' => true, 'id' => $plan->id]);
         }else{
-            throw ValidationException::withMessages(['talents' => "Talents not found in the business plan"]);
+            throw ValidationException::withMessages(['talents' => "No business plan talents found"]);
         }
     }
 

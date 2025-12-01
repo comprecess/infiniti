@@ -83,6 +83,11 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
         return array_filter(explode(',', $this->attributes['type'] ?? ''));
     }
 
+    public function isType(string $type = self::TYPE[1]) :bool
+    {
+        return in_array($type, $this->getTypeAttribute());
+    }
+
     public function group()
     {
         return $this->belongsTo(Group::class, 'gid');

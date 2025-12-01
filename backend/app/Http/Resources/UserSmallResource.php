@@ -29,6 +29,10 @@ class UserSmallResource extends JsonResource implements ListInterface
         $this->setList($resource);
         $resource['img'] = $this->getAvatar(true) ?? "";
 
+        if($this->resource instanceof Client){
+            $resource['status'] = ['isSupplier' => $this->isType(), 'isCustomer' => $this->isType(Client::TYPE[0])];
+        }
+
 
         return $resource;
     }

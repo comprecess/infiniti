@@ -9,10 +9,17 @@ use App\Http\Resources\Resident\Invoices\OfferListResource;
 use App\Http\Resources\Resident\Orders\OrderListClientResource;
 use App\Http\Resources\Resident\Transactions\TransactionsListResource;
 use App\Models\BusinessModel\BusinessModel;
+use App\Models\Catalog\Cart;
+use App\Models\Catalog\CartItem;
 use App\Models\Catalog\User as Talent;
 use App\Models\Config;
 use App\Models\Resident\Invoices\Invoice;
+use App\Models\Resident\Project\Project;
+use App\Models\Resident\Project\Task;
+use App\Models\Resident\Project\TaskTime;
 use App\Models\User;
+use App\Models\Users\Client;
+use Illuminate\Support\Facades\Cache;
 
 
 class DashboardController extends Controller
@@ -21,12 +28,24 @@ class DashboardController extends Controller
     public function index()
     {
         $user = User::getAuth();
-        $quantity = [
-            'project' => $user->projects()->count(),
-            'businessModel' => BusinessModel::count(),
-            'businessPlan' => $user->myBusinessPlans()->count(),
-            'talent' => Talent::active()->count()
-        ];
+
+        dd($this->getDataProjectSupplier($user));
+
+        if($user->isType()) {
+            $quantity = [
+                'project' => $user->projects()->count(),
+                'businessModel' => BusinessModel::count(),
+                'businessPlan' => $user->myBusinessPlans()->count(),
+                'talent' => Talent::active()->count()
+            ];
+        }else {
+            $quantity = [
+                'project' => $user->projects()->count(),
+                'businessModel' => BusinessModel::count(),
+                'businessPlan' => $user->myBusinessPlans()->count(),
+                'talent' => Talent::active()->count()
+            ];
+        }
 
         $invoices = $user->invoices()->with(['getCurrencyIso', 'user', 'user.companyClient','user.group'])->orderByDesc('id')->limit(5)->get();
         $offers = $user->offers()->with(['getCurrencyIso', 'user', 'user.companyClient','user.group'])->orderByDesc('id')->limit(5)->get();
@@ -81,6 +100,37 @@ class DashboardController extends Controller
             'graph' => $graph,
             'document' => DocumentResource::collection($documents),
         ]);
+    }
+
+    private function getDataProjectSupplier(Client $client)
+    {
+        $tasksQuery = Task::findByUser($client, true);
+
+        $projects = Project::findByUser($client);
+        $projectIds = $projects->pluck('id')->toArray();
+
+        $cart = CartItem::select('catalog_cart_item.*')
+            ->join('catalog_cart', 'catalog_cart.id', '=', 'catalog_cart_item.id_catalog_cart')
+            ->join('catalog_cart_order','catalog_cart_order.id_catalog_cart', '=', 'catalog_cart.id')
+            ->join('sys_invoices', function($join){
+                $join->on('catalog_cart_order.model_id', '=','sys_invoices.id')
+                    ->where('catalog_cart_order.model_type', Invoice::class);
+            })
+            ->whereIn('sys_invoices.pid', $projectIds)
+            ->where('catalog_cart_item.id_catalog_user', $client->catalog_user_id)
+            ->get();
+
+        $time = TaskTime::whereIn('project_id', $projectIds)
+            ->where('user_type', $client::class)
+            ->where('user_id', $client->id)
+            ->get();
+
+        return [
+            'tasksCount' => $tasksQuery->count(),
+            'tasksCompletedCount' => $tasksQuery->whereIn('sys_tasks.status', Task::STATUS_COMPLETED)->count(),
+            'hoursCount' => $cart->getHours()->sum(),
+            'hoursWorkedCount' => $time->getHours(),
+        ];
     }
 
 }

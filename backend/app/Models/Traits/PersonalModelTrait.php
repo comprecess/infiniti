@@ -107,4 +107,19 @@ trait PersonalModelTrait
 
         return $data;
     }
+
+    public static function findByUser(User $user, $getQuery = false)
+    {
+        $query = self::query();
+        $query->select("{$query->from}.*")
+            ->join('personal_model', function($join) use($query){
+            $join->on('personal_model.model_id', '=', "{$query->from}.id")
+                ->where('personal_model.model_type', self::class);
+        })->where(function($query) use($user){
+                $query->where('personal_model.user_type', $user::class)
+                    ->where('personal_model.user_id', $user->id);
+        });
+
+        return $getQuery ? $query : $query->get();
+    }
 }

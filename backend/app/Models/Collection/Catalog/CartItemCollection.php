@@ -26,4 +26,17 @@ class CartItemCollection extends Collection
 
         return $collect;
     }
+
+    public function getHours()
+    {
+        $collect = collect([]);
+        $this->each(function($item) use($collect){
+            if($item->name_id_type == CartItem::ID_TYPE[1]) {
+                $item->amount = ceil($item->amount * 8);
+            }
+            $collect->push($item->amount);
+        });
+
+        return $collect;
+    }
 }
