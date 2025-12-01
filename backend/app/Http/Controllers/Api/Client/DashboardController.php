@@ -29,15 +29,8 @@ class DashboardController extends Controller
     {
         $user = User::getAuth();
 
-        dd($this->getDataProjectSupplier($user));
-
         if($user->isType()) {
-            $quantity = [
-                'project' => $user->projects()->count(),
-                'businessModel' => BusinessModel::count(),
-                'businessPlan' => $user->myBusinessPlans()->count(),
-                'talent' => Talent::active()->count()
-            ];
+            $quantity = $this->getDataProjectSupplier($user);
         }else {
             $quantity = [
                 'project' => $user->projects()->count(),
