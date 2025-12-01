@@ -122,7 +122,6 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
             isLocked={isSidebarLocked}
             onClose={toggleSidebar}
           />
-
           <div
             className={clsx({
               [styles.headerFull]: !isSidebarOpen,

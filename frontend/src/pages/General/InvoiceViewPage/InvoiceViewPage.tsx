@@ -134,6 +134,8 @@ export const InvoiceViewPage = () => {
                 totalInvoice={info.blankCalc.total}
                 client={info.client}
                 company={info.company}
+                dueAmount={info.blankCalc.dueAmount}
+                isCredit={info.blankCalc.isCredit}
                 offer={info.offer}
                 payList={info.payList}
                 postTokenStripeSend={postTokenStripeSend}

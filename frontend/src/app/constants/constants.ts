@@ -270,6 +270,7 @@ export interface CartProps {
   total: string
   subTax: string
   subTotal: string
+  type: string
 }
 
 export type NameIdType = 'priceHour' | 'priceDay'
@@ -750,6 +751,8 @@ export interface BlankCalc {
   price: string
   tax: string
   total: string
+  dueAmount: string
+  isCredit: boolean
 }
 
 export interface SalesViewInvoiceData {

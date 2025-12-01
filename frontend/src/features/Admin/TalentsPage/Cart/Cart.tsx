@@ -25,12 +25,7 @@ interface CartProps {
   getOrders: () => void
 }
 
-export const Cart = ({
-  idCart,
-  cart,
-  datesEmployment,
-  getOrders,
-}: CartProps) => {
+export const Cart = ({ idCart, cart, datesEmployment, getOrders }: CartProps) => {
   const [isCreatingCall, setIsCreatingCall] = useState<boolean>(false)
 
   const showToast = useCustomToast()
@@ -40,14 +35,14 @@ export const Cart = ({
     idItem: number,
     data: { [key: string]: number | string },
   ) => {
-    const changeResponse = await putChangeField(idCart, idItem, data)
+    const { status, message } = await putChangeField(idCart, idItem, data)
 
-    if (changeResponse.status) {
+    if (status) {
       getOrders()
     } else {
       showToast({
         title: 'Error',
-        description: changeResponse.message,
+        description: message,
         status: 'error',
       })
     }
@@ -72,10 +67,7 @@ export const Cart = ({
     }
   }
 
-  const createMeetingWithCart = async (
-    dates: string[] | null,
-    selectedTime: Dayjs | null,
-  ) => {
+  const createMeetingWithCart = async (dates: string[] | null, selectedTime: Dayjs | null) => {
     if (dates === null || selectedTime === null) return
 
     const time = getLocalDateTimeString()
@@ -110,7 +102,7 @@ export const Cart = ({
     <>
       <div className={styles.wrapper}>
         <div className={styles.columns}>
-          <Title title='Image' style={styles.avatarColumn} />
+          <Title title='Avatar' style={styles.avatarColumn} />
           <Title title='Name & Email' style={styles.nameEmailColumn} />
           <Title title='Quantity' style={styles.quantityColumn} />
           <Title title='Type' style={styles.typeColumn} />

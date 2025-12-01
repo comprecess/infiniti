@@ -187,6 +187,8 @@ export const AdminViewInvoicePage = () => {
               status: info.status,
               company: info.company,
               totalInvoice: info.blankCalc.total,
+              dueAmount: info.blankCalc.dueAmount,
+              isCredit: info.blankCalc.isCredit,
               client: info.client,
               offer: info.offer,
             }}
