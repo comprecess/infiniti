@@ -459,7 +459,21 @@ export const router = createBrowserRouter([
       { path: Routes.tasks, element: Pages.adminTasksPage },
       { path: Routes.calendar, element: Pages.adminCalendarPage },
       { path: Routes.reports, element: Pages.adminReportsPage },
-      { path: Routes.utilities, element: Pages.adminUtilitiesPage },
+      {
+        path: Routes.utilities,
+        children: [
+          { path: Routes.activityLog, element: Pages.adminActivityLogPage },
+          { path: Routes.emailMessageLog, element: Pages.adminEmailMessageLogPage },
+          { path: Routes.invoiceAccessLog, element: Pages.adminInvoiceAccessLogPage },
+          { path: Routes.backup, element: Pages.adminBackupPage },
+          { path: Routes.databaseStatus, element: Pages.adminDatabaseStatusPage },
+          { path: Routes.cronLog, element: Pages.adminCronLogPage },
+          { path: Routes.integrationCode, element: Pages.adminIntegrationCodePage },
+          { path: Routes.systemStatus, element: Pages.adminSystemStatusPage },
+          { path: Routes.passwordManager, element: Pages.adminPasswordManagerPage },
+          { path: Routes.tools, element: Pages.adminToolsPage },
+        ],
+      },
       { path: Routes.appearance, element: Pages.adminAppearancePage },
       { path: Routes.plugins, element: Pages.adminPluginsPage },
       {

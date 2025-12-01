@@ -70,3 +70,30 @@
     stroke: $gray-200;
   }
 }
+
+.containerColumn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.editIcon * {
+  width: 22px;
+  height: 22px;
+  margin-left: 2px;
+
+  fill: lighten($color: $brand-800, $amount: 5);
+}
+
+.amountInput {
+  width: 100%;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  background-color: $brand-800;
+  padding-top: 2px;
+  color: $white;
+  padding-left: 10px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-radius: 8px;
+}

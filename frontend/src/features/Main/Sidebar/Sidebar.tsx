@@ -1,10 +1,4 @@
-import React, {
-  ForwardedRef,
-  Fragment,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react'
+import React, { ForwardedRef, Fragment, useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { Item } from './Item/Item'
@@ -42,16 +36,7 @@ interface SidebarProps {
 
 export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
   (
-    {
-      pages,
-      isMini,
-      isOpen,
-      isMobile,
-      isAdmin,
-      isLocked,
-      roles,
-      onClose,
-    }: SidebarProps,
+    { pages, isMini, isOpen, isMobile, isAdmin, isLocked, roles, onClose }: SidebarProps,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     const [touchStartX, setTouchStartX] = useState<number | null>(null)
@@ -64,9 +49,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
     }>({})
 
     const location = useLocation()
-    const sidebarPages = isAdmin
-      ? `/${Routes.adminPages}/`
-      : `/${Routes.clientPages}/`
+    const sidebarPages = isAdmin ? `/${Routes.adminPages}/` : `/${Routes.clientPages}/`
 
     const navigate = useNavigate()
 
@@ -126,19 +109,12 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
             const newItem: SidebarPage = { ...item }
 
             if (newItem.shortName !== undefined) {
-              if (
-                newItem.shortName === 'accounting' &&
-                  newItem.openPaths
-              ) {
+              if (newItem.shortName === 'accounting' && newItem.openPaths) {
                 const roleTransactions = roles.transactions
                 const roleBankNCash = roles.bank_n_cash
                 const roleAssets = roles.assets
 
-                if (
-                  roleTransactions.view ||
-                    roleBankNCash.view ||
-                    roleAssets.view
-                ) {
+                if (roleTransactions.view || roleBankNCash.view || roleAssets.view) {
                   newItem.openPaths = newItem.openPaths.filter(page => {
                     const role =
                         page.shortName === 'transactions'
@@ -158,10 +134,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
                 } else {
                   return null
                 }
-              } else if (
-                newItem.shortName === 'customers' &&
-                  newItem.openPaths
-              ) {
+              } else if (newItem.shortName === 'customers' && newItem.openPaths) {
                 const roleCustomers = roles.customers
                 const roleCompanies = roles.companies
 
@@ -186,11 +159,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
               } else {
                 const roleView = roles[newItem.shortName]
 
-                if (
-                  newItem.openPaths &&
-                    roleView &&
-                    roleView.view === 1
-                ) {
+                if (newItem.openPaths && roleView && roleView.view === 1) {
                   newItem.openPaths = newItem.openPaths.filter(page => {
                     if (page.create === false) {
                       return true
@@ -235,11 +204,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
         )}
         <aside
           className={`${
-            isOpen
-              ? isMini
-                ? styles.miniSidebar
-                : styles.wrapperActive
-              : styles.wrapperDisable
+            isOpen ? (isMini ? styles.miniSidebar : styles.wrapperActive) : styles.wrapperDisable
           } ${isLocked ? styles.locked : ''}`}
         >
           <Logo
@@ -253,13 +218,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
           />
           <div
             ref={ref}
-            className={
-              isOpen
-                ? isMini
-                  ? styles.itemsMini
-                  : styles.items
-                : styles.items
-            }
+            className={isOpen ? (isMini ? styles.itemsMini : styles.items) : styles.items}
           >
             {newPages &&
               newPages.map(item => {

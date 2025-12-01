@@ -7,10 +7,11 @@ export interface VersionInfo {
 
 export const versions: VersionInfo[] = [
   {
-    version: '0.0.36-alpha.36zw',
+    version: '0.0.37-alpha.37ft',
     description: `
             <ul>
-              <li>Client теперь может добавлять Business Plan в корзину</li>
+              <li>Реализован новый функционал корзины на Client части</li>
+              <li>Реализовали возможность менять часы и тип в Client корзине</li>
               <li>Client теперь может собирать команду для Business Plan</li>
             </ul>
     `,

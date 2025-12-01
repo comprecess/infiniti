@@ -785,7 +785,7 @@ export const adminSidebarPages = [
       {
         id: 0,
         title: 'admin-sidebar-subsidiary-page-activity-log',
-        path: '',
+        path: Routes.activityLog,
 
         // Access
         create: false,
@@ -793,7 +793,7 @@ export const adminSidebarPages = [
       {
         id: 1,
         title: 'admin-sidebar-subsidiary-page-email-message-log',
-        path: '',
+        path: Routes.emailMessageLog,
 
         // Access
         create: false,
@@ -801,7 +801,7 @@ export const adminSidebarPages = [
       {
         id: 2,
         title: 'admin-sidebar-subsidiary-page-invoice-access-log',
-        path: '',
+        path: Routes.invoiceAccessLog,
 
         // Access
         create: false,
@@ -809,7 +809,7 @@ export const adminSidebarPages = [
       {
         id: 3,
         title: 'admin-sidebar-subsidiary-page-backup',
-        path: '',
+        path: Routes.backup,
 
         // Access
         create: false,
@@ -817,7 +817,7 @@ export const adminSidebarPages = [
       {
         id: 4,
         title: 'admin-sidebar-subsidiary-page-database-status',
-        path: '',
+        path: Routes.databaseStatus,
 
         // Access
         create: false,
@@ -825,7 +825,7 @@ export const adminSidebarPages = [
       {
         id: 5,
         title: 'admin-sidebar-subsidiary-page-cron-log',
-        path: '',
+        path: Routes.cronLog,
 
         // Access
         create: false,
@@ -833,7 +833,7 @@ export const adminSidebarPages = [
       {
         id: 6,
         title: 'admin-sidebar-subsidiary-page-integration-code',
-        path: '',
+        path: Routes.integrationCode,
 
         // Access
         create: false,
@@ -841,7 +841,7 @@ export const adminSidebarPages = [
       {
         id: 7,
         title: 'admin-sidebar-subsidiary-page-system-status',
-        path: '',
+        path: Routes.systemStatus,
 
         // Access
         create: false,
@@ -849,7 +849,7 @@ export const adminSidebarPages = [
       {
         id: 8,
         title: 'admin-sidebar-subsidiary-page-password-manager',
-        path: '',
+        path: Routes.passwordManager,
 
         // Access
         create: false,
@@ -857,7 +857,7 @@ export const adminSidebarPages = [
       {
         id: 9,
         title: 'admin-sidebar-subsidiary-page-tools',
-        path: '',
+        path: Routes.tools,
 
         // Access
         create: false,
