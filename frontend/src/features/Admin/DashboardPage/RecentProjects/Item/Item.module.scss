@@ -1,8 +1,7 @@
 .wrapper {
   display: flex;
   width: 100%;
-  height: 100%;
-  padding: 10px 12px 10px 12px;
+  padding: 10px 12px;
 }
 
 .nameItem,
@@ -11,30 +10,34 @@
   font-size: 16px;
   line-height: 24px;
   letter-spacing: -0.03em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .nameItem {
   font-weight: 500;
+  color: $white;
   cursor: pointer;
 }
 
 .budgetItem,
 .createdItem {
   font-weight: 400;
-}
-
-.nameItem {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.nameItem,
-.budgetItem {
-  color: $white;
+  color: $gray-300;
 }
 
 .createdItem {
-  color: $gray-300;
   text-align: right;
+}
+
+.budgetItemMobile,
+.createdItemMobile {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.03em;
+}
+
+.createdItemMobile {
+  color: $gray-300;
 }
