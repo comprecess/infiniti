@@ -7,7 +7,7 @@
   overflow-y: hidden;
 }
 
-@include mobileBreakpoint('max', 768px) {
+@include mobileBreakpoint('max', $bpL - 1) {
   .wrapper {
     min-width: 100%;
   }

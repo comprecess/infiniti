@@ -13,8 +13,8 @@ export const Header = ({ netWorth, netWorthCurrency, limit, limitCurrency, name 
   return (
     <div className={styles.wrapper}>
       <div className={styles.title}>
-        <h3 className={styles.amount}>{netWorthCurrency}</h3>
-        <span className={styles.name}>{name}</span>
+        <p className={styles.amount}>{netWorthCurrency}</p>
+        <p className={styles.name}>{name}</p>
       </div>
       <Chart
         netWorth={netWorth}
