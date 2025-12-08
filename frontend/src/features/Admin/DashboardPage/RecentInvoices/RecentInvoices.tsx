@@ -18,39 +18,20 @@ interface RecentInvoicesProps {
   roles?: { [key: string]: RolesAccess }
 }
 
-export const RecentInvoices = ({
-  invoices,
-  statuses,
-  roles,
-}: RecentInvoicesProps) => {
+export const RecentInvoices = ({ invoices, statuses, roles }: RecentInvoicesProps) => {
   const { t } = useTranslation()
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.card}>
-        <div>
+        <div className={styles.chart}>
           <div className={styles.columns}>
             <Title title='#' style={styles.hashtagColumn} />
-            <Title
-              title={t('admin-dashboard-page-card-4-table-1')}
-              style={styles.accountColumn}
-            />
-            <Title
-              title={t('admin-dashboard-page-card-4-table-2')}
-              style={styles.amountColumn}
-            />
-            <Title
-              title={t('admin-dashboard-page-card-4-table-3')}
-              style={styles.createdColumn}
-            />
-            <Title
-              title={t('admin-dashboard-page-card-4-table-4')}
-              style={styles.dueColumn}
-            />
-            <Title
-              title={t('admin-dashboard-page-card-4-table-5')}
-              style={styles.statusColumn}
-            />
+            <Title title={t('admin-dashboard-page-card-4-table-1')} style={styles.accountColumn} />
+            <Title title={t('admin-dashboard-page-card-4-table-2')} style={styles.amountColumn} />
+            <Title title={t('admin-dashboard-page-card-4-table-3')} style={styles.createdColumn} />
+            <Title title={t('admin-dashboard-page-card-4-table-4')} style={styles.dueColumn} />
+            <Title title={t('admin-dashboard-page-card-4-table-5')} style={styles.statusColumn} />
           </div>
           <div className={styles.items}>
             {invoices.map((invoice, index) => {
@@ -73,10 +54,7 @@ export const RecentInvoices = ({
             })}
           </div>
         </div>
-        <Chart
-          data={invoices.map(item => item.status)}
-          statuses={statuses}
-        />
+        <Chart data={invoices.map(item => item.status)} statuses={statuses} />
       </div>
     </div>
   )

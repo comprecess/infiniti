@@ -33,9 +33,7 @@ export const ResponsiveRow = ({ visibleFields, hiddenFields = [] }: ResponsiveRo
             <button
               className={`${styles.toggle} ${open ? styles.active : ''}`}
               onClick={() => setOpen(p => !p)}
-            >
-              +
-            </button>
+            />
           )}
         </div>
       </div>
