@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Http\Resources\Resident\Project;
+namespace App\Http\Resources\Client\Project;
 
+
+use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\UserResource;
 use App\Models\Config;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProjectListResource extends JsonResource
+class ProjectListWorkerResource extends JsonResource
 {
 
     public static $isCollection = false;
@@ -24,8 +26,6 @@ class ProjectListResource extends JsonResource
             'name' => $this->name,
             'status' => $this->status,
             'summary' => $this->summary,
-            'budget' => $this->getCurrencyValueAndFormat('budget'),
-            'expense' => $this->getCurrencyValueAndFormat($this->transactionExpense->amount()),
             'completed' => $this->getTaskCompleted(),
             'startDate' => $this->start_date?->format($format),
             'dueDate' => $this->due_date?->format($format),
@@ -38,10 +38,6 @@ class ProjectListResource extends JsonResource
             ]
 
         ];
-//        $members = $this->getMembers();
-//        if($members->count()) {
-//            $resource['members'] = UserResource::collection($members);
-//        }
 
         if(!self::$isCollection) {
             $resource['details'] = $this->description;
@@ -56,4 +52,5 @@ class ProjectListResource extends JsonResource
         self::$isCollection = true;
         return parent::collection($resource);
     }
+
 }
