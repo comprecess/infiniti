@@ -12,6 +12,7 @@ use App\Models\Traits\PersonalModelTrait;
 use App\Models\Traits\UserTrait;
 use App\Models\User;
 use App\Models\Users\Admin;
+use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -68,6 +69,11 @@ class Project extends Model implements InsertDefaultValueInterface
     public function log()
     {
         return $this->hasMany(ProjectLog::class, 'project_id');
+    }
+
+    public function isMy(Client $client)
+    {
+        return $this->contact_id == $client->id;
     }
 
     public function getTaskCompleted()

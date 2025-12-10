@@ -91,7 +91,7 @@ class DashboardController extends Controller
             'transaction' => TransactionsListResource::collection($transactions),
             'quantity' => $quantity,
             'graph' => $graph,
-            'isSupplier' => $this->isType(),
+            'isSupplier' => $user->isType(),
             'document' => DocumentResource::collection($documents),
         ]);
     }
