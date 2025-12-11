@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
 import { useCallback, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 
 import styles from './DashboardPage.module.scss'
 import {
@@ -26,7 +26,6 @@ import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner
 import { Scrollable } from '../../../shared/ui/Scrollable/Scrollable'
 import { getDashboardInfo } from '../../../shared/utils/api/Client/Dashboard/get-dashboard-info'
 import { postAddFund } from '../../../shared/utils/api/Client/Dashboard/post-add-fund'
-import { getProfileInfo } from '../../../shared/utils/api/get-profile-info'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import { UserCard } from '../../../widgets/UserCard/UserCard'
 
@@ -67,9 +66,10 @@ type DashboardData = CustomerDashboardData | SupplierDashboardData
 
 export const ClientDashboardPage = () => {
   const [data, setData] = useState<DashboardData | null>(null)
-  const [profileData, setProfileData] = useState<UserInfo | null>(null)
 
   const [isAddFund, setIsAddFund] = useState<boolean>(false)
+
+  const { user } = useOutletContext<{ user: UserInfo }>()
 
   const navigate = useNavigate()
 
@@ -85,14 +85,6 @@ export const ClientDashboardPage = () => {
     setData(response.data)
   }, [])
 
-  const getProfileData = useCallback(async () => {
-    const response = await getProfileInfo()
-
-    if (!response.status) return
-
-    setProfileData(response.data)
-  }, [])
-
   const addFund = async (_name: string, value: string) => {
     const response = await postAddFund(value)
 
@@ -105,7 +97,6 @@ export const ClientDashboardPage = () => {
 
   useEffect(() => {
     getDashboardData()
-    getProfileData()
 
     document.title = 'infiniti | Dashboard'
   }, [])
@@ -113,10 +104,10 @@ export const ClientDashboardPage = () => {
   return (
     <>
       <div className={styles.wrapper}>
-        {profileData && data ? (
+        {user && data ? (
           <>
             <section className={styles.sectionFirst}>
-              <UserCard profileData={profileData} handleOpenCloseAddFund={handleOpenCloseAddFund} />
+              <UserCard profileData={user} handleOpenCloseAddFund={handleOpenCloseAddFund} />
               <div className={styles.recentRightCard}>
                 <Scrollable>
                   <div className={styles.cards}>
