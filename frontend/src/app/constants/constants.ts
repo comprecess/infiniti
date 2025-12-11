@@ -129,6 +129,10 @@ export interface UserInfo {
   state: string
   tags: string
   userType: string
+  status: {
+    isCustomer: boolean
+    isSupplier: boolean
+  }
   zip: string
 }
 

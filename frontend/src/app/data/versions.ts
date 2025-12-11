@@ -7,10 +7,10 @@ export interface VersionInfo {
 
 export const versions: VersionInfo[] = [
   {
-    version: '0.0.38-alpha.38rd',
+    version: '0.0.39-alpha.39js',
     description: `
             <ul>
-              <li>Улучшены таблицы, теперь на мобилке некоторые данные таблицы открываются нажатием на +</li>
+              <li>Добавлены проекты на клиенте</li>
             </ul>
     `,
   },

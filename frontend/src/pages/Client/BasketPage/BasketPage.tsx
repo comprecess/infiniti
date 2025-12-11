@@ -121,7 +121,7 @@ export const ClientBasketPage = () => {
                 ))}
               {grouped && grouped.individual.length > 0 && (
                 <div>
-                  <p className={styles.titleCart}>Individual</p>
+                  <p className={styles.titleCart}>Type: Individual</p>
                   <Cart
                     isCreateCall={grouped.individual.length > 0}
                     cart={grouped.individual}

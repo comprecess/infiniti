@@ -1,42 +1,26 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useOutletContext } from 'react-router-dom'
 
 import styles from './ProfilePage.module.scss'
 import { UserInfo } from '../../../app/constants/constants'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getProfileInfo } from '../../../shared/utils/api/get-profile-info'
 import { ProfileCard } from '../../../widgets/ProfileCard/ProfileCard'
 import { ProfileChangeInfoCard } from '../../../widgets/ProfileChangeInfoCard/ProfileChangeInfoCard'
 
 export const ClientProfilePage = () => {
-  const [profileData, setProfileData] = useState<UserInfo>()
-
-  const getProfileData = useCallback(async () => {
-    const response = await getProfileInfo()
-
-    if (!response.status) return
-
-    setProfileData(response.data)
-  }, [])
+  const { user, getUser } = useOutletContext<{ user: UserInfo; getUser: () => void }>()
 
   useEffect(() => {
-    getProfileData()
-
     document.title = 'infiniti | Profile'
   }, [])
 
   return (
     <div className={styles.wrapper}>
-      {profileData ? (
+      {user ? (
         <div className={styles.section}>
           <div className={styles.listItems}>
-            <ProfileCard
-              talent={profileData}
-              onChangeInfo={getProfileData}
-            />
-            <ProfileChangeInfoCard
-              talent={profileData}
-              onChangeInfo={getProfileData}
-            />
+            <ProfileCard talent={user} onChangeInfo={getUser} />
+            <ProfileChangeInfoCard talent={user} onChangeInfo={getUser} />
           </div>
         </div>
       ) : (
