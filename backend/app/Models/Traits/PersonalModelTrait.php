@@ -5,6 +5,7 @@ namespace App\Models\Traits;
 
 
 use App\Models\PersonalModel;
+use App\Models\Resident\Project\Task;
 use App\Models\User;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
@@ -95,6 +96,18 @@ trait PersonalModelTrait
         });
 
         $query->delete();
+    }
+
+    public function scopeJoinPersonal($query, User $user)
+    {
+        $query->join('personal_model', function($join){
+            $join->on('personal_model.model_id', '=', 'sys_tasks.id')
+                ->where('personal_model.model_type', self::class);
+        })
+            ->where(function($q) use($user){
+                $q->where('personal_model.user_type', $user::class)
+                    ->where('personal_model.user_id', $user->id);
+            });
     }
 
     public function getPersonaleSerilize()
