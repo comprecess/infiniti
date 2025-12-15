@@ -25,6 +25,7 @@ class FileStorage extends Model
         'docx' => 'document',
         'xls' => 'excel',
         'xlsx' => 'excel',
+        'csv' => 'excel',
         'jpg' => 'img',
         'jpeg' => 'img',
         'png' => 'img',
@@ -35,7 +36,13 @@ class FileStorage extends Model
         'webp' => 'img',
         'tif' => 'img',
         'heic' => 'img',
-        'svg' => 'img'
+        'svg' => 'img',
+        'zip' => 'zip',
+        'rar' => 'zip',
+        '7z' => 'zip',
+        'tar' => 'zip',
+        'md' => 'md',
+        'txt' => 'txt'
     ];
 
     public $convertorByJpg = [
