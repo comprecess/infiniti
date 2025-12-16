@@ -1,0 +1,35 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  gap: 40px;
+
+  @include scrollbar;
+}
+
+.section {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.recentFullScreen {
+  max-width: $maxContentSize;
+}
+
+.buttonAddNewInvoice {
+  height: 44px;
+}
+
+.search {
+  @include mobileBreakpoint('min', $bpL) {
+    width: 400px;
+  }
+
+  @include mobileBreakpoint('max', $bpL) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}

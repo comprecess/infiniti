@@ -122,6 +122,12 @@ import { ClientOffersPage } from '../../pages/Client/OffersPage/OffersPage'
 import { ClientProfilePage } from '../../pages/Client/ProfilePage/ProfilePage'
 import { ClientProfileSettingsPage } from '../../pages/Client/ProfileSettingsPage/ProfileSettingsPage'
 import { ClientProjectsPage } from '../../pages/Client/ProjectsPage/ProjectsPage'
+import { ClientProjectsExpensesPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/ExpensesPage/ExpensesPage'
+import { ClientProjectsFilesPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/FilesPage/FilesPage'
+import { ClientProjectsInvoicesPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/InvoicesPage/InvoicesPage'
+import { ClientProjectsSummaryPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/SummaryPage/SummaryPage'
+import { ClientProjectsTasksPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/TasksPage/TasksPage'
+import { ClientViewProjectPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/ViewProjectPage'
 import { ClientTalentDetailsPage } from '../../pages/Client/TalentDetailsPage/TalentDetailsPage'
 import { ClientTalentsPage } from '../../pages/Client/TalentsPage/TalentsPage'
 import { ClientOpenNewTicketPage } from '../../pages/Client/TicketsPage/OpenNewTicketPage/OpenNewTicketPage'
@@ -286,6 +292,12 @@ export const Pages = {
   clientInvoicesPage: <ClientInvoicesPage />,
   clientOffersPage: <ClientOffersPage />,
   clientProjectsPage: <ClientProjectsPage />,
+  clientViewProjectPage: <ClientViewProjectPage />,
+  clientProjectsSummaryPage: <ClientProjectsSummaryPage />,
+  clientProjectsTasksPage: <ClientProjectsTasksPage />,
+  clientProjectsFilesPage: <ClientProjectsFilesPage />,
+  clientProjectsExpensesPage: <ClientProjectsExpensesPage />,
+  clientProjectsInvoicesPage: <ClientProjectsInvoicesPage />,
   clientKnowledgeBasePage: <ClientKnowledgeBasePage />,
   clientTicketsPage: <ClientTicketsPage />,
   clientViewTicketPage: <ClientViewTicketPage />,

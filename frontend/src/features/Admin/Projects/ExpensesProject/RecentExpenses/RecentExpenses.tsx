@@ -8,6 +8,7 @@ import { Title } from '../../../../Main/RecentCard/Title/Title'
 
 interface RecentExpensesProps {
   access: RolesAccess | undefined
+  isClientView?: boolean
   expensesList: ProjectsExpensesData[]
   changeSortName: (sortNameItem: string, sortTypeItem: number) => void
   deleteExpense: (id: number) => void
@@ -15,6 +16,7 @@ interface RecentExpensesProps {
 
 export const RecentExpenses = ({
   access,
+  isClientView = false,
   expensesList,
   changeSortName,
   deleteExpense,
@@ -43,8 +45,14 @@ export const RecentExpenses = ({
     )
   }
 
+  const BASE_MIN_WIDTH = 1300
+  const MANAGE_COL_WIDTH = 150
+  const wrapperMinWidth = isClientView
+    ? `${BASE_MIN_WIDTH - MANAGE_COL_WIDTH}px`
+    : `${BASE_MIN_WIDTH}px`
+
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} style={{ minWidth: wrapperMinWidth }}>
       <div className={styles.columns}>
         <Title
           sorted
@@ -112,7 +120,12 @@ export const RecentExpenses = ({
         {expensesList.map((item, index) => {
           return (
             <Fragment key={item.id}>
-              <Item {...item} access={access} deleteExpense={deleteExpense} />
+              <Item
+                {...item}
+                access={access}
+                isClientView={isClientView}
+                deleteExpense={deleteExpense}
+              />
               {index !== expensesList.length - 1 && <CustomDivider />}
             </Fragment>
           )

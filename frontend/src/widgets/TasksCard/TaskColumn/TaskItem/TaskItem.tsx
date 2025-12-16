@@ -16,6 +16,7 @@ import { useDeviceDetect } from '../../../../shared/utils/hooks/useDeviceDetect'
 
 interface TaskItemProps {
   access?: RolesAccess
+  isClientView: boolean
   task: ProjectsTasksData
   taskIdFromUrl?: string | null
   filterStatus: string
@@ -31,6 +32,7 @@ interface TaskItemProps {
 
 export const TaskItem = ({
   access,
+  isClientView,
   inputData,
   taskIdFromUrl,
   filterStatus,
@@ -153,6 +155,7 @@ export const TaskItem = ({
       </div>
       {isViewed && !isDragging && inputData && (
         <ViewTaskModal
+          isClientView={isClientView}
           access={access}
           task={task}
           filterStatus={filterStatus}

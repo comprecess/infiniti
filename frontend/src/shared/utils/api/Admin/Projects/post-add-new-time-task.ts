@@ -21,6 +21,7 @@ interface ErrorResponse {
 type Response = SuccessResponse | ErrorResponse
 
 export const postAddNewTimeTask = async (
+  apiPath: string,
   idProject: number,
   idTask: number,
   form: { date: string; time: string; description: string },
@@ -50,7 +51,6 @@ export const postAddNewTimeTask = async (
 
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const apiPath = import.meta.env.VITE_RESIDENT_PROJECTS_API
 
     if (!baseUrl || !apiPath) {
       return {

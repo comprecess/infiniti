@@ -21,6 +21,7 @@ interface ErrorResponse {
 type Response = SuccessResponse | ErrorResponse
 
 export const patchUpdateTimeTask = async (
+  apiPath: string,
   idProject: number,
   idTask: number,
   idTime: number,
@@ -58,7 +59,6 @@ export const patchUpdateTimeTask = async (
 
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const apiPath = import.meta.env.VITE_RESIDENT_PROJECTS_API
 
     if (!baseUrl || !apiPath) {
       return {

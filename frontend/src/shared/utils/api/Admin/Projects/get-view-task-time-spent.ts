@@ -21,6 +21,7 @@ interface ErrorResponse {
 type Response = SuccessResponse | ErrorResponse
 
 export const getViewTaskTimeSpent = async (
+  apiPath: string,
   idProject: number,
   idTask: number,
 ): Promise<Response> => {
@@ -49,7 +50,6 @@ export const getViewTaskTimeSpent = async (
 
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const apiPath = import.meta.env.VITE_RESIDENT_PROJECTS_API
 
     if (!baseUrl || !apiPath) {
       throw new Error('Configuration error - missing environment variables')
