@@ -13,9 +13,10 @@ import { Title } from '../../../../../Main/RecentCard/Title/Title'
 
 interface TimeSpentTableProps {
   idTask: number
+  isClientView: boolean
 }
 
-export const TimeSpentTable = ({ idTask }: TimeSpentTableProps) => {
+export const TimeSpentTable = ({ idTask, isClientView }: TimeSpentTableProps) => {
   const [timeSpentData, setTimeSpentData] = useState<ProjectsViewTaskTimeSpentData[] | null>(null)
 
   const idProject = useIdFromUrl('project')
@@ -25,7 +26,13 @@ export const TimeSpentTable = ({ idTask }: TimeSpentTableProps) => {
   const getTimeSpentTask = async () => {
     if (!idProject) return
 
-    const response = await getViewTaskTimeSpent(idProject, idTask)
+    const response = await getViewTaskTimeSpent(
+      isClientView
+        ? `${import.meta.env.VITE_CLIENT_PROJECTS}`
+        : `${import.meta.env.VITE_RESIDENT_PROJECTS_API}`,
+      idProject,
+      idTask,
+    )
 
     if (!response.status) return
 
@@ -35,7 +42,14 @@ export const TimeSpentTable = ({ idTask }: TimeSpentTableProps) => {
   const deleteTimeSpent = async (idTime: number) => {
     if (!idProject) return
 
-    const { status, message } = await deleteProjectTimeSpentTask(idProject, idTask, idTime)
+    const { status, message } = await deleteProjectTimeSpentTask(
+      isClientView
+        ? `${import.meta.env.VITE_CLIENT_PROJECTS}`
+        : `${import.meta.env.VITE_RESIDENT_PROJECTS_API}`,
+      idProject,
+      idTask,
+      idTime,
+    )
 
     if (status) {
       showToast({
@@ -87,6 +101,7 @@ export const TimeSpentTable = ({ idTask }: TimeSpentTableProps) => {
           return (
             <Fragment key={data.id}>
               <Item
+                isClientView={isClientView}
                 data={data}
                 idTask={idTask}
                 refreshList={getTimeSpentTask}

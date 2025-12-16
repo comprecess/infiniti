@@ -31,7 +31,7 @@ export const getMyWorkProjectsList = async (): Promise<Response> => {
   }
 
   const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-  const apiPath = import.meta.env.VITE_CLIENT_MY_WORK_PROJECTS
+  const apiPath = import.meta.env.VITE_CLIENT_PROJECTS
 
   if (!baseUrl || !apiPath) {
     return {
@@ -41,7 +41,7 @@ export const getMyWorkProjectsList = async (): Promise<Response> => {
   }
 
   try {
-    const url = new URL(apiPath, baseUrl).toString()
+    const url = new URL(`${apiPath}/my-work-projects`, baseUrl).toString()
 
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)

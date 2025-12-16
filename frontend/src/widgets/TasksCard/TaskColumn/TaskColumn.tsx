@@ -13,10 +13,10 @@ import {
 } from '../../../app/constants/constants'
 
 interface TaskColumnProps {
-  access: RolesAccess
+  access?: RolesAccess
+  isClientView: boolean
   visibleCount: number
   filterStatus: string
-
   inputData: ProjectsTasksInputData
   taskIdFromUrl: string | null
   title: string
@@ -34,6 +34,7 @@ interface TaskColumnProps {
 
 export const TaskColumn = ({
   access,
+  isClientView,
   visibleCount,
   inputData,
   filterStatus,
@@ -86,6 +87,7 @@ export const TaskColumn = ({
                 >
                   <TaskItem
                     access={access}
+                    isClientView={isClientView}
                     filterStatus={filterStatus}
                     taskIdFromUrl={taskIdFromUrl}
                     inputData={inputData}

@@ -571,6 +571,41 @@ export const router = createBrowserRouter([
       { path: Routes.offers, element: Pages.clientOffersPage },
       { path: Routes.projects, element: Pages.clientProjectsPage },
       {
+        path: `${Routes.projects}/${Routes.view}/${Routes.project}/:id`,
+        element: Pages.clientViewProjectPage,
+        children: [
+          {
+            path: Routes.summary,
+            element: Pages.clientProjectsSummaryPage,
+          },
+          {
+            path: Routes.tasks,
+            element: Pages.clientProjectsTasksPage,
+          },
+          {
+            path: Routes.files,
+            element: Pages.clientProjectsFilesPage,
+          },
+          {
+            path: Routes.expenses,
+            element: Pages.clientProjectsExpensesPage,
+          },
+          {
+            path: Routes.invoices,
+            element: Pages.clientProjectsInvoicesPage,
+          },
+          {
+            path: '*',
+            index: true,
+            element: <Navigate replace to={To.summary()} />,
+          },
+          {
+            index: true,
+            element: <Navigate replace to={To.summary()} />,
+          },
+        ],
+      },
+      {
         path: Routes.knowledgeBase,
         element: Pages.clientKnowledgeBasePage,
       },

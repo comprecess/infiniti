@@ -24,7 +24,8 @@ import {
 } from '../../app/constants/constants'
 
 interface TasksCardProps {
-  access: RolesAccess
+  access?: RolesAccess
+  isClientView?: boolean
   data: ProjectsColumnData
   inputData: ProjectsTasksInputData
   updateTaskPosition: (taskId: number, newIndex: number, columnTitle: string) => void
@@ -39,6 +40,7 @@ interface ActiveTaskInfo {
 
 export const TasksCard = ({
   access,
+  isClientView = false,
   data,
   inputData,
   editSelectedTask,
@@ -176,6 +178,7 @@ export const TasksCard = ({
           >
             <TaskColumn
               access={access}
+              isClientView={isClientView}
               filterStatus={filterStatus}
               visibleCount={visibleCount}
               taskIdFromUrl={taskIdFromUrl}
@@ -200,6 +203,7 @@ export const TasksCard = ({
           <TaskItem
             isSelected
             isDragging
+            isClientView={isClientView}
             filterStatus=''
             updateFilterStatus={updateFilterStatus}
             task={activeTask.task}

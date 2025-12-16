@@ -1,5 +1,8 @@
+import { useNavigate } from 'react-router-dom'
+
 import styles from './ProjectCard.module.scss'
 import { ProjectsData } from '../../../../app/constants/constants'
+import { Routes } from '../../../../app/router/routes'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { Status } from '../../../../shared/ui/Status/Status'
 
@@ -8,6 +11,14 @@ interface ProjectCardProps {
 }
 
 export const ProjectCard = ({ project }: ProjectCardProps) => {
+  const navigate = useNavigate()
+
+  const handleNavigateToViewProject = () => {
+    navigate(
+      `/${Routes.clientPages}/${Routes.projects}/${Routes.view}/${Routes.project}/${project.id}/summary`,
+    )
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.wrapperContainer}>
@@ -143,7 +154,11 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
             </div>
           </div>
         )}
-        <ButtonBlue title='View Details' style={styles.button} />
+        <ButtonBlue
+          title='View Details'
+          style={styles.button}
+          onClick={handleNavigateToViewProject}
+        />
       </div>
     </div>
   )

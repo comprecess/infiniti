@@ -20,7 +20,17 @@ interface ErrorResponse {
 
 type Response = SuccessResponse | ErrorResponse
 
-export const getMyProjectsList = async (): Promise<Response> => {
+export const getProjectsFiles = async (
+  idProject: number,
+  options: string = '',
+): Promise<Response> => {
+  if (!Number.isInteger(idProject) || idProject <= 0) {
+    return {
+      status: false,
+      message: 'Invalid project ID',
+    }
+  }
+
   const authToken = getAuthToken()
 
   if (!authToken) {
@@ -30,18 +40,20 @@ export const getMyProjectsList = async (): Promise<Response> => {
     }
   }
 
-  const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-  const apiPath = import.meta.env.VITE_CLIENT_PROJECTS
-
-  if (!baseUrl || !apiPath) {
-    return {
-      status: false,
-      message: 'Configuration error - missing environment variables',
-    }
-  }
-
   try {
-    const url = new URL(`${apiPath}/my-projects`, baseUrl).toString()
+    const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
+    const apiPath = import.meta.env.VITE_CLIENT_PROJECTS
+
+    if (!baseUrl || !apiPath) {
+      return {
+        status: false,
+        message: 'Configuration error - missing environment variables',
+      }
+    }
+
+    const safeOptions = options.startsWith('?') ? options.slice(1) : options
+
+    const url = new URL(`${apiPath}/${idProject}/files`, baseUrl).toString()
 
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
@@ -53,12 +65,13 @@ export const getMyProjectsList = async (): Promise<Response> => {
         Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
+      queryParams: safeOptions ? Object.fromEntries(new URLSearchParams(safeOptions)) : undefined,
       signal: controller.signal,
     })
 
     clearTimeout(timeoutId)
 
-    if (!data || typeof data !== 'object' || !('data' in data)) {
+    if (!data || typeof data !== 'object') {
       return {
         status: false,
         message: INVALID_RESPONSE_MESSAGE,
@@ -68,7 +81,7 @@ export const getMyProjectsList = async (): Promise<Response> => {
 
     return {
       status: true,
-      data: data.data,
+      data,
     }
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') {

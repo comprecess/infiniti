@@ -12,10 +12,10 @@ import { useCustomToast } from '../../../../../../shared/ui/CustomToast/CustomTo
 import { patchUpdateTimeTask } from '../../../../../../shared/utils/api/Admin/Projects/patch-update-time-task'
 import { postAddNewTimeTask } from '../../../../../../shared/utils/api/Admin/Projects/post-add-new-time-task'
 import { useIdFromUrl } from '../../../../../../shared/utils/usefulMethods'
-// import { postUpdateTimeTask } from '../../../../../../...'
 
 interface TimeModalProps {
   data?: ProjectsViewTaskTimeSpentData
+  isClientView: boolean
   title: string
   idTask: number
   isOpened: boolean
@@ -25,6 +25,7 @@ interface TimeModalProps {
 
 export const TimeModal = ({
   data,
+  isClientView,
   title,
   idTask,
   isOpened,
@@ -73,9 +74,24 @@ export const TimeModal = ({
     let response
 
     if (data) {
-      response = await patchUpdateTimeTask(idProject, idTask, data.id, payload)
+      response = await patchUpdateTimeTask(
+        isClientView
+          ? `${import.meta.env.VITE_CLIENT_PROJECTS}`
+          : `${import.meta.env.VITE_RESIDENT_PROJECTS_API}`,
+        idProject,
+        idTask,
+        data.id,
+        payload,
+      )
     } else {
-      response = await postAddNewTimeTask(idProject, idTask, payload)
+      response = await postAddNewTimeTask(
+        isClientView
+          ? `${import.meta.env.VITE_CLIENT_PROJECTS}`
+          : `${import.meta.env.VITE_RESIDENT_PROJECTS_API}`,
+        idProject,
+        idTask,
+        payload,
+      )
     }
 
     if (response?.status) {

@@ -15,13 +15,16 @@ const tabsList: TabsListProps[] = [
 
 interface TabsProps {
   isActiveTab: string
+  isClientView: boolean
   setIsActiveTab: (name: string) => void
 }
 
-export const Tabs = ({ isActiveTab, setIsActiveTab }: TabsProps) => {
+export const Tabs = ({ isActiveTab, isClientView, setIsActiveTab }: TabsProps) => {
+  const filteredTabsList = isClientView ? tabsList.filter(tab => tab.send !== 'Logs') : tabsList
+
   return (
     <div className={styles.wrapper}>
-      {tabsList.map(item => {
+      {filteredTabsList.map(item => {
         return (
           <Tab
             key={item.id}
