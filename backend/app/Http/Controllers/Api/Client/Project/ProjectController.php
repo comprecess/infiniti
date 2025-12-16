@@ -21,6 +21,7 @@ use App\Http\Resources\Resident\Project\View\TaskTimeResource;
 use App\Http\Resources\Resident\Transactions\TransactionsListResource;
 use App\Http\Resources\Resident\DocumentResource;
 use App\Http\Resources\Resident\Project\ProjectListResource;
+use App\Http\Resources\UserResource;
 use App\Models\PersonalModel;
 use App\Models\Resident\Document;
 use App\Models\Resident\Project\Project;
@@ -210,13 +211,24 @@ class ProjectController
 
     public function tasksGet($project)
     {
-        $id = Arr::get($this->viewData, 'path.0');
         $methodList = [
             'times' => 'tasksTimes',
             'logs' => 'tasksLogs'
         ];
         if($method = $this->methodPathExecute($project, $methodList) !== null) {
             return $method;
+        }
+        $path = Arr::get($this->viewData, 'path.0');
+        $id = (int) $path;
+        if($id == 'input-data') {
+            return response()->json([
+                'users' => UserResource::collection($this->getProjectUser($project)),
+                'status' => Task::getStatusColumn()
+            ]);
+        }
+
+        if($id != $path) {
+            abort(404);
         }
 
 
@@ -403,6 +415,32 @@ class ProjectController
         }
         ProjectLog::create($task, ProjectLog::TYPE[2]);
         return response()->json(['success' => false]);
+    }
+
+    protected function getProjectUser($project)
+    {
+        $users = collect([]);
+        foreach([$project->client, $project->admin, $project->manager] as $u) {
+            if($u) {
+                $users->push($u);
+            }
+        }
+
+        foreach($project->personals as $personal)
+        {
+            if($personal) {
+                $users->push($personal->user);
+            }
+        }
+        $users = $users->filter(function($value){
+            return !empty($value);
+        })->unique(function($item){
+            if($item) {
+                return $item::class . "_" . $item->id;
+            }
+        });
+
+        return $users;
     }
 
 }
