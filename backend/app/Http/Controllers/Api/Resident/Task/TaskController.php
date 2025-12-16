@@ -12,6 +12,7 @@ use App\Models\Resident\Project\ProjectLog;
 use App\Models\Resident\Project\Task;
 use App\Models\User;
 use App\Models\Users\Admin;
+use App\Models\Users\Client;
 
 class TaskController extends TaskAccessController
 {
@@ -31,8 +32,8 @@ class TaskController extends TaskAccessController
         $result = $this->createOrUpdateCRUD($request, $task, function($model, $request, $isNew){
             if($isNew) {
                 $admin = User::getAuth();
-                if($admin instanceof Admin) {
-                    $model->aid = $admin->id;
+                if($admin instanceof Client) {
+                    $model->cid = $admin->id;
                 }
             }
             $date = now();

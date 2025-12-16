@@ -3,13 +3,15 @@
 
 namespace App\Http\Controllers\Api\Client\Project;
 
+use App\Http\Controllers\Api\Resident\DocumentController;
 use App\Http\Controllers\Api\Resident\Project\Traits\ProjectLogTrait;
-use App\Http\Controllers\Api\Resident\Sale\InvoiceController;
-use App\Http\Controllers\Api\Resident\Transactions\TransactionsController;
+use App\Http\Controllers\Api\Resident\Task\TaskController;
 use App\Http\Controllers\Api\Traits\CRUD;
-use App\Http\Requests\Resident\Invoices\InvoiceListRequest;
+use App\Http\Requests\Resident\DocumentFileCreateRequest;
+use App\Http\Requests\Resident\Project\View\AddTimeRequest;
 use App\Http\Requests\Resident\Project\View\FilesListRequest;
-use App\Http\Requests\Resident\Transactions\TransactionsListRequest;
+use App\Http\Requests\Resident\Task\TaskCreateRequest;
+use App\Http\Requests\Resident\Task\TaskUpdateStatusRequest;
 use App\Http\Resources\Client\Project\ProjectListWorkerResource;
 use App\Http\Resources\Resident\Invoices\InvoiceListResource;
 use App\Http\Resources\Resident\Project\View\LogResource;
@@ -20,9 +22,12 @@ use App\Http\Resources\Resident\Transactions\TransactionsListResource;
 use App\Http\Resources\Resident\DocumentResource;
 use App\Http\Resources\Resident\Project\ProjectListResource;
 use App\Models\PersonalModel;
+use App\Models\Resident\Document;
 use App\Models\Resident\Project\Project;
+use App\Models\Resident\Project\ProjectLog;
 use App\Models\Resident\Project\Task;
-use App\Models\Resident\Transactions\Transaction;
+use App\Models\Resident\Project\TaskTime;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -115,46 +120,6 @@ class ProjectController
         return ProjectListWorkerResource::collection($projectQuery->get());
     }
 
-    public function list()
-    {
-        $projectQuery = Project::select();
-        $admin = auth()->user();
-        if($admin->checkAccess(...self::ACCESS) === 0) {
-            $projectQuery->where(function($query) use($admin){
-                $project = new Project();
-                $query->where($project->getTable() .'.' . $project->getAdminColumn(), $admin->id)
-                    ->orWhere('project_manager_id', $admin->id);
-            });
-        }
-
-        $projectQuery
-            ->with([
-                'admin',
-                'admin.files',
-                'admin.myRole',
-                'manager',
-                'manager.files',
-                'manager.myRole',
-                'client',
-                'client.files',
-                'client.companyClient',
-                'getCurrencyIso',
-                'transactionExpense',
-                'transactionExpense.getCurrencyIso',
-                'personalClients',
-                'personalClients.user',
-                'personalClients.user.files',
-                'personalClients.user.companyClient',
-                'personalAdmins',
-                'personalAdmins.user',
-                'personalAdmins.user.files',
-                'personalAdmins.user.myRole',
-            ])
-            ->orderBy('id', 'desc')
-            ->limit(100);
-
-        return ProjectListResource::collection($projectQuery->get());
-    }
 
     public function item(Project $project)
     {
@@ -182,6 +147,7 @@ class ProjectController
                 $client = auth()->user();
                 $query->selectRaw('DISTINCT sys_tasks.*')
                     ->joinPersonal($client);
+                $query->orWhere('sys_tasks.cid', $client->id);
             }
             return $query->firstOrFail();
         }
@@ -189,10 +155,26 @@ class ProjectController
         return null;
     }
 
+    private function methodPathExecute($project, array $methodList, $key = 'path.1')
+    {
+        $method = Arr::get($this->viewData, $key);
+        if($method) {
+            if(isset($methodList[$method])) {
+                return $this->{$methodList[$method]}($project);
+            }else{
+                abort(404);
+            }
+        }
+
+        return null;
+    }
+
     public function viewProcess(Request $request, Project $project)
     {
+        $result = null;
         $type = $request->route('type');
         $id = $request->route('id');
+        $this->viewData['request'] = $request;
         $this->viewData['path'] = explode('/', $id);
         $this->viewData['checkProject'] = $this->checkUserProject($project);
 
@@ -202,11 +184,17 @@ class ProjectController
 
         $prefix = ucfirst(strtolower($request->getMethod()));
         $method = $type . $prefix;
-        if(!method_exists($this, $method)) {
+        if(method_exists($this, $method)) {
+            $result = $this->{$method}($project);
+        }elseif(method_exists($this, $type . "All")) {
+            $method = $type . "All";
+            $result = $this->{$method}($project);
+        }
+
+        if($result === null) {
             abort(404);
         }
 
-        $result = $this->{$method}($project);
         if($result === true) {
             return response()->json(['success' => true]);
         }
@@ -214,6 +202,7 @@ class ProjectController
         return $result;
     }
 
+    #GET
     public function viewGet($project)
     {
         return $this->viewData['checkProject'] == self::PROJECT[0] ? new ProjectListResource($project) : new ProjectListWorkerResource($project);
@@ -221,37 +210,31 @@ class ProjectController
 
     public function tasksGet($project)
     {
+        $id = Arr::get($this->viewData, 'path.0');
         $methodList = [
             'times' => 'tasksTimes',
             'logs' => 'tasksLogs'
         ];
-        $id = Arr::get($this->viewData, 'path.0');
-        $method = Arr::get($this->viewData, 'path.1');
-
-        if($method) {
-            if(isset($methodList[$method])) {
-                return $this->{$methodList[$method]}($project);
-            }else{
-                abort(404);
-            }
+        if($method = $this->methodPathExecute($project, $methodList) !== null) {
+            return $method;
         }
 
 
         $checkProject = Arr::get($this->viewData, 'checkProject');
-        $tasqQuery = $tasks = $project->tasks()
+        $taskQuery = $tasks = $project->tasks()
             ->with(['admin.files', 'admin.myRole', 'client.companyClient', 'client.files', 'personals', 'personals.user', 'personals.user.files']);
 
         if($checkProject == self::PROJECT[1]){
             $client = auth()->user();
-            $tasqQuery->selectRaw('DISTINCT sys_tasks.*')
+            $taskQuery->selectRaw('DISTINCT sys_tasks.*')
                 ->joinPersonal($client);
         }
 
         if($id) {
-            $tasqQuery->where('sys_tasks.id', $id);
+            $taskQuery->where('sys_tasks.id', $id);
         }
 
-        $tasks = $tasqQuery->sort()->get();
+        $tasks = $taskQuery->sort()->get();
         $group = $tasks->groupBy('status');
 
         $taskColumns = Task::getStatusColumn()->sortBy('sort');
@@ -318,6 +301,108 @@ class ProjectController
             ->sort();
 
         return $this->index($tasks, TaskGanttChartResource::class);
+    }
+
+    #POST
+    public function filesPost($project)
+    {
+        $document = new DocumentController();
+        $request = app(DocumentFileCreateRequest::class);
+        $request->setModel($project);
+        $result = $document->createOrUpdate(new Document(), $request);
+        if($document->file) {
+            $data = $document->file->toArray();
+            $dopDescription = __('project_log.project.fileName',['fileName' => $document->file->original_name, 'fileId' => $document->file->id]);
+        }
+        ProjectLog::create($project, ProjectLog::TYPE[4], null, $data, null, $dopDescription);
+        return $result;
+    }
+
+    public function tasksAll($project)
+    {
+        $methodList = [
+            'times' => 'tasksTimesEdit',
+            'status' => 'tasksStatusEdit'
+        ];
+        if($method = $this->methodPathExecute($project, $methodList) !== null) {
+            return $method;
+        }
+
+        $task = $this->getTask($project);
+        $user = User::getAuth();
+//        request()->merge(['users' => [['userType' => $user->getNameClass(), 'id' => $user->id]]]);
+
+        $controller = new TaskController();
+        $method = strtolower($this->viewData['request']->method());
+        $path = Arr::get($this->viewData, 'path.1');
+
+
+        if(in_array($method, ['post', 'put', 'patch']) && !$path) {
+            $request = app(TaskCreateRequest::class);
+            $request->setData(['pid' => $project->id]);
+            return $controller->createOrUpdate($task ?? new Task(), $request);
+        } elseif ($method == 'patch' && $path == 'status' && $task) {
+            $request = app(TaskUpdateStatusRequest::class);
+            $request->merge(['pid' => $project->id]);
+            return $controller->updateStatus($task, $request);
+        }
+    }
+
+    public function tasksTimesEdit($project)
+    {
+        $method = $this->viewData['request']->getMethod();
+        $task = $this->getTask($project);
+        $request = app(AddTimeRequest::class);
+        $time = null;
+
+        if(in_array($method, ['POST', 'PUT'])) {
+            $time = new TaskTime();
+            $time->setUser(User::getAuth());
+            $time->project_id = $project->id;
+            $time->task_id = $task->id;
+            $type = ProjectLog::TYPE[8];
+        }elseif ($method == 'PATCH') {
+            $id = (int) Arr::get($this->viewData, 'path.2');
+            $time = $task->times()->where('id', $id)->where('project_id', $project->id)->firstOrFail();
+            $type = ProjectLog::TYPE[9];
+        }
+
+        if($time !== null) {
+            $time->setTime($request->getTime());
+            $time->description = $request->description;
+            $time->save();
+            ProjectLog::create(model: $task, type: $type, descriptionDop: ProjectLog::dopDescription('task.time', $time->toArray()));
+
+            return response()->json(['success' => true, 'id' => $time->id]);
+        }
+    }
+
+    public function tasksStatusEdit($project)
+    {
+        $controller = new TaskController();
+        $task = $this->getTask($project);
+        $request = app(TaskUpdateStatusRequest::class);
+        $request->merge(['pid' => $project->id]);
+        return $controller->updateStatus($task, $request);
+    }
+
+    #DELETE
+
+    public function tasksDelete($project)
+    {
+        $methodList = [
+            'times' => 'tasksTimesDelete',
+        ];
+        if($method = $this->methodPathExecute($project, $methodList) !== null) {
+            return $method;
+        }
+        $task = $this->getTask($project);
+        if($task) {
+            $this->sendLog($task, ProjectLog::TYPE[2]);
+            return $this->delete($task);
+        }
+        ProjectLog::create($task, ProjectLog::TYPE[2]);
+        return response()->json(['success' => false]);
     }
 
 }

@@ -8,6 +8,7 @@ use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\Traits\PersonalModelTrait;
 use App\Models\Traits\UserTrait;
 use App\Models\User;
+use App\Models\Users\Admin;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -53,8 +54,9 @@ class Task extends Model implements InsertDefaultValueInterface
 
     public function getDefault(): array
     {
+        $user = User::getAuth();
         return [
-            'aid' => [User::getAuth()->id],
+            'aid' => [($user instanceof Admin) ? $user->id : 0],
             'status' => [self::STATUS[0]],
             'due_date' => [now()]
         ];
