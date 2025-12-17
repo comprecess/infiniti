@@ -571,6 +571,10 @@ export const router = createBrowserRouter([
       { path: Routes.offers, element: Pages.clientOffersPage },
       { path: Routes.projects, element: Pages.clientProjectsPage },
       {
+        path: `${Routes.projects}/${Routes.edit}/${Routes.project}/:id`,
+        element: Pages.clientEditProjectPage,
+      },
+      {
         path: `${Routes.projects}/${Routes.view}/${Routes.project}/:id`,
         element: Pages.clientViewProjectPage,
         children: [

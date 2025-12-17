@@ -44,16 +44,22 @@ export const Item = ({
   }
 
   const handleNavigateSelectedAccount = () => {
+    if (isClientView) return
+
     navigate(
       `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${account.id}/${Routes.summary}`,
     )
   }
 
   const handleNavigateEditInvoice = () => {
+    if (isClientView) return
+
     navigate(`/${Routes.adminPages}/${Routes.sales}/${Routes.edit}/${Routes.invoice}/${id}`)
   }
 
   const handleNavigateViewInvoice = () => {
+    if (isClientView) return
+
     navigate(`/${Routes.adminPages}/${Routes.sales}/${Routes.invoice}/${Routes.view}/${id}`)
   }
 
@@ -62,12 +68,14 @@ export const Item = ({
       <div className={styles.wrapper}>
         <span
           className={`${styleItem.codeColumn} ${styles.codeItem}`}
+          style={{ cursor: isClientView ? 'default' : 'pointer' }}
           onClick={handleNavigateViewInvoice}
         >
           {code}
         </span>
         <div
           className={`${styleItem.accountColumn} ${styles.container}`}
+          style={{ cursor: isClientView ? 'default' : 'pointer' }}
           onClick={handleNavigateSelectedAccount}
         >
           <span className={styles.accountItem}>{account.account}</span>

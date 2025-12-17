@@ -204,6 +204,16 @@
   height: 16px;
 }
 
+.buttons {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+
+  @include mobileBreakpoint('max', $bpL) {
+    flex-direction: column;
+  }
+}
+
 .button {
   height: 44px;
 }

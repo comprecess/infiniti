@@ -19,6 +19,12 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
     )
   }
 
+  const handleNavigateToEditProject = () => {
+    navigate(
+      `/${Routes.clientPages}/${Routes.projects}/${Routes.edit}/${Routes.project}/${project.id}`,
+    )
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.wrapperContainer}>
@@ -154,11 +160,18 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
             </div>
           </div>
         )}
-        <ButtonBlue
-          title='View Details'
-          style={styles.button}
-          onClick={handleNavigateToViewProject}
-        />
+        <div className={styles.buttons}>
+          <ButtonBlue
+            title='View Details'
+            style={styles.button}
+            onClick={handleNavigateToViewProject}
+          />
+          <ButtonBlue
+            title='Edit Project'
+            style={styles.button}
+            onClick={handleNavigateToEditProject}
+          />
+        </div>
       </div>
     </div>
   )
