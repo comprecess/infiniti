@@ -72,10 +72,9 @@ Route::group(['prefix' => 'client',], function(){
         ->group(function(){
             Route::get('/my-projects', 'myProject');
             Route::get('/work-projects', 'workProjects');
-//            Route::get('/list', 'list');
-//            Route::get('/input-data', 'inputData');
+            Route::get('/input-data', 'inputData');
 //            Route::post('/', 'createOrUpdate');
-//            Route::put('/{project}', 'createOrUpdate');
+            Route::match(['put', 'post'],'/{project}', 'createOrUpdate');
 //            Route::delete('/{project}', 'delete');
             Route::match(['get', 'put', 'patch', 'post', 'delete'], '/{project}/{type}/{id?}', 'viewProcess')->where('id', '.+');
 //            Route::get('/{project}', 'item');

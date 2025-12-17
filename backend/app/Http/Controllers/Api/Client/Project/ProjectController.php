@@ -8,27 +8,34 @@ use App\Http\Controllers\Api\Resident\Project\Traits\ProjectLogTrait;
 use App\Http\Controllers\Api\Resident\Task\TaskController;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\DocumentFileCreateRequest;
+use App\Http\Requests\Resident\Project\ProjectCreateRequest;
 use App\Http\Requests\Resident\Project\View\AddTimeRequest;
 use App\Http\Requests\Resident\Project\View\FilesListRequest;
 use App\Http\Requests\Resident\Task\TaskCreateRequest;
 use App\Http\Requests\Resident\Task\TaskUpdateStatusRequest;
 use App\Http\Resources\Client\Project\ProjectListWorkerResource;
+use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\Invoices\InvoiceListResource;
 use App\Http\Resources\Resident\Project\View\LogResource;
 use App\Http\Resources\Resident\Project\View\TaskGanttChartResource;
 use App\Http\Resources\Resident\Project\View\TaskResource;
 use App\Http\Resources\Resident\Project\View\TaskTimeResource;
+use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Http\Resources\Resident\Transactions\TransactionsListResource;
 use App\Http\Resources\Resident\DocumentResource;
 use App\Http\Resources\Resident\Project\ProjectListResource;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\Users\AdminListResource;
 use App\Models\PersonalModel;
 use App\Models\Resident\Document;
 use App\Models\Resident\Project\Project;
 use App\Models\Resident\Project\ProjectLog;
 use App\Models\Resident\Project\Task;
 use App\Models\Resident\Project\TaskTime;
+use App\Models\Resident\Settings\Currency;
 use App\Models\User;
+use App\Models\Users\Admin;
+use App\Models\Users\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -119,6 +126,48 @@ class ProjectController
         });
 
         return ProjectListWorkerResource::collection($projectQuery->get());
+    }
+
+    public function inputData()
+    {
+        $client = Client::hasType()->with(['files', 'companyClient', 'group'])->get();
+        $supplier = Client::hasType(Client::TYPE[1])->with(['files', 'companyClient', 'group'])->get();
+        $staff = Admin::all();
+        $currency = Currency::all();
+
+        return response()->json([
+            'client' => ClientResource::collection($client),
+            'supplier' => ClientResource::collection($supplier),
+            'staff' => AdminListResource::collection($staff),
+            'currency' => CurrencyResource::collection($currency),
+            'status' => Project::STATUS,
+            'type' => Project::TYPE
+        ]);
+    }
+
+    public function createOrUpdate(Project $project, ProjectCreateRequest $request)
+    {
+        $this->setOldModel($project);
+
+        $this->isPut = true;
+        if(!$project->id) {
+            $project = Project::newDefault();
+        }
+
+        $result = $this->createOrUpdateCRUD($request, $project, null, function($model, $request, $isNew){
+            $collect = collect([]);
+            if($request->members) {
+                $collect =  $collect->merge(Admin::whereIn('id', $request->members)->get());
+            }
+            if($request->suppliers) {
+                $collect = $collect->merge(Client::whereIn('id', $request->suppliers)->hasType(Client::TYPE[1])->get());
+            }
+            $model->setPersonal($collect);
+
+        });
+        $this->sendLog($project);
+
+        return $result;
     }
 
 
@@ -215,20 +264,15 @@ class ProjectController
             'times' => 'tasksTimes',
             'logs' => 'tasksLogs'
         ];
-        if($method = $this->methodPathExecute($project, $methodList) !== null) {
+        if(($method = $this->methodPathExecute($project, $methodList)) !== null) {
             return $method;
         }
-        $path = Arr::get($this->viewData, 'path.0');
-        $id = (int) $path;
+        $id = Arr::get($this->viewData, 'path.0');
         if($id == 'input-data') {
             return response()->json([
                 'users' => UserResource::collection($this->getProjectUser($project)),
                 'status' => Task::getStatusColumn()
             ]);
-        }
-
-        if($id != $path) {
-            abort(404);
         }
 
 
@@ -243,7 +287,7 @@ class ProjectController
         }
 
         if($id) {
-            $taskQuery->where('sys_tasks.id', $id);
+            return new TaskResource($taskQuery->where('id', $id)->firstOrFail());
         }
 
         $tasks = $taskQuery->sort()->get();
@@ -336,7 +380,7 @@ class ProjectController
             'times' => 'tasksTimesEdit',
             'status' => 'tasksStatusEdit'
         ];
-        if($method = $this->methodPathExecute($project, $methodList) !== null) {
+        if(($method = $this->methodPathExecute($project, $methodList)) !== null) {
             return $method;
         }
 
@@ -405,7 +449,7 @@ class ProjectController
         $methodList = [
             'times' => 'tasksTimesDelete',
         ];
-        if($method = $this->methodPathExecute($project, $methodList) !== null) {
+        if(($method = $this->methodPathExecute($project, $methodList)) !== null) {
             return $method;
         }
         $task = $this->getTask($project);
@@ -415,6 +459,22 @@ class ProjectController
         }
         ProjectLog::create($task, ProjectLog::TYPE[2]);
         return response()->json(['success' => false]);
+    }
+
+    public function tasksTimesDelete($project)
+    {
+        $task = $this->getTask($project);
+        $user = User::getAuth();
+        $time = $task->times()
+            ->where('id', Arr::get($this->viewData, 'path.2'))
+            ->where('project_id', $project->id)
+            ->where(function($query) use($user){
+                $query->where('user_type', $user::class)
+                    ->where('user_id', $user->id);
+            })
+            ->firstOrFail();
+        ProjectLog::create($task, ProjectLog::TYPE[10]);
+        return $this->delete($time);
     }
 
     protected function getProjectUser($project)
