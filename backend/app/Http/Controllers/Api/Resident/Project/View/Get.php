@@ -49,7 +49,7 @@ class Get extends View
         if(!is_int($id) && $id) {
             return $id;
         }elseif(is_int($id) && $id){
-            return new TaskResource($tasqQuery->where('id', $id)->first());
+            return new TaskResource($tasqQuery->where('id', $id)->firstOrFail());
         }
 
         $tasks = $tasqQuery->sort()->get();
