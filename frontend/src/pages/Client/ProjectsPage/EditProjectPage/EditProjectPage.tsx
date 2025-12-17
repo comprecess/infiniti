@@ -2,20 +2,20 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import styles from './EditProject.module.scss'
+import styles from './EditProjectPage.module.scss'
 import { ProjectsInputData, ProjectsNewProjectForm } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { Fields } from '../../../../features/Admin/Projects/EditProject/Fields/Fields'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { getProjectEditInfo } from '../../../../shared/utils/api/Admin/Projects/get-project-edit-info'
-import { getProjectsInputData } from '../../../../shared/utils/api/Admin/Projects/get-project-input-data'
-import { putEditProject } from '../../../../shared/utils/api/Admin/Projects/put-edit-project'
+import { getProjectEditInfo } from '../../../../shared/utils/api/Client/Projects/get-project-edit-info'
+import { getProjectsInputData } from '../../../../shared/utils/api/Client/Projects/get-project-input-data'
+import { putEditProject } from '../../../../shared/utils/api/Client/Projects/put-edit-project'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
-export const AdminEditProject = () => {
+export const ClientEditProjectPage = () => {
   const [form, setForm] = useState<Partial<ProjectsNewProjectForm> | null>(null)
   const [inputData, setInputData] = useState<ProjectsInputData | null>(null)
 
@@ -70,7 +70,7 @@ export const AdminEditProject = () => {
         description: 'You have successfully modified the Project',
         status: 'success',
       })
-      navigate(`/${Routes.adminPages}/${Routes.projects}`)
+      navigate(`/${Routes.clientPages}/${Routes.projects}`)
     } else {
       showToast({
         title: 'Error',

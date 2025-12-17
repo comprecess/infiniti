@@ -121,6 +121,7 @@ import { ClientMyOrdersPage } from '../../pages/Client/MyOrdersPage/MyOrdersPage
 import { ClientOffersPage } from '../../pages/Client/OffersPage/OffersPage'
 import { ClientProfilePage } from '../../pages/Client/ProfilePage/ProfilePage'
 import { ClientProfileSettingsPage } from '../../pages/Client/ProfileSettingsPage/ProfileSettingsPage'
+import { ClientEditProjectPage } from '../../pages/Client/ProjectsPage/EditProjectPage/EditProjectPage'
 import { ClientProjectsPage } from '../../pages/Client/ProjectsPage/ProjectsPage'
 import { ClientProjectsExpensesPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/ExpensesPage/ExpensesPage'
 import { ClientProjectsFilesPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/FilesPage/FilesPage'
@@ -292,6 +293,7 @@ export const Pages = {
   clientInvoicesPage: <ClientInvoicesPage />,
   clientOffersPage: <ClientOffersPage />,
   clientProjectsPage: <ClientProjectsPage />,
+  clientEditProjectPage: <ClientEditProjectPage />,
   clientViewProjectPage: <ClientViewProjectPage />,
   clientProjectsSummaryPage: <ClientProjectsSummaryPage />,
   clientProjectsTasksPage: <ClientProjectsTasksPage />,

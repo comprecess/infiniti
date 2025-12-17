@@ -42,6 +42,8 @@ export const Item = ({
   const navigate = useNavigate()
 
   const handleNavigateToEdit = () => {
+    if (isClientView) return
+
     navigate(
       `/${Routes.adminPages}/${Routes.accounting}/${Routes.edit}/${Routes.transaction}/${id}`,
     )
