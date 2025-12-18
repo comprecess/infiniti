@@ -26,8 +26,14 @@ trait ProjectLogTrait
             //edit
             $type = $type ?? ProjectLog::TYPE[1];
             $diff = [];
-            if($personal = $model->personals){
-                $diff = $personal->diffUser($this->oldModel->personals);
+            $personal = $model->personals->filter(function($value){
+                return (bool) $value->user;
+            });
+
+            if($personal->count()){
+                $diff = $personal->diffUser($this->oldModel->personals->filter(function($value){
+                    return (bool) $value->user;
+                }));
                 $dopDescription .= $this->getLogPersonal($diff);
             }
             $data = array_merge(Log::comparisonModelsMismatch($model, $this->oldModel), ['personal' =>collect($diff)->toArray()]);
