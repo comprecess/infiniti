@@ -77,7 +77,7 @@ Route::group(['prefix' => 'client',], function(){
             Route::match(['put', 'post'],'/{project}', 'createOrUpdate');
 //            Route::delete('/{project}', 'delete');
             Route::match(['get', 'put', 'patch', 'post', 'delete'], '/{project}/{type}/{id?}', 'viewProcess')->where('id', '.+');
-//            Route::get('/{project}', 'item');
+            Route::get('/{project}', 'item');
             /*Route::get('/{model}/to-plan', 'toPlan');
             Route::match(['put', 'post'],'/{model}/update', 'update');*/
         });
