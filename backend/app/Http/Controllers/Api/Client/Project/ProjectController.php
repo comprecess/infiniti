@@ -16,6 +16,8 @@ use App\Http\Requests\Resident\Task\TaskUpdateStatusRequest;
 use App\Http\Resources\Client\Project\ProjectListWorkerResource;
 use App\Http\Resources\Resident\Client\ClientResource;
 use App\Http\Resources\Resident\Invoices\InvoiceListResource;
+use App\Http\Resources\Resident\Project\ProjectItemResource;
+use App\Http\Resources\Resident\Project\ProjectItemWorkerResource;
 use App\Http\Resources\Resident\Project\View\LogResource;
 use App\Http\Resources\Resident\Project\View\TaskGanttChartResource;
 use App\Http\Resources\Resident\Project\View\TaskResource;
@@ -178,7 +180,7 @@ class ProjectController
             abort(403);
         }
 
-        return $checkProject == self::PROJECT[0] ? new ProjectListResource($project) : new ProjectListWorkerResource($project);
+        return $checkProject == self::PROJECT[0] ? new ProjectItemResource($project) : new ProjectItemWorkerResource($project);
     }
 
     private function checkMy()
