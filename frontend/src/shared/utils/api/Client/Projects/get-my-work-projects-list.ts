@@ -41,7 +41,7 @@ export const getMyWorkProjectsList = async (): Promise<Response> => {
   }
 
   try {
-    const url = new URL(`${apiPath}/my-work-projects`, baseUrl).toString()
+    const url = new URL(`${apiPath}/work-projects`, baseUrl).toString()
 
     const controller = new AbortController()
     const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)

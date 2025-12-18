@@ -59,7 +59,7 @@ export const ClientProjectsPage = () => {
               {myProjects.length > 0 ? (
                 <div className={styles.projectsList}>
                   {myProjects.map(project => (
-                    <ProjectCard key={project.id} project={project} />
+                    <ProjectCard key={project.id} project={project} user={user} />
                   ))}
                 </div>
               ) : (
@@ -87,7 +87,7 @@ export const ClientProjectsPage = () => {
               {myWorkProjects.length > 0 ? (
                 <div className={styles.projectsList}>
                   {myWorkProjects.map(project => (
-                    <ProjectCard key={project.id} project={project} />
+                    <ProjectCard key={project.id} project={project} user={user} />
                   ))}
                 </div>
               ) : (

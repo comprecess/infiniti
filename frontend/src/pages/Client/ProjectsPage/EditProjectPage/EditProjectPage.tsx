@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 
 import styles from './EditProjectPage.module.scss'
-import { ProjectsInputData, ProjectsNewProjectForm } from '../../../../app/constants/constants'
+import {
+  ProjectsInputData,
+  ProjectsNewProjectForm,
+  UserInfo,
+} from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { Fields } from '../../../../features/Admin/Projects/EditProject/Fields/Fields'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -19,7 +23,10 @@ export const ClientEditProjectPage = () => {
   const [form, setForm] = useState<Partial<ProjectsNewProjectForm> | null>(null)
   const [inputData, setInputData] = useState<ProjectsInputData | null>(null)
 
+  const { user } = useOutletContext<{ user: UserInfo }>()
+
   const id = useIdFromUrl('project')
+
   const navigate = useNavigate()
   const showToast = useCustomToast()
 
@@ -88,6 +95,12 @@ export const ClientEditProjectPage = () => {
     getInputData()
     getProjectInfo()
   }, [id])
+
+  useEffect(() => {
+    if (user && user.status.isSupplier) {
+      navigate(`/${Routes.clientPages}/${Routes.projects}`)
+    }
+  }, [user])
 
   return (
     <div className={styles.wrapper}>

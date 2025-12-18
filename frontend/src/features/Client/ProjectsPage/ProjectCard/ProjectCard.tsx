@@ -1,16 +1,17 @@
 import { useNavigate } from 'react-router-dom'
 
 import styles from './ProjectCard.module.scss'
-import { ProjectsData } from '../../../../app/constants/constants'
+import { ProjectsData, UserInfo } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { Status } from '../../../../shared/ui/Status/Status'
 
 interface ProjectCardProps {
   project: ProjectsData
+  user: UserInfo
 }
 
-export const ProjectCard = ({ project }: ProjectCardProps) => {
+export const ProjectCard = ({ project, user }: ProjectCardProps) => {
   const navigate = useNavigate()
 
   const handleNavigateToViewProject = () => {
@@ -166,11 +167,13 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
             style={styles.button}
             onClick={handleNavigateToViewProject}
           />
-          <ButtonBlue
-            title='Edit Project'
-            style={styles.button}
-            onClick={handleNavigateToEditProject}
-          />
+          {!user.status.isSupplier && (
+            <ButtonBlue
+              title='Edit Project'
+              style={styles.button}
+              onClick={handleNavigateToEditProject}
+            />
+          )}
         </div>
       </div>
     </div>
