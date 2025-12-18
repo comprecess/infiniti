@@ -177,7 +177,9 @@ export const ClientDashboardPage = () => {
                     )}
                   </div>
                 </Scrollable>
-                <RecentCard title='Paid/Unpaid Invoices'>
+                <RecentCard
+                  title={user.status.isSupplier ? 'Tasks Management' : 'Paid/Unpaid Invoices'}
+                >
                   <Scrollable>
                     <div className={styles.chart}>
                       <NetWorth
