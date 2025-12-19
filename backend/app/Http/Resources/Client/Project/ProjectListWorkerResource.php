@@ -29,6 +29,7 @@ class ProjectListWorkerResource extends JsonResource
             'completed' => $this->getTaskCompleted(),
             'startDate' => $this->start_date?->format($format),
             'dueDate' => $this->due_date?->format($format),
+            'isMy' => $this->isMy(),
             'users' => [
                 'admin' => new UserResource($this->admin),
                 'manager' => new UserResource($this->manager ?? $this->admin),

@@ -71,8 +71,13 @@ class Project extends Model implements InsertDefaultValueInterface
         return $this->hasMany(ProjectLog::class, 'project_id');
     }
 
-    public function isMy(Client $client)
+    public function isMy(?Client $client = null)
     {
+        $user = User::getAuth();
+        if($user instanceof Admin) {
+            return false;
+        }
+        $client = $client ?? $user;
         return $this->contact_id == $client->id;
     }
 
