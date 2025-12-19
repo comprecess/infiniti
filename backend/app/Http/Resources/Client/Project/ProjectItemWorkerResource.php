@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Resident\Project;
+namespace App\Http\Resources\Client\Project;
 
 use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Http\Resources\UserResource;
