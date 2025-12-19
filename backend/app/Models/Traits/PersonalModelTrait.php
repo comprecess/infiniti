@@ -98,6 +98,14 @@ trait PersonalModelTrait
         $query->delete();
     }
 
+    public function scopeJoinPersonalTable($query)
+    {
+        $query->join('personal_model', function($join){
+            $join->on('personal_model.model_id', '=', 'sys_tasks.id')
+                ->where('personal_model.model_type', self::class);
+        });
+    }
+
     public function scopeJoinPersonal($query, User $user)
     {
         $query->join('personal_model', function($join){

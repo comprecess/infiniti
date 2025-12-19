@@ -57,6 +57,7 @@ class ProjectFromBusinessPlan implements ShouldQueue
         $project->summary = $summary;
         $project->description = $businessPlan->description;
         $project->status = Project::STATUS[1];
+        $project->billing_type = Project::TYPE[0];
         list($project->start_date, $project->due_date) = $this->startAndEndProject($cartItems);
         $project->currency = $invoice->currency_iso_code;
         $project->budget = $invoice->total;
