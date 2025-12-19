@@ -16,8 +16,12 @@ import { Status } from '../../../../shared/ui/Status/Status'
 import { getProjectView } from '../../../../shared/utils/api/Client/Projects/get-project-view'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 
+interface ClientProjectsData extends ProjectsData {
+  isMy: boolean
+}
+
 export const ClientViewProjectPage = () => {
-  const [projectInfo, setProjectInfo] = useState<ProjectsData | null>(null)
+  const [projectInfo, setProjectInfo] = useState<ClientProjectsData | null>(null)
 
   const [isOpenSideBar, setIsOpenSideBar] = useState<boolean>(false)
   const [isMobile, setIsMobile] = useState<boolean>(false)
@@ -99,7 +103,9 @@ export const ClientViewProjectPage = () => {
   }, [])
 
   const data =
-    user && user.status.isSupplier
+    projectInfo && projectInfo.isMy
+      ? ClientCustomerProjectInfoSidebar
+      : user && user.status.isSupplier
       ? ClientSupplierProjectInfoSidebar
       : ClientCustomerProjectInfoSidebar
 
