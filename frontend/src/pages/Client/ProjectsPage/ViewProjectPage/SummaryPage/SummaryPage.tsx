@@ -129,7 +129,7 @@ export const ClientProjectsSummaryPage = () => {
               </div>
             </div>
           )}
-          {projectInfo.budget.value > 0 && (
+          {projectInfo.budget && projectInfo.budget.value > 0 && (
             <div className={styles.tasks}>
               <div className={styles.chart}>
                 <div className={styles.chartTexts}>
