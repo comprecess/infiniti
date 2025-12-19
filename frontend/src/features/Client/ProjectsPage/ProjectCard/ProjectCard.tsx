@@ -9,9 +9,10 @@ import { Status } from '../../../../shared/ui/Status/Status'
 interface ProjectCardProps {
   project: ProjectsData
   user: UserInfo
+  isMyProjects: boolean
 }
 
-export const ProjectCard = ({ project, user }: ProjectCardProps) => {
+export const ProjectCard = ({ project, user, isMyProjects }: ProjectCardProps) => {
   const navigate = useNavigate()
 
   const handleNavigateToViewProject = () => {
@@ -167,7 +168,7 @@ export const ProjectCard = ({ project, user }: ProjectCardProps) => {
             style={styles.button}
             onClick={handleNavigateToViewProject}
           />
-          {!user.status.isSupplier && (
+          {(isMyProjects || !user.status.isSupplier) && (
             <ButtonBlue
               title='Edit Project'
               style={styles.button}
