@@ -285,11 +285,17 @@ class ProjectController
         if($checkProject == self::PROJECT[1]){
             $client = auth()->user();
             $taskQuery->selectRaw('DISTINCT sys_tasks.*')
-                ->joinPersonal($client);
+                ->JoinPersonalTable()
+                ->where(function($query) use($client){
+                    $query->where(function($query) use($client){
+                        $query->where('personal_model.user_type', $client::class)
+                            ->where('personal_model.user_id', $client->id);
+                    })->orWhere('sys_tasks.cid', $client->id);
+                });
         }
 
         if($id) {
-            return new TaskResource($taskQuery->where('id', $id)->firstOrFail());
+            return new TaskResource($taskQuery->where('sys_tasks.id', $id)->firstOrFail());
         }
 
         $tasks = $taskQuery->sort()->get();
