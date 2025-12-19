@@ -99,9 +99,9 @@ export const ClientViewProjectPage = () => {
   }, [])
 
   const data =
-    user && user.status.isCustomer
-      ? ClientCustomerProjectInfoSidebar
-      : ClientSupplierProjectInfoSidebar
+    user && user.status.isSupplier
+      ? ClientSupplierProjectInfoSidebar
+      : ClientCustomerProjectInfoSidebar
 
   if (!isInitialized) {
     return null
