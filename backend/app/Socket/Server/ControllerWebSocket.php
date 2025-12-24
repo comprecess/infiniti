@@ -19,7 +19,8 @@ class ControllerWebSocket extends Socket
             Controller\Auth::class,
             Controller\Room::class,
             Controller\Notification::class,
-            Controller\Task::class
+            Controller\Task::class,
+            Controller\BusinessPlan\Generate::class,
         ];
     }
 
