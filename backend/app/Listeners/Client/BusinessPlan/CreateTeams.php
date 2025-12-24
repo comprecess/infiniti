@@ -4,6 +4,7 @@ namespace App\Listeners\Client\BusinessPlan;
 
 use App\Events\Client\BusinessPlan\Generate;
 use App\Models\Resident\BusinessPlan;
+use App\Socket\Client as ClientSocket;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Log;
@@ -31,5 +32,8 @@ class CreateTeams implements ShouldQueue
         Log::alert('***CreateTeams*** complete');
         $event->businessPlan->status_generate = BusinessPlan::STATUS_GENERATE[2];
         $event->businessPlan->save();
+        if($user = $event->businessPlan->client) {
+            (new ClientSocket())->setUser($user)->setController('business-plan-list')->sendData();
+        }
     }
 }

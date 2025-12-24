@@ -194,13 +194,13 @@ class ProjectController
     {
         $id = Arr::get($this->viewData, 'path.0');
         if($id) {
-            $query = $project->tasks()->where('id', $id);
-            if(Arr::get($this->viewData, 'checkProject') == self::PROJECT[1]) {
+            $query = $project->tasks()->where('sys_tasks.id', $id);
+//            if(Arr::get($this->viewData, 'checkProject') == self::PROJECT[1]) {
                 $client = auth()->user();
                 $query->selectRaw('DISTINCT sys_tasks.*')
                     ->joinPersonal($client);
                 $query->orWhere('sys_tasks.cid', $client->id);
-            }
+//            }
             return $query->firstOrFail();
         }
 
