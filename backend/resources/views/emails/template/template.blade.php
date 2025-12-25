@@ -31,11 +31,14 @@
             position: relative;
             padding: 16px 32px;
             border-radius: 8px;
-            background-color: #aaa !important;
+            background-color: #efefef !important;
             overflow: hidden;
         }
         .footer{
             font-size: 12px !important;
+        }
+        .logo{
+            height: 50px;
         }
     </style>
 </head>
@@ -43,7 +46,7 @@
 <div class="body">
     <div class="main">
         <div class="header">
-            <svg src="https://console.infiniti.stream/logoInfinitiWhite.svg"></svg>
+            <img class="logo" src="https://console.infiniti.stream/image/logoBlack.png" />
         </div>
         <div class="content">
             @yield('content')
