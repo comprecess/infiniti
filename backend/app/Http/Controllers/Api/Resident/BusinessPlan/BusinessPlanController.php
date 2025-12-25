@@ -15,6 +15,7 @@ use App\Http\Resources\Resident\Talents\TalentResource;
 use App\Models\Catalog\User;
 use App\Models\Resident\BusinessPlan;
 use App\Services\Document\DocumentVariables;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
@@ -106,7 +107,16 @@ class BusinessPlanController extends BusinessPlanAccessController
 
     public function delete(BusinessPlan $plan)
     {
-        return $this->deleteCRUD($plan);
+        try {
+            return $this->deleteCRUD($plan);
+        }catch (QueryException $e) {
+            if($e->getCode() == 23000) {
+                return response()->json([
+                    'access' => 'false',
+                    'message' => 'The linking element cannot be deleted.'
+                ],405);
+            }
+        }
     }
 
     public function team(Request $request, BusinessPlan $plan)

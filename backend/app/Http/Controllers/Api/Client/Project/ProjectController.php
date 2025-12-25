@@ -8,7 +8,7 @@ use App\Http\Controllers\Api\Resident\Project\Traits\ProjectLogTrait;
 use App\Http\Controllers\Api\Resident\Task\TaskController;
 use App\Http\Controllers\Api\Traits\CRUD;
 use App\Http\Requests\Resident\DocumentFileCreateRequest;
-use App\Http\Requests\Resident\Project\ProjectCreateRequest;
+use App\Http\Requests\Client\Project\ProjectCreateRequest;
 use App\Http\Requests\Resident\Project\View\AddTimeRequest;
 use App\Http\Requests\Resident\Project\View\FilesListRequest;
 use App\Http\Requests\Resident\Task\TaskCreateRequest;
@@ -157,14 +157,14 @@ class ProjectController
         }
 
         $result = $this->createOrUpdateCRUD($request, $project, null, function($model, $request, $isNew){
-            $collect = collect([]);
-            if($request->members) {
-                $collect =  $collect->merge(Admin::whereIn('id', $request->members)->get());
-            }
-            if($request->suppliers) {
-                $collect = $collect->merge(Client::whereIn('id', $request->suppliers)->hasType(Client::TYPE[1])->get());
-            }
-            $model->setPersonal($collect);
+//            $collect = collect([]);
+//            if($request->members) {
+//                $collect =  $collect->merge(Admin::whereIn('id', $request->members)->get());
+//            }
+//            if($request->suppliers) {
+//                $collect = $collect->merge(Client::whereIn('id', $request->suppliers)->hasType(Client::TYPE[1])->get());
+//            }
+//            $model->setPersonal($collect);
 
         });
         $this->sendLog($project);
