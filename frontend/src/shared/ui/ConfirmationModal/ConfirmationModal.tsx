@@ -27,8 +27,8 @@ export const ConfirmationModal = ({
           </div>
         </div>
         <div className={styles.buttons}>
-          <ButtonBlue title='Yes' onClick={agree} />
-          <ButtonBrand title='Cancel' onClick={handleOpenCloseModal} />
+          <ButtonBlue title='Yes' style={styles.button} onClick={agree} />
+          <ButtonBrand title='Cancel' style={styles.button} onClick={handleOpenCloseModal} />
         </div>
       </div>
     </CustomModalWindow>

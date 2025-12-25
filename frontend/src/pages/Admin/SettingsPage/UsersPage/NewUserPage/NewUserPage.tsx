@@ -63,7 +63,6 @@ export const AdminNewUserPage = () => {
               title: 'Save',
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,
-              style: styles.buttonSave,
               onClick: createNewUser,
             }}
           >

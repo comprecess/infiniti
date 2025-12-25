@@ -57,15 +57,13 @@ export const AdminCreateNewProject = () => {
       {inputData ? (
         <section className={styles.section}>
           <RecentCard
-            title='Create New Project'
+            title='New Project'
             Component={ButtonBlue}
             style={styles.recentFullScreen}
             componentProps={{
               titleNone: true,
               title: 'Save',
               icon: '/icons/fileWhite.svg',
-              iconProps: styles.buttonSaveIcon,
-              style: styles.buttonSave,
               onClick: handleCreateNewProject,
             }}
           >

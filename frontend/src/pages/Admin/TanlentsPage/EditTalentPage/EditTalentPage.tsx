@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import styles from './EditTalentPage.module.scss'
-import {
-  TalentEditInfoData,
-  TalentsInputData,
-} from '../../../../app/constants/constants'
+import { TalentEditInfoData, TalentsInputData } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import {
   Fields,
@@ -47,8 +44,7 @@ export const AdminEditTalentPage = () => {
 
     if (!response.status) return
 
-    const { allSkills, industries, keySkills, ...otherData } =
-      response.data
+    const { allSkills, industries, keySkills, ...otherData } = response.data
 
     const updatedResponse = {
       allSkills: allSkills.map((skill: any) => ({
@@ -74,8 +70,7 @@ export const AdminEditTalentPage = () => {
     if (updateResponse.status) {
       showToast({
         title: 'Successfully',
-        description:
-          'You have successfully updated your Talent information.',
+        description: 'You have successfully updated your Talent information.',
         status: 'success',
       })
       navigate(`/${Routes.adminPages}/${Routes.talents}/${Routes.catalog}`)
@@ -109,9 +104,7 @@ export const AdminEditTalentPage = () => {
     }
   }
 
-  const updateAdditionallyInfoTalent = async (data: {
-    [key: string]: number
-  }) => {
+  const updateAdditionallyInfoTalent = async (data: { [key: string]: number }) => {
     if (id === null) return
 
     const updateResponse = await updateAdditionallyTalentInfo(id, data)
@@ -152,7 +145,6 @@ export const AdminEditTalentPage = () => {
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,
               onClick: updateTalentInfo,
-              style: styles.buttonSave,
             }}
           >
             <Fields

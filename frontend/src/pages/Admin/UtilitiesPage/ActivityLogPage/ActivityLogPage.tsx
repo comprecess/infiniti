@@ -24,7 +24,6 @@ export const AdminActivityLogPage = () => {
             icon: '/icons/trash.svg',
             iconProps: styles.buttonIcon,
             titleNone: true,
-            style: styles.button,
           }}
           headerProps={{
             style: styles.search,

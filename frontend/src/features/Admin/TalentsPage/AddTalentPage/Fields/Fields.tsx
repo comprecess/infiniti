@@ -39,11 +39,7 @@ export interface PartialFieldsPostData extends Partial<TalentFormData> {
   | null
 }
 
-export const Fields = ({
-  storageKey,
-  inputData,
-  onFormDataChange,
-}: FieldsProps) => {
+export const Fields = ({ storageKey, inputData, onFormDataChange }: FieldsProps) => {
   const [formData, setFormData] = useState<PartialFieldsPostData>(() => {
     const sessionData = loadStorage<PartialFieldsPostData>(storageKey)
     if (sessionData) return sessionData
@@ -76,34 +72,18 @@ export const Fields = ({
 
   const handleChangeInput = (
     field: string,
-    value:
-    | string
-    | number
-    | number[]
-    | string[]
-    | boolean
-    | undefined
-    | null,
+    value: string | number | number[] | string[] | boolean | undefined | null,
   ) => {
-    if (
-      (field === 'rate' || field === 'active') &&
-      typeof value === 'boolean'
-    ) {
+    if ((field === 'rate' || field === 'active') && typeof value === 'boolean') {
       value = value ? 1 : 0
     }
     setFormData(prev => ({ ...prev, [field]: value }))
   }
 
-  const handleLanguageChange = (
-    _propId: string,
-    value: number,
-    checked: boolean,
-  ) => {
+  const handleLanguageChange = (_propId: string, value: number, checked: boolean) => {
     setFormData(prev => {
       const current = prev.language || []
-      const next = checked
-        ? [...current, value]
-        : current.filter(v => v !== value)
+      const next = checked ? [...current, value] : current.filter(v => v !== value)
 
       return { ...prev, language: next }
     })
@@ -144,9 +124,7 @@ export const Fields = ({
   const handleRemoveExperience = (id: number) => {
     setFormData(prev => ({
       ...prev,
-      blockExperience: (prev.blockExperience || []).filter(
-        exp => exp.index !== id,
-      ),
+      blockExperience: (prev.blockExperience || []).filter(exp => exp.index !== id),
     }))
   }
 
@@ -170,8 +148,7 @@ export const Fields = ({
     onFormDataChange(formData)
   }, [formData, onFormDataChange])
 
-  const isProjectsList =
-    formData.blockExperience && formData.blockExperience.length > 0
+  const isProjectsList = formData.blockExperience && formData.blockExperience.length > 0
 
   return (
     <div className={styles.wrapper}>
@@ -250,9 +227,7 @@ export const Fields = ({
             title={`${t('admin-talents-add-talent-page-input-9')}`}
             list={inputData.specialization.map(spec => spec.value)}
             selectedTags={formData.specialization ?? []}
-            onTagsChange={tags =>
-              handleChangeInput('specialization', tags)
-            }
+            onTagsChange={tags => handleChangeInput('specialization', tags)}
           />
           <TagSelector
             title={`${t('admin-talents-add-talent-page-input-10')}`}
@@ -305,9 +280,7 @@ export const Fields = ({
                   <ProjectsExperienceItem
                     form={item}
                     onRemove={() => handleRemoveExperience(item.index)}
-                    onChange={(field, value) =>
-                      handleExperienceChange(item.index, field, value)
-                    }
+                    onChange={(field, value) => handleExperienceChange(item.index, field, value)}
                   />
                   <div className={styles.divider}>
                     <CustomDivider />
@@ -323,7 +296,6 @@ export const Fields = ({
           titleNone
           icon='/icons/plus.svg'
           title={`${t('admin-talents-add-talent-page-button-2')}`}
-          style={styles.addExperienceButton}
           onClick={handleAddExperience}
         />
       </div>

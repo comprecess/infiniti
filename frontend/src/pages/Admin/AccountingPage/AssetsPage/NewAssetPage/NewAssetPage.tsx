@@ -17,8 +17,7 @@ import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 
 export const AdminNewAssetPage = () => {
   const [form, setForm] = useState<Partial<AccountingNewAssetForm>>({})
-  const [inputData, setInputData] =
-    useState<AccountingAssetsInputData | null>()
+  const [inputData, setInputData] = useState<AccountingAssetsInputData | null>()
 
   const navigate = useNavigate()
   const showToast = useCustomToast()
@@ -40,9 +39,7 @@ export const AdminNewAssetPage = () => {
         description: 'You have successfully created a new Asset',
         status: 'success',
       })
-      navigate(
-        `/${Routes.adminPages}/${Routes.accounting}/${Routes.assets}`,
-      )
+      navigate(`/${Routes.adminPages}/${Routes.accounting}/${Routes.assets}`)
     } else {
       showToast({
         title: 'Error',
@@ -71,7 +68,6 @@ export const AdminNewAssetPage = () => {
               title: 'Save',
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,
-              style: styles.buttonSave,
               onClick: addNewAsset,
             }}
           >

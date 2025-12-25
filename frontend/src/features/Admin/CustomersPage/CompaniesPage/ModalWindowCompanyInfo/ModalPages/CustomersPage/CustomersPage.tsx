@@ -3,10 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import styles from './CustomersPage.module.scss'
 import { Item } from './Item/Item'
-import {
-  CustomersViewCompany,
-  RolesAccess,
-} from '../../../../../../../app/constants/constants'
+import { CustomersViewCompany, RolesAccess } from '../../../../../../../app/constants/constants'
 import { Routes } from '../../../../../../../app/router/routes'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDivider } from '../../../../../../../shared/ui/CustomDivider/CustomDivider'
@@ -20,9 +17,7 @@ interface CustomersPageProps {
 }
 
 export const CustomersPage = ({ id, roles }: CustomersPageProps) => {
-  const [customers, setCustomers] = useState<
-  CustomersViewCompany[] | null
-  >(null)
+  const [customers, setCustomers] = useState<CustomersViewCompany[] | null>(null)
 
   const navigate = useNavigate()
 
@@ -35,9 +30,7 @@ export const CustomersPage = ({ id, roles }: CustomersPageProps) => {
   }
 
   const handleNavigate = (id: number) => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${id}/${Routes.summary}`,
-    )
+    navigate(`/${Routes.adminPages}/${Routes.customers}/${Routes.view}/${id}/${Routes.summary}`)
   }
 
   const handleNavigateToCreateCustomer = () => {
@@ -57,7 +50,6 @@ export const CustomersPage = ({ id, roles }: CustomersPageProps) => {
       ) : (
         <ButtonBlue
           title='Add Customer'
-          style={styles.buttonBlue}
           styleTitle={styles.buttonBlueTitle}
           onClick={handleNavigateToCreateCustomer}
         />

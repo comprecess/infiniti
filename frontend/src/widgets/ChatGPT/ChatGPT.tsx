@@ -310,6 +310,7 @@ export const ChatGPT = () => {
                   type='submit'
                   icon='/icons/send.svg'
                   disabled={isLoading}
+                  iconProps={styles.buttonIcon}
                   style={styles.button}
                 />
               </div>

@@ -98,11 +98,7 @@ export const AdminViewBusinessPlanPage = () => {
               }/${fullInfo.publicToken}`}
               onChange={() => {}}
             />
-            <ButtonBlue
-              title='Preview'
-              style={styles.buttonWrapper}
-              onClick={handleNavigateToPreview}
-            />
+            <ButtonBlue title='Preview' onClick={handleNavigateToPreview} />
           </div>
           <div className={styles.header}>
             <img src='/logoInfinitiWhite.svg' alt='Logo' className={styles.logo} />

@@ -160,7 +160,6 @@ export const ClientProjectsFilesPage = () => {
                 title: 'Add Document',
                 icon: '/icons/plus.svg',
                 titleNone: true,
-                style: styles.buttonPlus,
                 iconProps: styles.iconPlus,
                 onClick: handleSetAddDocModal,
               }}

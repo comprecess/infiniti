@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import styles from './EditProjectPage.module.scss'
 import { ProjectsInputData, ProjectsNewProjectForm } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
-import { Fields } from '../../../../features/Admin/Projects/EditProject/Fields/Fields'
+import { Fields } from '../../../../features/Client/ProjectsPage/EditProject/Fields/Fields'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../shared/ui/CustomToast/CustomToast'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
@@ -103,7 +103,6 @@ export const ClientEditProjectPage = () => {
               title: 'Save',
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,
-              style: styles.buttonSave,
               onClick: saveProjectUpdate,
             }}
           >

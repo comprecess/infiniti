@@ -167,7 +167,6 @@ export const AdminEditRolePage = () => {
               title: 'Save',
               icon: '/icons/fileWhite.svg',
               onClick: postUpdateRole,
-              style: styles.buttonSave,
             }}
           >
             <RecentEditRole

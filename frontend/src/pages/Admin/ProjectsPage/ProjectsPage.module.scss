@@ -40,15 +40,6 @@
   }
 }
 
-.buttonCreateProject {
-  width: fit-content;
-  height: 44px;
-
-  @include mobileBreakpoint('max', $bpS) {
-    width: 60px;
-  }
-}
-
 .loading {
   display: flex;
   justify-content: center;

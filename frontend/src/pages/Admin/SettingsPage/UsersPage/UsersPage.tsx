@@ -156,7 +156,6 @@ export const AdminUsersPage = () => {
                   icon: '/icons/plus.svg',
                   iconProps: styles.icon,
                   onClick: handleNewUser,
-                  style: styles.blueButton,
                 }
                 : undefined
             }

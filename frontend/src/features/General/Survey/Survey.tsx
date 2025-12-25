@@ -186,6 +186,7 @@ export const Survey = ({
             <div className={styles.actions}>
               <ButtonBlue
                 title={step < totalSteps - 1 ? 'Next' : 'Complete'}
+                style={styles.button}
                 disabled={isNextDisabled}
               />
             </div>

@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import styles from './CurrenciesPage.module.scss'
-import {
-  CurrencyProps,
-  RolesAccess,
-} from '../../../../app/constants/constants'
+import { CurrencyProps, RolesAccess } from '../../../../app/constants/constants'
 import { EditCurrency } from '../../../../features/Admin/CurrenciesPage/EditCurrency/EditCurrency'
 import { NewCurrency } from '../../../../features/Admin/CurrenciesPage/NewCurrency/NewCurrency'
 import { RecentCurrencies } from '../../../../features/Admin/CurrenciesPage/RecentCurrencies/RecentCurrencies'
@@ -19,12 +16,9 @@ import { putUpdateCurrency } from '../../../../shared/utils/api/Admin/Currency/p
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const AdminCurrenciesPage = () => {
-  const [currenciesList, setCurrenciesList] = useState<
-  CurrencyProps[] | null
-  >(null)
+  const [currenciesList, setCurrenciesList] = useState<CurrencyProps[] | null>(null)
   const [modalNewCurrency, setModalNewCurrency] = useState<boolean>(false)
-  const [modalEditCurrency, setModalEditCurrency] =
-    useState<boolean>(false)
+  const [modalEditCurrency, setModalEditCurrency] = useState<boolean>(false)
 
   const [access, setAccess] = useState<RolesAccess | null>(null)
 
@@ -62,11 +56,7 @@ export const AdminCurrenciesPage = () => {
     setCurrenciesList(response.data.data)
   }
 
-  const loadEditModalWindow = (
-    id: number,
-    inputValueName: string,
-    inputValueRate: string,
-  ) => {
+  const loadEditModalWindow = (id: number, inputValueName: string, inputValueRate: string) => {
     setId(id)
     setInputValueName(inputValueName)
     setInputValueRate(inputValueRate)
@@ -180,7 +170,6 @@ export const AdminCurrenciesPage = () => {
                   icon: '/icons/plus.svg',
                   iconProps: styles.icon,
                   onClick: handleOpenCloseModalNewCurrency,
-                  style: styles.blueButton,
                 }
                 : undefined
             }

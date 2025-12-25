@@ -37,11 +37,10 @@
 
 .items {
   display: flex;
-
   justify-content: space-between;
 }
 
-.blueButton {
-  max-width: 150px;
-  height: 42px;
+.buttonIcon {
+  width: 24px;
+  height: 24px;
 }

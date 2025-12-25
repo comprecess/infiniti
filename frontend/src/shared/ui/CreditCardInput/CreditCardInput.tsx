@@ -1,8 +1,4 @@
-import {
-  CardElement,
-  useElements,
-  useStripe,
-} from '@stripe/react-stripe-js'
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { FormEvent, useEffect, useState } from 'react'
 
 import styles from './CreditCardInput.module.scss'
@@ -24,9 +20,7 @@ interface CreditCardInputProps {
   postTokenStripeSend: (token: string) => void
 }
 
-export const CreditCardInput = ({
-  postTokenStripeSend,
-}: CreditCardInputProps) => {
+export const CreditCardInput = ({ postTokenStripeSend }: CreditCardInputProps) => {
   const [isStripeReady, setIsStripeReady] = useState<boolean>(false)
 
   const stripe = useStripe()
@@ -69,16 +63,8 @@ export const CreditCardInput = ({
             </div>
           </div>
         )}
-        {!isStripeReady && (
-          <div className={styles.error}>Stripe Error</div>
-        )}
-        {isStripeReady && (
-          <ButtonBlue
-            title='Submit Payment'
-            type='submit'
-            style={styles.buttonSubmit}
-          />
-        )}
+        {!isStripeReady && <div className={styles.error}>Stripe Error</div>}
+        {isStripeReady && <ButtonBlue title='Submit Payment' type='submit' />}
       </form>
     </div>
   )

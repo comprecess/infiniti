@@ -155,7 +155,6 @@ export const Header = ({
               title='Pay Now'
               icon='/icons/cardWhite.svg'
               iconProps={styles.iconPay}
-              style={styles.buttonPay}
               onClick={handlePayNow}
             />
             {creditCard && <CreditCardInput postTokenStripeSend={postTokenStripeSend} />}

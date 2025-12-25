@@ -283,7 +283,6 @@ export const AdminCompaniesPage = () => {
                   titleNone: true,
                   icon: '/icons/plus.svg',
                   iconProps: styles.icon,
-                  style: styles.blueButton,
                   onClick: handleOpenCloseModalNewCompany,
                 }
                 : undefined

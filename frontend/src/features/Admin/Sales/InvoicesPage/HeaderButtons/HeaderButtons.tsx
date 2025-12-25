@@ -21,7 +21,6 @@ export const HeaderButtons = ({
           titleNone
           title='Add Invoice'
           icon='/icons/plus.svg'
-          style={styles.buttonPlus}
           iconProps={styles.iconPlus}
           onClick={firstButtonClick}
         />
@@ -30,7 +29,6 @@ export const HeaderButtons = ({
         titleNone
         title='View Reports'
         icon='/icons/view.svg'
-        style={styles.buttonView}
         iconProps={styles.iconView}
         onClick={secondButtonClick}
       />

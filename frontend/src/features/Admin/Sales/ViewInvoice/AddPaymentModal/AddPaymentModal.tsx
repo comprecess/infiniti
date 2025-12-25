@@ -87,6 +87,10 @@ export const AddPaymentModal = ({
     }
   }
 
+  const handleAddReminderText = () => {
+    onChangeInput('amount', info?.invoice.dueAmount || 0)
+  }
+
   useEffect(() => {
     getInfo()
   }, [idInvoice])
@@ -136,10 +140,11 @@ export const AddPaymentModal = ({
                 type='number'
                 id='amount'
                 name='amount'
+                value={formData.amount}
                 placeHolder={info.invoice.dueAmount.toString()}
                 onChange={onChangeInput}
               />
-              <span className={styles.textRemainder}>
+              <span className={styles.textRemainder} onClick={handleAddReminderText}>
                 {`Remainder: ${info.invoice.dueAmountCurrency}`}
               </span>
             </div>

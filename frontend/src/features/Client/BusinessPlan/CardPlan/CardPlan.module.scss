@@ -41,15 +41,11 @@
   gap: 8px;
   width: fit-content;
 
-  .button {
-    max-width: fit-content;
-  }
-
   @include mobileBreakpoint('max', 695px) {
     width: 100%;
 
     .button {
-      max-width: 100%;
+      width: 100% !important;
     }
   }
 }
@@ -61,17 +57,13 @@
   gap: 8px;
   width: 100%;
 
-  .buttonPreview {
-    max-width: fit-content;
-  }
-
   @include mobileBreakpoint('max', $bpM) {
     flex-direction: column;
   }
 
   @include mobileBreakpoint('max', 695px) {
     .buttonPreview {
-      max-width: 100%;
+      width: 100% !important;
     }
   }
 }

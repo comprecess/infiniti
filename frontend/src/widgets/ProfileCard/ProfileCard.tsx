@@ -94,7 +94,7 @@ export const ProfileCard = ({ talent, onChangeInfo }: ProfileCardProps) => {
         />
       </div>
       <div className={styles.uploadPicture}>
-        <ButtonBlue title='Upload picture' onClick={handleButtonClick} />
+        <ButtonBlue title='Upload picture' style={styles.button} onClick={handleButtonClick} />
         <input
           ref={inputRef}
           type='file'

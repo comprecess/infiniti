@@ -82,9 +82,7 @@
 }
 
 .buttonSend {
-  height: 44px;
-
-  @include mobileBreakpoint('min', $bpM) {
-    max-width: 90px;
+  @include mobileBreakpoint('max', $bpM) {
+    width: 100%;
   }
 }

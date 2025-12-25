@@ -81,13 +81,10 @@ export const AdminProjectsExpensesPage = () => {
     setOptions(urlOptions)
   }
 
-  const changeSort = useCallback(
-    (sortNameItem: string, sortTypeItem: number) => {
-      setSortName(sortNameItem)
-      setSortType(sortTypeItem)
-    },
-    [],
-  )
+  const changeSort = useCallback((sortNameItem: string, sortTypeItem: number) => {
+    setSortName(sortNameItem)
+    setSortType(sortTypeItem)
+  }, [])
 
   const navigateToCreateNewExpense = () => {
     navigate(
@@ -118,9 +115,7 @@ export const AdminProjectsExpensesPage = () => {
             HeaderComponent={Search}
             PagesComponent={data.data.length > 0 ? PagesList : undefined}
             Component={
-              context.roles && context.roles.transactions.create === 0
-                ? undefined
-                : ButtonBlue
+              context.roles && context.roles.transactions.create === 0 ? undefined : ButtonBlue
             }
             componentProps={
               context.roles && context.roles.transactions.create === 0
@@ -129,7 +124,6 @@ export const AdminProjectsExpensesPage = () => {
                   titleNone: true,
                   title: 'New Expense',
                   icon: '/icons/plus.svg',
-                  style: styles.buttonAddNewExpense,
                   onClick: navigateToCreateNewExpense,
                 }
             }
@@ -151,9 +145,7 @@ export const AdminProjectsExpensesPage = () => {
               expensesList={data.data}
               changeSortName={changeSort}
               deleteExpense={handleDeleteExpense}
-              access={
-                context.roles ? context.roles.transactions : undefined
-              }
+              access={context.roles ? context.roles.transactions : undefined}
             />
           </RecentCard>
         ) : (

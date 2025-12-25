@@ -119,8 +119,8 @@ export const InvoiceViewPage = () => {
         {info ? (
           <div className={styles.container}>
             <div className={styles.pdfButtons}>
-              <ButtonBlue title='Download PDF' style={styles.downloadPDF} onClick={downloadPDF} />
-              <ButtonBlue title='View PDF' style={styles.viewPDF} onClick={viewPDF} />
+              <ButtonBlue title='Download PDF' onClick={downloadPDF} />
+              <ButtonBlue title='View PDF' onClick={viewPDF} />
             </div>
             <div className={styles.header}>
               <Header

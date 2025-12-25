@@ -361,7 +361,6 @@ export const Fields = ({ data, customerId, storageKey, onFormDataChange }: Field
           title='Add Blank'
           icon='/icons/plus.svg'
           iconProps={styles.buttonAddIcon}
-          style={styles.buttonAddNew}
           onClick={handleAddBlank}
         />
         <ButtonBlue
@@ -369,7 +368,6 @@ export const Fields = ({ data, customerId, storageKey, onFormDataChange }: Field
           title='Add Product or Service'
           icon='/icons/searchWhite.svg'
           iconProps={styles.buttonSearchIcon}
-          style={styles.buttonAddProduct}
           onClick={handleOpenCloseProductService}
         />
       </section>

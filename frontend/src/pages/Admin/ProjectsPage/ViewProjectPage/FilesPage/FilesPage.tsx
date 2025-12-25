@@ -50,10 +50,7 @@ export const AdminProjectsFilesPage = () => {
   const deleteFile = async (idFile: number) => {
     if (!context.idProject) return
 
-    const { status, message } = await deleteProjectFile(
-      context.idProject,
-      idFile,
-    )
+    const { status, message } = await deleteProjectFile(context.idProject, idFile)
 
     if (status) {
       showToast({
@@ -75,24 +72,16 @@ export const AdminProjectsFilesPage = () => {
     setAddDocModal(state => !state)
   }
 
-  const addNewDocument = async (formData: {
-    title?: string
-    file?: File
-    global?: number
-  }) => {
+  const addNewDocument = async (formData: { title?: string; file?: File; global?: number }) => {
     if (!context.idProject) return
 
     const form = new FormData()
 
     if (formData.title) form.append('title', formData.title)
-    if (formData.global !== undefined)
-      form.append('global', formData.global.toString())
+    if (formData.global !== undefined) form.append('global', formData.global.toString())
     if (formData.file) form.append('file', formData.file)
 
-    const { status, message } = await postAddNewProjectFile(
-      context.idProject,
-      form,
-    )
+    const { status, message } = await postAddNewProjectFile(context.idProject, form)
 
     if (status) {
       showToast({
@@ -126,13 +115,10 @@ export const AdminProjectsFilesPage = () => {
     setOptions(urlOptions)
   }
 
-  const changeSort = useCallback(
-    (sortNameItem: string, sortTypeItem: number) => {
-      setSortName(sortNameItem)
-      setSortType(sortTypeItem)
-    },
-    [],
-  )
+  const changeSort = useCallback((sortNameItem: string, sortTypeItem: number) => {
+    setSortName(sortNameItem)
+    setSortType(sortTypeItem)
+  }, [])
 
   useEffect(() => {
     getFiles()
@@ -155,13 +141,9 @@ export const AdminProjectsFilesPage = () => {
               title='Project Files'
               style={styles.recentFullScreen}
               HeaderComponent={Search}
+              PagesComponent={data.files.length > 0 ? PagesList : undefined}
               Component={
-                context.roles && context.roles.documents.create === 0
-                  ? undefined
-                  : ButtonBlue
-              }
-              PagesComponent={
-                data.files.length > 0 ? PagesList : undefined
+                context.roles && context.roles.documents.create === 0 ? undefined : ButtonBlue
               }
               pagesProps={
                 data.files.length > 0
@@ -183,7 +165,6 @@ export const AdminProjectsFilesPage = () => {
                     title: 'Add Document',
                     icon: '/icons/plus.svg',
                     titleNone: true,
-                    style: styles.buttonPlus,
                     iconProps: styles.iconPlus,
                     onClick: handleSetAddDocModal,
                   }
@@ -193,9 +174,7 @@ export const AdminProjectsFilesPage = () => {
                 files={data.files}
                 changeSortName={changeSort}
                 deleteFile={deleteFile}
-                access={
-                  context.roles ? context.roles.documents : undefined
-                }
+                access={context.roles ? context.roles.documents : undefined}
               />
             </RecentCard>
           ) : (

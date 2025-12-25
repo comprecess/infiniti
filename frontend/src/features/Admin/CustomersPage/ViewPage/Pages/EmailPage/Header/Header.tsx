@@ -10,11 +10,7 @@ interface HeaderProps {
   sendEmail: () => void
 }
 
-export const Header = ({
-  inputTo,
-  updateInfo,
-  sendEmail,
-}: HeaderProps) => {
+export const Header = ({ inputTo, updateInfo, sendEmail }: HeaderProps) => {
   const updateTextEditor = (message: string) => {
     updateInfo('message', message)
   }
@@ -43,15 +39,9 @@ export const Header = ({
           <div className={styles.fileIcon}>
             <FileIcon />
           </div>
-          <span className={styles.chooseTemplateText}>
-            Choose from Template
-          </span>
+          <span className={styles.chooseTemplateText}>Choose from Template</span>
         </div>
-        <ButtonBlue
-          title='Send'
-          style={styles.buttonBlue}
-          onClick={sendEmail}
-        />
+        <ButtonBlue title='Send' style={styles.buttonBlue} onClick={sendEmail} />
       </div>
     </div>
   )

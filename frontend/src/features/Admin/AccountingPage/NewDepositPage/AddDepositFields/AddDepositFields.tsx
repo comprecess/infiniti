@@ -1,9 +1,10 @@
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
 import styles from './AddDepositFields.module.scss'
 import {
   AccountingDepositExpenseForm,
   AccountingInputData,
+  CompaniesListProps,
 } from '../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDataPicker } from '../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
@@ -12,16 +13,32 @@ import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect
 import { TagSelector } from '../../../../../shared/ui/TagSelector/TagSelector'
 
 interface AddDepositFieldsProps {
+  inputDataClients: {
+    id: number
+    account: string
+    company: CompaniesListProps | null
+  }[]
+  form: Partial<AccountingDepositExpenseForm>
   inputData: AccountingInputData
   setForm: Dispatch<SetStateAction<Partial<AccountingDepositExpenseForm>>>
   addNewTransaction: () => void
 }
 
 export const AddDepositFields = ({
+  inputDataClients,
+  form,
   inputData,
   setForm,
   addNewTransaction,
 }: AddDepositFieldsProps) => {
+  const [filteredClients, setFilteredClients] = useState<
+  {
+    id: number
+    account: string
+    company: CompaniesListProps | null
+  }[]
+  >(inputDataClients)
+
   const handleChangeInput = (
     field: string,
     value: string | number | string[] | undefined | null,
@@ -35,6 +52,31 @@ export const AddDepositFields = ({
       [field]: value,
     }))
   }
+
+  useEffect(() => {
+    if (!form.company) {
+      setFilteredClients(inputDataClients)
+
+      return
+    }
+
+    const companyId = form.company
+    const clients = inputDataClients.filter(client => {
+      const comp = client.company
+
+      if (!comp) return false
+      if (Array.isArray(comp)) return comp.some(c => c.id === companyId)
+
+      return comp.id === companyId
+    })
+
+    setFilteredClients(clients)
+
+    setForm(prev => ({
+      ...prev,
+      client: clients[0]?.id ?? null,
+    }))
+  }, [form.company, inputDataClients])
 
   return (
     <div className={styles.wrapper}>
@@ -55,11 +97,7 @@ export const AddDepositFields = ({
           value={inputData.code}
           onChange={handleChangeInput}
         />
-        <CustomDataPicker
-          title='Date'
-          titleOnChange='date'
-          onChange={handleChangeInput}
-        />
+        <CustomDataPicker title='Date' titleOnChange='date' onChange={handleChangeInput} />
         <CustomInput
           title='Description'
           type='text'
@@ -107,9 +145,9 @@ export const AddDepositFields = ({
         <CustomSelect
           title='Payer'
           titleOnChange='client'
-          value={inputData.client[0].id}
-          idList={inputData.client.map(item => item.id)}
-          nameList={inputData.client.map(item => item.account)}
+          value={filteredClients[0]?.id ?? 0}
+          idList={filteredClients.map(item => item.id)}
+          nameList={filteredClients.map(item => item.account)}
           onChange={handleChangeInput}
         />
         <CustomSelect
@@ -146,15 +184,9 @@ export const AddDepositFields = ({
             name='referralLink'
             onChange={handleChangeInput}
           />
-          <span className={styles.description}>
-            e.g. Transaction ID, Check No.
-          </span>
+          <span className={styles.description}>e.g. Transaction ID, Check No.</span>
         </div>
-        <ButtonBlue
-          title='Submit'
-          style={styles.buttonSubmit}
-          onClick={addNewTransaction}
-        />
+        <ButtonBlue title='Submit' style={styles.buttonSubmit} onClick={addNewTransaction} />
       </section>
     </div>
   )

@@ -198,7 +198,6 @@ export const AdminEditBusinessModel = () => {
               title: `${t('admin-edit-business-model-page-button-1')}`,
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,
-              style: styles.buttonSave,
               onClick: handleEditNewBusinessModel,
             }}
           >

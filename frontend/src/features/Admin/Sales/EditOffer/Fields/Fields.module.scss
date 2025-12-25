@@ -54,26 +54,9 @@
   width: 100%;
 }
 
-.buttonAddNew,
-.buttonAddProduct {
-  height: 44px;
-
-  @include mobileBreakpoint('max', $bpS) {
-    width: 60px;
-  }
-}
-
-.buttonAddNew {
-  max-width: 135px;
-}
-
-.buttonAddProduct {
-  max-width: 235px;
-}
-
 .buttonAddIcon {
   width: 17px;
-  height: 17px;
+  height: 20px;
 }
 
 .buttonSearchIcon {

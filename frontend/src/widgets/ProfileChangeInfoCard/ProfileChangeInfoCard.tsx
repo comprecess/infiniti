@@ -157,7 +157,7 @@ export const ProfileChangeInfoCard = ({ talent, onChangeInfo }: ProfileChangeInf
             </div>
           </div>
           <div className={styles.buttonSubmit}>
-            <ButtonBlue title='Submit' onClick={handleSendUpdateInfo} />
+            <ButtonBlue title='Submit' style={styles.button} onClick={handleSendUpdateInfo} />
           </div>
         </div>
       </RecentCard>

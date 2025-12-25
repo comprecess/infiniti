@@ -1,11 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
 import styles from './DocumentsPage.module.scss'
-import {
-  CustomersFilesData,
-  PagesMetaData,
-  RolesAccess,
-} from '../../../app/constants/constants'
+import { CustomersFilesData, PagesMetaData, RolesAccess } from '../../../app/constants/constants'
 import { AddDocumentModal } from '../../../features/Admin/DocumentsPage/AddDocumentModal/AddDocumentModal'
 import { RecentDocuments } from '../../../features/Admin/DocumentsPage/RecentDocuments/RecentDocuments'
 import { PagesList } from '../../../features/Client/CatalogPage/TalentsList/PagesList/PagesList'
@@ -65,16 +61,11 @@ export const AdminDocumentsPage = () => {
     setData({ files: response.data.data, meta: response.data.meta })
   }
 
-  const addNewDocument = async (formData: {
-    title?: string
-    file?: File
-    global?: number
-  }) => {
+  const addNewDocument = async (formData: { title?: string; file?: File; global?: number }) => {
     const form = new FormData()
 
     if (formData.title) form.append('title', formData.title)
-    if (formData.global !== undefined)
-      form.append('global', formData.global.toString())
+    if (formData.global !== undefined) form.append('global', formData.global.toString())
     if (formData.file) form.append('file', formData.file)
 
     const { status, message } = await postAddNewDocument(form)
@@ -115,13 +106,10 @@ export const AdminDocumentsPage = () => {
     }
   }
 
-  const changeSort = useCallback(
-    (sortNameItem: string, sortTypeItem: number) => {
-      setSortName(sortNameItem)
-      setSortType(sortTypeItem)
-    },
-    [],
-  )
+  const changeSort = useCallback((sortNameItem: string, sortTypeItem: number) => {
+    setSortName(sortNameItem)
+    setSortType(sortTypeItem)
+  }, [])
 
   useEffect(() => {
     document.title = 'infiniti | Documents'
@@ -145,9 +133,7 @@ export const AdminDocumentsPage = () => {
               style={styles.recentFullScreen}
               Component={access.create ? ButtonBlue : undefined}
               HeaderComponent={Search}
-              PagesComponent={
-                data.files.length > 0 ? PagesList : undefined
-              }
+              PagesComponent={data.files.length > 0 ? PagesList : undefined}
               pagesProps={
                 data.files.length > 0
                   ? {
@@ -167,7 +153,6 @@ export const AdminDocumentsPage = () => {
                     title: 'Add Document',
                     icon: '/icons/plus.svg',
                     titleNone: true,
-                    style: styles.buttonPlus,
                     iconProps: styles.iconPlus,
                     onClick: handleSetAddDocModal,
                   }

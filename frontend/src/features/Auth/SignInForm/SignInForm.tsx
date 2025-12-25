@@ -87,7 +87,7 @@ export const SignInForm = ({ resident }: SignInFormProps) => {
             </div>
           </div>
         </div>
-        <ButtonBlue title={resident ? 'Login' : 'Sign In'} type='submit' />
+        <ButtonBlue title={resident ? 'Login' : 'Sign In'} type='submit' style={styles.button} />
       </form>
     </div>
   )

@@ -42,6 +42,7 @@
 .inputDescription {
   display: flex;
   flex-direction: column;
+  gap: 2px;
 }
 
 .description {
@@ -56,7 +57,7 @@
 }
 
 .buttonBlue {
-  @include mobileBreakpoint('min', $bpL) {
-    max-width: 140px;
+  @include mobileBreakpoint('max', $bpL) {
+    width: 100%;
   }
 }

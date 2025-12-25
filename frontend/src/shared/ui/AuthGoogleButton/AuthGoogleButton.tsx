@@ -26,7 +26,7 @@ export const AuthGoogleButton = ({ isAdmin }: AuthGoogleButtonProps) => {
       border='2px solid'
       borderColor={borderColor}
       borderRadius='8px'
-      height='48px'
+      height='44px'
       width='100%'
       fontFamily="'Space Grotesk', sans-serif"
       fontWeight='500'

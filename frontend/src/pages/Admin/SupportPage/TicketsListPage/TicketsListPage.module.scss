@@ -23,15 +23,6 @@
   justify-content: center;
 }
 
-.buttonCreate {
-  width: fit-content;
-  height: 44px;
-
-  @include mobileBreakpoint('max', $bpS) {
-    width: 60px;
-  }
-}
-
 .section {
   display: flex;
   flex-direction: row;

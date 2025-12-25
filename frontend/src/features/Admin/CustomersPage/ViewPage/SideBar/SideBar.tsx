@@ -3,10 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import { PageItem } from './PageItem/PageItem'
 import styles from './SideBar.module.scss'
-import {
-  RolesAccess,
-  ViewListPagesAndInfo,
-} from '../../../../../app/constants/constants'
+import { RolesAccess, ViewListPagesAndInfo } from '../../../../../app/constants/constants'
 
 interface SideBarProps {
   roles?: { [key: string]: RolesAccess }
@@ -22,13 +19,7 @@ interface SideBarProps {
   openCloseSidebar: () => void
 }
 
-export const SideBar = ({
-  roles,
-  data,
-  pages,
-  isActive,
-  openCloseSidebar,
-}: SideBarProps) => {
+export const SideBar = ({ roles, data, pages, isActive, openCloseSidebar }: SideBarProps) => {
   const [activeItem, setActiveItem] = useState<number>(0)
 
   const location = useLocation()
@@ -55,19 +46,13 @@ export const SideBar = ({
   }
 
   return (
-    <div
-      className={isActive ? styles.wrapperActive : styles.wrapperDisable}
-    >
+    <div className={isActive ? styles.wrapperActive : styles.wrapperDisable}>
       {data && (
         <>
           <div className={styles.avatar}>
             <img
               alt='Avatar'
-              src={
-                data.img
-                  ? `${data.img}?width=176&height=176`
-                  : '/profileWithoutAvatar.svg'
-              }
+              src={data.img ? `${data.img}?width=512&height=512` : '/profileWithoutAvatar.svg'}
             />
           </div>
           <div className={styles.info}>
@@ -76,9 +61,7 @@ export const SideBar = ({
                 {data.email}
               </span>
             )}
-            {data.phone && (
-              <span className={styles.phone}>{data.phone}</span>
-            )}
+            {data.phone && <span className={styles.phone}>{data.phone}</span>}
           </div>
         </>
       )}
@@ -86,11 +69,7 @@ export const SideBar = ({
         {pages.map((item, index) => {
           const isActive = getCurrentPage(item.page) === currentPage
 
-          if (
-            item.name === 'Edit' &&
-            roles &&
-            roles.customers.edit === 0
-          ) {
+          if (item.name === 'Edit' && roles && roles.customers.edit === 0) {
             return
           }
 

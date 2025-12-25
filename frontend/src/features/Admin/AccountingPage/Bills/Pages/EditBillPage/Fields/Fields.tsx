@@ -17,12 +17,7 @@ interface FieldsProps {
   editBill: () => void
 }
 
-export const Fields = ({
-  inputData,
-  form,
-  setForm,
-  editBill,
-}: FieldsProps) => {
+export const Fields = ({ inputData, form, setForm, editBill }: FieldsProps) => {
   const handleChangeInput = (
     field: string,
     value: string | number | string[] | undefined | null,
@@ -68,9 +63,7 @@ export const Fields = ({
           titleOnChange='recurringType'
           idList={inputData.recurringType.map((_item, index) => index)}
           nameList={inputData.recurringType.map(item => item)}
-          value={inputData.recurringType.findIndex(
-            item => item === form.recurringType,
-          )}
+          value={inputData.recurringType.findIndex(item => item === form.recurringType)}
           onInputChange={false}
           onChange={handleChangeInput}
         />
@@ -129,11 +122,7 @@ export const Fields = ({
         value={form.website ? form.website : ''}
         onChange={handleChangeInput}
       />
-      <ButtonBlue
-        title='Save'
-        style={styles.buttonSave}
-        onClick={editBill}
-      />
+      <ButtonBlue title='Save' style={styles.buttonSave} onClick={editBill} />
     </div>
   )
 }

@@ -151,7 +151,7 @@ export const ClientTalentDetailsPage = () => {
             </section>
             <section className={styles.section}>
               <div className={styles.item}>
-                <ButtonBrand title='Back to top' onClick={scrollToTop} />
+                <ButtonBrand title='Back to top' style={styles.button} onClick={scrollToTop} />
               </div>
             </section>
           </>

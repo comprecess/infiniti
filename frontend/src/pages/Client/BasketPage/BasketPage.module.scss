@@ -16,7 +16,12 @@
   margin-bottom: 16px;
 }
 
-.title,
+.title {
+  display: flex;
+  width: 100%;
+  justify-content: start;
+}
+
 .sectionFirst {
   display: flex;
   width: 100%;
