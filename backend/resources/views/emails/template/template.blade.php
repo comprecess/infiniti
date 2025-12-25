@@ -37,13 +37,16 @@
         .footer{
             font-size: 12px !important;
         }
+        .logo{
+            height: 50px;
+        }
     </style>
 </head>
 <body>
 <div class="body">
     <div class="main">
         <div class="header">
-            <img class="logo" src="https://console.infiniti.stream/image/logo.png" />
+            <img class="logo" src="https://console.infiniti.stream/image/logoBlack.png" />
         </div>
         <div class="content">
             @yield('content')
