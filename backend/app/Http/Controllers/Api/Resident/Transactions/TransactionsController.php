@@ -134,6 +134,18 @@ class TransactionsController extends TransactionsAccessController
         ]);
     }
 
+    public function inputDataClient(Request $request)
+    {
+        $data = $request->all();
+        $clientQuery = Client::with(['files', 'companyClient', 'group'])->orderBy('account');
+
+        if($id =(int) Arr::get($data, 'company')) {
+            $clientQuery->where('cid', $id);
+        }
+
+        return ClientResource::collection($clientQuery->get());
+    }
+
     public function item(Transaction $transaction)
     {
         return new TransactionsItemResource($transaction);
