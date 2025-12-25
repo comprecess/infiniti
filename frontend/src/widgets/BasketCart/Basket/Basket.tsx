@@ -36,11 +36,7 @@ export const Basket = ({
         <h4 className={styles.title}>Your order</h4>
         <div className={styles.items}>
           <Item title='Subtotal cost' amount={subtotalCost} />
-          <Item
-            title='Taxes'
-            amount={taxesAmount}
-            icon='/icons/info.svg'
-          />
+          <Item title='Taxes' amount={taxesAmount} icon='/icons/info.svg' />
         </div>
         <CustomDivider />
         <div className={styles.totalOrder}>
@@ -50,6 +46,7 @@ export const Basket = ({
         {isAdmin && (!access || access.create === 1) ? (
           <ButtonBlue
             title='Convert to Offer'
+            style={styles.buttonConvert}
             onClick={handleChangeModalConfirm}
           />
         ) : (
@@ -58,6 +55,7 @@ export const Basket = ({
         {!isAdmin && (
           <ButtonBlue
             title='Proceed to checkout'
+            style={styles.buttonCheckout}
             onClick={handleChangeModalConfirm}
           />
         )}

@@ -1,15 +1,16 @@
 .wrapper {
   display: flex;
-  width: 44px;
-  height: 44px;
+  width: fit-content;
+  height: fit-content;
   align-items: center;
   justify-content: center;
+  padding: 10px 12px;
   border-radius: 8px;
   background-color: $cherry-transparent;
   user-select: none;
 }
 
 .icon {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
 }

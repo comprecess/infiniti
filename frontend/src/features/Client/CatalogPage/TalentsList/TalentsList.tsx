@@ -3,10 +3,7 @@ import { Dispatch, SetStateAction, useCallback } from 'react'
 import { PagesList } from './PagesList/PagesList'
 import { SortList } from './SortList/SortList'
 import styles from './TalentsList.module.scss'
-import {
-  PagesMetaData,
-  TalentData,
-} from '../../../../app/constants/constants'
+import { PagesMetaData, TalentData } from '../../../../app/constants/constants'
 import { ButtonBrand } from '../../../../shared/ui/ButtonBrand/ButtonBrand'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { TalentsCard } from '../../../../widgets/TalentsCard/TalentsCard'
@@ -23,12 +20,7 @@ interface TalentsListProps {
   setSort: Dispatch<SetStateAction<{ name: string; type: string }>>
 }
 
-export const TalentsList = ({
-  talentsList,
-  sort,
-  setCurrentPage,
-  setSort,
-}: TalentsListProps) => {
+export const TalentsList = ({ talentsList, sort, setCurrentPage, setSort }: TalentsListProps) => {
   const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page)
 
@@ -36,8 +28,7 @@ export const TalentsList = ({
 
     if (element) {
       const offset = 100
-      const top =
-        window.pageYOffset + element.getBoundingClientRect().top - offset
+      const top = window.pageYOffset + element.getBoundingClientRect().top - offset
       window.scrollTo({ top, behavior: 'smooth' })
     }
   }, [])
@@ -65,16 +56,11 @@ export const TalentsList = ({
                     return <TalentsCard key={talent.id} talent={talent} />
                   })}
                 </div>
-                <PagesList
-                  meta={talentsList.meta}
-                  nextPage={handlePageChange}
-                />
+                <PagesList meta={talentsList.meta} nextPage={handlePageChange} />
               </>
             ) : (
               <div className={styles.nothingFound}>
-                <span className={styles.nothingFoundText}>
-                  Nothing Found
-                </span>
+                <span className={styles.nothingFoundText}>Nothing Found</span>
               </div>
             )}
             <div
@@ -86,9 +72,8 @@ export const TalentsList = ({
             >
               <ButtonBrand
                 title='Back to top'
-                onClick={() =>
-                  window.scrollTo({ top: 0, behavior: 'smooth' })
-                }
+                style={styles.button}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               />
             </div>
           </div>

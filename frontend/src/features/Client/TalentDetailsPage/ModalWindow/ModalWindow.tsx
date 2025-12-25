@@ -163,8 +163,8 @@ export const ModalWindow = ({ talent, dividerOrientation, onClose }: ModalWindow
           <span className={styles.totalTitle}>Total</span>
           <h4 className={styles.totalPrice}>{total}</h4>
         </div>
-        <ButtonBlue title='Add to order' onClick={handleAddOrderToCart} />
-        <ButtonBrand title='Continue search' onClick={handleContinueSearch} />
+        <ButtonBlue title='Add to order' style={styles.button} onClick={handleAddOrderToCart} />
+        <ButtonBrand title='Continue search' style={styles.button} onClick={handleContinueSearch} />
       </div>
     </div>
   )

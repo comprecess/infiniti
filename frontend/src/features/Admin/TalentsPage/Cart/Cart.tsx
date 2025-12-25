@@ -139,7 +139,6 @@ export const Cart = ({ idCart, cart, datesEmployment, getOrders }: CartProps) =>
               <div className={styles.wrapperSecondButton}>
                 <ButtonBlue
                   title='Create a Call'
-                  style={styles.buttonCreateCall}
                   onClick={() => setIsCreatingCall(prev => !prev)}
                 />
               </div>

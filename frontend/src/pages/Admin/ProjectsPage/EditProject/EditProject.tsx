@@ -102,7 +102,6 @@ export const AdminEditProject = () => {
               title: 'Save',
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,
-              style: styles.buttonSave,
               onClick: saveProjectUpdate,
             }}
           >

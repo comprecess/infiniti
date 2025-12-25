@@ -134,7 +134,7 @@ export const InvoiceProofTransaction = () => {
               onChange={onChangeInput}
             />
             <CustomDropZone onDrop={handleDrop} />
-            <ButtonBlue title='Send' style={styles.buttonSubmit} onClick={addNewDocument} />
+            <ButtonBlue title='Send' onClick={addNewDocument} />
           </div>
         </div>
       ) : (

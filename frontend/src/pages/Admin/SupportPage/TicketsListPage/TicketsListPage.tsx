@@ -29,7 +29,6 @@ export const AdminTicketsListPage = () => {
             titleNone
             title='New Ticket'
             icon='/icons/plus.svg'
-            style={styles.buttonCreate}
             onClick={navigateToCreateTicket}
           />
         </div>

@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import styles from './CustomContactFieldsPage.module.scss'
-import {
-  RolesAccess,
-  SettingsCustomFieldsProps,
-} from '../../../../app/constants/constants'
+import { RolesAccess, SettingsCustomFieldsProps } from '../../../../app/constants/constants'
 import { FieldModal } from '../../../../features/Admin/CustomContactFields/FieldModal/FieldModal'
 import { Item } from '../../../../features/Admin/CustomContactFields/Item/Item'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -27,9 +24,7 @@ export interface FieldProps {
 }
 
 export const AdminCustomContactFields = () => {
-  const [fields, setFields] = useState<SettingsCustomFieldsProps[] | null>(
-    null,
-  )
+  const [fields, setFields] = useState<SettingsCustomFieldsProps[] | null>(null)
 
   const [access, setAccess] = useState<RolesAccess | null>(null)
 
@@ -117,10 +112,7 @@ export const AdminCustomContactFields = () => {
     }
   }
 
-  const handleInputChange = (
-    name: string,
-    value: string | number | string[],
-  ) => {
+  const handleInputChange = (name: string, value: string | number | string[]) => {
     setFieldData(prevState => ({
       ...prevState,
       [name]: value,
@@ -169,7 +161,6 @@ export const AdminCustomContactFields = () => {
                   icon: '/icons/plus.svg',
                   titleNone: true,
                   onClick: handleAddNewFieldModal,
-                  style: styles.blueButton,
                 }
                 : undefined
             }

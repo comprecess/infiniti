@@ -74,9 +74,7 @@ export const Footer = ({
   }
 
   const handleNavigateToEditTalent = () => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.talents}/${Routes.edit}/${Routes.talent}/${id}`,
-    )
+    navigate(`/${Routes.adminPages}/${Routes.talents}/${Routes.edit}/${Routes.talent}/${id}`)
   }
 
   const handleDeleteTalent = () => {
@@ -91,15 +89,11 @@ export const Footer = ({
         <div className={styles.items}>
           <Item
             title={dailyRate}
-            description={t(
-              'admin-catalog-talents-page-talent-card-rate-1',
-            )}
+            description={t('admin-catalog-talents-page-talent-card-rate-1')}
           />
           <Item
             title={hourlyRate}
-            description={t(
-              'admin-catalog-talents-page-talent-card-rate-2',
-            )}
+            description={t('admin-catalog-talents-page-talent-card-rate-2')}
           />
         </div>
         {isAdmin ? (
@@ -148,10 +142,7 @@ export const Footer = ({
             )}
           </div>
         ) : (
-          <ButtonBlue
-            title='Details'
-            onClick={handleNavigateToViewTalent}
-          />
+          <ButtonBlue title='Details' style={styles.button} onClick={handleNavigateToViewTalent} />
         )}
       </div>
       {modal && isAdmin && (

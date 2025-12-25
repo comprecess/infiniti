@@ -46,11 +46,7 @@ export const Header = ({ groupsList, onChange }: HeaderProps) => {
           })}
         </Select>
       </div>
-      <ButtonBlue
-        title='Submit'
-        style={styles.buttonSubmit}
-        onClick={addNewFile}
-      />
+      <ButtonBlue title='Submit' onClick={addNewFile} />
     </div>
   )
 }

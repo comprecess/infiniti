@@ -164,7 +164,6 @@ export const AdminBusinessPlanPage = () => {
                 titleNone: true,
                 title: 'New Business Plan',
                 icon: '/icons/plus.svg',
-                style: styles.buttonPlus,
                 iconProps: styles.iconPlus,
                 onClick: handleNavigateToMakeBusinessPlan,
               }

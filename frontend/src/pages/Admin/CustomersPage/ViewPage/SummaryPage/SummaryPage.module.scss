@@ -71,6 +71,12 @@
   letter-spacing: -0.03em;
 }
 
+.button {
+  @include mobileBreakpoint('max', $bpS) {
+    width: 100%;
+  }
+}
+
 .balanceButtons {
   display: flex;
   flex-direction: row;
@@ -79,11 +85,6 @@
   @include mobileBreakpoint('max', $bpS) {
     flex-direction: column;
   }
-}
-
-.buttonBalance {
-  max-width: 130px;
-  height: 44px;
 }
 
 .buttonReturnFund {

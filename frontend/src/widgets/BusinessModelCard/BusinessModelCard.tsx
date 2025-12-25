@@ -190,6 +190,7 @@ export const BusinessModelCard = ({
                   <div className={styles.buttonsClient}>
                     <ButtonBlue
                       title='Convert to Plan'
+                      style={styles.button}
                       onClick={() =>
                         openSurvey(
                           survey,
@@ -199,7 +200,11 @@ export const BusinessModelCard = ({
                         )
                       }
                     />
-                    <ButtonBlue title='Details' onClick={() => onNavigate(id)} />
+                    <ButtonBlue
+                      title='Details'
+                      style={styles.button}
+                      onClick={() => onNavigate(id)}
+                    />
                   </div>
                 )}
               </div>

@@ -45,14 +45,7 @@ interface FieldsPostData {
 }
 
 export interface PartialFieldsPostData extends Partial<FieldsPostData> {
-  [key: string]:
-  | string
-  | number
-  | boolean
-  | undefined
-  | string[]
-  | { [id: number]: string }
-  | null
+  [key: string]: string | number | boolean | undefined | string[] | { [id: number]: string } | null
 }
 
 export const Fields = ({ storageKey, data, companyId }: FieldsProps) => {
@@ -88,9 +81,7 @@ export const Fields = ({ storageKey, data, companyId }: FieldsProps) => {
     } else if (name === 'welcomeEmail') {
       updatedFormData[name] = value ? 1 : 0
     } else if (name === 'currency' && typeof value === 'number') {
-      updatedFormData[name] = data.currency?.find(
-        c => c.id === value,
-      )?.code
+      updatedFormData[name] = data.currency?.find(c => c.id === value)?.code
     } else if (name === 'groupId' && typeof value === 'number') {
       updatedFormData[name] = value === 0 ? null : value
     } else if (name === 'companyId' && typeof value === 'number') {
@@ -145,9 +136,7 @@ export const Fields = ({ storageKey, data, companyId }: FieldsProps) => {
         status: 'success',
       })
       removeStorage(storageKey)
-      navigate(
-        `/${Routes.adminPages}/${Routes.customers}/${Routes.list}/${Routes.customer}`,
-      )
+      navigate(`/${Routes.adminPages}/${Routes.customers}/${Routes.list}/${Routes.customer}`)
     } else {
       showToast({
         title: 'Error',
@@ -158,9 +147,7 @@ export const Fields = ({ storageKey, data, companyId }: FieldsProps) => {
   }
 
   const handleNavigateToCreateCompany = () => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.customers}/${Routes.companies}`,
-    )
+    navigate(`/${Routes.adminPages}/${Routes.customers}/${Routes.companies}`)
   }
 
   return (
@@ -201,14 +188,9 @@ export const Fields = ({ storageKey, data, companyId }: FieldsProps) => {
               nameList={data.company.map(item => item.name)}
               onChange={onChangeInput}
             />
-            <div>
-              <span
-                className={styles.description}
-                onClick={handleNavigateToCreateCompany}
-              >
-                Click to create a new Company
-              </span>
-            </div>
+            <span className={styles.description} onClick={handleNavigateToCreateCompany}>
+              Click to create a new Company
+            </span>
           </div>
           <CustomInput
             title='Business Number'
@@ -279,22 +261,14 @@ export const Fields = ({ storageKey, data, companyId }: FieldsProps) => {
           <CustomSelect
             title='Country'
             nameList={Object.values(data.country)}
+            idList={Object.values(data.country).map((_country, index) => index)}
             value={
               formData.country
                 ? Object.values(data.country).findIndex(
-                  val =>
-                    val ===
-                      data.country[
-                        formData.country as keyof typeof data.country
-                      ],
+                  val => val === data.country[formData.country as keyof typeof data.country],
                 )
-                : Object.values(data.country).findIndex(
-                  val => val === 'Russian Federation',
-                )
+                : Object.values(data.country).findIndex(val => val === 'Russian Federation')
             }
-            idList={Object.values(data.country).map(
-              (_country, index) => index,
-            )}
             onChange={onChangeCountry}
           />
           {data.customFields.map(item => {
@@ -350,8 +324,7 @@ export const Fields = ({ storageKey, data, companyId }: FieldsProps) => {
             value={
               formData.currency
                 ? data.currency.find(c => c.code === formData.currency)?.id
-                : data.currency.find(currency => currency.isdefault === 1)
-                  ?.id
+                : data.currency.find(currency => currency.isdefault === 1)?.id
             }
             onChange={onChangeInput}
           />
@@ -396,11 +369,7 @@ export const Fields = ({ storageKey, data, companyId }: FieldsProps) => {
           />
         </section>
       </div>
-      <ButtonBlue
-        title='Add Contact'
-        style={styles.buttonBlue}
-        onClick={addCustomer}
-      />
+      <ButtonBlue title='Add Contact' style={styles.buttonBlue} onClick={addCustomer} />
     </div>
   )
 }

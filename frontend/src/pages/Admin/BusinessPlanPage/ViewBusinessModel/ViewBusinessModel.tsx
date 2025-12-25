@@ -69,11 +69,7 @@ export const AdminViewBusinessModel = () => {
               }/${model.publicToken}`}
               onChange={() => {}}
             />
-            <ButtonBlue
-              title='Preview'
-              style={styles.buttonWrapper}
-              onClick={handleNavigateToPreview}
-            />
+            <ButtonBlue title='Preview' onClick={handleNavigateToPreview} />
           </div>
           <div className={styles.titleModel}>
             <TitlePage title={model.title} />

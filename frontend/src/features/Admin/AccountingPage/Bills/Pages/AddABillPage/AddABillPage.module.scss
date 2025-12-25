@@ -26,7 +26,8 @@
 
 .buttonSave {
   margin-top: 12px;
-  @include mobileBreakpoint('min', $bpL) {
-    max-width: 100px;
+
+  @include mobileBreakpoint('max', $bpL) {
+    width: 100%;
   }
 }

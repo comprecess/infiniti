@@ -78,15 +78,11 @@ export const Fields = ({
     inputRef.current?.click()
   }
 
-  const handleAvatarChange = async (
-    event: ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleAvatarChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files
 
     if (files && files.length > 0) {
-      if (
-        !['image/jpeg', 'image/jpg', 'image/png'].includes(files[0].type)
-      ) {
+      if (!['image/jpeg', 'image/jpg', 'image/png'].includes(files[0].type)) {
         showToast({
           title: 'Error',
           description: 'Only JPEG and PNG images are allowed',
@@ -105,25 +101,19 @@ export const Fields = ({
     }
   }
 
-  const handleChangeInput = (
-    field: string,
-    value: string | number | undefined | null,
-  ) => {
+  const handleChangeInput = (field: string, value: string | number | undefined | null) => {
     setFormData(prevFormData => {
       const updatedFormData = { ...prevFormData }
 
       if (value === '' || value === null || value === undefined) {
         delete updatedFormData[field]
       } else if (field === 'role') {
-        updatedFormData[field] = inputData.role.find(
-          role => role.name === value,
-        )?.id
+        updatedFormData[field] = inputData.role.find(role => role.name === value)?.id
       } else if (field === 'language' && typeof value === 'number') {
         if (value === 0) {
           delete updatedFormData[field]
         } else {
-          updatedFormData[field] =
-            inputData.localization[value - 1].iso_code
+          updatedFormData[field] = inputData.localization[value - 1].iso_code
         }
       } else if (field === 'payFrequency' && typeof value === 'number') {
         if (value === 0) {
@@ -162,9 +152,7 @@ export const Fields = ({
     })
   }
 
-  const handleTextAreaChange = (
-    event: ChangeEvent<HTMLTextAreaElement>,
-  ) => {
+  const handleTextAreaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     handleChangeInput('summary', event.target.value)
   }
 
@@ -203,9 +191,7 @@ export const Fields = ({
         titleOnChange='language'
         placeholder='None'
         nameList={inputData.localization.map(language => language.name)}
-        idList={inputData.localization.map(
-          (_language, index) => index + 1,
-        )}
+        idList={inputData.localization.map((_language, index) => index + 1)}
         value={
           formData.language
             ? inputData.localization.findIndex(
@@ -220,9 +206,7 @@ export const Fields = ({
           <img
             alt='Avatar'
             src={
-              userInfo.img
-                ? `${userInfo.img}?width=128&height=128`
-                : '/profileWithoutAvatar.svg'
+              userInfo.img ? `${userInfo.img}?width=128&height=128` : '/profileWithoutAvatar.svg'
             }
           />
         </div>
@@ -318,14 +302,10 @@ export const Fields = ({
         titleOnChange='country'
         placeholder='None'
         nameList={Object.values(inputData.country)}
+        idList={Object.values(inputData.country).map((_country, index) => index + 1)}
         value={
-          Object.values(inputData.country).findIndex(
-            country => country === formData.country,
-          ) + 1
+          Object.values(inputData.country).findIndex(country => country === formData.country) + 1
         }
-        idList={Object.values(inputData.country).map(
-          (_country, index) => index + 1,
-        )}
         onChange={onChangeCountry}
       />
       <CustomDataPicker
@@ -340,11 +320,7 @@ export const Fields = ({
         placeholder='None'
         idList={inputData.payFrequency.map((_pay, index) => index + 1)}
         nameList={inputData.payFrequency}
-        value={
-          inputData.payFrequency.findIndex(
-            pay => pay === formData.payFrequency,
-          ) + 1
-        }
+        value={inputData.payFrequency.findIndex(pay => pay === formData.payFrequency) + 1}
         onChange={handleChangeInput}
       />
       <CustomInput

@@ -56,7 +56,7 @@ export const ResetPasswordForm = () => {
           register={register}
           validationRules={{ required: true }}
         />
-        <ButtonBlue title='Reset password' type='submit' />
+        <ButtonBlue title='Reset password' type='submit' style={styles.button} />
       </form>
     </div>
   )

@@ -71,10 +71,10 @@
 }
 
 .uploadPicture {
-  width: 100%;
+  width: fit-content;
 
-  @include mobileBreakpoint('min', $bpS) {
-    max-width: 175px;
+  @include mobileBreakpoint('max', $bpS) {
+    width: 100%;
   }
 }
 
@@ -93,7 +93,9 @@
 
 .buttonUpload,
 .buttonRemove {
-  height: 44px;
+  @include mobileBreakpoint('max', $bpS) {
+    width: 100%;
+  }
 }
 
 .buttonRemove {
@@ -102,9 +104,5 @@
 
   @include hover() {
     background-color: $cherry-400;
-  }
-
-  @include mobileBreakpoint('min', $bpS) {
-    max-width: 175px;
   }
 }

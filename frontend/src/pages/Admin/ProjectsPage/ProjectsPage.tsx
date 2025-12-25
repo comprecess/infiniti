@@ -3,10 +3,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import styles from './ProjectsPage.module.scss'
-import {
-  ProjectsData,
-  RolesAccess,
-} from '../../../app/constants/constants'
+import { ProjectsData, RolesAccess } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -22,9 +19,7 @@ export const AdminProjectsPage = () => {
   const queryClient = useQueryClient()
 
   const navigateToCreateProject = () => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.projects}/${Routes.new}/${Routes.project}`,
-    )
+    navigate(`/${Routes.adminPages}/${Routes.projects}/${Routes.new}/${Routes.project}`)
   }
 
   const { data: projects } = useQuery({
@@ -70,9 +65,8 @@ export const AdminProjectsPage = () => {
           {projects?.access.create === 1 && (
             <ButtonBlue
               titleNone
-              title='Create New Project'
+              title='New Project'
               icon='/icons/plus.svg'
-              style={styles.buttonCreateProject}
               onClick={navigateToCreateProject}
             />
           )}
@@ -93,9 +87,7 @@ export const AdminProjectsPage = () => {
             </div>
           ) : (
             <div className={styles.nothingFound}>
-              <span className={styles.nothingFoundText}>
-                Nothing Found
-              </span>
+              <span className={styles.nothingFoundText}>Nothing Found</span>
             </div>
           )}
         </section>

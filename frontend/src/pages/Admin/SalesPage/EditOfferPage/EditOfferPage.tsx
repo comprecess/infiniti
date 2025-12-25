@@ -30,9 +30,7 @@ import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 export const AdminEditOfferPage = () => {
   const [formData, setFormData] = useState<PartialFieldsPostData>({})
   const [data, setData] = useState<SalesEditOfferData | null>(null)
-  const [inputData, setInputData] = useState<SalesOfferInputData | null>(
-    null,
-  )
+  const [inputData, setInputData] = useState<SalesOfferInputData | null>(null)
   const [blanks, setBlanks] = useState<SalesBlanks | null>(null)
 
   const id = useIdFromUrl('offer')
@@ -109,10 +107,7 @@ export const AdminEditOfferPage = () => {
     }
   }
 
-  const handleUpdateBlank = async (
-    idBlank: number,
-    data: SalesEditInvoiceBlankData,
-  ) => {
+  const handleUpdateBlank = async (idBlank: number, data: SalesEditInvoiceBlankData) => {
     if (id === null) return
 
     const { status } = await putUpdateBlankOffer(id, idBlank, data)
@@ -146,11 +141,7 @@ export const AdminEditOfferPage = () => {
   const handleAddServiceBlank = async (idService: string) => {
     if (id === null) return
 
-    const { status, message } = await postAddNewServiceBlankOffer(
-      id,
-      'serviceProduct',
-      idService,
-    )
+    const { status, message } = await postAddNewServiceBlankOffer(id, 'serviceProduct', idService)
 
     if (status) {
       showToast({
@@ -193,7 +184,6 @@ export const AdminEditOfferPage = () => {
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,
               onClick: updateOffer,
-              style: styles.buttonSave,
             }}
           >
             <Fields

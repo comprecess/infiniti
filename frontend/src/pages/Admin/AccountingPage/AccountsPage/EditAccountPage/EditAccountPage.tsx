@@ -41,9 +41,7 @@ export const AdminEditAccountPage = () => {
         description: 'You have successfully changed Account',
         status: 'success',
       })
-      navigate(
-        `/${Routes.adminPages}/${Routes.accounting}/${Routes.accounts}`,
-      )
+      navigate(`/${Routes.adminPages}/${Routes.accounting}/${Routes.accounts}`)
     } else {
       showToast({
         title: 'Error',
@@ -70,7 +68,6 @@ export const AdminEditAccountPage = () => {
               title: 'Save',
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,
-              style: styles.buttonSave,
               onClick: handleEditAccount,
             }}
           >

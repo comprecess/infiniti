@@ -81,13 +81,10 @@ export const AdminProjectsInvoicesPage = () => {
     setOptions(urlOptions)
   }
 
-  const changeSort = useCallback(
-    (sortNameItem: string, sortTypeItem: number) => {
-      setSortName(sortNameItem)
-      setSortType(sortTypeItem)
-    },
-    [],
-  )
+  const changeSort = useCallback((sortNameItem: string, sortTypeItem: number) => {
+    setSortName(sortNameItem)
+    setSortType(sortTypeItem)
+  }, [])
 
   const navigateToCreateNewInvoice = () => {
     navigate(
@@ -116,11 +113,7 @@ export const AdminProjectsInvoicesPage = () => {
             style={styles.recentFullScreen}
             HeaderComponent={Search}
             PagesComponent={data.data.length > 0 ? PagesList : undefined}
-            Component={
-              context.roles && context.roles.sales.create === 0
-                ? undefined
-                : ButtonBlue
-            }
+            Component={context.roles && context.roles.sales.create === 0 ? undefined : ButtonBlue}
             componentProps={
               context.roles && context.roles.sales.create === 0
                 ? undefined
@@ -128,7 +121,6 @@ export const AdminProjectsInvoicesPage = () => {
                   titleNone: true,
                   title: 'New Invoice',
                   icon: '/icons/plus.svg',
-                  style: styles.buttonAddNewInvoice,
                   onClick: navigateToCreateNewInvoice,
                 }
             }

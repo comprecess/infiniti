@@ -65,11 +65,7 @@ export const NotificationProfile = () => {
   useEffect(() => {
     if (!isConnected || !isAuth) return
 
-    const handleNotification = () => {
-      handleGetNotifications()
-    }
-
-    on('notification', handleNotification)
+    on('notification', handleGetNotifications)
 
     return () => {
       on('notification', () => {})

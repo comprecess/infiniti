@@ -19,9 +19,7 @@ import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 
 export const AdminEditTransactionPage = () => {
   const [form, setForm] = useState<AccountingTransactionsForm | null>(null)
-  const [inputData, setInputData] = useState<AccountingInputData | null>(
-    null,
-  )
+  const [inputData, setInputData] = useState<AccountingInputData | null>(null)
 
   const id = useIdFromUrl('transaction')
   const showToast = useCustomToast()
@@ -42,17 +40,8 @@ export const AdminEditTransactionPage = () => {
 
     if (!response.status) return
 
-    const {
-      account,
-      category,
-      tags,
-      company,
-      payer,
-      staff,
-      payMethods,
-      ref,
-      ...rest
-    } = response.data.data
+    const { account, category, tags, company, payer, staff, payMethods, ref, ...rest } =
+      response.data.data
 
     setForm({
       ...rest,
@@ -78,9 +67,7 @@ export const AdminEditTransactionPage = () => {
         description: 'You have successfully changed Transaction',
         status: 'success',
       })
-      navigate(
-        `/${Routes.adminPages}/${Routes.accounting}/${Routes.view}/${Routes.transactions}`,
-      )
+      navigate(`/${Routes.adminPages}/${Routes.accounting}/${Routes.view}/${Routes.transactions}`)
     } else {
       showToast({
         title: 'Error',
@@ -108,7 +95,6 @@ export const AdminEditTransactionPage = () => {
               title: 'Save',
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,
-              style: styles.buttonSave,
               onClick: handleEditTransactionSubmit,
             }}
           >

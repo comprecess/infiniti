@@ -35,7 +35,7 @@ export const ButtonBlue = ({
       className={`${baseClass} ${variantClass} ${style || ''}`}
       onClick={onClick}
     >
-      {icon && <img src={icon} alt='Icon' className={iconProps} />}
+      {icon && <img src={icon} alt='Icon' className={`${iconProps} ${styles.icon}`} />}
       {title && (
         <span
           className={

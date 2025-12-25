@@ -21,7 +21,6 @@ export const RecentButtons = ({
           titleNone
           title='New Group'
           icon='/icons/plus.svg'
-          style={styles.buttonPlus}
           iconProps={styles.iconPlus}
           onClick={firstButtonClick}
         />
@@ -31,7 +30,6 @@ export const RecentButtons = ({
           titleNone
           title='Reorder'
           icon='/icons/reorder.svg'
-          style={styles.buttonWrench}
           iconProps={styles.iconWrench}
           onClick={secondButtonClick}
         />

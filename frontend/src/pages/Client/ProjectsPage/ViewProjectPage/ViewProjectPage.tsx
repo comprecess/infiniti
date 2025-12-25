@@ -106,8 +106,8 @@ export const ClientViewProjectPage = () => {
     projectInfo && projectInfo.isMy
       ? ClientCustomerProjectInfoSidebar
       : user && user.status.isSupplier
-      ? ClientSupplierProjectInfoSidebar
-      : ClientCustomerProjectInfoSidebar
+        ? ClientSupplierProjectInfoSidebar
+        : ClientCustomerProjectInfoSidebar
 
   if (!isInitialized) {
     return null

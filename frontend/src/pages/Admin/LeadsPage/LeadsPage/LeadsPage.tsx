@@ -11,13 +11,7 @@ export const AdminLeadsPage = () => {
       <div className={styles.title}>
         <div className={styles.titleContainer}>
           <TitlePage title='Leads' />
-          <ButtonBlue
-            titleNone
-            title='New Lead'
-            icon='/icons/plus.svg'
-            style={styles.buttonCreate}
-            onClick={() => {}}
-          />
+          <ButtonBlue titleNone title='New Lead' icon='/icons/plus.svg' />
         </div>
       </div>
       <section className={styles.sectionFirst}>

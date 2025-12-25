@@ -17,8 +17,7 @@ import { postRecordInitialBalance } from '../../../../shared/utils/api/Admin/Acc
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 export const AdminAccountsPage = () => {
-  const [inputData, setInputData] =
-    useState<AccountingAccountsInputData | null>(null)
+  const [inputData, setInputData] = useState<AccountingAccountsInputData | null>(null)
 
   const [search, setSearch] = useState<string>('')
   const [sortName, setSortName] = useState<string>('id')
@@ -95,18 +94,13 @@ export const AdminAccountsPage = () => {
     }
   }
 
-  const changeSort = useCallback(
-    (sortNameItem: string, sortTypeItem: number) => {
-      setSortName(sortNameItem)
-      setSortType(sortTypeItem)
-    },
-    [],
-  )
+  const changeSort = useCallback((sortNameItem: string, sortTypeItem: number) => {
+    setSortName(sortNameItem)
+    setSortType(sortTypeItem)
+  }, [])
 
   const handleNavigateNewAccount = () => {
-    navigate(
-      `/${Routes.adminPages}/${Routes.accounting}/${Routes.new}/${Routes.account}`,
-    )
+    navigate(`/${Routes.adminPages}/${Routes.accounting}/${Routes.new}/${Routes.account}`)
   }
 
   useEffect(() => {
@@ -123,9 +117,7 @@ export const AdminAccountsPage = () => {
             style={styles.recentFullScreen}
             title='Manage Accounts'
             HeaderComponent={Search}
-            Component={
-              accounts.access.create === 1 ? ButtonBlue : undefined
-            }
+            Component={accounts.access.create === 1 ? ButtonBlue : undefined}
             headerProps={{
               style: styles.search,
               onSearchChange: setSearch,
@@ -136,7 +128,6 @@ export const AdminAccountsPage = () => {
                   titleNone: true,
                   title: 'New Account',
                   icon: '/icons/plus.svg',
-                  style: styles.buttonPlus,
                   onClick: handleNavigateNewAccount,
                 }
                 : undefined
@@ -148,9 +139,7 @@ export const AdminAccountsPage = () => {
               access={accounts.access}
               changeSort={changeSort}
               deleteAccount={handleDeleteAccount}
-              addRecordInitialBalanceAccount={
-                addRecordInitialBalanceAccount
-              }
+              addRecordInitialBalanceAccount={addRecordInitialBalanceAccount}
             />
           </RecentCard>
         </section>

@@ -15,11 +15,9 @@
   gap: 20px;
 }
 
-.buttonSubmit {
-  width: 100%;
-
-  @include mobileBreakpoint('min', $bpS) {
-    max-width: 200px;
+.button {
+  @include mobileBreakpoint('max', $bpS) {
+    width: 100%;
   }
 }
 

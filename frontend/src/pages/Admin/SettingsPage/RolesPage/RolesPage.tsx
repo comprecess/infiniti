@@ -87,7 +87,6 @@ export const AdminRolesPage = () => {
                   title: 'New Role',
                   icon: '/icons/plus.svg',
                   onClick: navigateToCreateNewRole,
-                  style: styles.buttonAddNewRole,
                 }
                 : undefined
             }

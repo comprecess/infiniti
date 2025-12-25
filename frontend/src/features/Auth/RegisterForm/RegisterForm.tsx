@@ -87,7 +87,7 @@ export const RegisterForm = () => {
             }}
           />
         </div>
-        <ButtonBlue title='Register' type='submit' />
+        <ButtonBlue title='Register' type='submit' style={styles.button} />
       </form>
     </div>
   )

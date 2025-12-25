@@ -8,11 +8,14 @@ import { CardPlanLoading } from '../../../features/Client/BusinessPlan/CardPlanL
 import { TitlePage } from '../../../features/Main/TitlePage/TitlePage'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getBusinessPlansList } from '../../../shared/utils/api/Client/BusinessPlan/get-business-plans-list'
+import { useAppWebSocket } from '../../../shared/utils/providers/WebSocketProvider'
 
 export const ClientBusinessPlansPage = () => {
   const [plansData, setPlansData] = useState<{
     data: BusinessPlanItemData[]
   } | null>(null)
+
+  const { isConnected, isAuth, on } = useAppWebSocket()
 
   const getPlansData = async () => {
     const response = await getBusinessPlansList()
@@ -25,6 +28,16 @@ export const ClientBusinessPlansPage = () => {
   useEffect(() => {
     getPlansData()
   }, [])
+
+  useEffect(() => {
+    if (!isConnected || !isAuth) return
+
+    on('business-plan-list', getPlansData)
+
+    return () => {
+      on('business-plan-list', () => {})
+    }
+  }, [isConnected, isAuth, on])
 
   return (
     <>

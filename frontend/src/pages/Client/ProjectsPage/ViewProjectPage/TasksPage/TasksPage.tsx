@@ -314,7 +314,6 @@ export const ClientProjectsTasksPage = () => {
                 titleNone: true,
                 title: 'New Task',
                 icon: '/icons/plus.svg',
-                style: styles.buttonNewTask,
                 onClick: handleSetIsCreated,
               }}
             >

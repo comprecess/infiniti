@@ -44,10 +44,8 @@
 }
 
 .buttonSend {
-  height: 44px;
-
-  @include mobileBreakpoint('min', $bpM) {
-    max-width: 90px;
+  @include mobileBreakpoint('max', $bpM) {
+    width: 100%;
   }
 }
 
@@ -70,13 +68,16 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  gap: 2px;
 }
 
 .textRemainder {
+  width: fit-content;
   font-size: 13px;
   font-weight: 300;
   line-height: 14px;
   letter-spacing: -0.03em;
   text-align: left;
   color: $brand-400;
+  cursor: pointer;
 }
