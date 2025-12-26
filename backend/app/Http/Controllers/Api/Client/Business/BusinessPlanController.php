@@ -17,6 +17,7 @@ use App\Models\Catalog\Prop;
 use App\Models\Resident\BusinessPlan;
 use App\Models\Resident\Question;
 use App\Models\User;
+use App\Services\ChatGPT as ChatGPTService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -52,6 +53,26 @@ class BusinessPlanController extends Controller
             ->with(['client', 'client.files', 'businessModel', 'businessModel.values', 'businessModel.props', 'businessModel.values.prop'])
             ->firstOrFail();
         return new BusinessPlanResource($plan);
+    }
+
+    public function chatgptTalent($id, Request $request)
+    {
+        $userId = $request->user()->id;
+        $plan = BusinessPlan::where('id', $id)
+            ->where('cid', $userId)
+            ->with(['client', 'client.files', 'businessModel', 'businessModel.values', 'businessModel.props', 'businessModel.values.prop'])
+            ->firstOrFail();
+
+
+        $chatGPT = $plan->chatGPT();
+        $chatGPT->chat_model = ChatGPTService::MODEL[0];
+        $chatGPT->namePrompt = 'selectionSpecialists';
+
+        $chatGPTService = $chatGPT->toPrompt(request: $request);
+        $chatGPTService->send();
+        dd($chatGPTService->getTagInfo());
+
+        return response()->json($chatGPTService->getTagInfo());
     }
 
     public function getQuestion()
