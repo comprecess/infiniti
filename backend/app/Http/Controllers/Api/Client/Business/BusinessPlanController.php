@@ -70,7 +70,6 @@ class BusinessPlanController extends Controller
 
         $chatGPTService = $chatGPT->toPrompt(request: $request);
         $chatGPTService->send();
-        dd($chatGPTService->getTagInfo());
 
         return response()->json($chatGPTService->getTagInfo());
     }
