@@ -357,10 +357,10 @@ class ProjectController
         return $this->index($query, InvoiceListResource::class, true);
     }
 
-    public function ganttChartGet()
+    public function ganttChartGet($project)
     {
         $this->checkMy();
-        $tasks = $this->model->tasks()
+        $tasks = $project->tasks()
             ->with(['project'])
             ->sort();
 
