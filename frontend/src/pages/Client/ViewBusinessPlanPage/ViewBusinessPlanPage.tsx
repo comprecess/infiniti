@@ -6,17 +6,21 @@ import {
   TalentInputDataBusinessPlan,
 } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
+import { ChatGPTCard } from '../../../features/Admin/BusinessPlanPage/EditBusinessPlanPage/Fields/Team/ChatGPTCard/ChatGPTCard'
 import { PeopleCard } from '../../../features/Admin/BusinessPlanPage/EditBusinessPlanPage/Fields/Team/PeopleCard/PeopleCard'
 import { PlusCard } from '../../../features/Admin/BusinessPlanPage/EditBusinessPlanPage/Fields/Team/PlusCard/PlusCard'
 import { Item } from '../../../features/Admin/BusinessPlanPage/ViewBusinessPlan/Item/Item'
+import { ChatGPTIcon } from '../../../shared/icons/ChatGPTIcon'
 import { BackButton } from '../../../shared/ui/BackButton/BackButton'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDivider } from '../../../shared/ui/CustomDivider/CustomDivider'
 import { CustomInput } from '../../../shared/ui/CustomInput/CustomInput'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
+import { Icon } from '../../../shared/ui/Icon/Icon'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getBusinessPlanInfo } from '../../../shared/utils/api/Client/BusinessPlan/get-business-plan-info'
 import { getBusinessPlanInputData } from '../../../shared/utils/api/Client/BusinessPlan/get-business-plan-input-data'
+import { getChatGPTTeam } from '../../../shared/utils/api/Client/BusinessPlan/get-chat-gpt-team'
 import { patchUpdateBusinessPlanTeam } from '../../../shared/utils/api/Client/BusinessPlan/patch-update-business-plan-team'
 import { useIdFromUrl } from '../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
@@ -40,6 +44,7 @@ export const ClientViewBusinessPlanPage = () => {
   const [inputData, setInputData] = useState<TalentInputDataBusinessPlan[] | null>(null)
 
   const [modalAddTalent, setModalAddTalent] = useState<boolean>(false)
+  const [isLoadingTeam, setIsLoadingTeam] = useState<boolean>(false)
 
   const id = useIdFromUrl('view')
   const showToast = useCustomToast()
@@ -60,6 +65,29 @@ export const ClientViewBusinessPlanPage = () => {
     if (!response.status) return
 
     setInputData(response.data.talents)
+  }
+
+  const addChatGPTTeam = async () => {
+    if (!id) return
+
+    setIsLoadingTeam(true)
+
+    const response = await getChatGPTTeam(id)
+
+    if (!response.status) return
+
+    const idsArray = response.data.ids.split(',').map((id: string) => parseInt(id.trim(), 10))
+
+    setFullInfo(prevFormData => {
+      if (!prevFormData) return prevFormData
+
+      return {
+        ...prevFormData,
+        teams: idsArray,
+      }
+    })
+
+    setIsLoadingTeam(false)
   }
 
   const handleNavigateToPreview = () => {
@@ -188,21 +216,35 @@ export const ClientViewBusinessPlanPage = () => {
                             content={content as string}
                             forceShow={key === 'management'}
                           />
-                          {inputData && fullInfo.teams && (
-                            <div className={styles.teamWrapper}>
-                              {fullInfo.teams.map(id => {
-                                return (
-                                  <PeopleCard
-                                    key={id}
-                                    isRemove
-                                    talent={inputData.find(item => item.id === id)}
-                                    deleteTalent={deleteTalent}
-                                  />
-                                )
-                              })}
-                              <PlusCard onClick={() => setModalAddTalent(prev => !prev)} />
-                            </div>
-                          )}
+                          {inputData &&
+                            fullInfo.teams &&
+                            (!isLoadingTeam ? (
+                              <div className={styles.teamWrapper}>
+                                {fullInfo.teams.map(id => {
+                                  return (
+                                    <PeopleCard
+                                      key={id}
+                                      isRemove
+                                      talent={inputData.find(item => item.id === id)}
+                                      deleteTalent={deleteTalent}
+                                    />
+                                  )
+                                })}
+                                <PlusCard onClick={() => setModalAddTalent(prev => !prev)} />
+                                <ChatGPTCard addNewTalentChatGPT={addChatGPTTeam} />
+                              </div>
+                            ) : (
+                              <div className={styles.chatGPTLoading}>
+                                <Icon
+                                  hover={false}
+                                  icon={<ChatGPTIcon style={styles.icon} />}
+                                  style={styles.wrapperIcon}
+                                />
+                                <span className={styles.chatGPTLoadingText}>
+                                  ChatGPT is assembling a Team
+                                </span>
+                              </div>
+                            ))}
                         </div>
                       ) : (
                         <Item title={title} content={content as string} />

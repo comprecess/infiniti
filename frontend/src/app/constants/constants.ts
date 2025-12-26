@@ -66,7 +66,9 @@ export interface ViewPageContext {
 
 export interface ProjectViewPageContext {
   idProject: number
-  projectInfo: ProjectsData
+  projectInfo: ProjectsData & {
+    isMy: boolean
+  }
   roles: { [key: string]: RolesAccess } | undefined
 }
 

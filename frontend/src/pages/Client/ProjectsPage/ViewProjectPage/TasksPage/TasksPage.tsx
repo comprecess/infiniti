@@ -319,12 +319,18 @@ export const ClientProjectsTasksPage = () => {
             >
               <TasksCard
                 isClientView
-                access={{ all: 1, view: 1, create: 1, delete: 1, edit: 1 }}
                 data={tasksList}
                 updateTaskPosition={updateTaskPosition}
                 editSelectedTask={editTask}
                 deleteSelectedTask={deleteSelectedTask}
                 inputData={inputData}
+                access={{
+                  all: 1,
+                  view: 1,
+                  create: 1,
+                  delete: 1,
+                  edit: context.projectInfo.isMy ? 0 : 1,
+                }}
               />
             </RecentCard>
           ) : (

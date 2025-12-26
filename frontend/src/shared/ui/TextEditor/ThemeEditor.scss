@@ -131,3 +131,111 @@
     font-size: 15px;
   }
 }
+
+.jodit-popup__content {
+  color: $white !important;
+  border-radius: 12px !important;
+  background-color: $brand-900 !important;
+  box-shadow: 1px 1px 8px #acb2f3 !important;
+}
+
+.jodit-ui-button {
+  color: $white !important;
+  width: 100% !important;
+  background-color: $brand-500 !important;
+  border-radius: 8px !important;
+}
+
+.jodit-ui-input__wrapper {
+  border-radius: 8px !important;
+  background-color: transparent !important;
+  overflow: hidden !important;
+  border: none !important;
+}
+
+.jodit-ui-input__input {
+  color: $white !important;
+  background-color: $brand-800 !important;
+  border: none !important;
+}
+
+.jodit-ui-input__label {
+  color: $gray-300 !important;
+}
+
+.jodit-toolbar-button__button {
+  color: $white !important;
+}
+
+.jodit-ui-checkbox__label {
+  font-size: 12px !important;
+  color: $white !important;
+}
+
+.jodit-ui-checkbox {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: start !important;
+  gap: 10px;
+}
+
+.jodit-ui-checkbox__wrapper {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.jodit-ui-checkbox__input {
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 4px !important;
+  border: none !important;
+  margin: 0 !important;
+
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  width: 16px;
+  height: 16px;
+
+  background-color: $gray-500;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  position: relative;
+  transition: background-color 0.2s ease;
+
+  &:checked {
+    background-color: $brand-500;
+
+    &:focus,
+    &:focus-visible {
+      outline: none !important;
+      box-shadow: none !important;
+      background-color: $brand-500;
+    }
+
+    &::before,
+    &::after {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+  }
+
+  &:checked::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    width: 3px;
+    height: 7px;
+    border: solid $white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+}
+
+.jodit-ui-block {
+  gap: 4px !important;
+}

@@ -1,3 +1,4 @@
+import { ChartIcon } from '../../shared/icons/ChartIcon'
 import { ExpensesIcon } from '../../shared/icons/ExpensesIcon'
 import { DashboardIcon } from '../../shared/icons/sidebarList/DashboardIcon'
 import { FileIcon } from '../../shared/icons/sidebarList/FileIcon'
@@ -39,6 +40,13 @@ export const ClientCustomerProjectInfoSidebar = [
     page: 'invoices',
     type: 'invoices',
     icon: <InvoicesIcon />,
+  },
+  {
+    id: 5,
+    name: 'Gantt Chart',
+    page: 'gantt-chart',
+    type: 'gantt-chart',
+    icon: <ChartIcon />,
   },
 ]
 
