@@ -599,6 +599,10 @@ export const router = createBrowserRouter([
             element: Pages.clientProjectsInvoicesPage,
           },
           {
+            path: Routes.ganttChart,
+            element: Pages.clientGanttChartPage,
+          },
+          {
             path: '*',
             index: true,
             element: <Navigate replace to={To.summary()} />,

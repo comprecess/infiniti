@@ -125,6 +125,7 @@ import { ClientEditProjectPage } from '../../pages/Client/ProjectsPage/EditProje
 import { ClientProjectsPage } from '../../pages/Client/ProjectsPage/ProjectsPage'
 import { ClientProjectsExpensesPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/ExpensesPage/ExpensesPage'
 import { ClientProjectsFilesPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/FilesPage/FilesPage'
+import { ClientGanttChartPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/GanttChartPage/GanttChartPage'
 import { ClientProjectsInvoicesPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/InvoicesPage/InvoicesPage'
 import { ClientProjectsSummaryPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/SummaryPage/SummaryPage'
 import { ClientProjectsTasksPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/TasksPage/TasksPage'
@@ -300,6 +301,7 @@ export const Pages = {
   clientProjectsFilesPage: <ClientProjectsFilesPage />,
   clientProjectsExpensesPage: <ClientProjectsExpensesPage />,
   clientProjectsInvoicesPage: <ClientProjectsInvoicesPage />,
+  clientGanttChartPage: <ClientGanttChartPage />,
   clientKnowledgeBasePage: <ClientKnowledgeBasePage />,
   clientTicketsPage: <ClientTicketsPage />,
   clientViewTicketPage: <ClientViewTicketPage />,
