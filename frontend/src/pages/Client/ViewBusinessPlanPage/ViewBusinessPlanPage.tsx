@@ -78,14 +78,24 @@ export const ClientViewBusinessPlanPage = () => {
 
     const idsArray = response.data.ids.split(',').map((id: string) => parseInt(id.trim(), 10))
 
-    setFullInfo(prevFormData => {
-      if (!prevFormData) return prevFormData
+    const { status, message } = await patchUpdateBusinessPlanTeam(id, idsArray)
 
-      return {
-        ...prevFormData,
-        teams: idsArray,
-      }
-    })
+    if (status) {
+      setFullInfo(prevFormData => {
+        if (!prevFormData) return prevFormData
+
+        return {
+          ...prevFormData,
+          teams: idsArray,
+        }
+      })
+    } else {
+      showToast({
+        title: 'Error',
+        description: message,
+        status: 'error',
+      })
+    }
 
     setIsLoadingTeam(false)
   }
