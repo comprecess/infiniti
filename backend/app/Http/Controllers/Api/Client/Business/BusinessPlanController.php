@@ -29,7 +29,8 @@ class BusinessPlanController extends Controller
     {
         $userId = $request->user()->id;
         $query = BusinessPlan::where('cid', $userId)
-            ->with(['client', 'client.files', 'businessModel', 'businessModel.values', 'businessModel.props', 'businessModel.values.prop']);
+            ->with(['client', 'client.files', 'businessModel', 'businessModel.values', 'businessModel.props', 'businessModel.values.prop'])
+            ->orderByDesc('id');
 
 
         return $this->index($query, BusinessPlanListResource::class);

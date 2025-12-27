@@ -115,22 +115,30 @@ class BusinessPlan extends Model implements ChatGPTContract, MeetingContract
             return false;
         }
         $cart = $user->myCart ?? new Cart();
-        $cart->setSecret();
-        $cart->user_type = $user::class;
-        $cart->user_id = $user->id;
-        $cart->currency_iso_code = $currency;
+        if(!$cart->id) {
+            $cart->setSecret();
+            $cart->user_type = $user::class;
+            $cart->user_id = $user->id;
+            $cart->currency_iso_code = $currency;
+        }
         $cart->business_plan_id = $this->id;
         $cart->save();
 
         foreach($teams as $userCatalog) {
-            $item = new CartItem();
-            $item->id_catalog_cart = $cart->id;
-            $item->id_catalog_user = $userCatalog->id;
-            $item->name_id_type = 'priceHour';
-            $item->amount = 1;
-            $item->currency_iso_code = $currency;
-            $item->business_plan_id = $this->id;
+            $item = CartItem::where('id_catalog_cart', $cart->id)->where('id_catalog_user', $userCatalog->id)->first();
+            if($item) {
+                $item->amount = $item->amount + 1;
+            }else{
+                $item = new CartItem();
+                $item->id_catalog_cart = $cart->id;
+                $item->id_catalog_user = $userCatalog->id;
+                $item->name_id_type = 'priceHour';
+                $item->amount = 1;
+                $item->currency_iso_code = $currency;
+                $item->business_plan_id = $this->id;
+            }
             $item->save();
+
         }
 
         $cart->calculation();
