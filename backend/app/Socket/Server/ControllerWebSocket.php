@@ -38,6 +38,10 @@ class ControllerWebSocket extends Socket
         $data = $this->messageFormJson($msg);
         $user = $this->getUser($conn);
 
+        if(!is_array($data)){
+            return $conn->send(json_encode(['code' => 404]));
+        }
+
         if(($auth = Arr::get($user, "auth")) || in_array($data['c'], $this->listMain())) {
             foreach($this->list() as $class) {
                 $object = new $class($user, $this->clients, $this, $data);

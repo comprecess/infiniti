@@ -268,8 +268,12 @@ class User extends Model implements MeetingContract
         return "individual-" . $this->id;
     }
 
-    public function createSupplierClient() :Client
+    public function createSupplierClient() :?Client
     {
+        if(!$this->email) {
+            return null;
+        }
+
         $client = Client::where('email', $this->email)->first();
 
         if(!$client) {

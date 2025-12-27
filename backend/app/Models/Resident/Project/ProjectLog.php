@@ -29,7 +29,8 @@ class ProjectLog extends Model
         'addTime',
         'editTime',
         'deleteTime',
-        'deleteFile'
+        'deleteFile',
+        'error',
     ];
 
     protected $table = 'clx_projects_log';
@@ -61,7 +62,7 @@ class ProjectLog extends Model
         return $this->belongsTo(Task::class, 'task_id');
     }
 
-    public static function create(Task|Project $model, $type = self::TYPE[0], User $user = null, array $data = null, $description = null, $descriptionDop = null)
+    public static function create(Task|Project $model, $type = self::TYPE[12], User $user = null, array $data = null, $description = null, $descriptionDop = null)
     {
         $user = $user ?? User::getAuth();
         $task = null;

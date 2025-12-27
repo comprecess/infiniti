@@ -7,8 +7,10 @@ use App\Mail\Project\InviteSupplier;
 use App\Models\Collection\Catalog\CartItemCollection;
 use App\Models\Notification;
 use App\Models\Resident\Project\Project;
+use App\Models\Resident\Project\ProjectLog;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use function SpomkyLabs\Pki\ASN1\Component\length;
 
@@ -17,6 +19,9 @@ class ProjectFromBusinessPlan implements ShouldQueue
     /**
      * Create the event listener.
      */
+
+    private $error = [];
+
     public function __construct()
     {
         //
@@ -34,40 +39,54 @@ class ProjectFromBusinessPlan implements ShouldQueue
             return;
         }
 
-        $cartItemsQuery = $cart->items()->with(['userCatalog'])/*->get()*/;
-        $cartItemsQuery->select('catalog_cart_item.*')->join('catalog_user', function($join){
-            $join->on('catalog_cart_item.id_catalog_user', '=', 'catalog_user.id')
-            ->whereNull('catalog_user.deleted_at');
-        })->where('business_plan_id', $cart->business_plan_id);
-        $cartItems = $cartItemsQuery->get();
+        DB::beginTransaction();
+        try {
+            $cartItemsQuery = $cart->items()->with(['userCatalog'])/*->get()*/
+            ;
+            $cartItemsQuery->select('catalog_cart_item.*')->join('catalog_user', function ($join) {
+                $join->on('catalog_cart_item.id_catalog_user', '=', 'catalog_user.id')
+                    ->whereNull('catalog_user.deleted_at');
+            })->where('business_plan_id', $cart->business_plan_id);
+            $cartItems = $cartItemsQuery->get();
 
-        if(!$cartItems->count()) {
-            return;
+            if (!$cartItems->count()) {
+                return;
+            }
+
+            $businessPlan = $cart->businessPlan;
+
+            $summary = strip_tags($businessPlan->ex_summary);
+            if (strlen($summary) > 250) {
+                $summary = substr($summary, 0, 250) . "...";
+            }
+
+            $project = new Project();
+            $project->name = $businessPlan->company_name;
+            $project->summary = $summary;
+            $project->description = $businessPlan->description;
+            $project->status = Project::STATUS[1];
+            $project->billing_type = Project::TYPE[0];
+            list($project->start_date, $project->due_date) = $this->startAndEndProject($cartItems);
+            $project->currency = $invoice->currency_iso_code;
+            $project->budget = $invoice->total;
+            $project->contact_id = $invoice->userid;
+
+            $project->save();
+
+            $this->createUser($cartItems, $project);
+            if ($this->error) {
+                $project->refresh();
+                $messgae = "Errors found while creating the project: " . implode('; ', $this->error);
+                ProjectLog::create($project, ProjectLog::TYPE[12], $invoice->user, $this->error, $messgae);
+            }
+            $invoice->pid = $project->id;
+            $invoice->save();
+        }catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error($e->getMessage(), $e->getTrace());
+            DB::rollBack();
         }
 
-        $businessPlan = $cart->businessPlan;
-
-        $summary = strip_tags($businessPlan->ex_summary);
-        if(strlen($summary) > 250) {
-            $summary = substr($summary,0, 250) ."...";
-        }
-
-        $project = new Project();
-        $project->name = $businessPlan->company_name;
-        $project->summary = $summary;
-        $project->description = $businessPlan->description;
-        $project->status = Project::STATUS[1];
-        $project->billing_type = Project::TYPE[0];
-        list($project->start_date, $project->due_date) = $this->startAndEndProject($cartItems);
-        $project->currency = $invoice->currency_iso_code;
-        $project->budget = $invoice->total;
-        $project->contact_id = $invoice->userid;
-
-        $project->save();
-
-        $this->createUser($cartItems, $project);
-        $invoice->pid = $project->id;
-        $invoice->save();
+        DB::commit();
     }
 
     private function startAndEndProject(CartItemCollection $cartItems) :array
@@ -104,13 +123,17 @@ class ProjectFromBusinessPlan implements ShouldQueue
             $user = $item->userCatalog;
             if($user) {
                 $supplier = $user->createSupplierClient();
-                $project->setPersonal($supplier);
-                Mail::to($supplier)->send(new InviteSupplier($supplier, $project));
-                Notification::createMain(
-                    user: $supplier,
-                    model: $project,
-                    message: __('notification.message.project.suppler-invite', ['link' => ""])
-                );
+                if($supplier) {
+                    $project->setPersonal($supplier);
+                    Mail::to($supplier)->send(new InviteSupplier($supplier, $project));
+                    Notification::createMain(
+                        user: $supplier,
+                        model: $project,
+                        message: __('notification.message.project.suppler-invite', ['link' => ""])
+                    );
+                }else{
+                    $this->error[] = "Talent: {$user->name} not added, missing email";
+                }
             }
         }
     }
