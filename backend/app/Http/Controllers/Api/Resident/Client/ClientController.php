@@ -531,7 +531,7 @@ class ClientController extends MainClientController
 
     public function test4(Request $request)
     {
-        $invoice = Invoice::find(1);
-        event(new InvoiceIsPay($invoice));
+        $user = Client::find(64);
+        $user->urlFile('https://images.all-free-download.com/images/thumbjpg/nature_picture_ladybug_leaf_closeup_6930245.jpg');
     }
 }
