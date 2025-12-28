@@ -223,11 +223,16 @@ class FileStorage extends Model
 
         $name = $this->getAttrFile('original');
         try {
-
+            $image = Image::read($this->getFile()->getPathName());
+            if(is_array($sizeImage)) {
+                if ($image->width() < $sizeImage[0] || $image->height() < $sizeImage[1]) {
+                    return false;
+                }
+            }
             if (is_array($sizeImage)) {
-                $convert = Image::read($this->getFile()->getPathName())->scale(...$sizeImage);
+                $convert = $image->scale(...$sizeImage);
             } else {
-                $convert = Image::read($this->getFile()->getPathName())->scale(1280, 768);
+                $convert = $image->scale(1280, 768);
             }
 
             if (in_array($this->ext, $this->convertorByJpg)) {

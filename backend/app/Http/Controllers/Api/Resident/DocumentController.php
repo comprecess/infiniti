@@ -143,7 +143,7 @@ class DocumentController extends ResidentController
             }
         }
 
-        if(!$document->is_global && !$userController->getUserModel(false)) {
+        if(/*!$document->is_global && */!$userController->getUserModel(false)) {
             abort(403);
         }
 
