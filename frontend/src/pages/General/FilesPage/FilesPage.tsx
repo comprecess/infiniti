@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom'
 import styles from './FilesPage.module.scss'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getAuthToken } from '../../../shared/utils/api/get-auth-token'
+import { useDeviceDetect } from '../../../shared/utils/hooks/useDeviceDetect'
 import { downloadOrViewFile } from '../../../shared/utils/usefulMethods'
 
 const extractTokenFromUrl = (url: string): string | null => {
@@ -25,6 +26,8 @@ export const PublicFilesPage = () => {
   const authToken = getAuthToken()
   const hash = useTokenFromUrl()
 
+  const { isMobile } = useDeviceDetect()
+
   const handleDownloadFile = async () => {
     const headers: HeadersInit = authToken ? { Authorization: `Bearer ${authToken}` } : {}
 
@@ -38,7 +41,7 @@ export const PublicFilesPage = () => {
 
       const blob = await response.blob()
 
-      await downloadOrViewFile(blob, 'file', 'current', true)
+      await downloadOrViewFile(blob, 'file', isMobile ? 'new' : 'current', !isMobile)
     } catch (error) {
       console.error('Не удалось скачать/просмотреть файл', error)
     }
