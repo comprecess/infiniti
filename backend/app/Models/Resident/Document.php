@@ -63,6 +63,7 @@ class Document extends Model implements InsertDefaultValueInterface
 
     public function getLink()
     {
-        return route('document_load', ['token' => $this->file_dl_token]);
+//        return route('document_load', ['token' => $this->file_dl_token]);
+        return $this->file_dl_token;
     }
 }
