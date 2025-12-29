@@ -141,6 +141,7 @@ import { ClientViewBusinessPlanPage } from '../../pages/Client/ViewBusinessPlanP
 import { AutoLoginPage } from '../../pages/General/AutoLoginPage/AutoLoginPage'
 import { BusinessModelViewPage } from '../../pages/General/BusinessModelPage/BusinessModelViewPage'
 import { BusinessPlanViewPage } from '../../pages/General/BusinessPlanPage/BusinessPlanViewPage'
+import { PublicFilesPage } from '../../pages/General/FilesPage/FilesPage'
 import { ForbiddenPage } from '../../pages/General/ForbiddenPage/ForbiddenPage'
 import { GoogleAuthPage } from '../../pages/General/GoogleAuthPage/GoogleAuthPage'
 import { InvoiceProofTransaction } from '../../pages/General/InvoiceProofTransaction/InvoiceProofTransaction'
@@ -251,6 +252,7 @@ export const Routes = {
   register: 'register',
   reset: 'reset',
   password: 'password',
+  getFile: 'get-file',
   leadsWebToLead: 'web-to-lead',
   notFound: '404',
   forbidden: '403',
@@ -431,4 +433,5 @@ export const Pages = {
   forbiddenPage: <ForbiddenPage />,
   serverErrorPage: <ServerErrorPage />,
   testPageAI: <TestAIPage />,
+  publicFilesPage: <PublicFilesPage />,
 }

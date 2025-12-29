@@ -97,7 +97,12 @@ export const generateStorageKey = (sectionPart: string): string => {
   return `infiniti-[${userPart}]-[${sectionPart}]`
 }
 
-export const downloadOrViewFile = async (blob: Blob, fileName: string): Promise<void> => {
+export const downloadOrViewFile = async (
+  blob: Blob,
+  fileName: string,
+  viewTarget: 'current' | 'new' = 'new',
+  goBackAfterDownload: boolean = false,
+): Promise<void> => {
   const canView =
     blob.type.startsWith('image/') ||
     blob.type === 'application/pdf' ||
@@ -105,16 +110,24 @@ export const downloadOrViewFile = async (blob: Blob, fileName: string): Promise<
 
   const url = URL.createObjectURL(blob)
 
-  if (canView) {
-    const newWindow = window.open(url, '_blank')
+  let shouldGoBack = false
 
-    if (!newWindow) {
-      const a = document.createElement('a')
-      a.href = url
-      a.download = fileName
-      document.body.appendChild(a)
-      a.click()
-      a.remove()
+  if (canView) {
+    if (viewTarget === 'new') {
+      const newWindow = window.open(url, '_blank')
+
+      if (!newWindow) {
+        const a = document.createElement('a')
+        a.href = url
+        a.download = fileName
+        document.body.appendChild(a)
+        a.click()
+        a.remove()
+      }
+
+      shouldGoBack = true
+    } else {
+      window.location.href = url
     }
   } else {
     const a = document.createElement('a')
@@ -123,6 +136,14 @@ export const downloadOrViewFile = async (blob: Blob, fileName: string): Promise<
     document.body.appendChild(a)
     a.click()
     a.remove()
+
+    shouldGoBack = true
+  }
+
+  if (goBackAfterDownload && shouldGoBack) {
+    setTimeout(() => {
+      window.history.back()
+    }, 300)
   }
 
   setTimeout(() => URL.revokeObjectURL(url), 1000)

@@ -52,6 +52,10 @@ export const router = createBrowserRouter([
     element: Pages.publicBusinessModelViewPage,
   },
   {
+    path: `${Routes.public}/${Routes.getFile}/:id`,
+    element: Pages.publicFilesPage,
+  },
+  {
     path: `${Routes.public}/test-ai`,
     element: Pages.testPageAI,
   },
