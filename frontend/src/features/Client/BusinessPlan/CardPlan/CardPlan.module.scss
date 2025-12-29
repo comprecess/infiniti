@@ -36,15 +36,36 @@
   object-fit: cover;
 }
 
+.buttonsContainer {
+  display: flex;
+  gap: 8px;
+  width: fit-content;
+
+  @include mobileBreakpoint('max', 695px) {
+    width: 100%;
+
+    .button {
+      width: 100% !important;
+    }
+  }
+}
+
 .buttons {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  flex-wrap: wrap;
   gap: 8px;
-}
+  width: 100%;
 
-.button {
-  width: fit-content;
+  @include mobileBreakpoint('max', $bpM) {
+    flex-direction: column;
+  }
+
+  @include mobileBreakpoint('max', 695px) {
+    .buttonPreview {
+      width: 100% !important;
+    }
+  }
 }
 
 .title {

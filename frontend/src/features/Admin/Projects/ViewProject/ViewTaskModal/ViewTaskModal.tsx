@@ -16,6 +16,7 @@ import { sanitizeMessage } from '../../../../../shared/utils/TextEditor/sanitize
 
 interface ViewTaskModalProps {
   access?: RolesAccess
+  isClientView: boolean
   modalOpen: boolean
   task: ProjectsTasksData
   filterStatus: string
@@ -27,6 +28,7 @@ interface ViewTaskModalProps {
 
 export const ViewTaskModal = ({
   access,
+  isClientView,
   modalOpen,
   task,
   filterStatus,
@@ -64,7 +66,11 @@ export const ViewTaskModal = ({
               <CrossIcon />
             </div>
           </div>
-          <Tabs isActiveTab={filterStatus} setIsActiveTab={updateFilterStatus} />
+          <Tabs
+            isClientView={isClientView}
+            isActiveTab={filterStatus}
+            setIsActiveTab={updateFilterStatus}
+          />
           {filterStatus === 'Main' && (
             <div className={styles.content}>
               {task.start && (
@@ -134,10 +140,10 @@ export const ViewTaskModal = ({
           )}
           {filterStatus === 'Time Spent' && (
             <div className={styles.scrollTable}>
-              <TimeSpentTable idTask={task.id} />
+              <TimeSpentTable idTask={task.id} isClientView={isClientView} />
             </div>
           )}
-          {filterStatus === 'Logs' && <LogsTable idTask={task.id} />}
+          {!isClientView && filterStatus === 'Logs' && <LogsTable idTask={task.id} />}
         </div>
       </CustomModalWindow>
       {confirmModal && (
@@ -149,6 +155,7 @@ export const ViewTaskModal = ({
       )}
       {addTimeModal && (
         <TimeModal
+          isClientView={isClientView}
           title='Add Time'
           idTask={task.id}
           isOpened={addTimeModal}

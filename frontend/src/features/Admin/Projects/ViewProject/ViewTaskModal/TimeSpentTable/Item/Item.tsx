@@ -9,12 +9,13 @@ import styleItem from '../TimeSpentTable.module.scss'
 
 interface ItemProps {
   data: ProjectsViewTaskTimeSpentData
+  isClientView: boolean
   idTask: number
   refreshList: () => void
   deleteTimeSpent: (idTime: number) => void
 }
 
-export const Item = ({ data, idTask, refreshList, deleteTimeSpent }: ItemProps) => {
+export const Item = ({ data, isClientView, idTask, refreshList, deleteTimeSpent }: ItemProps) => {
   const [modalDelete, setModalDelete] = useState<boolean>(false)
   const [addTimeModal, setAddTimeModal] = useState<boolean>(false)
 
@@ -76,6 +77,7 @@ export const Item = ({ data, idTask, refreshList, deleteTimeSpent }: ItemProps) 
       )}
       {addTimeModal && (
         <TimeModal
+          isClientView={isClientView}
           title='Edit Time'
           data={data}
           idTask={idTask}

@@ -2,10 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import styles from './CartToOfferPage.module.scss'
-import {
-  SalesEditOfferData,
-  SalesOfferInputData,
-} from '../../../../app/constants/constants'
+import { SalesEditOfferData, SalesOfferInputData } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
 import {
   Fields,
@@ -19,34 +16,23 @@ import { postCreateNewOffer } from '../../../../shared/utils/api/Admin/Sales/New
 import { getOfferCartInfo } from '../../../../shared/utils/api/Admin/Talents/Cart/get-offer-cart-info'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
-const extractParamsFromUrl = (
-  url: string,
-): { idCart: number | null; token: string | null } => {
+const extractParamsFromUrl = (url: string): { idCart: number | null; token: string | null } => {
   const regex = /\/cart\/(\d+)\/to\/offer\/([a-fA-F0-9]+)$/
   const match = url.match(regex)
 
-  return match
-    ? { idCart: parseInt(match[1], 10), token: match[2] }
-    : { idCart: null, token: null }
+  return match ? { idCart: parseInt(match[1], 10), token: match[2] } : { idCart: null, token: null }
 }
 
 const useParamsFromUrl = () => {
   const location = useLocation()
 
-  return useMemo(
-    () => extractParamsFromUrl(location.pathname),
-    [location.pathname],
-  )
+  return useMemo(() => extractParamsFromUrl(location.pathname), [location.pathname])
 }
 
 export const AdminCartToOfferPage = () => {
-  const [formData, setFormData] = useState<PartialFieldsCartToOfferData>(
-    {},
-  )
+  const [formData, setFormData] = useState<PartialFieldsCartToOfferData>({})
   const [data, setData] = useState<SalesEditOfferData | null>(null)
-  const [inputData, setInputData] = useState<SalesOfferInputData | null>(
-    null,
-  )
+  const [inputData, setInputData] = useState<SalesOfferInputData | null>(null)
 
   const { idCart, token } = useParamsFromUrl()
 
@@ -118,7 +104,6 @@ export const AdminCartToOfferPage = () => {
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,
               onClick: createNewOffer,
-              style: styles.buttonSave,
             }}
           >
             <Fields

@@ -23,7 +23,7 @@
   width: 100%;
   flex-direction: column;
   gap: 16px;
-  padding: 24px 32px 24px 32px;
+  padding: 32px;
   border-radius: 8px;
   background-color: $brand-900;
 }
@@ -42,4 +42,8 @@
   * {
     fill: $gray-300;
   }
+}
+
+.button {
+  width: 100% !important;
 }

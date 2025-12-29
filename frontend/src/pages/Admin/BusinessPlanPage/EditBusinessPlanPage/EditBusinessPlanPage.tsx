@@ -227,7 +227,6 @@ export const AdminEditBusinessPlanPage = () => {
               componentProps={{
                 titleNone: true,
                 title: 'Save',
-                style: styles.buttonSave,
                 iconProps: styles.buttonSaveIcon,
                 icon: '/icons/fileWhite.svg',
                 onClick: updateInfoPlan,

@@ -3,10 +3,7 @@ import { useEffect } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
 
 import styles from './OffersPage.module.scss'
-import {
-  RolesAccess,
-  ViewPageContext,
-} from '../../../../../app/constants/constants'
+import { RolesAccess, ViewPageContext } from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
 import { RecentOffers } from '../../../../../features/Admin/CustomersPage/ViewPage/Pages/OffersPage/RecentOffers/RecentOffers'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -26,10 +23,7 @@ export const AdminContactOffersPage = () => {
   const { data: offers } = useQuery({
     queryKey: ['offers', context.idClient],
     queryFn: async () => {
-      const response = await getSelectedTypeInfo(
-        context.idClient,
-        'quotes',
-      )
+      const response = await getSelectedTypeInfo(context.idClient, 'quotes')
 
       if (!response.status) return
 
@@ -52,9 +46,7 @@ export const AdminContactOffersPage = () => {
     <div className={styles.wrapper}>
       {offers ? (
         <RecentCard
-          HeaderComponent={
-            roles && roles.sales.create === 0 ? undefined : ButtonBlue
-          }
+          HeaderComponent={roles && roles.sales.create === 0 ? undefined : ButtonBlue}
           headerProps={
             roles && roles.sales.create === 0
               ? undefined
@@ -65,10 +57,7 @@ export const AdminContactOffersPage = () => {
               }
           }
         >
-          <RecentOffers
-            access={roles ? roles.sales : undefined}
-            list={offers.data}
-          />
+          <RecentOffers access={roles ? roles.sales : undefined} list={offers.data} />
         </RecentCard>
       ) : (
         <LoadingSpinner size='xl' />

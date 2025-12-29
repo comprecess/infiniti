@@ -40,3 +40,18 @@
   display: flex;
   justify-content: end;
 }
+
+.accountItemMobile,
+.amountItemMobile,
+.createdItemMobile,
+.dueItemMobile {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.createdItemMobile,
+.dueItemMobile {
+  color: $gray-300;
+}

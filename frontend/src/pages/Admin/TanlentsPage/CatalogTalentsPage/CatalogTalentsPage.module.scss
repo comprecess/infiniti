@@ -7,11 +7,16 @@
 }
 
 .sectionFirst,
-.sectionSecond,
-.title {
+.sectionSecond {
   display: flex;
   width: 100%;
   justify-content: center;
+}
+
+.title {
+  display: flex;
+  width: 100%;
+  justify-content: start;
 }
 
 .categoriesText {

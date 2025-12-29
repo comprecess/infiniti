@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { Item } from './Item/Item'
 import styles from './SummaryPage.module.scss'
-import {
-  CompanyData,
-  RolesAccess,
-} from '../../../../../../../app/constants/constants'
+import { CompanyData, RolesAccess } from '../../../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { LoadingSpinner } from '../../../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { getCompanyPage } from '../../../../../../../shared/utils/api/Admin/Companies/View/get-company-page'
@@ -41,23 +38,14 @@ export const SummaryPage = ({ id, onClick }: SummaryPageProps) => {
       {summary ? (
         <>
           <div className={styles.list}>
-            {summary.name && (
-              <Item title='Company Name:' description={summary.name} />
-            )}
-            {summary.url && (
-              <Item title='URL:' description={summary.url} />
-            )}
-            {summary.email && (
-              <Item title='Email:' description={summary.email} />
-            )}
-            {summary.phone && (
-              <Item title='Phone:' description={summary.phone} />
-            )}
+            {summary.name && <Item title='Company Name:' description={summary.name} />}
+            {summary.url && <Item title='URL:' description={summary.url} />}
+            {summary.email && <Item title='Email:' description={summary.email} />}
+            {summary.phone && <Item title='Phone:' description={summary.phone} />}
           </div>
           {access?.edit === 1 && (
             <ButtonBlue
               title='Edit'
-              style={styles.buttonBlue}
               styleTitle={styles.buttonBlueTitle}
               onClick={handleOpenEditPanel}
             />

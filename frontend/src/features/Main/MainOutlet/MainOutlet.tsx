@@ -3,10 +3,11 @@ import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 
 import styles from './MainOutlet.module.scss'
-import { RolesAccess } from '../../../app/constants/constants'
+import { RolesAccess, UserInfo } from '../../../app/constants/constants'
 import { adminSidebarPages } from '../../../app/data/adminSidebarPages'
 import { clientSidebarPages } from '../../../app/data/clientSidebarPages'
 import { Routes } from '../../../app/router/routes'
+import { getProfileInfo } from '../../../shared/utils/api/get-profile-info'
 import { Survey } from '../../General/Survey/Survey'
 import { Block } from '../../General/Survey/types'
 import { Header } from '../Header/Header'
@@ -19,6 +20,8 @@ interface MainOutletProps {
 const MemoizedHeader = memo(Header)
 
 export const MainOutlet = ({ roles }: MainOutletProps) => {
+  const [user, setUser] = useState<UserInfo | null>(null)
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [isMobile, setIsMobile] = useState(false)
   const [isMiniSidebar, setIsMiniSidebar] = useState(false)
@@ -65,9 +68,18 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
     [],
   )
 
+  const getUser = async () => {
+    const response = await getProfileInfo()
+
+    if (!response.status) return
+
+    setUser(response.data as UserInfo)
+  }
+
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth <= 1700
+
       setIsMobile(mobile)
       setIsMiniSidebar(false)
       setIsSidebarOpen(!mobile)
@@ -102,6 +114,10 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
   }, [surveyState.isOpen])
 
   useEffect(() => {
+    getUser()
+  }, [])
+
+  useEffect(() => {
     document.body.style.overflow = isSidebarOpen && isMobile ? 'hidden' : 'auto'
   }, [isSidebarOpen, isMobile])
 
@@ -122,7 +138,6 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
             isLocked={isSidebarLocked}
             onClose={toggleSidebar}
           />
-
           <div
             className={clsx({
               [styles.headerFull]: !isSidebarOpen,
@@ -131,6 +146,7 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
             })}
           >
             <MemoizedHeader
+              user={user}
               isSidebarLocked={isSidebarLocked}
               isMiniSidebar={isMiniSidebar}
               setIsSidebarLocked={setIsSidebarLocked}
@@ -146,7 +162,7 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
               [styles.mainStandard]: isSidebarOpen && !isMiniSidebar,
             })}
           >
-            <Outlet context={{ roles, openSurvey }} />
+            <Outlet context={{ roles, user, getUser, openSurvey }} />
           </main>
         </div>
       )}

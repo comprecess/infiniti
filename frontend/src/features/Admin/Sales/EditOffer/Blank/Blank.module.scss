@@ -11,8 +11,7 @@
 
   @include mobileBreakpoint('max', $bpL) {
     flex-direction: column;
-
-    .sectionFirst {
+    buttonDeleteBlank .sectionFirst {
       order: 2;
     }
 
@@ -57,13 +56,7 @@
 }
 
 .buttonDeleteBlank {
-  max-width: 150px;
-  height: 44px;
   background-color: $cherry-500;
-
-  @include mobileBreakpoint('max', $bpS) {
-    width: 60px;
-  }
 
   @include hover() {
     background-color: $cherry-400;

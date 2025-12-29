@@ -64,8 +64,8 @@ export const TextEditor = ({
   }
 
   const tools = noFullScreen
-    ? 'source,|,bold,italic,underline,strikethrough,eraser,|,ul,ol,indent,outdent,left,|,file,|,table'
-    : 'source,|,bold,italic,underline,strikethrough,eraser,|,ul,ol,indent,outdent,left,|,file,|,table,|,fullsize'
+    ? 'source,|,bold,italic,underline,strikethrough,eraser,|,ul,ol,indent,outdent,left,|,link,|,table'
+    : 'source,|,bold,italic,underline,strikethrough,eraser,|,ul,ol,indent,outdent,left,|,link,|,table,|,fullsize'
 
   const config = useMemo(
     () => ({

@@ -1,9 +1,6 @@
 import { ContactItem } from './ContactItem/ContactItem'
 import styles from './Header.module.scss'
-import {
-  FullInfoClient,
-  SalesViewOfferData,
-} from '../../../../../app/constants/constants'
+import { FullInfoClient, SalesViewOfferData } from '../../../../../app/constants/constants'
 import { sanitizeMessage } from '../../../../../shared/utils/TextEditor/sanitizeMessage'
 import { Status } from '../Status/Status'
 
@@ -19,6 +16,8 @@ interface HeaderProps {
   }
   offer: SalesViewOfferData
   totalInvoice: string
+  dueAmount: string
+  isCredit: boolean
   client: FullInfoClient
 }
 
@@ -30,6 +29,8 @@ export const Header = ({
   status,
   company,
   totalInvoice,
+  dueAmount,
+  isCredit,
   client,
   offer,
 }: HeaderProps) => {
@@ -46,11 +47,7 @@ export const Header = ({
           <Status status={status} />
         </div>
         <div className={styles.infiniti}>
-          <img
-            src='/logoInfinitiWhite.svg'
-            alt='infiniti'
-            className={styles.logo}
-          />
+          <img src='/logoInfinitiWhite.svg' alt='infiniti' className={styles.logo} />
           <div className={styles.infinitiDescription}>
             <span
               dangerouslySetInnerHTML={{ __html: safeHTMLCompanyAddress }}
@@ -63,48 +60,24 @@ export const Header = ({
         <div className={styles.invoicedTo}>
           <span className={styles.invoicedToTitle}>Invoiced To:</span>
           <div className={styles.invoicedToList}>
-            {client.company && (
-              <span className={styles.invoicedToItem}>
-                {client.company}
-              </span>
-            )}
+            {client.company && <span className={styles.invoicedToItem}>{client.company}</span>}
             {client.account && (
-              <span className={styles.invoicedToItem}>
-                {`ATTN: ${client.account}`}
-              </span>
+              <span className={styles.invoicedToItem}>{`ATTN: ${client.account}`}</span>
             )}
-            {client.address && (
-              <span className={styles.invoicedToItem}>
-                {client.address}
-              </span>
-            )}
-            {client.city && (
-              <span className={styles.invoicedToItem}>{client.city}</span>
-            )}
+            {client.address && <span className={styles.invoicedToItem}>{client.address}</span>}
+            {client.city && <span className={styles.invoicedToItem}>{client.city}</span>}
           </div>
           <div className={styles.contactInfo}>
-            {client.phone && (
-              <ContactItem title='Phone' value={client.phone} />
-            )}
-            {client.email && (
-              <ContactItem title='Email' value={client.email} />
-            )}
+            {client.phone && <ContactItem title='Phone' value={client.phone} />}
+            {client.email && <ContactItem title='Email' value={client.email} />}
             {client.customFields.map(field => {
-              return (
-                <ContactItem
-                  key={field.id}
-                  title={field.name}
-                  value={field.value}
-                />
-              )
+              return <ContactItem key={field.id} title={field.name} value={field.value} />
             })}
           </div>
         </div>
         <div className={styles.invoiceTotal}>
           <div className={styles.invoiceDate}>
-            {invoiceDate && (
-              <ContactItem title='Invoice Date' value={invoiceDate} />
-            )}
+            {invoiceDate && <ContactItem title='Invoice Date' value={invoiceDate} />}
             {dueDate && <ContactItem title='Due Date' value={dueDate} />}
           </div>
           <div className={styles.totalWrapper}>
@@ -113,6 +86,11 @@ export const Header = ({
               {totalInvoice}
             </span>
           </div>
+          {isCredit && (
+            <div className={styles.dueAmount}>
+              <ContactItem title='Due Amount' value={dueAmount} />
+            </div>
+          )}
         </div>
       </section>
       {offer && (

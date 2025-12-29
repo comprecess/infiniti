@@ -11,10 +11,8 @@ import { useNavigate } from 'react-router-dom'
 
 import styles from './Profile.module.scss'
 import {
-  AdminInfo,
   authTokenString,
   notificationTokenString,
-  profileInfoString,
   UserInfo,
 } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
@@ -32,13 +30,10 @@ import { useCustomToast } from '../CustomToast/CustomToast'
 import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner'
 
 interface ProfileProps {
-  isAdmin?: boolean
+  user: UserInfo | null
 }
 
-type ProfileData = UserInfo | AdminInfo
-
-export const Profile = ({ isAdmin }: ProfileProps) => {
-  const [profileData, setProfileData] = useState<ProfileData | null>(null)
+export const Profile = ({ user }: ProfileProps) => {
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
@@ -51,16 +46,6 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   const notificationToken = getCookies(notificationTokenString)
   const sessionToken = getSession(authTokenString)
   const authToken = getCookies(authTokenString)
-
-  const fetchProfileData = useCallback(async () => {
-    const profileData = getSession(profileInfoString) as ProfileData
-
-    if (isAdmin) {
-      setProfileData(profileData as AdminInfo)
-    } else {
-      setProfileData(profileData as UserInfo)
-    }
-  }, [isAdmin])
 
   const fetchPushNotifications = useCallback(async () => {
     if (isMobile && !sessionToken && notificationToken.status) {
@@ -121,10 +106,6 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
   }
 
   useEffect(() => {
-    fetchProfileData()
-  }, [isAdmin])
-
-  useEffect(() => {
     fetchPushNotifications()
   }, [isMobile, isOpen])
 
@@ -138,17 +119,13 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
     >
       <PopoverTrigger>
         <div className={styles.wrapper} onClick={onToggle}>
-          {profileData ? (
+          {user ? (
             <>
-              <span className={styles.name}>{profileData.account ? profileData.account : '-'}</span>
+              <span className={styles.name}>{user.account ? user.account : '-'}</span>
               <div className={styles.avatar}>
                 <img
                   alt='Profile Avatar'
-                  src={
-                    profileData.img
-                      ? `${profileData.img}?width=128&height=128`
-                      : '/profileWithoutAvatar.svg'
-                  }
+                  src={user.img ? `${user.img}?width=128&height=128` : '/profileWithoutAvatar.svg'}
                 />
               </div>
             </>
@@ -157,7 +134,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
           )}
         </div>
       </PopoverTrigger>
-      {profileData && (
+      {user && (
         <PopoverContent
           zIndex={9999}
           _focus={{
@@ -196,16 +173,12 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
               <img
                 alt='Profile Avatar'
                 style={{ width: '60px', height: '60px' }}
-                src={
-                  profileData.img
-                    ? `${profileData.img}?width=128&height=128`
-                    : '/profileWithoutAvatar.svg'
-                }
+                src={user.img ? `${user.img}?width=128&height=128` : '/profileWithoutAvatar.svg'}
               />
             </div>
             <div className={styles.accountInfo}>
-              <p className={styles.modalName}>{profileData.account}</p>
-              <p className={styles.modalEmail}>{profileData.email}</p>
+              <p className={styles.modalName}>{user.account}</p>
+              <p className={styles.modalEmail}>{user.email}</p>
             </div>
           </PopoverHeader>
           <PopoverBody
@@ -221,7 +194,7 @@ export const Profile = ({ isAdmin }: ProfileProps) => {
             <span
               className={styles.modalItem}
               onClick={() => {
-                if (profileData.userType === 'Admin') {
+                if (user.userType === 'Admin') {
                   navigate(`/${Routes.adminPages}/${Routes.profile}/${Routes.settings}`)
                 } else {
                   navigate(`/${Routes.clientPages}/${Routes.settings}/${Routes.profile}`)

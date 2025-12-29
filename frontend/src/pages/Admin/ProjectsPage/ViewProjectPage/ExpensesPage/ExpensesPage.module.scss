@@ -18,10 +18,6 @@
   max-width: $maxContentSize;
 }
 
-.buttonAddNewExpense {
-  height: 44px;
-}
-
 .search {
   @include mobileBreakpoint('min', $bpL) {
     width: 400px;

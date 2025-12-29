@@ -18,16 +18,27 @@
   font-weight: 500;
 }
 
-.dateItem {
+.dateItem,
+.dateItemMobile {
   color: $gray-300;
   font-weight: 400;
 }
 
-.amountItem {
+.amountItem,
+.amountItemMobile {
   color: $mint-500;
   text-align: right;
 }
 
 .descriptionColumn {
   color: $white;
+}
+
+.amountItemMobile,
+.dateItemMobile {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+  text-align: right;
 }

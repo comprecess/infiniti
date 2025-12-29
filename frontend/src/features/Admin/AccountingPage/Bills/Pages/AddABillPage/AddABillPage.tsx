@@ -1,10 +1,7 @@
 import { Dispatch, SetStateAction } from 'react'
 
 import styles from './AddABillPage.module.scss'
-import {
-  AccountingBillsForm,
-  AccountingInputData,
-} from '../../../../../../app/constants/constants'
+import { AccountingBillsForm, AccountingInputData } from '../../../../../../app/constants/constants'
 import { ButtonBlue } from '../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDataPicker } from '../../../../../../shared/ui/CustomDataPicker/CustomDataPicker'
 import { CustomInput } from '../../../../../../shared/ui/CustomInput/CustomInput'
@@ -16,11 +13,7 @@ interface AddABillPageProps {
   addNewBill: () => void
 }
 
-export const AddABillPage = ({
-  inputData,
-  setForm,
-  addNewBill,
-}: AddABillPageProps) => {
+export const AddABillPage = ({ inputData, setForm, addNewBill }: AddABillPageProps) => {
   const handleChangeInput = (
     field: string,
     value: string | number | string[] | undefined | null,
@@ -109,11 +102,7 @@ export const AddABillPage = ({
         name='website'
         onChange={handleChangeInput}
       />
-      <ButtonBlue
-        title='Save'
-        style={styles.buttonSave}
-        onClick={addNewBill}
-      />
+      <ButtonBlue title='Save' style={styles.buttonSave} onClick={addNewBill} />
     </div>
   )
 }

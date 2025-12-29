@@ -463,7 +463,21 @@ export const router = createBrowserRouter([
       { path: Routes.tasks, element: Pages.adminTasksPage },
       { path: Routes.calendar, element: Pages.adminCalendarPage },
       { path: Routes.reports, element: Pages.adminReportsPage },
-      { path: Routes.utilities, element: Pages.adminUtilitiesPage },
+      {
+        path: Routes.utilities,
+        children: [
+          { path: Routes.activityLog, element: Pages.adminActivityLogPage },
+          { path: Routes.emailMessageLog, element: Pages.adminEmailMessageLogPage },
+          { path: Routes.invoiceAccessLog, element: Pages.adminInvoiceAccessLogPage },
+          { path: Routes.backup, element: Pages.adminBackupPage },
+          { path: Routes.databaseStatus, element: Pages.adminDatabaseStatusPage },
+          { path: Routes.cronLog, element: Pages.adminCronLogPage },
+          { path: Routes.integrationCode, element: Pages.adminIntegrationCodePage },
+          { path: Routes.systemStatus, element: Pages.adminSystemStatusPage },
+          { path: Routes.passwordManager, element: Pages.adminPasswordManagerPage },
+          { path: Routes.tools, element: Pages.adminToolsPage },
+        ],
+      },
       { path: Routes.appearance, element: Pages.adminAppearancePage },
       { path: Routes.plugins, element: Pages.adminPluginsPage },
       {
@@ -560,6 +574,49 @@ export const router = createBrowserRouter([
       { path: Routes.invoices, element: Pages.clientInvoicesPage },
       { path: Routes.offers, element: Pages.clientOffersPage },
       { path: Routes.projects, element: Pages.clientProjectsPage },
+      {
+        path: `${Routes.projects}/${Routes.edit}/${Routes.project}/:id`,
+        element: Pages.clientEditProjectPage,
+      },
+      {
+        path: `${Routes.projects}/${Routes.view}/${Routes.project}/:id`,
+        element: Pages.clientViewProjectPage,
+        children: [
+          {
+            path: Routes.summary,
+            element: Pages.clientProjectsSummaryPage,
+          },
+          {
+            path: Routes.tasks,
+            element: Pages.clientProjectsTasksPage,
+          },
+          {
+            path: Routes.files,
+            element: Pages.clientProjectsFilesPage,
+          },
+          {
+            path: Routes.expenses,
+            element: Pages.clientProjectsExpensesPage,
+          },
+          {
+            path: Routes.invoices,
+            element: Pages.clientProjectsInvoicesPage,
+          },
+          {
+            path: Routes.ganttChart,
+            element: Pages.clientGanttChartPage,
+          },
+          {
+            path: '*',
+            index: true,
+            element: <Navigate replace to={To.summary()} />,
+          },
+          {
+            index: true,
+            element: <Navigate replace to={To.summary()} />,
+          },
+        ],
+      },
       {
         path: Routes.knowledgeBase,
         element: Pages.clientKnowledgeBasePage,

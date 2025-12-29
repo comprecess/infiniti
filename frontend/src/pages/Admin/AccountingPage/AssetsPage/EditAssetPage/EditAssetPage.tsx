@@ -19,8 +19,7 @@ import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 
 export const AdminEditAssetPage = () => {
   const [form, setForm] = useState<AccountingNewAssetForm | null>(null)
-  const [inputData, setInputData] =
-    useState<AccountingAssetsInputData | null>()
+  const [inputData, setInputData] = useState<AccountingAssetsInputData | null>()
 
   const id = useIdFromUrl('asset')
   const showToast = useCustomToast()
@@ -60,9 +59,7 @@ export const AdminEditAssetPage = () => {
         description: 'You have successfully changed the data in the Asset',
         status: 'success',
       })
-      navigate(
-        `/${Routes.adminPages}/${Routes.accounting}/${Routes.assets}`,
-      )
+      navigate(`/${Routes.adminPages}/${Routes.accounting}/${Routes.assets}`)
     } else {
       showToast({
         title: 'Error',
@@ -94,7 +91,6 @@ export const AdminEditAssetPage = () => {
               title: 'Save',
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,
-              style: styles.buttonSave,
               onClick: handleEditAssetSubmit,
             }}
           >

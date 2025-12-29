@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import styles from './ContactsListPage.module.scss'
-import {
-  GroupContactsListProps,
-  RolesAccess,
-} from '../../../../../app/constants/constants'
+import { GroupContactsListProps, RolesAccess } from '../../../../../app/constants/constants'
 import { RecentContactsList } from '../../../../../features/Admin/CustomersPage/GroupsPage/RecentContactsList/RecentConatctsList'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
@@ -15,9 +12,7 @@ import { getContactsList } from '../../../../../shared/utils/api/Admin/Groups/ge
 import { useIdFromUrl } from '../../../../../shared/utils/usefulMethods'
 
 export const AdminContactsListPage = () => {
-  const [contacts, setContacts] = useState<
-  GroupContactsListProps[] | null
-  >(null)
+  const [contacts, setContacts] = useState<GroupContactsListProps[] | null>(null)
 
   const { roles } = useOutletContext<{
     roles?: { [key: string]: RolesAccess }
@@ -44,8 +39,7 @@ export const AdminContactsListPage = () => {
     if (response.status) {
       showToast({
         title: 'Successfully',
-        description:
-          'You have successfully removed a contact from the group',
+        description: 'You have successfully removed a contact from the group',
         status: 'success',
       })
       getContacts()
@@ -68,18 +62,10 @@ export const AdminContactsListPage = () => {
         {contacts ? (
           <div className={styles.container}>
             <div className={styles.items}>
-              <ButtonBlue
-                title='Send Email'
-                icon='/icons/send.svg'
-                style={styles.blueButton}
-              />
+              <ButtonBlue title='Send Email' icon='/icons/send.svg' iconProps={styles.buttonIcon} />
             </div>
             <div className={styles.content}>
-              <RecentContactsList
-                roles={roles}
-                list={contacts}
-                deleteContact={deleteContact}
-              />
+              <RecentContactsList roles={roles} list={contacts} deleteContact={deleteContact} />
             </div>
           </div>
         ) : (

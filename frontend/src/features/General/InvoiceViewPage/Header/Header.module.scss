@@ -47,11 +47,6 @@
   }
 }
 
-.buttonPay {
-  max-width: 135px;
-  height: 44px;
-}
-
 .iconPay {
   width: 22px;
   height: 22px;
@@ -184,4 +179,8 @@
   font-weight: 400;
   line-height: 20px;
   letter-spacing: -0.03em;
+}
+
+.dueAmount {
+  margin-top: -18px;
 }

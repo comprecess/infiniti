@@ -1,4 +1,5 @@
 import styles from './Item.module.scss'
+import { ResponsiveRow } from '../../../../../shared/ui/ExpandableRow/ResponsiveRow'
 import styleItem from '../LatestExpense.module.scss'
 
 interface ItemProps {
@@ -9,18 +10,34 @@ interface ItemProps {
 
 export const Item = ({ date, amount, description }: ItemProps) => {
   return (
-    <div className={styles.wrapper}>
-      <span className={`${styleItem.dateColumn} ${styles.dateItem}`}>
-        {date}
-      </span>
-      <span
-        className={`${styleItem.descriptionColumn} ${styles.descriptionItem}`}
-      >
-        {description}
-      </span>
-      <span className={`${styleItem.amountColumn} ${styles.amountItem}`}>
-        {amount}
-      </span>
-    </div>
+    <ResponsiveRow
+      hiddenFields={[
+        {
+          label: 'Amount:',
+          value: <span className={styles.amountItemMobile}>{amount}</span>,
+        },
+        {
+          label: 'Date:',
+          value: <span className={styles.dateItemMobile}>{date}</span>,
+        },
+      ]}
+      visibleFields={[
+        {
+          label: 'Date',
+          value: <span className={styles.dateItem}>{date}</span>,
+          className: styleItem.dateColumn,
+        },
+        {
+          label: 'Description',
+          value: <span className={styles.descriptionItem}>{description}</span>,
+          className: styleItem.descriptionColumn,
+        },
+        {
+          label: 'Amount',
+          value: <span className={styles.amountItem}>{amount}</span>,
+          className: styleItem.amountColumn,
+        },
+      ]}
+    />
   )
 }

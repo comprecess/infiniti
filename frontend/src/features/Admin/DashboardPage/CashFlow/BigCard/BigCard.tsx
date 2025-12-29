@@ -6,7 +6,7 @@ interface BigCardProps {
   amount: string
   title: string
   style?: string
-  onClick: () => void
+  onClick?: () => void
 }
 
 export const BigCard = ({ icon, amount, title, style, onClick }: BigCardProps) => {

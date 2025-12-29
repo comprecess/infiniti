@@ -2,7 +2,7 @@ import { Dispatch, memo, SetStateAction, useEffect, useMemo, useState } from 're
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import styles from './Header.module.scss'
-import { CartProps } from '../../../app/constants/constants'
+import { CartProps, UserInfo } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { ChevronsLeftIcon } from '../../../shared/icons/ChevronsLeftIcon'
 import { LockIcon } from '../../../shared/icons/LockIcon'
@@ -18,6 +18,7 @@ const BasketMemo = memo(Basket)
 const ProfileMemo = memo(Profile)
 
 interface HeaderProps {
+  user: UserInfo | null
   isMiniSidebar: boolean
   isSidebarLocked: boolean
   setIsSidebarLocked: Dispatch<SetStateAction<boolean>>
@@ -26,6 +27,7 @@ interface HeaderProps {
 }
 
 export const Header = ({
+  user,
   isMiniSidebar,
   isSidebarLocked,
   setIsSidebarLocked,
@@ -94,7 +96,7 @@ export const Header = ({
           />
         )}
         <NotificationProfile />
-        <ProfileMemo />
+        <ProfileMemo user={user} />
         <div className={styles.iconIsMobile}>
           <Icon fill={false} icon={<MenuIcon />} onIconClick={toggleSidebar} />
         </div>

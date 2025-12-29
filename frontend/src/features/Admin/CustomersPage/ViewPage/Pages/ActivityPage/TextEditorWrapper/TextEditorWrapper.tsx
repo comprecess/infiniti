@@ -30,11 +30,7 @@ export const TextEditorWrapper = ({
 
   return (
     <div className={styles.wrapper}>
-      <TextEditor
-        placeholder='Add Activity...'
-        defaultValue={message}
-        setValue={setMessage}
-      />
+      <TextEditor placeholder='Add Activity...' defaultValue={message} setValue={setMessage} />
       <div className={styles.iconsListAndPost}>
         <div className={styles.iconsList}>
           {IconsListData.map(item => {
@@ -51,12 +47,7 @@ export const TextEditorWrapper = ({
           })}
         </div>
         <div className={styles.post}>
-          <ButtonBlue
-            title='Add Activity'
-            icon='/icons/plus.svg'
-            style={styles.buttonBlue}
-            onClick={addActivity}
-          />
+          <ButtonBlue title='Add Activity' icon='/icons/plus.svg' onClick={addActivity} />
         </div>
       </div>
     </div>

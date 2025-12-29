@@ -27,7 +27,7 @@ export const ServerErrorPage = () => {
         <span className={styles.description}>Server Error</span>
       </div>
       <div className={styles.buttonBack}>
-        <ButtonBrand title='Go back' onClick={navigateToRoot} />
+        <ButtonBrand title='Go back' style={styles.button} onClick={navigateToRoot} />
       </div>
     </div>
   )

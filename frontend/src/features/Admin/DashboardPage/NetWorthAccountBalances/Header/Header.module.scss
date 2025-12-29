@@ -14,9 +14,15 @@
   font-family: $fontSpaceGrotesk;
   font-size: 38px;
   font-weight: 700;
-  line-height: 48px;
+  line-height: 44px;
   letter-spacing: -0.03em;
   color: $white;
+
+  @include mobileBreakpoint('max', $bpL - 1) {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 36px;
+  }
 }
 
 .name {

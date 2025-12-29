@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import styles from './Item.module.scss'
 import { RolesAccess } from '../../../../../app/constants/constants'
 import { Routes } from '../../../../../app/router/routes'
+import { ResponsiveRow } from '../../../../../shared/ui/ExpandableRow/ResponsiveRow'
 import { Status } from '../../../../../shared/ui/Status/Status'
 import styleItem from '../RecentInvoices.module.scss'
 
@@ -52,31 +53,51 @@ export const Item = ({
   }
 
   return (
-    <div className={styles.wrapper}>
-      <span
-        className={`${styleItem.hashtagColumn} ${styles.hashtagItem}`}
-        onClick={handleNavigateToInvoice}
-      >
-        {hashtag}
-      </span>
-      <span
-        className={`${styleItem.accountColumn} ${styles.accountItem}`}
-        onClick={handleNavigateToClient}
-      >
-        {account}
-      </span>
-      <span className={`${styleItem.amountColumn} ${styles.amountItem}`}>
-        {amount}
-      </span>
-      <span className={`${styleItem.createdColumn} ${styles.createdItem}`}>
-        {created}
-      </span>
-      <span className={`${styleItem.dueColumn} ${styles.dueItem}`}>
-        {due}
-      </span>
-      <div className={`${styleItem.statusColumn} ${styles.statusItem}`}>
-        <Status title={status} status={status} />
-      </div>
-    </div>
+    <ResponsiveRow
+      hiddenFields={[
+        {
+          label: 'Account:',
+          value: <span className={styles.accountItemMobile}>{account}</span>,
+          onClick: handleNavigateToClient,
+        },
+        { label: 'Amount:', value: <span className={styles.amountItemMobile}>{amount}</span> },
+        { label: 'Created:', value: <span className={styles.createdItemMobile}>{created}</span> },
+        { label: 'Due:', value: <span className={styles.dueItemMobile}>{due}</span> },
+      ]}
+      visibleFields={[
+        {
+          label: 'Hashtag',
+          value: <span className={styles.hashtagItem}>{hashtag}</span>,
+          className: styleItem.hashtagColumn,
+          onClick: handleNavigateToInvoice,
+        },
+        {
+          label: 'Account:',
+          value: <span className={styles.accountItem}>{account}</span>,
+          className: styleItem.accountColumn,
+          onClick: handleNavigateToClient,
+        },
+        {
+          label: 'Amount:',
+          value: <span className={styles.amountItem}>{amount}</span>,
+          className: styleItem.amountColumn,
+        },
+        {
+          label: 'Created:',
+          value: <span className={styles.createdItem}>{created}</span>,
+          className: styleItem.createdColumn,
+        },
+        {
+          label: 'Due:',
+          value: <span className={styles.dueItem}>{due}</span>,
+          className: styleItem.dueColumn,
+        },
+        {
+          label: 'Status',
+          value: <Status title={status} status={status} />,
+          className: styleItem.statusColumn,
+        },
+      ]}
+    />
   )
 }

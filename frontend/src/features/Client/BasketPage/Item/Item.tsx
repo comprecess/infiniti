@@ -1,9 +1,14 @@
+import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react'
+
 import styles from './Item.module.scss'
 import { NameIdType } from '../../../../app/constants/constants'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
+import { EditPencilFill } from '../../../../shared/icons/EditPencilFill'
+import { CustomSelect } from '../../../../shared/ui/CustomSelect/CustomSelect'
 import styleItem from '../../../../widgets/BasketCart/Cart/Cart.module.scss'
 
 interface ItemProps {
+  id: number
   amount: number
   avatar: string
   nameEmail: string
@@ -13,14 +18,11 @@ interface ItemProps {
   taxesAmount: string
   total: string
   onDelete: () => void
-}
-
-interface FormatTimeProps {
-  amount: number
-  type: NameIdType
+  onChangeItem: (idItem: number, data: { [key: string]: number | string }) => void
 }
 
 export const Item = ({
+  id,
   amount,
   avatar,
   nameEmail,
@@ -30,20 +32,38 @@ export const Item = ({
   taxesAmount,
   total,
   onDelete,
+  onChangeItem,
 }: ItemProps) => {
-  const formatTime = ({ amount, type }: FormatTimeProps): string => {
-    let unit: string
+  const [editedAmount, setEditedAmount] = useState<number | ''>(amount)
 
-    switch (type) {
-      case 'priceHour':
-        unit = amount === 1 ? 'hour' : 'hours'
-        break
-      case 'priceDay':
-        unit = amount === 1 ? 'day' : 'days'
-        break
+  const amountInputRef = useRef<HTMLInputElement>(null)
+
+  const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setEditedAmount(value === '' ? '' : Number(value))
+  }
+
+  const handleAmountBlur = async () => {
+    if (editedAmount !== amount) {
+      if (editedAmount === '') {
+        onChangeItem(id, { amount: 0 })
+        setEditedAmount(0)
+      } else {
+        onChangeItem(id, { amount: editedAmount })
+      }
     }
+  }
 
-    return `${amount} ${unit}`
+  const handleTypeBlur = async (value: number) => {
+    onChangeItem(id, {
+      type: ['priceHour', 'priceDay'][value],
+    })
+  }
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' || e.key === 'Escape') {
+      amountInputRef.current?.blur()
+    }
   }
 
   return (
@@ -52,25 +72,37 @@ export const Item = ({
         <div className={styles.avatar}>
           <img
             alt='Avatar'
-            src={
-              avatar
-                ? `${avatar}?width=128&height=128`
-                : '/profileWithoutAvatar.svg'
-            }
+            src={avatar ? `${avatar}?width=128&height=128` : '/profileWithoutAvatar.svg'}
           />
         </div>
       </div>
-      <div
-        className={`${styleItem.nameEmailColumn} ${styles.itemsColumn}`}
-      >
+      <div className={`${styleItem.nameEmailColumn} ${styles.itemsColumn}`}>
         <span className={styles.nameEmailItem}>{nameEmail}</span>
         <span className={styles.professionItem}>{profession}</span>
       </div>
-      <span
-        className={`${styleItem.quantityColumn} ${styles.quantityItem}`}
-      >
-        {formatTime({ amount, type: nameIdType })}
-      </span>
+      <div className={`${styleItem.quantityColumn} ${styles.containerColumn}`}>
+        <input
+          ref={amountInputRef}
+          type='number'
+          name='number'
+          value={editedAmount !== '' ? editedAmount : ''}
+          className={styles.amountInput}
+          onChange={handleAmountChange}
+          onBlur={handleAmountBlur}
+          onKeyDown={e => handleKeyDown(e)}
+        />
+        <EditPencilFill style={styles.editIcon} />
+      </div>
+      <div className={styleItem.typeColumn}>
+        <CustomSelect
+          idList={[0, 1]}
+          height='40px'
+          nameList={['Hour', 'Day']}
+          value={['priceHour', 'priceDay'].findIndex(item => item === nameIdType)}
+          onInputChange={false}
+          onChange={(_name, value) => handleTypeBlur(value)}
+        />
+      </div>
       <div className={`${styleItem.taxesColumn} ${styles.itemsRow}`}>
         {taxes === 1 ? (
           <span className={styles.taxesItem}>No TAX</span>

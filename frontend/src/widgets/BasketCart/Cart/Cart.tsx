@@ -10,6 +10,7 @@ import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDivider } from '../../../shared/ui/CustomDivider/CustomDivider'
 import { useCustomToast } from '../../../shared/ui/CustomToast/CustomToast'
 import { postCreateNewMeeting } from '../../../shared/utils/api/Admin/Meeting/post-create-new-meeting'
+import { patchChangeCartItem } from '../../../shared/utils/api/Client/Basket/patch-change-cart-item'
 import { deleteOrderCart } from '../../../shared/utils/api/Client/Cart/delete-order-cart'
 import { getLocalDateTimeString } from '../../../shared/utils/usefulMethods'
 import { CreatingCallModal, TimeSlotsById } from '../../CreatingCallModal/CreatingCallModal'
@@ -17,13 +18,28 @@ import { CreatingCallModal, TimeSlotsById } from '../../CreatingCallModal/Creati
 interface CartProps {
   cart: ItemsCartProps[]
   datesEmployment: TimeSlotsById | undefined
-  onDelete: () => void
+  isCreateCall: boolean
+  getOrders: () => void
 }
 
-export const Cart = ({ cart, datesEmployment, onDelete }: CartProps) => {
+export const Cart = ({ cart, datesEmployment, isCreateCall, getOrders }: CartProps) => {
   const [isCreatingCall, setIsCreatingCall] = useState<boolean>(false)
 
   const showToast = useCustomToast()
+
+  const handleChangeFields = async (idItem: number, data: { [key: string]: number | string }) => {
+    const { status, message } = await patchChangeCartItem(idItem, data)
+
+    if (status) {
+      getOrders()
+    } else {
+      showToast({
+        title: 'Error',
+        description: message,
+        status: 'error',
+      })
+    }
+  }
 
   const handleDelete = async (id: number) => {
     const { status, message } = await deleteOrderCart(id)
@@ -34,7 +50,7 @@ export const Cart = ({ cart, datesEmployment, onDelete }: CartProps) => {
         description: 'You have successfully removed from the recycle bin',
         status: 'success',
       })
-      onDelete()
+      getOrders()
     } else {
       showToast({
         title: 'Error',
@@ -82,6 +98,7 @@ export const Cart = ({ cart, datesEmployment, onDelete }: CartProps) => {
           <Title title='Avatar' style={styles.avatarColumn} />
           <Title title='Name & Email' style={styles.nameEmailColumn} />
           <Title title='Quantity' style={styles.quantityColumn} />
+          <Title title='Type' style={styles.typeColumn} />
           <Title title='Taxes' style={styles.taxesColumn} />
           <Title title='Amount' style={styles.amountColumn} />
           <div className={styles.crossColumn}>
@@ -93,6 +110,7 @@ export const Cart = ({ cart, datesEmployment, onDelete }: CartProps) => {
             return (
               <Fragment key={order.id}>
                 <Item
+                  id={order.id}
                   amount={order.amount}
                   avatar={order.userCatalog.img}
                   nameEmail={order.userCatalog.name}
@@ -102,17 +120,17 @@ export const Cart = ({ cart, datesEmployment, onDelete }: CartProps) => {
                   taxesAmount={order.taxes}
                   total={order.total}
                   onDelete={() => handleDelete(order.id)}
+                  onChangeItem={handleChangeFields}
                 />
                 {index !== cart.length - 1 && <CustomDivider />}
               </Fragment>
             )
           })}
-          {cart.length > 0 && (
+          {isCreateCall && cart.length > 0 && (
             <div className={styles.wrapperFirstButton}>
               <div className={styles.wrapperSecondButton}>
                 <ButtonBlue
                   title='Create a Call'
-                  style={styles.buttonCreateCall}
                   onClick={() => setIsCreatingCall(prev => !prev)}
                 />
               </div>

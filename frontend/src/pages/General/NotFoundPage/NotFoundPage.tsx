@@ -20,13 +20,6 @@ export const NotFoundPage = () => {
     <div className={styles.wrapper}>
       <div className={styles.header}>
         <h1 className={styles.title}>4</h1>
-        {/* <div className={styles.card}>
-          <img
-            src='/icons/sadSmile.svg'
-            alt='Sad Smiley'
-            className={styles.sadSmile}
-          />
-        </div> */}
         <h1 className={styles.title}>0</h1>
         <h1 className={styles.title}>4</h1>
       </div>
@@ -34,7 +27,7 @@ export const NotFoundPage = () => {
         <span className={styles.description}>Content not found</span>
       </div>
       <div className={styles.buttonBack}>
-        <ButtonBrand title='Go back' onClick={navigateToRoot} />
+        <ButtonBrand title='Go back' style={styles.button} onClick={navigateToRoot} />
       </div>
     </div>
   )

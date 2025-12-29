@@ -77,7 +77,6 @@ export const AdminNewRolePage = () => {
               title: 'Save',
               icon: '/icons/fileWhite.svg',
               onClick: createRole,
-              style: styles.buttonSave,
             }}
           >
             <RecentNewRole permission={permission} formData={formData} setFormData={setFormData} />

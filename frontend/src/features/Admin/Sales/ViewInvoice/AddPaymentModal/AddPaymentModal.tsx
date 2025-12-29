@@ -17,6 +17,7 @@ import { postAddPayInfo } from '../../../../../shared/utils/api/Admin/Sales/Invo
 interface AddPaymentModalProps {
   idInvoice: number
   isOpen: boolean
+  onAddPayment: () => void
   handleOpenClose: () => void
 }
 
@@ -33,7 +34,12 @@ export interface PartialFormData extends Partial<FormData> {
   [key: string]: string | number | boolean | null | undefined
 }
 
-export const AddPaymentModal = ({ idInvoice, isOpen, handleOpenClose }: AddPaymentModalProps) => {
+export const AddPaymentModal = ({
+  idInvoice,
+  isOpen,
+  onAddPayment,
+  handleOpenClose,
+}: AddPaymentModalProps) => {
   const [info, setInfo] = useState<AdminInvoiceAddPaymentInfoData | null>(null)
 
   const [formData, setFormData] = useState<PartialFormData>({})
@@ -71,7 +77,7 @@ export const AddPaymentModal = ({ idInvoice, isOpen, handleOpenClose }: AddPayme
         description: 'You have successfully added a Payment.',
         status: 'success',
       })
-      handleOpenClose()
+      onAddPayment()
     } else {
       showToast({
         title: 'Error',
@@ -79,6 +85,10 @@ export const AddPaymentModal = ({ idInvoice, isOpen, handleOpenClose }: AddPayme
         status: 'error',
       })
     }
+  }
+
+  const handleAddReminderText = () => {
+    onChangeInput('amount', info?.invoice.dueAmount || 0)
   }
 
   useEffect(() => {
@@ -130,10 +140,11 @@ export const AddPaymentModal = ({ idInvoice, isOpen, handleOpenClose }: AddPayme
                 type='number'
                 id='amount'
                 name='amount'
+                value={formData.amount}
                 placeHolder={info.invoice.dueAmount.toString()}
                 onChange={onChangeInput}
               />
-              <span className={styles.textRemainder}>
+              <span className={styles.textRemainder} onClick={handleAddReminderText}>
                 {`Remainder: ${info.invoice.dueAmountCurrency}`}
               </span>
             </div>

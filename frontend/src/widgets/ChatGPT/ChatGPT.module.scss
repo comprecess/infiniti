@@ -59,12 +59,7 @@
   border-top-right-radius: 8px !important;
   border-bottom: none !important;
   padding: 18px 24px !important;
-  background: linear-gradient(
-    to right,
-    #838ced,
-    #5965e7,
-    #303fe1
-  ) !important;
+  background: linear-gradient(to right, #838ced, #5965e7, #303fe1) !important;
 }
 
 .popoverBody {
@@ -142,8 +137,12 @@
 }
 
 .button {
-  max-width: 50px;
-  padding: 0;
+  height: 100%;
+}
+
+.buttonIcon {
+  width: 24px;
+  height: 24px;
 }
 
 .dateSeparator {

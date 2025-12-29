@@ -36,7 +36,7 @@ export const AdminEditProject = () => {
 
     const response = await getProjectEditInfo(id)
 
-    if (response.status === false) return
+    if (!response.status) return
 
     const { id: _, users, currency, ...rest } = response.data.data
 
@@ -102,7 +102,6 @@ export const AdminEditProject = () => {
               title: 'Save',
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,
-              style: styles.buttonSave,
               onClick: saveProjectUpdate,
             }}
           >

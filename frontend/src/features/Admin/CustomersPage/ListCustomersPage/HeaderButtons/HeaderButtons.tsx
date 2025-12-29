@@ -21,7 +21,6 @@ export const HeaderButtons = ({
           titleNone
           title='Add Customer'
           icon='/icons/plus.svg'
-          style={styles.buttonPlus}
           iconProps={styles.iconPlus}
           onClick={firstButtonClick}
         />
@@ -30,7 +29,6 @@ export const HeaderButtons = ({
         titleNone
         title='Import'
         icon='/icons/import.svg'
-        style={styles.buttonImport}
         iconProps={styles.iconImport}
         onClick={secondButtonClick}
       />

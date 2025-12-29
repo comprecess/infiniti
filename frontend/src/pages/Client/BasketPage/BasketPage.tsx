@@ -16,6 +16,24 @@ import { Basket } from '../../../widgets/BasketCart/Basket/Basket'
 import { Cart } from '../../../widgets/BasketCart/Cart/Cart'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 
+const groupItems = (items: any[]) => {
+  const businessPlans: Record<number, any[]> = {}
+  const individual: any[] = []
+
+  items.forEach(item => {
+    if (item.idBusinessPlan) {
+      if (!businessPlans[item.idBusinessPlan]) {
+        businessPlans[item.idBusinessPlan] = []
+      }
+      businessPlans[item.idBusinessPlan].push(item)
+    } else {
+      individual.push(item)
+    }
+  })
+
+  return { businessPlans, individual }
+}
+
 export const ClientBasketPage = () => {
   const [orders, setOrder] = useState<CartProps | null>(null)
 
@@ -67,10 +85,6 @@ export const ClientBasketPage = () => {
     }
   }
 
-  const handleDeleteOrder = () => {
-    getOrders()
-  }
-
   useEffect(() => {
     document.title = 'infiniti | Cart'
   }, [])
@@ -78,6 +92,8 @@ export const ClientBasketPage = () => {
   useEffect(() => {
     getOrders()
   }, [])
+
+  const grouped = orders ? groupItems(orders.items) : null
 
   return (
     <div className={styles.wrapper}>
@@ -91,11 +107,29 @@ export const ClientBasketPage = () => {
           </div>
           <section className={styles.sectionFirst}>
             <RecentCard style={styles.cart}>
-              <Cart
-                cart={orders.items}
-                datesEmployment={teamDatesBusy}
-                onDelete={handleDeleteOrder}
-              />
+              {grouped &&
+                Object.entries(grouped.businessPlans).map(([planId, items]) => (
+                  <div key={planId} style={{ marginBottom: '32px' }}>
+                    <p className={styles.titleCart}>{orders.type ?? `Business plan #${planId}`}</p>
+                    <Cart
+                      cart={items}
+                      isCreateCall={grouped.individual.length === 0}
+                      datesEmployment={teamDatesBusy}
+                      getOrders={getOrders}
+                    />
+                  </div>
+                ))}
+              {grouped && grouped.individual.length > 0 && (
+                <div>
+                  <p className={styles.titleCart}>Type: Individual</p>
+                  <Cart
+                    isCreateCall={grouped.individual.length > 0}
+                    cart={grouped.individual}
+                    datesEmployment={teamDatesBusy}
+                    getOrders={getOrders}
+                  />
+                </div>
+              )}
             </RecentCard>
             <Basket
               subtotalCost={orders.subTotal}

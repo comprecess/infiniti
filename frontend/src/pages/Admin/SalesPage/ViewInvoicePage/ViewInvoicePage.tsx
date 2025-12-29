@@ -34,6 +34,7 @@ export const AdminViewInvoicePage = () => {
   const [isAddPayment, setIsAddPayment] = useState<boolean>(false)
 
   const id = useIdFromUrl('view')
+
   const showToast = useCustomToast()
   const navigate = useNavigate()
 
@@ -186,6 +187,8 @@ export const AdminViewInvoicePage = () => {
               status: info.status,
               company: info.company,
               totalInvoice: info.blankCalc.total,
+              dueAmount: info.blankCalc.dueAmount,
+              isCredit: info.blankCalc.isCredit,
               client: info.client,
               offer: info.offer,
             }}
@@ -210,6 +213,10 @@ export const AdminViewInvoicePage = () => {
           idInvoice={id}
           isOpen={isAddPayment}
           handleOpenClose={() => setIsAddPayment(prev => !prev)}
+          onAddPayment={() => {
+            setIsAddPayment(prev => !prev)
+            getInvoiceInfo()
+          }}
         />
       )}
     </div>

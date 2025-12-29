@@ -8,6 +8,7 @@ import { Title } from '../../../../Main/RecentCard/Title/Title'
 
 interface RecentInvoicesProps {
   access: RolesAccess | undefined
+  isClientView?: boolean
   invoicesList: ViewInvoicesRecentData[]
   changeSortName: (sortNameItem: string, sortTypeItem: number) => void
   deleteInvoice: (idInvoice: number) => void
@@ -15,6 +16,7 @@ interface RecentInvoicesProps {
 
 export const RecentInvoices = ({
   access,
+  isClientView = false,
   invoicesList,
   changeSortName,
   deleteInvoice,
@@ -43,8 +45,14 @@ export const RecentInvoices = ({
     )
   }
 
+  const BASE_MIN_WIDTH = 1470
+  const MANAGE_COL_WIDTH = 200
+  const wrapperMinWidth = isClientView
+    ? `${BASE_MIN_WIDTH - MANAGE_COL_WIDTH}px`
+    : `${BASE_MIN_WIDTH}px`
+
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} style={{ minWidth: wrapperMinWidth }}>
       <div className={styles.columns}>
         <Title
           sorted
@@ -116,13 +124,14 @@ export const RecentInvoices = ({
           changeSortName={handleSortChange}
           clearSort={clearSort}
         />
-        <Title title='Manage' style={styles.manageColumn} />
+        {!isClientView && <Title title='Manage' style={styles.manageColumn} />}
       </div>
       <div className={styles.items}>
         {invoicesList.map((item, index) => {
           return (
             <Fragment key={item.id}>
               <Item
+                isClientView={isClientView}
                 id={item.id}
                 access={access}
                 code={item.code}

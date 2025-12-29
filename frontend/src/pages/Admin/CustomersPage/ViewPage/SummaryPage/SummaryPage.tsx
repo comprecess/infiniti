@@ -227,12 +227,12 @@ export const AdminContactSummaryPage = () => {
                 <div className={styles.balanceButtons}>
                   <ButtonBlue
                     title='Add Fund'
-                    style={styles.buttonBalance}
+                    style={styles.button}
                     onClick={openCloseAddFundModal}
                   />
                   <ButtonBlue
                     title='Return Fund'
-                    style={`${styles.buttonReturnFund} ${styles.buttonBalance}`}
+                    style={`${styles.buttonReturnFund} ${styles.button}`}
                     onClick={openCloseReturnFundModal}
                   />
                 </div>

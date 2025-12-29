@@ -4,7 +4,7 @@
   align-items: center;
   width: 100%;
   gap: 28px;
-  padding: 16px 32px 32px 32px;
+  padding: 32px;
   border-radius: 8px;
   background-color: $brand-900;
 
@@ -42,7 +42,11 @@
 .uploadPicture {
   width: 100%;
 
-  @include mobileBreakpoint('min', $bpS) {
-    max-width: 300px;
+  @include mobileBreakpoint('max', $bpS) {
+    width: 100%;
   }
+}
+
+.button {
+  width: 100% !important;
 }

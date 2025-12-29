@@ -136,6 +136,44 @@
   align-items: end;
 }
 
-.buttonWrapper {
-  width: fit-content;
+.contentManagement {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 12px;
+}
+
+.chatGPTLoading {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  width: 100%;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  justify-content: center;
+  user-select: none;
+}
+
+.chatGPTLoadingText {
+  font-family: $fontSpaceGrotesk;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.icon {
+  animation: spin 2s linear infinite;
+  cursor: default;
+}
+
+.icon * {
+  width: 24px;
+  height: 24px;
+  fill: $white;
+}
+
+.wrapperIcon {
+  width: 24px;
+  height: 24px;
 }

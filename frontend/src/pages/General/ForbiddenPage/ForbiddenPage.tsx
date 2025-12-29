@@ -24,12 +24,10 @@ export const ForbiddenPage = () => {
         <h1 className={styles.title}>3</h1>
       </div>
       <div className={styles.footer}>
-        <span className={styles.description}>
-          You don&apos;t have access
-        </span>
+        <span className={styles.description}>You don&apos;t have access</span>
       </div>
       <div className={styles.buttonBack}>
-        <ButtonBrand title='Go back' onClick={navigateToRoot} />
+        <ButtonBrand title='Go back' style={styles.button} onClick={navigateToRoot} />
       </div>
     </div>
   )

@@ -7,6 +7,16 @@
   overflow-y: hidden;
 }
 
+@include mobileBreakpoint('max', $bpL - 1) {
+  .wrapper {
+    min-width: 100%;
+  }
+
+  .createdColumn {
+    display: none;
+  }
+}
+
 .columns {
   display: flex;
   width: 100%;

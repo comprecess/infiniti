@@ -130,7 +130,6 @@ export const AdminEditUserPage = () => {
               title: 'Save',
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,
-              style: styles.buttonSave,
               onClick: updateUserInfo,
             }}
           >

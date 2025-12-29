@@ -25,23 +25,18 @@
 
 .projectsList {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 16px;
   width: 100%;
-  align-items: start;
+  margin: 0 auto;
   max-width: $maxContentSize;
+  grid-template-columns: 1fr;
 
-  @include mobileBreakpoint('max', $bpS) {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  @media (min-width: 856px) {
+    grid-template-columns: repeat(2, 1fr);
   }
-}
 
-.buttonCreateProject {
-  width: fit-content;
-  height: 44px;
-
-  @include mobileBreakpoint('max', $bpS) {
-    width: 60px;
+  @media (min-width: 1312px) {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 

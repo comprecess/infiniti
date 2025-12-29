@@ -9,6 +9,7 @@ import { CustomMiniButton } from '../../../../../../shared/ui/CustomMiniButton/C
 import styleItem from '../RecentExpenses.module.scss'
 
 interface ItemProps {
+  isClientView: boolean
   id: number
   code: string
   date: string
@@ -21,6 +22,7 @@ interface ItemProps {
 }
 
 export const Item = ({
+  isClientView,
   id,
   code,
   date,
@@ -40,6 +42,8 @@ export const Item = ({
   const navigate = useNavigate()
 
   const handleNavigateToEdit = () => {
+    if (isClientView) return
+
     navigate(
       `/${Routes.adminPages}/${Routes.accounting}/${Routes.edit}/${Routes.transaction}/${id}`,
     )
@@ -48,52 +52,40 @@ export const Item = ({
   return (
     <>
       <div className={styles.wrapper}>
-        <span className={`${styleItem.idColumn} ${styles.idItem}`}>
-          {code}
-        </span>
-        <span className={`${styleItem.dateColumn} ${styles.dateItem}`}>
-          {date}
-        </span>
-        <span
-          className={`${styleItem.accountColumn} ${styles.accountItem}`}
-        >
-          {account}
-        </span>
-        <span className={`${styleItem.typeColumn} ${styles.typeItem}`}>
-          {type}
-        </span>
-        <span className={`${styleItem.amountColumn} ${styles.amountItem}`}>
-          {amount}
-        </span>
-        <span
-          className={`${styleItem.descriptionColumn} ${styles.descriptionItem}`}
-        >
+        <span className={`${styleItem.idColumn} ${styles.idItem}`}>{code}</span>
+        <span className={`${styleItem.dateColumn} ${styles.dateItem}`}>{date}</span>
+        <span className={`${styleItem.accountColumn} ${styles.accountItem}`}>{account}</span>
+        <span className={`${styleItem.typeColumn} ${styles.typeItem}`}>{type}</span>
+        <span className={`${styleItem.amountColumn} ${styles.amountItem}`}>{amount}</span>
+        <span className={`${styleItem.descriptionColumn} ${styles.descriptionItem}`}>
           {description}
         </span>
-        <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
-          {access && access.edit === 0 ? (
-            <div style={{ display: 'none' }} />
-          ) : (
-            <CustomMiniButton
-              style='amber'
-              icon='/icons/edit.svg'
-              alt='Edit'
-              tooltipTitle='Edit'
-              onClick={handleNavigateToEdit}
-            />
-          )}
-          {access && access.delete === 0 ? (
-            <div style={{ display: 'none' }} />
-          ) : (
-            <CustomMiniButton
-              style='cherry'
-              icon='/icons/trash.svg'
-              alt='Delete'
-              tooltipTitle='Delete'
-              onClick={handleSetModalDelete}
-            />
-          )}
-        </div>
+        {!isClientView && (
+          <div className={`${styleItem.manageColumn} ${styles.manageItem}`}>
+            {access && access.edit === 0 ? (
+              <div style={{ display: 'none' }} />
+            ) : (
+              <CustomMiniButton
+                style='amber'
+                icon='/icons/edit.svg'
+                alt='Edit'
+                tooltipTitle='Edit'
+                onClick={handleNavigateToEdit}
+              />
+            )}
+            {access && access.delete === 0 ? (
+              <div style={{ display: 'none' }} />
+            ) : (
+              <CustomMiniButton
+                style='cherry'
+                icon='/icons/trash.svg'
+                alt='Delete'
+                tooltipTitle='Delete'
+                onClick={handleSetModalDelete}
+              />
+            )}
+          </div>
+        )}
       </div>
       {modalDelete && (
         <ConfirmationModal

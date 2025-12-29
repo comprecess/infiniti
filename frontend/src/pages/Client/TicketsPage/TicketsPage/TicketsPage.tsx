@@ -30,7 +30,6 @@ export const ClientTicketsPage = () => {
             Component={ButtonBlue}
             componentProps={{
               title: 'New Ticket',
-              style: styles.buttonBlue,
               onClick: handleNavigateToNewTicket,
             }}
           >

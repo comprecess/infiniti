@@ -4,10 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 
 import styles from './ViewTalentPage.module.scss'
-import {
-  RolesAccess,
-  TalentData,
-} from '../../../../app/constants/constants'
+import { RolesAccess, TalentData } from '../../../../app/constants/constants'
 import { AboutTalentCard } from '../../../../features/Admin/TalentsPage/ViewTalentPage/AboutTalentCard/AboutTalentCard'
 import { EducationCard } from '../../../../features/Admin/TalentsPage/ViewTalentPage/EducationCard/EducationCard'
 import { ProjectsExperienceCard } from '../../../../features/Admin/TalentsPage/ViewTalentPage/ProjectsExperienceCard/ProjectsExperienceCard'
@@ -20,10 +17,7 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { getTalentDatesBusy } from '../../../../shared/utils/api/Admin/Meeting/get-talent-dates-busy'
 import { postCreateNewMeeting } from '../../../../shared/utils/api/Admin/Meeting/post-create-new-meeting'
 import { getUserInfo } from '../../../../shared/utils/api/Client/Catalog/User/get-user-info'
-import {
-  getLocalDateTimeString,
-  useIdFromUrl,
-} from '../../../../shared/utils/usefulMethods'
+import { getLocalDateTimeString, useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 import { CreatingCallModal } from '../../../../widgets/CreatingCallModal/CreatingCallModal'
 
 export const AdminViewTalentPage = () => {
@@ -83,10 +77,7 @@ export const AdminViewTalentPage = () => {
     placeholderData: previousData => previousData,
   })
 
-  const createMeetingWithTalent = async (
-    dates: string[] | null,
-    selectedTime: Dayjs | null,
-  ) => {
+  const createMeetingWithTalent = async (dates: string[] | null, selectedTime: Dayjs | null) => {
     if (id === null || dates === null || selectedTime === null) return
 
     const time = getLocalDateTimeString()
@@ -155,16 +146,12 @@ export const AdminViewTalentPage = () => {
             </section>
             <section ref={similarTalentsRef} className={styles.section}>
               <section className={styles.item}>
-                <SimilarTalents
-                  isAdmin
-                  roles={roles}
-                  similarTalents={talentInfo.data.similar}
-                />
+                <SimilarTalents isAdmin roles={roles} similarTalents={talentInfo.data.similar} />
               </section>
             </section>
             <section className={styles.section}>
               <div className={styles.item}>
-                <ButtonBrand title='Back to top' onClick={scrollToTop} />
+                <ButtonBrand title='Back to top' style={styles.button} onClick={scrollToTop} />
               </div>
             </section>
           </>

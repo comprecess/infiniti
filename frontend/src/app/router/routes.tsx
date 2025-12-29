@@ -96,7 +96,16 @@ import { AdminEditTalentPage } from '../../pages/Admin/TanlentsPage/EditTalentPa
 import { AdminListCartsPage } from '../../pages/Admin/TanlentsPage/ListCartsPage/ListCartsPage'
 import { AdminViewTalentPage } from '../../pages/Admin/TanlentsPage/ViewTalentPage/ViewTalentPage'
 import { AdminTasksPage } from '../../pages/Admin/TasksPage/TasksPage'
-import { AdminUtilitiesPage } from '../../pages/Admin/UtilitiesPage/UtilitiesPage'
+import { AdminActivityLogPage } from '../../pages/Admin/UtilitiesPage/ActivityLogPage/ActivityLogPage'
+import { AdminBackupPage } from '../../pages/Admin/UtilitiesPage/BackupPage/BackupPage'
+import { AdminCronLogPage } from '../../pages/Admin/UtilitiesPage/CronLogPage/CronLogPage'
+import { AdminDatabaseStatusPage } from '../../pages/Admin/UtilitiesPage/DatabaseStatusPage/DatabaseStatusPage'
+import { AdminEmailMessageLogPage } from '../../pages/Admin/UtilitiesPage/EmailMessageLogPage/EmailMessageLogPage'
+import { AdminIntegrationCodePage } from '../../pages/Admin/UtilitiesPage/IntegrationCodePage/IntegrationCodePage'
+import { AdminInvoiceAccessLogPage } from '../../pages/Admin/UtilitiesPage/InvoiceAccessLogPage/InvoiceAccessLogPage'
+import { AdminPasswordManagerPage } from '../../pages/Admin/UtilitiesPage/PasswordManagerPage/PasswordManagerPage'
+import { AdminSystemStatusPage } from '../../pages/Admin/UtilitiesPage/SystemStatusPage/SystemStatusPage'
+import { AdminToolsPage } from '../../pages/Admin/UtilitiesPage/ToolsPage/ToolsPage'
 import { LoginResidentPage } from '../../pages/Auth/LoginResidentPage/LoginResidentPage'
 import { RegisterPage } from '../../pages/Auth/RegisterPage/RegisterPage'
 import { ResetPasswordPage } from '../../pages/Auth/ResetPasswordPage/ResetPasswordPage'
@@ -112,7 +121,15 @@ import { ClientMyOrdersPage } from '../../pages/Client/MyOrdersPage/MyOrdersPage
 import { ClientOffersPage } from '../../pages/Client/OffersPage/OffersPage'
 import { ClientProfilePage } from '../../pages/Client/ProfilePage/ProfilePage'
 import { ClientProfileSettingsPage } from '../../pages/Client/ProfileSettingsPage/ProfileSettingsPage'
+import { ClientEditProjectPage } from '../../pages/Client/ProjectsPage/EditProjectPage/EditProjectPage'
 import { ClientProjectsPage } from '../../pages/Client/ProjectsPage/ProjectsPage'
+import { ClientProjectsExpensesPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/ExpensesPage/ExpensesPage'
+import { ClientProjectsFilesPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/FilesPage/FilesPage'
+import { ClientGanttChartPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/GanttChartPage/GanttChartPage'
+import { ClientProjectsInvoicesPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/InvoicesPage/InvoicesPage'
+import { ClientProjectsSummaryPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/SummaryPage/SummaryPage'
+import { ClientProjectsTasksPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/TasksPage/TasksPage'
+import { ClientViewProjectPage } from '../../pages/Client/ProjectsPage/ViewProjectPage/ViewProjectPage'
 import { ClientTalentDetailsPage } from '../../pages/Client/TalentDetailsPage/TalentDetailsPage'
 import { ClientTalentsPage } from '../../pages/Client/TalentsPage/TalentsPage'
 import { ClientOpenNewTicketPage } from '../../pages/Client/TicketsPage/OpenNewTicketPage/OpenNewTicketPage'
@@ -240,6 +257,15 @@ export const Routes = {
   notFound: '404',
   forbidden: '403',
   serverError: '500',
+  activityLog: 'activity-log',
+  emailMessageLog: 'email-message-log',
+  invoiceAccessLog: 'invoice-access-log',
+  backup: 'backup',
+  databaseStatus: 'database-status',
+  cronLog: 'cron-log',
+  integrationCode: 'integration-code',
+  systemStatus: 'system-status',
+  tools: 'tools',
 }
 
 export const To = {
@@ -270,6 +296,14 @@ export const Pages = {
   clientInvoicesPage: <ClientInvoicesPage />,
   clientOffersPage: <ClientOffersPage />,
   clientProjectsPage: <ClientProjectsPage />,
+  clientEditProjectPage: <ClientEditProjectPage />,
+  clientViewProjectPage: <ClientViewProjectPage />,
+  clientProjectsSummaryPage: <ClientProjectsSummaryPage />,
+  clientProjectsTasksPage: <ClientProjectsTasksPage />,
+  clientProjectsFilesPage: <ClientProjectsFilesPage />,
+  clientProjectsExpensesPage: <ClientProjectsExpensesPage />,
+  clientProjectsInvoicesPage: <ClientProjectsInvoicesPage />,
+  clientGanttChartPage: <ClientGanttChartPage />,
   clientKnowledgeBasePage: <ClientKnowledgeBasePage />,
   clientTicketsPage: <ClientTicketsPage />,
   clientViewTicketPage: <ClientViewTicketPage />,
@@ -340,7 +374,16 @@ export const Pages = {
   adminCalendarPage: <AdminCalendarPage />,
   adminProductsServicesPage: <AdminProductsServicesPage />,
   adminReportsPage: <AdminReportsPage />,
-  adminUtilitiesPage: <AdminUtilitiesPage />,
+  adminActivityLogPage: <AdminActivityLogPage />,
+  adminEmailMessageLogPage: <AdminEmailMessageLogPage />,
+  adminInvoiceAccessLogPage: <AdminInvoiceAccessLogPage />,
+  adminBackupPage: <AdminBackupPage />,
+  adminDatabaseStatusPage: <AdminDatabaseStatusPage />,
+  adminCronLogPage: <AdminCronLogPage />,
+  adminIntegrationCodePage: <AdminIntegrationCodePage />,
+  adminSystemStatusPage: <AdminSystemStatusPage />,
+  adminPasswordManagerPage: <AdminPasswordManagerPage />,
+  adminToolsPage: <AdminToolsPage />,
   adminAppearancePage: <AdminAppearancePage />,
   adminPluginsPage: <AdminPluginsPage />,
   adminCurrenciesPage: <AdminCurrenciesPage />,

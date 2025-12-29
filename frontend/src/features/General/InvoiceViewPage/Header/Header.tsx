@@ -28,6 +28,8 @@ interface HeaderProps {
     companyName: string
   }
   totalInvoice: string
+  dueAmount: string
+  isCredit: boolean
   client: FullInfoClient
   offer: SalesViewOfferData
   payList?: SalesViewInvoicePayList[]
@@ -45,15 +47,15 @@ export const Header = ({
   totalInvoice,
   client,
   offer,
+  dueAmount,
+  isCredit,
   payList,
   token,
   postTokenStripeSend,
 }: HeaderProps) => {
   const [creditCard, setCreditCard] = useState<boolean>(false)
 
-  const [payNow, setPayNow] = useState<
-  SalesViewInvoicePayList | undefined
-  >(undefined)
+  const [payNow, setPayNow] = useState<SalesViewInvoicePayList | undefined>(undefined)
 
   const navigate = useNavigate()
 
@@ -69,9 +71,7 @@ export const Header = ({
     if (payNow?.idName === 'stripe') {
       setCreditCard(true)
     } else {
-      navigate(
-        `/${Routes.public}/${Routes.invoice}/${Routes.proof}/${Routes.transaction}/${token}`,
-      )
+      navigate(`/${Routes.public}/${Routes.invoice}/${Routes.proof}/${Routes.transaction}/${token}`)
       setCreditCard(false)
     }
   }
@@ -85,11 +85,7 @@ export const Header = ({
           <Status status={status} />
         </div>
         <div className={styles.infiniti}>
-          <img
-            src='/logoInfinitiWhite.svg'
-            alt='Logo'
-            className={styles.logo}
-          />
+          <img src='/logoInfinitiWhite.svg' alt='Logo' className={styles.logo} />
           <div className={styles.infinitiDescription}>
             <span
               dangerouslySetInnerHTML={{
@@ -106,42 +102,18 @@ export const Header = ({
           {!checkPublic ? (
             <>
               <div className={styles.invoicedToList}>
-                {client.company && (
-                  <span className={styles.invoicedToItem}>
-                    {client.company}
-                  </span>
-                )}
+                {client.company && <span className={styles.invoicedToItem}>{client.company}</span>}
                 {client.account && (
-                  <span className={styles.invoicedToItem}>
-                    {`ATTN: ${client.account}`}
-                  </span>
+                  <span className={styles.invoicedToItem}>{`ATTN: ${client.account}`}</span>
                 )}
-                {client.address && (
-                  <span className={styles.invoicedToItem}>
-                    {client.address}
-                  </span>
-                )}
-                {client.city && (
-                  <span className={styles.invoicedToItem}>
-                    {client.city}
-                  </span>
-                )}
+                {client.address && <span className={styles.invoicedToItem}>{client.address}</span>}
+                {client.city && <span className={styles.invoicedToItem}>{client.city}</span>}
               </div>
               <div className={styles.contactInfo}>
-                {client.phone && (
-                  <ContactItem title='Phone' value={client.phone} />
-                )}
-                {client.email && (
-                  <ContactItem title='Email' value={client.email} />
-                )}
+                {client.phone && <ContactItem title='Phone' value={client.phone} />}
+                {client.email && <ContactItem title='Email' value={client.email} />}
                 {client.customFields.map(field => {
-                  return (
-                    <ContactItem
-                      key={field.id}
-                      title={field.name}
-                      value={field.value}
-                    />
-                  )
+                  return <ContactItem key={field.id} title={field.name} value={field.value} />
                 })}
               </div>
             </>
@@ -152,9 +124,7 @@ export const Header = ({
         <div className={styles.invoiceWrapper}>
           <div className={styles.invoiceTotal}>
             <div className={styles.invoiceDate}>
-              {invoiceDate && (
-                <ContactItem title='Invoice Date' value={invoiceDate} />
-              )}
+              {invoiceDate && <ContactItem title='Invoice Date' value={invoiceDate} />}
               {dueDate && <ContactItem title='Due Date' value={dueDate} />}
             </div>
             <div className={styles.totalWrapper}>
@@ -163,6 +133,11 @@ export const Header = ({
                 {totalInvoice}
               </span>
             </div>
+            {isCredit && (
+              <div className={styles.dueAmount}>
+                <ContactItem title='Due Amount' value={dueAmount} />
+              </div>
+            )}
           </div>
           <div className={styles.payContainer}>
             {payList && (
@@ -180,12 +155,9 @@ export const Header = ({
               title='Pay Now'
               icon='/icons/cardWhite.svg'
               iconProps={styles.iconPay}
-              style={styles.buttonPay}
               onClick={handlePayNow}
             />
-            {creditCard && (
-              <CreditCardInput postTokenStripeSend={postTokenStripeSend} />
-            )}
+            {creditCard && <CreditCardInput postTokenStripeSend={postTokenStripeSend} />}
           </div>
         </div>
       </section>

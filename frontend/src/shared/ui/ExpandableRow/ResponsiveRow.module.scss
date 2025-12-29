@@ -1,0 +1,131 @@
+.wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.scrollRow {
+  width: 100%;
+  position: relative;
+}
+
+.rowMain {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 10px 12px;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+  flex: 1 1 0;
+}
+
+.cell span {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.toggle {
+  display: none;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%) rotate(0deg);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: $brand-800;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease, background 0.25s ease;
+  z-index: 5;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 2px;
+    background: $white;
+    transition: 0.25s;
+  }
+
+  &::after {
+    transform: rotate(90deg);
+  }
+}
+
+.active {
+  transform: translateY(-50%) rotate(45deg);
+  background: $brand-700;
+}
+
+.panel {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: all 0.25s ease;
+}
+
+.open {
+  max-height: 400px;
+  opacity: 1;
+  transform: translateY(0);
+  padding-top: 10px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 10px;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.label {
+  color: $gray-300;
+}
+
+.value {
+  color: $white;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@include mobileBreakpoint('max', $bpL - 1) {
+  .toggle {
+    display: flex;
+  }
+
+  .rowMain {
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 80px;
+      height: 100%;
+      background: linear-gradient(
+        to left,
+        rgba($brand-900, 1) 25%,
+        rgba($brand-900, 0.95) 60%,
+        rgba($brand-900, 0) 100%
+      );
+      pointer-events: none;
+      z-index: 2;
+    }
+  }
+}

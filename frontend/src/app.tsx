@@ -6,7 +6,6 @@ import { authTokenString } from './app/constants/constants'
 import { router } from './app/router/router'
 import { initOneSignal } from './oneSignalService'
 import { LoadingScreen } from './shared/ui/LoadingScreen/LoadingScreen'
-import { getProfileInfo } from './shared/utils/api/get-profile-info'
 import { useDeviceDetect } from './shared/utils/hooks/useDeviceDetect'
 import { getSession } from './shared/utils/Saving/Session/GetSession'
 
@@ -22,8 +21,6 @@ export const App = () => {
   useEffect(() => {
     const init = async () => {
       if (isMobile === true && !sessionToken) await initOneSignal()
-
-      await getProfileInfo()
 
       setIsLoading(false)
       setColorMode('dark')

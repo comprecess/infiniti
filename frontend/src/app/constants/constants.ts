@@ -66,7 +66,9 @@ export interface ViewPageContext {
 
 export interface ProjectViewPageContext {
   idProject: number
-  projectInfo: ProjectsData
+  projectInfo: ProjectsData & {
+    isMy: boolean
+  }
   roles: { [key: string]: RolesAccess } | undefined
 }
 
@@ -129,6 +131,10 @@ export interface UserInfo {
   state: string
   tags: string
   userType: string
+  status: {
+    isCustomer: boolean
+    isSupplier: boolean
+  }
   zip: string
 }
 
@@ -270,6 +276,7 @@ export interface CartProps {
   total: string
   subTax: string
   subTotal: string
+  type: string
 }
 
 export type NameIdType = 'priceHour' | 'priceDay'
@@ -750,6 +757,8 @@ export interface BlankCalc {
   price: string
   tax: string
   total: string
+  dueAmount: string
+  isCredit: boolean
 }
 
 export interface SalesViewInvoiceData {

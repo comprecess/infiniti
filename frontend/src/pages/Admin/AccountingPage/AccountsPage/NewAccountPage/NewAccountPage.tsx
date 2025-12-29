@@ -17,8 +17,7 @@ import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 
 export const AdminNewAccountPage = () => {
   const [form, setForm] = useState<Partial<AccountingAccountsForm>>({})
-  const [inputData, setInputData] =
-    useState<AccountingAccountsInputData | null>(null)
+  const [inputData, setInputData] = useState<AccountingAccountsInputData | null>(null)
 
   const navigate = useNavigate()
   const showToast = useCustomToast()
@@ -40,9 +39,7 @@ export const AdminNewAccountPage = () => {
         description: 'You have successfully created a new Account',
         status: 'success',
       })
-      navigate(
-        `/${Routes.adminPages}/${Routes.accounting}/${Routes.accounts}`,
-      )
+      navigate(`/${Routes.adminPages}/${Routes.accounting}/${Routes.accounts}`)
     } else {
       showToast({
         title: 'Error',
@@ -73,7 +70,6 @@ export const AdminNewAccountPage = () => {
               title: 'Save',
               icon: '/icons/fileWhite.svg',
               iconProps: styles.buttonSaveIcon,
-              style: styles.buttonSave,
               onClick: handleCreateNewAccount,
             }}
           >

@@ -172,7 +172,6 @@ export const AdminOffersPage = () => {
                   title: 'Add Offer',
                   icon: '/icons/plus.svg',
                   onClick: navigateToAddOffer,
-                  style: styles.buttonAddNewOffer,
                 }
                 : undefined
             }

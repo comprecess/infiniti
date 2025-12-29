@@ -2,11 +2,7 @@ import { Dispatch, SetStateAction, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import styles from './TalentsList.module.scss'
-import {
-  PagesMetaData,
-  RolesAccess,
-  TalentData,
-} from '../../../../../app/constants/constants'
+import { PagesMetaData, RolesAccess, TalentData } from '../../../../../app/constants/constants'
 import { ButtonBrand } from '../../../../../shared/ui/ButtonBrand/ButtonBrand'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { TalentsCard } from '../../../../../widgets/TalentsCard/TalentsCard'
@@ -45,8 +41,7 @@ export const TalentsList = ({
 
     if (element) {
       const offset = 100
-      const top =
-        window.pageYOffset + element.getBoundingClientRect().top - offset
+      const top = window.pageYOffset + element.getBoundingClientRect().top - offset
       window.scrollTo({ top, behavior: 'smooth' })
     }
   }, [])
@@ -58,9 +53,7 @@ export const TalentsList = ({
           <div className={styles.title}>
             {talentsList && (
               <>
-                <h3 className={styles.name}>
-                  {t('admin-catalog-talents-page-text-4')}
-                </h3>
+                <h3 className={styles.name}>{t('admin-catalog-talents-page-text-4')}</h3>
                 <h3 className={styles.number}>{talentsList.meta.total}</h3>
               </>
             )}
@@ -85,10 +78,7 @@ export const TalentsList = ({
                     )
                   })}
                 </div>
-                <PagesList
-                  meta={talentsList.meta}
-                  nextPage={handlePageChange}
-                />
+                <PagesList meta={talentsList.meta} nextPage={handlePageChange} />
               </>
             ) : (
               <div className={styles.nothingFound}>
@@ -106,9 +96,8 @@ export const TalentsList = ({
             >
               <ButtonBrand
                 title={t('admin-catalog-talents-page-button-1')}
-                onClick={() =>
-                  window.scrollTo({ top: 0, behavior: 'smooth' })
-                }
+                style={styles.button}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               />
             </div>
           </div>

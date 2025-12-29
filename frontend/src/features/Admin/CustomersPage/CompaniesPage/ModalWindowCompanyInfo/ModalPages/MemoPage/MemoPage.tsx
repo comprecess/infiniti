@@ -32,11 +32,7 @@ export const MemoPage = ({ id, roles }: MemoPageProps) => {
   }
 
   const editMemo = async () => {
-    const editResponse = await putUpdateCompanyMemo(
-      id,
-      'memo',
-      memo?.notes || '',
-    )
+    const editResponse = await putUpdateCompanyMemo(id, 'memo', memo?.notes || '')
 
     if (editResponse.status) {
       showToast({
@@ -82,12 +78,7 @@ export const MemoPage = ({ id, roles }: MemoPageProps) => {
           {roles && roles.companies.edit === 0 ? (
             <div style={{ display: 'none' }} />
           ) : (
-            <ButtonBlue
-              title='Save'
-              style={styles.buttonBlue}
-              styleTitle={styles.buttonBlueTitle}
-              onClick={editMemo}
-            />
+            <ButtonBlue title='Save' styleTitle={styles.buttonBlueTitle} onClick={editMemo} />
           )}
         </>
       ) : (

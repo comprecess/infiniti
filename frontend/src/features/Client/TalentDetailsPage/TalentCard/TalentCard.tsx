@@ -19,15 +19,10 @@ interface TalentCardProps {
   onPhone: () => void
 }
 
-export const TalentCard = ({
-  talent,
-  showSimilar,
-  onPhone,
-}: TalentCardProps) => {
+export const TalentCard = ({ talent, showSimilar, onPhone }: TalentCardProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [modalWidth, setModalWidth] = useState<string>('800px')
-  const [dividerOrientation, setDividerOrientation] =
-    useState<OrientationDivider>('vertical')
+  const [dividerOrientation, setDividerOrientation] = useState<OrientationDivider>('vertical')
 
   const handleOpenCloseModal = () => {
     setIsOpen(!isOpen)
@@ -60,11 +55,7 @@ export const TalentCard = ({
           <div className={styles.avatar}>
             <img
               alt='Avatar'
-              src={
-                talent.img
-                  ? `${talent.img}?width=128&height=128`
-                  : '/profileWithoutAvatar.svg'
-              }
+              src={talent.img ? `${talent.img}?width=128&height=128` : '/profileWithoutAvatar.svg'}
             />
           </div>
           <div className={styles.nameAndCall}>
@@ -79,26 +70,20 @@ export const TalentCard = ({
         </div>
         <div className={styles.available}>
           <InfoIcon fill={styles.infoIcon} />
-          <span className={styles.availableText}>
-            {`Will be available: ${talent.available}`}
-          </span>
+          <span className={styles.availableText}>{`Will be available: ${talent.available}`}</span>
         </div>
         <div className={styles.rates}>
           <Item title={talent.priceDay} description='Daily rate (8h)' />
           <Item title={talent.priceHour} description='Hourly rate' />
         </div>
-        <ButtonBlue title='Add to Order' onClick={handleOpenCloseModal} />
+        <ButtonBlue title='Add to Order' style={styles.button} onClick={handleOpenCloseModal} />
         <div className={styles.taxes}>
           <img src='/icons/info.svg' alt='Info' />
           <span className={styles.taxesText}>Taxes included</span>
         </div>
-        <ButtonBrand title='Show Similar' onClick={showSimilar} />
+        <ButtonBrand title='Show Similar' style={styles.button} onClick={showSimilar} />
       </div>
-      <CustomModalWindow
-        maxWidth={modalWidth}
-        isOpen={isOpen}
-        onClose={handleOpenCloseModal}
-      >
+      <CustomModalWindow maxWidth={modalWidth} isOpen={isOpen} onClose={handleOpenCloseModal}>
         <ModalWindow
           dividerOrientation={dividerOrientation}
           talent={talent}
