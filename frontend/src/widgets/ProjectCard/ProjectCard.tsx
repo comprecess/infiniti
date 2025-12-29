@@ -50,12 +50,14 @@ export const ProjectCard = ({ project, access, deleteProject }: ProjectCardProps
               alt='Avatar'
               className={styles.avatar}
               src={
-                project.users.admin.img !== ''
+                project.users.admin && project.users.admin.img !== ''
                   ? `${project.users.admin.img}?width=176&height=176`
                   : '/profileWithoutAvatar.svg'
               }
             />
-            <span className={styles.name}>{project.users.admin.account}</span>
+            <span className={styles.name}>
+              {project.users.admin ? project.users.admin.account : '-'}
+            </span>
           </div>
           <div className={styles.container}>
             <div>
