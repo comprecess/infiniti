@@ -216,6 +216,7 @@ class Client extends User implements LoginIntarface, InsertDefaultValueInterface
             $this->token = Str::random(20) . md5(time());
         }
         $this->save();
+        (new Log())->setUser($this)->writeLog(__('login.success'));
     }
 
     public function failPassword()

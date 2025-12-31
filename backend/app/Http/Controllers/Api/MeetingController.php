@@ -6,6 +6,7 @@ use App\Events\Catalog\MeetingCreate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Catalog\EmploymentRequest;
 use App\Http\Requests\MeetingRequest;
+use App\Models\Log;
 use App\Models\Meeting;
 use App\Models\Resident\BusinessPlan;
 use App\Models\User;
@@ -72,6 +73,7 @@ class MeetingController extends Controller
         $meetingModel->save();
 
         event(new MeetingCreate($meetingModel));
+        Log::send(__('log.meetingCreate',['id' => $meetingModel->id]));
 //        $meetingService = app(MeetingContractService::class);
 //        $meetingService->create($meetingModel);
 

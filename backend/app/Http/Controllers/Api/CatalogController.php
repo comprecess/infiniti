@@ -19,6 +19,7 @@ use App\Models\Catalog\Cart;
 use App\Models\Catalog\Prop;
 use App\Models\Catalog\User;
 use App\Models\Catalog\Value;
+use App\Models\Log;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Invoices\Offer;
 use App\Models\Users\Admin;
@@ -164,6 +165,7 @@ class CatalogController extends Controller
         try{
             $userCatalog = User::findOrFail($request->catalogUser);
             Cart::add($userCatalog, $request->type ?? Cart::TYPE[0], $request->amount ?? 1);
+            Log::send(__('log.addCart',['id' => $userCatalog->id]));
         }catch (\Exception $e) {
             return response()->json(['success' => false]);
         }
@@ -188,6 +190,8 @@ class CatalogController extends Controller
             if(!$cart?->items->count()) {
                 $cart->delete();
             }
+
+            Log::send(__('log.deleteCart',['id' => $cartItem->id_catalog_user]));
 
             return response()->json(['success' => true]);
         } else {
@@ -235,7 +239,7 @@ class CatalogController extends Controller
 
         $cart->createOrder($invoice, false);
         event(new CreateOrder($invoice));
-
+        Log::send(__('log.orderCart',['id' => $cart->id]));
 
         return response()->json(['success' => true, 'token' => $invoice->vtoken]);
     }
