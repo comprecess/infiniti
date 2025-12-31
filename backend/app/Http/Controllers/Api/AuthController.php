@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Registration;
 use App\Mail\ResetPassword;
 use App\Models\Log;
+use App\Models\User;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use http\Env\Response;
@@ -68,6 +69,7 @@ class AuthController extends Controller
 
             Mail::to($request->email)->send(new ResetPassword($client, $password));
             \Illuminate\Support\Facades\Log::alert('new password ' . $password);
+            (new Log())->setUser($client)->writeLog(__('login.resetPassword'));
 
             return response()->json(['message' => __('auth.new_password')]);
 
@@ -85,11 +87,22 @@ class AuthController extends Controller
             }
             $client->{$client->getColumnLastTime()} = now();
             $client->save();
+            (new Log())->setUser($client)->writeLog(__('login.successAutologin'));
 
             return response()->json(['token' => $client->api_token, 'message' => 'You are logged in']);
         }
 
         return response()->json(['message' => __('login.autologin')], 403);
+    }
+
+    public function logout()
+    {
+        $user = User::getAuth();
+        $user->api_token = null;
+        $user->save();
+
+        (new Log())->setUser($user)->writeLog(__('login.out'));
+        return response()->json(['access' => true]);
     }
 
 }

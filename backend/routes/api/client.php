@@ -82,6 +82,15 @@ Route::group(['prefix' => 'client',], function(){
             /*Route::get('/{model}/to-plan', 'toPlan');
             Route::match(['put', 'post'],'/{model}/update', 'update');*/
         });
+
+    #Logs
+    Route::controller(Client\LogsController::class)
+        ->prefix('log')
+        ->middleware('throttle:1,1')
+        ->group(function(){
+                Route::patch('in', 'in');
+                Route::patch('out', 'out');
+        });
 });
 
 

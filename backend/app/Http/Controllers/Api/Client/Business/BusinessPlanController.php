@@ -14,6 +14,7 @@ use App\Http\Resources\Resident\BusinessPlan\BusinessPlanResource;
 use App\Http\Resources\Resident\Talents\TalentResource;
 use App\Models\BusinessModel\BusinessModel;
 use App\Models\Catalog\Prop;
+use App\Models\Log;
 use App\Models\Resident\BusinessPlan;
 use App\Models\Resident\Question;
 use App\Models\User;
@@ -117,6 +118,7 @@ class BusinessPlanController extends Controller
         }
 
         event(new Generate($plan));
+        Log::send(__('log.businessModelToPlan',['idModel' => $businessModel->id, 'idPlan' => $plan->id]));
 
         return response()->json(['success' => true, 'id' => $plan->id]);
     }
@@ -128,6 +130,7 @@ class BusinessPlanController extends Controller
             ->where('cid', $userId)
             ->firstOrFail();
         if($plan->toCart()) {
+            Log::send(__('log.addCartPlan',['id' => $plan->id]));
             return response()->json(['success' => true, 'id' => $plan->id]);
         }else{
             throw ValidationException::withMessages(['talents' => "No business plan talents found"]);

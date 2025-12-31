@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Log;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -81,6 +82,7 @@ class SocialController extends Controller
         if($urlAvatar) {
             $userPlatform->urlFile($urlAvatar);
         }
+        (new Log())->setUser($userPlatform)->writeLog(__('login.successGoogle'));
 
         return redirect('/public/google/auth' . $token . $messge);
 
