@@ -19,9 +19,11 @@ env/
 *.swp
 *.swo
 
-# Config with secrets
-config.json
+# Secrets (NEVER commit!)
 .env
+
+# User config (created by setup.sh, safe but personal)
+config.json
 
 # Database
 *.db

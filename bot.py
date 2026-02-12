@@ -3,6 +3,9 @@ ViaBTC Mining Profitability Telegram Bot
 
 Main bot module with command handlers, daily report scheduler,
 and interactive features.
+
+Secrets are loaded from environment variables (.env file).
+Non-secret settings (miners, electricity price) from config.json.
 """
 
 import json
@@ -13,6 +16,7 @@ from datetime import datetime, date
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from dotenv import load_dotenv
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, BotCommand
 from telegram.ext import (
     Application,
@@ -35,6 +39,9 @@ from ai_analyst import AIAnalyst
 # Configuration
 # ============================================================
 
+# Load .env file from project root
+load_dotenv(Path(__file__).parent / ".env")
+
 CONFIG_PATH = Path(__file__).parent / "config.json"
 
 logging.basicConfig(
@@ -44,21 +51,55 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-def load_config() -> dict:
-    """Load configuration from config.json file."""
-    if not CONFIG_PATH.exists():
-        logger.error(f"Config file not found: {CONFIG_PATH}")
+def get_secret(name: str, required: bool = True) -> str:
+    """Get a secret value from environment variables.
+    
+    Args:
+        name: Environment variable name
+        required: If True, exit if not found
+        
+    Returns:
+        The secret value or empty string
+    """
+    value = os.environ.get(name, "")
+    if required and not value:
+        logger.error(f"Required environment variable '{name}' is not set!")
+        print(f"❌ Переменная окружения '{name}' не задана.")
+        print(f"   Добавьте её в файл .env или экспортируйте: export {name}=значение")
         sys.exit(1)
+    return value
 
-    with open(CONFIG_PATH, "r") as f:
-        config = json.load(f)
 
-    # Validate required fields
-    required = ["telegram_token", "viabtc_api_key", "viabtc_secret_key"]
-    for field in required:
-        value = config.get(field, "")
-        if not value or value.startswith("YOUR_"):
-            logger.warning(f"Config field '{field}' is not set!")
+def load_config() -> dict:
+    """Load non-secret configuration from config.json + secrets from env vars.
+    
+    config.json contains ONLY non-secret data:
+    - miners list (models, power, count)
+    - electricity price
+    - report schedule time
+    
+    All secrets come from environment variables.
+    """
+    config = {}
+
+    if CONFIG_PATH.exists():
+        with open(CONFIG_PATH, "r") as f:
+            config = json.load(f)
+    else:
+        logger.warning(f"Config file not found: {CONFIG_PATH}, using defaults")
+
+    # Inject secrets from environment variables
+    config["telegram_token"] = get_secret("TELEGRAM_TOKEN")
+    config["viabtc_api_key"] = get_secret("VIABTC_API_KEY")
+    config["viabtc_secret_key"] = get_secret("VIABTC_SECRET_KEY")
+    config["openai_api_key"] = get_secret("OPENAI_API_KEY", required=False)
+    config["user_id"] = get_secret("TELEGRAM_USER_ID", required=False)
+
+    # Defaults for non-secret settings
+    config.setdefault("electricity_price_rub_kwh", 5.7)
+    config.setdefault("report_hour", 8)
+    config.setdefault("report_minute", 0)
+    config.setdefault("miners", [])
 
     return config
 
@@ -139,10 +180,9 @@ async def generate_full_report(config: dict) -> str:
     # 8. Generate AI analysis
     logger.info("Generating AI analysis...")
     openai_key = config.get("openai_api_key")
-    if openai_key and not openai_key.startswith("YOUR_"):
+    if openai_key:
         ai = AIAnalyst(api_key=openai_key)
     else:
-        # Try using environment variable
         ai = AIAnalyst()
 
     ai_result = ai.generate_analysis(
@@ -236,7 +276,6 @@ def format_report_message(
 
     # Telegram message limit is 4096 chars
     if len(full_message) > 4000:
-        # Split into parts if needed
         full_message = full_message[:3990] + "\n\n_...продолжение в следующем сообщении_"
 
     return full_message
@@ -306,7 +345,6 @@ async def cmd_report(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         report_text = await generate_full_report(config)
 
-        # Check if message is too long, split if needed
         if len(report_text) > 4096:
             parts = split_message(report_text, 4096)
             await msg.delete()
@@ -411,14 +449,12 @@ async def cmd_ai(update: Update, context: ContextTypes.DEFAULT_TYPE):
         market_overview = price_client.get_market_overview()
         difficulty_data = price_client.get_mining_difficulty_data()
 
-        # Create a simplified profitability report for AI
         calculator = ProfitabilityCalculator(
             electricity_price_rub_kwh=config.get("electricity_price_rub_kwh", 5.7),
             miners=config.get("miners", []),
         )
         usdt_rub = price_client.get_usdt_rub_rate() or 92.0
 
-        # Minimal ViaBTC data for AI context
         viabtc = ViaBTCClient(
             api_key=config["viabtc_api_key"],
             secret_key=config["viabtc_secret_key"],
@@ -429,7 +465,7 @@ async def cmd_ai(update: Update, context: ContextTypes.DEFAULT_TYPE):
         report = calculator.calculate_net_profit(viabtc_data, prices, usdt_rub)
 
         openai_key = config.get("openai_api_key")
-        if openai_key and not openai_key.startswith("YOUR_"):
+        if openai_key:
             ai = AIAnalyst(api_key=openai_key)
         else:
             ai = AIAnalyst()
@@ -442,7 +478,6 @@ async def cmd_ai(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
         analysis = ai_result.get("analysis", "Анализ недоступен")
-        fng = ai_result.get("fear_greed_index", {})
 
         text = f"🤖 *AI-АНАЛИЗ РЫНКА*\n"
         text += f"📅 {datetime.now(ZoneInfo('Europe/Moscow')).strftime('%d.%m.%Y %H:%M')} МСК\n"
@@ -473,7 +508,6 @@ async def cmd_history(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     text = "📈 *ИСТОРИЯ ПРИБЫЛЬНОСТИ (7 дней)*\n\n"
 
-    # Group by date
     by_date = {}
     for r in reports:
         d = r.get("report_date", "")
@@ -502,7 +536,7 @@ async def cmd_settings(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     text = "⚙️ *НАСТРОЙКИ*\n\n"
     text += f"💡 Цена электричества: {config.get('electricity_price_rub_kwh', 0)} руб/кВт·ч\n"
-    text += f"⏰ Ежедневный отчёт: 08:00 МСК\n\n"
+    text += f"⏰ Ежедневный отчёт: {config.get('report_hour', 8):02d}:{config.get('report_minute', 0):02d} МСК\n\n"
 
     text += "⛏️ *Майнеры:*\n"
     for m in config.get("miners", []):
@@ -512,10 +546,9 @@ async def cmd_settings(update: Update, context: ContextTypes.DEFAULT_TYPE):
             text += f" x{m['count']}"
         text += ")\n"
 
-    text += "\n📝 Для изменения настроек отредактируйте `config.json`"
+    text += "\n📝 Для изменения настроек отредактируйте `config.json` на сервере"
     text += "\n\n_Команды:_\n"
     text += "/set\\_electricity `<цена>` — изменить цену электричества\n"
-    text += "/set\\_time `<HH:MM>` — изменить время отчёта"
 
     await update.message.reply_text(text, parse_mode="Markdown")
 
@@ -528,11 +561,17 @@ async def cmd_set_electricity(update: Update, context: ContextTypes.DEFAULT_TYPE
 
     try:
         new_price = float(context.args[0])
-        config = load_config()
-        config["electricity_price_rub_kwh"] = new_price
+
+        # Update config.json (non-secret file)
+        config_data = {}
+        if CONFIG_PATH.exists():
+            with open(CONFIG_PATH, "r") as f:
+                config_data = json.load(f)
+
+        config_data["electricity_price_rub_kwh"] = new_price
 
         with open(CONFIG_PATH, "w") as f:
-            json.dump(config, f, indent=2, ensure_ascii=False)
+            json.dump(config_data, f, indent=2, ensure_ascii=False)
 
         await update.message.reply_text(
             f"✅ Цена электричества обновлена: *{new_price} руб/кВт·ч*",
@@ -590,7 +629,6 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.message.reply_text(f"❌ Ошибка: {e}")
 
     elif query.data == "prices":
-        # Reuse prices logic
         price_client = PriceClient()
         prices = price_client.get_prices(coins=["BTC", "LTC", "DOGE"])
         usdt_rub = price_client.get_usdt_rub_rate()
@@ -626,7 +664,7 @@ async def scheduled_daily_report(app: Application):
     config = load_config()
     user_id = config.get("user_id", "")
 
-    if not user_id or user_id.startswith("YOUR_"):
+    if not user_id:
         logger.warning("User ID not configured, skipping scheduled report")
         return
 
@@ -677,7 +715,6 @@ def split_message(text: str, max_length: int = 4096) -> list:
             parts.append(text)
             break
 
-        # Find a good split point
         split_at = text.rfind("\n", 0, max_length)
         if split_at == -1:
             split_at = max_length
@@ -697,9 +734,9 @@ def main():
     config = load_config()
     token = config.get("telegram_token", "")
 
-    if not token or token.startswith("YOUR_"):
+    if not token:
         logger.error("Telegram bot token not configured!")
-        print("❌ Пожалуйста, установите telegram_token в config.json")
+        print("❌ Переменная TELEGRAM_TOKEN не задана.")
         sys.exit(1)
 
     # Build application
@@ -718,17 +755,20 @@ def main():
     app.add_handler(CallbackQueryHandler(button_handler))
 
     # Setup scheduler for daily reports
+    report_hour = config.get("report_hour", 8)
+    report_minute = config.get("report_minute", 0)
+
     scheduler = AsyncIOScheduler(timezone="Europe/Moscow")
     scheduler.add_job(
         scheduled_daily_report,
-        CronTrigger(hour=8, minute=0, timezone="Europe/Moscow"),
+        CronTrigger(hour=report_hour, minute=report_minute, timezone="Europe/Moscow"),
         args=[app],
         id="daily_report",
         name="Daily Mining Report",
         replace_existing=True,
     )
     scheduler.start()
-    logger.info("Scheduler started: daily report at 08:00 MSK")
+    logger.info(f"Scheduler started: daily report at {report_hour:02d}:{report_minute:02d} MSK")
 
     # Set bot commands
     async def post_init(application: Application):
@@ -748,7 +788,7 @@ def main():
     # Start polling
     logger.info("Bot starting...")
     print("🤖 Mining Monitor Bot запущен!")
-    print("📊 Ежедневный отчёт: 08:00 МСК")
+    print(f"📊 Ежедневный отчёт: {report_hour:02d}:{report_minute:02d} МСК")
     print("Нажмите Ctrl+C для остановки")
 
     app.run_polling(allowed_updates=Update.ALL_TYPES)

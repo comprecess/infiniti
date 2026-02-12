@@ -5,12 +5,13 @@ services:
     build: .
     container_name: mining-monitor-bot
     restart: unless-stopped
+    env_file:
+      - .env
     volumes:
       - ./config.json:/app/config.json:ro
       - bot-data:/app/data
     environment:
       - TZ=Europe/Moscow
-      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
     logging:
       driver: "json-file"
       options:

@@ -1,22 +1,21 @@
 {
-  "telegram_token": "YOUR_TELEGRAM_BOT_TOKEN",
-  "viabtc_api_key": "YOUR_VIABTC_API_KEY",
-  "viabtc_secret_key": "YOUR_VIABTC_SECRET_KEY",
-  "openai_api_key": "YOUR_OPENAI_API_KEY",
-  "user_id": "YOUR_TELEGRAM_USER_ID",
   "electricity_price_rub_kwh": 5.7,
+  "report_hour": 8,
+  "report_minute": 0,
   "miners": [
     {
       "name": "Antminer L7",
       "coin": "LTC",
       "hashrate_mh": 9500,
-      "power_w": 3425
+      "power_w": 3425,
+      "count": 1
     },
     {
-      "name": "Antminer S19",
+      "name": "Antminer S19 Pro",
       "coin": "BTC",
-      "hashrate_th": 95,
-      "power_w": 3250
+      "hashrate_th": 110,
+      "power_w": 3250,
+      "count": 1
     }
   ]
 }
