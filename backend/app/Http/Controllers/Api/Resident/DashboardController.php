@@ -52,7 +52,13 @@ class DashboardController extends ResidentController
             $printPrice = new Transaction();
             $cashFlow['client'] = Client::hasType()->checkAccess('all', 'customers')->count();
             $cashFlow['company'] = Company::checkAccess('all', 'companies')->count();
-            $cashFlow['leads'] = Leads::checkAccess('all', 'leads')->count();
+            try {
+                $hubspot = app(\App\Services\HubSpotService::class);
+                $contacts = $hubspot->getAllContacts();
+                $cashFlow['leads'] = count($contacts);
+            } catch (\Exception $e) {
+                $cashFlow['leads'] = 0;
+            }
             $transactions = Transaction::byAdmin();
             $cashFlow['newWorth'] = $printPrice->printPrice($transactions->getNetWorth());
 
