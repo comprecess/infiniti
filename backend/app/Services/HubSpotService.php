@@ -58,6 +58,11 @@ class HubSpotService
         return $this->statusReverseMap[$status] ?? $status;
     }
 
+    public function invalidateCache(): void
+    {
+        \Cache::forget('hubspot_contacts');
+    }
+
     public function getContacts(int $limit = 100, ?string $after = null): array
     {
         $params = [
