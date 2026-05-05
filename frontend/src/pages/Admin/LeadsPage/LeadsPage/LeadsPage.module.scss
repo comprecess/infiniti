@@ -8,57 +8,29 @@
   @include scrollbar;
 }
 
-.titleContainer {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  max-width: $maxContentSize;
-}
-
-.sectionFirst,
-.title {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-}
-
 .section {
   display: flex;
-  flex-direction: row;
-  gap: 20px;
   width: 100%;
   justify-content: center;
-
-  @include mobileBreakpoint('max', $bpXL) {
-    flex-direction: column;
-  }
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-.cardFirst {
-  max-width: 357px;
-  height: fit-content;
+.recentFullScreen {
+  max-width: $maxContentSize;
+  min-width: 0;
 
-  @include mobileBreakpoint('max', $bpXL) {
-    max-width: 100%;
-  }
-}
-
-.cardSecond {
-  max-width: 1170px;
-  height: fit-content;
-
-  @include mobileBreakpoint('max', $bpXL) {
-    max-width: 100%;
+  :global(.content) {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
 .search {
-  @include mobileBreakpoint('min', $bpL) {
-    max-width: 400px;
-  }
+  max-width: 260px;
+}
 
-  @include mobileBreakpoint('max', $bpL) {
-    width: 100%;
-  }
+.icon {
+  width: 14px;
+  height: 14px;
 }

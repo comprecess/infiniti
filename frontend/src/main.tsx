@@ -64,7 +64,15 @@ const theme = extendTheme({
   },
 })
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000,   // 5 min — no refetch on tab switch / component remount
+      gcTime: 10 * 60 * 1000,     // 10 min — keep in memory after unmount
+      retry: 1,
+    },
+  },
+})
 
 async function main() {
   const rootElement = document.getElementById('root')
