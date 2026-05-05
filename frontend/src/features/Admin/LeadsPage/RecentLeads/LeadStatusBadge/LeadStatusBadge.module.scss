@@ -1,0 +1,44 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.new {
+  background-color: rgba(99, 179, 237, 0.15);
+  color: #63b3ed;
+}
+
+.inProgress {
+  background-color: rgba(246, 173, 85, 0.15);
+  color: #f6ad55;
+}
+
+.nurturing {
+  background-color: rgba(183, 148, 246, 0.15);
+  color: #b794f6;
+}
+
+.qualified {
+  background-color: rgba(72, 187, 120, 0.15);
+  color: #48bb78;
+}
+
+.unqualified {
+  background-color: rgba(160, 174, 192, 0.15);
+  color: #a0aec0;
+}
+
+.closed {
+  background-color: rgba(252, 129, 74, 0.15);
+  color: #fc814a;
+}
+
+.default {
+  background-color: rgba(160, 174, 192, 0.1);
+  color: #a0aec0;
+}

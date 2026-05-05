@@ -1,0 +1,92 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 38px;
+  color: $white;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.title {
+  font-family: $fontSpaceGrotesk;
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.03em;
+}
+
+.containers {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+
+  @include mobileBreakpoint('max', $bpL) {
+    flex-direction: column;
+  }
+}
+
+.leftContainer,
+.rightContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.cross {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  transition: 0.3s ease;
+  cursor: pointer;
+
+  &:hover * {
+    stroke: $gray-200;
+  }
+}
+
+.selectGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.selectLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: $gray-300;
+}
+
+.select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background-color: $brand-800;
+  border: 1px solid $brand-700;
+  color: $white;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+
+  &:hover,
+  &:focus {
+    border-color: $brand-500;
+  }
+
+  option {
+    background-color: $brand-900;
+    color: $white;
+  }
+}
+
+.buttonSave {
+  @include mobileBreakpoint('max', $bpL) {
+    width: 100%;
+  }
+}

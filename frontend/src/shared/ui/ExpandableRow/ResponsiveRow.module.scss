@@ -30,12 +30,20 @@
   text-overflow: ellipsis;
 }
 
+// Actions slot — always visible, never clipped
+.actionsSlot {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 6px;
+  z-index: 6;
+  position: relative;
+  margin-left: 8px;
+}
+
 .toggle {
   display: none;
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%) rotate(0deg);
+  flex-shrink: 0;
   width: 26px;
   height: 26px;
   border-radius: 50%;
@@ -47,6 +55,8 @@
   justify-content: center;
   transition: transform 0.25s ease, background 0.25s ease;
   z-index: 5;
+  margin-left: 6px;
+  position: relative;
 
   &::before,
   &::after {
@@ -64,7 +74,7 @@
 }
 
 .active {
-  transform: translateY(-50%) rotate(45deg);
+  transform: rotate(45deg);
   background: $brand-700;
 }
 
@@ -106,26 +116,5 @@
 @include mobileBreakpoint('max', $bpL - 1) {
   .toggle {
     display: flex;
-  }
-
-  .rowMain {
-    position: relative;
-
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 80px;
-      height: 100%;
-      background: linear-gradient(
-        to left,
-        rgba($brand-900, 1) 25%,
-        rgba($brand-900, 0.95) 60%,
-        rgba($brand-900, 0) 100%
-      );
-      pointer-events: none;
-      z-index: 2;
-    }
   }
 }

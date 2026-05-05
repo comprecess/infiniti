@@ -13,9 +13,11 @@ export interface ResponsiveField {
 interface ResponsiveRowProps {
   visibleFields: ResponsiveField[]
   hiddenFields?: ResponsiveField[]
+  /** Actions rendered outside the gradient mask — visible on both desktop and mobile */
+  actions?: React.ReactNode
 }
 
-export const ResponsiveRow = ({ visibleFields, hiddenFields = [] }: ResponsiveRowProps) => {
+export const ResponsiveRow = ({ visibleFields, hiddenFields = [], actions }: ResponsiveRowProps) => {
   const [open, setOpen] = useState(false)
 
   return (
@@ -29,6 +31,12 @@ export const ResponsiveRow = ({ visibleFields, hiddenFields = [] }: ResponsiveRo
               </span>
             </div>
           ))}
+          {/* Actions sit outside the gradient mask on mobile */}
+          {actions && (
+            <div className={styles.actionsSlot}>
+              {actions}
+            </div>
+          )}
           {hiddenFields.length > 0 && (
             <button
               className={`${styles.toggle} ${open ? styles.active : ''}`}
