@@ -14,6 +14,7 @@ import { postCreateLead } from '../../../../shared/utils/api/Admin/Leads/post-cr
 import { putUpdateLead } from '../../../../shared/utils/api/Admin/Leads/put-update-lead'
 import { deleteLead } from '../../../../shared/utils/api/Admin/Leads/delete-lead'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
+import { usePullToRefresh } from '../../../../shared/hooks/usePullToRefresh'
 
 export interface LeadItem {
   id: string | number
@@ -54,6 +55,16 @@ export const AdminLeadsPage = () => {
   const [formData, setFormData] = useState<LeadFormData>(EMPTY_FORM)
 
   const queryClient = useQueryClient()
+
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024
+
+  const { pullY, refreshing } = usePullToRefresh({
+    enabled: isMobile,
+    threshold: 70,
+    onRefresh: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['leads'] })
+    },
+  })
   const showToast = useCustomToast()
 
   const { data: leadsData, isLoading } = useQuery({
@@ -228,6 +239,36 @@ export const AdminLeadsPage = () => {
 
   return (
     <div className={styles.wrapper}>
+      {/* Pull-to-refresh indicator (mobile only) */}
+      {(pullY > 0 || refreshing) && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: refreshing ? 48 : Math.min(pullY, 48),
+          background: 'rgba(27,30,41,0.95)',
+          transition: refreshing ? 'none' : 'height 0.1s',
+          overflow: 'hidden',
+        }}>
+          {refreshing ? (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5965e7" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M21 12a9 9 0 1 1-6.219-8.56">
+                <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="0.8s" repeatCount="indefinite"/>
+              </path>
+            </svg>
+          ) : (
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={pullY >= 70 ? '#5965e7' : '#9ea0b7'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+              style={{ transform: `rotate(${Math.min(pullY / 70, 1) * 180}deg)`, transition: 'transform 0.1s' }}>
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          )}
+        </div>
+      )}
       <section className={styles.section}>
         <RecentCard
           title='Leads'
