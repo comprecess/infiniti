@@ -62,12 +62,13 @@ export const AdminLeadsPage = () => {
     enabled: isMobile,
     threshold: 70,
     onRefresh: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['leads'] })
+      // Force refetch ignoring staleTime — needed for PWA mode
+      await refetch()
     },
   })
   const showToast = useCustomToast()
 
-  const { data: leadsData, isLoading } = useQuery({
+  const { data: leadsData, isLoading, refetch } = useQuery({
     queryKey: ['leads'],
     queryFn: async () => {
       const response = await getLeadsList()
