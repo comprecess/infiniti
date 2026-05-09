@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 
 import styles from './Item.module.scss'
@@ -9,9 +10,18 @@ interface ItemProps {
 
 export const Item = ({ amount, plus = false }: ItemProps) => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
+
+  const handleClick = () => {
+    if (plus) {
+      navigate('/admin/accounting/new/deposit')
+    } else {
+      navigate('/admin/accounting/new/expense')
+    }
+  }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} onClick={handleClick} style={{ cursor: 'pointer' }}>
       {plus ? (
         <img
           className={styles.icon}
