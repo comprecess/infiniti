@@ -56,98 +56,56 @@ class ChatGPTController extends ResidentController
         $chat = new ChatGPTService($chatGPT);
         $chat->setModel($chatGPT->chat_model);
 
-
-        /******-1/
-  /*
-        $prompt = 'Твоя задача написать ответ, ';
-        $block = [];
-
-        if($chatGPT->discussionModel instanceof ChatGPTContract) {
-            $prompt .= 'на тему ' . $chatGPT->discussionModel->discussionTopic();
-            if($chatGPT->discussionModel->id) {
-                $block['Свойства и характеристики'] = $chatGPT->discussionModel->modelDescription(config("data.chat_gpt.{$chatGPT->getDiscussionModelName()}"));
-            }
-
-        }
-
-        $analysis = $chatGPT->getAnalysis();
-        if(count($analysis)) {
-            $prompt .= " по конкретному паттерну [Паттерн]";
-            $pattern = "";
-            foreach(array_keys($analysis) as $key) {
-                $pattern .= "{{$key}}: Твой текст в разметке html{/{$key}}\n";
-            }
-            $block['Паттерн'] = $pattern;
-        }
-
-        $prompt .= " исходя из текста [Текст]";
-        $block['Текст'] = $chatGPT->message;
-
+        // Load conversation history from DB and pass as proper messages
         $history = $chatGPT->history();
         if($history?->count()){
-            $prompt .= " и истории [История] нашей переписки";
-            $block['История'] = $history->toChat();
+            foreach($history as $historyItem) {
+                if($historyItem->parent_id) {
+                    // AI response
+                    $chat->addConversationMessage('assistant', $historyItem->message);
+                } else {
+                    // User message
+                    $chat->addConversationMessage('user', $historyItem->message);
+                }
+            }
         }
 
-        $prompt .= ", не двигаясь вправо влево, не сочиняя что-то свое без лишних движений,";
-
-        if(count($analysis)) {
-            $prompt .= ' строго соблюдая паттерн.';
-        }else{
-            $prompt .= ".";
-        }
-
-//        $prompt .= " Повторюсь проанализируй [Текст] и напиши строго по патерну свой ответ, не дополняя ничего \n";
-*/
-        /******/
-
-        $prompt = 'В поле текст [текст] описаны основные требование для тебя и что пользователь хочет получить. Определи на каком языке написан [текст] и дай ответ на том же языке. Не пиши какой язык. ';
-        $block['текст'] = $chatGPT->message;
+        // Build the current user message with context
+        $userMessage = $chatGPT->message;
+        $contextParts = [];
 
         $modelData = config("data.chat_gpt.{$chatGPT->getDiscussionModelName()}");
 
         if($chatGPT->discussionModel instanceof ChatGPTContract) {
-            $prompt .= 'Дискуссия ведется по теме: ' . $chatGPT->discussionModel->discussionTopic();
+            $contextParts[] = 'Дискуссия ведется по теме: ' . $chatGPT->discussionModel->discussionTopic();
             if($chatGPT->discussionModel->id) {
-                $block[$chatGPT->discussionModel->discussionName()] = $chatGPT->discussionModel->modelDescription($modelData);
+                $contextParts[] = "[{$chatGPT->discussionModel->discussionName()}]\n" . $chatGPT->discussionModel->modelDescription($modelData);
             }
-
         }
 
         $analysis = $chatGPT->getAnalysis();
         if(count($analysis)) {
-            $prompt .= "\nТвой ответ должен выглядеть в виде паттерна [паттерн]";
             $pattern = "";
             foreach(array_keys($analysis) as $key) {
                 $html = Arr::get($modelData, "{$key}.html", false) ? " в разметке html" : "";
                 $pattern .= "{{$key}} Твой текст{$html} {/{$key}}\n";
             }
-            $block['паттерн'] = $pattern;
+            $contextParts[] = "Твой ответ должен выглядеть в виде паттерна:\n" . $pattern;
         }
 
-        $history = $chatGPT->history();
-        if($history?->count()){
-            $block['История'] = $history->toChat();
+        // Combine context with user message
+        if(!empty($contextParts)) {
+            $fullMessage = implode("\n", $contextParts) . "\n\n" . $userMessage;
+        } else {
+            $fullMessage = $userMessage;
         }
 
-        $prompt .= "\n";
-        /******/
-
-        $chat->write($prompt);
-
-        foreach($block as $name => $value) {
-            $chat->write("[{$name}]\n{$value}\n");
-        }
-
+        $chat->write($fullMessage);
         $model = $chat->send()->toModel();
         $model->save();
 
         $chatGPT->log_message = $chat->getHistory(2);
         $chatGPT->save();
-
-        /*$chat = $request
-            ->getChatGPT()
-            ->discussionAboutModel();*/
 
         return new ChatGPTResource($model);
     }
