@@ -12,20 +12,17 @@ import { useNavigate } from 'react-router-dom'
 import styles from './Profile.module.scss'
 import {
   authTokenString,
-  notificationTokenString,
   UserInfo,
 } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { subscribeVapidPush, getVapidSubscriptionEndpoint } from '../../../vapidPushService'
-import { getDevicePush } from '../../utils/api/Push/get-device-push'
 import { patchSetDevicePush } from '../../utils/api/Push/patch-set-device-push'
-import { postKeyPush } from '../../utils/api/Push/post-key-push'
 import { postUnsubPush } from '../../utils/api/Push/post-unsub-push'
 import { useDeviceDetect } from '../../utils/hooks/useDeviceDetect'
-import { getCookies } from '../../utils/Saving/Cookies/GetCookies'
 import { removeCookies } from '../../utils/Saving/Cookies/RemoveCookies'
 import { getSession } from '../../utils/Saving/Session/GetSession'
 import { removeSession } from '../../utils/Saving/Session/RemoveSession'
+import { getCookies } from '../../utils/Saving/Cookies/GetCookies'
 import { useCustomToast } from '../CustomToast/CustomToast'
 import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner'
 
@@ -43,38 +40,35 @@ export const Profile = ({ user }: ProfileProps) => {
   const navigate = useNavigate()
   const showToast = useCustomToast()
 
-  const notificationToken = getCookies(notificationTokenString)
   const sessionToken = getSession(authTokenString)
   const authToken = getCookies(authTokenString)
 
+  // Check subscription status via Service Worker
   const fetchPushNotifications = useCallback(async () => {
-    if (isMobile && !sessionToken && notificationToken.status) {
+    if (isMobile && !sessionToken) {
       try {
-        const response = await getDevicePush(notificationToken.cookie || '')
-
-        if (response.status) {
-          setIsSubscribed(response.data.data.enabled === 1 ? true : false)
-        } else {
-          setIsSubscribed(false)
-        }
-      } catch (error) {
+        const endpoint = await getVapidSubscriptionEndpoint()
+        setIsSubscribed(!!endpoint)
+      } catch {
         setIsSubscribed(false)
       }
     }
-
     setIsLoading(false)
-  }, [isMobile])
+  }, [isMobile, sessionToken])
 
   const logout = async () => {
     try {
-      if (isMobile && !sessionToken && notificationToken.status) {
-        await patchSetDevicePush(notificationToken.cookie || '', 0)
-        await postUnsubPush(notificationToken.cookie || '')
+      if (isMobile && !sessionToken) {
+        const endpoint = await getVapidSubscriptionEndpoint()
+        if (endpoint) {
+          await patchSetDevicePush(encodeURIComponent(endpoint), 0)
+          await postUnsubPush(encodeURIComponent(endpoint))
+        }
       }
 
       if (sessionToken) {
         removeSession(authTokenString)
-      } else if (authToken) {
+      } else if (authToken.status) {
         removeCookies(authTokenString)
       }
 
@@ -88,21 +82,42 @@ export const Profile = ({ user }: ProfileProps) => {
     }
   }
 
-  const toggleNotificationSubscription = async (isSubscribed: boolean) => {
-    if (isMobile) {
-      setIsLoading(true)
+  const toggleNotificationSubscription = async () => {
+    if (!isMobile || sessionToken) return
 
-      if (!notificationToken.status) {
-        await subscribeVapidPush(`${os}, ${deviceModel}, ${browser}`)
+    setIsLoading(true)
+    try {
+      if (!isSubscribed) {
+        // Subscribe
+        const ok = await subscribeVapidPush(`${os}, ${deviceModel}, ${browser}`)
+        if (ok) {
+          setIsSubscribed(true)
+          showToast({ title: 'Notifications enabled', status: 'success' })
+        } else {
+          showToast({ title: 'Could not enable notifications', description: 'Please allow notifications in browser settings', status: 'warning' })
+        }
       } else {
-        await postKeyPush(notificationToken.cookie || '', `${os}, ${deviceModel}, ${browser}`)
-        await patchSetDevicePush(notificationToken.cookie || '', isSubscribed === true ? 1 : 0)
+        // Unsubscribe
+        const endpoint = await getVapidSubscriptionEndpoint()
+        if (endpoint) {
+          await patchSetDevicePush(encodeURIComponent(endpoint), 0)
+          await postUnsubPush(encodeURIComponent(endpoint))
+        }
+        // Unregister SW subscription
+        if ('serviceWorker' in navigator) {
+          const reg = await navigator.serviceWorker.getRegistration('/sw.js')
+          if (reg) {
+            const sub = await reg.pushManager.getSubscription()
+            if (sub) await sub.unsubscribe()
+          }
+        }
+        setIsSubscribed(false)
+        showToast({ title: 'Notifications disabled', status: 'info' })
       }
-
-      setTimeout(() => {
-        fetchPushNotifications()
-      }, 2000)
+    } catch (err) {
+      showToast({ title: 'Error', description: String(err), status: 'error' })
     }
+    setIsLoading(false)
   }
 
   useEffect(() => {
@@ -207,7 +222,7 @@ export const Profile = ({ user }: ProfileProps) => {
             {isMobile && !sessionToken && (
               <div
                 className={`${styles.modalItem} ${styles.notifications}`}
-                onClick={() => toggleNotificationSubscription(!isSubscribed)}
+                onClick={toggleNotificationSubscription}
               >
                 <span>Notifications</span>
                 {isLoading ? (
@@ -215,10 +230,10 @@ export const Profile = ({ user }: ProfileProps) => {
                 ) : (
                   <span
                     className={
-                      isSubscribed === true ? styles.notificationsOn : styles.notificationsOff
+                      isSubscribed ? styles.notificationsOn : styles.notificationsOff
                     }
                   >
-                    {isSubscribed === true ? 'On' : 'Off'}
+                    {isSubscribed ? 'On' : 'Off'}
                   </span>
                 )}
               </div>
