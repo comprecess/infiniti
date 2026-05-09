@@ -75,7 +75,7 @@ export const NotificationProfile = () => {
   return (
     <Popover
       closeOnBlur
-      placement='bottom-end'
+      placement='bottom'
       isOpen={isOpen}
       returnFocusOnClose={false}
       onClose={onClose}
@@ -92,6 +92,17 @@ export const NotificationProfile = () => {
       <PopoverContent
         width={{ base: 'calc(100vw - 24px)', md: '350px' }}
         zIndex={9999}
+        marginTop='4px'
+        sx={{
+          '@media (max-width: 768px)': {
+            position: 'fixed !important',
+            left: '12px !important',
+            right: '12px !important',
+            transform: 'none !important',
+            top: '68px !important',
+            width: 'calc(100vw - 24px) !important',
+          }
+        }}
         _focus={{
           outline: 'none',
           boxShadow: '1px 1px 8px #acb2f3',
