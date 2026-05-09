@@ -94,7 +94,9 @@ export const NotificationProfile = () => {
         zIndex={9999}
         sx={{
           '@media (max-width: 768px)': {
-            transform: 'translateX(calc(-100% + 80px)) !important',
+            left: '12px !important',
+            right: '12px !important',
+            maxWidth: 'calc(100vw - 24px) !important',
           }
         }}
         _focus={{
