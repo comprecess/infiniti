@@ -102,7 +102,14 @@ class NotificationController extends Controller
     public function getItemPush($userId)
     {
         $user = User::getAuth();
-        $push = $user->pushSubscriptions()->where('endpoint', $userId)->firstOrFail();
+        if (is_numeric($userId)) {
+            $push = $user->pushSubscriptions()->where('id', (int) $userId)->first();
+        } else {
+            $push = $user->pushSubscriptions()->where('endpoint', $userId)->first();
+        }
+        if (!$push) {
+            return response()->json(['status' => false, 'message' => 'Not found'], 404);
+        }
         return new PushListResource($push);
     }
 
@@ -111,9 +118,12 @@ class NotificationController extends Controller
         $user = User::getAuth();
         $query = $user->pushSubscriptions();
         if (is_numeric($userId)) {
-            $push = $query->where('id', (int) $userId)->firstOrFail();
+            $push = $query->where('id', (int) $userId)->first();
         } else {
-            $push = $query->where('endpoint', $userId)->firstOrFail();
+            $push = $query->where('endpoint', $userId)->first();
+        }
+        if (!$push) {
+            return response()->json(['success' => true]); // already gone
         }
         $push->enabled = $request->enabled;
         $push->save();
