@@ -12,6 +12,7 @@ import { Icon } from '../../../shared/ui/Icon/Icon'
 import { Profile } from '../../../shared/ui/Profile/Profile'
 import { getOrderCart } from '../../../shared/utils/api/Client/Cart/get-order-cart'
 import { ChatGPT } from '../../../widgets/ChatGPT/ChatGPT'
+import { DashboardIcon } from '../../../shared/icons/sidebarList/DashboardIcon'
 import { NotificationProfile } from '../../../widgets/NotificationProfile/NotificationProfile'
 
 const BasketMemo = memo(Basket)
@@ -82,6 +83,11 @@ export const Header = ({
       <div className={styles.itemsRight}>
         {isAdmin ? (
           <>
+            <Icon
+              fill={false}
+              icon={<DashboardIcon />}
+              onIconClick={() => navigate(`/${Routes.adminPages}/${Routes.dashboard}`)}
+            />
             <ChatGPT />
             {/* <Icon icon={<NoteIcon />} onIconClick={() => {}} /> */}
           </>
