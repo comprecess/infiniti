@@ -43,6 +43,12 @@ class AdminNotification implements ShouldQueue
                 model: $model,
                 message: $message
             );
+            try {
+                $push = app(\App\Services\Push\Contracts\PushContract::class);
+                $push->sendUser($admin, 'Infiniti', $message, '/admin/dashboard');
+            } catch (\Throwable $e) {
+                \Log::error('Push (invoice): ' . $e->getMessage());
+            }
         }
 
 

@@ -28,6 +28,13 @@ class Notification implements ShouldQueue
 
         NotificationModel::createMain($meeting->owner, $meeting, $meeting->date);
 
+        try {
+            $push = app(\App\Services\Push\Contracts\PushContract::class);
+            $push->sendUser($meeting->owner, 'Infiniti', 'New meeting: ' . $meeting->name, '/admin/dashboard');
+        } catch (\Throwable $e) {
+            \Log::error('Push (meeting create): ' . $e->getMessage());
+        }
+
         /*$not = new NotificationModel();
         $not->setUser($meeting->owner);
         $not->setModel($meeting);

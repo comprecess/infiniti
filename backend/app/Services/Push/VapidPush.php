@@ -36,7 +36,7 @@ class VapidPush extends Push implements PushContract
 
         $sub = Subscription::create([
             'endpoint'        => $model->endpoint,
-            'contentEncoding' => 'aesgcm',
+            'contentEncoding' => 'aes128gcm',
             'keys'            => [
                 'p256dh' => $keys['p256dh'],
                 'auth'   => $keys['auth'],
