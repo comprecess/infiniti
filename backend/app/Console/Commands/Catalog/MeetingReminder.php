@@ -77,8 +77,8 @@ class MeetingReminder extends Command
             $now = \Carbon\Carbon::now();
 
             foreach ([15, 30, 60] as $minutes) {
-                $from = $now->copy()->addMinutes($minutes - 1);
-                $to   = $now->copy()->addMinutes($minutes + 1);
+                $from = $now->copy()->addMinutes($minutes - 3);
+                $to   = $now->copy()->addMinutes($minutes + 3);
 
                 $meetings = Meeting::with('owner')
                     ->whereBetween('date', [$from, $to])
