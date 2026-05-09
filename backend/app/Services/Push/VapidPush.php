@@ -50,7 +50,8 @@ class VapidPush extends Push implements PushContract
     public function sendUser(User $user, string $title, string $message, $url = null): void
     {
         $pushSend = UserSettings::get('push', $user);
-        if (!$pushSend) return;
+        // null = setting not configured = allow push; only block if explicitly disabled
+        if ($pushSend === false || $pushSend === 0 || $pushSend === '0') return;
 
         $subs = $user->pushSubscriptionsEnabled ?? collect();
         foreach ($subs as $item) {
