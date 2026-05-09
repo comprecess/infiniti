@@ -31,6 +31,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'hubspot' => [
+        'token' => env('HUBSPOT_TOKEN', ''),
+    ],
+
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),        // Your Google Client ID
         'client_secret' => env('GOOGLE_CLIENT_SECRET'), // Your Google Client Secret
