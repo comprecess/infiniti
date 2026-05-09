@@ -40,7 +40,7 @@ export const CashFlow = ({ data, roles }: CashFlowProps) => {
     if (roles && roles.leads.view === 0) {
       navigate(`/403`)
     } else {
-      navigate(`/`)
+      navigate(`/${Routes.adminPages}/${Routes.leads}`)
     }
   }
 
