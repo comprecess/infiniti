@@ -74,11 +74,16 @@ class MeetingReminder extends Command
     {
         try {
             $push = app(\App\Services\Push\Contracts\PushContract::class);
-            $now = now();
+            // Meetings are stored in local timezone (Europe/Moscow) but in UTC column
+            // So we compare against Moscow time treated as UTC
+            $now = now('Europe/Moscow')->setTimezone('UTC')->setTimezone('UTC');
+            // Simpler: meetings store "Moscow wall clock time" in UTC field
+            // so offset = +3h from real UTC. Use Carbon::now() + 3h offset trick:
+            $nowAdjusted = \Carbon\Carbon::now()->addHours(3); // Moscow offset
 
             foreach ([15, 30, 60] as $minutes) {
-                $from = $now->copy()->addMinutes($minutes - 1);
-                $to   = $now->copy()->addMinutes($minutes + 1);
+                $from = $nowAdjusted->copy()->addMinutes($minutes - 1);
+                $to   = $nowAdjusted->copy()->addMinutes($minutes + 1);
 
                 $meetings = Meeting::with('owner')
                     ->whereBetween('date', [$from, $to])
