@@ -27,8 +27,16 @@ export const subscribeVapidPush = async (deviceName: string): Promise<boolean> =
   }
 
   try {
-    // Register service worker if needed
-    const reg = await navigator.serviceWorker.register('/sw.js')
+    // Unregister ALL old service workers first to clear stale subscriptions
+    const registrations = await navigator.serviceWorker.getRegistrations()
+    for (const r of registrations) {
+      const sub = await r.pushManager.getSubscription()
+      if (sub) await sub.unsubscribe()
+      await r.unregister()
+    }
+
+    // Register fresh service worker
+    const reg = await navigator.serviceWorker.register('/sw.js?v=' + Date.now())
     await navigator.serviceWorker.ready
 
     // Request permission
