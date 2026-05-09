@@ -55,13 +55,18 @@ class NotificationController extends Controller
     {
         $user = User::getAuth();
 
+        $keys = [];
+        if ($request->p256dh && $request->auth) {
+            $keys = ['p256dh' => $request->p256dh, 'auth' => $request->auth];
+        }
+
         Push::updateOrCreate(
             ['endpoint' => $request->subscription],
             [
                 'user_type' => $user::class,
-                'user_id' => $user->id,
-                'name' => $request->name,
-                'keys' => []
+                'user_id'   => $user->id,
+                'name'      => $request->name,
+                'keys'      => $keys,
             ]
         );
 

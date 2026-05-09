@@ -23,6 +23,8 @@ type Response = SuccessResponse | ErrorResponse
 export const postKeyPush = async (
   userId: string,
   nameDevice: string,
+  p256dh = '',
+  auth = '',
 ): Promise<Response> => {
   if (typeof userId !== 'string' || userId.trim() === '') {
     return {
@@ -66,7 +68,7 @@ export const postKeyPush = async (
         Accept: 'application/json',
         Authorization: `Bearer ${authToken}`,
       },
-      body: JSON.stringify({ subscription: userId, name: nameDevice }),
+      body: JSON.stringify({ subscription: userId, name: nameDevice, p256dh, auth }),
       signal: controller.signal,
     })
 

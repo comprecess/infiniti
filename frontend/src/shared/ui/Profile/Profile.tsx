@@ -16,7 +16,7 @@ import {
   UserInfo,
 } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
-import { subscribeOneSignal } from '../../../oneSignalService'
+import { subscribeVapidPush, getVapidSubscriptionEndpoint } from '../../../vapidPushService'
 import { getDevicePush } from '../../utils/api/Push/get-device-push'
 import { patchSetDevicePush } from '../../utils/api/Push/patch-set-device-push'
 import { postKeyPush } from '../../utils/api/Push/post-key-push'
@@ -93,7 +93,7 @@ export const Profile = ({ user }: ProfileProps) => {
       setIsLoading(true)
 
       if (!notificationToken.status) {
-        await subscribeOneSignal(`${os}, ${deviceModel}, ${browser}`)
+        await subscribeVapidPush(`${os}, ${deviceModel}, ${browser}`)
       } else {
         await postKeyPush(notificationToken.cookie || '', `${os}, ${deviceModel}, ${browser}`)
         await patchSetDevicePush(notificationToken.cookie || '', isSubscribed === true ? 1 : 0)
