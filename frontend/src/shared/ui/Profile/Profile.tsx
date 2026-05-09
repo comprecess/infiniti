@@ -16,8 +16,6 @@ import {
 } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { subscribeVapidPush, getVapidSubscriptionEndpoint } from '../../../vapidPushService'
-import { patchSetDevicePush } from '../../utils/api/Push/patch-set-device-push'
-import { postUnsubPush } from '../../utils/api/Push/post-unsub-push'
 import { useDeviceDetect } from '../../utils/hooks/useDeviceDetect'
 import { removeCookies } from '../../utils/Saving/Cookies/RemoveCookies'
 import { getSession } from '../../utils/Saving/Session/GetSession'
@@ -97,13 +95,7 @@ export const Profile = ({ user }: ProfileProps) => {
           showToast({ title: 'Could not enable notifications', description: 'Please allow notifications in browser settings', status: 'warning' })
         }
       } else {
-        // Unsubscribe
-        const endpoint = await getVapidSubscriptionEndpoint()
-        if (endpoint) {
-          await patchSetDevicePush(encodeURIComponent(endpoint), 0)
-          await postUnsubPush(encodeURIComponent(endpoint))
-        }
-        // Unregister SW subscription
+        // Unsubscribe — just remove from browser, no broken API calls
         if ('serviceWorker' in navigator) {
           const reg = await navigator.serviceWorker.getRegistration('/sw.js')
           if (reg) {
