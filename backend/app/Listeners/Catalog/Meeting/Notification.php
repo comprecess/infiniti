@@ -29,5 +29,11 @@ class Notification implements ShouldQueue
 
         NotificationModel::updateActiveAndCreateByModel($meeting->owner, $meeting);
 
+        try {
+            $push = app(\App\Services\Push\Contracts\PushContract::class);
+            $push->sendUser($meeting->owner, 'Infiniti', 'Meeting updated: ' . $meeting->name, '/admin/dashboard');
+        } catch (\Throwable $e) {
+            \Log::error('Push (meeting update): ' . $e->getMessage());
+        }
     }
 }

@@ -41,6 +41,7 @@ use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use App\Services\Document\DocumentVariables;
 use Illuminate\Support\Arr;
+use App\Services\Push\Contracts\PushContract;
 use Illuminate\Http\Request;
 
 class TransactionsController extends TransactionsAccessController
@@ -233,6 +234,21 @@ class TransactionsController extends TransactionsAccessController
                 ' | Amount: ' .
                 $request->getAmount() .
                 ']');
+
+            if ($isNew) {
+                try {
+                    $push = app(PushContract::class);
+                    $sign = $type === 'deposit' ? '+' : '-';
+                    $body = $edit . ' ' . $type . ': ' . $sign . $request->getAmount() . ' — ' . $request->description;
+                    $adminActionDate = now()->subMonth(3);
+                    $admins = Admin::where((new Admin())->getColumnLastTime(), '>=', $adminActionDate)->get();
+                    foreach ($admins as $admin) {
+                        $push->sendUser($admin, 'Infiniti', $body, '/admin/accounting');
+                    }
+                } catch (\Throwable $e) {
+                    \Log::error('Push (transaction): ' . $e->getMessage());
+                }
+            }
 
             if($project = $model->project) {
                 $type = Arr::get([Transaction::TYPE[1] => ProjectLog::TYPE[5], Transaction::TYPE[0] => ProjectLog::TYPE[6]],$request->type);
