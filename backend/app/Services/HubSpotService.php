@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 class HubSpotService
 {
     private string $baseUrl = 'https://api.hubapi.com';
-    private string $token;
+    private ?string $token = null;
 
     private array $contactProperties = [
         'firstname', 'lastname', 'email', 'phone',
@@ -47,6 +47,9 @@ class HubSpotService
 
     private function http()
     {
+        if (!$this->token) {
+            throw new \RuntimeException('HubSpot token not configured. Set HUBSPOT_TOKEN in .env');
+        }
         return Http::withToken($this->token)
             ->acceptJson()
             ->timeout(15);
