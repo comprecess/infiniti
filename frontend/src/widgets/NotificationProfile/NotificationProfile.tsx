@@ -99,7 +99,7 @@ export const NotificationProfile = () => {
             left: '12px !important',
             right: '12px !important',
             transform: 'none !important',
-            top: '68px !important',
+            top: 'calc(env(safe-area-inset-top) + 64px) !important',
             width: 'calc(100vw - 24px) !important',
           }
         }}
