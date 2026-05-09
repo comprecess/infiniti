@@ -77,11 +77,16 @@ class NotificationController extends Controller
     {
         $user = User::getAuth();
         $pushSubscriptionsQuery = $user->pushSubscriptions();
-        if($request->userId) {
-            $pushSubscriptionsQuery->where('endpoint', $request->userId);
+        if ($request->userId) {
+            // Support both numeric id and endpoint string for backwards compat
+            if (is_numeric($request->userId)) {
+                $pushSubscriptionsQuery->where('id', (int) $request->userId);
+            } else {
+                $pushSubscriptionsQuery->where('endpoint', $request->userId);
+            }
         }
 
-        foreach($pushSubscriptionsQuery->get() as $push){
+        foreach ($pushSubscriptionsQuery->get() as $push) {
             $push->delete();
         }
 
@@ -104,7 +109,12 @@ class NotificationController extends Controller
     public function enabledPush(PushUpdateRequest $request, $userId)
     {
         $user = User::getAuth();
-        $push = $user->pushSubscriptions()->where('endpoint', $userId)->firstOrFail();
+        $query = $user->pushSubscriptions();
+        if (is_numeric($userId)) {
+            $push = $query->where('id', (int) $userId)->firstOrFail();
+        } else {
+            $push = $query->where('endpoint', $userId)->firstOrFail();
+        }
         $push->enabled = $request->enabled;
         $push->save();
 

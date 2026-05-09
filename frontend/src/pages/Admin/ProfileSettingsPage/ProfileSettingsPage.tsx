@@ -23,9 +23,9 @@ export const AdminProfileSettingsPage = () => {
     setListNotifications(response.data.data)
   }
 
-  const handleDeleteNotifications = async (token: string) => {
-    const resUserSettings = await patchSetDevicePush(token, 0)
-    const resUnsubscribed = await postUnsubPush(token)
+  const handleDeleteNotifications = async (id: number) => {
+    const resUserSettings = await patchSetDevicePush(String(id), 0)
+    const resUnsubscribed = await postUnsubPush(String(id))
 
     if (resUnsubscribed.status && resUserSettings.status) {
       showToast({
