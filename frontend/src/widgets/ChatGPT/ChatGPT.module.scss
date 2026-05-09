@@ -42,6 +42,13 @@
   box-shadow: 1px 1px 7px $brand-300 !important;
   border: none !important;
 
+  @include mobileBreakpoint('max', 500px - 1px) {
+    height: calc(100vh - 100px);
+    margin: 0 12px;
+    width: calc(100vw - 24px) !important;
+    max-width: calc(100vw - 24px) !important;
+  }
+
   @include mobileBreakpoint('min', 500px) {
     max-height: 650px;
   }
