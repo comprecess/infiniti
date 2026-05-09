@@ -34,6 +34,9 @@ class MeetingReminder extends Command
      */
     public function handle()
     {
+        // Push reminders: 15, 30, 60 minutes before
+        $this->sendPushReminders();
+
         foreach([1,24] as $hour) {
             $time = now();
             $time->setSeconds(0);
@@ -64,6 +67,43 @@ class MeetingReminder extends Command
                     ->send(new \App\Mail\Catalog\MeetingReminder($meeting, $hour));
 
             });
+        }
+    }
+
+    private function sendPushReminders(): void
+    {
+        try {
+            $push = app(\App\Services\Push\Contracts\PushContract::class);
+            $now = now();
+
+            foreach ([15, 30, 60] as $minutes) {
+                $from = $now->copy()->addMinutes($minutes - 1);
+                $to   = $now->copy()->addMinutes($minutes + 1);
+
+                $meetings = Meeting::with('owner')
+                    ->whereBetween('date', [$from, $to])
+                    ->whereNull('deleted_at')
+                    ->get();
+
+                foreach ($meetings as $meeting) {
+                    $cacheKey = "meeting_push_reminder_{$meeting->id}_{$minutes}";
+                    if (\Illuminate\Support\Facades\Cache::has($cacheKey)) continue;
+
+                    $owner = $meeting->owner;
+                    if (!$owner) continue;
+
+                    $push->sendUser(
+                        $owner,
+                        'Infiniti',
+                        "Meeting in {$minutes} min: {$meeting->name}",
+                        '/admin/dashboard'
+                    );
+                    \Illuminate\Support\Facades\Cache::put($cacheKey, true, $now->copy()->addMinutes($minutes + 5));
+                    Log::info("Push reminder {$minutes}min sent for meeting #{$meeting->id}");
+                }
+            }
+        } catch (\Throwable $e) {
+            Log::error('Push meeting reminder failed: ' . $e->getMessage());
         }
     }
 }

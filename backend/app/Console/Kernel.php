@@ -20,7 +20,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command(SetCurrency::class)->daily();
-        $schedule->command(MeetingReminder::class)->hourly();
+        $schedule->command(MeetingReminder::class)->everyFiveMinutes();
         $schedule->command(ExpiredInvoice::class)->daily();
         $schedule->command(ExpiredOffer::class)->daily();
         $schedule->command(NewTalent::class)->weeklyOn(5, '12:00');
