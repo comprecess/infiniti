@@ -95,7 +95,7 @@ class MeetingReminder extends Command
                     $push->sendUser(
                         $owner,
                         'Infiniti',
-                        "Meeting in {$minutes} min: {$meeting->name}",
+                        "Meeting in {$minutes} min (ID: {$meeting->id})",
                         '/admin/dashboard'
                     );
                     \Illuminate\Support\Facades\Cache::put($cacheKey, true, $now->copy()->addMinutes($minutes + 5));
