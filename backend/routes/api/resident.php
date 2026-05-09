@@ -318,3 +318,14 @@ Route::controller(Resident\MailController::class)->prefix('mail')
     ->group(function(){
         Route::match(['GET', 'POST'],'/template/{nameTemplate}/{varible?}', 'template')->where('varible', '(.*)');
     });
+
+#Leads (HubSpot)
+Route::prefix('leads')
+    ->controller(Resident\LeadsController::class)
+    ->group(function(){
+        Route::get('/', 'list');
+        Route::get('/statuses', 'statuses');
+        Route::post('/', 'store');
+        Route::put('/{id}', 'update');
+        Route::delete('/{id}', 'destroy');
+    });
