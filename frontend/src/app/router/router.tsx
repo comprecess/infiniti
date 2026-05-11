@@ -515,6 +515,10 @@ export const router = createBrowserRouter([
             element: Pages.adminGeneralSettingsPage,
           },
           {
+            path: Routes.emailTemplates,
+            element: Pages.adminEmailTemplatesPage,
+          },
+          {
             index: true,
             element: <Navigate replace to={`/${Routes.adminPages}/${Routes.dashboard}`} />,
           },
