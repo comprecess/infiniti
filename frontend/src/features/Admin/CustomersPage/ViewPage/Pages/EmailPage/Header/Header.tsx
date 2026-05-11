@@ -12,21 +12,19 @@ interface HeaderProps {
   updateInfo: (name: string, value: string | number) => void
   sendEmail: () => void
   subjectValue?: string
-  bodyValue?: string
 }
 
-export const Header = ({ inputTo, updateInfo, sendEmail, subjectValue, bodyValue }: HeaderProps) => {
+export const Header = ({ inputTo, updateInfo, sendEmail, subjectValue }: HeaderProps) => {
   const [templateModalOpen, setTemplateModalOpen] = useState(false)
   const [editorKey, setEditorKey] = useState(0)
+  const [subjectKey, setSubjectKey] = useState(0)
+  const [templateBody, setTemplateBody] = useState('')
   const { id } = useParams<{ id: string }>()
   const contactId = id ? parseInt(id) : undefined
 
   const updateTextEditor = (message: string) => {
     updateInfo('message', message)
   }
-
-  const [templateBody, setTemplateBody] = useState<string>('')
-  const [subjectKey, setSubjectKey] = useState(0)
 
   const handleTemplateSelect = (subject: string, body: string) => {
     updateInfo('title', subject)
