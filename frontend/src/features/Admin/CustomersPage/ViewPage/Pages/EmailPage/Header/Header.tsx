@@ -17,7 +17,6 @@ interface HeaderProps {
 export const Header = ({ inputTo, updateInfo, sendEmail, subjectValue }: HeaderProps) => {
   const [templateModalOpen, setTemplateModalOpen] = useState(false)
   const [editorKey, setEditorKey] = useState(0)
-  const [subjectKey, setSubjectKey] = useState(0)
   const [templateBody, setTemplateBody] = useState('')
   const { id } = useParams<{ id: string }>()
   const contactId = id ? parseInt(id) : undefined
@@ -30,7 +29,6 @@ export const Header = ({ inputTo, updateInfo, sendEmail, subjectValue }: HeaderP
     updateInfo('title', subject)
     setTemplateBody(body)
     setEditorKey(k => k + 1)
-    setSubjectKey(k => k + 1)
   }
 
   return (
@@ -45,7 +43,6 @@ export const Header = ({ inputTo, updateInfo, sendEmail, subjectValue }: HeaderP
         onChange={() => {}}
       />
       <CustomInput
-        key={subjectKey}
         title='Subject:'
         id='title'
         name='title'

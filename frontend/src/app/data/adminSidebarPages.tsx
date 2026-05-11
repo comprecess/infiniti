@@ -1044,14 +1044,6 @@ export const adminSidebarPages = [
         create: false,
       },
       {
-        id: 14,
-        title: 'admin-sidebar-subsidiary-page-email-templates',
-        path: '',
-
-        // Access
-        create: false,
-      },
-      {
         id: 15,
         title: 'admin-sidebar-subsidiary-page-custom-contact-fields',
         path: `${Routes.custom}/${Routes.contact}/${Routes.fields}`,
