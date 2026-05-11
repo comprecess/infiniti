@@ -22,6 +22,8 @@ export interface PartialFieldsPostData
 
 export const AdminContactEmailPage = () => {
   const [values, setValues] = useState<PartialFieldsPostData>()
+  const [subjectValue, setSubjectValue] = useState<string>('')
+  const [bodyValue, setBodyValue] = useState<string>('')
 
   const showToast = useCustomToast()
   const queryClient = useQueryClient()
@@ -69,6 +71,8 @@ export const AdminContactEmailPage = () => {
       ...prev,
       [name]: value,
     }))
+    if (name === 'title') setSubjectValue(value)
+    if (name === 'message') setBodyValue(value)
   }
 
   useEffect(() => {

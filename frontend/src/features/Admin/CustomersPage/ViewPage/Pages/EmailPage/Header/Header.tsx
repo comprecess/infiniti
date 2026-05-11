@@ -12,9 +12,10 @@ interface HeaderProps {
   updateInfo: (name: string, value: string | number) => void
   sendEmail: () => void
   subjectValue?: string
+  bodyValue?: string
 }
 
-export const Header = ({ inputTo, updateInfo, sendEmail, subjectValue }: HeaderProps) => {
+export const Header = ({ inputTo, updateInfo, sendEmail, subjectValue, bodyValue }: HeaderProps) => {
   const [templateModalOpen, setTemplateModalOpen] = useState(false)
   const [editorKey, setEditorKey] = useState(0)
   const { id } = useParams<{ id: string }>()
@@ -24,9 +25,11 @@ export const Header = ({ inputTo, updateInfo, sendEmail, subjectValue }: HeaderP
     updateInfo('message', message)
   }
 
+  const [templateBody, setTemplateBody] = useState<string>('')
+
   const handleTemplateSelect = (subject: string, body: string) => {
     updateInfo('title', subject)
-    updateInfo('message', body)
+    setTemplateBody(body)
     setEditorKey(k => k + 1) // force TextEditor remount with new content
   }
 
@@ -46,9 +49,11 @@ export const Header = ({ inputTo, updateInfo, sendEmail, subjectValue }: HeaderP
         id='title'
         name='title'
         type='text'
+        value={subjectValue ?? ''}
+        onInputChange={false}
         onChange={updateInfo}
       />
-      <TextEditor key={editorKey} setValue={updateTextEditor} />
+      <TextEditor key={editorKey} setValue={updateTextEditor} defaultValue={templateBody} />
       <div className={styles.wrapperTemplates}>
         <div
           className={styles.chooseTemplate}
