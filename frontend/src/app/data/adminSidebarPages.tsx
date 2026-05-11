@@ -959,6 +959,12 @@ export const adminSidebarPages = [
       },
       {
         id: 4,
+        title: 'admin-sidebar-subsidiary-page-email-templates',
+        path: Routes.emailTemplates,
+        create: false,
+      },
+      {
+        id: 999,
         title: 'admin-sidebar-subsidiary-page-currencies',
         path: Routes.currencies,
 

@@ -329,3 +329,15 @@ Route::prefix('leads')
         Route::put('/{id}', 'update');
         Route::delete('/{id}', 'destroy');
     });
+
+# Email Templates
+Route::prefix('email-templates')
+    ->controller(\App\Http\Controllers\Api\EmailTemplateController::class)
+    ->group(function(){
+        Route::get('/', 'index');
+        Route::post('/', 'store');
+        Route::get('/{id}', 'show');
+        Route::patch('/{id}', 'update');
+        Route::delete('/{id}', 'destroy');
+        Route::get('/{id}/render', 'render');
+    });

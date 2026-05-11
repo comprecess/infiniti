@@ -75,6 +75,7 @@ import { AdminViewOfferPage } from '../../pages/Admin/SalesPage/ViewOfferPage/Vi
 import { AdminCurrenciesPage } from '../../pages/Admin/SettingsPage/CurrenciesPage/CurrenciesPage'
 import { AdminCustomContactFields } from '../../pages/Admin/SettingsPage/CustomContactFieldsPage/CustomContactFieldsPage'
 import { AdminGeneralSettingsPage } from '../../pages/Admin/SettingsPage/GeneralSettingsPage/GeneralSettingsPage'
+import { AdminEmailTemplatesPage } from '../../pages/Admin/SettingsPage/EmailTemplatesPage/EmailTemplatesPage'
 import { AdminLocalizationPage } from '../../pages/Admin/SettingsPage/LocalizationPage/LocalizationPage'
 import { AdminEditRolePage } from '../../pages/Admin/SettingsPage/RolesPage/EditRolePage/EditRolePage'
 import { AdminNewRolePage } from '../../pages/Admin/SettingsPage/RolesPage/NewRolePage/NewRolePage'
@@ -164,6 +165,7 @@ export const Routes = {
   transaction: 'transaction',
   catalog: 'catalog',
   generalSettings: 'general-settings',
+  emailTemplates: 'email-templates',
   talents: 'talents',
   logs: 'logs',
   customers: 'customers',
@@ -420,6 +422,7 @@ export const Pages = {
   adminEditUserPage: <AdminEditUserPage />,
   adminLocalizationPage: <AdminLocalizationPage />,
   adminGeneralSettingsPage: <AdminGeneralSettingsPage />,
+  adminEmailTemplatesPage: <AdminEmailTemplatesPage />,
 
   /* Public  pages */
   publicViewInvoice: <InvoiceViewPage />,

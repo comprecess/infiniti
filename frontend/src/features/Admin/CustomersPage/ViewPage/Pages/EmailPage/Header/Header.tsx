@@ -1,18 +1,33 @@
+import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import styles from './Header.module.scss'
 import { FileIcon } from '../../../../../../../shared/icons/FileIcon'
 import { ButtonBlue } from '../../../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../../../../../../shared/ui/CustomInput/CustomInput'
 import { TextEditor } from '../../../../../../../shared/ui/TextEditor/TextEditor'
+import { ChooseTemplateModal } from '../../../../../../../shared/ui/ChooseTemplateModal/ChooseTemplateModal'
 
 interface HeaderProps {
   inputTo: string
   updateInfo: (name: string, value: string | number) => void
   sendEmail: () => void
+  subjectValue?: string
 }
 
-export const Header = ({ inputTo, updateInfo, sendEmail }: HeaderProps) => {
+export const Header = ({ inputTo, updateInfo, sendEmail, subjectValue }: HeaderProps) => {
+  const [templateModalOpen, setTemplateModalOpen] = useState(false)
+  const [editorKey, setEditorKey] = useState(0)
+  const { id } = useParams<{ id: string }>()
+  const contactId = id ? parseInt(id) : undefined
+
   const updateTextEditor = (message: string) => {
     updateInfo('message', message)
+  }
+
+  const handleTemplateSelect = (subject: string, body: string) => {
+    updateInfo('title', subject)
+    updateInfo('message', body)
+    setEditorKey(k => k + 1) // force TextEditor remount with new content
   }
 
   return (
@@ -33,9 +48,13 @@ export const Header = ({ inputTo, updateInfo, sendEmail }: HeaderProps) => {
         type='text'
         onChange={updateInfo}
       />
-      <TextEditor setValue={updateTextEditor} />
+      <TextEditor key={editorKey} setValue={updateTextEditor} />
       <div className={styles.wrapperTemplates}>
-        <div className={styles.chooseTemplate}>
+        <div
+          className={styles.chooseTemplate}
+          onClick={() => setTemplateModalOpen(true)}
+          style={{ cursor: 'pointer' }}
+        >
           <div className={styles.fileIcon}>
             <FileIcon />
           </div>
@@ -43,6 +62,13 @@ export const Header = ({ inputTo, updateInfo, sendEmail }: HeaderProps) => {
         </div>
         <ButtonBlue title='Send' style={styles.buttonBlue} onClick={sendEmail} />
       </div>
+
+      <ChooseTemplateModal
+        isOpen={templateModalOpen}
+        onClose={() => setTemplateModalOpen(false)}
+        contactId={contactId}
+        onSelect={handleTemplateSelect}
+      />
     </div>
   )
 }

@@ -1,0 +1,18 @@
+.wrapper {
+  width: 100%;
+  padding: 24px;
+
+  @media (max-width: 768px) {
+    padding: 12px;
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  width: 100%;
+}
