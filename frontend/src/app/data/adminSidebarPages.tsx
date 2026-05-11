@@ -958,7 +958,7 @@ export const adminSidebarPages = [
         create: false,
       },
       {
-        id: 4,
+        id: 997,
         title: 'admin-sidebar-subsidiary-page-email-templates',
         path: Routes.emailTemplates,
         create: false,

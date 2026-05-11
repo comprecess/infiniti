@@ -26,7 +26,7 @@ export const getEmailTemplates = async (): Promise<Response> => {
   if (!authToken) return { status: false, message: AUTH_ERROR_MESSAGE }
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const url = `${baseUrl}/api/v1/email-templates`
+    const url = `${baseUrl}/api/v1/resident/email-templates`
     const data = await customFetch(url, {
       method: 'GET',
       headers: { Authorization: `Bearer ${authToken}`, Accept: 'application/json' },

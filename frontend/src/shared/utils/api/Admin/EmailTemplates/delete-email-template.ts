@@ -13,7 +13,7 @@ export const deleteEmailTemplate = async (id: number) => {
   if (!authToken) return { status: false, message: AUTH_ERROR_MESSAGE }
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const url = `${baseUrl}/api/v1/email-templates/${id}`
+    const url = `${baseUrl}/api/v1/resident/email-templates/${id}`
     const data = await customFetch(url, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${authToken}`, Accept: 'application/json' },

@@ -14,7 +14,7 @@ export const getRenderEmailTemplate = async (id: number, contactId?: number) => 
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
     const params = contactId ? `?contact_id=${contactId}` : ''
-    const url = `${baseUrl}/api/v1/email-templates/${id}/render${params}`
+    const url = `${baseUrl}/api/v1/resident/email-templates/${id}/render${params}`
     const data = await customFetch(url, {
       method: 'GET',
       headers: { Authorization: `Bearer ${authToken}`, Accept: 'application/json' },

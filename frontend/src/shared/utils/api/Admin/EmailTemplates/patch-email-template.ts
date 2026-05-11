@@ -13,7 +13,7 @@ export const patchEmailTemplate = async (id: number, payload: { name: string; su
   if (!authToken) return { status: false, message: AUTH_ERROR_MESSAGE }
   try {
     const baseUrl = import.meta.env.VITE_MAIN_DOMAIN
-    const url = `${baseUrl}/api/v1/email-templates/${id}`
+    const url = `${baseUrl}/api/v1/resident/email-templates/${id}`
     const data = await customFetch(url, {
       method: 'PATCH',
       headers: { Authorization: `Bearer ${authToken}`, 'Content-Type': 'application/json', Accept: 'application/json' },
