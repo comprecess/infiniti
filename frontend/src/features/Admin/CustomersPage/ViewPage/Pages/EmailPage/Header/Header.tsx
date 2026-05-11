@@ -26,11 +26,13 @@ export const Header = ({ inputTo, updateInfo, sendEmail, subjectValue, bodyValue
   }
 
   const [templateBody, setTemplateBody] = useState<string>('')
+  const [subjectKey, setSubjectKey] = useState(0)
 
   const handleTemplateSelect = (subject: string, body: string) => {
     updateInfo('title', subject)
     setTemplateBody(body)
-    setEditorKey(k => k + 1) // force TextEditor remount with new content
+    setEditorKey(k => k + 1)
+    setSubjectKey(k => k + 1)
   }
 
   return (
@@ -45,6 +47,7 @@ export const Header = ({ inputTo, updateInfo, sendEmail, subjectValue, bodyValue
         onChange={() => {}}
       />
       <CustomInput
+        key={subjectKey}
         title='Subject:'
         id='title'
         name='title'
