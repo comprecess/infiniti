@@ -88,6 +88,7 @@ export const AdminContactEmailPage = () => {
             inputTo: email.client.email,
             updateInfo,
             sendEmail,
+            subjectValue,
           }}
         >
           <RecentEmail list={email.logEmail} />
