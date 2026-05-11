@@ -27,6 +27,7 @@ export const Header = ({ inputTo, updateInfo, sendEmail, subjectValue }: HeaderP
 
   const handleTemplateSelect = (subject: string, body: string) => {
     updateInfo('title', subject)
+    updateInfo('message', body) // pre-fill values so Send works without re-typing
     setTemplateBody(body)
     setEditorKey(k => k + 1)
   }
