@@ -1,24 +1,12 @@
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Button,
-  Text,
-  Spinner,
-  Flex,
-} from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
+import { Spinner } from '@chakra-ui/react'
+import { CrossIcon } from '../../icons/CrossIcon'
+import { ButtonBlue } from '../ButtonBlue/ButtonBlue'
+import { CustomModalWindow } from '../CustomModalWindow/CustomModalWindow'
+import { LoadingSpinner } from '../LoadingSpinner/LoadingSpinner'
 import { getEmailTemplates, EmailTemplate } from '../../utils/api/Admin/EmailTemplates/get-email-templates'
 import { getRenderEmailTemplate } from '../../utils/api/Admin/EmailTemplates/get-render-email-template'
+import styles from './ChooseTemplateModal.module.scss'
 
 interface Props {
   isOpen: boolean
@@ -52,47 +40,39 @@ export const ChooseTemplateModal = ({ isOpen, onClose, contactId, onSelect }: Pr
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="2xl">
-      <ModalOverlay />
-      <ModalContent bg="var(--chakra-colors-brand-700, #1a1a2e)" color="white">
-        <ModalHeader fontSize="18px">Choose from Template</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody pb={6}>
-          {loading ? (
-            <Flex justify="center" py={8}><Spinner /></Flex>
-          ) : templates.length === 0 ? (
-            <Text color="gray.400" textAlign="center" py={8}>No templates found</Text>
-          ) : (
-            <Table size="sm" variant="simple">
-              <Thead>
-                <Tr>
-                  <Th color="gray.400">Name</Th>
-                  <Th color="gray.400">Subject</Th>
-                  <Th></Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {templates.map(tpl => (
-                  <Tr key={tpl.id}>
-                    <Td color="white" fontWeight={500}>{tpl.name}</Td>
-                    <Td color="gray.300" fontSize="13px" maxW="300px" isTruncated>{tpl.subject}</Td>
-                    <Td>
-                      <Button
-                        size="sm"
-                        colorScheme="blue"
-                        isLoading={applying === tpl.id}
-                        onClick={() => handleSelect(tpl)}
-                      >
-                        Use
-                      </Button>
-                    </Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          )}
-        </ModalBody>
-      </ModalContent>
-    </Modal>
+    <CustomModalWindow maxWidth='480px' isOpen={isOpen} onClose={onClose}>
+      <div className={styles.wrapper}>
+        <div className={styles.header}>
+          <h4 className={styles.title}>Choose from Template</h4>
+          <div className={styles.cross} onClick={onClose}>
+            <CrossIcon />
+          </div>
+        </div>
+
+        {loading ? (
+          <div className={styles.loading}>
+            <LoadingSpinner />
+          </div>
+        ) : templates.length === 0 ? (
+          <p className={styles.empty}>No templates found. Add them in Settings → Email Templates.</p>
+        ) : (
+          <div className={styles.list}>
+            {templates.map(tpl => (
+              <div key={tpl.id} className={styles.item}>
+                <div className={styles.itemInfo}>
+                  <span className={styles.itemName}>{tpl.name}</span>
+                  <span className={styles.itemSubject}>{tpl.subject}</span>
+                </div>
+                <ButtonBlue
+                  title={applying === tpl.id ? '...' : 'Use'}
+                  onClick={() => handleSelect(tpl)}
+                  style={styles.useButton}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </CustomModalWindow>
   )
 }
