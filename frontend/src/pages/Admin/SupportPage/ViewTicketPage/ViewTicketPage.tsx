@@ -271,7 +271,9 @@ export const AdminViewTicketPage = () => {
           {/* Add Reply */}
           <div className={styles.replySection}>
             <div className={styles.avatarCol}>
-              <div className={styles.avatar}>A</div>
+              <div className={`${styles.avatar} ${styles.avatarReply}`}>
+                <img src='/icons/send.svg' alt='' className={styles.avatarIcon} />
+              </div>
             </div>
             <div className={styles.itemBody}>
             <div className={styles.replyCard}>
