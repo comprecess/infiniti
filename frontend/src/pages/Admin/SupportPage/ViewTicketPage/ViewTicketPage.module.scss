@@ -1,135 +1,431 @@
 .wrapper {
   display: flex;
+  flex-direction: column;
+  gap: 24px;
   width: 100%;
   height: 100%;
-  flex-direction: column;
-  gap: 40px;
+  color: $white;
 }
 
-.section {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-}
-
-.loading {
+.loadingWrapper {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60px 0;
+  height: 300px;
+  color: $gray-200;
 }
 
-.content {
+.topBar {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   max-width: $maxContentSize;
 }
 
-.titleWrapper {
+.pageTitle {
+  font-family: $fontSpaceGrotesk;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: $white;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 24px;
+  align-items: flex-start;
+  width: 100%;
+  max-width: $maxContentSize;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ── SIDEBAR ──
+.sidebar {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.tabs {
   display: flex;
-  flex-direction: row;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.tab {
+  flex: 1;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  color: $gray-200;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover { color: $white; background: rgba(255,255,255,0.03); }
+}
+
+.tabActive {
+  color: $white;
+  border-bottom: 2px solid $blue;
+  background: rgba(255,255,255,0.04);
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
   gap: 16px;
-  width: fit-content;
-  align-items: center;
-  margin-bottom: 20px;
+  padding: 16px;
 }
 
-.title {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-}
-
-.backButton {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-bottom: 40px;
-}
-
-.container {
-  display: flex;
-  flex-direction: row;
-  gap: 20px;
-  width: 100%;
-  justify-content: center;
-
-  @include mobileBreakpoint('max', $bpXL) {
-    flex-direction: column;
-  }
-}
-
-.cardFirst {
-  width: 100%;
-  max-width: 357px;
-  height: fit-content;
-
-  @include mobileBreakpoint('max', $bpXL) {
-    max-width: 100%;
-  }
-}
-
-.cardSecond {
-  width: 100%;
-  max-width: 1170px;
-  height: fit-content;
-
-  @include mobileBreakpoint('max', $bpXL) {
-    max-width: 100%;
-  }
-}
-
-.tickets {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.cardFirstContent {
+.tasks {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 100%;
+  padding: 16px;
 }
 
-.cardFirstHeader {
+.metaRow {
   display: flex;
-  flex-direction: column;
-  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: $gray-200;
+}
+
+.priorityBadge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.priorityRed {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.priorityGreen {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+}
+
+.statusText {
+  color: $white;
+  font-weight: 500;
+}
+
+.divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  margin: 0 -16px;
+}
+
+.metaLine {
+  font-size: 14px;
+  color: $gray-200;
+  margin: 0;
+
+  strong { color: $white; }
+}
+
+.actionButtons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btnAddReply {
+  flex: 1;
+}
+
+.btnDelete {
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  background: transparent;
+  color: #ef4444;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+  &:hover { background: rgba(239, 68, 68, 0.1); }
 }
 
 .fields {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  gap: 12px;
-  padding-left: 1px;
-  padding-right: 1px;
+  gap: 10px;
 }
 
-.containerItems {
+.noteSection {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  gap: 6px;
+}
+
+.fieldLabel {
+  font-size: 13px;
+  color: $gray-200;
+  font-weight: 500;
+}
+
+.prevConversations {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.prevTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: $white;
+}
+
+.prevEmpty {
+  font-size: 13px;
+  color: $gray-200;
+}
+
+// ── TIMELINE ──
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.timeLabel {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.07);
+  color: $gray-200;
+  font-size: 12px;
+  font-weight: 500;
+  align-self: flex-start;
+}
+
+.addReplyLabel {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+  font-size: 12px;
+  font-weight: 500;
+  align-self: flex-start;
+}
+
+.timelineItem {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.3);
+  color: $white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.avatarAdmin {
+  background: rgba(59, 130, 246, 0.3);
+}
+
+.messageCard {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
   gap: 8px;
 }
 
-.containerItemsTitle {
-  font-family: $fontSpaceGrotesk;
-  font-size: 17px;
-  font-weight: 500;
-  line-height: 24px;
-  letter-spacing: -0.03em;
+.messageInternal {
+  background: rgba(255, 246, 217, 0.05);
+  border-color: rgba(251, 191, 36, 0.2);
 }
 
-.error {
+.authorName {
+  font-size: 14px;
+  font-weight: 600;
+  color: $white;
+}
+
+.messageBody {
+  font-size: 14px;
+  color: $gray-200;
+  line-height: 1.6;
+
+  p { margin: 0; }
+}
+
+.messageActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.editBtn {
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  background: rgba(251, 191, 36, 0.08);
+  color: #fbbf24;
   font-size: 13px;
-  color: $cherry-500;
+  cursor: pointer;
+  transition: 0.2s;
+  &:hover { background: rgba(251, 191, 36, 0.15); }
 }
 
-.buttonSave {
-  margin-top: 8px;
-  width: 100%;
+// ── REPLY SECTION ──
+.replySection {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
 }
 
+.replyCard {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.replyTabs {
+  display: flex;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.replyTab {
+  padding: 10px 20px;
+  background: transparent;
+  border: none;
+  color: $gray-200;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+  &:hover { color: $white; }
+}
+
+.replyTabActive {
+  background: rgba(255,255,255,0.06);
+  color: $white;
+  font-weight: 600;
+}
+
+.editorWrap {
+  padding: 12px;
+  background: transparent;
+}
+
+.editorInternal {
+  background: rgba(255, 246, 217, 0.04);
+}
+
+.replyFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.replyLink {
+  font-size: 13px;
+  color: $gray-200;
+  cursor: pointer;
+  transition: 0.2s;
+  &:hover { color: $white; }
+}
+
+// ── MODALS ──
+.modal {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: $white;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+}
+
+.modalTitle {
+  font-family: $fontSpaceGrotesk;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: $white;
+}
+
+.modalCross {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  cursor: pointer;
+  transition: 0.3s;
+  &:hover * { stroke: $gray-200; }
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btnClose {
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: transparent;
+  color: $gray-200;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+  &:hover { background: rgba(255,255,255,0.05); }
+}
+
+.predefinedList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.predefinedItem {
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  font-size: 14px;
+  color: $white;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.12);
+  }
+}

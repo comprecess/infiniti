@@ -1,50 +1,63 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import styles from './ViewTicketPage.module.scss'
 import { getAdminTicket } from '../../../../shared/utils/api/Admin/Tickets/get-ticket'
 import { putUpdateAdminTicket } from '../../../../shared/utils/api/Admin/Tickets/put-update-ticket'
 import { postAdminTicketReply } from '../../../../shared/utils/api/Admin/Tickets/post-ticket-reply'
 import { getAdminTicketsInputData } from '../../../../shared/utils/api/Admin/Tickets/get-tickets-input-data'
-import { InfoItem } from '../../../../features/Admin/CustomersPage/ViewPage/Pages/SummaryPage/InfoItem/InfoItem'
-import { Message } from '../../../../features/Client/ViewTicketPage/Message/Message'
-import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
 import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
-import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../shared/ui/CustomSelect/CustomSelect'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { Status } from '../../../../shared/ui/Status/Status'
 import { TextEditor } from '../../../../shared/ui/TextEditor/TextEditor'
-import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
+import { CustomModalWindow } from '../../../../shared/ui/CustomModalWindow/CustomModalWindow'
+import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 
-const PRIORITY = ['Low', 'Medium', 'High', 'Critical']
-const STATUS   = ['Open', 'Answered', 'Closed']
+const STATUSES = ['Open', 'On Hold', 'Escalated', 'Closed']
+const PRIORITIES = ['Low', 'Medium', 'High', 'Critical']
 
 export const AdminViewTicketPage = () => {
   const id = useIdFromUrl('ticket')
+  const navigate = useNavigate()
 
-  const [ticket, setTicket]       = useState<any>(null)
+  const [ticket, setTicket] = useState<any>(null)
+  const [replies, setReplies] = useState<any[]>([])
   const [inputData, setInputData] = useState<any>(null)
-  const [loading, setLoading]     = useState(true)
-  const [saving, setSaving]       = useState(false)
-  const [sending, setSending]     = useState(false)
-  const [saveError, setSaveError] = useState<string | null>(null)
-  const [replyError, setReplyError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [activeTab, setActiveTab] = useState<'details' | 'tasks'>('details')
+  const [replyType, setReplyType] = useState<'Customer' | 'Internal'>('Customer')
+  const [replyMessage, setReplyMessage] = useState('')
+  const [replyEditorKey, setReplyEditorKey] = useState(0)
 
   // sidebar form state
-  const [deptId, setDeptId]     = useState<number>(0)
-  const [assignId, setAssignId] = useState<number>(0)
-  const [statusVal, setStatus]  = useState<number>(0)
-  const [priorityVal, setPriority] = useState<number>(0)
-  const [email, setEmail]   = useState('')
-  const [cc, setCc]         = useState('')
-  const [bcc, setBcc]       = useState('')
-  const [phone, setPhone]   = useState('')
-  const [note, setNote]     = useState('')
+  const [deptId, setDeptId] = useState(0)
+  const [assignId, setAssignId] = useState(0)
+  const [status, setStatus] = useState('Open')
+  const [email, setEmail] = useState('')
+  const [cc, setCc] = useState('')
+  const [bcc, setBcc] = useState('')
+  const [phone, setPhone] = useState('')
+  const [note, setNote] = useState('')
+  const [noteKey, setNoteKey] = useState(0)
 
-  const loadTicket = async () => {
+  // edit modal
+  const [editModal, setEditModal] = useState(false)
+  const [editBody, setEditBody] = useState('')
+
+  // predefined modal
+  const [predefinedModal, setPredefinedModal] = useState(false)
+  const MOCK_PREDEFINED = [
+    { id: 1, title: 'Thank you for contacting us', message: '<p>Thank you for reaching out. We will get back to you shortly.</p>' },
+    { id: 2, title: 'Issue resolved', message: '<p>We are happy to inform you that the issue has been resolved.</p>' },
+    { id: 3, title: 'Additional information required', message: '<p>Could you please provide additional details about the issue?</p>' },
+  ]
+
+  const load = async () => {
     if (id === undefined || id === null) return
     setLoading(true)
     const [ticketRes, inputRes] = await Promise.all([
@@ -54,16 +67,16 @@ export const AdminViewTicketPage = () => {
     if (ticketRes.status) {
       const t = ticketRes.data.data
       setTicket(t)
-      // populate sidebar
+      setReplies(t.replies ?? [])
       setDeptId(t.department?.id ?? 0)
       setAssignId(t.assigned_to?.id ?? 0)
-      setStatus(STATUS.indexOf(t.status) + 1)
-      setPriority(PRIORITY.indexOf(t.priority) + 1)
+      setStatus(t.status ?? 'Open')
       setEmail(t.email ?? '')
       setCc(t.cc ?? '')
       setBcc(t.bcc ?? '')
       setPhone(t.phone ?? '')
       setNote(t.note ?? '')
+      setNoteKey(k => k + 1)
     }
     if (inputRes.status && !inputData) setInputData(inputRes.data)
     setLoading(false)
@@ -71,164 +84,248 @@ export const AdminViewTicketPage = () => {
 
   useEffect(() => {
     document.title = 'infiniti | Ticket'
-    loadTicket()
+    load()
   }, [id])
 
   const handleSave = async () => {
     if (!ticket) return
     setSaving(true)
-    setSaveError(null)
-    const res = await putUpdateAdminTicket(ticket.id, {
-      department_id: deptId   || null,
-      assigned_to:   assignId || null,
-      status:        STATUS[statusVal - 1],
-      priority:      PRIORITY[priorityVal - 1],
-      email, cc, bcc, phone, note,
-    })
+    await putUpdateAdminTicket(ticket.id, { department_id: deptId, assigned_to: assignId, status, email, cc, bcc, phone, note })
     setSaving(false)
-    if (!res.status) setSaveError(res.message)
-    else setTicket(res.data.data)
   }
 
-  const handleSend = async (message: string, replyType?: string) => {
-    if (!ticket) return
+  const handleSend = async () => {
+    if (!ticket || !replyMessage) return
     setSending(true)
-    setReplyError(null)
-    const res = await postAdminTicketReply(
-      ticket.id, message,
-      (replyType === 'Internal' ? 'Internal' : 'Customer'),
-    )
+    const res = await postAdminTicketReply(ticket.id, { body: replyMessage, reply_type: replyType })
+    if (res.status) {
+      setReplies(prev => [...prev, res.data])
+      setReplyMessage('')
+      setReplyEditorKey(k => k + 1)
+    }
     setSending(false)
-    if (res.status) loadTicket()
-    else setReplyError(res.message)
   }
 
-  if (loading) {
-    return (
-      <div className={styles.wrapper}>
-        <div className={styles.loading}><LoadingSpinner size='xl' /></div>
-      </div>
-    )
-  }
-  if (!ticket) {
-    return <div className={styles.wrapper}><div className={styles.loading}>Ticket not found</div></div>
-  }
+  const deptOptions = (inputData?.departments ?? []).map((d: any) => ({ id: d.id, value: d.name }))
+  const staffOptions = [{ id: 0, value: 'None' }, ...(inputData?.staff ?? []).map((s: any) => ({ id: s.id, value: s.name }))]
+  const statusOptions = STATUSES.map((s, i) => ({ id: i + 1, value: s }))
 
-  const departments: any[] = inputData?.department ?? []
-  const staff: any[]       = inputData?.staff      ?? []
+  const priorityColor = (p: string) => ['High', 'Critical', 'Medium'].includes(p) ? styles.priorityRed : styles.priorityGreen
+
+  const formatDate = (d: string) => d ? new Date(d).toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' }) : ''
+
+  if (loading) return (
+    <div className={styles.loadingWrapper}><LoadingSpinner size='xl' /></div>
+  )
+
+  if (!ticket) return (
+    <div className={styles.loadingWrapper}><span>Ticket not found</span></div>
+  )
 
   return (
     <div className={styles.wrapper}>
-      <section className={styles.section}>
-        <div className={styles.content}>
-          <div className={styles.backButton}><BackButton /></div>
-          <div className={styles.titleWrapper}>
-            <div className={styles.title}><TitlePage title={ticket.subject} /></div>
-            <Status title={ticket.status} status={ticket.status} />
-          </div>
-          <section className={styles.container}>
-            {/* Sidebar */}
-            <RecentCard style={styles.cardFirst}>
-              <div className={styles.cardFirstContent}>
-                <div className={styles.cardFirstHeader}>
-                  <InfoItem title='Ticket'   value={ticket.code} />
-                  <InfoItem title='Priority' value={ticket.priority} />
-                  <InfoItem title='Customer' value={ticket.client?.name ?? '—'} />
-                </div>
-                <CustomDivider />
-                <div className={styles.fields}>
-                  <CustomSelect
-                    title='Department'
-                    titleOnChange='department'
-                    placeholder='Select…'
-                    idList={departments.map((d: any) => d.id)}
-                    nameList={departments.map((d: any) => d.name)}
-                    value={deptId}
-                    onChange={(_, v) => setDeptId(v)}
-                  />
-                  <CustomSelect
-                    title='Assigned to'
-                    titleOnChange='assigned'
-                    placeholder='Select…'
-                    idList={staff.map((s: any) => s.id)}
-                    nameList={staff.map((s: any) => s.name)}
-                    value={assignId}
-                    onChange={(_, v) => setAssignId(v)}
-                  />
-                  <CustomSelect
-                    title='Status'
-                    titleOnChange='status'
-                    idList={STATUS.map((_, i) => i + 1)}
-                    nameList={STATUS}
-                    value={statusVal}
-                    onChange={(_, v) => setStatus(v)}
-                  />
-                  <CustomSelect
-                    title='Priority'
-                    titleOnChange='priority'
-                    idList={PRIORITY.map((_, i) => i + 1)}
-                    nameList={PRIORITY}
-                    value={priorityVal}
-                    onChange={(_, v) => setPriority(v)}
-                  />
-                  <CustomInput title='Email' type='text' id='email' name='email'
-                    value={email} onChange={(_n, v) => setEmail(String(v))} />
-                  <CustomInput title='Cc'    type='text' id='cc'    name='cc'
-                    value={cc}    onChange={(_n, v) => setCc(String(v))} />
-                  <CustomInput title='Bcc'   type='text' id='bcc'   name='bcc'
-                    value={bcc}   onChange={(_n, v) => setBcc(String(v))} />
-                  <CustomInput title='Phone' type='text' id='phone' name='phone'
-                    value={phone} onChange={(_n, v) => setPhone(String(v))} />
-                  <div className={styles.containerItems}>
-                    <span className={styles.containerItemsTitle}>Note</span>
-                    <TextEditor fieldName='note' setValue={setNote} />
-                  </div>
-                  {saveError && <span className={styles.error}>{saveError}</span>}
-                  <ButtonBlue
-                    title={saving ? 'Saving…' : 'Save'}
-                    style={styles.buttonSave}
-                    onClick={handleSave}
-                  />
-                </div>
-              </div>
-            </RecentCard>
+      <div className={styles.topBar}>
+        <h2 className={styles.pageTitle}>{ticket.subject}</h2>
+        <BackButton />
+      </div>
 
-            {/* Messages thread */}
-            <div className={styles.cardSecond}>
-              <div className={styles.tickets}>
-                {ticket.replies?.map((reply: any, index: number) => (
-                  <Message
-                    key={reply.id}
-                    isAdmin
-                    isWriteMessage={false}
-                    isLast={index === ticket.replies.length - 1}
-                    data={{
-                      id: reply.id,
-                      date: reply.created_at,
-                      account: {
-                        name: reply.author?.name ?? '',
-                        img:  reply.author?.img  ?? null,
-                      },
-                      message: reply.message,
-                    }}
-                    status={ticket.status}
-                    isNextWriteMessage={index === ticket.replies.length - 1}
-                  />
-                ))}
-                <Message
-                  key='write-message'
-                  isAdmin
-                  isWriteMessage
-                  status={ticket.status}
-                  onSend={handleSend}
-                  sending={sending}
-                  sendError={replyError}
+      <div className={styles.layout}>
+        {/* ── LEFT PANEL ── */}
+        <div className={styles.sidebar}>
+          {/* Tabs */}
+          <div className={styles.tabs}>
+            <button className={`${styles.tab} ${activeTab === 'details' ? styles.tabActive : ''}`} onClick={() => setActiveTab('details')}>
+              Details
+            </button>
+            <button className={`${styles.tab} ${activeTab === 'tasks' ? styles.tabActive : ''}`} onClick={() => setActiveTab('tasks')}>
+              Tasks
+            </button>
+          </div>
+
+          {activeTab === 'details' && (
+            <div className={styles.details}>
+              <div className={styles.metaRow}>
+                <div>
+                  Priority: <span className={`${styles.priorityBadge} ${priorityColor(ticket.urgency ?? ticket.priority)}`}>
+                    {ticket.urgency ?? ticket.priority}
+                  </span>
+                </div>
+                <div>Status: <span className={styles.statusText}>{ticket.status}</span></div>
+              </div>
+
+              <div className={styles.divider} />
+
+              <p className={styles.metaLine}><strong>Ticket:</strong> {ticket.tid ?? ticket.code}</p>
+              <p className={styles.metaLine}><strong>Customer:</strong> {ticket.client?.name ?? ticket.account}</p>
+
+              <div className={styles.divider} />
+
+              <div className={styles.actionButtons}>
+                <ButtonBlue title='Add Reply' onClick={() => {}} style={styles.btnAddReply} />
+                <button className={styles.btnDelete}>🗑</button>
+              </div>
+
+              <div className={styles.divider} />
+
+              <div className={styles.fields}>
+                <CustomSelect
+                  title='Department'
+                  id='department'
+                  name='department'
+                  value={deptId}
+                  options={deptOptions}
+                  onChange={(_n, v) => setDeptId(Number(v))}
                 />
+                <CustomSelect
+                  title='Assigned to'
+                  id='assigned_to'
+                  name='assigned_to'
+                  value={assignId}
+                  options={staffOptions}
+                  onChange={(_n, v) => setAssignId(Number(v))}
+                />
+                <CustomSelect
+                  title='Status'
+                  id='status'
+                  name='status'
+                  value={statusOptions.find(s => s.value === status)?.id ?? 1}
+                  options={statusOptions}
+                  onChange={(_n, v) => setStatus(statusOptions.find(s => s.id === Number(v))?.value ?? 'Open')}
+                />
+                <CustomInput title='Email' type='text' id='email' name='email' value={email}
+                  onChange={(_n, v) => setEmail(String(v))} />
+                <CustomInput title='Cc' type='text' id='cc' name='cc' value={cc}
+                  onChange={(_n, v) => setCc(String(v))} />
+                <CustomInput title='Bcc' type='text' id='bcc' name='bcc' value={bcc}
+                  onChange={(_n, v) => setBcc(String(v))} />
+                <CustomInput title='Phone' type='text' id='phone' name='phone' value={phone}
+                  onChange={(_n, v) => setPhone(String(v))} />
+
+                <div className={styles.noteSection}>
+                  <span className={styles.fieldLabel}>Note</span>
+                  <TextEditor key={noteKey} fieldName='note' setValue={setNote} defaultValue={note} />
+                </div>
+
+                <ButtonBlue title={saving ? 'Saving...' : 'Save'} onClick={handleSave} />
+              </div>
+
+              <div className={styles.divider} />
+
+              <div className={styles.prevConversations}>
+                <span className={styles.prevTitle}>Previous Conversations</span>
+                <span className={styles.prevEmpty}>No data to display.</span>
               </div>
             </div>
-          </section>
+          )}
+
+          {activeTab === 'tasks' && (
+            <div className={styles.tasks}>
+              <CustomInput title='Task' type='text' id='task' name='task' value=''
+                onChange={() => {}} />
+              <ButtonBlue title='Save' onClick={() => {}} />
+            </div>
+          )}
         </div>
-      </section>
+
+        {/* ── RIGHT PANEL ── */}
+        <div className={styles.timeline}>
+          {/* Original message */}
+          <div className={styles.timeLabel}>{formatDate(ticket.created_at)}</div>
+
+          <div className={styles.timelineItem}>
+            <div className={styles.avatar}>
+              {(ticket.client?.name ?? ticket.account ?? '?')[0].toUpperCase()}
+            </div>
+            <div className={styles.messageCard}>
+              <span className={styles.authorName}>{ticket.client?.name ?? ticket.account}</span>
+              <div className={styles.messageBody} dangerouslySetInnerHTML={{ __html: ticket.message ?? ticket.subject }} />
+              <div className={styles.messageActions}>
+                <button className={styles.editBtn} onClick={() => { setEditBody(ticket.message ?? ticket.subject ?? ''); setEditModal(true) }}>✏</button>
+              </div>
+            </div>
+          </div>
+
+          {/* Replies */}
+          {replies.map((reply: any) => (
+            <div key={reply.id}>
+              <div className={styles.timeLabel}>{formatDate(reply.created_at)}</div>
+              <div className={styles.timelineItem}>
+                <div className={`${styles.avatar} ${reply.author_info?.type === 'admin' ? styles.avatarAdmin : ''}`}>
+                  {(reply.author_info?.name ?? '?')[0].toUpperCase()}
+                </div>
+                <div className={`${styles.messageCard} ${reply.reply_type === 'internal' ? styles.messageInternal : ''}`}>
+                  <span className={styles.authorName}>{reply.author_info?.name}</span>
+                  <div className={styles.messageBody} dangerouslySetInnerHTML={{ __html: reply.body }} />
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {/* Add Reply */}
+          <div className={styles.addReplyLabel}>Add Reply</div>
+
+          <div className={styles.replySection}>
+            <div className={styles.avatar}>A</div>
+            <div className={styles.replyCard}>
+              {/* Customer / Internal tabs */}
+              <div className={styles.replyTabs}>
+                <button
+                  className={`${styles.replyTab} ${replyType === 'Customer' ? styles.replyTabActive : ''}`}
+                  onClick={() => setReplyType('Customer')}
+                >Customer</button>
+                <button
+                  className={`${styles.replyTab} ${replyType === 'Internal' ? styles.replyTabActive : ''}`}
+                  onClick={() => setReplyType('Internal')}
+                >Internal</button>
+              </div>
+
+              <div className={`${styles.editorWrap} ${replyType === 'Internal' ? styles.editorInternal : ''}`}>
+                <TextEditor key={replyEditorKey} fieldName='reply' setValue={setReplyMessage} />
+              </div>
+
+              <div className={styles.replyFooter}>
+                <span className={styles.replyLink} onClick={() => setPredefinedModal(true)}>
+                  ☰ Predefined Reply
+                </span>
+                <ButtonBlue title={sending ? 'Sending...' : 'Submit'} onClick={handleSend} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Edit Modal */}
+      <CustomModalWindow maxWidth='580px' isOpen={editModal} onClose={() => setEditModal(false)}>
+        <div className={styles.modal}>
+          <div className={styles.modalHeader}>
+            <h4 className={styles.modalTitle}>Edit</h4>
+            <div className={styles.modalCross} onClick={() => setEditModal(false)}><CrossIcon /></div>
+          </div>
+          <TextEditor fieldName='edit' setValue={setEditBody} defaultValue={editBody} />
+          <div className={styles.modalFooter}>
+            <button className={styles.btnClose} onClick={() => setEditModal(false)}>Close</button>
+            <ButtonBlue title='Save' onClick={() => setEditModal(false)} />
+          </div>
+        </div>
+      </CustomModalWindow>
+
+      {/* Predefined Replies Modal */}
+      <CustomModalWindow maxWidth='480px' isOpen={predefinedModal} onClose={() => setPredefinedModal(false)}>
+        <div className={styles.modal}>
+          <div className={styles.modalHeader}>
+            <h4 className={styles.modalTitle}>Predefined Replies</h4>
+            <div className={styles.modalCross} onClick={() => setPredefinedModal(false)}><CrossIcon /></div>
+          </div>
+          <div className={styles.predefinedList}>
+            {MOCK_PREDEFINED.map(r => (
+              <div key={r.id} className={styles.predefinedItem}
+                onClick={() => { setReplyMessage(r.message); setReplyEditorKey(k => k + 1); setPredefinedModal(false) }}>
+                {r.title}
+              </div>
+            ))}
+          </div>
+        </div>
+      </CustomModalWindow>
     </div>
   )
 }
