@@ -106,9 +106,12 @@ export const AdminViewTicketPage = () => {
     setSending(false)
   }
 
-  const deptOptions = (inputData?.departments ?? []).map((d: any) => ({ id: d.id, value: d.name }))
-  const staffOptions = [{ id: 0, value: 'None' }, ...(inputData?.staff ?? []).map((s: any) => ({ id: s.id, value: s.name }))]
-  const statusOptions = STATUSES.map((s, i) => ({ id: i + 1, value: s }))
+  const deptIdList = (inputData?.departments ?? []).map((d: any) => d.id)
+  const deptNameList = (inputData?.departments ?? []).map((d: any) => d.name)
+  const staffIdList = [0, ...(inputData?.staff ?? []).map((s: any) => s.id)]
+  const staffNameList = ['None', ...(inputData?.staff ?? []).map((s: any) => s.name)]
+  const statusIdList = STATUSES.map((_, i) => i + 1)
+  const statusNameList = [...STATUSES]
 
   const priorityColor = (p: string) => ['High', 'Critical', 'Medium'].includes(p) ? styles.priorityRed : styles.priorityGreen
 
@@ -170,27 +173,24 @@ export const AdminViewTicketPage = () => {
               <div className={styles.fields}>
                 <CustomSelect
                   title='Department'
-                  id='department'
-                  name='department'
+                  idList={deptIdList}
+                  nameList={deptNameList}
                   value={deptId}
-                  options={deptOptions}
                   onChange={(_n, v) => setDeptId(Number(v))}
                 />
                 <CustomSelect
                   title='Assigned to'
-                  id='assigned_to'
-                  name='assigned_to'
+                  idList={staffIdList}
+                  nameList={staffNameList}
                   value={assignId}
-                  options={staffOptions}
                   onChange={(_n, v) => setAssignId(Number(v))}
                 />
                 <CustomSelect
                   title='Status'
-                  id='status'
-                  name='status'
-                  value={statusOptions.find(s => s.value === status)?.id ?? 1}
-                  options={statusOptions}
-                  onChange={(_n, v) => setStatus(statusOptions.find(s => s.id === Number(v))?.value ?? 'Open')}
+                  idList={statusIdList}
+                  nameList={statusNameList}
+                  value={statusIdList[STATUSES.indexOf(status)] ?? 1}
+                  onChange={(_n, v) => setStatus(STATUSES[statusIdList.indexOf(Number(v))] ?? 'Open')}
                 />
                 <CustomInput title='Email' type='text' id='email' name='email' value={email}
                   onChange={(_n, v) => setEmail(String(v))} />
