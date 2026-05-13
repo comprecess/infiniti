@@ -199,7 +199,19 @@
 .timeline {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  position: relative;
+
+  // Continuous vertical line through all avatar centers
+  &::before {
+    content: '';
+    position: absolute;
+    left: 17px; // center of 36px avatar
+    top: 18px;  // starts at center of first avatar
+    bottom: 18px;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.08);
+    z-index: 0;
+  }
 }
 
 .timeLabel {
@@ -217,22 +229,15 @@
   display: flex;
   gap: 12px;
   align-items: flex-start;
+  padding-bottom: 24px;
+  position: relative;
+  z-index: 1;
 }
 
 .avatarCol {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   flex-shrink: 0;
   width: 36px;
-}
-
-.connector {
-  width: 2px;
-  flex: 1;
-  min-height: 24px;
-  background: rgba(255, 255, 255, 0.08);
-  margin-top: 6px;
+  z-index: 2;
 }
 
 .itemBody {
@@ -240,14 +245,14 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding-bottom: 20px;
+  padding-top: 6px;
 }
 
 .avatar {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: rgba(99, 102, 241, 0.3);
+  background: #3730a3; // solid indigo — перекрывает линию
   color: $white;
   display: flex;
   align-items: center;
@@ -255,10 +260,12 @@
   font-size: 14px;
   font-weight: 600;
   flex-shrink: 0;
+  position: relative;
+  z-index: 2;
 }
 
 .avatarAdmin {
-  background: rgba(59, 130, 246, 0.3);
+  background: #1d4ed8; // solid blue
 }
 
 .messageCard {
