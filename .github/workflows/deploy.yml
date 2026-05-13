@@ -1,0 +1,40 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - clawd/leads
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          command_timeout: 15m
+          script: |
+            set -e
+            cd /var/www/Infiniti
+
+            git fetch origin
+            git checkout ${{ github.ref_name }}
+            git pull origin ${{ github.ref_name }}
+
+            cd /var/www/Infiniti/backend
+            composer install --no-interaction --prefer-dist --optimize-autoloader
+            php artisan migrate --force
+
+            cd /var/www/Infiniti/frontend
+            npm install
+            node_modules/.bin/vite build
+
+            rm -rf /var/www/Infiniti/dist
+            mv /var/www/Infiniti/frontend/dist /var/www/Infiniti/dist
+            cp /var/www/Infiniti/frontend/public/sw.js /var/www/Infiniti/dist/sw.js
+
+            echo "Deployed successfully at $(date)"
