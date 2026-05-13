@@ -211,41 +211,36 @@
   font-size: 12px;
   font-weight: 500;
   align-self: flex-start;
-  margin-left: 48px; // 36px avatar + 12px gap
-}
-
-.addReplyLabel {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 20px;
-  background: rgba(34, 197, 94, 0.15);
-  color: #22c55e;
-  font-size: 12px;
-  font-weight: 500;
-  align-self: flex-start;
-  margin-left: 48px;
 }
 
 .timelineItem {
   display: flex;
   gap: 12px;
   align-items: flex-start;
-  position: relative;
+}
 
-  // Vertical connector line
-  &::before {
-    content: '';
-    position: absolute;
-    left: 17px; // center of 36px avatar
-    top: 36px;
-    bottom: -16px; // extends into the gap
-    width: 2px;
-    background: rgba(255, 255, 255, 0.08);
-  }
+.avatarCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 36px;
+}
 
-  &:last-of-type::before {
-    display: none;
-  }
+.connector {
+  width: 2px;
+  flex: 1;
+  min-height: 24px;
+  background: rgba(255, 255, 255, 0.08);
+  margin-top: 6px;
+}
+
+.itemBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 20px;
 }
 
 .avatar {
@@ -322,6 +317,7 @@
 }
 
 .replyCard {
+  width: 100%;
   flex: 1;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.07);

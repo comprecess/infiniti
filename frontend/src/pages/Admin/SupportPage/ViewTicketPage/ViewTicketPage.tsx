@@ -232,42 +232,50 @@ export const AdminViewTicketPage = () => {
         {/* ── RIGHT PANEL ── */}
         <div className={styles.timeline}>
           {/* Original message */}
-          <div className={styles.timeLabel}>{formatDate(ticket.created_at)}</div>
-
           <div className={styles.timelineItem}>
-            <div className={styles.avatar}>
-              {(ticket.client?.name ?? ticket.account ?? '?')[0].toUpperCase()}
+            <div className={styles.avatarCol}>
+              <div className={styles.avatar}>
+                {(ticket.client?.name ?? ticket.account ?? '?')[0].toUpperCase()}
+              </div>
+              <div className={styles.connector} />
             </div>
-            <div className={styles.messageCard}>
-              <span className={styles.authorName}>{ticket.client?.name ?? ticket.account}</span>
-              <div className={styles.messageBody} dangerouslySetInnerHTML={{ __html: ticket.message ?? ticket.subject }} />
-              <div className={styles.messageActions}>
-                <CustomMiniButton style='amber' icon='/icons/edit.svg' alt='Edit' tooltipTitle='Edit' onClick={() => { setEditBody(ticket.message ?? ticket.subject ?? ''); setEditModal(true) }} />
+            <div className={styles.itemBody}>
+              <div className={styles.timeLabel}>{formatDate(ticket.created_at)}</div>
+              <div className={styles.messageCard}>
+                <span className={styles.authorName}>{ticket.client?.name ?? ticket.account}</span>
+                <div className={styles.messageBody} dangerouslySetInnerHTML={{ __html: ticket.message ?? ticket.subject }} />
+                <div className={styles.messageActions}>
+                  <CustomMiniButton style='amber' icon='/icons/edit.svg' alt='Edit' tooltipTitle='Edit' onClick={() => { setEditBody(ticket.message ?? ticket.subject ?? ''); setEditModal(true) }} />
+                </div>
               </div>
             </div>
           </div>
 
           {/* Replies */}
           {replies.map((reply: any) => (
-            <Fragment key={reply.id}>
-              <div className={styles.timeLabel}>{formatDate(reply.created_at)}</div>
-              <div className={styles.timelineItem}>
+            <div key={reply.id} className={styles.timelineItem}>
+              <div className={styles.avatarCol}>
                 <div className={`${styles.avatar} ${reply.author_info?.type === 'admin' ? styles.avatarAdmin : ''}`}>
                   {(reply.author_info?.name ?? '?')[0].toUpperCase()}
                 </div>
+                <div className={styles.connector} />
+              </div>
+              <div className={styles.itemBody}>
+                <div className={styles.timeLabel}>{formatDate(reply.created_at)}</div>
                 <div className={`${styles.messageCard} ${reply.reply_type === 'internal' ? styles.messageInternal : ''}`}>
                   <span className={styles.authorName}>{reply.author_info?.name}</span>
                   <div className={styles.messageBody} dangerouslySetInnerHTML={{ __html: reply.body }} />
                 </div>
               </div>
-            </Fragment>
+            </div>
           ))}
 
           {/* Add Reply */}
-          <div className={styles.addReplyLabel}>Add Reply</div>
-
           <div className={styles.replySection}>
-            <div className={styles.avatar}>A</div>
+            <div className={styles.avatarCol}>
+              <div className={styles.avatar}>A</div>
+            </div>
+            <div className={styles.itemBody}>
             <div className={styles.replyCard}>
               {/* Customer / Internal tabs */}
               <div className={styles.replyTabs}>
@@ -311,6 +319,7 @@ export const AdminViewTicketPage = () => {
                   ))}
                 </div>
               )}
+            </div>
             </div>
           </div>
         </div>
