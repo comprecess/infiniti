@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import styles from './ViewTicketPage.module.scss'
@@ -248,7 +248,7 @@ export const AdminViewTicketPage = () => {
 
           {/* Replies */}
           {replies.map((reply: any) => (
-            <div key={reply.id}>
+            <Fragment key={reply.id}>
               <div className={styles.timeLabel}>{formatDate(reply.created_at)}</div>
               <div className={styles.timelineItem}>
                 <div className={`${styles.avatar} ${reply.author_info?.type === 'admin' ? styles.avatarAdmin : ''}`}>
@@ -259,7 +259,7 @@ export const AdminViewTicketPage = () => {
                   <div className={styles.messageBody} dangerouslySetInnerHTML={{ __html: reply.body }} />
                 </div>
               </div>
-            </div>
+            </Fragment>
           ))}
 
           {/* Add Reply */}
