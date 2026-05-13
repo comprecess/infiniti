@@ -199,19 +199,6 @@
 .timeline {
   display: flex;
   flex-direction: column;
-  position: relative;
-
-  // Continuous vertical line through all avatar centers
-  &::before {
-    content: '';
-    position: absolute;
-    left: 17px; // center of 36px avatar
-    top: 18px;  // starts at center of first avatar
-    bottom: 18px;
-    width: 2px;
-    background: rgba(255, 255, 255, 0.08);
-    z-index: 0;
-  }
 }
 
 .timeLabel {
@@ -229,15 +216,16 @@
   display: flex;
   gap: 12px;
   align-items: flex-start;
-  padding-bottom: 24px;
-  position: relative;
-  z-index: 1;
 }
 
 .avatarCol {
   flex-shrink: 0;
   width: 36px;
-  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // stretch to match sibling itemBody height
+  align-self: stretch;
 }
 
 .itemBody {
@@ -246,6 +234,19 @@
   flex-direction: column;
   gap: 8px;
   padding-top: 6px;
+  padding-bottom: 24px;
+}
+
+// Line: drawn as border-left on avatarCol, starting below avatar
+.avatarColLine {
+  flex: 1;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  margin-top: 6px;
+}
+
+.replySection .avatarColLine {
+  display: none;
 }
 
 .avatar {

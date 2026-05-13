@@ -237,6 +237,7 @@ export const AdminViewTicketPage = () => {
               <div className={styles.avatar}>
                 {(ticket.client?.name ?? ticket.account ?? '?')[0].toUpperCase()}
               </div>
+              <div className={styles.avatarColLine} />
             </div>
             <div className={styles.itemBody}>
               <div className={styles.timeLabel}>{formatDate(ticket.created_at)}</div>
@@ -257,6 +258,7 @@ export const AdminViewTicketPage = () => {
                 <div className={`${styles.avatar} ${reply.author_info?.type === 'admin' ? styles.avatarAdmin : ''}`}>
                   {(reply.author_info?.name ?? '?')[0].toUpperCase()}
                 </div>
+                <div className={styles.avatarColLine} />
               </div>
               <div className={styles.itemBody}>
                 <div className={styles.timeLabel}>{formatDate(reply.created_at)}</div>
