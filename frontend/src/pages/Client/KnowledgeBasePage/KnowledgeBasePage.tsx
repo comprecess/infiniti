@@ -1,22 +1,32 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useTranslation } from 'react-i18next'
 
 import styles from './KnowledgeBasePage.module.scss'
 import { MessageChatGPT } from '../../../app/constants/constants'
 import { Message } from '../../../widgets/ChatGPT/Message/Message'
+import { SuggestedQuestion } from '../../../features/Client/KnowledgeBasePage/SuggestedQuestion/SuggestedQuestion'
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { Input } from '../../../shared/ui/Input/Input'
 import { getKBHistory } from '../../../shared/utils/api/Client/KnowledgeBase/get-kb-history'
 import { postKBMessage } from '../../../shared/utils/api/Client/KnowledgeBase/post-kb-message'
 
+const SUGGESTED_QUESTIONS = [
+  'How does the Infiniti platform work?',
+  'How do I create a business plan?',
+  'How do I add and manage leads?',
+  'How do I create an invoice?',
+  'How do projects and tasks work?',
+  'What is the Knowledge Base section for?',
+]
+
 export const ClientKnowledgeBasePage = () => {
-  const { register, handleSubmit, reset } = useForm<{ message: string }>({
+  const { register, handleSubmit, reset, setValue } = useForm<{ message: string }>({
     defaultValues: { message: '' },
   })
 
   const [messages, setMessages] = useState<MessageChatGPT[] | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading]   = useState(false)
+  const [chatStarted, setChatStarted] = useState(false)
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
 
@@ -31,14 +41,16 @@ export const ClientKnowledgeBasePage = () => {
         create:  m.create,
       }))
       setMessages(mapped)
+      if (mapped.length > 0) setChatStarted(true)
     } else {
       setMessages([])
     }
   }, [])
 
-  const sendMessage = async ({ message }: { message: string }) => {
+  const send = async (message: string) => {
     if (!message.trim() || isLoading) return
 
+    setChatStarted(true)
     setIsLoading(true)
     const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ')
 
@@ -76,21 +88,19 @@ export const ClientKnowledgeBasePage = () => {
     }, 500)
 
     const response = await postKBMessage(message)
-
     clearInterval(interval)
 
     if (response.status) {
       const aiMsg = response.data?.data
-      const aiMessage: MessageChatGPT = {
-        id:      aiMsg?.id ?? Date.now() + 2,
-        message: aiMsg?.message ?? '',
-        type:    'out',
-        create:  aiMsg?.create ?? currentDate,
-      }
       setMessages(prev =>
         prev
-          ? prev.filter(m => m.id !== loadingMessage.id).concat(aiMessage)
-          : [aiMessage],
+          ? prev.filter(m => m.id !== loadingMessage.id).concat({
+              id:      aiMsg?.id ?? Date.now() + 2,
+              message: aiMsg?.message ?? '',
+              type:    'out',
+              create:  aiMsg?.create ?? currentDate,
+            })
+          : [],
       )
     } else {
       setMessages(prev => prev?.filter(m => m.id !== loadingMessage.id) ?? [])
@@ -99,9 +109,14 @@ export const ClientKnowledgeBasePage = () => {
     setIsLoading(false)
   }
 
-  useEffect(() => {
-    fetchHistory()
-  }, [fetchHistory])
+  const onSubmit = ({ message }: { message: string }) => send(message)
+
+  const onSuggestedClick = (question: string) => {
+    setValue('message', question)
+    send(question)
+  }
+
+  useEffect(() => { fetchHistory() }, [fetchHistory])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -113,20 +128,26 @@ export const ClientKnowledgeBasePage = () => {
 
   return (
     <div className={styles.wrapper}>
-      {/* Messages */}
       <div className={styles.messagesContainer}>
-        {messages === null ? (
-          <div className={styles.emptyState}>
-            <span className={styles.emptyText}>Loading...</span>
+
+        {/* Suggested questions — показываем пока чат не начат */}
+        {!chatStarted && (
+          <div className={styles.suggested}>
+            <p className={styles.suggestedTitle}>What is your question?</p>
+            <div className={styles.cards}>
+              {SUGGESTED_QUESTIONS.map((q, i) => (
+                <SuggestedQuestion
+                  key={i}
+                  question={q}
+                  onClick={() => onSuggestedClick(q)}
+                />
+              ))}
+            </div>
           </div>
-        ) : messages.length === 0 ? (
-          <div className={styles.emptyState}>
-            <p className={styles.emptyTitle}>Ask Infiniti AI</p>
-            <p className={styles.emptyText}>
-              Ask any question about the platform — leads, projects, invoices, HRM and more.
-            </p>
-          </div>
-        ) : (
+        )}
+
+        {/* Chat messages */}
+        {chatStarted && messages && messages.length > 0 && (
           <div className={styles.messages}>
             {messages.map(msg => (
               <Message
@@ -140,16 +161,17 @@ export const ClientKnowledgeBasePage = () => {
             <div ref={messagesEndRef} />
           </div>
         )}
+
       </div>
 
       {/* Input */}
-      <form className={styles.form} onSubmit={handleSubmit(sendMessage)}>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <Input
           typeInput='brand'
           id='message'
           name='message'
           type='text'
-          placeholder='Ask a question about the platform...'
+          placeholder='Enter your request...'
           disabled={isLoading}
           register={register}
           validationRules={{ required: true }}
