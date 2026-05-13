@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\BusinessModel\BusinessModel;
 use App\Models\Collection\ChatGPTCollection;
 use App\Models\Contracts\ChatGPTContract;
+use App\Models\KnowledgeBase;
 use App\Models\Resident\BusinessPlan;
 use App\Models\Traits\BootTrait;
 use App\Models\Traits\CollectionTrait;
@@ -31,8 +32,9 @@ class ChatGPT extends Model
     ];
 
     const DISCUSSION_MODEL = [
-        'businessModel' => ['class' => BusinessModel::class, 'access' => 'business_plan'],
-        'businessPlan' => ['class' => BusinessPlan::class, 'access' => 'business_plan']
+        'businessModel'  => ['class' => BusinessModel::class,  'access' => 'business_plan'],
+        'businessPlan'   => ['class' => BusinessPlan::class,   'access' => 'business_plan'],
+        'knowledgeBase'  => ['class' => KnowledgeBase::class,  'access' => null],
     ];
 
     public $discussionModel = null;

@@ -91,6 +91,14 @@ Route::group(['prefix' => 'client',], function(){
                 Route::patch('in', 'in');
                 Route::patch('out', 'out');
         });
+
+    #knowledge-base
+    Route::controller(Client\KnowledgeBaseController::class)->prefix('knowledge-base')
+        ->group(function(){
+            Route::get('input-data', 'inputData');
+            Route::get('history',    'history');
+            Route::post('message',   'message');
+        });
 });
 
 
