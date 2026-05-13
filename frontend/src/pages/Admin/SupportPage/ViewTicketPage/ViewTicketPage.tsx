@@ -270,7 +270,17 @@ export const AdminViewTicketPage = () => {
             </div>
           ))}
 
-          {/* Add Reply */}
+          {/* Add Reply label */}
+          <div className={styles.timelineItem}>
+            <div className={styles.avatarCol}>
+              <div className={styles.avatarColLine} />
+            </div>
+            <div className={`${styles.itemBody} ${styles.itemBodyCompact}`}>
+              <div className={styles.addReplyLabel}>Add Reply</div>
+            </div>
+          </div>
+
+          {/* Reply form */}
           <div className={styles.replySection}>
             <div className={styles.avatarCol}>
               <div className={`${styles.avatar} ${styles.avatarReply}`}>
@@ -323,6 +333,11 @@ export const AdminViewTicketPage = () => {
               )}
             </div>
             </div>
+          </div>
+
+          {/* Timeline end dot */}
+          <div className={styles.timelineEnd}>
+            <div className={styles.timelineEndDot} />
           </div>
         </div>
       </div>

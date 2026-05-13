@@ -212,6 +212,32 @@
   align-self: flex-start;
 }
 
+.addReplyLabel {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+  font-size: 12px;
+  font-weight: 500;
+  align-self: flex-start;
+}
+
+.timelineEnd {
+  display: flex;
+  align-items: center;
+  padding-left: 13px; // center under avatarCol (36px / 2 - 5px)
+  padding-top: 4px;
+}
+
+.timelineEndDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+}
+
 .timelineItem {
   display: flex;
   gap: 12px;
@@ -235,6 +261,10 @@
   gap: 8px;
   padding-top: 6px;
   padding-bottom: 24px;
+}
+
+.itemBodyCompact {
+  padding-bottom: 8px;
 }
 
 // Line: drawn as border-left on avatarCol, starting below avatar
