@@ -3,7 +3,6 @@ import { dataTicket } from '../../../../app/data/test'
 import { Message } from '../../../../features/Client/ViewTicketPage/Message/Message'
 import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
 import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
-import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { Status } from '../../../../shared/ui/Status/Status'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 
@@ -11,6 +10,8 @@ export const ClientViewTicketPage = () => {
   const id = useIdFromUrl('ticket')
 
   const data = dataTicket[id || 0]
+
+  if (!data) return null
 
   return (
     <div className={styles.wrapper}>
@@ -26,37 +27,33 @@ export const ClientViewTicketPage = () => {
             <Status title={data.status} status={data.status} />
           </div>
           <div className={styles.wrapper}>
-            {data ? (
-              <section className={styles.section}>
-                <div className={styles.tickets}>
-                  {data.tickets.map((ticket, index) => {
-                    return (
-                      <Message
-                        key={ticket.id}
-                        isAdmin={false}
-                        isWriteMessage={false}
-                        isLast={index === data.tickets.length - 1}
-                        data={ticket}
-                        status={data.status}
-                        isNextWriteMessage={
-                          data.status === 'Open' && index === data.tickets.length - 1
-                        }
-                      />
-                    )
-                  })}
-                  {data.status === 'Open' && (
+            <section className={styles.section}>
+              <div className={styles.tickets}>
+                {data.tickets.map((ticket, index) => {
+                  return (
                     <Message
-                      key='write-message'
-                      isWriteMessage
+                      key={ticket.id}
                       isAdmin={false}
+                      isWriteMessage={false}
+                      isLast={index === data.tickets.length - 1}
+                      data={ticket}
                       status={data.status}
+                      isNextWriteMessage={
+                        data.status === 'Open' && index === data.tickets.length - 1
+                      }
                     />
-                  )}
-                </div>
-              </section>
-            ) : (
-              <LoadingSpinner size='xl' />
-            )}
+                  )
+                })}
+                {data.status === 'Open' && (
+                  <Message
+                    key='write-message'
+                    isWriteMessage
+                    isAdmin={false}
+                    status={data.status}
+                  />
+                )}
+              </div>
+            </section>
           </div>
         </div>
       </section>

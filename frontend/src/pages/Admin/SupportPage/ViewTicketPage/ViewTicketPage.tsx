@@ -18,6 +18,8 @@ export const AdminViewTicketPage = () => {
 
   const data = dataTicket[id || 0]
 
+  if (!data) return null
+
   return (
     <div className={styles.wrapper}>
       <section className={styles.section}>
