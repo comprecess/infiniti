@@ -23,6 +23,7 @@ export const BarChart = ({ data, namesKeys }: DashboardChartProps) => {
   const { t } = useTranslation()
 
   useEffect(() => {
+    if (!data) return
     const typedDataJson = Object.fromEntries(Object.entries(data).reverse())
     const labels = Object.keys(typedDataJson)
 

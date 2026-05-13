@@ -21,6 +21,8 @@ export const RecentClients = ({
 }: RecentClientsProps) => {
   const { t } = useTranslation()
 
+  if (!recentClients) return null
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>

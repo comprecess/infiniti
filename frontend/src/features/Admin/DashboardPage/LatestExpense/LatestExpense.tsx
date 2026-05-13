@@ -14,6 +14,8 @@ interface LatestExpenseProps {
 export const LatestExpense = ({ latestExpense }: LatestExpenseProps) => {
   const { t } = useTranslation()
 
+  if (!latestExpense) return null
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>

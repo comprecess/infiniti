@@ -5,7 +5,7 @@ import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 
 interface ProfileSettingsProps {
   listNotifications: NotificationCardData[]
-  deleteNotification: (id: number) => void
+  deleteNotification: (token: string) => void
 }
 
 export const ProfileSettings = ({

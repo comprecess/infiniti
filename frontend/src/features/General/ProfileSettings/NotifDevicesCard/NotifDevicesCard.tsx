@@ -10,7 +10,7 @@ import { patchSetDevicePush } from '../../../../shared/utils/api/Push/patch-set-
 
 interface NotifDevicesCardProps {
   data: NotificationCardData
-  deleteNotification: (id: number) => void
+  deleteNotification: (token: string) => void
 }
 
 export const NotifDevicesCard = ({
@@ -74,7 +74,7 @@ export const NotifDevicesCard = ({
         <ConfirmationModal
           isOpened={modalDelete}
           handleOpenCloseModal={handleOpenConfirmationModal}
-          agree={() => deleteNotification(data.id)}
+          agree={() => deleteNotification(data.subscription)}
         />
       )}
     </>

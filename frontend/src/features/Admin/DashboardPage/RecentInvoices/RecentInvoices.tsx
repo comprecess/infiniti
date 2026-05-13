@@ -21,6 +21,8 @@ interface RecentInvoicesProps {
 export const RecentInvoices = ({ invoices, statuses, roles }: RecentInvoicesProps) => {
   const { t } = useTranslation()
 
+  if (!invoices) return null
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.card}>

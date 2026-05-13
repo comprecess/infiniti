@@ -15,6 +15,8 @@ interface NetWorthAccountBalancesProps {
 export const NetWorthAccountBalances = ({ account }: NetWorthAccountBalancesProps) => {
   const { t } = useTranslation()
 
+  if (!account) return null
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.card}>

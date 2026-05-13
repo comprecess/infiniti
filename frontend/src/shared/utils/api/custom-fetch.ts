@@ -1,5 +1,8 @@
 import { navigateTo } from '../hooks/navigationService'
 import { getLocalDateTimeString } from '../usefulMethods'
+import { authTokenString } from '../../../app/constants/constants'
+import { removeCookies } from '../Saving/Cookies/RemoveCookies'
+import { removeSession } from '../Saving/Session/RemoveSession'
 
 export interface CustomFetchOptions extends RequestInit {
   headers?: HeadersInit
@@ -46,7 +49,12 @@ export const customFetch = async <T = any>(
     })
 
     if (redirectOnError) {
-      if (response.status === 403) {
+      if (response.status === 401) {
+        removeSession(authTokenString)
+        removeCookies(authTokenString)
+        navigateTo('/login/resident')
+        return (await response.json()) as T
+      } else if (response.status === 403) {
         navigateTo('/403')
       } else if (response.status === 404) {
         navigateTo('/404')
@@ -66,9 +74,6 @@ export const customFetch = async <T = any>(
     }
   } catch (error) {
     console.error('Fetch error:', error)
-    if (redirectOnError) {
-      navigateTo('/404')
-    }
     throw error
   }
 }

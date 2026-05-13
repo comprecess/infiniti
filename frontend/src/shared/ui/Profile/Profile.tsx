@@ -16,6 +16,8 @@ import {
 } from '../../../app/constants/constants'
 import { Routes } from '../../../app/router/routes'
 import { subscribeVapidPush, getVapidSubscriptionEndpoint } from '../../../vapidPushService'
+import { patchSetDevicePush } from '../../utils/api/Push/patch-set-device-push'
+import { postUnsubPush } from '../../utils/api/Push/post-unsub-push'
 import { useDeviceDetect } from '../../utils/hooks/useDeviceDetect'
 import { removeCookies } from '../../utils/Saving/Cookies/RemoveCookies'
 import { getSession } from '../../utils/Saving/Session/GetSession'

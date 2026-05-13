@@ -21,6 +21,8 @@ export const RecentProjects = ({
 }: RecentProjectsProps) => {
   const { t } = useTranslation()
 
+  if (!recentProjects) return null
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>

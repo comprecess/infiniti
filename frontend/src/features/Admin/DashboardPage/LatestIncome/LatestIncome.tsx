@@ -14,6 +14,8 @@ interface LatestIncomeProps {
 export const LatestIncome = ({ latestIncome }: LatestIncomeProps) => {
   const { t } = useTranslation()
 
+  if (!latestIncome) return null
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.columns}>

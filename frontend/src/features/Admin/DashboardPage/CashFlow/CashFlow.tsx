@@ -20,6 +20,8 @@ export const CashFlow = ({ data, roles }: CashFlowProps) => {
 
   const navigate = useNavigate()
 
+  if (!data) return null
+
   const navigateToListCustomers = () => {
     if (roles && roles.customers.view === 0) {
       navigate(`/403`)
@@ -51,25 +53,25 @@ export const CashFlow = ({ data, roles }: CashFlowProps) => {
           <BigCard
             title={t('admin-dashboard-page-info-card-1-title')}
             icon='/icons/user.svg'
-            amount={data.client.toString()}
+            amount={String(data.client ?? 0)}
             onClick={navigateToListCustomers}
           />
           <BigCard
             title={t('admin-dashboard-page-info-card-2-title')}
             icon='/icons/elements.svg'
-            amount={data.company.toString()}
+            amount={String(data.company ?? 0)}
             onClick={navigateToListCompanies}
           />
           <BigCard
             title={t('admin-dashboard-page-info-card-3-title')}
             icon='/icons/userPlusPurple.svg'
-            amount={data.leads.toString()}
+            amount={String(data.leads ?? 0)}
             onClick={navigateToLeads}
           />
         </div>
         <div className={styles.chart}>
           <NetWorth
-            amount={data.newWorth}
+            amount={String(data.newWorth ?? 0)}
             firstTitle='admin-dashboard-page-chart-legend-1'
             secondTitle='admin-dashboard-page-chart-legend-2'
           />
@@ -85,20 +87,20 @@ export const CashFlow = ({ data, roles }: CashFlowProps) => {
       <div className={styles.rightItem}>
         <MiniCard
           title={t('admin-dashboard-page-mini-info-card-1-title')}
-          income={data.Income.today.toString()}
-          expense={data.Expense.today.toString()}
+          income={String(data.Income?.today ?? 0)}
+          expense={String(data.Expense?.today ?? 0)}
         />
         <CustomDivider />
         <MiniCard
           title={t('admin-dashboard-page-mini-info-card-2-title')}
-          income={data.Income.thisMonth.toString()}
-          expense={data.Expense.thisMonth.toString()}
+          income={String(data.Income?.thisMonth ?? 0)}
+          expense={String(data.Expense?.thisMonth ?? 0)}
         />
         <CustomDivider />
         <MiniCard
           title={t('admin-dashboard-page-mini-info-card-3-title')}
-          income={data.Income.total.toString()}
-          expense={data.Expense.total.toString()}
+          income={String(data.Income?.total ?? 0)}
+          expense={String(data.Expense?.total ?? 0)}
         />
       </div>
     </div>

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Spinner } from '@chakra-ui/react'
 import { CrossIcon } from '../../icons/CrossIcon'
 import { ButtonBlue } from '../ButtonBlue/ButtonBlue'
 import { CustomModalWindow } from '../CustomModalWindow/CustomModalWindow'
@@ -33,7 +32,7 @@ export const ChooseTemplateModal = ({ isOpen, onClose, contactId, onSelect }: Pr
     setApplying(tpl.id)
     const res = await getRenderEmailTemplate(tpl.id, contactId)
     setApplying(null)
-    if (res.status) {
+    if (res.status && res.data) {
       onSelect(res.data.subject, res.data.body)
       onClose()
     }
