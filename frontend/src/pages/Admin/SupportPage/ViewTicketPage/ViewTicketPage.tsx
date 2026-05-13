@@ -172,13 +172,13 @@ export const AdminViewTicketPage = () => {
                     onChange={(_, v) => setPriority(v)}
                   />
                   <CustomInput title='Email' type='text' id='email' name='email'
-                    value={email} onChange={e => setEmail(e.target.value)} />
+                    value={email} onChange={(_n, v) => setEmail(String(v))} />
                   <CustomInput title='Cc'    type='text' id='cc'    name='cc'
-                    value={cc}    onChange={e => setCc(e.target.value)} />
+                    value={cc}    onChange={(_n, v) => setCc(String(v))} />
                   <CustomInput title='Bcc'   type='text' id='bcc'   name='bcc'
-                    value={bcc}   onChange={e => setBcc(e.target.value)} />
+                    value={bcc}   onChange={(_n, v) => setBcc(String(v))} />
                   <CustomInput title='Phone' type='text' id='phone' name='phone'
-                    value={phone} onChange={e => setPhone(e.target.value)} />
+                    value={phone} onChange={(_n, v) => setPhone(String(v))} />
                   <div className={styles.containerItems}>
                     <span className={styles.containerItemsTitle}>Note</span>
                     <TextEditor fieldName='note' setValue={setNote} />

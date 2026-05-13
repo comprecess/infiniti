@@ -82,7 +82,7 @@ export const Filters = ({ inputData, onApply }: FiltersProps) => {
         id='search'
         name='search'
         value={search}
-        onChange={e => setSearch(e.target.value)}
+        onChange={(_name, value) => setSearch(String(value))}
       />
       <ButtonBlue title='Apply' style={styles.buttonSubmit} onClick={handleApply} />
     </div>

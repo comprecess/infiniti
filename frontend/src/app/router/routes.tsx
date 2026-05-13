@@ -207,6 +207,8 @@ export const Routes = {
   fields: 'fields',
   productsServices: 'products-services',
   support: 'support',
+  predefinedReplies: 'predefined-replies',
+  supportDepartments: 'departments',
   purchase: 'purchase',
   leads: 'leads',
   myOrders: 'orders',

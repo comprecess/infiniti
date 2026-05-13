@@ -51,7 +51,7 @@ export const Fields = ({ inputData, onSubmit, submitting, error }: FieldsProps) 
         id='subject'
         name='subject'
         value={subject}
-        onChange={e => setSubject(e.target.value)}
+        onChange={(_name, value) => setSubject(String(value))}
       />
       <div className={styles.selections}>
         <CustomSelect
