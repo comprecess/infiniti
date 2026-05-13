@@ -448,6 +448,14 @@ export const router = createBrowserRouter([
             element: Pages.adminViewTicketPage,
           },
           {
+            path: Routes.predefinedReplies,
+            element: Pages.adminPredefinedRepliesPage,
+          },
+          {
+            path: Routes.supportDepartments,
+            element: Pages.adminDepartmentsPage,
+          },
+          {
             index: true,
             element: <Navigate replace to={`/${Routes.adminPages}/${Routes.dashboard}`} />,
           },

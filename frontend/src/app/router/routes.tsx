@@ -89,6 +89,8 @@ import { AdminListSuppliersPage } from '../../pages/Admin/SuppliersPage/ListSupp
 import { AdminNewTicketPage } from '../../pages/Admin/SupportPage/NewTicketPage/NewTicketPage'
 import { AdminTicketsListPage } from '../../pages/Admin/SupportPage/TicketsListPage/TicketsListPage'
 import { AdminViewTicketPage } from '../../pages/Admin/SupportPage/ViewTicketPage/ViewTicketPage'
+import { AdminDepartmentsPage } from '../../pages/Admin/SupportPage/DepartmentsPage/DepartmentsPage'
+import { AdminPredefinedRepliesPage } from '../../pages/Admin/SupportPage/PredefinedRepliesPage/PredefinedRepliesPage'
 import { AdminAddTalentPage } from '../../pages/Admin/TanlentsPage/AddTalentPage/AddTalentPage'
 import { AdminCartPage } from '../../pages/Admin/TanlentsPage/CartPage/CartPage'
 import { AdminCartToOfferPage } from '../../pages/Admin/TanlentsPage/CartToOfferPage/CartToOfferPage'
@@ -370,6 +372,8 @@ export const Pages = {
   adminNewTicketPage: <AdminNewTicketPage />,
   adminTicketsListPage: <AdminTicketsListPage />,
   adminViewTicketPage: <AdminViewTicketPage />,
+  adminDepartmentsPage: <AdminDepartmentsPage />,
+  adminPredefinedRepliesPage: <AdminPredefinedRepliesPage />,
   adminKnowledgeBasePage: <AdminKnowledgeBasePage />,
   adminOrdersPage: <AdminOrdersPage />,
   adminHRMPage: <AdminHRMPage />,

@@ -484,7 +484,7 @@ export const adminSidebarPages = [
       {
         id: 2,
         title: 'admin-sidebar-subsidiary-page-predefined-replies',
-        path: '',
+        path: Routes.predefinedReplies,
 
         // Access
         create: false,
@@ -492,7 +492,7 @@ export const adminSidebarPages = [
       {
         id: 3,
         title: 'admin-sidebar-subsidiary-page-departments',
-        path: '',
+        path: Routes.supportDepartments,
 
         // Access
         create: false,
