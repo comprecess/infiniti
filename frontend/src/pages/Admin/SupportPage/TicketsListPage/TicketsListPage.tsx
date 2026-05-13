@@ -85,7 +85,7 @@ export const AdminTicketsListPage = () => {
                     key={ticket.id}
                     className={styles.tableRow}
                     onClick={() =>
-                      navigate(`/${Routes.adminPages}/${Routes.support}/${Routes.view}/${Routes.ticket}/${ticket.id}`)
+                      navigate(`/${Routes.adminPages}/${Routes.support}/${Routes.tickets}/${Routes.view}/${Routes.ticket}/${ticket.id}`)
                     }
                   >
                     <span className={styles.code}>{ticket.code}</span>
