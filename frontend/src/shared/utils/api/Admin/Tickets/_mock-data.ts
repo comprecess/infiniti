@@ -1,7 +1,8 @@
 export const MOCK_TICKETS = [
   {
     id: 1,
-    title: 'Payment issue with invoice #1042',
+    code: 'TKT-001',
+    subject: 'Payment issue with invoice #1042',
     status: 'open',
     priority: 'high',
     department: { id: 1, name: 'Billing' },
@@ -13,7 +14,8 @@ export const MOCK_TICKETS = [
   },
   {
     id: 2,
-    title: 'Cannot access my account',
+    code: 'TKT-002',
+    subject: 'Cannot access my account',
     status: 'in_progress',
     priority: 'medium',
     department: { id: 2, name: 'Technical' },
@@ -25,7 +27,8 @@ export const MOCK_TICKETS = [
   },
   {
     id: 3,
-    title: 'Request for contract renewal',
+    code: 'TKT-003',
+    subject: 'Request for contract renewal',
     status: 'closed',
     priority: 'low',
     department: { id: 3, name: 'Sales' },
@@ -55,11 +58,7 @@ export const MOCK_REPLIES = [
 ]
 
 export const MOCK_INPUT_DATA = {
-  statuses: [
-    { id: 'open', name: 'Open' },
-    { id: 'in_progress', name: 'In Progress' },
-    { id: 'closed', name: 'Closed' },
-  ],
+  statuses: ['Open', 'In Progress', 'Closed'],
   priorities: [
     { id: 'low', name: 'Low' },
     { id: 'medium', name: 'Medium' },
@@ -69,5 +68,14 @@ export const MOCK_INPUT_DATA = {
     { id: 1, name: 'Billing' },
     { id: 2, name: 'Technical' },
     { id: 3, name: 'Sales' },
+  ],
+  staff: [
+    { id: 1, name: 'Manager' },
+    { id: 2, name: 'Support Agent' },
+  ],
+  customers: [
+    { id: 1, name: 'John Smith' },
+    { id: 2, name: 'Anna Lee' },
+    { id: 3, name: 'Mark Johnson' },
   ],
 }

@@ -1,7 +1,8 @@
 export const MOCK_CLIENT_TICKETS = [
   {
     id: 1,
-    title: 'Payment issue with invoice #1042',
+    code: 'TKT-001',
+    subject: 'Payment issue with invoice #1042',
     status: 'open',
     priority: 'high',
     department: { id: 1, name: 'Billing' },
@@ -11,7 +12,8 @@ export const MOCK_CLIENT_TICKETS = [
   },
   {
     id: 2,
-    title: 'Cannot access my account',
+    code: 'TKT-002',
+    subject: 'Cannot access my account',
     status: 'in_progress',
     priority: 'medium',
     department: { id: 2, name: 'Technical' },
