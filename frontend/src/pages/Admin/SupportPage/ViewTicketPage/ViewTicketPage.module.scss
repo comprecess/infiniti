@@ -72,9 +72,9 @@
 }
 
 .tabActive {
-  color: $white;
-  border-bottom: 2px solid $blue;
-  background: rgba(255,255,255,0.04);
+  color: $brand-500;
+  border-bottom: 2px solid $brand-500;
+  background: $brand-800;
 }
 
 .details {
