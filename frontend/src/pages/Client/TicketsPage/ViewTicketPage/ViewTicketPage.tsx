@@ -1,17 +1,68 @@
+import { useEffect, useState } from 'react'
+
 import styles from './ViewTicketPage.module.scss'
-import { dataTicket } from '../../../../app/data/test'
+import { getClientTicket } from '../../../../shared/utils/api/Client/Tickets/get-ticket'
+import { postClientTicketReply } from '../../../../shared/utils/api/Client/Tickets/post-ticket-reply'
 import { Message } from '../../../../features/Client/ViewTicketPage/Message/Message'
 import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
 import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
+import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
 import { Status } from '../../../../shared/ui/Status/Status'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 
 export const ClientViewTicketPage = () => {
   const id = useIdFromUrl('ticket')
+  const [ticket, setTicket] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const [sending, setSending] = useState(false)
+  const [replyError, setReplyError] = useState<string | null>(null)
 
-  const data = dataTicket[id || 0]
+  const loadTicket = async () => {
+    if (!id && id !== 0) return
+    setLoading(true)
+    const res = await getClientTicket(id)
+    if (res.status) setTicket(res.data.data)
+    setLoading(false)
+  }
 
-  if (!data) return null
+  useEffect(() => {
+    document.title = 'infiniti | Ticket'
+    loadTicket()
+  }, [id])
+
+  const handleSend = async (message: string) => {
+    if (!ticket) return
+    setSending(true)
+    setReplyError(null)
+    const res = await postClientTicketReply(ticket.id, message)
+    setSending(false)
+    if (res.status) {
+      // Reload ticket to get updated replies
+      loadTicket()
+    } else {
+      setReplyError(res.message)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.loading}>
+          <LoadingSpinner size='xl' />
+        </div>
+      </div>
+    )
+  }
+
+  if (!ticket) {
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.loading}>
+          <span>Ticket not found</span>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -22,38 +73,43 @@ export const ClientViewTicketPage = () => {
           </div>
           <div className={styles.titleWrapper}>
             <div className={styles.title}>
-              <TitlePage title={data.title} />
+              <TitlePage title={ticket.subject} />
             </div>
-            <Status title={data.status} status={data.status} />
+            <Status title={ticket.status} status={ticket.status} />
           </div>
-          <div className={styles.wrapper}>
-            <section className={styles.section}>
-              <div className={styles.tickets}>
-                {data.tickets.map((ticket, index) => {
-                  return (
-                    <Message
-                      key={ticket.id}
-                      isAdmin={false}
-                      isWriteMessage={false}
-                      isLast={index === data.tickets.length - 1}
-                      data={ticket}
-                      status={data.status}
-                      isNextWriteMessage={
-                        data.status === 'Open' && index === data.tickets.length - 1
-                      }
-                    />
-                  )
-                })}
-                {data.status === 'Open' && (
-                  <Message
-                    key='write-message'
-                    isWriteMessage
-                    isAdmin={false}
-                    status={data.status}
-                  />
-                )}
-              </div>
-            </section>
+          <div className={styles.tickets}>
+            {ticket.replies?.map((reply: any, index: number) => (
+              <Message
+                key={reply.id}
+                isAdmin={false}
+                isWriteMessage={false}
+                isLast={index === ticket.replies.length - 1}
+                data={{
+                  id: reply.id,
+                  date: reply.created_at,
+                  account: {
+                    name: reply.author?.name ?? '',
+                    img: reply.author?.img ?? null,
+                  },
+                  message: reply.message,
+                }}
+                status={ticket.status}
+                isNextWriteMessage={
+                  ticket.status === 'Open' && index === ticket.replies.length - 1
+                }
+              />
+            ))}
+            {ticket.status !== 'Closed' && (
+              <Message
+                key='write-message'
+                isWriteMessage
+                isAdmin={false}
+                status={ticket.status}
+                onSend={handleSend}
+                sending={sending}
+                sendError={replyError}
+              />
+            )}
           </div>
         </div>
       </section>

@@ -29,37 +29,11 @@
   letter-spacing: -0.03em;
 }
 
-.attach {
-  display: flex;
-  flex-direction: row;
-  gap: 2px;
-  align-items: center;
-  width: fit-content;
-  font-family: $fontSpaceGrotesk;
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 21px;
-  letter-spacing: -0.03em;
-  cursor: pointer;
-  transition: all 0.1s ease;
-  color: $gray-400;
-
-  @include hover() {
-    color: $brand-400;
-
-    .icon * {
-      stroke: $brand-400;
-    }
-  }
+.error {
+  font-size: 13px;
+  color: $cherry-500;
 }
 
 .buttonSave {
   margin-top: 12px;
-}
-
-.icon * {
-  stroke: $gray-400;
-  width: 18px;
-  height: 18px;
-  transition: all 0.1s ease;
 }

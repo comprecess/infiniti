@@ -53,12 +53,69 @@
   }
 }
 
-.search {
-  @include mobileBreakpoint('min', $bpL) {
-    max-width: 400px;
-  }
+.loading,
+.nothingFound {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+}
 
-  @include mobileBreakpoint('max', $bpL) {
-    width: 100%;
+.nothingFoundText {
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 400;
+  color: $gray-300;
+}
+
+.ticketsTable {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.tableHeader,
+.tableRow {
+  display: grid;
+  grid-template-columns: 140px 1fr 120px 120px 90px 100px 120px;
+  gap: 8px;
+  padding: 10px 12px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.tableHeader {
+  font-weight: 600;
+  color: $gray-300;
+  border-bottom: 1px solid $brand-800;
+}
+
+.tableRow {
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.15s ease;
+
+  @include hover() {
+    background-color: $brand-900;
   }
 }
+
+.code {
+  font-family: $fontSpaceGrotesk;
+  font-weight: 500;
+  font-size: 13px;
+  color: $brand-400;
+}
+
+.subject {
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.date {
+  font-size: 12px;
+  color: $gray-300;
+}
+

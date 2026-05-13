@@ -151,6 +151,11 @@
   }
 }
 
+.sendError {
+  font-size: 13px;
+  color: $cherry-500;
+}
+
 .writeMessage::after {
   content: '';
   position: absolute;

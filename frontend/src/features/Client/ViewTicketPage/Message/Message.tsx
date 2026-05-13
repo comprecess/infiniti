@@ -1,10 +1,8 @@
 import { useState } from 'react'
 
 import styles from './Message.module.scss'
-import { PaperClipIcon } from '../../../../shared/icons/PaperClipIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomDivider } from '../../../../shared/ui/CustomDivider/CustomDivider'
-import { CustomMiniButton } from '../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { TextEditor } from '../../../../shared/ui/TextEditor/TextEditor'
 import { sanitizeMessage } from '../../../../shared/utils/TextEditor/sanitizeMessage'
 import { Tabs } from '../../../Admin/SupportPage/ViewTicketPage/Tabs/Tabs'
@@ -16,6 +14,9 @@ interface MessageProps {
   isNextWriteMessage?: boolean
   isLast?: boolean
   status?: string
+  onSend?: (message: string, replyType?: string) => void
+  sending?: boolean
+  sendError?: string | null
 }
 
 export const Message = ({
@@ -25,18 +26,28 @@ export const Message = ({
   isNextWriteMessage,
   isLast,
   status,
+  onSend,
+  sending,
+  sendError,
 }: MessageProps) => {
   const [adminTabs, setAdminTabs] = useState<string>('Customer')
+  const [editorValue, setEditorValue] = useState('')
 
-  const wrapperClass = `
-  ${styles.wrapper}
-  ${isWriteMessage ? styles.writeMessage : ''}
-  ${!isAdmin && isLast && status === 'Closed' ? styles.lastClose : ''}
-  ${isLast && status === 'Open' ? styles.lastOpen : ''}
-  ${isNextWriteMessage ? styles.lineToReply : ''}
-`
+  const wrapperClass = [
+    styles.wrapper,
+    isWriteMessage ? styles.writeMessage : '',
+    !isAdmin && isLast && status === 'Closed' ? styles.lastClose : '',
+    isLast && status === 'Open' ? styles.lastOpen : '',
+    isNextWriteMessage ? styles.lineToReply : '',
+  ].join(' ')
 
-  if ((isAdmin && isWriteMessage) || (!isAdmin && isWriteMessage && status === 'Open')) {
+  const handleSend = () => {
+    if (!editorValue.trim()) return
+    onSend?.(editorValue, isAdmin ? adminTabs : 'Customer')
+    setEditorValue('')
+  }
+
+  if ((isAdmin && isWriteMessage) || (!isAdmin && isWriteMessage && status !== 'Closed')) {
     return (
       <div className={wrapperClass}>
         <div className={styles.container}>
@@ -49,12 +60,13 @@ export const Message = ({
               <Tabs isActiveTab={adminTabs} setIsActiveTab={setAdminTabs} />
             </div>
           )}
-          <TextEditor setValue={() => {}} />
-          <div className={styles.attach}>
-            <PaperClipIcon style={styles.icon} />
-            <span>Attach file</span>
-          </div>
-          <ButtonBlue title='Send' style={styles.buttonSend} />
+          <TextEditor setValue={setEditorValue} />
+          {sendError && <span className={styles.sendError}>{sendError}</span>}
+          <ButtonBlue
+            title={sending ? 'Sending…' : 'Send'}
+            style={styles.buttonSend}
+            onClick={handleSend}
+          />
         </div>
       </div>
     )
@@ -72,27 +84,16 @@ export const Message = ({
           alt='Avatar'
           className={styles.avatar}
           src={
-            data.account.img
-              ? `${data!.account.img}?width=128&height=128`
+            data.account?.img
+              ? `${data.account.img}?width=128&height=128`
               : '/profileWithoutAvatar.svg'
           }
         />
       </div>
       <div className={styles.message}>
-        <span className={styles.messageName}>{data.account.name}</span>
+        <span className={styles.messageName}>{data.account?.name}</span>
         <CustomDivider />
         <span dangerouslySetInnerHTML={{ __html: safeHTML }} className='dangerouslySetInnerHTML' />
-        {isAdmin && (
-          <div className={styles.miniButton}>
-            <CustomMiniButton
-              style='amber'
-              icon='/icons/edit.svg'
-              alt='Edit'
-              tooltipTitle='Edit'
-              onClick={() => {}}
-            />
-          </div>
-        )}
       </div>
     </div>
   )

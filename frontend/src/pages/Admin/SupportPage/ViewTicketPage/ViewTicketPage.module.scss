@@ -12,6 +12,13 @@
   justify-content: center;
 }
 
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+}
+
 .content {
   display: flex;
   flex-direction: column;
@@ -116,7 +123,13 @@
   letter-spacing: -0.03em;
 }
 
+.error {
+  font-size: 13px;
+  color: $cherry-500;
+}
+
 .buttonSave {
   margin-top: 8px;
   width: 100%;
 }
+

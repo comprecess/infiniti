@@ -25,11 +25,11 @@ export const ViewItem = ({ data }: ViewItemProps) => {
           </div>
         </div>
         <div className={styles.content}>
-          <span className={styles.title}>{data.title}</span>
-          {data.updateAt && (
+          <span className={styles.title}>{data.subject}</span>
+          {data.updated_at && (
             <div className={styles.container}>
               <span className={styles.uploadedTitle}>Update at:</span>
-              <span className={styles.uploadedValue}>{data.updateAt}</span>
+              <span className={styles.uploadedValue}>{data.updated_at}</span>
             </div>
           )}
         </div>
