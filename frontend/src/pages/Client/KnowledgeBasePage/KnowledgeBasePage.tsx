@@ -166,16 +166,18 @@ export const ClientKnowledgeBasePage = () => {
 
       {/* Input */}
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          typeInput='brand'
-          id='message'
-          name='message'
-          type='text'
-          placeholder='Enter your request...'
-          disabled={isLoading}
-          register={register}
-          validationRules={{ required: true }}
-        />
+        <div className={styles.inputWrapper}>
+          <Input
+            typeInput='brand'
+            id='message'
+            name='message'
+            type='text'
+            placeholder='Enter your request...'
+            disabled={isLoading}
+            register={register}
+            validationRules={{ required: true }}
+          />
+        </div>
         <ButtonBlue
           type='submit'
           icon='/icons/send.svg'

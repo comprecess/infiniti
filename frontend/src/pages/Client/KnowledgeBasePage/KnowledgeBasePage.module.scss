@@ -61,6 +61,15 @@
   box-sizing: border-box;
 }
 
+.inputWrapper {
+  flex: 1;
+  min-width: 0;
+
+  > div {
+    width: 100%;
+  }
+}
+
 .sendButton {
   flex-shrink: 0;
   width: 44px !important;

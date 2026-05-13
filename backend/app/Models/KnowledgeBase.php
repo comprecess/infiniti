@@ -11,7 +11,9 @@ class KnowledgeBase extends Model implements ChatGPTContract
 {
     use ChatGPTTrait;
 
-    protected $table = 'knowledge_base';
+    // Эта модель не имеет своей таблицы — используется только как контекст для ChatGPT
+    protected $table = 'chat_gpt';
+    public $timestamps = false;
 
     public function discussionTopic(): string
     {
