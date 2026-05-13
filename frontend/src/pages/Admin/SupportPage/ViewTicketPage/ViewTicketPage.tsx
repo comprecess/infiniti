@@ -52,6 +52,7 @@ export const AdminViewTicketPage = () => {
 
   // predefined modal
   const [predefinedModal, setPredefinedModal] = useState(false)
+  const [attachedFiles, setAttachedFiles] = useState<File[]>([])
   const MOCK_PREDEFINED = [
     { id: 1, title: 'Thank you for contacting us', message: '<p>Thank you for reaching out. We will get back to you shortly.</p>' },
     { id: 2, title: 'Issue resolved', message: '<p>We are happy to inform you that the issue has been resolved.</p>' },
@@ -285,11 +286,31 @@ export const AdminViewTicketPage = () => {
               </div>
 
               <div className={styles.replyFooter}>
-                <span className={styles.replyLink} onClick={() => setPredefinedModal(true)}>
-                  ☰ Predefined Reply
-                </span>
+                <div className={styles.replyLinks}>
+                  <label className={styles.replyLink}>
+                    <img src='/icons/paperClip.svg' alt='' className={styles.replyLinkIcon} />
+                    Attach File
+                    <input type='file' multiple hidden onChange={e => setAttachedFiles(Array.from(e.target.files ?? []))} />
+                  </label>
+                  <span className={styles.replyDivider}>|</span>
+                  <span className={styles.replyLink} onClick={() => setPredefinedModal(true)}>
+                    <img src='/icons/elements.svg' alt='' className={styles.replyLinkIcon} />
+                    Predefined Reply
+                  </span>
+                </div>
                 <ButtonBlue title={sending ? 'Sending...' : 'Submit'} onClick={handleSend} />
               </div>
+              {attachedFiles.length > 0 && (
+                <div className={styles.attachedFiles}>
+                  {attachedFiles.map((f, i) => (
+                    <div key={i} className={styles.attachedFile}>
+                      <img src='/icons/paperClip.svg' alt='' className={styles.attachFileIcon} />
+                      <span>{f.name}</span>
+                      <button onClick={() => setAttachedFiles(prev => prev.filter((_, idx) => idx !== i))}>×</button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

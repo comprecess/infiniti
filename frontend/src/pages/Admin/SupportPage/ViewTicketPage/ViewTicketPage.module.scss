@@ -230,6 +230,22 @@
   display: flex;
   gap: 12px;
   align-items: flex-start;
+  position: relative;
+
+  // Vertical connector line
+  &::before {
+    content: '';
+    position: absolute;
+    left: 17px; // center of 36px avatar
+    top: 36px;
+    bottom: -16px; // extends into the gap
+    width: 2px;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  &:last-of-type::before {
+    display: none;
+  }
 }
 
 .avatar {
@@ -353,12 +369,69 @@
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+.replyLinks {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .replyLink {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   font-size: 13px;
   color: $gray-200;
   cursor: pointer;
   transition: 0.2s;
   &:hover { color: $white; }
+}
+
+.replyLinkIcon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.6;
+}
+
+.replyDivider {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 13px;
+  user-select: none;
+}
+
+.attachedFiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.attachedFile {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  font-size: 12px;
+  color: $gray-200;
+
+  button {
+    background: none;
+    border: none;
+    color: $gray-200;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+    &:hover { color: $white; }
+  }
+}
+
+.attachFileIcon {
+  width: 12px;
+  height: 12px;
+  opacity: 0.5;
 }
 
 // ── MODALS ──
