@@ -14,6 +14,7 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { TextEditor } from '../../../../shared/ui/TextEditor/TextEditor'
 import { CustomModalWindow } from '../../../../shared/ui/CustomModalWindow/CustomModalWindow'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
+import { CustomMiniButton } from '../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
 
 const STATUSES = ['Open', 'On Hold', 'Escalated', 'Closed']
@@ -165,7 +166,7 @@ export const AdminViewTicketPage = () => {
 
               <div className={styles.actionButtons}>
                 <ButtonBlue title='Add Reply' onClick={() => {}} style={styles.btnAddReply} />
-                <button className={styles.btnDelete}>🗑</button>
+                <CustomMiniButton style='cherry' icon='/icons/trash.svg' alt='Delete' tooltipTitle='Delete' onClick={() => {}} />
               </div>
 
               <div className={styles.divider} />
@@ -240,7 +241,7 @@ export const AdminViewTicketPage = () => {
               <span className={styles.authorName}>{ticket.client?.name ?? ticket.account}</span>
               <div className={styles.messageBody} dangerouslySetInnerHTML={{ __html: ticket.message ?? ticket.subject }} />
               <div className={styles.messageActions}>
-                <button className={styles.editBtn} onClick={() => { setEditBody(ticket.message ?? ticket.subject ?? ''); setEditModal(true) }}>✏</button>
+                <CustomMiniButton style='amber' icon='/icons/edit.svg' alt='Edit' tooltipTitle='Edit' onClick={() => { setEditBody(ticket.message ?? ticket.subject ?? ''); setEditModal(true) }} />
               </div>
             </div>
           </div>

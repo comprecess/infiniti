@@ -6,6 +6,7 @@ import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
 import { CustomModalWindow } from '../../../../shared/ui/CustomModalWindow/CustomModalWindow'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
+import { CustomMiniButton } from '../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
 const MOCK_DEPARTMENTS = [
@@ -77,8 +78,8 @@ export const AdminDepartmentsPage = () => {
                 </span>
               </span>
               <div className={styles.actions}>
-                <ButtonBlue title='Edit' onClick={() => openEdit(dep)} style={styles.btnEdit} />
-                <button className={styles.btnDelete} onClick={() => handleDelete(dep.id)}>Delete</button>
+                <CustomMiniButton style='amber' icon='/icons/edit.svg' alt='Edit' tooltipTitle='Edit' onClick={() => openEdit(dep)} />
+                <CustomMiniButton style='cherry' icon='/icons/trash.svg' alt='Delete' tooltipTitle='Delete' onClick={() => handleDelete(dep.id)} />
               </div>
             </div>
           ))}

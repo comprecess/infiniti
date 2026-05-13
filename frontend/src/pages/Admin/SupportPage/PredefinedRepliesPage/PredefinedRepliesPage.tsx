@@ -6,6 +6,7 @@ import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
 import { CustomModalWindow } from '../../../../shared/ui/CustomModalWindow/CustomModalWindow'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
+import { CustomMiniButton } from '../../../../shared/ui/CustomMiniButton/CustomMiniButton'
 import { TextEditor } from '../../../../shared/ui/TextEditor/TextEditor'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
 
@@ -71,8 +72,8 @@ export const AdminPredefinedRepliesPage = () => {
             <div key={reply.id} className={styles.tableRow}>
               <span className={styles.title}>{reply.title}</span>
               <div className={styles.actions}>
-                <ButtonBlue title='Edit' onClick={() => openEdit(reply)} style={styles.btnEdit} />
-                <button className={styles.btnDelete} onClick={() => handleDelete(reply.id)}>Delete</button>
+                <CustomMiniButton style='amber' icon='/icons/edit.svg' alt='Edit' tooltipTitle='Edit' onClick={() => openEdit(reply)} />
+                <CustomMiniButton style='cherry' icon='/icons/trash.svg' alt='Delete' tooltipTitle='Delete' onClick={() => handleDelete(reply.id)} />
               </div>
             </div>
           ))}
