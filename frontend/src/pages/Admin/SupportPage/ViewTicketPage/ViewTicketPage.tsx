@@ -99,7 +99,8 @@ export const AdminViewTicketPage = () => {
   const handleSend = async () => {
     if (!ticket || !replyMessage) return
     setSending(true)
-    const res = await postAdminTicketReply(ticket.id, { body: replyMessage, reply_type: replyType })
+    const replyTypeValue = replyType === 'Internal' ? 'internal' : 'public'
+    const res = await postAdminTicketReply(ticket.id, { message: replyMessage, reply_type: replyTypeValue })
     if (res.status) {
       setReplies(prev => [...prev, res.data])
       setReplyMessage('')

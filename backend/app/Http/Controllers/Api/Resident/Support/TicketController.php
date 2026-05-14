@@ -331,7 +331,7 @@ class TicketController extends ResidentController
             'did'        => $t->did,
             'assignee'   => $t->aid ? ['id' => $t->aid, 'name' => $t->assignee?->fullname] : null,
             'aid'        => $t->aid,
-            'client'     => $t->client?->account ?? $t->email,
+            'client'     => ['id' => $t->userid, 'name' => $t->client?->account ?? $t->email ?? 'Unknown'],
             'userid'     => $t->userid,
             'email'      => $t->email,
             'last_reply' => $t->last_reply,
