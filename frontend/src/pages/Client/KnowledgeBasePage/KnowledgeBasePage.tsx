@@ -83,12 +83,14 @@ const inlineFormat = (text: string): React.ReactNode => {
 }
 
 const POPULAR_QUESTIONS = [
-  'How does the Infiniti platform work?',
-  'How do I create a business plan?',
-  'How do I add and manage leads?',
-  'How do I create an invoice?',
-  'How do projects and tasks work?',
-  'What is the Knowledge Base section for?',
+  'What is Infiniti and how does it work?',
+  'How do I start building my product with Infiniti?',
+  'How do I put together a team for my startup?',
+  'How do I get funding for my project?',
+  'What does the 90-day MVP launch process look like?',
+  'How do I create a business plan on the platform?',
+  'What subscription tiers are available and what do I get?',
+  'How do I connect with investors through Infiniti?',
 ]
 
 interface QAItem {
