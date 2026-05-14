@@ -165,7 +165,7 @@ export const AdminViewTicketPage = () => {
               <div className={styles.divider} />
 
               <p className={styles.metaLine}><strong>Ticket:</strong> {ticket.tid ?? ticket.code}</p>
-              <p className={styles.metaLine}><strong>Customer:</strong> {ticket.client?.name ?? ticket.account}</p>
+              <p className={styles.metaLine}><strong>Customer:</strong> {ticket.client?.name ?? ticket.account}{ticket.email ? <> (<a href={`mailto:${ticket.email}`} style={{color:'inherit',textDecoration:'underline'}}>{ticket.email}</a>)</> : ''}</p>
 
               <div className={styles.divider} />
 
