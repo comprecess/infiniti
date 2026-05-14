@@ -48,11 +48,26 @@ export const ClientKnowledgeBasePage = () => {
     const raw: any[] = res.data?.data ?? []
     const questions = raw.filter((m: any) => m.type === 'in')
     const answers   = raw.filter((m: any) => m.type === 'out')
-    const pairs: QAItem[] = questions.map((q: any) => ({
-      id:       q.id,
-      question: q.message,
-      answer:   answers.find((a: any) => a.id > q.id)?.message ?? null,
-    }))
+
+    // Normalise for dedup comparison
+    const norm = (s: string) => s.trim().toLowerCase().replace(/[^a-zа-яё0-9 ]/gi, '').replace(/\s+/g, ' ')
+
+    const seenQuestions = new Set<string>(POPULAR_QUESTIONS.map(norm))
+    const pairs: QAItem[] = []
+
+    for (const q of questions) {
+      const text: string = (q.message ?? '').trim()
+      if (!text) continue                          // skip empty
+      const key = norm(text)
+      if (seenQuestions.has(key)) continue         // skip duplicates / similar to popular
+      seenQuestions.add(key)
+      pairs.push({
+        id:       q.id,
+        question: text,
+        answer:   answers.find((a: any) => a.id > q.id)?.message ?? null,
+      })
+    }
+
     if (pairs.length > 0) {
       setItems(prev => [...prev, ...pairs])
     }
