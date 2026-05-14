@@ -72,7 +72,8 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
         if (isMini) setIsOpenedPages({})
         // Always navigate with absolute path to avoid relative-path issues
         const absolutePath = path.startsWith('/') ? path : `${sidebarPages}${path}`
-        navigate(absolutePath)
+        // Remove trailing slash (React Router v6 doesn't match it by default)
+        navigate(absolutePath.replace(/\/$/, '') || '/')
         if (isMobile) onClose()
       },
       [isMini, isMobile, navigate, onClose, sidebarPages],
