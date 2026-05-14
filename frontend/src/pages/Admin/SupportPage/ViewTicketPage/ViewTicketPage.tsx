@@ -67,7 +67,8 @@ export const AdminViewTicketPage = () => {
       inputData ? Promise.resolve({ status: true, data: inputData }) : getAdminTicketsInputData(),
     ])
     if (ticketRes.status) {
-      const t = ticketRes.data.data
+      // API: { status, data: { data: { ticket fields } } }
+      const t = ticketRes.data?.data?.data ?? ticketRes.data?.data ?? ticketRes.data
       setTicket(t)
       setReplies(t.replies ?? [])
       setDeptId(t.department?.id ?? 0)
@@ -80,7 +81,7 @@ export const AdminViewTicketPage = () => {
       setNote(t.note ?? '')
       setNoteKey(k => k + 1)
     }
-    if (inputRes.status && !inputData) setInputData(inputRes.data)
+    if (inputRes.status && !inputData) setInputData(inputRes.data?.data ?? inputRes.data)
     setLoading(false)
   }
 
@@ -102,7 +103,9 @@ export const AdminViewTicketPage = () => {
     const replyTypeValue = replyType === 'Internal' ? 'internal' : 'public'
     const res = await postAdminTicketReply(ticket.id, { message: replyMessage, reply_type: replyTypeValue })
     if (res.status) {
-      setReplies(prev => [...prev, res.data])
+      // res.data = customFetch result = { status, data: { data: { reply object } } }
+      const newReply = res.data?.data?.data ?? res.data?.data ?? res.data
+      setReplies(prev => [...prev, newReply])
       setReplyMessage('')
       setReplyEditorKey(k => k + 1)
     }

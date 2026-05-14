@@ -29,7 +29,7 @@ export const AdminTicketsListPage = () => {
       inputData ? Promise.resolve({ status: true, data: inputData }) : getAdminTicketsInputData(),
       getAdminTicketsList(f),
     ])
-    if (inputRes.status && !inputData) setInputData(inputRes.data)
+    if (inputRes.status && !inputData) setInputData(inputRes.data?.data ?? inputRes.data)
     if (listRes.status) setTickets(listRes.data?.data?.data ?? [])
     setLoading(false)
   }
