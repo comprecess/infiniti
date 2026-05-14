@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import styles from './PopularQuestionsPage.module.scss'
-import { customFetch } from '../../../../shared/utils/api/customFetch'
+import { customFetch } from '../../../../shared/utils/api/custom-fetch'
 
 interface PopularQuestion {
   question: string
