@@ -63,11 +63,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100px;
+  width: fit-content;
+  min-width: 100px;
   height: 32px;
   border-radius: 8px;
-  padding: 4px 8px;
+  padding: 4px 10px;
   background-color: $brand-800;
+  white-space: nowrap;
+  font-size: 12px;
 }
 
 .date {

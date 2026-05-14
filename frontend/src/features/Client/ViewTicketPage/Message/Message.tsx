@@ -79,7 +79,7 @@ export const Message = ({
   return (
     <div className={wrapperClass}>
       <div className={styles.container}>
-        <div className={styles.date}>{data.date}</div>
+        <div className={styles.date}>{new Date(data.date.replace(' ', 'T')).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })}</div>
         <img
           alt='Avatar'
           className={styles.avatar}
