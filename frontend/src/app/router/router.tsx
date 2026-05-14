@@ -641,7 +641,6 @@ export const router = createBrowserRouter([
             element: Pages.clientOpenNewTicketPage,
           },
           { path: '', element: Pages.clientTicketsPage },
-          { index: true, element: Pages.clientTicketsPage },
           { path: `${Routes.view}/${Routes.ticket}/:id`, element: Pages.clientViewTicketPage },
         ],
       },
