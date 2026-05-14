@@ -70,10 +70,12 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
     const handleNavigate = useCallback(
       (path: string) => {
         if (isMini) setIsOpenedPages({})
-        navigate(path)
+        // Always navigate with absolute path to avoid relative-path issues
+        const absolutePath = path.startsWith('/') ? path : `${sidebarPages}${path}`
+        navigate(absolutePath)
         if (isMobile) onClose()
       },
-      [isMini, isMobile, navigate, onClose],
+      [isMini, isMobile, navigate, onClose, sidebarPages],
     )
 
     const isActivePage = useCallback(
