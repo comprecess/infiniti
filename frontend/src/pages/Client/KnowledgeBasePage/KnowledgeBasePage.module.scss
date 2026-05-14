@@ -91,8 +91,10 @@
   font-size: 14px;
   line-height: 1.75;
   color: $gray-200;
-  white-space: pre-wrap;
   margin: 0;
+
+  p, div { color: $gray-200; }
+  strong  { color: #ffffff; }
 }
 
 // ── Fixed input bar ──

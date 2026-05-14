@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, Fragment } from 'react'
 import { useForm } from 'react-hook-form'
 
 import styles from './KnowledgeBasePage.module.scss'
@@ -7,6 +7,80 @@ import { getKBHistory } from '../../../shared/utils/api/Client/KnowledgeBase/get
 import { ButtonBlue } from '../../../shared/ui/ButtonBlue/ButtonBlue'
 import { Input } from '../../../shared/ui/Input/Input'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
+
+// Minimal markdown renderer: bold, italic, headings, bullet lists, line breaks
+const renderMarkdown = (text: string) => {
+  const lines = text.split('\n')
+  const result: React.ReactNode[] = []
+  let key = 0
+
+  for (const line of lines) {
+    const trimmed = line.trim()
+
+    // Empty line → spacer
+    if (!trimmed) {
+      result.push(<div key={key++} style={{ height: '8px' }} />)
+      continue
+    }
+
+    // Heading ### / ## / #
+    const headingMatch = trimmed.match(/^(#{1,3})\s+(.+)/)
+    if (headingMatch) {
+      const level = headingMatch[1].length
+      const Tag = (`h${Math.min(level + 2, 6)}`) as keyof JSX.IntrinsicElements
+      result.push(<Tag key={key++} style={{ margin: '6px 0 2px', fontWeight: 700, fontSize: level === 1 ? '16px' : '15px', color: '#fff' }}>{inlineFormat(headingMatch[2])}</Tag>)
+      continue
+    }
+
+    // Bullet list item
+    const bulletMatch = trimmed.match(/^[-*•]\s+(.+)/)
+    if (bulletMatch) {
+      result.push(
+        <div key={key++} style={{ display: 'flex', gap: '6px', margin: '2px 0' }}>
+          <span style={{ flexShrink: 0, color: '#6b7aff' }}>•</span>
+          <span>{inlineFormat(bulletMatch[1])}</span>
+        </div>
+      )
+      continue
+    }
+
+    // Numbered list
+    const numberedMatch = trimmed.match(/^(\d+)\.\s+(.+)/)
+    if (numberedMatch) {
+      result.push(
+        <div key={key++} style={{ display: 'flex', gap: '6px', margin: '2px 0' }}>
+          <span style={{ flexShrink: 0, color: '#6b7aff', minWidth: '18px' }}>{numberedMatch[1]}.</span>
+          <span>{inlineFormat(numberedMatch[2])}</span>
+        </div>
+      )
+      continue
+    }
+
+    // Regular paragraph line
+    result.push(<p key={key++} style={{ margin: '3px 0', lineHeight: '1.7' }}>{inlineFormat(trimmed)}</p>)
+  }
+
+  return result
+}
+
+// Inline formatting: **bold**, *italic*, `code`
+const inlineFormat = (text: string): React.ReactNode => {
+  const parts: React.ReactNode[] = []
+  const regex = /(\*\*(.+?)\*\*|\*(.+?)\*|`(.+?)`)/g
+  let last = 0
+  let match: RegExpExecArray | null
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > last) parts.push(text.slice(last, match.index))
+    if (match[2]) parts.push(<strong key={match.index} style={{ fontWeight: 700, color: '#fff' }}>{match[2]}</strong>)
+    else if (match[3]) parts.push(<em key={match.index}>{match[3]}</em>)
+    else if (match[4]) parts.push(<code key={match.index} style={{ background: 'rgba(255,255,255,0.1)', padding: '1px 5px', borderRadius: '4px', fontSize: '13px' }}>{match[4]}</code>)
+    last = match.index + match[0].length
+  }
+
+  if (last < text.length) parts.push(text.slice(last))
+  return parts.length === 1 ? parts[0] : <>{parts}</>
+}
 
 const POPULAR_QUESTIONS = [
   'How does the Infiniti platform work?',
@@ -155,7 +229,9 @@ export const ClientKnowledgeBasePage = () => {
                       <span>Infiniti AI is thinking...</span>
                     </div>
                   ) : (
-                    <p className={styles.answerText}>{item.answer}</p>
+                    <div className={styles.answerText}>
+                      {renderMarkdown(item.answer ?? '')}
+                    </div>
                   )}
                 </div>
               )}
