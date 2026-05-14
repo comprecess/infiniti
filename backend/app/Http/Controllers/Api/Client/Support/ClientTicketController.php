@@ -88,11 +88,16 @@ class ClientTicketController extends Controller
             'cc'       => 'nullable|string',
         ]);
 
-        // Auto-assign default admin from department
+        // Auto-assign default admin from department (or fallback to first dept default)
         $defaultAid = null;
         if ($request->did) {
             $dept = SysTicketDepartment::find($request->did);
             $defaultAid = $dept?->default_aid;
+        }
+        if (!$defaultAid) {
+            // Fallback: use default_aid from first available department
+            $fallbackDept = SysTicketDepartment::whereNotNull('default_aid')->first();
+            $defaultAid = $fallbackDept?->default_aid;
         }
 
         $ticket = new SysTicket();
@@ -110,7 +115,7 @@ class ClientTicketController extends Controller
         $ticket->save();
 
         // Notify assignee
-        if ($defaultAid) {
+        if ($ticket->aid) {
             $this->notifyAssignee($ticket);
         }
 
