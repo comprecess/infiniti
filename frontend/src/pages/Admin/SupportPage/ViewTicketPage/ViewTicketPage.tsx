@@ -121,7 +121,7 @@ export const AdminViewTicketPage = () => {
 
   const priorityColor = (p: string) => ['High', 'Critical', 'Medium'].includes(p) ? styles.priorityRed : styles.priorityGreen
 
-  const formatDate = (d: string) => d ? new Date(d).toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' }) : ''
+  const formatDate = (d: string) => d ? new Date(d).toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : ''
 
   if (loading) return (
     <div className={styles.loadingWrapper}><LoadingSpinner size='xl' /></div>
