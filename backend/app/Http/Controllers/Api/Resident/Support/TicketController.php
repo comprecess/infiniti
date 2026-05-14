@@ -348,11 +348,12 @@ class TicketController extends ResidentController
         $data['bcc']     = $t->bcc;
         $data['notes']   = $t->notes;
         $data['tags']    = $t->tags;
-        $data['replies'] = $t->replies->map(fn($r) => $this->formatReply($r))->values()->toArray();
+        $clientName = $t->client?->account ?? $t->email ?? 'Client';
+        $data['replies'] = $t->replies->map(fn($r) => $this->formatReply($r, null, $clientName))->values()->toArray();
         return $data;
     }
 
-    private function formatReply(SysTicketReply $r, $admin = null): array
+    private function formatReply(SysTicketReply $r, $admin = null, $clientName = 'Client'): array
     {
         $isAdmin = $r->replied_by === 'admin';
         return [
@@ -362,7 +363,7 @@ class TicketController extends ResidentController
             'reply_type'  => $r->reply_type,
             'replied_by'  => $r->replied_by,
             'author_info' => [
-                'name' => $isAdmin ? ($r->admin ?? 'Admin') : 'Client',
+                'name' => $isAdmin ? ($r->admin ?? 'Admin') : $clientName,
                 'type' => $isAdmin ? 'admin' : 'client',
             ],
             'created_at'  => $r->created_at?->format('Y-m-d H:i:s'),
