@@ -53,16 +53,9 @@ export const Message = ({
     setAttachments([])
   }
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files ?? [])
     if (!files.length) return
-    if (onUploadFile) {
-      setUploading(true)
-      for (const file of files) {
-        await onUploadFile(file)
-      }
-      setUploading(false)
-    }
     setAttachments(prev => [...prev, ...files])
     e.target.value = ''
   }
@@ -146,6 +139,23 @@ export const Message = ({
         <span className={styles.messageName}>{data.account?.name}</span>
         <CustomDivider />
         <span dangerouslySetInnerHTML={{ __html: safeHTML }} className='dangerouslySetInnerHTML' />
+        {data.files && data.files.length > 0 && (
+          <div className={styles.fileList}>
+            {data.files.map((f: any) => (
+              <a
+                key={f.id}
+                href={f.link}
+                target='_blank'
+                rel='noreferrer'
+                className={styles.fileItem}
+                download={f.name}
+              >
+                <span className={styles.fileExt}>{f.ext}</span>
+                <span className={styles.fileName}>{f.name}</span>
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

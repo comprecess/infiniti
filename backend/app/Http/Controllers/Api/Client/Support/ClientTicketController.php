@@ -227,9 +227,19 @@ class ClientTicketController extends Controller
     {
         $client = Client::getAuth();
         $ticket = SysTicket::where('userid', $client->id)->findOrFail($id);
-        $request->validate(['file' => 'required|file|max:10240']);
+        $request->validate([
+            'file'     => 'required|file|max:10240|mimes:pdf,doc,docx,xls,xlsx,csv,jpg,jpeg,png,gif,zip,rar,7z,tar,txt,md',
+            'reply_id' => 'nullable|integer',
+        ]);
 
-        $file = $ticket->uploads($request->file('file'));
+        if ($request->reply_id) {
+            $model = \App\Models\Support\SysTicketReply::where('tid', $ticket->id)->findOrFail($request->reply_id);
+        } else {
+            $model = $ticket;
+        }
+
+        $fileStorage = new \App\Models\FileStorage();
+        $file = $fileStorage->uploads($model, $request->file('file'));
 
         return response()->json([
             'status' => true,

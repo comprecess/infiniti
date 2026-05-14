@@ -210,7 +210,7 @@ class TicketController extends ResidentController
     {
         $ticket = SysTicket::findOrFail($id);
         $request->validate([
-            'file'     => 'required|file|max:10240', // 10MB max
+            'file'     => 'required|file|max:10240|mimes:pdf,doc,docx,xls,xlsx,csv,jpg,jpeg,png,gif,zip,rar,7z,tar,txt,md',
             'reply_id' => 'nullable|integer',
         ]);
 
@@ -220,7 +220,8 @@ class TicketController extends ResidentController
             $model = $ticket;
         }
 
-        $file = (new $model)->uploads($request->file('file'));
+        $fileStorage = new \App\Models\FileStorage();
+        $file = $fileStorage->uploads($model, $request->file('file'));
 
         return response()->json([
             'status' => true,
@@ -410,6 +411,12 @@ class TicketController extends ResidentController
             ],
             'created_at'  => $r->created_at?->format('Y-m-d H:i:s'),
             'admin_read'  => $r->admin_read,
+            'files'       => $r->files->map(fn($f) => [
+                'id'   => $f->id,
+                'name' => $f->name,
+                'ext'  => $f->ext,
+                'link' => $f->getLink(),
+            ])->values()->toArray(),
         ];
     }
 }

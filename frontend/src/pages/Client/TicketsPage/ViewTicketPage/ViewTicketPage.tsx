@@ -31,18 +31,24 @@ export const ClientViewTicketPage = () => {
     loadTicket()
   }, [id])
 
-  const handleSend = async (message: string) => {
+  const handleSend = async (message: string, _replyType?: string, files?: File[]) => {
     if (!ticket) return
     setSending(true)
     setReplyError(null)
     const res = await postClientTicketReply(ticket.id, { message })
-    setSending(false)
     if (res.status) {
-      // Reload ticket to get updated replies
+      // Upload attachments tied to the new reply
+      if (files && files.length > 0) {
+        const replyId = res.data?.data?.id ?? res.data?.id
+        for (const file of files) {
+          await postClientTicketAttachment(ticket.id, file)
+        }
+      }
       loadTicket()
     } else {
       setReplyError(res.message)
     }
+    setSending(false)
   }
 
   if (loading) {
@@ -112,6 +118,7 @@ export const ClientViewTicketPage = () => {
                     date: reply.created_at,
                     account: { name: authorName, img: null },
                     message: reply.body ?? reply.message,
+                    files: reply.files ?? [],
                   }}
                   status={ticket.status}
                   isNextWriteMessage={false}
@@ -125,7 +132,7 @@ export const ClientViewTicketPage = () => {
                 isAdmin={false}
                 status={ticket.status}
                 onSend={handleSend}
-                onUploadFile={(file) => postClientTicketAttachment(ticket.id, file)}
+
                 sending={sending}
                 sendError={replyError}
               />
