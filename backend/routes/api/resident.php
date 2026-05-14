@@ -341,3 +341,24 @@ Route::prefix('email-templates')
         Route::delete('/{id}', 'destroy');
         Route::get('/{id}/render', 'render');
     });
+
+# Support / Tickets (resident/admin)
+Route::prefix('support')
+    ->controller(\App\Http\Controllers\Api\Resident\Support\TicketController::class)
+    ->group(function(){
+        Route::get('/',                     'list');
+        Route::post('/',                    'store');
+        Route::get('/input-data',           'inputData');
+        Route::get('/departments',          'departmentList');
+        Route::post('/departments',         'departmentStore');
+        Route::put('/departments/{id}',     'departmentUpdate')->where('id', '[0-9]+');
+        Route::delete('/departments/{id}',  'departmentDestroy')->where('id', '[0-9]+');
+        Route::get('/predefined',           'predefinedList');
+        Route::post('/predefined',          'predefinedStore');
+        Route::put('/predefined/{id}',      'predefinedUpdate')->where('id', '[0-9]+');
+        Route::delete('/predefined/{id}',   'predefinedDestroy')->where('id', '[0-9]+');
+        Route::get('/{id}',                 'show')->where('id', '[0-9]+');
+        Route::put('/{id}',                 'update')->where('id', '[0-9]+');
+        Route::delete('/{id}',              'destroy')->where('id', '[0-9]+');
+        Route::post('/{id}/reply',          'reply')->where('id', '[0-9]+');
+    });

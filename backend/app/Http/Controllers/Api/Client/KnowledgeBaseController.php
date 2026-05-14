@@ -10,7 +10,6 @@ use App\Models\User;
 use App\Services\ChatGPT as ChatGPTService;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Arr;
 
 class KnowledgeBaseController extends Controller
 {
@@ -24,10 +23,9 @@ class KnowledgeBaseController extends Controller
     public function history()
     {
         $user = User::getAuth();
-
         $knowledgeBase = new KnowledgeBase();
 
-        $query = ChatGPT::where('admin_id', $user->id)
+        $query = ChatGPT::where('client_id', $user->id)
             ->where('model_type', get_class($knowledgeBase))
             ->whereNull('parent_id')
             ->orderBy('id', 'desc')
@@ -53,17 +51,16 @@ class KnowledgeBaseController extends Controller
         ]);
 
         $user = User::getAuth();
-
         $knowledgeBase = new KnowledgeBase();
 
-        // Создаём запись входящего сообщения
+        // Use the standard chatGPT() helper — sets model_type/model_id correctly
         $chatGPT = $knowledgeBase->chatGPT();
         $chatGPT->chat_model = $request->chatModel ?? ChatGPTService::MODEL[0];
         $chatGPT->message    = $request->message;
-        $chatGPT->admin_id   = $user->id;
+        $chatGPT->client_id  = $user->id; // set BEFORE save so creatingEvent skips admin_id
         $chatGPT->save();
 
-        // Собираем промпт
+        // Build prompt
         $chat = new ChatGPTService($chatGPT);
         $chat->setModel($chatGPT->chat_model);
 
@@ -76,26 +73,23 @@ class KnowledgeBaseController extends Controller
         $block[$knowledgeBase->discussionName()] = $knowledgeBase->modelDescription();
         $block['текст'] = $request->message;
 
-        // Добавляем историю переписки
-        $history = $chatGPT->history();
-        if ($history?->count()) {
-            $block['История переписки'] = $history->toChat();
-        }
-
         $chat->write($prompt);
         foreach ($block as $name => $value) {
             $chat->write("[{$name}]\n{$value}\n");
         }
 
         $responseModel = $chat->send()->toModel();
-        $responseModel->save();
+        if ($responseModel) {
+            $responseModel->client_id = $user->id;
+            $responseModel->save();
+        }
 
         $chatGPT->log_message = $chat->getHistory(2);
         $chatGPT->save();
 
         return response()->json([
             'status' => true,
-            'data'   => new ChatGPTResource($responseModel),
+            'data'   => new ChatGPTResource($responseModel ?? $chatGPT),
         ]);
     }
 }

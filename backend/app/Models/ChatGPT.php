@@ -58,7 +58,10 @@ class ChatGPT extends Model
         }while(self::where('chat_history_hash', $hash)->count() > 0);
 
         $item->chat_history_hash = $hash;
-        $item->admin_id = auth()->id();
+        // Only set admin_id if not a client-side record
+        if (empty($item->client_id)) {
+            $item->admin_id = auth()->id();
+        }
     }
 
     public function model()

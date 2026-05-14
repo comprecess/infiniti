@@ -137,7 +137,7 @@ export const clientSidebarPages = [
       {
         id: 1,
         title: 'client-sidebar-subsidiary-page-tickets',
-        path: Routes.tickets,
+        path: '',
 
         // Access
         create: false,

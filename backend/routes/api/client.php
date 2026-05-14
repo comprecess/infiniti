@@ -99,6 +99,16 @@ Route::group(['prefix' => 'client',], function(){
             Route::get('history',    'history');
             Route::post('message',   'message');
         });
+
+    #support / tickets
+    Route::controller(\App\Http\Controllers\Api\Client\Support\ClientTicketController::class)->prefix('support')
+        ->group(function(){
+            Route::get('/',             'list');
+            Route::post('/',            'store');
+            Route::get('/input-data',   'inputData');
+            Route::get('/{id}',         'show')->where('id', '[0-9]+');
+            Route::post('/{id}/reply',  'reply')->where('id', '[0-9]+');
+        });
 });
 
 

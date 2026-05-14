@@ -45,5 +45,8 @@ use \App\Http\Controllers\Api\Resident;
         ],
         'calendar' => [
             Resident\Project\CalendarController::class
+        ],
+        'support' => [
+            Resident\Support\TicketController::class
         ]
     ];
