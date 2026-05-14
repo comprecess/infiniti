@@ -153,14 +153,13 @@ export const ClientKnowledgeBasePage = () => {
           const isOpen = openId === item.id
           return (
             <div key={item.id} className={`${styles.item} ${isOpen ? styles.itemOpen : ''}`}>
+              {/* Popular badge — above question row */}
+              {item.isPopular && (
+                <span className={styles.popularBadge}>Popular</span>
+              )}
               {/* Question row */}
               <div className={styles.questionRow} onClick={() => toggle(item)}>
-                <div className={styles.questionLeft}>
-                  {item.isPopular && (
-                    <span className={styles.popularBadge}>Popular</span>
-                  )}
-                  <span className={styles.questionText}>{item.question}</span>
-                </div>
+                <span className={styles.questionText}>{item.question}</span>
                 <span className={`${styles.chevron} ${isOpen ? styles.chevronOpen : ''}`}>
                   ›
                 </span>
