@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
 import styles from './Message.module.scss'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -14,8 +14,7 @@ interface MessageProps {
   isNextWriteMessage?: boolean
   isLast?: boolean
   status?: string
-  onSend?: (message: string, replyType?: string, files?: File[]) => void
-  onUploadFile?: (file: File) => Promise<any>
+  onSend?: (message: string, replyType?: string) => void
   sending?: boolean
   sendError?: string | null
 }
@@ -28,15 +27,11 @@ export const Message = ({
   isLast,
   status,
   onSend,
-  onUploadFile,
   sending,
   sendError,
 }: MessageProps) => {
   const [adminTabs, setAdminTabs] = useState<string>('Customer')
   const [editorValue, setEditorValue] = useState('')
-  const [attachments, setAttachments] = useState<File[]>([])
-  const [uploading, setUploading] = useState(false)
-  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const wrapperClass = [
     styles.wrapper,
@@ -47,21 +42,9 @@ export const Message = ({
   ].join(' ')
 
   const handleSend = () => {
-    if (!editorValue.trim() && attachments.length === 0) return
-    onSend?.(editorValue, isAdmin ? adminTabs : 'Customer', attachments)
+    if (!editorValue.trim()) return
+    onSend?.(editorValue, isAdmin ? adminTabs : 'Customer')
     setEditorValue('')
-    setAttachments([])
-  }
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files ?? [])
-    if (!files.length) return
-    setAttachments(prev => [...prev, ...files])
-    e.target.value = ''
-  }
-
-  const removeAttachment = (i: number) => {
-    setAttachments(prev => prev.filter((_, idx) => idx !== i))
   }
 
   if ((isAdmin && isWriteMessage) || (!isAdmin && isWriteMessage && status !== 'Closed')) {
@@ -78,40 +61,12 @@ export const Message = ({
             </div>
           )}
           <TextEditor setValue={setEditorValue} />
-          {attachments.length > 0 && (
-            <div className={styles.attachmentList}>
-              {attachments.map((f, i) => (
-                <div key={i} className={styles.attachmentItem}>
-                  <span className={styles.attachmentName}>{f.name}</span>
-                  <button className={styles.attachmentRemove} onClick={() => removeAttachment(i)}>✕</button>
-                </div>
-              ))}
-            </div>
-          )}
           {sendError && <span className={styles.sendError}>{sendError}</span>}
-          <div className={styles.actions}>
-            <input
-              ref={fileInputRef}
-              type='file'
-              multiple
-              style={{ display: 'none' }}
-              onChange={handleFileChange}
-              accept='.pdf,.doc,.docx,.xls,.xlsx,.csv,.jpg,.jpeg,.png,.gif,.zip,.rar,.txt'
-            />
-            <button
-              className={styles.attachBtn}
-              onClick={() => fileInputRef.current?.click()}
-              disabled={uploading}
-              title='Attach file'
-            >
-              {uploading ? '⏳' : '📎'}
-            </button>
-            <ButtonBlue
-              title={sending ? 'Sending…' : 'Send'}
-              style={styles.buttonSend}
-              onClick={handleSend}
-            />
-          </div>
+          <ButtonBlue
+            title={sending ? 'Sending…' : 'Send'}
+            style={styles.buttonSend}
+            onClick={handleSend}
+          />
         </div>
       </div>
     )

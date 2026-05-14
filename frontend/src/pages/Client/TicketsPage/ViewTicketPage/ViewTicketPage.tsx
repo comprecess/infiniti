@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import styles from './ViewTicketPage.module.scss'
 import { getClientTicket } from '../../../../shared/utils/api/Client/Tickets/get-ticket'
 import { postClientTicketReply } from '../../../../shared/utils/api/Client/Tickets/post-ticket-reply'
-import { postClientTicketAttachment } from '../../../../shared/utils/api/Client/Tickets/post-ticket-attachment'
+
 import { Message } from '../../../../features/Client/ViewTicketPage/Message/Message'
 import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
 import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
@@ -31,19 +31,12 @@ export const ClientViewTicketPage = () => {
     loadTicket()
   }, [id])
 
-  const handleSend = async (message: string, _replyType?: string, files?: File[]) => {
+  const handleSend = async (message: string) => {
     if (!ticket) return
     setSending(true)
     setReplyError(null)
     const res = await postClientTicketReply(ticket.id, { message })
     if (res.status) {
-      // Upload attachments tied to the new reply
-      if (files && files.length > 0) {
-        const replyId = res.data?.data?.id ?? res.data?.id
-        for (const file of files) {
-          await postClientTicketAttachment(ticket.id, file)
-        }
-      }
       loadTicket()
     } else {
       setReplyError(res.message)
