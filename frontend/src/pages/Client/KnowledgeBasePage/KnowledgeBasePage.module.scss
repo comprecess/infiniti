@@ -4,62 +4,42 @@
   width: 100%;
   height: calc(100vh - 82px - 60px);
   overflow: hidden;
-  max-width: $maxContentSize;
 }
 
-// ── Scrollable list ──
+// ── Scrollable question list ──
 .list {
   flex: 1;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 20px 24px 12px;
+  gap: 6px;
+  padding: 16px 16px 8px;
 }
 
-.loadingWrap {
-  display: flex;
-  justify-content: center;
-  padding: 32px 0;
-}
-
-// ── Q&A Item ──
+// ── Item card ──
 .item {
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
   overflow: hidden;
-  transition: border-color 0.2s;
+  transition: border-color 0.18s;
 
   &:hover {
-    border-color: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.14);
   }
 }
 
 .itemOpen {
-  border-color: rgba(48, 63, 225, 0.3);
-  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(48, 63, 225, 0.4);
+  background: rgba(255, 255, 255, 0.06);
 }
 
-// Badge sits above the question row, flush left
-.popularBadge {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  background: rgba(48, 63, 225, 0.15);
-  color: $brand-500;
-  margin: 10px 16px 0;
-}
-
+// ── Question row ──
 .questionRow {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 16px 14px;
+  gap: 10px;
+  padding: 13px 14px;
   cursor: pointer;
   user-select: none;
 }
@@ -67,19 +47,20 @@
 .questionText {
   flex: 1;
   min-width: 0;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   color: $white;
-  white-space: normal;      // allow wrapping — full question always visible
-  line-height: 1.45;
+  line-height: 1.4;
+  // full text always visible — wraps to next line
+  white-space: normal;
 }
 
 .chevron {
   flex-shrink: 0;
   font-size: 20px;
-  color: $gray-200;
   line-height: 1;
-  transition: transform 0.25s ease;
+  color: $gray-200;
+  transition: transform 0.22s ease, color 0.18s;
   display: inline-block;
   transform: rotate(0deg);
 }
@@ -89,10 +70,13 @@
   color: $brand-500;
 }
 
-// ── Answer — full height, list scrolls as a whole ──
+// ── Answer panel — scrollable inside expanded card ──
 .answer {
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  padding: 14px 16px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  // max height so you can scroll inside the open card
+  max-height: 50vh;
+  overflow-y: auto;
+  padding: 14px 14px 16px;
 }
 
 .answerLoading {
@@ -105,7 +89,7 @@
 
 .answerText {
   font-size: 14px;
-  line-height: 1.7;
+  line-height: 1.75;
   color: $gray-200;
   white-space: pre-wrap;
   margin: 0;
@@ -117,7 +101,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 14px 24px;
+  padding: 12px 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   background: $brand-1000;
 }
@@ -125,7 +109,6 @@
 .inputWrapper {
   flex: 1;
   min-width: 0;
-
   > div { width: 100%; }
 }
 
