@@ -78,7 +78,7 @@ export const ClientViewTicketPage = () => {
             <Status title={ticket.status} status={ticket.status} />
           </div>
           <div className={styles.tickets}>
-            {/* Original ticket message */}
+            {/* Original ticket message from client */}
             {ticket.message && (
               <Message
                 key='original'
@@ -88,32 +88,35 @@ export const ClientViewTicketPage = () => {
                 data={{
                   id: 0,
                   date: ticket.created_at,
-                  account: { name: ticket.subject ?? '', img: null },
+                  account: { name: ticket.email ?? 'You', img: null },
                   message: ticket.message,
                 }}
                 status={ticket.status}
                 isNextWriteMessage={false}
               />
             )}
-            {ticket.replies?.map((reply: any, index: number) => (
-              <Message
-                key={reply.id}
-                isAdmin={reply.replied_by === 'admin'}
-                isWriteMessage={false}
-                isLast={index === ticket.replies.length - 1}
-                data={{
-                  id: reply.id,
-                  date: reply.created_at,
-                  account: {
-                    name: reply.author_info?.name ?? reply.admin ?? reply.author?.name ?? 'Support',
-                    img: null,
-                  },
-                  message: reply.body ?? reply.message,
-                }}
-                status={ticket.status}
-                isNextWriteMessage={false}
-              />
-            ))}
+            {ticket.replies?.map((reply: any, index: number) => {
+              const isAdminReply = reply.replied_by === 'admin'
+              const authorName = isAdminReply
+                ? (reply.author_info?.name ?? reply.admin ?? 'Support')
+                : (ticket.email ?? 'You')
+              return (
+                <Message
+                  key={reply.id}
+                  isAdmin={isAdminReply}
+                  isWriteMessage={false}
+                  isLast={index === ticket.replies.length - 1}
+                  data={{
+                    id: reply.id,
+                    date: reply.created_at,
+                    account: { name: authorName, img: null },
+                    message: reply.body ?? reply.message,
+                  }}
+                  status={ticket.status}
+                  isNextWriteMessage={false}
+                />
+              )
+            })}
             {ticket.status !== 'Closed' && (
               <Message
                 key='write-message'
