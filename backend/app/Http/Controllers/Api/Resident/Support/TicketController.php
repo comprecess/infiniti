@@ -315,8 +315,21 @@ class TicketController extends ResidentController
 
     private function notifyClient(SysTicket $ticket, SysTicketReply $reply)
     {
-        // In-app notification for client — future: email
-        // For now just mark ticket as having new reply
+        if (!$ticket->userid) return;
+        $client = \App\Models\Users\Client::find($ticket->userid);
+        if (!$client) return;
+
+        $message = "Support replied to ticket #{$ticket->id}: {$ticket->subject}";
+        try {
+            \App\Models\Notification::createMain(
+                user: $client,
+                model: $ticket,
+                message: $message,
+                data: ['link' => "/client/tickets/view/ticket/{$ticket->id}"]
+            );
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('Notify client (ticket reply): ' . $e->getMessage());
+        }
     }
 
     private function formatTicket(SysTicket $t): array
