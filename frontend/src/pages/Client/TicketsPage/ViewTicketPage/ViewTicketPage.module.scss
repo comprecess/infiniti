@@ -38,6 +38,11 @@
   display: flex;
   width: 100%;
   justify-content: center;
+
+  :global(h2) {
+    font-size: 24px;
+    line-height: 30px;
+  }
 }
 
 .backButton {
