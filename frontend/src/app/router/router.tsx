@@ -463,7 +463,10 @@ export const router = createBrowserRouter([
       },
       {
         path: Routes.knowledgeBase,
-        element: Pages.adminKnowledgeBasePage,
+        children: [
+          { path: '', element: Pages.adminKnowledgeBasePage },
+          { path: 'popular-questions', element: Pages.adminKbPopularQuestionsPage },
+        ],
       },
       { path: Routes.myOrders, element: Pages.adminOrdersPage },
       { path: Routes.hrm, element: Pages.adminHRMPage },

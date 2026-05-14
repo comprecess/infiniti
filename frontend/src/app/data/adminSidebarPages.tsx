@@ -524,6 +524,14 @@ export const adminSidebarPages = [
         // Access
         create: false,
       },
+      {
+        id: 2,
+        title: 'Popular Questions',
+        path: 'popular-questions',
+
+        // Access
+        create: false,
+      },
     ],
 
     // Access

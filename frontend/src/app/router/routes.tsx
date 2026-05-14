@@ -45,6 +45,7 @@ import { AdminDashboardPage } from '../../pages/Admin/DashboardPage/DashboardPag
 import { AdminDocumentsPage } from '../../pages/Admin/DocumentsPage/DocumentsPage'
 import { AdminHRMPage } from '../../pages/Admin/HRMPage/HRMPage'
 import { AdminKnowledgeBasePage } from '../../pages/Admin/KnowledgeBasePage/KnowledgeBasePage'
+import { PopularQuestionsPage } from '../../pages/Admin/KnowledgeBasePage/PopularQuestionsPage/PopularQuestionsPage'
 import { AdminLeadsPage } from '../../pages/Admin/LeadsPage/LeadsPage/LeadsPage'
 import { AdminWebToLeadPage } from '../../pages/Admin/LeadsPage/WebToLeadPage/WebToLeadPage'
 import { AdminOrdersPage } from '../../pages/Admin/OrdersPage/OrdersPage'
@@ -375,6 +376,7 @@ export const Pages = {
   adminDepartmentsPage: <AdminDepartmentsPage />,
   adminPredefinedRepliesPage: <AdminPredefinedRepliesPage />,
   adminKnowledgeBasePage: <AdminKnowledgeBasePage />,
+  adminKbPopularQuestionsPage: <PopularQuestionsPage />,
   adminOrdersPage: <AdminOrdersPage />,
   adminHRMPage: <AdminHRMPage />,
   adminDocumentsPage: <AdminDocumentsPage />,

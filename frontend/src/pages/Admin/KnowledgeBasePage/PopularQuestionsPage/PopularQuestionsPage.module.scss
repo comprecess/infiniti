@@ -1,0 +1,186 @@
+@import '../../../../app/styles/variables';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 24px;
+  max-width: 900px;
+}
+
+.loading {
+  padding: 24px;
+  color: $white;
+  font-size: 16px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: $white;
+}
+
+.hint {
+  font-size: 13px;
+  font-weight: 400;
+  opacity: 0.5;
+}
+
+.addRow {
+  display: flex;
+  gap: 8px;
+}
+
+.input {
+  flex: 1;
+  background: #1e2130;
+  border: 1px solid #2e3250;
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: $white;
+  font-size: 15px;
+  outline: none;
+
+  &:focus {
+    border-color: $brand-500;
+  }
+}
+
+.addBtn {
+  padding: 10px 20px;
+  background: $brand-500;
+  color: $white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+
+  &:hover:not(:disabled) {
+    background: $brand-800;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #1a1d2e;
+  border: 1px solid #2a2d45;
+  border-radius: 8px;
+  padding: 10px 14px;
+  transition: border-color 0.15s;
+
+  &:hover {
+    border-color: $brand-500;
+  }
+}
+
+.itemLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.itemRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.questionText {
+  font-size: 15px;
+  color: $white;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rank {
+  font-size: 13px;
+  color: rgba($white, 0.4);
+  min-width: 28px;
+}
+
+.count {
+  font-size: 13px;
+  color: rgba($white, 0.45);
+  background: #2a2d45;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.defaultBtn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: rgba($white, 0.3);
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+
+  &:hover { color: #f4c430; }
+}
+
+.defaultBtnActive {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #f4c430;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.pinBtn {
+  background: none;
+  border: 1px solid #2e3250;
+  border-radius: 6px;
+  color: rgba($white, 0.6);
+  font-size: 12px;
+  padding: 3px 8px;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $brand-500;
+    color: $white;
+  }
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  color: rgba($white, 0.35);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 2px 4px;
+
+  &:hover { color: #e05c5c; }
+}
+
+.empty {
+  color: rgba($white, 0.4);
+  font-size: 14px;
+  padding: 8px 0;
+}
