@@ -11,7 +11,7 @@ export const getClientTicketsList = async (filters?: { status?: string }) => {
     const params = new URLSearchParams()
     if (filters?.status) params.set('status', filters.status)
 
-    const url = `${base}/api/v1/support?${params.toString()}`
+    const url = `${base}/api/v1/client/support?${params.toString()}`
     const controller = new AbortController()
     const tid = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
 

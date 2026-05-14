@@ -7,7 +7,7 @@ export const getClientTicket = async (id: number) => {
   if (!authToken) return { status: false, message: AUTH_ERROR_MESSAGE }
 
   try {
-    const url = `${import.meta.env.VITE_MAIN_DOMAIN}/api/v1/support/${id}`
+    const url = `${import.meta.env.VITE_MAIN_DOMAIN}/api/v1/client/support/${id}`
     const controller = new AbortController()
     const tid = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
 

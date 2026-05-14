@@ -16,7 +16,7 @@ export const postCreateClientTicket = async (payload: CreatePayload) => {
   if (!authToken) return { status: false, message: AUTH_ERROR_MESSAGE }
 
   try {
-    const url = `${import.meta.env.VITE_MAIN_DOMAIN}/api/v1/support`
+    const url = `${import.meta.env.VITE_MAIN_DOMAIN}/api/v1/client/support`
     const controller = new AbortController()
     const tid = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS)
 
