@@ -373,4 +373,5 @@ Route::prefix('support')
         Route::put('/{id}',                 'update')->where('id', '[0-9]+');
         Route::delete('/{id}',              'destroy')->where('id', '[0-9]+');
         Route::post('/{id}/reply',          'reply')->where('id', '[0-9]+');
+        Route::post('/{id}/attachment',     'uploadAttachment')->where('id', '[0-9]+');
     });

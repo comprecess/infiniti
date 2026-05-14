@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import styles from './ViewTicketPage.module.scss'
 import { getAdminTicket } from '../../../../shared/utils/api/Admin/Tickets/get-ticket'
 import { putUpdateAdminTicket } from '../../../../shared/utils/api/Admin/Tickets/put-update-ticket'
+import { postAdminTicketAttachment } from '../../../../shared/utils/api/Admin/Tickets/post-ticket-attachment'
 import { postAdminTicketReply } from '../../../../shared/utils/api/Admin/Tickets/post-ticket-reply'
 import { getAdminTicketsInputData } from '../../../../shared/utils/api/Admin/Tickets/get-tickets-input-data'
 import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
@@ -108,6 +109,14 @@ export const AdminViewTicketPage = () => {
       setReplies(prev => [...prev, newReply])
       setReplyMessage('')
       setReplyEditorKey(k => k + 1)
+      // Upload attachments if any
+      if (attachedFiles.length > 0) {
+        const replyId = newReply?.id
+        for (const file of attachedFiles) {
+          await postAdminTicketAttachment(ticket.id, file)
+        }
+        setAttachedFiles([])
+      }
     }
     setSending(false)
   }

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import styles from './ViewTicketPage.module.scss'
 import { getClientTicket } from '../../../../shared/utils/api/Client/Tickets/get-ticket'
 import { postClientTicketReply } from '../../../../shared/utils/api/Client/Tickets/post-ticket-reply'
+import { postClientTicketAttachment } from '../../../../shared/utils/api/Client/Tickets/post-ticket-attachment'
 import { Message } from '../../../../features/Client/ViewTicketPage/Message/Message'
 import { TitlePage } from '../../../../features/Main/TitlePage/TitlePage'
 import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
@@ -124,6 +125,7 @@ export const ClientViewTicketPage = () => {
                 isAdmin={false}
                 status={ticket.status}
                 onSend={handleSend}
+                onUploadFile={(file) => postClientTicketAttachment(ticket.id, file)}
                 sending={sending}
                 sendError={replyError}
               />

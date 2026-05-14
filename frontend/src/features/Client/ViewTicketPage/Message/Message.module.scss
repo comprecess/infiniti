@@ -197,3 +197,63 @@
   gap: 4px;
   width: 100%;
 }
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.attachBtn {
+  background: none;
+  border: 1px solid #2e3250;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.7);
+  transition: border-color 0.15s;
+
+  &:hover:not(:disabled) {
+    border-color: #838ced;
+  }
+  &:disabled { opacity: 0.5; }
+}
+
+.attachmentList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  width: 100%;
+}
+
+.attachmentItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #1e2130;
+  border: 1px solid #2e3250;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+}
+
+.attachmentName {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.attachmentRemove {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.4);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0 2px;
+  &:hover { color: #e05c5c; }
+}

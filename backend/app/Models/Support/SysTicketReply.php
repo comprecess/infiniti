@@ -5,9 +5,12 @@ namespace App\Models\Support;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\FileStorageTrait;
 
 class SysTicketReply extends Model
 {
+    use FileStorageTrait;
+
     public $table = 'sys_ticketreplies';
 
     const TYPE_PUBLIC   = 'public';

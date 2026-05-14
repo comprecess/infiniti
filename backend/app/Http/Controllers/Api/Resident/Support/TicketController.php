@@ -204,6 +204,35 @@ class TicketController extends ResidentController
         ]);
     }
 
+
+    // ── Upload attachment to reply ──
+    public function uploadAttachment(Request $request, int $id)
+    {
+        $ticket = SysTicket::findOrFail($id);
+        $request->validate([
+            'file'     => 'required|file|max:10240', // 10MB max
+            'reply_id' => 'nullable|integer',
+        ]);
+
+        if ($request->reply_id) {
+            $model = SysTicketReply::findOrFail($request->reply_id);
+        } else {
+            $model = $ticket;
+        }
+
+        $file = (new $model)->uploads($request->file('file'));
+
+        return response()->json([
+            'status' => true,
+            'data'   => [
+                'id'   => $file->id,
+                'name' => $file->name,
+                'ext'  => $file->ext,
+                'link' => $file->getLink(),
+            ],
+        ]);
+    }
+
     // ── Delete ticket ──
     public function destroy(int $id)
     {

@@ -221,4 +221,25 @@ class ClientTicketController extends Controller
             'created_at' => $r->created_at?->format('Y-m-d H:i:s'),
         ];
     }
+
+    // ── Upload attachment ──
+    public function uploadAttachment(Request $request, int $id)
+    {
+        $client = Client::getAuth();
+        $ticket = SysTicket::where('userid', $client->id)->findOrFail($id);
+        $request->validate(['file' => 'required|file|max:10240']);
+
+        $file = $ticket->uploads($request->file('file'));
+
+        return response()->json([
+            'status' => true,
+            'data'   => [
+                'id'   => $file->id,
+                'name' => $file->name,
+                'ext'  => $file->ext,
+                'link' => $file->getLink(),
+            ],
+        ]);
+    }
+
 }

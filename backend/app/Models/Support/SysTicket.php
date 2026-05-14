@@ -5,10 +5,13 @@ namespace App\Models\Support;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\FileStorageTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SysTicket extends Model
 {
+    use FileStorageTrait;
+
     public $table = 'sys_tickets';
 
     const STATUS_OPEN       = 'Open';
