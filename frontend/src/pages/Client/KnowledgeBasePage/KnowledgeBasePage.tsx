@@ -42,17 +42,16 @@ export const ClientKnowledgeBasePage = () => {
   const [sending, setSending] = useState(false)
   const [historyLoaded, setHistoryLoaded] = useState(false)
   const listRef = useRef<HTMLDivElement>(null)
+  // track which ids are currently being fetched to avoid double-fetch
+  const fetchingRef = useRef<Set<number | string>>(new Set())
 
-  // Load history — append past user questions after popular ones
   const loadHistory = useCallback(async () => {
     const res = await getKBHistory()
     if (res.status) {
       const raw: any[] = res.data?.data ?? []
-      // type=in → question (parent_id=null), type=out → answer (has parent_id)
       const questions = raw.filter((m: any) => m.type === 'in')
-      const answers = raw.filter((m: any) => m.type === 'out')
+      const answers   = raw.filter((m: any) => m.type === 'out')
       const pairs: QAItem[] = questions.map((q: any) => {
-        // answer id is typically q.id + 1 or next out record
         const answer = answers.find((a: any) => a.id > q.id) ?? null
         return {
           id: q.id,
@@ -73,34 +72,33 @@ export const ClientKnowledgeBasePage = () => {
     loadHistory()
   }, [loadHistory])
 
-  const toggle = async (item: QAItem) => {
-    // If already open — close
-    if (openId === item.id) {
+  const toggle = async (itemId: number | string) => {
+    // toggle closed
+    if (openId === itemId) {
       setOpenId(null)
       return
     }
+    setOpenId(itemId)
 
-    setOpenId(item.id)
-
-    // If answer already loaded — just open
-    if (item.answer !== null) return
-
-    // Need to fetch answer
-    setItems(prev => prev.map(i => i.id === item.id ? { ...i, isLoading: true } : i))
-
-    const res = await postKBMessage(item.question)
-
-    if (res.status) {
-      const aiMsg = res.data?.data
-      const answer = aiMsg?.message ?? ''
-      setItems(prev => prev.map(i =>
-        i.id === item.id ? { ...i, answer, isLoading: false } : i
-      ))
-    } else {
-      setItems(prev => prev.map(i =>
-        i.id === item.id ? { ...i, answer: 'Error getting response. Please try again.', isLoading: false } : i
-      ))
-    }
+    // check current answer from latest state
+    setItems(prev => {
+      const current = prev.find(i => i.id === itemId)
+      if (!current || current.answer !== null || current.isLoading) return prev
+      // answer not yet loaded — mark loading and kick off fetch
+      if (!fetchingRef.current.has(itemId)) {
+        fetchingRef.current.add(itemId)
+        postKBMessage(current.question).then(res => {
+          fetchingRef.current.delete(itemId)
+          if (res.status) {
+            const msg = res.data?.data?.message ?? ''
+            setItems(s => s.map(i => i.id === itemId ? { ...i, answer: msg, isLoading: false } : i))
+          } else {
+            setItems(s => s.map(i => i.id === itemId ? { ...i, answer: 'Error getting response. Please try again.', isLoading: false } : i))
+          }
+        })
+      }
+      return prev.map(i => i.id === itemId ? { ...i, isLoading: true } : i)
+    })
   }
 
   const onSubmit = async ({ message }: { message: string }) => {
@@ -120,7 +118,6 @@ export const ClientKnowledgeBasePage = () => {
     setItems(prev => [...prev, newItem])
     setOpenId(newId)
 
-    // Scroll to new item
     setTimeout(() => {
       listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: 'smooth' })
     }, 100)
@@ -134,7 +131,7 @@ export const ClientKnowledgeBasePage = () => {
       ))
     } else {
       setItems(prev => prev.map(i =>
-        i.id === newId ? { ...i, answer: 'Error getting response. Please try again.', isLoading: false } : i
+        i.id === newId ? { ...i, answer: 'Error. Please try again.', isLoading: false } : i
       ))
     }
 
@@ -143,29 +140,24 @@ export const ClientKnowledgeBasePage = () => {
 
   return (
     <div className={styles.wrapper}>
-      {/* Scrollable list */}
+      {/* Single scrollable area — everything scrolls together */}
       <div className={styles.list} ref={listRef}>
         {!historyLoaded && (
           <div className={styles.loadingWrap}><LoadingSpinner size='md' /></div>
         )}
 
-        {items.map((item, idx) => {
+        {items.map(item => {
           const isOpen = openId === item.id
           return (
             <div key={item.id} className={`${styles.item} ${isOpen ? styles.itemOpen : ''}`}>
-              {/* Popular badge — above question row */}
               {item.isPopular && (
                 <span className={styles.popularBadge}>Popular</span>
               )}
-              {/* Question row */}
-              <div className={styles.questionRow} onClick={() => toggle(item)}>
+              <div className={styles.questionRow} onClick={() => toggle(item.id)}>
                 <span className={styles.questionText}>{item.question}</span>
-                <span className={`${styles.chevron} ${isOpen ? styles.chevronOpen : ''}`}>
-                  ›
-                </span>
+                <span className={`${styles.chevron} ${isOpen ? styles.chevronOpen : ''}`}>›</span>
               </div>
 
-              {/* Answer — expands/collapses */}
               {isOpen && (
                 <div className={styles.answer}>
                   {item.isLoading ? (
