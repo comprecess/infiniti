@@ -156,6 +156,7 @@ export const NotificationProfile = () => {
                       key={item.id}
                       notification={item}
                       notificationIsViewed={handleNotificationViewed}
+                      onClose={onClose}
                     />
                   )
                 })}

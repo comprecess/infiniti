@@ -8,11 +8,13 @@ import { sanitizeMessage } from '../../../shared/utils/TextEditor/sanitizeMessag
 interface NotificationItemProps {
   notification: Notifications
   notificationIsViewed: (id: number) => void
+  onClose?: () => void
 }
 
 export const NotificationItem = ({
   notification,
   notificationIsViewed,
+  onClose,
 }: NotificationItemProps) => {
   const ref = useRef<HTMLDivElement | null>(null)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -22,6 +24,7 @@ export const NotificationItem = ({
 
   const handleClick = () => {
     if (notification.link) {
+      onClose?.()
       navigate(notification.link)
     }
   }
