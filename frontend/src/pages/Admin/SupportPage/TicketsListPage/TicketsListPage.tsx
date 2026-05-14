@@ -88,13 +88,13 @@ export const AdminTicketsListPage = () => {
                       navigate(`/${Routes.adminPages}/${Routes.support}/${Routes.tickets}/${Routes.view}/${Routes.ticket}/${ticket.id}`)
                     }
                   >
-                    <span className={styles.code}>{ticket.code}</span>
+                    <span className={styles.code}>#{ticket.id}</span>
                     <span className={styles.subject}>{ticket.subject}</span>
                     <span>{ticket.client?.name ?? '—'}</span>
                     <span>{ticket.department?.name ?? '—'}</span>
                     <span>{ticket.priority}</span>
                     <Status title={ticket.status} status={ticket.status} />
-                    <span className={styles.date}>{ticket.updated_at}</span>
+                    <span className={styles.date}>{ticket.last_reply ? new Date(ticket.last_reply.replace(' ', 'T')).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : new Date(ticket.created_at.replace(' ', 'T')).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
                   </div>
                 ))}
               </div>
