@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import styles from './NotificationItem.module.scss'
 import { Notifications } from '../../../app/constants/constants'
@@ -15,8 +16,15 @@ export const NotificationItem = ({
 }: NotificationItemProps) => {
   const ref = useRef<HTMLDivElement | null>(null)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const navigate = useNavigate()
 
   const clearMessage = sanitizeMessage(notification.message)
+
+  const handleClick = () => {
+    if (notification.link) {
+      navigate(notification.link)
+    }
+  }
 
   useEffect(() => {
     if (!ref.current || notification.viewed === 1) return
@@ -55,6 +63,8 @@ export const NotificationItem = ({
           ? styles.wrapperDisable
           : styles.wrapperActive
       }
+      onClick={handleClick}
+      style={notification.link ? { cursor: 'pointer' } : undefined}
     >
       <div
         dangerouslySetInnerHTML={{ __html: clearMessage }}

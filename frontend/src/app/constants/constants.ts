@@ -1319,6 +1319,7 @@ export interface Notifications {
   message: string
   status: boolean
   viewed: number
+  link?: string | null
 }
 
 export interface AccountingInputData {

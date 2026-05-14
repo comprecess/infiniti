@@ -171,7 +171,8 @@ class ClientTicketController extends Controller
             Notification::createMain(
                 user: $assignee,
                 model: $ticket,
-                message: $message
+                message: $message,
+                data: ['link' => "/admin/support/tickets/view/ticket/{$ticket->id}"]
             );
             $push = app(\App\Services\Push\Contracts\PushContract::class);
             $push->sendUser($assignee, 'Infiniti Support', $message, "/admin/support/tickets/view/ticket/{$ticket->id}");

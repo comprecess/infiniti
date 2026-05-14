@@ -34,6 +34,7 @@ class NotificationResource extends JsonResource
             'dateCreate' => $createdAt?->format("Y-m-d H:i:s"),
             'viewed' => $this->viewed,
             'status' => $this->viewed == 0 || $date,
+            'link' => $this->data['link'] ?? null,
         ];
     }
 
