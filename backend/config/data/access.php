@@ -48,5 +48,8 @@ use \App\Http\Controllers\Api\Resident;
         ],
         'support' => [
             Resident\Support\TicketController::class
+        ],
+        'kb' => [
+            Resident\KnowledgeBaseAdminController::class
         ]
     ];

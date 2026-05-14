@@ -342,6 +342,18 @@ Route::prefix('email-templates')
         Route::get('/{id}/render', 'render');
     });
 
+# Knowledge Base admin (popular questions)
+Route::prefix('knowledge-base')
+    ->controller(\App\Http\Controllers\Api\Resident\KnowledgeBaseAdminController::class)
+    ->group(function(){
+        Route::get('/popular',          'popular');
+        Route::delete('/popular',       'deletePopular');
+        Route::get('/pinned',           'pinned');
+        Route::post('/pinned',          'addPinned');
+        Route::put('/pinned/{id}',      'updatePinned')->where('id', '[0-9]+');
+        Route::delete('/pinned/{id}',   'deletePinned')->where('id', '[0-9]+');
+    });
+
 # Support / Tickets (resident/admin)
 Route::prefix('support')
     ->controller(\App\Http\Controllers\Api\Resident\Support\TicketController::class)
