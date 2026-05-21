@@ -1,142 +1,115 @@
 <?php
-    return [
-        'block' => [
-          1 => "🧩 Контекст и Цель",
-          2 => "👤 Клиент и Ценность",
-          3 => "💰 Модель дохода",
-          4 => "🚀 Маркетинг и Продажи",
-          5 => "🛠️ Продукт и Команда",
-          6 => "📈 Финансы и Инвестиции",
-          7 => "🗺️ География и Масштабирование",
-          8 => "📋 Личное и Осознанное",
+return [
+    'block' => [
+        1 => "🧩 Context & Goal",
+        2 => "👤 Customer & Value",
+        3 => "💰 Revenue Model",
+        4 => "🚀 Marketing & Sales",
+        5 => "🛠️ Product & Team",
+        6 => "📈 Finance & Investment",
+        7 => "🗺️ Geography",
+    ],
+    'question' => [
+        1 => [
+            1 => ['text' => 'What niche or industry do you want to apply this business model to?', 'type' => 'string'],
+            2 => ['text' => 'What is your most important goal right now?', 'type' => 'radiobox'],
         ],
-        'question' => [
+        2 => [
+            1 => ['text' => 'Who is your ideal customer, and what core problem do you solve for them?', 'type' => 'radiobox'],
+            2 => ['text' => 'How do they currently solve this problem?', 'type' => 'string'],
+        ],
+        3 => [
+            1 => ['text' => 'How do you plan to make money?', 'type' => 'radiobox'],
+            2 => ['text' => 'What is the average deal size or customer LTV in your niche?', 'type' => 'string'],
+            3 => ['text' => 'What barriers or risks do you see in the market?', 'type' => 'string'],
+        ],
+        4 => [
+            1 => ['text' => 'Where is the easiest place to find your customers?', 'type' => 'radiobox'],
+            2 => ['text' => 'What is your top priority at launch?', 'type' => 'radiobox'],
+        ],
+        5 => [
+            1 => ['text' => 'What stage is your product at?', 'type' => 'radiobox'],
+            2 => ['text' => 'What specialists are missing from your team?', 'type' => 'string'],
+        ],
+        6 => [
+            1 => ['text' => 'What is your startup budget, and do you need investment?', 'type' => 'string'],
+            2 => ['text' => 'What KPIs can you show in 6 months?', 'type' => 'string'],
+        ],
+        7 => [
+            1 => ['text' => 'Which country or region will you launch in first?', 'type' => 'string'],
+            2 => ['text' => 'Which markets do you see as next?', 'type' => 'string'],
+        ],
+        6001 => [
+            1 => ['text' => 'How much investment do you need?', 'type' => 'string', 'parentValue' => true],
+            2 => ['text' => 'For what period?', 'type' => 'string', 'parentValue' => true],
+        ],
+    ],
+    'answer' => [
+        1 => [
+            2 => [
+                1 => ['text' => "🚀 Launch a pilot", 'type' => 'radiobox'],
+                2 => ['text' => "💵 Find first paying customers", 'type' => 'radiobox'],
+                3 => ['text' => "📈 Attract investment", 'type' => 'radiobox'],
+                4 => ['text' => "🌍 Enter a new market", 'type' => 'radiobox'],
+            ]
+        ],
+        2 => [
             1 => [
-                1 => ['text' => 'В какой нише или отрасли ты хочешь применить бизнес-модель?', 'type' => 'string'],
-                2 => ['text' => 'Какая цель для тебя важнее всего сейчас?', 'type' => 'radiobox'],
+                1 => ['text' => "B2B", 'type' => 'radiobox'],
+                2 => ['text' => "B2C", 'type' => 'radiobox'],
+                3 => ['text' => "B2B2C", 'type' => 'radiobox'],
+            ],
+        ],
+        3 => [
+            1 => [
+                1 => ['text' => "Subscription (SaaS)", 'type' => 'radiobox'],
+                2 => ['text' => "Commission / revenue share", 'type' => 'radiobox'],
+                3 => ['text' => "One-time license", 'type' => 'radiobox'],
+                4 => ['text' => "Transactions / volume", 'type' => 'radiobox'],
+            ],
+        ],
+        4 => [
+            1 => [
+                1 => ['text' => "LinkedIn", 'type' => 'radiobox'],
+                2 => ['text' => "Telegram / WhatsApp", 'type' => 'radiobox'],
+                3 => ['text' => "Conferences & events", 'type' => 'radiobox'],
+                4 => ['text' => "Offline channels", 'type' => 'radiobox'],
             ],
             2 => [
-                1 => ['text' => 'Кто твой идеальный клиент?', 'type' => 'radiobox'],
-                2 => ['text' => 'Какую основную проблему этого клиента ты решаешь?', 'type' => 'string'],
-                3 => ['text' => 'Как они решают её сейчас?', 'type' => 'string'],
-            ],
-            3 => [
-                1 => ['text' => 'Как ты планируешь зарабатывать?', 'type' => 'radiobox'],
-                2 => ['text' => 'Какой средний чек или LTV клиента в твоей нише?', 'type' => 'string'],
-                3 => ['text' => 'Какие барьеры или риски ты видишь на рынке?', 'type' => 'string'],
-            ],
-            4 => [
-                1 => ['text' => 'Где проще всего найти твоих клиентов?', 'type' => 'radiobox'],
-                2 => ['text' => 'Что для тебя приоритетно на старте?', 'type' => 'radiobox'],
-                3 => ['text' => 'Какой канал продаж кажется тебе самым рабочим?', 'type' => 'string'],
-            ],
-            5 => [
-                1 => ['text' => 'На какой стадии продукт?', 'type' => 'radiobox'],
-                2 => ['text' => 'Каких специалистов не хватает в команде?', 'type' => 'string'],
-                3 => ['text' => 'Готов ли ты подключить внешних экспертов через INFINITI?', 'type' => 'radiobox'],
-            ],
-            6 => [
-                1 => ['text' => 'Какой у тебя бюджет на старт?', 'type' => 'string'],
-                2 => ['text' => 'Нужны ли инвестиции?', 'type' => 'radiobox'],
-                3 => ['text' => 'Какие KPI готов показать через 6 месяцев?', 'type' => 'string'],
-            ],
-            7 => [
-                1 => ['text' => 'В какой стране/регионе планируешь запуститься первым?', 'type' => 'string'],
-                2 => ['text' => 'Какие рынки видишь следующими?', 'type' => 'string'],
-                3 => ['text' => 'Есть ли у тебя локальные партнёры или план их поиска?', 'type' => 'string'],
-            ],
-            8 => [
-                1 => ['text' => 'Почему именно ты должен реализовать этот проект?', 'type' => 'checkbox'],
-                2 => ['text' => 'Какой горизонт планирования для тебя комфортен?', 'type' => 'checkbox'],
-                3 => ['text' => 'Что для тебя будет означать успех?', 'type' => 'string'],
-            ],
-            6001 => [
-                1 => ['text' => 'Сколько?', 'type' => 'string', 'parentValue' => true],
-                2 => ['text' => 'На какой срок?', 'type' => 'string', 'parentValue' => true],
+                1 => ['text' => "10 paying customers fast", 'type' => 'radiobox'],
+                2 => ['text' => "Scale through investment", 'type' => 'radiobox'],
             ],
         ],
-        'answer' => [
+        5 => [
             1 => [
-                2 => [
-                    1 => ['text' => "🚀 Запустить пилот", 'type' => 'radiobox'],
-                    2 => ['text' => "💵 Найти первых клиентов", 'type' => 'radiobox'],
-                    3 => ['text' => "📈 Привлечь инвестиции", 'type' => 'radiobox'],
-                    4 => ['text' => "🌍 Выйти на новый рынок", 'type' => 'radiobox'],
-                ]
+                1 => ['text' => "Just an idea", 'type' => 'radiobox'],
+                2 => ['text' => "MVP", 'type' => 'radiobox'],
+                3 => ['text' => "Pilot running", 'type' => 'radiobox'],
+                4 => ['text' => "Already generating sales", 'type' => 'radiobox'],
+            ],
+        ],
+        8 => [
+            1 => [
+                1 => ['text' => "Your expertise", 'type' => 'radiobox'],
+                2 => ['text' => "Experience", 'type' => 'radiobox'],
+                3 => ['text' => "Motivation", 'type' => 'radiobox'],
             ],
             2 => [
-                1 => [
-                    1 => ['text' => "B2B / B2C", 'type' => 'radiobox'],
-                    2 => ['text' => "Должность/роль", 'type' => 'radiobox'],
-                    3 => ['text' => "Сегмент", 'type' => 'radiobox'],
-
-                ],
-                3 => [
-                    1 => ['text' => "Конкуренты", 'type' => 'radiobox'],
-                    2 => ['text' => "Альтернативы", 'type' => 'string'],
-                ],
-            ],
-            3 => [
-                1 => [
-                    1 => ['text' => "Подписка (SaaS)", 'type' => 'radiobox'],
-                    2 => ['text' => "Комиссия/процент", 'type' => 'radiobox'],
-                    3 => ['text' => "Разовая лицензия", 'type' => 'radiobox'],
-                    4 => ['text' => "Транзакции / оборот", 'type' => 'radiobox'],
-
-                ],
-            ],
-            4 => [
-                1 => [
-                    1 => ['text' => "LinkedIn", 'type' => 'radiobox'],
-                    2 => ['text' => "Telegram", 'type' => 'radiobox'],
-                    3 => ['text' => "Выставки", 'type' => 'radiobox'],
-                    4 => ['text' => "Офлайн-каналы", 'type' => 'radiobox'],
-                ],
-                2 => [
-                    1 => ['text' => "10 платящих клиентов быстро", 'type' => 'radiobox'],
-                    2 => ['text' => "Масштаб через инвестиции", 'type' => 'radiobox'],
-                ],
-            ],
-            5 => [
-                1 => [
-                    1 => ['text' => "Только идея", 'type' => 'radiobox'],
-                    2 => ['text' => "MVP", 'type' => 'radiobox'],
-                    3 => ['text' => "Есть пилот", 'type' => 'radiobox'],
-                    4 => ['text' => "Уже есть продажи", 'type' => 'radiobox'],
-                ],
-                3 => [
-                    1 => ['text' => "Аутстафф", 'type' => 'radiobox'],
-                    2 => ['text' => "Консалтинг", 'type' => 'radiobox'],
-                ],
-            ],
-            6 => [
-                2 => [
-                    1 => ['text' => "Да", 'type' => 'radiobox', 'question' => 6001],
-                    2 => ['text' => "Нет", 'type' => 'radiobox'],
-                ],
-            ],
-            8 => [
-                1 => [
-                    1 => ['text' => "Твоя экспертиза", 'type' => 'radiobox'],
-                    2 => ['text' => "Опыт", 'type' => 'radiobox'],
-                    3 => ['text' => "Мотивация", 'type' => 'radiobox'],
-                ],
-                2 => [
-                    1 => ['text' => "6 мес.", 'type' => 'radiobox'],
-                    2 => ['text' => "1 год", 'type' => 'radiobox'],
-                    3 => ['text' => "3 года", 'type' => 'radiobox'],
-                ],
+                1 => ['text' => "6 months", 'type' => 'radiobox'],
+                2 => ['text' => "1 year", 'type' => 'radiobox'],
+                3 => ['text' => "3 years", 'type' => 'radiobox'],
             ],
         ],
-        'finish' => [
-            'title' => '🏁 Завершение',
-            'body' => "<p>Спасибо за ответы! 🙌</p><br>
+    ],
+    'finish' => [
+        'title' => '🏁 All done!',
+        'body' => "<p>Thank you for your answers! 🙌</p><br>
 
-<p>На их основе я соберу для тебя:</p><br>
+<p>Based on them, we will generate:</p><br>
 <ul>
-<li>📄 персонализированный бизнес-план под твою нишу,</li>
-<li>🗺️ дорожную карту с пошаговыми действиями,</li>
-<li>👥 предложения по команде и возможным экспертам/инвесторам через INFINITI.</li>
+<li>📄 A personalised business plan tailored to your niche,</li>
+<li>🗺️ A step-by-step roadmap,</li>
+<li>👥 Team and expert recommendations via INFINITI.</li>
 </ul>"
-        ]
-    ];
+    ]
+];

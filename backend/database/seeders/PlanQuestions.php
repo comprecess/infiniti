@@ -17,6 +17,7 @@ class PlanQuestions extends Seeder
 
     public function run(): void
     {
+        Question::truncate();
         $this->keys = 'questions';
         $this->list = __($this->keys);
         foreach($this->list['block'] as $k1 => $block) {
