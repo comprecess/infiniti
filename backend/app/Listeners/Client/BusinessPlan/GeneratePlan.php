@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 class GeneratePlan implements ShouldQueue
 {
-    public $timeout = 300;
+    public $timeout = 600;
 
     public function __construct() {}
 
@@ -34,14 +34,17 @@ class GeneratePlan implements ShouldQueue
             $plan->load(['businessModel', 'businessModel.values', 'businessModel.props', 'businessModel.values.prop']);
             $businessModelText = $plan->modelDescription();
 
-            // 3. Build prompt
-            $prompt = $this->buildPrompt($qaText, $businessModelText);
+            // 3. Web research — use gpt-4o-search-preview to gather real market data
+            $marketResearch = $this->gatherMarketResearch($qaText, $businessModelText);
 
-            // 4. Send to OpenAI
+            // 4. Build prompt with research data injected
+            $prompt = $this->buildPrompt($qaText, $businessModelText, $marketResearch);
+
+            // 5. Send to OpenAI gpt-4o for final plan generation
             $chat = new ChatGPTService();
             $chat->setSystemPrompt(
                 "You are a senior venture partner with 15+ years of experience at top-tier VC firms and venture studios. " .
-                "You have reviewed thousands of pitch decks and written business plans that raised $500M+ in funding. " .
+                "You have reviewed thousands of pitch decks and written business plans that raised \$500M+ in funding. " .
                 "You write with authority, precision, and commercial acumen. " .
                 "Every sentence must earn its place — no filler, no vague claims. " .
                 "You always back statements with numbers, market logic, and competitive insight. " .
@@ -59,20 +62,20 @@ class GeneratePlan implements ShouldQueue
                 return;
             }
 
-            // 5. Parse tagged sections from response
+            // 6. Parse tagged sections from response
             $sections = $this->parseTaggedSections($response);
 
-            // 6. Save sections to business plan fields
-            if (!empty($sections['Executive Summary']))        $plan->ex_summary  = $sections['Executive Summary'];
-            if (!empty($sections['Company Description']))      $plan->description = $sections['Company Description'];
-            if (!empty($sections['Market Analysis']))          $plan->m_analysis  = $sections['Market Analysis'];
-            if (!empty($sections['Organization & Management'])) $plan->management = $sections['Organization & Management'];
-            if (!empty($sections['Products & Services']))      $plan->product     = $sections['Products & Services'];
-            if (!empty($sections['Marketing & Sales Strategy'])) $plan->marketing = $sections['Marketing & Sales Strategy'];
-            if (!empty($sections['Implementation Timeline']))  $plan->budget      = $sections['Implementation Timeline'];
-            if (!empty($sections['Funding Requirements']))     $plan->investment  = $sections['Funding Requirements'];
-            if (!empty($sections['Financial Projections']))    $plan->finance     = $sections['Financial Projections'];
-            if (!empty($sections['Risk Analysis']))            $plan->appendix    = $sections['Risk Analysis'];
+            // 7. Save sections to business plan fields
+            if (!empty($sections['Executive Summary']))          $plan->ex_summary  = $sections['Executive Summary'];
+            if (!empty($sections['Company Description']))        $plan->description = $sections['Company Description'];
+            if (!empty($sections['Market Analysis']))            $plan->m_analysis  = $sections['Market Analysis'];
+            if (!empty($sections['Organization & Management']))  $plan->management  = $sections['Organization & Management'];
+            if (!empty($sections['Products & Services']))        $plan->product     = $sections['Products & Services'];
+            if (!empty($sections['Marketing & Sales Strategy'])) $plan->marketing   = $sections['Marketing & Sales Strategy'];
+            if (!empty($sections['Implementation Timeline']))    $plan->budget      = $sections['Implementation Timeline'];
+            if (!empty($sections['Funding Requirements']))       $plan->investment  = $sections['Funding Requirements'];
+            if (!empty($sections['Financial Projections']))      $plan->finance     = $sections['Financial Projections'];
+            if (!empty($sections['Risk Analysis']))              $plan->appendix    = $sections['Risk Analysis'];
 
             $plan->status_generate = BusinessPlan::STATUS_GENERATE[2]; // Ready
             $plan->save();
@@ -84,6 +87,55 @@ class GeneratePlan implements ShouldQueue
             $plan->status_generate = BusinessPlan::STATUS_GENERATE[3]; // Error
             $plan->save();
         }
+    }
+
+    /**
+     * Step 1: Use gpt-4o-search-preview to gather real-time market data
+     * before passing it into the main plan generation prompt.
+     */
+    private function gatherMarketResearch(string $qaText, string $businessModelText): string
+    {
+        try {
+            $researchChat = new ChatGPTService();
+            $researchChat->setModel('gpt-4o-search-preview');
+            $researchChat->setSystemPrompt(
+                "You are a market research analyst. Your job is to find current, accurate market data " .
+                "from reliable sources. Always cite sources and dates. Be concise and factual."
+            );
+
+            $researchPrompt = <<<PROMPT
+Based on the following founder inputs and business model, search the web and gather current market research data.
+
+FOUNDER INPUTS:
+{$qaText}
+
+BUSINESS MODEL:
+{$businessModelText}
+
+Search for and provide:
+1. Current market size (TAM) for this industry/niche — include the figure, source, and year
+2. Market growth rate (CAGR) for the next 3-5 years — source and year
+3. Top 3-5 competitors in this space — their names, approximate revenue/funding, and key differentiators
+4. 2-3 key market trends driving growth right now
+5. Any relevant regulatory or macro factors affecting this market
+
+Format your response as structured text with clear headings. Be specific with numbers and cite sources where possible.
+PROMPT;
+
+            $researchChat->write($researchPrompt);
+            $researchChat->send();
+
+            $result = $researchChat->getHistory();
+
+            if ($result) {
+                Log::info('GeneratePlan: market research gathered successfully for plan context');
+                return $result;
+            }
+        } catch (\Exception $e) {
+            Log::warning('GeneratePlan: market research step failed, continuing without it: ' . $e->getMessage());
+        }
+
+        return ''; // Non-blocking — continue without research if it fails
     }
 
     private function formatQuestionAnswer(?array $chatGptValue): ?string
@@ -118,8 +170,12 @@ class GeneratePlan implements ShouldQueue
         return trim($text) ?: null;
     }
 
-    private function buildPrompt(string $qaText, string $businessModelText): string
+    private function buildPrompt(string $qaText, string $businessModelText, string $marketResearch = ''): string
     {
+        $researchSection = $marketResearch
+            ? "LIVE MARKET RESEARCH (sourced from the web — use these real figures in your plan):\n{$marketResearch}\n"
+            : "MARKET RESEARCH: Not available — derive reasonable estimates from the industry context.\n";
+
         return <<<PROMPT
 You are a senior partner at a top-tier venture studio writing a professional, investor-grade business plan. The reader is a sophisticated VC, angel investor, or strategic partner. Be precise, data-driven, and commercially sharp. No filler. Every sentence must earn its place.
 
@@ -129,6 +185,7 @@ FOUNDER INPUTS:
 BUSINESS MODEL DATA:
 {$businessModelText}
 
+{$researchSection}
 GLOBAL WRITING RULES:
 - Confident, declarative English — the voice of an execution-ready founder
 - Back every claim with numbers (derive reasonable market figures if not provided)
