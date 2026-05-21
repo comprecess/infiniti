@@ -13,7 +13,7 @@ class Client
     public function __construct()
     {
         $host = '127.0.0.1';
-        $port = env('SOCKET_PORT');
+        $port = config('socket.port', env('SOCKET_PORT', 8080));
 
         $this->client = new \WebSocket\Client("ws://{$host}:{$port}/");
         $this->auth();
@@ -22,7 +22,7 @@ class Client
 
     public function auth()
     {
-        $token = env('SOCKET_SERVER_TOKEN');
+        $token = config('socket.token', env('SOCKET_SERVER_TOKEN'));
 
         return $this->send([
             'c' => 'auth',
