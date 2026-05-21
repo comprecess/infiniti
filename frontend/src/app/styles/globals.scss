@@ -88,6 +88,34 @@ input {
   li {
     margin-left: 14px;
   }
+
+  // Tables — horizontal scroll on mobile so they don't break layout
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+
+    th, td {
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      white-space: nowrap;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background-color: rgba(99, 102, 241, 0.15);
+      font-weight: 600;
+      color: #fff;
+    }
+
+    tr:nth-child(even) td {
+      background-color: rgba(255, 255, 255, 0.03);
+    }
+  }
 }
 
 .cta-block {
@@ -113,7 +141,7 @@ input {
   ul {
     list-style: none;
     padding: 0;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
   }
 
   li {
@@ -129,17 +157,24 @@ input {
     }
   }
 
-  a {
-    color: #6366f1;
-    font-weight: 600;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
   strong {
     color: #fff;
+  }
+
+  .cta-button {
+    display: inline-block;
+    padding: 12px 28px;
+    background: #6366f1;
+    color: #fff !important;
+    font-weight: 700;
+    font-size: 15px;
+    border-radius: 8px;
+    text-decoration: none !important;
+    transition: background 0.2s;
+    cursor: pointer;
+
+    &:hover {
+      background: #818cf8;
+    }
   }
 }

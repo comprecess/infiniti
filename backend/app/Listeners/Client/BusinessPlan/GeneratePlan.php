@@ -225,18 +225,7 @@ Financial Projections:
 Risk Analysis:
 HTML table of 5–7 key risks: Risk | Impact (High/Med/Low) | Probability (High/Med/Low) | Mitigation Strategy. Cover: market risk, competitive risk, execution risk, regulatory risk, funding risk. After the table, a short paragraph on overall risk posture and why this team is positioned to navigate these risks.
 
-IMPORTANT — END THE FINANCIAL PROJECTIONS SECTION WITH THIS EXACT HTML BLOCK (do not modify it):
-<div class="cta-block">
-<h3>Ready to accelerate this venture?</h3>
-<p>This business plan was generated on the <strong>INFINITI Venture OS</strong> — the platform that turns business models into investor-ready companies in days, not months.</p>
-<ul>
-<li>Access 50+ vetted specialists to build your team</li>
-<li>Get AI-powered market research and financial modeling</li>
-<li>Connect with INFINITI's investor network</li>
-<li>Launch your pilot in 90 days</li>
-</ul>
-<p><strong>Join INFINITI →</strong> <a href="https://console.infiniti.stream">console.infiniti.stream</a></p>
-</div>
+IMPORTANT — DO NOT include any CTA block. The CTA will be added separately by the platform.
 
 Respond ONLY in this exact format — no text outside the tags, no preamble, no comments:
 
@@ -248,7 +237,7 @@ Respond ONLY in this exact format — no text outside the tags, no preamble, no 
 {Marketing & Sales Strategy}HTML content{/Marketing & Sales Strategy}
 {Implementation Timeline}HTML content{/Implementation Timeline}
 {Funding Requirements}HTML content{/Funding Requirements}
-{Financial Projections}HTML content including CTA block at the end{/Financial Projections}
+{Financial Projections}HTML content{/Financial Projections}
 {Risk Analysis}HTML content{/Risk Analysis}
 PROMPT;
     }

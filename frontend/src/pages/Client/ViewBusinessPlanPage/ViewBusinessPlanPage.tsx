@@ -56,7 +56,13 @@ export const ClientViewBusinessPlanPage = () => {
 
     if (!response.status) return
 
-    setFullInfo(response.data.data)
+    const planData = response.data.data
+    setFullInfo(planData)
+
+    // Auto-suggest team via ChatGPT if no team members yet
+    if (!planData.teams || planData.teams.length === 0) {
+      autoSuggestTeam(id)
+    }
   }
 
   const getInputData = async () => {
@@ -65,6 +71,23 @@ export const ClientViewBusinessPlanPage = () => {
     if (!response.status) return
 
     setInputData(response.data.talents)
+  }
+
+  const autoSuggestTeam = async (planId: string) => {
+    setIsLoadingTeam(true)
+    try {
+      const response = await getChatGPTTeam(planId)
+      if (!response.status) return
+
+      const idsArray = response.data.ids.split(',').map((id: string) => parseInt(id.trim(), 10))
+      await patchUpdateBusinessPlanTeam(planId, idsArray)
+
+      setFullInfo(prev => prev ? { ...prev, teams: idsArray } : prev)
+    } catch {
+      // silent fail — user can retry manually
+    } finally {
+      setIsLoadingTeam(false)
+    }
   }
 
   const addChatGPTTeam = async () => {
@@ -280,7 +303,7 @@ export const ClientViewBusinessPlanPage = () => {
                     <li>Connect with INFINITI's investor network</li>
                     <li>Launch your pilot in 90 days</li>
                   </ul>
-                  <p><strong>Join INFINITI →</strong> <a href='https://console.infiniti.stream' target='_blank' rel='noreferrer'>console.infiniti.stream</a></p>
+                  <a href='https://console.infiniti.stream' target='_blank' rel='noreferrer' className='cta-button'>Get Started on INFINITI →</a>
                 </div>
               </div>
             </RecentCard>

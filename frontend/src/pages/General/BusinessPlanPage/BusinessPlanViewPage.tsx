@@ -188,7 +188,7 @@ export const BusinessPlanViewPage = () => {
                     <li>Connect with INFINITI's investor network</li>
                     <li>Launch your pilot in 90 days</li>
                   </ul>
-                  <p><strong>Join INFINITI →</strong> <a href='https://console.infiniti.stream' target='_blank' rel='noreferrer'>console.infiniti.stream</a></p>
+                  <a href='https://console.infiniti.stream' target='_blank' rel='noreferrer' className='cta-button'>Get Started on INFINITI →</a>
                 </div>
               </div>
             </RecentCard>
