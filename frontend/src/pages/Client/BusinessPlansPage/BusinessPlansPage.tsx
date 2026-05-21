@@ -29,6 +29,15 @@ export const ClientBusinessPlansPage = () => {
     getPlansData()
   }, [])
 
+  // Refresh when user returns to the tab — plan may have finished in background
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') getPlansData()
+    }
+    document.addEventListener('visibilitychange', onVisible)
+    return () => document.removeEventListener('visibilitychange', onVisible)
+  }, [])
+
   useEffect(() => {
     if (!isConnected || !isAuth) return
 
@@ -51,7 +60,7 @@ export const ClientBusinessPlansPage = () => {
               <div className={styles.plans}>
                 {plansData.data.map(plan => {
                   if (plan.status === 'Processing' || plan.status === 'New') {
-                    return <CardPlanLoading key={plan.id} planId={plan.id} />
+                    return <CardPlanLoading key={plan.id} planId={plan.id} onRefresh={getPlansData} />
                   }
 
                   if (plan.status === 'Error') {

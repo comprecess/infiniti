@@ -88,6 +88,7 @@ class GeneratePlan implements ShouldQueue
             $plan->status_generate = BusinessPlan::STATUS_GENERATE[2]; // Ready
             $plan->save();
             $this->sendProgress($plan, 100, 'Done!');
+            $this->sendPlanListRefresh($plan); // tell frontend to reload the plan list
 
             Log::info('GeneratePlan: successfully generated plan #' . $plan->id);
 
@@ -95,6 +96,7 @@ class GeneratePlan implements ShouldQueue
             Log::error('GeneratePlan exception for plan #' . $plan->id . ': ' . $e->getMessage());
             $plan->status_generate = BusinessPlan::STATUS_GENERATE[3]; // Error
             $plan->save();
+            $this->sendPlanListRefresh($plan);
         }
     }
 
@@ -145,6 +147,24 @@ PROMPT;
         }
 
         return ''; // Non-blocking — continue without research if it fails
+    }
+
+    /**
+     * Notify the client to refresh their business plan list.
+     * This triggers the same WebSocket event that CreateTeams sends on completion.
+     */
+    private function sendPlanListRefresh(BusinessPlan $plan): void
+    {
+        try {
+            if ($user = $plan->client) {
+                (new ClientSocket())
+                    ->setUser($user)
+                    ->setController('business-plan-list')
+                    ->sendData();
+            }
+        } catch (\Throwable $e) {
+            Log::warning('GeneratePlan: sendPlanListRefresh failed (non-fatal): ' . $e->getMessage());
+        }
     }
 
     /**

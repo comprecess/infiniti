@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { Skeleton, SkeletonText, Text, useTheme } from '@chakra-ui/react'
 
@@ -8,6 +8,7 @@ import { useAppWebSocket } from '../../../../shared/utils/providers/WebSocketPro
 
 interface Props {
   planId?: number
+  onRefresh?: () => void  // called to reload the plans list (polling fallback)
 }
 
 const STEPS = [
@@ -18,23 +19,21 @@ const STEPS = [
   { until: 100, label: 'Done!' },
 ]
 
-export const CardPlanLoading = ({ planId }: Props) => {
+export const CardPlanLoading = ({ planId, onRefresh }: Props) => {
   const theme = useTheme()
   const { isConnected, isAuth, on } = useAppWebSocket()
 
   const [percent, setPercent] = useState(0)
   const [label, setLabel]     = useState('Preparing your plan...')
+  const onRefreshRef = useRef(onRefresh)
+  onRefreshRef.current = onRefresh
 
   // ── Simulated progress ───────────────────────────────────────────────────
-  // Smoothly animate from 0 → 95% over ~150 s so the bar always moves.
-  // Real WebSocket updates from the backend will snap it forward instantly.
   useEffect(() => {
-    // Ticks: every 1.5 s advance ~0.6% (reaches 95% in ~142 s)
     const timer = setInterval(() => {
       setPercent(prev => {
         if (prev >= 95) { clearInterval(timer); return prev }
         const next = Math.min(prev + 0.6, 95)
-        // Update label based on simulated percent
         const step = STEPS.find(s => next <= s.until)
         if (step) setLabel(step.label)
         return next
@@ -43,20 +42,30 @@ export const CardPlanLoading = ({ planId }: Props) => {
     return () => clearInterval(timer)
   }, [])
 
+  // ── Polling fallback ─────────────────────────────────────────────────────
+  // Every 15 s, call onRefresh so the list re-fetches from API.
+  // This catches cases where WebSocket misses the completion event
+  // (e.g. user navigated away and came back, or WS connection dropped).
+  useEffect(() => {
+    const poll = setInterval(() => {
+      onRefreshRef.current?.()
+    }, 15_000)
+    return () => clearInterval(poll)
+  }, [])
+
   // ── Real progress from WebSocket ─────────────────────────────────────────
   useEffect(() => {
     if (!isConnected || !isAuth) return
 
     const handler = (wsData: any) => {
       const data = wsData?.data ?? wsData
-      // Only update if this event is for our plan
       if (planId && data?.planId && Number(data.planId) !== planId) return
 
       const p = Number(data?.percent ?? 0)
       const l = data?.label ?? ''
 
       if (p > 0) {
-        setPercent(prev => Math.max(prev, p)) // never go backwards
+        setPercent(prev => Math.max(prev, p))
         if (l) setLabel(l)
       }
     }
