@@ -1190,6 +1190,7 @@ export interface BusinessPlanNewPlanFormData {
   file: File
   fileDelete: number
   publicToken: string
+  status?: string  // 'New' | 'Processing' | 'Ready' | 'Error' | 'Stopped'
 }
 
 export interface BusinessPlanBusinessModelData {

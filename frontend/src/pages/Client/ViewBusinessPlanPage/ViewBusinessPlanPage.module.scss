@@ -177,3 +177,67 @@
   width: 24px;
   height: 24px;
 }
+
+// ── Generating / loading state ─────────────────────────────────────────────
+
+.generatingWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  padding: 24px 0;
+}
+
+.generatingCard {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  align-items: center;
+  background: $gray-700;
+  border-radius: 12px;
+  padding: 40px 32px;
+  width: 100%;
+  max-width: 700px;
+
+  @include mobileBreakpoint('max', $bpL) {
+    flex-direction: column;
+    padding: 32px 20px;
+    gap: 24px;
+  }
+}
+
+.generatingSpinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  min-width: 80px;
+}
+
+.generatingContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 8px;
+  min-width: 0;
+}
+
+.generatingProgressWrapper {
+  margin-top: 16px;
+  width: 100%;
+}
+
+.generatingProgressBar {
+  width: 100%;
+  height: 6px;
+  background: rgba(99, 102, 241, 0.15);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.generatingProgressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  border-radius: 3px;
+  transition: width 1.2s ease;
+}

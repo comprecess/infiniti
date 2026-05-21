@@ -1,5 +1,6 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 
+import { Skeleton, SkeletonText, Text, useTheme } from '@chakra-ui/react'
 import styles from './ViewBusinessPlanPage.module.scss'
 import {
   BusinessPlanNewPlanFormData,
@@ -22,6 +23,7 @@ import { getBusinessPlanInfo } from '../../../shared/utils/api/Client/BusinessPl
 import { getBusinessPlanInputData } from '../../../shared/utils/api/Client/BusinessPlan/get-business-plan-input-data'
 import { getChatGPTTeam } from '../../../shared/utils/api/Client/BusinessPlan/get-chat-gpt-team'
 import { patchUpdateBusinessPlanTeam } from '../../../shared/utils/api/Client/BusinessPlan/patch-update-business-plan-team'
+import { useAppWebSocket } from '../../../shared/utils/providers/WebSocketProvider'
 import { useIdFromUrl } from '../../../shared/utils/usefulMethods'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 import { ModalAddTalentTeam } from '../../Admin/BusinessPlanPage/EditBusinessPlanPage/ModalAddTalentTeam/ModalAddTalentTeam'
@@ -39,6 +41,14 @@ const sections = [
   { key: 'appendix', title: 'Risk Analysis' },
 ]
 
+const STEPS = [
+  { until: 15,  label: 'Starting up...' },
+  { until: 40,  label: 'Researching live market data...' },
+  { until: 85,  label: 'Writing your investor-grade plan...' },
+  { until: 99,  label: 'Saving sections...' },
+  { until: 100, label: 'Done!' },
+]
+
 export const ClientViewBusinessPlanPage = () => {
   const [fullInfo, setFullInfo] = useState<BusinessPlanNewPlanFormData | null>(null)
   const [inputData, setInputData] = useState<TalentInputDataBusinessPlan[] | null>(null)
@@ -46,8 +56,17 @@ export const ClientViewBusinessPlanPage = () => {
   const [modalAddTalent, setModalAddTalent] = useState<boolean>(false)
   const [isLoadingTeam, setIsLoadingTeam] = useState<boolean>(false)
 
+  // Progress state for when plan is generating
+  const [percent, setPercent] = useState(0)
+  const [label, setLabel] = useState('Preparing your plan...')
+
   const id = useIdFromUrl('view')
   const showToast = useCustomToast()
+  const theme = useTheme()
+  const { isConnected, isAuth, on } = useAppWebSocket()
+
+  const planIdNum = id ? parseInt(id, 10) : null
+  const isGenerating = fullInfo?.status === 'New' || fullInfo?.status === 'Processing'
 
   const getFullInfoBusinessPlan = async () => {
     if (!id) return
@@ -59,8 +78,11 @@ export const ClientViewBusinessPlanPage = () => {
     const planData = response.data.data
     setFullInfo(planData)
 
-    // Auto-suggest team via ChatGPT if no team members yet
-    if (!planData.teams || planData.teams.length === 0) {
+    // Auto-suggest team via ChatGPT if no team members yet (only when ready)
+    if (
+      planData.status === 'Ready' &&
+      (!planData.teams || planData.teams.length === 0)
+    ) {
       autoSuggestTeam(id)
     }
   }
@@ -184,6 +206,64 @@ export const ClientViewBusinessPlanPage = () => {
     getInputData()
   }, [id])
 
+  // ── Simulated progress (only while generating) ────────────────────────────
+  useEffect(() => {
+    if (!isGenerating) return
+
+    const timer = setInterval(() => {
+      setPercent(prev => {
+        if (prev >= 95) { clearInterval(timer); return prev }
+        const next = Math.min(prev + 0.6, 95)
+        const step = STEPS.find(s => next <= s.until)
+        if (step) setLabel(step.label)
+        return next
+      })
+    }, 1500)
+    return () => clearInterval(timer)
+  }, [isGenerating])
+
+  // ── Polling fallback: re-fetch every 15s while generating ─────────────────
+  const getFullInfoRef = useRef(getFullInfoBusinessPlan)
+  getFullInfoRef.current = getFullInfoBusinessPlan
+
+  useEffect(() => {
+    if (!isGenerating) return
+
+    const poll = setInterval(() => {
+      getFullInfoRef.current()
+    }, 15_000)
+    return () => clearInterval(poll)
+  }, [isGenerating])
+
+  // ── Real progress from WebSocket ──────────────────────────────────────────
+  useEffect(() => {
+    if (!isConnected || !isAuth) return
+
+    const handler = (wsData: any) => {
+      const data = wsData?.data ?? wsData
+      if (planIdNum && data?.planId && Number(data.planId) !== planIdNum) return
+
+      const p = Number(data?.percent ?? 0)
+      const l = data?.label ?? ''
+
+      if (p > 0) {
+        setPercent(prev => Math.max(prev, p))
+        if (l) setLabel(l)
+      }
+    }
+
+    on('business-plan-progress', handler)
+    return () => on('business-plan-progress', () => {})
+  }, [isConnected, isAuth, on, planIdNum])
+
+  // ── Listen for plan-list WS event to trigger re-fetch ────────────────────
+  useEffect(() => {
+    if (!isConnected || !isAuth) return
+
+    on('business-plan-list', () => getFullInfoRef.current())
+    return () => on('business-plan-list', () => {})
+  }, [isConnected, isAuth, on])
+
   const filteredSections = sections.filter(({ key }) => {
     if (key === 'management') return true
 
@@ -193,6 +273,51 @@ export const ClientViewBusinessPlanPage = () => {
 
     return !isEmpty
   })
+
+  const skeletonStart = theme.colors.gray?.[600]
+  const skeletonEnd = theme.colors.gray?.[700]
+  const displayPercent = Math.round(percent)
+
+  // ── Generating state — full-page progress view ────────────────────────────
+  if (isGenerating) {
+    return (
+      <div className={styles.wrapper}>
+        <section className={styles.section}>
+          <div className={styles.backButton}>
+            <BackButton />
+          </div>
+          <div className={styles.generatingWrapper}>
+            <div className={styles.generatingCard}>
+              <div className={styles.generatingSpinner}>
+                <LoadingSpinner size='xl' />
+                <Text mt='12px' fontSize='20px' color='white' fontWeight='700' textAlign='center'>
+                  {displayPercent}%
+                </Text>
+              </div>
+              <div className={styles.generatingContent}>
+                <Skeleton startColor={skeletonStart} endColor={skeletonEnd} height='32px' width='55%' borderRadius='6px' mb='12px' />
+                <SkeletonText noOfLines={4} spacing='3' startColor={skeletonStart} endColor={skeletonEnd} />
+                <div className={styles.generatingProgressWrapper}>
+                  <div className={styles.generatingProgressBar}>
+                    <div
+                      className={styles.generatingProgressFill}
+                      style={{ width: `${displayPercent}%` }}
+                    />
+                  </div>
+                  <Text fontSize='13px' color='#9ea0b7' mt='8px' textAlign='center'>
+                    {label}
+                  </Text>
+                </div>
+                <Text fontSize='12px' color='#6b6e8a' mt='6px' textAlign='center'>
+                  Your investor-grade business plan is being generated. This takes 2–3 minutes.
+                </Text>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    )
+  }
 
   return (
     <>

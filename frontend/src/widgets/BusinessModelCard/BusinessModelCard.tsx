@@ -86,19 +86,23 @@ export const BusinessModelCard = ({
   }
 
   const handleSurveySubmit = async (answers: Record<number, string | string[]>) => {
-    const { status, message } = await postSubmitSurvey(answers, id)
+    const result = await postSubmitSurvey(answers, id)
 
-    if (status) {
+    if (result.status) {
       showToast({
         title: 'Successfully',
-        description: 'You have successfully completed the Survey',
+        description: 'Your business plan is being generated!',
         status: 'success',
       })
-      navigate(`/${Routes.clientPages}/${Routes.businessPlan}/${Routes.businessPlans}`)
+      // Navigate directly to the new plan view so the user sees
+      // the generating progress instead of a confusing list of old plans
+      navigate(
+        `/${Routes.clientPages}/${Routes.businessPlans}/${Routes.businessPlan}/${Routes.view}/${result.planId}`,
+      )
     } else {
       showToast({
         title: 'Error',
-        description: message,
+        description: result.message,
         status: 'error',
       })
     }

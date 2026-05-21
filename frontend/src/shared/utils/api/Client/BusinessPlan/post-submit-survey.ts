@@ -1,6 +1,5 @@
 import {
   AUTH_ERROR_MESSAGE,
-  INVALID_RESPONSE_MESSAGE,
   NETWORK_ERROR_MESSAGE,
   REQUEST_TIMEOUT_MS,
 } from '../../../../../app/constants/constants'
@@ -9,7 +8,7 @@ import { getAuthToken } from '../../get-auth-token'
 
 interface SuccessResponse {
   status: true
-  message: string
+  planId: number
 }
 
 interface ErrorResponse {
@@ -69,15 +68,16 @@ export const postSubmitSurvey = async (
 
     clearTimeout(timeoutId)
 
-    if (!data || typeof data !== 'object' || typeof data.status !== 'boolean') {
-      return {
-        status: false,
-        message: INVALID_RESPONSE_MESSAGE,
-        error: data,
-      }
+    // Backend returns { success: true, id: <planId> }
+    if (data && data.success === true && typeof data.id === 'number') {
+      return { status: true, planId: data.id }
     }
 
-    return data
+    return {
+      status: false,
+      message: data?.message ?? 'Failed to create business plan',
+      error: data,
+    }
   } catch (error) {
     if (error instanceof DOMException && error.name === 'AbortError') {
       return {

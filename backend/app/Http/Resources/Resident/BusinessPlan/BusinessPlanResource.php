@@ -42,7 +42,8 @@ class BusinessPlanResource extends JsonResource
             'file' => $this->files->first()?->getLink(),
             'client' => new ClientSomeDataResource($this->client),
             'businessModel' => new BusinessModelResource($this->businessModel),
-            'publicToken' => $this->public
+            'publicToken' => $this->public,
+            'status' => $this->status_generate
         ];
 
         return $data;
