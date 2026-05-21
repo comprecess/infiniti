@@ -66,7 +66,7 @@ input {
   flex: 1;
   min-width: 0;
   max-width: 100%;
-  overflow: hidden; // prevent any child from expanding the page width
+  overflow: visible; // tables inside need their own scroll wrapper (see Item.tsx wrapTables)
 
   p {
     font-size: 15px;
@@ -90,25 +90,16 @@ input {
     margin-left: 14px;
   }
 
-  // Tables — each table scrolls independently (left/right swipe)
-  // Wrap in a div so overflow-x is scoped per-table, not full-page
+  // Tables are wrapped in .table-scroll-wrap by Item.tsx after render
   table {
-    // We can't wrap with JS, so we use CSS to make the table itself scrollable
-    // display:block turns the table into a block-level scroll container
-    display: block;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch; // smooth momentum scroll on iOS
-    // max-width ensures the table never pushes its parent wider
-    max-width: 100%;
-    width: max-content; // table takes its natural width but is clipped by overflow
-    min-width: 100%;    // but at least fills the container when content is short
     border-collapse: collapse;
     font-size: 14px;
+    width: 100%;
 
     th, td {
       padding: 8px 12px;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      white-space: nowrap; // keep cells on one line so horizontal scroll is needed
+      white-space: nowrap;
       text-align: left;
       vertical-align: top;
     }
@@ -122,6 +113,47 @@ input {
     tr:nth-child(even) td {
       background-color: rgba(255, 255, 255, 0.03);
     }
+  }
+}
+
+// Scroll wrapper injected around every <table> by Item.tsx
+.table-scroll-wrap {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  // Fade-out hint on the right edge so user knows it's scrollable
+  position: relative;
+
+  // Right-side fade when table overflows
+  &::after {
+    content: '';
+    position: sticky;
+    right: 0;
+    top: 0;
+    width: 32px;
+    height: 100%;
+    pointer-events: none;
+    background: linear-gradient(to right, transparent, rgba(14, 14, 26, 0.85));
+    display: block;
+    margin-top: -100%; // overlay, not push
+    float: right;
+  }
+
+  // Hide fade once user has scrolled (JS toggles .scrolled class)
+  &.scrolled::after {
+    display: none;
+  }
+
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.5);
+    border-radius: 4px;
   }
 }
 
