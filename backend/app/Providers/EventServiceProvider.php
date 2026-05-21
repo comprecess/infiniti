@@ -68,7 +68,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         Generate::class => [
             Listeners\Client\BusinessPlan\Answers::class,
-//            Listeners\Client\BusinessPlan\GeneratePlan::class,
+            Listeners\Client\BusinessPlan\GeneratePlan::class,
             Listeners\Client\BusinessPlan\CreateTeams::class
         ],
         Events\Project\Log::class => [
