@@ -73,16 +73,17 @@ class GeneratePlan implements ShouldQueue
             $sections = $this->parseTaggedSections($response);
 
             // 7. Save sections to business plan fields
-            if (!empty($sections['Executive Summary']))          $plan->ex_summary  = $sections['Executive Summary'];
-            if (!empty($sections['Company Description']))        $plan->description = $sections['Company Description'];
-            if (!empty($sections['Market Analysis']))            $plan->m_analysis  = $sections['Market Analysis'];
-            if (!empty($sections['Organization & Management']))  $plan->management  = $sections['Organization & Management'];
-            if (!empty($sections['Products & Services']))        $plan->product     = $sections['Products & Services'];
-            if (!empty($sections['Marketing & Sales Strategy'])) $plan->marketing   = $sections['Marketing & Sales Strategy'];
-            if (!empty($sections['Implementation Timeline']))    $plan->budget      = $sections['Implementation Timeline'];
-            if (!empty($sections['Funding Requirements']))       $plan->investment  = $sections['Funding Requirements'];
-            if (!empty($sections['Financial Projections']))      $plan->finance     = $sections['Financial Projections'];
-            if (!empty($sections['Risk Analysis']))              $plan->appendix    = $sections['Risk Analysis'];
+            // sanitize4Byte strips chars outside BMP (emoji, rare unicode) that MySQL utf8mb3 cannot store
+            if (!empty($sections['Executive Summary']))          $plan->ex_summary  = $this->sanitize4Byte($sections['Executive Summary']);
+            if (!empty($sections['Company Description']))        $plan->description = $this->sanitize4Byte($sections['Company Description']);
+            if (!empty($sections['Market Analysis']))            $plan->m_analysis  = $this->sanitize4Byte($sections['Market Analysis']);
+            if (!empty($sections['Organization & Management']))  $plan->management  = $this->sanitize4Byte($sections['Organization & Management']);
+            if (!empty($sections['Products & Services']))        $plan->product     = $this->sanitize4Byte($sections['Products & Services']);
+            if (!empty($sections['Marketing & Sales Strategy'])) $plan->marketing   = $this->sanitize4Byte($sections['Marketing & Sales Strategy']);
+            if (!empty($sections['Implementation Timeline']))    $plan->budget      = $this->sanitize4Byte($sections['Implementation Timeline']);
+            if (!empty($sections['Funding Requirements']))       $plan->investment  = $this->sanitize4Byte($sections['Funding Requirements']);
+            if (!empty($sections['Financial Projections']))      $plan->finance     = $this->sanitize4Byte($sections['Financial Projections']);
+            if (!empty($sections['Risk Analysis']))              $plan->appendix    = $this->sanitize4Byte($sections['Risk Analysis']);
 
             $plan->status_generate = BusinessPlan::STATUS_GENERATE[2]; // Ready
             $plan->save();
@@ -144,6 +145,16 @@ PROMPT;
         }
 
         return ''; // Non-blocking — continue without research if it fails
+    }
+
+    /**
+     * Remove 4-byte Unicode characters (emoji, rare symbols) that cannot be
+     * stored in MySQL columns with utf8mb3 (old utf8) collation.
+     * Regex matches any char outside the Basic Multilingual Plane (U+0000..U+FFFF).
+     */
+    private function sanitize4Byte(string $text): string
+    {
+        return preg_replace('/[\x{10000}-\x{10FFFF}]/u', '', $text) ?? $text;
     }
 
     /**
