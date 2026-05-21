@@ -38,6 +38,7 @@ class BusinessPlanResource extends JsonResource
             'finance' => $this->finance,
             'appendix' => $this->appendix,
             'teams' => $this->teams->pluck('id'),
+            'teamsData' => TalentResource::collection($this->teams),
             'file' => $this->files->first()?->getLink(),
             'client' => new ClientSomeDataResource($this->client),
             'businessModel' => new BusinessModelResource($this->businessModel),

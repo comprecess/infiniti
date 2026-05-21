@@ -23,7 +23,12 @@ export const ModalAddTalentTeam = ({
   return (
     <CustomModalWindow isOpen={isOpen} maxWidth='741px' onClose={onClose}>
       <div className={styles.wrapper}>
-        <h4 className={styles.title}>Select Talent for Team</h4>
+        <div className={styles.header}>
+          <h4 className={styles.title}>Select Talent for Team</h4>
+          <button className={styles.closeButton} onClick={onClose} aria-label='Close'>
+            ✕
+          </button>
+        </div>
         <div className={styles.talentsList}>
           {inputData.map(talent => {
             return (

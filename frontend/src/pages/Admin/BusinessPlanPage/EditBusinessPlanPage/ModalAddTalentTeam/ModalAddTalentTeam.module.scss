@@ -7,12 +7,44 @@
   justify-content: center;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+}
+
 .title {
   font-family: $fontSpaceGrotesk;
   font-size: 24px;
   font-weight: 500;
   line-height: 30px;
   letter-spacing: -0.03em;
+}
+
+.closeButton {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: $brand-800;
+  border: none;
+  color: $brand-200;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+
+  &:hover {
+    background: $brand-700;
+    color: #fff;
+  }
 }
 
 .talentsList {

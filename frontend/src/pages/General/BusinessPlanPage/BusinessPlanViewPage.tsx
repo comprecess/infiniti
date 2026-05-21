@@ -2,7 +2,7 @@ import { Fragment, useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import styles from './BusinessPlanViewPage.module.scss'
-import { BusinessPlanNewPlanFormData } from '../../../app/constants/constants'
+import { BusinessPlanNewPlanFormData, TalentInputDataBusinessPlan } from '../../../app/constants/constants'
 import { Item } from '../../../features/Admin/BusinessPlanPage/ViewBusinessPlan/Item/Item'
 import { CustomDivider } from '../../../shared/ui/CustomDivider/CustomDivider'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
@@ -22,6 +22,39 @@ const useTokenFromUrl = () => {
   return useMemo(
     () => extractTokenFromUrl(location.pathname),
     [location.pathname],
+  )
+}
+
+const TeamMemberCard = ({ talent }: { talent: TalentInputDataBusinessPlan }) => {
+  const specialization = talent.specialization || ''
+  const industries = talent.property
+    .flatMap(spec => spec.industries?.map(val => val.value) || [])
+    .slice(0, 2)
+  const keySkills = talent.property
+    .flatMap(spec => spec.keySkills?.map(val => val.value) || [])
+    .slice(0, 2)
+
+  return (
+    <div className={styles.teamMemberCard}>
+      <img
+        className={styles.teamMemberAvatar}
+        alt={talent.name}
+        src={talent.img ? `${talent.img}?width=120&height=120` : '/profileWithoutAvatar.svg'}
+      />
+      <div className={styles.teamMemberInfo}>
+        <span className={styles.teamMemberName}>{talent.name}</span>
+        {specialization && (
+          <span className={styles.teamMemberRole}>{specialization}</span>
+        )}
+        {(industries.length > 0 || keySkills.length > 0) && (
+          <div className={styles.teamMemberTags}>
+            {[...industries, ...keySkills].map((tag, i) => (
+              <span key={i} className={styles.teamMemberTag}>{tag}</span>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
   )
 }
 
@@ -131,6 +164,21 @@ export const BusinessPlanViewPage = () => {
                 <div className={styles.divider}>
                   <CustomDivider />
                 </div>
+                {fullInfo.teamsData && fullInfo.teamsData.length > 0 && (
+                  <>
+                    <div className={styles.teamSection}>
+                      <div className={styles.teamSectionTitle}>Organization &amp; Management</div>
+                      <div className={styles.teamGrid}>
+                        {fullInfo.teamsData.map(talent => (
+                          <TeamMemberCard key={talent.id} talent={talent} />
+                        ))}
+                      </div>
+                    </div>
+                    <div className={styles.divider}>
+                      <CustomDivider />
+                    </div>
+                  </>
+                )}
                 <div className='cta-block'>
                   <h3>Ready to accelerate this venture?</h3>
                   <p>This business plan was generated on the <strong>INFINITI Venture OS</strong> — the platform that turns business models into investor-ready companies in days, not months.</p>

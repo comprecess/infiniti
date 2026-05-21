@@ -1186,6 +1186,7 @@ export interface BusinessPlanNewPlanFormData {
   finance: string
   appendix: string
   teams: number[]
+  teamsData?: TalentInputDataBusinessPlan[]
   file: File
   fileDelete: number
   publicToken: string

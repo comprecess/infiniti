@@ -106,7 +106,15 @@ class BusinessModelController extends Controller
         ];
 
         $resource = $resources[array_flip(self::PUBIC_TYPE)[$request->type]];
-        $model = $resource[0]::where('public', $request->token)->whereNotNull('public')->firstOrFail();
+
+        $query = $resource[0]::where('public', $request->token)->whereNotNull('public');
+
+        // For BusinessPlan — eager-load teams with their profile data
+        if ($resource[0] === BusinessPlan::class) {
+            $query->with(['teams', 'teams.files', 'teams.values', 'teams.values.prop']);
+        }
+
+        $model = $query->firstOrFail();
 
         if($model) {
             return new $resource[1]($model);
