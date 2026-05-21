@@ -164,9 +164,9 @@ PROMPT;
                     ])
                     ->sendData();
             }
-        } catch (\Exception $e) {
-            // Non-blocking — progress failure must never stop plan generation
-            Log::warning('GeneratePlan: sendProgress failed: ' . $e->getMessage());
+        } catch (\Throwable $e) {
+            // Non-blocking — progress failure must NEVER stop plan generation
+            Log::warning('GeneratePlan: sendProgress failed (non-fatal): ' . $e->getMessage());
         }
     }
 
