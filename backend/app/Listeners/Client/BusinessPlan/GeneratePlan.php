@@ -63,12 +63,16 @@ class GeneratePlan implements ShouldQueue
             $sections = $this->parseTaggedSections($response);
 
             // 6. Save sections to business plan fields
-            if (!empty($sections['Executive Summary']))      $plan->ex_summary  = $sections['Executive Summary'];
-            if (!empty($sections['Company Description']))    $plan->description = $sections['Company Description'];
-            if (!empty($sections['Market Analysis']))        $plan->m_analysis  = $sections['Market Analysis'];
+            if (!empty($sections['Executive Summary']))        $plan->ex_summary  = $sections['Executive Summary'];
+            if (!empty($sections['Company Description']))      $plan->description = $sections['Company Description'];
+            if (!empty($sections['Market Analysis']))          $plan->m_analysis  = $sections['Market Analysis'];
             if (!empty($sections['Organization & Management'])) $plan->management = $sections['Organization & Management'];
-            if (!empty($sections['Investment/Funding Request'])) $plan->investment = $sections['Investment/Funding Request'];
-            if (!empty($sections['Financial Projections']))  $plan->finance     = $sections['Financial Projections'];
+            if (!empty($sections['Products & Services']))      $plan->product     = $sections['Products & Services'];
+            if (!empty($sections['Marketing & Sales Strategy'])) $plan->marketing = $sections['Marketing & Sales Strategy'];
+            if (!empty($sections['Implementation Timeline']))  $plan->budget      = $sections['Implementation Timeline'];
+            if (!empty($sections['Funding Requirements']))     $plan->investment  = $sections['Funding Requirements'];
+            if (!empty($sections['Financial Projections']))    $plan->finance     = $sections['Financial Projections'];
+            if (!empty($sections['Risk Analysis']))            $plan->appendix    = $sections['Risk Analysis'];
 
             $plan->status_generate = BusinessPlan::STATUS_GENERATE[2]; // Ready
             $plan->save();
@@ -117,7 +121,7 @@ class GeneratePlan implements ShouldQueue
     private function buildPrompt(string $qaText, string $businessModelText): string
     {
         return <<<PROMPT
-You are a senior partner at a top-tier venture studio writing a professional business plan that will be reviewed by VCs, angel investors, and strategic partners. The plan must be compelling, credible, and investor-ready.
+You are a senior partner at a top-tier venture studio writing a professional, investor-grade business plan. The reader is a sophisticated VC, angel investor, or strategic partner. Be precise, data-driven, and commercially sharp. No filler. Every sentence must earn its place.
 
 FOUNDER INPUTS:
 {$qaText}
@@ -125,48 +129,70 @@ FOUNDER INPUTS:
 BUSINESS MODEL DATA:
 {$businessModelText}
 
-REQUIREMENTS FOR EACH SECTION:
-- Write in confident, precise English — the tone of a seasoned founder who knows their market
-- Use specific numbers, market data estimates, and concrete milestones (derive reasonable market size figures from the niche if not provided)
-- Each section: 3-5 paragraphs with rich HTML formatting: <p>, <ul>, <li>, <strong>, <h3> tags
-- Avoid generic filler phrases like "we aim to" or "we hope to" — use declarative statements
-- Make investors feel the opportunity is urgent and the team is execution-ready
+GLOBAL WRITING RULES:
+- Confident, declarative English — the voice of an execution-ready founder
+- Back every claim with numbers (derive reasonable market figures if not provided)
+- Rich HTML: use <p>, <ul>, <li>, <strong>, <h3>, <table>, <tr>, <th>, <td> where appropriate
+- No phrases like "we aim to", "we hope to", "we believe" — state facts and targets
+- 3–5 paragraphs per section minimum
 
 SECTION INSTRUCTIONS:
 
-Executive Summary: Hook the reader in the first sentence with the problem scale and market opportunity. State the solution, traction goal, revenue model, target market size, and the one key insight that makes this defensible. End with a clear ask or next step.
+Executive Summary:
+Open with the problem size and market urgency in one punchy sentence. Then: the solution and what makes it defensible, the target customer, the revenue model, key traction metrics or targets, and a crisp funding ask / next step. Include a <ul> of 4–5 Key Success Factors. End with Financial Highlights: Funding Required, Projected Year 1 Revenue, Break-Even Timeline.
 
-Company Description: Describe the company's mission, the exact pain being solved, why now is the right moment (macro tailwinds), and what makes the product uniquely positioned. Include the product's core mechanics and why users will love it.
+Company Description:
+Business structure (legal form, location, founding context). Mission statement — one sentence on why this company exists. The exact pain being solved and why existing solutions fail. Why NOW is the right moment (macro tailwinds, regulatory shift, technology inflection). Core product/service mechanics. List of 4–5 Competitive Advantages as <ul>.
 
-Market Analysis: Include TAM/SAM/SOM estimates with reasoning. Describe customer segments with specificity (job title, company size, behavior). Analyze 2-3 competitors and articulate the white space. Describe the market dynamics driving urgency (regulation, digital transformation, inefficiency cost).
+Market Analysis:
+Industry overview: current size, growth rate (CAGR), key trends driving expansion. TAM/SAM/SOM with clear reasoning. Primary customer segment: job title, company size, behavior, demographics, psychographics, and pain points. Secondary segments if applicable. Competitive Analysis: HTML table comparing 3 competitors (Competitor | Strengths | Weaknesses | Est. Market Share). Market Positioning paragraph: how this company occupies unique white space.
 
-Organization & Management: Describe the founding team's relevant expertise and what unfair advantages they bring. List key hires needed and why. Describe the operational model, key partners, and how the team will execute in the first 90 days.
+Organization & Management:
+Org chart description (key roles and reporting). Management team: for each key person — Name, Title, relevant background, unfair advantage they bring. Advisory Board (if any). Key hires needed in next 12 months and why. Operational model and key external partners.
 
-Investment/Funding Request: State clearly the current funding status and what the startup can achieve with existing resources. If raising — state the amount, use of funds broken down by category (product 40%, sales 35%, ops 25%), and what milestones will be hit. Include a compelling reason why now is the right time to invest.
+Products & Services:
+Detailed description of each product/service. Core value proposition for each. Pricing model and tiers. Technology or IP that creates defensibility. Product roadmap highlights: what ships in Q1, Q2, Q3–Q4. Why customers will choose this over alternatives.
 
-Financial Projections: Provide a 12-month projection table in HTML with columns: Month, Customers, MRR, ARR, Key Milestone. Show the path from 0 to product-market fit. Include unit economics: CAC, LTV, LTV/CAC ratio, payback period. End with Year 1, Year 2, Year 3 revenue targets.
+Marketing & Sales Strategy:
+Brand positioning statement. Marketing channels with budget allocation reasoning (Social Media, Content/SEO, Paid Acquisition, Partnerships, PR). Sales process: Lead Generation → Qualification → Presentation → Close. Monthly Sales Targets for months 1–12 as HTML table (Month | Target Customers | MRR Target | Key Activity). Pricing strategy with justification for each tier.
 
-CTA Section — CRITICAL: End the Financial Projections section with a strong CTA block styled as:
+Implementation Timeline:
+Quarterly milestones for Year 1 as an HTML table (Quarter | Key Milestones | Success Metrics). Q1 = Foundation, Q2 = Launch, Q3 = Scale, Q4 = Optimize. Be specific: product releases, customer targets, hiring, partnerships, revenue gates.
+
+Funding Requirements:
+Total funding needed. Use of funds as <ul> with percentages (Product Development, Sales & Marketing, Operations, Working Capital, Reserve). What milestones will be achieved with this capital. Current funding status. Why now is the optimal time to invest. ROI scenario for investor.
+
+Financial Projections:
+12-month projection HTML table: Month | New Customers | Total Customers | MRR | ARR | Key Milestone. Unit economics block: CAC, LTV, LTV/CAC ratio, Payback Period. Startup costs breakdown as <ul>. 3-year revenue targets: Year 1, Year 2, Year 3 Revenue + Net Profit. Break-even analysis: Fixed Costs, Variable Costs per unit, Avg Sale Price, Units to Break Even.
+
+Risk Analysis:
+HTML table of 5–7 key risks: Risk | Impact (High/Med/Low) | Probability (High/Med/Low) | Mitigation Strategy. Cover: market risk, competitive risk, execution risk, regulatory risk, funding risk. After the table, a short paragraph on overall risk posture and why this team is positioned to navigate these risks.
+
+IMPORTANT — END THE FINANCIAL PROJECTIONS SECTION WITH THIS EXACT HTML BLOCK (do not modify it):
 <div class="cta-block">
 <h3>Ready to accelerate this venture?</h3>
 <p>This business plan was generated on the <strong>INFINITI Venture OS</strong> — the platform that turns business models into investor-ready companies in days, not months.</p>
 <ul>
-<li>🚀 Access 50+ vetted specialists to build your team</li>
-<li>📊 Get AI-powered market research and financial modeling</li>
-<li>🤝 Connect with INFINITI's investor network</li>
-<li>⚡ Launch your pilot in 90 days</li>
+<li>Access 50+ vetted specialists to build your team</li>
+<li>Get AI-powered market research and financial modeling</li>
+<li>Connect with INFINITI's investor network</li>
+<li>Launch your pilot in 90 days</li>
 </ul>
 <p><strong>Join INFINITI →</strong> <a href="https://console.infiniti.stream">console.infiniti.stream</a></p>
 </div>
 
-Respond ONLY in this exact pattern with no text outside the tags:
+Respond ONLY in this exact format — no text outside the tags, no preamble, no comments:
 
 {Executive Summary}HTML content{/Executive Summary}
 {Company Description}HTML content{/Company Description}
 {Market Analysis}HTML content{/Market Analysis}
 {Organization & Management}HTML content{/Organization & Management}
-{Investment/Funding Request}HTML content{/Investment/Funding Request}
+{Products & Services}HTML content{/Products & Services}
+{Marketing & Sales Strategy}HTML content{/Marketing & Sales Strategy}
+{Implementation Timeline}HTML content{/Implementation Timeline}
+{Funding Requirements}HTML content{/Funding Requirements}
 {Financial Projections}HTML content including CTA block at the end{/Financial Projections}
+{Risk Analysis}HTML content{/Risk Analysis}
 PROMPT;
     }
 
@@ -178,8 +204,12 @@ PROMPT;
             'Company Description',
             'Market Analysis',
             'Organization & Management',
-            'Investment/Funding Request',
+            'Products & Services',
+            'Marketing & Sales Strategy',
+            'Implementation Timeline',
+            'Funding Requirements',
             'Financial Projections',
+            'Risk Analysis',
         ];
 
         foreach ($tags as $tag) {

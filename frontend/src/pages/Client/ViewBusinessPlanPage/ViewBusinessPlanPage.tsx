@@ -28,15 +28,15 @@ import { ModalAddTalentTeam } from '../../Admin/BusinessPlanPage/EditBusinessPla
 
 const sections = [
   { key: 'exSummary', title: 'Executive Summary' },
-  { key: 'description', title: 'Company description' },
+  { key: 'description', title: 'Company Description' },
   { key: 'mAnalysis', title: 'Market Analysis' },
   { key: 'management', title: 'Organization & Management' },
-  { key: 'product', title: 'Service or product' },
-  { key: 'marketing', title: 'Marketing and sales' },
-  { key: 'budget', title: 'Budget' },
-  { key: 'investment', title: 'Investment/Funding request' },
-  { key: 'finance', title: 'Financial projections' },
-  { key: 'appendix', title: 'Appendix' },
+  { key: 'product', title: 'Products & Services' },
+  { key: 'marketing', title: 'Marketing & Sales Strategy' },
+  { key: 'budget', title: 'Implementation Timeline' },
+  { key: 'investment', title: 'Funding Requirements' },
+  { key: 'finance', title: 'Financial Projections' },
+  { key: 'appendix', title: 'Risk Analysis' },
 ]
 
 export const ClientViewBusinessPlanPage = () => {

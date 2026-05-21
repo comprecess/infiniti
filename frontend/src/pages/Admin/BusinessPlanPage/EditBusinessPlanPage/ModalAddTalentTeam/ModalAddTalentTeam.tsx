@@ -26,7 +26,7 @@ export const ModalAddTalentTeam = ({
         <button className={styles.closeButton} onClick={onClose} aria-label='Close'>
           ✕
         </button>
-        <h4 className={styles.title}>Select Talent for Team</h4>
+        <h4 className={styles.title}>Select Team</h4>
         <div className={styles.talentsList}>
           {inputData.map(talent => {
             return (
