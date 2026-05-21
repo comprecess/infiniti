@@ -89,3 +89,57 @@ input {
     margin-left: 14px;
   }
 }
+
+.cta-block {
+  margin-top: 32px;
+  padding: 24px 28px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+
+  h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #fff;
+  }
+
+  p {
+    color: #a0a0b0;
+    margin-bottom: 12px;
+    font-size: 15px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 16px;
+  }
+
+  li {
+    padding: 6px 0;
+    color: #c0c0d0;
+    font-size: 15px;
+    margin-left: 0;
+
+    &::before {
+      content: '✓ ';
+      color: #6366f1;
+      font-weight: 700;
+    }
+  }
+
+  a {
+    color: #6366f1;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  strong {
+    color: #fff;
+  }
+}
