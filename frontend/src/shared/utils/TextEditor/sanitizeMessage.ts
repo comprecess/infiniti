@@ -81,5 +81,11 @@ export const sanitizeMessage = (value: string): string => {
     }
   })
 
+  // Remove any embedded CTA blocks from section content
+  // (old AI-generated plans may include cta-block HTML inside sections)
+  doc.body.querySelectorAll<HTMLElement>('.cta-block, [class*="cta-block"]').forEach(el => {
+    el.remove()
+  })
+
   return doc.body.innerHTML
 }

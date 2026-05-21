@@ -66,6 +66,7 @@ input {
   flex: 1;
   min-width: 0;
   max-width: 100%;
+  overflow: hidden; // prevent any child from expanding the page width
 
   p {
     font-size: 15px;
@@ -89,19 +90,25 @@ input {
     margin-left: 14px;
   }
 
-  // Tables — horizontal scroll on mobile so they don't break layout
+  // Tables — each table scrolls independently (left/right swipe)
+  // Wrap in a div so overflow-x is scoped per-table, not full-page
   table {
+    // We can't wrap with JS, so we use CSS to make the table itself scrollable
+    // display:block turns the table into a block-level scroll container
     display: block;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    width: 100%;
+    -webkit-overflow-scrolling: touch; // smooth momentum scroll on iOS
+    // max-width ensures the table never pushes its parent wider
+    max-width: 100%;
+    width: max-content; // table takes its natural width but is clipped by overflow
+    min-width: 100%;    // but at least fills the container when content is short
     border-collapse: collapse;
     font-size: 14px;
 
     th, td {
       padding: 8px 12px;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      white-space: nowrap;
+      white-space: nowrap; // keep cells on one line so horizontal scroll is needed
       text-align: left;
       vertical-align: top;
     }
