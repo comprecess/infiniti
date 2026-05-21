@@ -170,7 +170,7 @@ input {
 
   .cta-button {
     display: inline-block;
-    padding: 12px 28px;
+    padding: 14px 28px;
     background: #6366f1;
     color: #fff !important;
     font-weight: 700;
@@ -179,6 +179,13 @@ input {
     text-decoration: none !important;
     transition: background 0.2s;
     cursor: pointer;
+    // On small screens — full-width block so text never wraps mid-button
+    @media (max-width: 480px) {
+      display: block;
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
+    }
 
     &:hover {
       background: #818cf8;

@@ -21,6 +21,7 @@ class ControllerWebSocket extends Socket
             Controller\Notification::class,
             Controller\Task::class,
             Controller\BusinessPlan\Generate::class,
+            Controller\BusinessPlan\Progress::class,
         ];
     }
 

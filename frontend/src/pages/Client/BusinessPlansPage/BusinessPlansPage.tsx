@@ -51,7 +51,7 @@ export const ClientBusinessPlansPage = () => {
               <div className={styles.plans}>
                 {plansData.data.map(plan => {
                   if (plan.status === 'Processing' || plan.status === 'New') {
-                    return <CardPlanLoading key={plan.id} />
+                    return <CardPlanLoading key={plan.id} planId={plan.id} />
                   }
 
                   if (plan.status === 'Error') {

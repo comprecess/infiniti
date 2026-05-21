@@ -5,6 +5,7 @@ namespace App\Listeners\Client\BusinessPlan;
 use App\Events\Client\BusinessPlan\Generate;
 use App\Models\Resident\BusinessPlan;
 use App\Services\ChatGPT as ChatGPTService;
+use App\Socket\Client as ClientSocket;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
@@ -21,6 +22,7 @@ class GeneratePlan implements ShouldQueue
 
         try {
             // 1. Format Q&A from answers
+            $this->sendProgress($plan, 5);
             $qaText = $this->formatQuestionAnswer(Arr::get($plan->answer, 'chatGptValue'));
 
             if (!$qaText) {
@@ -33,12 +35,16 @@ class GeneratePlan implements ShouldQueue
             // 2. Get business model description
             $plan->load(['businessModel', 'businessModel.values', 'businessModel.props', 'businessModel.values.prop']);
             $businessModelText = $plan->modelDescription();
+            $this->sendProgress($plan, 10);
 
             // 3. Web research — use gpt-4o-search-preview to gather real market data
+            $this->sendProgress($plan, 15, 'Researching live market data...');
             $marketResearch = $this->gatherMarketResearch($qaText, $businessModelText);
+            $this->sendProgress($plan, 40, 'Market research complete. Writing your plan...');
 
             // 4. Build prompt with research data injected
             $prompt = $this->buildPrompt($qaText, $businessModelText, $marketResearch);
+            $this->sendProgress($plan, 45, 'Generating investor-grade business plan...');
 
             // 5. Send to OpenAI gpt-4o for final plan generation
             $chat = new ChatGPTService();
@@ -52,6 +58,7 @@ class GeneratePlan implements ShouldQueue
             );
             $chat->write($prompt);
             $chat->send();
+            $this->sendProgress($plan, 85, 'Plan generated. Saving sections...');
 
             $response = $chat->getHistory();
 
@@ -79,6 +86,7 @@ class GeneratePlan implements ShouldQueue
 
             $plan->status_generate = BusinessPlan::STATUS_GENERATE[2]; // Ready
             $plan->save();
+            $this->sendProgress($plan, 100, 'Done!');
 
             Log::info('GeneratePlan: successfully generated plan #' . $plan->id);
 
@@ -138,6 +146,30 @@ PROMPT;
         return ''; // Non-blocking — continue without research if it fails
     }
 
+    /**
+     * Send progress update to the client via WebSocket.
+     * Emits 'business-plan-progress' event with planId + percent + label.
+     */
+    private function sendProgress(BusinessPlan $plan, int $percent, string $label = ''): void
+    {
+        try {
+            if ($user = $plan->client) {
+                (new ClientSocket())
+                    ->setUser($user)
+                    ->setController('business-plan-progress')
+                    ->setData([
+                        'planId'  => $plan->id,
+                        'percent' => $percent,
+                        'label'   => $label,
+                    ])
+                    ->sendData();
+            }
+        } catch (\Exception $e) {
+            // Non-blocking — progress failure must never stop plan generation
+            Log::warning('GeneratePlan: sendProgress failed: ' . $e->getMessage());
+        }
+    }
+
     private function formatQuestionAnswer(?array $chatGptValue): ?string
     {
         if (empty($chatGptValue)) {
@@ -187,6 +219,7 @@ BUSINESS MODEL DATA:
 
 {$researchSection}
 GLOBAL WRITING RULES:
+- LANGUAGE: The ENTIRE plan MUST be written in English regardless of the language of the inputs above
 - Confident, declarative English — the voice of an execution-ready founder
 - Back every claim with numbers (derive reasonable market figures if not provided)
 - Rich HTML: use <p>, <ul>, <li>, <strong>, <h3>, <table>, <tr>, <th>, <td> where appropriate
