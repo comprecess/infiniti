@@ -220,6 +220,7 @@ export const ClientViewBusinessPlanPage = () => {
                   return (
                     <Fragment key={key}>
                       {key === 'management' ? (
+
                         <div className={styles.contentManagement}>
                           <Item
                             title={title}
@@ -267,6 +268,20 @@ export const ClientViewBusinessPlanPage = () => {
                     </Fragment>
                   )
                 })}
+                <div className={styles.divider}>
+                  <CustomDivider />
+                </div>
+                <div className='cta-block'>
+                  <h3>Ready to accelerate this venture?</h3>
+                  <p>This business plan was generated on the <strong>INFINITI Venture OS</strong> — the platform that turns business models into investor-ready companies in days, not months.</p>
+                  <ul>
+                    <li>Access 50+ vetted specialists to build your team</li>
+                    <li>Get AI-powered market research and financial modeling</li>
+                    <li>Connect with INFINITI's investor network</li>
+                    <li>Launch your pilot in 90 days</li>
+                  </ul>
+                  <p><strong>Join INFINITI →</strong> <a href='https://console.infiniti.stream' target='_blank' rel='noreferrer'>console.infiniti.stream</a></p>
+                </div>
               </div>
             </RecentCard>
           </section>
