@@ -5,6 +5,8 @@
   width: 100%;
   align-items: center;
   justify-content: center;
+  position: relative;
+  padding-top: 8px;
 }
 
 .header {
@@ -12,7 +14,6 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  position: relative;
 }
 
 .title {
@@ -26,8 +27,7 @@
 .closeButton {
   position: absolute;
   right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 0;
   background: $brand-800;
   border: none;
   color: $brand-200;

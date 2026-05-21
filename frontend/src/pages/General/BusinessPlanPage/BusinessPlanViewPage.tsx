@@ -167,7 +167,7 @@ export const BusinessPlanViewPage = () => {
                 {fullInfo.teamsData && fullInfo.teamsData.length > 0 && (
                   <>
                     <div className={styles.teamSection}>
-                      <div className={styles.teamSectionTitle}>Organization &amp; Management</div>
+                      <div className={styles.teamSectionTitle}>Meet the Team</div>
                       <div className={styles.teamGrid}>
                         {fullInfo.teamsData.map(talent => (
                           <TeamMemberCard key={talent.id} talent={talent} />
