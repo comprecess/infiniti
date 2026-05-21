@@ -95,18 +95,10 @@ export const BusinessPlanViewPage = () => {
     document.title = 'infiniti | Public Business Plan'
   }, [])
 
-  const filteredSections = sections.filter(
-    ({ key }) => {
-      const content = fullInfo?.[key as keyof BusinessPlanNewPlanFormData]
-      const isEmpty = !content || content === '' || content === '<p><br></p>'
-      if (key === 'management') {
-        // Show management if it has content OR the plan has team members
-        const hasTeam = fullInfo?.teamsData && fullInfo.teamsData.length > 0
-        return !isEmpty || hasTeam
-      }
-      return fullInfo && !isEmpty
-    },
-  )
+  const filteredSections = sections.filter(({ key }) => {
+    const content = fullInfo?.[key as keyof BusinessPlanNewPlanFormData]
+    return fullInfo && content && content !== '' && content !== '<p><br></p>'
+  })
 
   return (
     <div className={styles.content}>
@@ -156,27 +148,6 @@ export const BusinessPlanViewPage = () => {
                     content === '' ||
                     content === '<p><br></p>'
 
-                  // Management section: always show, and embed team grid below it
-                  if (key === 'management') {
-                    return (
-                      <Fragment key={key}>
-                        <Item title={title} content={(content ?? '') as string} forceShow />
-                        {fullInfo.teamsData && fullInfo.teamsData.length > 0 && (
-                          <div className={styles.teamGrid}>
-                            {fullInfo.teamsData.map(talent => (
-                              <TeamMemberCard key={talent.id} talent={talent} />
-                            ))}
-                          </div>
-                        )}
-                        {index < filteredSections.length - 1 && (
-                          <div className={styles.divider}>
-                            <CustomDivider />
-                          </div>
-                        )}
-                      </Fragment>
-                    )
-                  }
-
                   if (isEmpty) return null
 
                   return (
@@ -190,6 +161,23 @@ export const BusinessPlanViewPage = () => {
                     </Fragment>
                   )
                 })}
+
+                {fullInfo.teamsData && fullInfo.teamsData.length > 0 && (
+                  <>
+                    <div className={styles.divider}>
+                      <CustomDivider />
+                    </div>
+                    <div className={styles.teamSection}>
+                      <div className={styles.teamSectionTitle}>Meet the Team</div>
+                      <div className={styles.teamGrid}>
+                        {fullInfo.teamsData.map(talent => (
+                          <TeamMemberCard key={talent.id} talent={talent} />
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                )}
+
                 <div className={styles.divider}>
                   <CustomDivider />
                 </div>
