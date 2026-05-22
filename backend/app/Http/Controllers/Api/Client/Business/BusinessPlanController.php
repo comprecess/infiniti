@@ -101,15 +101,7 @@ class BusinessPlanController extends Controller
         $plan->status_generate = BusinessPlan::STATUS_GENERATE[0];
         $plan->answer = ['original' => $answers];
         $plan->business_model_id = $businessModel->id;
-        /*test*/
         $plan->company_name = $businessModel->title;
-        $plan->description = $businessModel->description;
-        $plan->ex_summary = $businessModel->full_description;
-        $plan->m_analysis = $businessModel->market_analysis;
-        $plan->management = $businessModel->stages_implementation;
-        $plan->investment = $businessModel->current_investors;
-        $plan->finance = $businessModel->financial_model;
-        /*test*/
         $plan->save();
 
         $file = $businessModel->getFileType('content')->first();
