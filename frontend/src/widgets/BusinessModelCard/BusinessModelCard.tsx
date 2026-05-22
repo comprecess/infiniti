@@ -62,13 +62,14 @@ export const BusinessModelCard = ({
   const showToast = useCustomToast()
   const navigate = useNavigate()
 
-  const { openSurvey } = useOutletContext<{
+  const { openSurvey, getUser } = useOutletContext<{
     openSurvey: (
       questions: Block[],
       isBlur: boolean,
       localStorageKey: string,
       onSubmit?: (answers: Record<number, string | string[]>) => void,
     ) => void
+    getUser: () => Promise<void>
   }>()
 
   const handleOpenConfirmationModal = () => {
@@ -89,6 +90,8 @@ export const BusinessModelCard = ({
     const result = await postSubmitSurvey(answers, id)
 
     if (result.status) {
+      // Refresh user profile so balance updates immediately in the header
+      await getUser()
       showToast({
         title: 'Successfully',
         description: 'Your business plan is being generated!',
