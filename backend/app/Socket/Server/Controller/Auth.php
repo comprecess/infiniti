@@ -20,7 +20,7 @@ class Auth extends Controller implements Main
     public function main(array $data, ConnectionInterface $conn)
     {
         $token = Arr::get($data, 'data.token');
-        $serverToken = env('SOCKET_SERVER_TOKEN');
+        $serverToken = config('socket.token', env('SOCKET_SERVER_TOKEN'));
 
         if(!$token) {
             $conn->send($this->response(null, 422));

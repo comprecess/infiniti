@@ -30,7 +30,7 @@ class SocketServer extends Command
      */
     public function handle()
     {
-        $port = env('SOCKET_PORT');
+        $port = config('socket.port', env('SOCKET_PORT', 8080));
         $this->info("The server is running on port: {$port}");
 
         $server = IoServer::factory(
