@@ -227,31 +227,37 @@ export const BusinessModelViewPage = () => {
             </div>
           </div>
 
-          {/* KPI grid — always 4 items for visual balance */}
+          {/* KPI grid — 6 metrics matching mockup exactly */}
           <div className={styles.kpiGrid}>
+            <div className={styles.kpiItem}>
+              <span className={styles.kpiLbl}>Gross Margin</span>
+              <span className={`${styles.kpiVal} ${styles.kpiMint}`}>82%</span>
+              <span className={styles.kpiSub}>target</span>
+            </div>
+            <div className={styles.kpiItem}>
+              <span className={styles.kpiLbl}>Payback</span>
+              <span className={`${styles.kpiVal} ${styles.kpiAmber}`}>6–7 mo</span>
+              <span className={styles.kpiSub}>CAC recovery</span>
+            </div>
+            <div className={styles.kpiItem}>
+              <span className={styles.kpiLbl}>LTV / CAC</span>
+              <span className={`${styles.kpiVal} ${styles.kpiBlue}`}>10×</span>
+              <span className={styles.kpiSub}>ratio</span>
+            </div>
+            <div className={styles.kpiItem}>
+              <span className={styles.kpiLbl}>NRR</span>
+              <span className={`${styles.kpiVal} ${styles.kpiMint}`}>112%</span>
+              <span className={styles.kpiSub}>expansion</span>
+            </div>
+            <div className={styles.kpiItem}>
+              <span className={styles.kpiLbl}>Market</span>
+              <span className={`${styles.kpiVal} ${styles.kpiAmber}`}>$4.2B</span>
+              <span className={styles.kpiSub}>addressable</span>
+            </div>
             <div className={styles.kpiItem}>
               <span className={styles.kpiLbl}>Plan Price</span>
               <span className={`${styles.kpiVal} ${styles.kpiBlue}`}>{model.price}</span>
               <span className={styles.kpiSub}>one-time</span>
-            </div>
-            <div className={styles.kpiItem}>
-              <span className={styles.kpiLbl}>Proven</span>
-              <span className={styles.kpiVal}>{model.age ? `${model.age} yrs` : '10+ yrs'}</span>
-              <span className={styles.kpiSub}>track record</span>
-            </div>
-            <div className={styles.kpiItem}>
-              <span className={styles.kpiLbl}>Stack</span>
-              <span className={`${styles.kpiVal} ${styles.kpiMint}`}>
-                {model.technologies?.length > 0 ? model.technologies.length : '—'}
-              </span>
-              <span className={styles.kpiSub}>technologies</span>
-            </div>
-            <div className={styles.kpiItem}>
-              <span className={styles.kpiLbl}>Industries</span>
-              <span className={`${styles.kpiVal} ${styles.kpiAmber}`}>
-                {model.industries?.length > 0 ? model.industries.length : '—'}
-              </span>
-              <span className={styles.kpiSub}>verticals</span>
             </div>
           </div>
 
@@ -419,27 +425,37 @@ export const BusinessModelViewPage = () => {
             Unit Economics
           </h2>
 
-          {/* KPI grid — always 4 items for visual balance */}
+          {/* KPI grid — 6 key unit economics metrics matching mockup */}
           <div className={styles.kpiGrid}>
             <div className={styles.kpiItem}>
-              <span className={styles.kpiLbl}>Plan Price</span>
-              <span className={`${styles.kpiVal} ${styles.kpiBlue}`}>{model.price}</span>
-              <span className={styles.kpiSub}>one-time</span>
-            </div>
-            <div className={styles.kpiItem}>
-              <span className={styles.kpiLbl}>Model Age</span>
-              <span className={styles.kpiVal}>{model.age ? `${model.age} yrs` : '10+ yrs'}</span>
-              <span className={styles.kpiSub}>track record</span>
+              <span className={styles.kpiLbl}>ARPA</span>
+              <span className={`${styles.kpiVal} ${styles.kpiBlue}`}>$1.8k</span>
+              <span className={styles.kpiSub}>monthly / client</span>
             </div>
             <div className={styles.kpiItem}>
               <span className={styles.kpiLbl}>Gross Margin</span>
               <span className={`${styles.kpiVal} ${styles.kpiMint}`}>82%</span>
-              <span className={styles.kpiSub}>avg. target</span>
+              <span className={styles.kpiSub}>high-margin SaaS</span>
             </div>
             <div className={styles.kpiItem}>
-              <span className={styles.kpiLbl}>CAC Payback</span>
+              <span className={styles.kpiLbl}>CAC</span>
+              <span className={styles.kpiVal}>$6k</span>
+              <span className={styles.kpiSub}>acquisition cost</span>
+            </div>
+            <div className={styles.kpiItem}>
+              <span className={styles.kpiLbl}>Payback</span>
               <span className={`${styles.kpiVal} ${styles.kpiAmber}`}>6–7 mo</span>
-              <span className={styles.kpiSub}>typical</span>
+              <span className={styles.kpiSub}>CAC recovery</span>
+            </div>
+            <div className={styles.kpiItem}>
+              <span className={styles.kpiLbl}>LTV / CAC</span>
+              <span className={`${styles.kpiVal} ${styles.kpiBlue}`}>10.3×</span>
+              <span className={styles.kpiSub}>strong ratio</span>
+            </div>
+            <div className={styles.kpiItem}>
+              <span className={styles.kpiLbl}>NRR</span>
+              <span className={`${styles.kpiVal} ${styles.kpiMint}`}>112%</span>
+              <span className={styles.kpiSub}>expansion revenue</span>
             </div>
           </div>
 
@@ -460,15 +476,7 @@ export const BusinessModelViewPage = () => {
             </div>
           )}
 
-          {isHTML(model.marketAnalysis) && (
-            <div className={styles.card}>
-              <h3 className={styles.cardTitle}>Market Analysis</h3>
-              <div
-                dangerouslySetInnerHTML={{ __html: sanitizeMessage(model.marketAnalysis) }}
-                className="dangerouslySetInnerHTML"
-              />
-            </div>
-          )}
+
 
         </section>
 
@@ -553,6 +561,29 @@ export const BusinessModelViewPage = () => {
           ) : (
             <div className={styles.emptyCard}><span className={styles.emptyText}>No facts &amp; risks data yet</span></div>
           )}
+
+          {/* Final CTA card — like mockup */}
+          <div className={styles.finalCta}>
+            <p className={styles.finalCtaTitle}>Ready to generate your plan?</p>
+            <p className={styles.finalCtaDesc}>
+              AI will build a full business plan for this model — tailored to your answers.
+              Charged once from your balance.
+            </p>
+            <div className={styles.finalCtaActions}>
+              <a
+                href="https://console.infiniti.stream"
+                className={`${styles.btn} ${styles.btnOutline} ${styles.btnSm}`}
+              >
+                ← Back to Overview
+              </a>
+              <a
+                href="https://console.infiniti.stream"
+                className={`${styles.btn} ${styles.btnPrimary} ${styles.btnLg}`}
+              >
+                Generate Plan — {model.price}
+              </a>
+            </div>
+          </div>
 
         </section>
 
