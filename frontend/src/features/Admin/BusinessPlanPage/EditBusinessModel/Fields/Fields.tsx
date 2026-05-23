@@ -348,6 +348,51 @@ export const Fields = ({
           }
         />
       </div>
+      <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>Target Client &amp; JTBD</span>
+        <TextEditor
+          chatGPT
+          fieldName='targetClient'
+          defaultValue={formData.targetClient as string | undefined}
+          setValue={message => handleChangeInput('targetClient', message)}
+        />
+      </div>
+      <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>Value Proposition &amp; Moat</span>
+        <TextEditor
+          chatGPT
+          fieldName='valueProposition'
+          defaultValue={formData.valueProposition as string | undefined}
+          setValue={message => handleChangeInput('valueProposition', message)}
+        />
+      </div>
+      <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>Revenue Logic</span>
+        <TextEditor
+          chatGPT
+          fieldName='revenueLogic'
+          defaultValue={formData.revenueLogic as string | undefined}
+          setValue={message => handleChangeInput('revenueLogic', message)}
+        />
+      </div>
+      <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>Unit Economics</span>
+        <TextEditor
+          chatGPT
+          fieldName='unitEconomics'
+          defaultValue={formData.unitEconomics as string | undefined}
+          setValue={message => handleChangeInput('unitEconomics', message)}
+        />
+      </div>
+      <div className={styles.containerItems}>
+        <span className={styles.containerItemsTitle}>Facts, Hypotheses &amp; Risks</span>
+        <TextEditor
+          chatGPT
+          fieldName='factsHypothesesRisks'
+          defaultValue={formData.factsHypothesesRisks as string | undefined}
+          setValue={message => handleChangeInput('factsHypothesesRisks', message)}
+        />
+      </div>
     </div>
   )
 }

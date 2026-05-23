@@ -52,6 +52,11 @@ class BusinessModelCreateRequest extends FormRequest implements ConvertingProper
             'currentInvestors' => 'current_investors',
             'stagesOfImplementation' => 'stages_implementation',
             'partnershipOptions' => 'partnership_options',
+            'targetClient' => 'target_client',
+            'valueProposition' => 'value_proposition',
+            'revenueLogic' => 'revenue_logic',
+            'unitEconomics' => 'unit_economics',
+            'factsHypothesesRisks' => 'facts_hypotheses_risks',
         ];
     }
 }

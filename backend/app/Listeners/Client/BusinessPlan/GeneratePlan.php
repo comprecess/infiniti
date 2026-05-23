@@ -18,7 +18,20 @@ class GeneratePlan implements ShouldQueue
 
     public function handle(Generate $event): void
     {
-        $plan = $event->businessPlan;
+        // Always reload from DB — the event carries a serialized snapshot taken BEFORE
+        // the synchronous Answers listener runs and saves chatGptValue. Without a fresh
+        // fetch we would always see chatGptValue = null and bail immediately.
+        // Small delay ensures Answers has committed its chatGptValue write before we read.
+        sleep(2);
+        $plan = BusinessPlan::find($event->businessPlan->id);
+
+        if (!$plan) {
+            Log::error('GeneratePlan: plan not found (id=' . $event->businessPlan->id . ')');
+            return;
+        }
+
+        Log::info('GeneratePlan: starting for plan #' . $plan->id . ', status=' . $plan->status_generate
+            . ', chatGptValue keys=' . count(Arr::get($plan->answer, 'chatGptValue', [])));
 
         try {
             // 1. Format Q&A from answers

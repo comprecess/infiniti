@@ -13,10 +13,13 @@ class TransactionsListResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'date' => $this->date?->format(Config::get('df')),
-            'account' => $this->account,
+            'id'          => $this->id,
+            'date'        => $this->date?->format(Config::get('df')),
+            'account'     => $this->account,
+            'type'        => $this->type,
+            'category'    => $this->category,
 //            'amount' => $this->transformPrice('amount', $user->getCurrencyIso, true),
-            'amount' => $this->printPrice('amount', $this->getCurrencyIso),
+            'amount'      => $this->printPrice('amount', $this->getCurrencyIso),
             'description' => $this->description,
         ];
     }

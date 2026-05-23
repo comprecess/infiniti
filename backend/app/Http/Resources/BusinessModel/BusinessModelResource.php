@@ -36,6 +36,7 @@ class BusinessModelResource extends JsonResource
             'industries' => ValueResource::collection(self::$isCollection ? ($industries->count() ? $industries?->chunk(3)?->first() : collect([])) : $industries),
             'technologies' => ValueResource::collection(self::$isCollection ? ( $technologies->count() ? $technologies?->chunk(3)?->first() : collect([]) ) : $technologies),
             'price' => $this->printPrice((int) $this->getPropValues('price')),
+            'priceAmount' => (float) $this->getPropValues('price'),
             'profitability' => ValueResource::collection($this->getPropValues('profitability', null)),
             'location' => ValueResource::collection($this->getPropValues('location', null)),
             BusinessModel::TYPE_IMG[0] => $this->getFileType(BusinessModel::TYPE_IMG[0])->first()?->getLink(),
@@ -50,6 +51,11 @@ class BusinessModelResource extends JsonResource
             $resource['currentInvestors'] = $this->current_investors;
             $resource['stagesImplementation'] = $this->stages_implementation;
             $resource['partnershipOptions'] = $this->partnership_options;
+            $resource['targetClient'] = $this->target_client;
+            $resource['valueProposition'] = $this->value_proposition;
+            $resource['revenueLogic'] = $this->revenue_logic;
+            $resource['unitEconomics'] = $this->unit_economics;
+            $resource['factsHypothesesRisks'] = $this->facts_hypotheses_risks;
 //                $resource['location'] = ValueResource::collection($this->getPropValues('location', null));
 //            $resource['available'] = User::AVAILABLE_STATUS[$this->getAvailableStatus()];
 //            $resource['allSkills'] = ValueResorce::collection($this->getPropValues('all_skills', null));
