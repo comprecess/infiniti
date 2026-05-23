@@ -213,6 +213,15 @@
   gap: 0;
 
   @include mobileBreakpoint('min', $bpM) { padding: 20px 24px; }
+
+  // ── Rich text rendered via dangerouslySetInnerHTML ──────────────────────
+  :global(p)     { color: $gray-100; margin: 0 0 8px; line-height: 1.6; }
+  :global(li)    { color: $gray-100; line-height: 1.6; }
+  :global(ul),
+  :global(ol)    { padding-left: 20px; margin: 4px 0 8px; }
+  :global(strong){ color: $white; }
+  :global(em)    { color: $gray-200; }
+  :global(a)     { color: $brand-400; }
 }
 
 .titleRow {
@@ -261,9 +270,9 @@
   line-height: 21px;
 }
 
-.pillBlue  { background: rgba($brand-500, 0.2); color: $brand-400; }
-.pillMint  { background: rgba($mint-500,  0.2); color: $mint-500;  }
-.pillAmber { background: rgba($amber-500, 0.2); color: $amber-500; }
+.pillBlue  { background: rgba($brand-500, 0.45); color: $white; }
+.pillMint  { background: rgba($mint-500,  0.45); color: $white; }
+.pillAmber { background: rgba($amber-500, 0.45); color: $white; }
 
 // ─── KPI grid ─────────────────────────────────────────────────────────────────
 

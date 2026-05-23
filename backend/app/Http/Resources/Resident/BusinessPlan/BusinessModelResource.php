@@ -42,6 +42,11 @@ class BusinessModelResource extends JsonResource
             'currentInvestors' => $this->current_investors,
             'stagesOfImplementation' => $this->stages_implementation,
             'partnershipOptions' => $this->partnership_options,
+            'targetClient' => $this->target_client,
+            'valueProposition' => $this->value_proposition,
+            'revenueLogic' => $this->revenue_logic,
+            'unitEconomics' => $this->unit_economics,
+            'factsHypothesesRisks' => $this->facts_hypotheses_risks,
             'property' => TalentPropResource::collection($prop),
         ];
 

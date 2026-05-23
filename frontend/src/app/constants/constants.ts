@@ -1235,6 +1235,11 @@ export interface BusinessPlanBusinessModelFormData {
   currentInvestors: string
   stagesOfImplementation: string
   partnershipOptions: string
+  targetClient?: string
+  valueProposition?: string
+  revenueLogic?: string
+  unitEconomics?: string
+  factsHypothesesRisks?: string
 }
 
 export interface BusinessPlanBusinessModelEditData {
