@@ -47,6 +47,22 @@ class BusinessModelResource extends JsonResource
             'revenueLogic' => $this->revenue_logic,
             'unitEconomics' => $this->unit_economics,
             'factsHypothesesRisks' => $this->facts_hypotheses_risks,
+            // KPI — Overview
+            'kpiGrossMargin'    => $this->kpi_gross_margin,
+            'kpiGrossMarginSub' => $this->kpi_gross_margin_sub,
+            'kpiPayback'        => $this->kpi_payback,
+            'kpiPaybackSub'     => $this->kpi_payback_sub,
+            'kpiLtvCac'         => $this->kpi_ltv_cac,
+            'kpiLtvCacSub'      => $this->kpi_ltv_cac_sub,
+            'kpiNrr'            => $this->kpi_nrr,
+            'kpiNrrSub'         => $this->kpi_nrr_sub,
+            'kpiMarket'         => $this->kpi_market,
+            'kpiMarketSub'      => $this->kpi_market_sub,
+            // KPI — Economics
+            'kpiArpa'           => $this->kpi_arpa,
+            'kpiArpaSub'        => $this->kpi_arpa_sub,
+            'kpiCac'            => $this->kpi_cac,
+            'kpiCacSub'         => $this->kpi_cac_sub,
             'property' => TalentPropResource::collection($prop),
         ];
 

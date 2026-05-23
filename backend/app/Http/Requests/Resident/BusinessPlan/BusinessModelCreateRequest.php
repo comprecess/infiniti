@@ -57,6 +57,21 @@ class BusinessModelCreateRequest extends FormRequest implements ConvertingProper
             'revenueLogic' => 'revenue_logic',
             'unitEconomics' => 'unit_economics',
             'factsHypothesesRisks' => 'facts_hypotheses_risks',
+            // KPI fields
+            'kpiGrossMargin'    => 'kpi_gross_margin',
+            'kpiGrossMarginSub' => 'kpi_gross_margin_sub',
+            'kpiPayback'        => 'kpi_payback',
+            'kpiPaybackSub'     => 'kpi_payback_sub',
+            'kpiLtvCac'         => 'kpi_ltv_cac',
+            'kpiLtvCacSub'      => 'kpi_ltv_cac_sub',
+            'kpiNrr'            => 'kpi_nrr',
+            'kpiNrrSub'         => 'kpi_nrr_sub',
+            'kpiMarket'         => 'kpi_market',
+            'kpiMarketSub'      => 'kpi_market_sub',
+            'kpiArpa'           => 'kpi_arpa',
+            'kpiArpaSub'        => 'kpi_arpa_sub',
+            'kpiCac'            => 'kpi_cac',
+            'kpiCacSub'         => 'kpi_cac_sub',
         ];
     }
 }

@@ -56,6 +56,22 @@ class BusinessModelResource extends JsonResource
             $resource['revenueLogic'] = $this->revenue_logic;
             $resource['unitEconomics'] = $this->unit_economics;
             $resource['factsHypothesesRisks'] = $this->facts_hypotheses_risks;
+            // KPI — Overview
+            $resource['kpiGrossMargin']    = $this->kpi_gross_margin;
+            $resource['kpiGrossMarginSub'] = $this->kpi_gross_margin_sub;
+            $resource['kpiPayback']        = $this->kpi_payback;
+            $resource['kpiPaybackSub']     = $this->kpi_payback_sub;
+            $resource['kpiLtvCac']         = $this->kpi_ltv_cac;
+            $resource['kpiLtvCacSub']      = $this->kpi_ltv_cac_sub;
+            $resource['kpiNrr']            = $this->kpi_nrr;
+            $resource['kpiNrrSub']         = $this->kpi_nrr_sub;
+            $resource['kpiMarket']         = $this->kpi_market;
+            $resource['kpiMarketSub']      = $this->kpi_market_sub;
+            // KPI — Economics
+            $resource['kpiArpa']           = $this->kpi_arpa;
+            $resource['kpiArpaSub']        = $this->kpi_arpa_sub;
+            $resource['kpiCac']            = $this->kpi_cac;
+            $resource['kpiCacSub']         = $this->kpi_cac_sub;
 //                $resource['location'] = ValueResource::collection($this->getPropValues('location', null));
 //            $resource['available'] = User::AVAILABLE_STATUS[$this->getAvailableStatus()];
 //            $resource['allSkills'] = ValueResorce::collection($this->getPropValues('all_skills', null));

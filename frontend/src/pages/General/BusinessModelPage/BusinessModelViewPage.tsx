@@ -227,32 +227,32 @@ export const BusinessModelViewPage = () => {
             </div>
           </div>
 
-          {/* KPI grid — 6 metrics matching mockup exactly */}
+          {/* KPI grid — 6 metrics from DB (with fallbacks) */}
           <div className={styles.kpiGrid}>
             <div className={styles.kpiItem}>
               <span className={styles.kpiLbl}>Gross Margin</span>
-              <span className={`${styles.kpiVal} ${styles.kpiMint}`}>82%</span>
-              <span className={styles.kpiSub}>target</span>
+              <span className={`${styles.kpiVal} ${styles.kpiMint}`}>{model.kpiGrossMargin || '—'}</span>
+              <span className={styles.kpiSub}>{model.kpiGrossMarginSub || 'target'}</span>
             </div>
             <div className={styles.kpiItem}>
               <span className={styles.kpiLbl}>Payback</span>
-              <span className={`${styles.kpiVal} ${styles.kpiAmber}`}>6–7 mo</span>
-              <span className={styles.kpiSub}>CAC recovery</span>
+              <span className={`${styles.kpiVal} ${styles.kpiAmber}`}>{model.kpiPayback || '—'}</span>
+              <span className={styles.kpiSub}>{model.kpiPaybackSub || 'CAC recovery'}</span>
             </div>
             <div className={styles.kpiItem}>
               <span className={styles.kpiLbl}>LTV / CAC</span>
-              <span className={`${styles.kpiVal} ${styles.kpiBlue}`}>10×</span>
-              <span className={styles.kpiSub}>ratio</span>
+              <span className={`${styles.kpiVal} ${styles.kpiBlue}`}>{model.kpiLtvCac || '—'}</span>
+              <span className={styles.kpiSub}>{model.kpiLtvCacSub || 'ratio'}</span>
             </div>
             <div className={styles.kpiItem}>
               <span className={styles.kpiLbl}>NRR</span>
-              <span className={`${styles.kpiVal} ${styles.kpiMint}`}>112%</span>
-              <span className={styles.kpiSub}>expansion</span>
+              <span className={`${styles.kpiVal} ${styles.kpiMint}`}>{model.kpiNrr || '—'}</span>
+              <span className={styles.kpiSub}>{model.kpiNrrSub || 'expansion'}</span>
             </div>
             <div className={styles.kpiItem}>
               <span className={styles.kpiLbl}>Market</span>
-              <span className={`${styles.kpiVal} ${styles.kpiAmber}`}>$4.2B</span>
-              <span className={styles.kpiSub}>addressable</span>
+              <span className={`${styles.kpiVal} ${styles.kpiAmber}`}>{model.kpiMarket || '—'}</span>
+              <span className={styles.kpiSub}>{model.kpiMarketSub || 'addressable'}</span>
             </div>
             <div className={styles.kpiItem}>
               <span className={styles.kpiLbl}>Plan Price</span>
@@ -425,37 +425,37 @@ export const BusinessModelViewPage = () => {
             Unit Economics
           </h2>
 
-          {/* KPI grid — 6 key unit economics metrics matching mockup */}
+          {/* KPI grid — 6 unit economics metrics from DB */}
           <div className={styles.kpiGrid}>
             <div className={styles.kpiItem}>
               <span className={styles.kpiLbl}>ARPA</span>
-              <span className={`${styles.kpiVal} ${styles.kpiBlue}`}>$1.8k</span>
-              <span className={styles.kpiSub}>monthly / client</span>
+              <span className={`${styles.kpiVal} ${styles.kpiBlue}`}>{model.kpiArpa || '—'}</span>
+              <span className={styles.kpiSub}>{model.kpiArpaSub || 'monthly / client'}</span>
             </div>
             <div className={styles.kpiItem}>
               <span className={styles.kpiLbl}>Gross Margin</span>
-              <span className={`${styles.kpiVal} ${styles.kpiMint}`}>82%</span>
-              <span className={styles.kpiSub}>high-margin SaaS</span>
+              <span className={`${styles.kpiVal} ${styles.kpiMint}`}>{model.kpiGrossMargin || '—'}</span>
+              <span className={styles.kpiSub}>{model.kpiGrossMarginSub || 'high-margin SaaS'}</span>
             </div>
             <div className={styles.kpiItem}>
               <span className={styles.kpiLbl}>CAC</span>
-              <span className={styles.kpiVal}>$6k</span>
-              <span className={styles.kpiSub}>acquisition cost</span>
+              <span className={styles.kpiVal}>{model.kpiCac || '—'}</span>
+              <span className={styles.kpiSub}>{model.kpiCacSub || 'acquisition cost'}</span>
             </div>
             <div className={styles.kpiItem}>
               <span className={styles.kpiLbl}>Payback</span>
-              <span className={`${styles.kpiVal} ${styles.kpiAmber}`}>6–7 mo</span>
-              <span className={styles.kpiSub}>CAC recovery</span>
+              <span className={`${styles.kpiVal} ${styles.kpiAmber}`}>{model.kpiPayback || '—'}</span>
+              <span className={styles.kpiSub}>{model.kpiPaybackSub || 'CAC recovery'}</span>
             </div>
             <div className={styles.kpiItem}>
               <span className={styles.kpiLbl}>LTV / CAC</span>
-              <span className={`${styles.kpiVal} ${styles.kpiBlue}`}>10.3×</span>
-              <span className={styles.kpiSub}>strong ratio</span>
+              <span className={`${styles.kpiVal} ${styles.kpiBlue}`}>{model.kpiLtvCac || '—'}</span>
+              <span className={styles.kpiSub}>{model.kpiLtvCacSub || 'strong ratio'}</span>
             </div>
             <div className={styles.kpiItem}>
               <span className={styles.kpiLbl}>NRR</span>
-              <span className={`${styles.kpiVal} ${styles.kpiMint}`}>112%</span>
-              <span className={styles.kpiSub}>expansion revenue</span>
+              <span className={`${styles.kpiVal} ${styles.kpiMint}`}>{model.kpiNrr || '—'}</span>
+              <span className={styles.kpiSub}>{model.kpiNrrSub || 'expansion revenue'}</span>
             </div>
           </div>
 
