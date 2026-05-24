@@ -369,3 +369,65 @@
 .sakura-single-product .related.products .quantity-selector {
     display: none !important;
 }
+
+/* === Fix: Center product images in grid (show full dish) === */
+.products .product-card-image img,
+.woocommerce ul.products li.product a img {
+    object-fit: contain !important;
+    object-position: center center !important;
+    width: 100% !important;
+    height: 280px !important;
+    background: #fff5f7;
+}
+
+/* === Fix: Admin bar header overlap === */
+body.admin-bar .site-header {
+    top: 32px !important;
+}
+body.admin-bar {
+    padding-top: 32px !important;
+}
+@media screen and (max-width: 782px) {
+    body.admin-bar .site-header {
+        top: 46px !important;
+    }
+    body.admin-bar {
+        padding-top: 46px !important;
+    }
+}
+
+/* === Fix: Related products images also centered === */
+.related.products ul.products li.product a img {
+    object-fit: contain !important;
+    object-position: center center !important;
+    height: 140px !important;
+    background: #fff5f7;
+}
+
+/* === Fix: Product card images - show full dish without cropping === */
+.product-card-image {
+    aspect-ratio: 1 !important;
+    background: #fff5f7 !important;
+}
+.product-card-image img {
+    object-fit: contain !important;
+    object-position: center center !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 5px !important;
+}
+
+/* === Fix: Admin bar header - add proper margin === */
+body.admin-bar .site-header {
+    margin-top: 32px !important;
+    top: 0 !important;
+}
+body.admin-bar .site-content,
+body.admin-bar .page-content {
+    margin-top: 0 !important;
+}
+@media screen and (max-width: 782px) {
+    body.admin-bar .site-header {
+        margin-top: 46px !important;
+    }
+}

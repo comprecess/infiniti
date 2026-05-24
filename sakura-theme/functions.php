@@ -6,7 +6,7 @@
 
 if (!defined('ABSPATH')) exit;
 
-define('SAKURA_VERSION', '1.0.1779649732');
+define('SAKURA_VERSION', '1.0.8');
 define('SAKURA_DIR', get_template_directory());
 define('SAKURA_URI', get_template_directory_uri());
 
@@ -199,3 +199,9 @@ add_filter('woocommerce_output_related_products_args', function($args) {
     $args['columns'] = 5;
     return $args;
 });
+
+// Dequeue WooCommerce default add-to-cart JS to avoid conflict with our custom handler
+function sakura_dequeue_wc_scripts() {
+    wp_dequeue_script('wc-add-to-cart');
+}
+add_action('wp_enqueue_scripts', 'sakura_dequeue_wc_scripts', 20);

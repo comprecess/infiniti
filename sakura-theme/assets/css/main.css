@@ -1095,12 +1095,13 @@ a:hover {
 .product-card-image {
     display: block;
     overflow: hidden;
-    aspect-ratio: 4/3;
+    aspect-ratio: 1;
+    background: #fff5f7;
 }
 .product-card-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     transition: transform 0.4s ease;
 }
 .product-card-inner:hover .product-card-image img {
@@ -1579,4 +1580,22 @@ a:hover {
     stroke-width: 2.5;
     stroke-linecap: round;
     stroke-linejoin: round;
+}
+
+/* === Fix: Admin bar pushes fixed header down === */
+body.admin-bar .sakura-header {
+}
+@media screen and (max-width: 782px) {
+    body.admin-bar .sakura-header {
+    }
+}
+
+/* === Fix: Admin bar pushes fixed header down === */
+body.admin-bar .sakura-header {
+    top: 32px !important;
+}
+@media screen and (max-width: 782px) {
+    body.admin-bar .sakura-header {
+        top: 46px !important;
+    }
 }

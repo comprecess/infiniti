@@ -798,32 +798,6 @@ function sakura_wc_block_styles() {
                 }
             });
         }
-        // Quantity buttons (+/-)
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('qty-minus') || e.target.classList.contains('qty-plus')) {
-                var btn = e.target;
-                var wrap = btn.closest('.quantity-selector');
-                if (!wrap) return;
-                var input = wrap.querySelector('.qty-input');
-                if (!input) return;
-                var val = parseInt(input.value) || 1;
-                if (btn.classList.contains('qty-minus')) {
-                    val = Math.max(1, val - 1);
-                } else {
-                    val = Math.min(99, val + 1);
-                }
-                input.value = val;
-                // Update add-to-cart link quantity
-                var addBtn = wrap.closest('.product-quantity-wrap').querySelector('.btn-add-cart, .add_to_cart_button');
-                if (addBtn) {
-                    addBtn.setAttribute('data-quantity', val);
-                    var href = addBtn.getAttribute('href');
-                    if (href) {
-                        addBtn.setAttribute('href', href.replace(/quantity=\d+/, 'quantity=' + val));
-                    }
-                }
-            }
-        });
     });
     </script>
     <?php
