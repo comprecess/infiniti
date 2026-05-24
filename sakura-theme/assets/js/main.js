@@ -57,23 +57,26 @@
         lastScroll = currentScroll;
     });
 
-    // AJAX Add to Cart
-    $(document).on('click', '.btn-add-cart', function(e) {
+    // AJAX Add to Cart (handles both .btn-add-cart and .ajax_add_to_cart)
+    $(document).on('click', '.btn-add-cart, .ajax_add_to_cart', function(e) {
         e.preventDefault();
-        const $btn = $(this);
-        const productId = $btn.data('product-id');
+        e.stopImmediatePropagation();
+        
+        var $btn = $(this);
+        var productId = $btn.data('product_id') || $btn.data('product-id');
+        var quantity = parseInt($btn.attr('data-quantity')) || 1;
 
         if (!productId) return;
 
         $btn.addClass('loading');
 
         $.ajax({
-            url: wc_add_to_cart_params ? wc_add_to_cart_params.ajax_url : sakuraAjax.ajaxurl,
+            url: (typeof wc_add_to_cart_params !== 'undefined') ? wc_add_to_cart_params.ajax_url : sakuraAjax.ajaxurl,
             type: 'POST',
             data: {
                 action: 'woocommerce_ajax_add_to_cart',
                 product_id: productId,
-                quantity: 1,
+                quantity: quantity,
             },
             success: function(response) {
                 if (response.error && response.product_url) {
@@ -92,9 +95,9 @@
                 });
 
                 // Visual feedback
-                $btn.addClass('added');
+                $btn.addClass('added').text('✓');
                 setTimeout(function() {
-                    $btn.removeClass('added loading');
+                    $btn.removeClass('added loading').text('В корзину');
                 }, 1500);
 
                 // Trigger WC fragments refresh
@@ -152,33 +155,49 @@
 
 /* ===== QUANTITY SELECTOR FUNCTIONALITY ===== */
 document.addEventListener('DOMContentLoaded', function() {
-    // Quantity buttons
+    // Quantity buttons - single handler (no duplicates)
     document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('qty-minus') || e.target.classList.contains('qty-plus')) {
-            var productId = e.target.getAttribute('data-product-id');
-            var input = document.getElementById('qty-' + productId);
-            if (!input) return;
-            
-            var currentVal = parseInt(input.value) || 1;
-            
-            if (e.target.classList.contains('qty-plus')) {
-                input.value = currentVal + 1;
-            } else if (e.target.classList.contains('qty-minus') && currentVal > 1) {
-                input.value = currentVal - 1;
-            }
-            
-            // Update the add-to-cart link's data-quantity
-            var card = e.target.closest('.sakura-product-card');
-            if (card) {
-                var addBtn = card.querySelector('.add_to_cart_button');
-                if (addBtn) {
-                    addBtn.setAttribute('data-quantity', input.value);
-                    // Also update the URL
-                    var url = new URL(addBtn.href, window.location.origin);
-                    url.searchParams.set('quantity', input.value);
-                    addBtn.href = url.toString();
+        var btn = e.target;
+        if (!btn.classList.contains('qty-minus') && !btn.classList.contains('qty-plus')) return;
+        
+        e.preventDefault();
+        e.stopPropagation();
+        
+        var productId = btn.getAttribute('data-product-id');
+        var input = document.getElementById('qty-' + productId);
+        if (!input) {
+            // Fallback: find input in same container
+            var wrap = btn.closest('.quantity-selector');
+            if (wrap) input = wrap.querySelector('.qty-input');
+        }
+        if (!input) return;
+        
+        var currentVal = parseInt(input.value) || 1;
+        
+        if (btn.classList.contains('qty-plus')) {
+            currentVal = Math.min(99, currentVal + 1);
+        } else if (btn.classList.contains('qty-minus') && currentVal > 1) {
+            currentVal = currentVal - 1;
+        }
+        
+        input.value = currentVal;
+        
+        // Update the add-to-cart link's data-quantity
+        var card = btn.closest('.sakura-product-card') || btn.closest('.product-quantity-wrap');
+        if (card) {
+            var addBtn = card.querySelector('.add_to_cart_button, .btn-add-cart');
+            if (addBtn) {
+                addBtn.setAttribute('data-quantity', currentVal);
+                // Also update the URL
+                var href = addBtn.getAttribute('href');
+                if (href) {
+                    try {
+                        var url = new URL(href, window.location.origin);
+                        url.searchParams.set('quantity', currentVal);
+                        addBtn.href = url.toString();
+                    } catch(ex) {}
                 }
             }
         }
-    });
+    }, true); // Use capture phase to prevent duplicate handlers
 });
