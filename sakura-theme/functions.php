@@ -6,7 +6,7 @@
 
 if (!defined('ABSPATH')) exit;
 
-define('SAKURA_VERSION', '2.0.0');
+define('SAKURA_VERSION', '2.0.1');
 define('SAKURA_DIR', get_template_directory());
 define('SAKURA_URI', get_template_directory_uri());
 
@@ -52,6 +52,7 @@ function sakura_scripts() {
     // WooCommerce styles
     if (class_exists('WooCommerce')) {
         wp_enqueue_style('sakura-woo', SAKURA_URI . '/assets/css/woocommerce.css', array(), SAKURA_VERSION);
+    wp_enqueue_style('sakura-pages', get_template_directory_uri() . '/assets/css/pages.css', array(), SAKURA_VERSION);
     }
 
     // Theme stylesheet

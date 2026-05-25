@@ -1,0 +1,70 @@
+
+/* Info/Legal Pages */
+.sakura-page-content .page-hero-mini {
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-cream) 100%);
+    padding: 60px 20px 40px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+.sakura-page-content .page-hero-mini h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    color: var(--color-primary);
+    margin: 0;
+}
+.sakura-page-content .page-article {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+}
+.sakura-page-content .entry-content h2 {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    color: var(--color-primary);
+    margin: 2rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-primary-light);
+}
+.sakura-page-content .entry-content h3 {
+    font-size: 1.1rem;
+    color: var(--color-text);
+    margin: 1.5rem 0 0.8rem;
+}
+.sakura-page-content .entry-content p {
+    line-height: 1.7;
+    color: var(--color-text-light);
+    margin-bottom: 1rem;
+}
+.sakura-page-content .entry-content a {
+    color: var(--color-primary);
+    text-decoration: underline;
+}
+.sakura-page-content .entry-content ul,
+.sakura-page-content .entry-content ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+.sakura-page-content .entry-content li {
+    line-height: 1.7;
+    color: var(--color-text-light);
+    margin-bottom: 0.5rem;
+}
+@media (max-width: 768px) {
+    .sakura-page-content .page-hero-mini {
+        padding: 40px 16px 30px;
+    }
+    .sakura-page-content .page-article {
+        padding: 0 16px 40px;
+    }
+}
+
+/* Footer requisites */
+.footer-requisites {
+    margin-top: 1rem;
+    opacity: 0.7;
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+.footer-requisites p {
+    margin: 0;
+}

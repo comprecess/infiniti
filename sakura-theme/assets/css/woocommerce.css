@@ -1184,3 +1184,27 @@ button[type="submit"]:not(.sakura-search-submit):not(.mobile-toggle):not(.qty-bt
         margin-top: 4px !important;
     }
 }
+
+/* Fix payment alignment - match payment_methods padding to place-order */
+@media (max-width: 768px) {
+    .woocommerce-checkout #payment ul.payment_methods {
+        padding: 16px !important;
+    }
+    .woocommerce-checkout #payment ul.payment_methods li {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    .woocommerce-checkout #payment ul.payment_methods li label {
+        padding: 0 !important;
+        margin: 0 0 8px 0 !important;
+        display: block !important;
+    }
+    .woocommerce-checkout #payment ul.payment_methods li .payment_box {
+        margin: 0 !important;
+        padding: 12px 16px !important;
+    }
+    .woocommerce-checkout #payment div.form-row.place-order {
+        padding: 16px !important;
+    }
+}
+
