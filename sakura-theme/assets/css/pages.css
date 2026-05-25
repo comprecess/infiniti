@@ -1,43 +1,58 @@
-
 /* Info/Legal Pages */
+.sakura-page-content {
+    padding-top: 80px;
+}
 .sakura-page-content .page-hero-mini {
-    background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-cream) 100%);
-    padding: 60px 20px 40px;
+    background: linear-gradient(135deg, var(--sakura-pink-light) 0%, var(--sakura-cream) 100%);
+    padding: 40px 20px;
     text-align: center;
     margin-bottom: 40px;
 }
 .sakura-page-content .page-hero-mini h1 {
-    font-family: var(--font-heading);
-    font-size: clamp(1.5rem, 4vw, 2.2rem);
-    color: var(--color-primary);
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+    color: var(--sakura-rose);
     margin: 0;
+    line-height: 1.3;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 .sakura-page-content .page-article {
     max-width: 800px;
     margin: 0 auto;
     padding: 0 20px 60px;
+    font-family: var(--font-body);
 }
 .sakura-page-content .entry-content h2 {
-    font-family: var(--font-heading);
-    font-size: 1.4rem;
-    color: var(--color-primary);
-    margin: 2rem 0 1rem;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--sakura-rose);
+    margin: 2.5rem 0 1rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--color-primary-light);
+    border-bottom: 1px solid var(--sakura-border);
 }
 .sakura-page-content .entry-content h3 {
-    font-size: 1.1rem;
-    color: var(--color-text);
-    margin: 1.5rem 0 0.8rem;
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--sakura-text);
+    margin: 1.8rem 0 0.8rem;
 }
 .sakura-page-content .entry-content p {
-    line-height: 1.7;
-    color: var(--color-text-light);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--sakura-text-light);
     margin-bottom: 1rem;
 }
 .sakura-page-content .entry-content a {
-    color: var(--color-primary);
+    color: var(--sakura-rose);
     text-decoration: underline;
+}
+.sakura-page-content .entry-content strong {
+    color: var(--sakura-text);
+    font-weight: 700;
 }
 .sakura-page-content .entry-content ul,
 .sakura-page-content .entry-content ol {
@@ -45,26 +60,33 @@
     margin-bottom: 1rem;
 }
 .sakura-page-content .entry-content li {
-    line-height: 1.7;
-    color: var(--color-text-light);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--sakura-text-light);
     margin-bottom: 0.5rem;
 }
 @media (max-width: 768px) {
+    .sakura-page-content {
+        padding-top: 60px;
+    }
     .sakura-page-content .page-hero-mini {
-        padding: 40px 16px 30px;
+        padding: 30px 16px;
+        margin-bottom: 24px;
+    }
+    .sakura-page-content .page-hero-mini h1 {
+        font-size: 1.2rem;
     }
     .sakura-page-content .page-article {
         padding: 0 16px 40px;
     }
-}
-
-/* Footer requisites */
-.footer-requisites {
-    margin-top: 1rem;
-    opacity: 0.7;
-    font-size: 0.8rem;
-    line-height: 1.5;
-}
-.footer-requisites p {
-    margin: 0;
+    .sakura-page-content .entry-content h2 {
+        font-size: 1.1rem;
+    }
+    .sakura-page-content .entry-content h3 {
+        font-size: 0.95rem;
+    }
+    .sakura-page-content .entry-content p {
+        font-size: 0.9rem;
+    }
 }
