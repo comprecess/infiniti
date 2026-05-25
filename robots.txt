@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /my-account/
+
+Sitemap: https://sakura-restaurant.ru/sitemap.xml

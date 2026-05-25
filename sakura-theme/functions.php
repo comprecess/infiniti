@@ -6,7 +6,7 @@
 
 if (!defined('ABSPATH')) exit;
 
-define('SAKURA_VERSION', '2.1.0');
+define('SAKURA_VERSION', '2.2.0');
 define('SAKURA_DIR', get_template_directory());
 define('SAKURA_URI', get_template_directory_uri());
 
@@ -384,3 +384,147 @@ function sakura_handle_reservation() {
 }
 add_action('wp_ajax_sakura_reservation', 'sakura_handle_reservation');
 add_action('wp_ajax_nopriv_sakura_reservation', 'sakura_handle_reservation');
+
+
+// ============================================
+// SEO Meta Tags
+// ============================================
+function sakura_seo_meta() {
+    $site_name = 'Цветение сакуры';
+    $default_description = 'Ресторан японской кухни «Цветение сакуры» в Москве. Доставка суши, роллов и японских блюд. ул. Красина 7/1, ст.м. Маяковская. Заказ: +7(915)387-36-51';
+    $default_keywords = 'японский ресторан, суши, роллы, доставка суши Москва, японская кухня, Цветение сакуры, ресторан Маяковская, заказ суши';
+    $site_url = home_url('/');
+    $og_image = home_url('/favicon-512.png');
+    
+    if (is_front_page()) {
+        $title = 'Цветение сакуры — Ресторан японской кухни | Доставка суши в Москве';
+        $description = $default_description;
+        $keywords = $default_keywords;
+        $canonical = $site_url;
+    } elseif (is_shop() || (function_exists('is_product_category') && is_product_category())) {
+        $title = 'Меню — Цветение сакуры | Суши, роллы, японские блюда';
+        $description = 'Меню ресторана «Цветение сакуры». Суши, роллы, сашими, горячие блюда, супы и десерты. Свежие ингредиенты, авторские рецепты. Доставка по Москве.';
+        $keywords = 'меню суши, роллы меню, японское меню, суши Москва, роллы доставка';
+        $canonical = get_permalink(wc_get_page_id('shop'));
+    } elseif (function_exists('is_product') && is_product()) {
+        $product = wc_get_product(get_the_ID());
+        $title = get_the_title() . ' — Цветение сакуры';
+        $description = $product ? wp_strip_all_tags(substr($product->get_short_description(), 0, 160)) : get_the_excerpt();
+        if (empty($description)) $description = 'Заказать ' . get_the_title() . ' с доставкой. Ресторан японской кухни «Цветение сакуры».';
+        $keywords = get_the_title() . ', суши, роллы, доставка, Цветение сакуры';
+        $canonical = get_permalink();
+        if ($product && $product->get_image_id()) {
+            $og_image = wp_get_attachment_url($product->get_image_id());
+        }
+    } elseif (is_page()) {
+        $page_title = get_the_title();
+        $title = $page_title . ' — Цветение сакуры';
+        $canonical = get_permalink();
+        
+        // Custom descriptions for legal pages
+        $slug = get_post_field('post_name', get_the_ID());
+        switch ($slug) {
+            case 'privacy-policy':
+                $description = 'Политика конфиденциальности ресторана «Цветение сакуры». Обработка персональных данных в соответствии с 152-ФЗ.';
+                $keywords = 'политика конфиденциальности, персональные данные, 152-ФЗ';
+                break;
+            case 'terms-conditions':
+                $description = 'Пользовательское соглашение ресторана «Цветение сакуры». Условия оформления и доставки заказов.';
+                $keywords = 'пользовательское соглашение, условия использования, оферта';
+                break;
+            case 'refund-returns':
+                $description = 'Условия оформления, доставки и возврата заказов в ресторане «Цветение сакуры». Способы оплаты и гарантии.';
+                $keywords = 'возврат заказа, доставка суши, способы оплаты, условия доставки';
+                break;
+            case 'contacts':
+                $description = 'Контакты ресторана «Цветение сакуры». Адрес: ул. Красина 7/1, ст.м. Маяковская. Телефон: +7(915)387-36-51. Как добраться.';
+                $keywords = 'контакты ресторан, адрес Цветение сакуры, как добраться, Маяковская';
+                break;
+            default:
+                $description = wp_strip_all_tags(get_the_excerpt()) ?: $default_description;
+                $keywords = $default_keywords;
+        }
+    } elseif (is_cart()) {
+        $title = 'Корзина — Цветение сакуры';
+        $description = 'Ваша корзина заказов в ресторане «Цветение сакуры».';
+        $keywords = 'корзина, заказ суши';
+        $canonical = wc_get_cart_url();
+    } elseif (is_checkout()) {
+        $title = 'Оформление заказа — Цветение сакуры';
+        $description = 'Оформление заказа доставки из ресторана «Цветение сакуры».';
+        $keywords = 'оформление заказа, доставка суши';
+        $canonical = wc_get_checkout_url();
+    } else {
+        $title = get_the_title() . ' — Цветение сакуры';
+        $description = $default_description;
+        $keywords = $default_keywords;
+        $canonical = get_permalink();
+    }
+    
+    // Output meta tags
+    echo "\n    <!-- SEO Meta Tags -->\n";
+    echo '    <meta name="description" content="' . esc_attr($description) . '">' . "\n";
+    echo '    <meta name="keywords" content="' . esc_attr($keywords) . '">' . "\n";
+    echo '    <link rel="canonical" href="' . esc_url($canonical) . '">' . "\n";
+    
+    // Robots
+    if (is_cart() || is_checkout() || is_account_page()) {
+        echo '    <meta name="robots" content="noindex, nofollow">' . "\n";
+    } else {
+        echo '    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">' . "\n";
+    }
+    
+    // Open Graph
+    echo "\n    <!-- Open Graph -->\n";
+    echo '    <meta property="og:type" content="website">' . "\n";
+    echo '    <meta property="og:title" content="' . esc_attr($title) . '">' . "\n";
+    echo '    <meta property="og:description" content="' . esc_attr($description) . '">' . "\n";
+    echo '    <meta property="og:url" content="' . esc_url($canonical) . '">' . "\n";
+    echo '    <meta property="og:site_name" content="' . esc_attr($site_name) . '">' . "\n";
+    echo '    <meta property="og:image" content="' . esc_url($og_image) . '">' . "\n";
+    echo '    <meta property="og:locale" content="ru_RU">' . "\n";
+    
+    // Twitter Card
+    echo "\n    <!-- Twitter Card -->\n";
+    echo '    <meta name="twitter:card" content="summary_large_image">' . "\n";
+    echo '    <meta name="twitter:title" content="' . esc_attr($title) . '">' . "\n";
+    echo '    <meta name="twitter:description" content="' . esc_attr($description) . '">' . "\n";
+    echo '    <meta name="twitter:image" content="' . esc_url($og_image) . '">' . "\n";
+    
+    // Schema.org JSON-LD for Restaurant
+    if (is_front_page()) {
+        echo "\n    <!-- Schema.org JSON-LD -->\n";
+        echo '<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "Цветение сакуры",
+    "description": "' . esc_js($default_description) . '",
+    "url": "' . esc_url($site_url) . '",
+    "telephone": ["+7(915)387-36-51", "+7(903)791-85-85"],
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. Красина 7/1",
+        "addressLocality": "Москва",
+        "postalCode": "123056",
+        "addressCountry": "RU"
+    },
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "55.7650",
+        "longitude": "37.5850"
+    },
+    "servesCuisine": "Японская кухня",
+    "priceRange": "₽₽",
+    "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+        "opens": "12:00",
+        "closes": "23:00"
+    },
+    "image": "' . esc_url($og_image) . '",
+    "sameAs": []
+}
+</script>' . "\n";
+    }
+}
