@@ -6,7 +6,7 @@
 
 if (!defined('ABSPATH')) exit;
 
-define('SAKURA_VERSION', '1.3.0');
+define('SAKURA_VERSION', '1.9.0');
 define('SAKURA_DIR', get_template_directory());
 define('SAKURA_URI', get_template_directory_uri());
 

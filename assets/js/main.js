@@ -235,3 +235,23 @@ document.addEventListener('click', function(e) {
     var inputEvent = new Event('input', { bubbles: true });
     input.dispatchEvent(inputEvent);
 });
+
+
+// Fix coupon form - make it flex when WooCommerce shows it
+jQuery(document).ready(function($) {
+    // Override WooCommerce's default showcoupon behavior
+    $(document).off('click', '.woocommerce-form-coupon-toggle a');
+    
+    $(document).on('click', '.woocommerce-form-coupon-toggle a', function(e) {
+        e.preventDefault();
+        var couponForm = $('.checkout_coupon');
+        if (couponForm.is(':visible')) {
+            couponForm.slideUp(300);
+        } else {
+            couponForm.slideDown(300, function() {
+                $(this).css('display', 'flex');
+            });
+        }
+        return false;
+    });
+});

@@ -45,7 +45,7 @@
                         <div class="menu-card-footer">
                             <span class="menu-card-price"><?php echo $product->get_price_html(); ?></span>
                             <?php if ($product->is_purchasable() && $product->is_in_stock()) : ?>
-                                <div class="product-quantity-wrap">
+                                <div class="product-quantity-wrap product-quantity-inline">
                                     <div class="quantity-selector">
                                         <button type="button" class="qty-btn qty-minus" data-product-id="<?php echo esc_attr($product_id); ?>">&#8722;</button>
                                         <input type="number" class="qty-input" id="qty-home-<?php echo esc_attr($product_id); ?>" value="1" min="1" max="99" readonly>
@@ -60,6 +60,7 @@
                                         В корзину
                                     </a>
                                 </div>
+                                <a href="<?php echo esc_url(wc_get_checkout_url()); ?>" class="menu-card-checkout-link">Оформить заказ</a>
                             <?php endif; ?>
                         </div>
                     </div>
