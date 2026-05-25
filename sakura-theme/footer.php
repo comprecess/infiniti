@@ -27,7 +27,7 @@
                     </li>
                     <li>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                        <?php echo esc_html(get_theme_mod('sakura_hours', 'Пн-Вс: 11:00 — 23:00')); ?>
+                        Пн-Чт: 12:00 — 23:00
                     </li>
                 </ul>
             </div>
@@ -46,7 +46,20 @@
 
             <div class="footer-col">
                 <h4>Часы работы</h4>
-                <p><?php echo esc_html(get_theme_mod('sakura_hours', 'Пн-Вс: 11:00 — 23:00')); ?></p>
+                <ul class="footer-contacts">
+                    <li>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        Пн-Чт: 12:00 — 23:00
+                    </li>
+                    <li>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        Пт-Сб: 12:00 — 01:00
+                    </li>
+                    <li>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        Вс: 13:00 — 22:00
+                    </li>
+                </ul>
             </div>
         </div>
 

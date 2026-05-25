@@ -6,7 +6,7 @@
 
 if (!defined('ABSPATH')) exit;
 
-define('SAKURA_VERSION', '1.9.5');
+define('SAKURA_VERSION', '2.0.0');
 define('SAKURA_DIR', get_template_directory());
 define('SAKURA_URI', get_template_directory_uri());
 
@@ -205,3 +205,63 @@ function sakura_dequeue_wc_scripts() {
     wp_dequeue_script('wc-add-to-cart');
 }
 add_action('wp_enqueue_scripts', 'sakura_dequeue_wc_scripts', 20);
+
+// Inline payment alignment fix (bypasses browser CSS cache)
+
+function sakura_payment_inline_css() {
+    if (is_checkout()) {
+        echo '<style id="sakura-payment-fix">
+        @media (max-width: 768px) {
+            .woocommerce-checkout #payment { padding: 20px !important; }
+            .woocommerce-checkout #payment ul.payment_methods { 
+                padding: 0 !important; 
+                margin: 0 0 16px 0 !important; 
+                border: none !important; 
+            }
+            .woocommerce-checkout #payment ul.payment_methods li { 
+                padding: 0 !important; 
+                margin: 0 !important; 
+                background: none !important; 
+                list-style: none !important; 
+            }
+            .woocommerce-checkout #payment ul.payment_methods li input[type="radio"],
+            .woocommerce-checkout #payment ul.payment_methods li .input-radio { 
+                display: none !important; 
+            }
+            .woocommerce-checkout #payment ul.payment_methods li label { 
+                display: block !important; 
+                padding: 0 0 8px 0 !important; 
+                margin: 0 !important; 
+            }
+            .woocommerce-checkout #payment div.payment_box { 
+                margin: 0 0 16px 0 !important; 
+                padding: 12px 16px !important; 
+                border-radius: 8px !important; 
+            }
+            .woocommerce-checkout #payment div.form-row,
+            .woocommerce-checkout #payment div.form-row.place-order,
+            .woocommerce-checkout #payment .form-row,
+            .woocommerce-checkout #payment .place-order,
+            #payment div.form-row,
+            #payment div.form-row.place-order,
+            #payment .place-order { 
+                padding: 0 !important; 
+                margin: 0 !important; 
+            }
+            .woocommerce-checkout #payment .place-order .woocommerce-terms-and-conditions-wrapper { 
+                padding: 0 !important; 
+                margin: 0 !important; 
+            }
+            .woocommerce-checkout #payment .place-order .woocommerce-privacy-policy-text { 
+                padding: 0 !important; 
+                margin: 0 0 16px 0 !important; 
+            }
+            .woocommerce-checkout #payment .place-order .woocommerce-privacy-policy-text p { 
+                padding: 0 !important; 
+                margin: 0 !important; 
+            }
+        }
+        </style>';
+    }
+}
+add_action('wp_head', 'sakura_payment_inline_css', 999);
