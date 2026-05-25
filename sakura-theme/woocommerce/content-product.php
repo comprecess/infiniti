@@ -39,6 +39,10 @@ $product_id = $product->get_id();
                             В корзину
                         </a>
                     </div>
+                    <div class="product-card-links">
+                        <a href="<?php echo esc_url(wc_get_checkout_url()); ?>" class="checkout-link">Оформить заказ</a>
+                        <a href="<?php echo esc_url(wc_get_cart_url()); ?>" class="cart-link">Моя корзина →</a>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
