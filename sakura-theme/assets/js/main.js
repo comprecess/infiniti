@@ -201,3 +201,66 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, true); // Use capture phase to prevent duplicate handlers
 });
+
+/* === Fix: Handle qty buttons in WooCommerce single product quantity selector === */
+document.addEventListener('click', function(e) {
+    var btn = e.target;
+    if (!btn.classList.contains('qty-btn')) return;
+    
+    var wrap = btn.closest('.quantity-selector') || btn.closest('.quantity');
+    if (!wrap) return;
+    
+    var input = wrap.querySelector('input.qty') || wrap.querySelector('.qty-input') || wrap.querySelector('input[type="number"]');
+    if (!input) return;
+    
+    var currentVal = parseInt(input.value) || 1;
+    var min = parseInt(input.getAttribute('min')) || 1;
+    var max = parseInt(input.getAttribute('max')) || 99;
+    
+    if (btn.classList.contains('qty-plus')) {
+        if (currentVal < max) {
+            input.value = currentVal + 1;
+        }
+    } else if (btn.classList.contains('qty-minus')) {
+        if (currentVal > min) {
+            input.value = currentVal - 1;
+        }
+    }
+    
+    // Trigger change event for WooCommerce
+    var event = new Event('change', { bubbles: true });
+    input.dispatchEvent(event);
+    
+    // Also trigger input event
+    var inputEvent = new Event('input', { bubbles: true });
+    input.dispatchEvent(inputEvent);
+});
+
+
+// Fix coupon form - smooth CSS transition toggle (v1.9.4)
+jQuery(document).ready(function($) {
+    // Remove WooCommerce's default showcoupon handler
+    $(document.body).off('click', 'a.showcoupon');
+    $(document).off('click', '.woocommerce-form-coupon-toggle a');
+    
+    // Use capturing event listener to intercept before WooCommerce
+    document.addEventListener('click', function(e) {
+        var link = e.target.closest('.woocommerce-form-coupon-toggle a, a.showcoupon');
+        if (link) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            var couponForm = document.querySelector('.checkout_coupon');
+            if (couponForm) {
+                // Remove any inline display style that WooCommerce might set
+                couponForm.style.display = '';
+                if (couponForm.classList.contains('coupon-visible')) {
+                    couponForm.classList.remove('coupon-visible');
+                } else {
+                    couponForm.classList.add('coupon-visible');
+                }
+            }
+            return false;
+        }
+    }, true); // true = capturing phase, runs before bubbling handlers
+});
