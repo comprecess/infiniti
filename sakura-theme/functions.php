@@ -6,7 +6,7 @@
 
 if (!defined('ABSPATH')) exit;
 
-define('SAKURA_VERSION', '2.0.2');
+define('SAKURA_VERSION', '2.1.0');
 define('SAKURA_DIR', get_template_directory());
 define('SAKURA_URI', get_template_directory_uri());
 
@@ -64,6 +64,7 @@ function sakura_scripts() {
     // Localize script
     wp_localize_script('sakura-main', 'sakuraAjax', array(
         'ajaxurl' => admin_url('admin-ajax.php'),
+        'recaptchaSiteKey' => defined('SAKURA_RECAPTCHA_SITE_KEY') ? SAKURA_RECAPTCHA_SITE_KEY : '',
         'nonce'   => wp_create_nonce('sakura_nonce'),
     ));
 }
@@ -266,3 +267,120 @@ function sakura_payment_inline_css() {
     }
 }
 add_action('wp_head', 'sakura_payment_inline_css', 999);
+
+
+// ============================================
+// reCAPTCHA v3 + Anti-Spam Protection
+// ============================================
+define('SAKURA_RECAPTCHA_SITE_KEY', '6LeT3vssAAAAAB3_NU3eZFLmpxxPhP2tEWutOBwH');
+define('SAKURA_RECAPTCHA_SECRET_KEY', '6LeT3vssAAAAANZ-nFwizIu_wfGOkdw0NFtuZUeC');
+
+// Enqueue reCAPTCHA v3 script
+function sakura_enqueue_recaptcha() {
+    if (is_front_page() || is_page('catering')) {
+        wp_enqueue_script('google-recaptcha', 'https://www.google.com/recaptcha/api.js?render=' . SAKURA_RECAPTCHA_SITE_KEY, array(), null, true);
+    }
+}
+add_action('wp_enqueue_scripts', 'sakura_enqueue_recaptcha');
+
+// Add reCAPTCHA initialization to footer
+function sakura_recaptcha_footer_script() {
+    if (is_front_page() || is_page('catering')) {
+        ?>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set form load timestamp for timer check
+            var loadedAt = document.getElementById('form-loaded-at');
+            if (loadedAt) {
+                loadedAt.value = Math.floor(Date.now() / 1000);
+            }
+        });
+        </script>
+        <?php
+    }
+}
+add_action('wp_footer', 'sakura_recaptcha_footer_script', 99);
+
+// Handle reservation form with anti-spam checks
+function sakura_handle_reservation() {
+    // Verify nonce
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'sakura_ajax_nonce')) {
+        wp_send_json_error(array('message' => 'Ошибка безопасности. Обновите страницу.'));
+    }
+    
+    // 1. Honeypot check - if filled, it's a bot
+    if (!empty($_POST['website_url'])) {
+        // Silently reject - don't tell bots why
+        wp_send_json_success(array('message' => 'Спасибо! Мы свяжемся с вами.'));
+    }
+    
+    // 2. Timer check - form submitted too fast (< 3 seconds)
+    if (isset($_POST['form_loaded_at'])) {
+        $loaded_at = intval($_POST['form_loaded_at']);
+        $now = time();
+        if ($now - $loaded_at < 3) {
+            wp_send_json_success(array('message' => 'Спасибо! Мы свяжемся с вами.'));
+        }
+    }
+    
+    // 3. reCAPTCHA v3 verification
+    if (!empty($_POST['recaptcha_token'])) {
+        $recaptcha_response = wp_remote_post('https://www.google.com/recaptcha/api/siteverify', array(
+            'body' => array(
+                'secret' => SAKURA_RECAPTCHA_SECRET_KEY,
+                'response' => sanitize_text_field($_POST['recaptcha_token']),
+                'remoteip' => $_SERVER['REMOTE_ADDR']
+            )
+        ));
+        
+        if (!is_wp_error($recaptcha_response)) {
+            $recaptcha_data = json_decode(wp_remote_retrieve_body($recaptcha_response), true);
+            // Score threshold: 0.5 (0.0 = bot, 1.0 = human)
+            if (!$recaptcha_data['success'] || (isset($recaptcha_data['score']) && $recaptcha_data['score'] < 0.5)) {
+                wp_send_json_error(array('message' => 'Проверка безопасности не пройдена. Попробуйте снова.'));
+            }
+        }
+    } else {
+        // No token = suspicious, but allow if honeypot and timer passed
+        // (for users with JS disabled or reCAPTCHA blocked)
+    }
+    
+    // 4. Rate limiting by IP (max 5 per hour)
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $transient_key = 'sakura_res_' . md5($ip);
+    $count = get_transient($transient_key);
+    if ($count === false) {
+        set_transient($transient_key, 1, HOUR_IN_SECONDS);
+    } elseif ($count >= 5) {
+        wp_send_json_error(array('message' => 'Слишком много запросов. Попробуйте позже.'));
+    } else {
+        set_transient($transient_key, $count + 1, HOUR_IN_SECONDS);
+    }
+    
+    // All checks passed - process the reservation
+    $name = sanitize_text_field($_POST['name'] ?? '');
+    $phone = sanitize_text_field($_POST['phone'] ?? '');
+    $guests = sanitize_text_field($_POST['guests'] ?? '2');
+    $date = sanitize_text_field($_POST['date'] ?? '');
+    $time_val = sanitize_text_field($_POST['time'] ?? '');
+    $comment = sanitize_textarea_field($_POST['comment'] ?? '');
+    
+    // Send email notification
+    $to = get_option('admin_email');
+    $subject = 'Новое бронирование: ' . $name . ' на ' . $date;
+    $message = "Новое бронирование столика:\n\n";
+    $message .= "Имя: $name\n";
+    $message .= "Телефон: $phone\n";
+    $message .= "Гостей: $guests\n";
+    $message .= "Дата: $date\n";
+    $message .= "Время: $time_val\n";
+    $message .= "Пожелания: $comment\n";
+    $message .= "\nIP: $ip";
+    
+    $headers = array('Content-Type: text/plain; charset=UTF-8');
+    wp_mail($to, $subject, $message, $headers);
+    
+    wp_send_json_success(array('message' => 'Столик забронирован! Мы свяжемся с вами для подтверждения.'));
+}
+add_action('wp_ajax_sakura_reservation', 'sakura_handle_reservation');
+add_action('wp_ajax_nopriv_sakura_reservation', 'sakura_handle_reservation');

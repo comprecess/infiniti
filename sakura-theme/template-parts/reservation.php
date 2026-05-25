@@ -54,6 +54,14 @@
                         <label for="res-comment">Пожелания</label>
                         <textarea id="res-comment" name="comment" rows="3" placeholder="Особые пожелания..."></textarea>
                     </div>
+                    <!-- Honeypot: hidden field that bots will fill -->
+                    <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+                        <input type="text" name="website_url" tabindex="-1" autocomplete="off" value="">
+                    </div>
+                    <!-- Timestamp for timer check -->
+                    <input type="hidden" name="form_loaded_at" id="form-loaded-at" value="">
+                    <!-- reCAPTCHA v3 token -->
+                    <input type="hidden" name="recaptcha_token" id="recaptcha-token" value="">
                     <button type="submit" class="btn btn-primary btn-full">Забронировать</button>
                 </form>
             </div>

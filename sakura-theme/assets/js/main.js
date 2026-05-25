@@ -110,20 +110,43 @@
     });
 
     // Reservation form
-    $('#sakura-reservation-form').on('submit', function(e) {
+        $('#sakura-reservation-form').on('submit', function(e) {
         e.preventDefault();
         const $form = $(this);
         const $btn = $form.find('button[type="submit"]');
-
-        $btn.text('Отправка...').prop('disabled', true);
-
+        $btn.text('Проверка...').prop('disabled', true);
+        
+        // Get reCAPTCHA v3 token before submitting
+        if (typeof grecaptcha !== 'undefined' && sakuraAjax.recaptchaSiteKey) {
+            grecaptcha.ready(function() {
+                grecaptcha.execute(sakuraAjax.recaptchaSiteKey, {action: 'reservation'}).then(function(token) {
+                    $('#recaptcha-token').val(token);
+                    sakuraSubmitReservation($form, $btn);
+                }).catch(function() {
+                    // If reCAPTCHA fails, still submit (honeypot + timer will protect)
+                    sakuraSubmitReservation($form, $btn);
+                });
+            });
+        } else {
+            sakuraSubmitReservation($form, $btn);
+        }
+    });
+    
+    function sakuraSubmitReservation($form, $btn) {
+        $btn.text('Отправка...');
         $.ajax({
             url: sakuraAjax.ajaxurl,
             type: 'POST',
             data: $form.serialize() + '&action=sakura_reservation&nonce=' + sakuraAjax.nonce,
             success: function(response) {
-                $btn.text('Забронировано ✓');
-                $form[0].reset();
+                if (response.success) {
+                    $btn.text('Забронировано ✓');
+                    $form[0].reset();
+                    // Reset timestamp for next submission
+                    $('#form-loaded-at').val(Math.floor(Date.now() / 1000));
+                } else {
+                    $btn.text(response.data.message || 'Ошибка');
+                }
                 setTimeout(function() {
                     $btn.text('Забронировать').prop('disabled', false);
                 }, 3000);
@@ -132,6 +155,7 @@
                 $btn.text('Ошибка, попробуйте снова').prop('disabled', false);
             }
         });
+    }
     });
 
     // Intersection Observer for animations
