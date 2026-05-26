@@ -83,37 +83,44 @@ a:hover {
 
 .petal {
     position: absolute;
-    top: -30px;
+    top: -40px;
     left: var(--x);
     width: var(--size);
     height: var(--size);
-    opacity: 0.35;
-    animation: fall var(--duration) ease-in-out var(--delay) infinite;
-    background: none;
-    border-radius: 0;
+    opacity: 0;
+    animation: fall-smooth var(--duration) linear var(--delay) infinite;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg opacity='0.9'%3E%3Cellipse cx='20' cy='12' rx='5' ry='8' fill='%23F8A4BC' transform='rotate(0 20 20)'/%3E%3Cellipse cx='20' cy='12' rx='5' ry='8' fill='%23FFB8CC' transform='rotate(72 20 20)'/%3E%3Cellipse cx='20' cy='12' rx='5' ry='8' fill='%23F8A4BC' transform='rotate(144 20 20)'/%3E%3Cellipse cx='20' cy='12' rx='5' ry='8' fill='%23FFB8CC' transform='rotate(216 20 20)'/%3E%3Cellipse cx='20' cy='12' rx='5' ry='8' fill='%23F8A4BC' transform='rotate(288 20 20)'/%3E%3Ccircle cx='20' cy='20' r='3' fill='%23FFE0A0'/%3E%3C/g%3E%3C/svg%3E") no-repeat center / contain;
 }
 
-@keyframes fall {
+@keyframes fall-smooth {
     0% {
-        transform: translateY(-10px) rotate(0deg) translateX(0);
+        transform: translateY(-5vh) rotate(0deg) translateX(0);
         opacity: 0;
     }
-    10% {
+    5% {
+        opacity: 0.6;
+    }
+    20% {
+        transform: translateY(18vh) rotate(40deg) translateX(12px);
+        opacity: 0.55;
+    }
+    40% {
+        transform: translateY(38vh) rotate(90deg) translateX(-8px);
+        opacity: 0.5;
+    }
+    60% {
+        transform: translateY(58vh) rotate(150deg) translateX(10px);
+        opacity: 0.45;
+    }
+    80% {
+        transform: translateY(78vh) rotate(220deg) translateX(-6px);
         opacity: 0.35;
     }
-    25% {
-        transform: translateY(25vh) rotate(45deg) translateX(15px);
-    }
-    50% {
-        transform: translateY(50vh) rotate(90deg) translateX(-10px);
-        opacity: 0.3;
-    }
-    75% {
-        transform: translateY(75vh) rotate(135deg) translateX(12px);
-        opacity: 0.2;
+    95% {
+        opacity: 0.15;
     }
     100% {
-        transform: translateY(105vh) rotate(180deg) translateX(-5px);
+        transform: translateY(105vh) rotate(300deg) translateX(5px);
         opacity: 0;
     }
 }
@@ -2225,9 +2232,9 @@ body.admin-bar .category-nav {
 }
 
 
-/* ===== RELATED PRODUCTS - VERTICAL 2-COLUMN GRID ===== */
+/* ===== RELATED PRODUCTS - 2 COLUMNS MOBILE, NORMAL VERTICAL CARDS ===== */
 .related.products {
-    padding: 2rem 1rem;
+    padding: 2rem 1rem !important;
 }
 .related.products > h2 {
     font-family: 'Playfair Display', serif !important;
@@ -2238,7 +2245,7 @@ body.admin-bar .category-nav {
 .related.products ul.products {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 0.8rem !important;
+    gap: 1rem !important;
     list-style: none !important;
     padding: 0 !important;
     margin: 0 !important;
@@ -2249,25 +2256,39 @@ body.admin-bar .category-nav {
     margin: 0 !important;
     padding: 0 !important;
     min-width: 0 !important;
+    overflow: hidden !important;
 }
 .related.products ul.products .sakura-product-card .product-card-inner {
-    border-radius: 12px !important;
-    box-shadow: 0 2px 10px rgba(93, 61, 46, 0.07) !important;
+    display: block !important;
+    border-radius: 14px !important;
+    box-shadow: 0 2px 12px rgba(93, 61, 46, 0.08) !important;
     overflow: hidden !important;
+    background: #fff !important;
+}
+.related.products ul.products .sakura-product-card .product-card-image {
+    display: block !important;
+    width: 100% !important;
 }
 .related.products ul.products .sakura-product-card .product-card-image img {
     width: 100% !important;
-    height: 110px !important;
+    height: 120px !important;
     object-fit: cover !important;
+    display: block !important;
+    border-radius: 14px 14px 0 0 !important;
 }
 .related.products ul.products .sakura-product-card .product-card-content {
-    padding: 0.6rem !important;
+    padding: 0.7rem !important;
+    display: block !important;
+}
+.related.products ul.products .sakura-product-card .product-card-title {
+    text-decoration: none !important;
+    display: block !important;
 }
 .related.products ul.products .sakura-product-card .product-card-title h2 {
     font-family: 'Playfair Display', serif !important;
-    font-size: 0.8rem !important;
+    font-size: 0.85rem !important;
     color: #5D3D2E !important;
-    margin: 0 0 0.3rem !important;
+    margin: 0 0 0.4rem !important;
     line-height: 1.3 !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
@@ -2283,32 +2304,41 @@ body.admin-bar .category-nav {
 }
 .related.products ul.products .sakura-product-card .product-card-price {
     font-family: 'Playfair Display', serif !important;
-    font-size: 0.85rem !important;
+    font-size: 0.9rem !important;
     color: #5D3D2E !important;
     font-weight: 700 !important;
+    display: block !important;
 }
 .related.products ul.products .sakura-product-card .product-card-price .amount {
     color: #5D3D2E !important;
 }
-.related.products ul.products .sakura-product-card .quantity-selector {
-    display: none !important;
-}
-.related.products ul.products .sakura-product-card .product-card-links {
-    display: none !important;
-}
-.related.products ul.products .sakura-product-card .btn-add-cart {
+.related.products ul.products .sakura-product-card .quantity-selector,
+.related.products ul.products .sakura-product-card .product-card-links,
+.related.products ul.products .sakura-product-card .btn-add-cart,
+.related.products ul.products .sakura-product-card .product-quantity-wrap {
     display: none !important;
 }
 @media (min-width: 769px) {
     .related.products ul.products {
         grid-template-columns: repeat(4, 1fr) !important;
-        gap: 1rem !important;
+        gap: 1.2rem !important;
     }
     .related.products ul.products .sakura-product-card .product-card-image img {
-        height: 140px !important;
+        height: 160px !important;
     }
     .related.products ul.products .sakura-product-card .product-card-title h2 {
-        font-size: 0.9rem !important;
+        font-size: 0.95rem !important;
+    }
+    .related.products ul.products .sakura-product-card .product-card-desc {
+        display: block !important;
+        font-size: 0.75rem !important;
+        color: #8B7355 !important;
+        margin: 0 0 0.4rem !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        display: -webkit-box !important;
     }
 }
 

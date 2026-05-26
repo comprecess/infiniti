@@ -1096,11 +1096,11 @@ add_action('wp_head', 'sakura_clearfix_fix', 10003);
 
 function sakura_related_and_zoom_css() {
     echo '<style>
-/* Related products - vertical 2-column grid */
+/* Related products - 2 columns mobile, normal vertical cards */
 .related.products ul.products {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 0.8rem !important;
+    gap: 1rem !important;
     padding: 0 !important;
 }
 .related.products ul.products li.product {
@@ -1109,16 +1109,19 @@ function sakura_related_and_zoom_css() {
     float: none !important;
     min-width: 0 !important;
 }
-.related.products ul.products .sakura-product-card .product-card-desc {
-    display: none !important;
+.related.products ul.products .sakura-product-card .product-card-inner {
+    display: block !important;
 }
-.related.products ul.products .sakura-product-card .quantity-selector {
-    display: none !important;
+.related.products ul.products .sakura-product-card .product-card-image img {
+    width: 100% !important;
+    height: 120px !important;
+    object-fit: cover !important;
 }
-.related.products ul.products .sakura-product-card .product-card-links {
-    display: none !important;
-}
-.related.products ul.products .sakura-product-card .btn-add-cart {
+.related.products ul.products .sakura-product-card .product-card-desc,
+.related.products ul.products .sakura-product-card .quantity-selector,
+.related.products ul.products .sakura-product-card .product-card-links,
+.related.products ul.products .sakura-product-card .btn-add-cart,
+.related.products ul.products .sakura-product-card .product-quantity-wrap {
     display: none !important;
 }
 .related.products h2 {
