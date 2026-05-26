@@ -1096,27 +1096,18 @@ add_action('wp_head', 'sakura_clearfix_fix', 10003);
 
 function sakura_related_and_zoom_css() {
     echo '<style>
-/* Related products - horizontal swipe */
+/* Related products - vertical 2-column grid */
 .related.products ul.products {
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    scroll-snap-type: x mandatory !important;
-    -webkit-overflow-scrolling: touch !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
     gap: 0.8rem !important;
-    padding: 0 1rem 1rem !important;
-    scrollbar-width: none !important;
-}
-.related.products ul.products::-webkit-scrollbar {
-    display: none !important;
+    padding: 0 !important;
 }
 .related.products ul.products li.product {
-    flex: 0 0 140px !important;
-    width: 140px !important;
-    min-width: 140px !important;
+    width: 100% !important;
     margin: 0 !important;
     float: none !important;
-    scroll-snap-align: start !important;
+    min-width: 0 !important;
 }
 .related.products ul.products .sakura-product-card .product-card-desc {
     display: none !important;
@@ -1127,16 +1118,16 @@ function sakura_related_and_zoom_css() {
 .related.products ul.products .sakura-product-card .product-card-links {
     display: none !important;
 }
+.related.products ul.products .sakura-product-card .btn-add-cart {
+    display: none !important;
+}
 .related.products h2 {
     font-size: 1.3rem !important;
     margin-bottom: 15px;
-    padding: 0 1rem;
 }
 @media (min-width: 769px) {
-    .related.products ul.products li.product {
-        flex: 0 0 180px !important;
-        width: 180px !important;
-        min-width: 180px !important;
+    .related.products ul.products {
+        grid-template-columns: repeat(4, 1fr) !important;
     }
 }
 
