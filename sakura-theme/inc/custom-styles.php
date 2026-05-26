@@ -1096,35 +1096,36 @@ add_action('wp_head', 'sakura_clearfix_fix', 10003);
 
 function sakura_related_and_zoom_css() {
     echo '<style>
-/* Related products - small cards in a row */
+/* Related products - simplified cards */
 .related.products ul.products {
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
-    gap: 15px !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+    overflow: hidden !important;
 }
 .related.products ul.products li.product {
     width: 100% !important;
     margin: 0 !important;
     float: none !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
 }
-.related.products ul.products li.product img {
-    max-height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
+.related.products ul.products .sakura-product-card .product-card-desc {
+    display: none !important;
 }
-.related.products ul.products li.product .woocommerce-loop-product__title {
-    font-size: 0.85rem !important;
+.related.products ul.products .sakura-product-card .quantity-selector {
+    display: none !important;
 }
-.related.products ul.products li.product .price {
-    font-size: 0.8rem !important;
+.related.products ul.products .sakura-product-card .product-card-links {
+    display: none !important;
 }
 .related.products h2 {
     font-size: 1.3rem !important;
     margin-bottom: 15px;
 }
-@media (max-width: 768px) {
+@media (min-width: 769px) {
     .related.products ul.products {
-        grid-template-columns: repeat(2, 1fr) !important;
+        grid-template-columns: repeat(4, 1fr) !important;
     }
 }
 
