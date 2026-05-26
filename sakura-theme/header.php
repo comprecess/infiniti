@@ -88,8 +88,8 @@ function sakura_fallback_menu() {
     if (class_exists('WooCommerce')) {
         echo '<li><a href="' . esc_url(get_permalink(wc_get_page_id('shop'))) . '">Меню</a></li>';
     }
-    echo '<li><a href="#about">О нас</a></li>';
-    echo '<li><a href="#contacts">Контакты</a></li>';
+    echo '<li><a href="' . esc_url(get_permalink(get_page_by_path('about'))) . '">О нас</a></li>';
+    echo '<li><a href="' . esc_url(get_permalink(get_page_by_path('contacts'))) . '">Контакты</a></li>';
     echo '</ul>';
 }
 ?>
