@@ -8,7 +8,7 @@ get_header(); ?>
     <div class="container">
         <span class="section-badge">私たちについて</span>
         <h1 class="page-hero-title">О нашем ресторане</h1>
-        <p class="page-hero-subtitle">Искусство японской кухни в сердце Москвы</p>
+        <p class="page-hero-subtitle">Искусство японской кухни<br>в сердце Москвы</p>
     </div>
 </section>
 

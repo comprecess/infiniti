@@ -197,8 +197,8 @@ require_once get_template_directory() . '/inc/translations.php';
 
 // Related products: show 4 in a row, small cards
 add_filter('woocommerce_output_related_products_args', function($args) {
-    $args['posts_per_page'] = 5;
-    $args['columns'] = 5;
+    $args['posts_per_page'] = 4;
+    $args['columns'] = 4;
     return $args;
 });
 

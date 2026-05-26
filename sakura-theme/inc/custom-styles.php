@@ -608,9 +608,9 @@ function sakura_wc_block_styles() {
             color: inherit;
         }
         .menu-card-title {
-            font-family: "Nunito", sans-serif;
-            font-weight: 700;
-            font-size: 0.95rem;
+            font-family: "Playfair Display", serif;
+            font-weight: 600;
+            font-size: 1.1rem;
             color: #5D3D2E;
             margin: 0 0 6px;
             line-height: 1.3;
@@ -628,10 +628,10 @@ function sakura_wc_block_styles() {
             gap: 10px;
         }
         .menu-card-price {
-            font-family: "Nunito", sans-serif;
+            font-family: "Playfair Display", serif;
             font-weight: 700;
-            font-size: 1.1rem;
-            color: #D4567A;
+            font-size: 1.2rem;
+            color: #5D3D2E;
         }
         .menu-card-price del {
             color: #c4a89e;
