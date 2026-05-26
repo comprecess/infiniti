@@ -65,6 +65,9 @@
         var $btn = $(this);
         var productId = $btn.data('product_id') || $btn.data('product-id');
         var quantity = parseInt($btn.attr('data-quantity')) || 1;
+        // Read from adjacent qty input if available
+        var $qtyInput = $btn.closest('.product-quantity-wrap, .product-quantity-inline, .sakura-product-card').find('.qty-input');
+        if ($qtyInput.length) { quantity = parseInt($qtyInput.val()) || 1; }
 
         if (!productId) return;
 
@@ -101,7 +104,12 @@
                 }, 1500);
 
                 // Trigger WC fragments refresh
+                // Save scroll position before fragment refresh
+                var scrollPos = window.pageYOffset || document.documentElement.scrollTop;
                 $(document.body).trigger('wc_fragment_refresh');
+                // Restore scroll position after fragment refresh
+                setTimeout(function() { window.scrollTo(0, scrollPos); }, 100);
+                setTimeout(function() { window.scrollTo(0, scrollPos); }, 300);
             },
             error: function() {
                 $btn.removeClass('loading');
@@ -188,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
         e.stopPropagation();
         
         var productId = btn.getAttribute('data-product-id');
-        var input = document.getElementById('qty-' + productId);
+        var input = document.getElementById('qty-' + productId) || document.getElementById('qty-home-' + productId);
         if (!input) {
             // Fallback: find input in same container
             var wrap = btn.closest('.quantity-selector');

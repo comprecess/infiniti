@@ -15,3 +15,13 @@ Tags: restaurant, japanese, woocommerce, food, mobile-first, responsive
 
 Цветение сакуры — WordPress тема для японского ресторана
 */
+
+/* Hide reCAPTCHA v3 badge - it works invisibly */
+
+
+/* Hide reCAPTCHA v3 badge - still works invisibly */
+.grecaptcha-badge {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    overflow: hidden !important;
+}
