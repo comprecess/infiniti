@@ -2274,7 +2274,8 @@ body.admin-bar .category-nav {
 }
 .related.products ul.products .sakura-product-card .product-card-image img {
     width: 100% !important;
-    height: 120px !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1;
     object-fit: cover !important;
     display: block !important;
     border-radius: 14px 14px 0 0 !important;
@@ -2315,11 +2316,25 @@ body.admin-bar .category-nav {
 .related.products ul.products .sakura-product-card .product-card-price .amount {
     color: #5D3D2E !important;
 }
-.related.products ul.products .sakura-product-card .quantity-selector,
-.related.products ul.products .sakura-product-card .product-card-links,
-.related.products ul.products .sakura-product-card .btn-add-cart,
-.related.products ul.products .sakura-product-card .product-quantity-wrap {
+.related.products ul.products .sakura-product-card .product-card-links {
     display: none !important;
+}
+.related.products ul.products .sakura-product-card .product-quantity-wrap {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 8px 12px 12px !important;
+}
+.related.products ul.products .sakura-product-card .quantity-selector {
+    display: flex !important;
+}
+.related.products ul.products .sakura-product-card .btn-add-cart {
+    display: block !important;
+    width: 100%;
+    text-align: center;
+    margin-top: 6px;
 }
 @media (min-width: 769px) {
     .woocommerce .related.products ul.products,

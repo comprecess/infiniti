@@ -1122,10 +1122,7 @@ function sakura_related_and_zoom_css() {
     object-fit: cover !important;
 }
 .related.products ul.products .sakura-product-card .product-card-desc,
-.related.products ul.products .sakura-product-card .quantity-selector,
-.related.products ul.products .sakura-product-card .product-card-links,
-.related.products ul.products .sakura-product-card .btn-add-cart,
-.related.products ul.products .sakura-product-card .product-quantity-wrap {
+.related.products ul.products .sakura-product-card .product-card-links {
     display: none !important;
 }
 .related.products h2 {
