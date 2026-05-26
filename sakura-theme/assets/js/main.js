@@ -164,7 +164,6 @@
             }
         });
     }
-    });
 
     // Intersection Observer for animations
     if ('IntersectionObserver' in window) {
