@@ -1380,8 +1380,20 @@ a:hover {
     .header-actions {
         display: flex !important;
         align-items: center !important;
-        gap: 1rem !important;
+        gap: 0.9rem !important;
         height: 100%;
+    }
+    .sakura-search-toggle {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 28px;
+        height: 28px;
+        padding: 0 !important;
+    }
+    .sakura-search-toggle svg {
+        width: 22px;
+        height: 22px;
     }
     .sakura-cart-link {
         display: inline-flex !important;
@@ -2206,6 +2218,8 @@ body.admin-bar .category-nav {
     cursor: pointer;
     padding: 0;
     color: #5D3D2E;
+}
+.sakura-search-toggle svg {
     width: 22px;
     height: 22px;
 }
@@ -2286,14 +2300,23 @@ body.admin-bar .category-nav {
     }
 }
 
-/* ===== ABOUT PAGE HERO FIX ===== */
+/* ===== PAGE HERO FIX - all pages ===== */
 .sakura-page-hero {
-    padding-top: 6rem !important;
+    padding-top: 8rem !important;
     padding-bottom: 3rem;
+}
+.sakura-page-hero .section-badge {
+    display: inline-block;
+    margin-top: 0;
 }
 .sakura-page-hero .page-hero-title {
     font-size: 1.8rem !important;
     white-space: nowrap;
+}
+@media (max-width: 768px) {
+    .sakura-page-hero {
+        padding-top: 6.5rem !important;
+    }
 }
 @media (max-width: 480px) {
     .sakura-page-hero .page-hero-title {
