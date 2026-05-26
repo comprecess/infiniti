@@ -2232,7 +2232,7 @@ body.admin-bar .category-nav {
 }
 
 
-/* ===== RELATED PRODUCTS - 2 COLUMNS MOBILE, NORMAL VERTICAL CARDS ===== */
+/* ===== RELATED PRODUCTS - 1 COLUMN MOBILE, FULL WIDTH CARDS ===== */
 .related.products {
     padding: 2rem 1rem !important;
 }
@@ -2242,15 +2242,18 @@ body.admin-bar .category-nav {
     color: #5D3D2E !important;
     margin-bottom: 1rem !important;
 }
+.woocommerce .related.products ul.products,
 .related.products ul.products {
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: 1fr !important;
     gap: 1rem !important;
     list-style: none !important;
     padding: 0 !important;
     margin: 0 !important;
 }
-.related.products ul.products .sakura-product-card {
+.related.products ul.products .sakura-product-card,
+.woocommerce .related.products ul.products[class*=columns-] li.product,
+.woocommerce-page .related.products ul.products[class*=columns-] li.product {
     width: 100% !important;
     float: none !important;
     margin: 0 !important;
@@ -2319,6 +2322,7 @@ body.admin-bar .category-nav {
     display: none !important;
 }
 @media (min-width: 769px) {
+    .woocommerce .related.products ul.products,
     .related.products ul.products {
         grid-template-columns: repeat(4, 1fr) !important;
         gap: 1.2rem !important;

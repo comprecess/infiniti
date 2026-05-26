@@ -1096,18 +1096,22 @@ add_action('wp_head', 'sakura_clearfix_fix', 10003);
 
 function sakura_related_and_zoom_css() {
     echo '<style>
-/* Related products - 2 columns mobile, normal vertical cards */
+/* Related products - 1 column mobile, full width cards */
+.woocommerce .related.products ul.products,
 .related.products ul.products {
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: 1fr !important;
     gap: 1rem !important;
     padding: 0 !important;
 }
-.related.products ul.products li.product {
+.related.products ul.products li.product,
+.woocommerce .related.products ul.products[class*=columns-] li.product,
+.woocommerce-page .related.products ul.products[class*=columns-] li.product {
     width: 100% !important;
     margin: 0 !important;
     float: none !important;
     min-width: 0 !important;
+    display: block !important;
 }
 .related.products ul.products .sakura-product-card .product-card-inner {
     display: block !important;
