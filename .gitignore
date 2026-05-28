@@ -28,3 +28,14 @@ dist-ssr
 docker/*
 mysql_dump/*
 docker-compose.yml
+
+# NEVER commit .env files — they contain secrets!
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example

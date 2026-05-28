@@ -21,7 +21,15 @@ class BusinessModelChatGPTResource extends JsonResource
 
     public function toArray(Request $request): array
     {
-        $data = ['title', 'price', 'description', 'category', 'industries', 'technologies', 'location', 'full_description', 'market_analysis', 'financial_model', 'current_investors', 'stages_implementation', 'partnership_options'];
+        $data = [
+            'title', 'price', 'description', 'category',
+            'industries', 'technologies', 'location',
+            'full_description', 'market_analysis', 'financial_model',
+            'current_investors', 'stages_implementation', 'partnership_options',
+            // Passport & economics fields
+            'target_client', 'value_proposition', 'revenue_logic',
+            'unit_economics', 'facts_hypotheses_risks',
+        ];
         $resource = [];
         foreach($data as $key => $value) {
             $key = is_int($key) ? $value : $key;

@@ -1235,6 +1235,27 @@ export interface BusinessPlanBusinessModelFormData {
   currentInvestors: string
   stagesOfImplementation: string
   partnershipOptions: string
+  targetClient?: string
+  valueProposition?: string
+  revenueLogic?: string
+  unitEconomics?: string
+  factsHypothesesRisks?: string
+  // Overview KPI
+  kpiGrossMargin?: string
+  kpiGrossMarginSub?: string
+  kpiPayback?: string
+  kpiPaybackSub?: string
+  kpiLtvCac?: string
+  kpiLtvCacSub?: string
+  kpiNrr?: string
+  kpiNrrSub?: string
+  kpiMarket?: string
+  kpiMarketSub?: string
+  // Economics KPI
+  kpiArpa?: string
+  kpiArpaSub?: string
+  kpiCac?: string
+  kpiCacSub?: string
 }
 
 export interface BusinessPlanBusinessModelEditData {

@@ -1,122 +1,642 @@
-.wrapperContent {
+// ─── Loading ──────────────────────────────────────────────────────────────────
+
+.loadingWrapper {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  background: $brand-1000;
+}
+
+// ─── Page shell ───────────────────────────────────────────────────────────────
+
+.pageWrapper {
   width: 100%;
   min-height: 100vh;
-  justify-content: center;
-  padding: 20px;
-  background-color: $brand-1000;
-
-  @include scrollbar;
+  background: $brand-1000;
 }
 
-.wrapper {
+// ─── Fixed topbar (header) ────────────────────────────────────────────────────
+// Height: 48px. Sits at top:0.
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
   display: flex;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  height: 48px;
+  background: $brand-900;
+  border-bottom: 1px solid $brand-800;
 }
 
-.card {
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: $gray-200;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s;
+  font-family: inherit;
+  &:hover { background: $brand-800; }
+}
+
+.topbarTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: $white;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.topbarBadge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  color: $mint-500;
+  background: rgba($mint-500, 0.15);
+  border: 1px solid rgba($mint-500, 0.3);
+  white-space: nowrap;
+  flex-shrink: 0;
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $mint-500;
+    margin-right: 5px;
+    vertical-align: middle;
+    margin-bottom: 1px;
+  }
+}
+
+// ─── Fixed tab bar ────────────────────────────────────────────────────────────
+// Height: ~42px (tabs 11px padding top+bottom). Sits at top: 48px.
+
+.tabBar {
+  position: fixed;
+  top: 48px;
+  left: 0;
+  right: 0;
+  z-index: 199;
+  background: $brand-900;
+  border-bottom: 1px solid $brand-800;
+}
+
+.tabBarInner {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0 4px;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 11px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: $gray-300;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: inherit;
+  transition: color 0.15s, border-color 0.15s;
+  &:hover { color: $white; }
+}
+
+.tabActive {
+  color: $white;
+  border-bottom-color: $brand-500;
+}
+
+.tabIcon {
+  display: flex;
+  align-items: center;
+  color: inherit;
+  opacity: 0.8;
+}
+
+.tabLabel {
+  @include mobileBreakpoint('max', $bpS) { display: none; }
+}
+
+// ─── Progress bar ─────────────────────────────────────────────────────────────
+
+.progressBar {
+  height: 2px;
+  background: $brand-800;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: $brand-500;
+  transition: width 0.2s ease;
+}
+
+// ─── Body ─────────────────────────────────────────────────────────────────────
+
+.body {
+  // topbar 48px + tabBar ~44px + extra gap = 104px top offset
+  // ctaBar fixed ~60px bottom
+  padding: 108px 16px 90px;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
-  background-color: $brand-900;
-  padding: 32px 32px 32px 32px;
-  border-radius: 8px;
+
+  @include mobileBreakpoint('min', $bpM) {
+    padding: 108px 24px 90px;
+  }
+  @include mobileBreakpoint('min', $bpL) {
+    padding: 108px 0 90px;
+    max-width: 860px;
+    margin: 0 auto;
+    width: 100%;
+  }
 }
 
-.backButton {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-bottom: 40px;
-}
+// ─── Section ──────────────────────────────────────────────────────────────────
 
 .section {
   display: flex;
   flex-direction: column;
+  gap: 16px;
+  padding-top: 8px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid $brand-800;
+  margin-bottom: 8px;
+  &:last-child { border-bottom: none; }
+}
+
+// ─── Hero image ───────────────────────────────────────────────────────────────
+
+.heroImg {
   width: 100%;
-  max-width: $maxContentSize;
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  width: 100%;
-  height: 100%;
-}
-
-.imgContainer {
-  width: 50%;
-  height: 100%;
-  max-width: 740px;
-  max-height: 740px;
-  border-radius: 8px;
-  overflow: hidden;
-
-  @include mobileBreakpoint('max', $bpL) {
-    width: 100%;
-  }
-}
-
-.businessModelImg {
+  aspect-ratio: 16 / 7;
   object-fit: cover;
   border-radius: 8px;
+  display: block;
+  filter: brightness(0.65);
 }
 
-.aboutModel {
+// ─── Title card ───────────────────────────────────────────────────────────────
+
+.card {
+  background: $brand-900;
+  border-radius: 8px;
+  padding: 20px 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  width: 50%;
+  gap: 0;
 
-  @include mobileBreakpoint('max', $bpL) {
-    width: 100%;
-  }
+  @include mobileBreakpoint('min', $bpM) { padding: 20px 24px; }
+
+  // ── Rich text rendered via dangerouslySetInnerHTML ──────────────────────
+  :global(p)     { color: $gray-100; margin: 0 0 8px; line-height: 1.6; }
+  :global(li)    { color: $gray-100; line-height: 1.6; }
+  :global(ul),
+  :global(ol)    { padding-left: 20px; margin: 4px 0 8px; }
+  :global(strong){ color: $white; }
+  :global(em)    { color: $gray-200; }
+  :global(a)     { color: $brand-400; }
 }
 
-.rowHalfContainer {
+.titleRow {
   display: flex;
-  flex-direction: row;
-  gap: 20px;
-  width: 100%;
-  height: 100%;
-
-  @include mobileBreakpoint('max', $bpL) {
-    flex-direction: column;
-  }
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
 }
 
-.titleModel {
-  margin-bottom: 24px;
-}
-
-.list {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
-.description {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
+.modelTitle {
+  font-family: $fontSpaceGrotesk;
+  font-size: 22px;
+  font-weight: 800;
   letter-spacing: -0.03em;
-  text-align: left;
-  white-space: pre-line;
+  line-height: 1.2;
+  color: $white;
+  margin: 0;
+
+  @include mobileBreakpoint('min', $bpM) { font-size: 26px; }
+}
+
+.modelDesc {
+  font-size: 14px;
+  color: $gray-200;
+  line-height: 1.55;
+  margin: 0 0 14px;
+}
+
+// ─── Pills ────────────────────────────────────────────────────────────────────
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 4px;
+}
+
+.pill {
+  padding: 2px 10px 3px;
+  border-radius: 100px;
+  background: $gray-600;
+  font-size: 13px;
+  font-weight: 500;
+  color: $gray-100;
+  line-height: 21px;
+}
+
+.pillBlue  { background: rgba($brand-500, 0.45); color: $white; }
+.pillMint  { background: rgba($mint-500,  0.45); color: $white; }
+.pillAmber { background: rgba($amber-500, 0.45); color: $white; }
+
+// ─── KPI grid ─────────────────────────────────────────────────────────────────
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+
+  @include mobileBreakpoint('min', $bpL) { grid-template-columns: repeat(6, 1fr); }
+}
+
+.kpiItem {
+  background: $brand-800;
+  border-radius: 8px;
+  padding: 14px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kpiLbl {
+  font-size: 11px;
+  color: $gray-300;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.kpiVal {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
   color: $white;
 }
 
-.aboutModelContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+.kpiBlue  { color: #838ced; }
+.kpiMint  { color: $mint-500; }
+.kpiAmber { color: $amber-500; }
+.kpiSub   { font-size: 11px; color: $gray-400; margin-top: 1px; }
+
+// ─── Sections nav ─────────────────────────────────────────────────────────────
+
+.explorTitle {
+  font-family: $fontSpaceGrotesk;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: $white;
+  margin: 0 0 -4px;
 }
 
-.item {
+.navList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.navItem {
+  background: $brand-900;
+  border-radius: 8px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: border-color 0.15s;
   width: 100%;
-  max-width: $maxContentSize;
-  margin-bottom: 40px;
+  text-align: left;
+  font-family: inherit;
+  &:hover { border-color: $brand-500; }
+}
+
+.navIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: $brand-800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $brand-400;
+  flex-shrink: 0;
+}
+
+.navBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.navTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: $white;
+}
+
+.navDesc {
+  font-size: 13px;
+  color: $gray-200;
+  line-height: 1.4;
+}
+
+.navArrow {
+  color: $gray-400;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+// ─── Section title ────────────────────────────────────────────────────────────
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: $fontSpaceGrotesk;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: $white;
+  margin: 0;
+}
+
+.sectionIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: $brand-800;
+  color: $brand-400;
+  flex-shrink: 0;
+}
+
+.sectionSubtitle {
+  font-size: 14px;
+  color: $gray-200;
+  line-height: 1.55;
+  margin: 0;
+}
+
+// ─── Card title ───────────────────────────────────────────────────────────────
+
+.cardTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: $white;
+  margin: 0 0 12px;
+  letter-spacing: -0.02em;
+}
+
+// ─── Empty card ───────────────────────────────────────────────────────────────
+
+.emptyCard {
+  background: $brand-900;
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emptyText {
+  font-size: 13px;
+  color: $gray-400;
+}
+
+// ─── Quote ────────────────────────────────────────────────────────────────────
+
+.quote {
+  border-left: 3px solid $brand-500;
+  padding: 10px 14px;
+  background: rgba($brand-500, 0.1);
+  border-radius: 0 6px 6px 0;
+  font-size: 14px;
+  color: $brand-400;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+// ─── Info rows ────────────────────────────────────────────────────────────────
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 0;
+  border-bottom: 1px solid $brand-800;
+
+  &:last-child  { border-bottom: none; padding-bottom: 0; }
+  &:first-child { padding-top: 0; }
+}
+
+.metaLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: $gray-300;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.metaValue {
+  font-size: 15px;
+  color: $white;
+  line-height: 1.5;
+}
+
+// ─── Note box ─────────────────────────────────────────────────────────────────
+
+.note {
+  background: $brand-800;
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: $gray-200;
+  line-height: 1.55;
+
+  strong { color: $white; }
+}
+
+// ─── Next section button ──────────────────────────────────────────────────────
+
+.nextBtn {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: $brand-500;
+  color: $white;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+  margin-top: 4px;
+  &:hover { background: $brand-400; }
+}
+
+// ─── Final CTA card ───────────────────────────────────────────────────────────
+
+.finalCta {
+  background: rgba($brand-500, 0.12);
+  border: 1px solid rgba($brand-500, 0.3);
+  border-radius: 8px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.finalCtaTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: $white;
+  margin: 0;
+}
+
+.finalCtaDesc {
+  font-size: 14px;
+  color: $gray-200;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.finalCtaActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+// ─── Buttons ──────────────────────────────────────────────────────────────────
+
+.btn {
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: none;
+  white-space: nowrap;
+  font-family: inherit;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.btnPrimary {
+  background: $brand-500;
+  color: $white;
+  &:hover { background: $brand-400; }
+}
+
+.btnOutline {
+  background: transparent;
+  border: 2px solid $brand-500;
+  color: $white;
+  &:hover { background: rgba($brand-500, 0.12); }
+}
+
+.btnLg {
+  padding: 12px 22px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.btnSm {
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+// ─── Sticky CTA bar ───────────────────────────────────────────────────────────
+
+.ctaBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(21, 23, 32, 0.97);
+  border-top: 1px solid $brand-800;
+  backdrop-filter: blur(10px);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 200;
+
+  @include mobileBreakpoint('min', $bpM) { padding: 14px 32px; }
+}
+
+.ctaPriceWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.ctaPriceLbl {
+  font-size: 11px;
+  color: $gray-300;
+}
+
+.ctaPrice {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: $white;
+}
+
+.ctaActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+// ─── Bottom spacer ────────────────────────────────────────────────────────────
+
+.bottomSpacer {
+  height: 20px;
+  flex-shrink: 0;
 }

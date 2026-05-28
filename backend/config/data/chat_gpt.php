@@ -45,7 +45,28 @@
             'partnership_options' => [
                 'parse' => ['варианты партнерства', 'partnership options', 'вариант', 'партнер', 'partner', 'option'],
                 'html' => true,
-            ]
+            ],
+            // ── Passport & Economics (новые поля) ────────────────────────
+            'target_client' => [
+                'parse' => ['целевой клиент', 'target client', 'jobs to be done', 'jtbd', 'клиент', 'client', 'target'],
+                'html' => true,
+            ],
+            'value_proposition' => [
+                'parse' => ['ценностное предложение', 'value proposition', 'конкурентный ров', 'moat', 'value prop', 'ценность', 'предложение'],
+                'html' => true,
+            ],
+            'revenue_logic' => [
+                'parse' => ['логика монетизации', 'revenue logic', 'монетизация', 'revenue streams', 'revenue', 'монетиза', 'доход'],
+                'html' => true,
+            ],
+            'unit_economics' => [
+                'parse' => ['юнит-экономика', 'unit economics', 'unit econ', 'юнит', 'unit', 'экономика', 'arpa', 'cac', 'ltv'],
+                'html' => true,
+            ],
+            'facts_hypotheses_risks' => [
+                'parse' => ['факты гипотезы риски', 'facts hypotheses risks', 'риски', 'гипотезы', 'facts', 'risks', 'hypotheses', 'риск', 'гипотез'],
+                'html' => true,
+            ],
         ],
         'businessPlan' => [
             'description' => [

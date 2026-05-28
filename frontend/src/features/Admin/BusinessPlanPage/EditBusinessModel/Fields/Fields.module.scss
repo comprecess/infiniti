@@ -8,6 +8,65 @@
   padding-bottom: 1px;
 }
 
+// ─── Section divider ─────────────────────────────────────────────────────────
+
+.sectionDivider {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 16px;
+  padding: 14px 18px;
+  background: $brand-800;
+  border-radius: 8px;
+  border-left: 3px solid $brand-500;
+}
+
+.sectionDividerTitle {
+  font-family: $fontSpaceGrotesk;
+  font-size: 16px;
+  font-weight: 700;
+  color: $white;
+  letter-spacing: -0.02em;
+}
+
+.sectionDividerSub {
+  font-size: 12px;
+  color: $gray-300;
+  line-height: 1.4;
+}
+
+// ─── KPI input grid ──────────────────────────────────────────────────────────
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+
+  @include mobileBreakpoint('max', $bpM) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.kpiPair {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: $brand-900;
+  border-radius: 8px;
+  padding: 12px 14px;
+  border: 1px solid $brand-800;
+}
+
+.kpiHint {
+  grid-column: 1 / -1;
+  font-size: 12px;
+  color: $gray-400;
+  font-style: italic;
+  padding: 6px 0 0;
+}
+
+// ─── Fields ──────────────────────────────────────────────────────────────────
+
 .containerItems {
   display: flex;
   flex-direction: column;
@@ -81,3 +140,4 @@
   letter-spacing: -0.03em;
   color: $brand-300;
 }
+
