@@ -21,8 +21,8 @@ jobs:
             cd /var/www/Infiniti
 
             git fetch origin
-            git checkout ${{ gitea.ref_name }}
-            git pull origin ${{ gitea.ref_name }}
+            git checkout ${{ github.ref_name }}
+            git pull origin ${{ github.ref_name }}
 
             cd /var/www/Infiniti/backend
             composer install --no-interaction --prefer-dist --optimize-autoloader
