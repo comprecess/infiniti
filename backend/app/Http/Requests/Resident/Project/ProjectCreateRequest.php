@@ -37,7 +37,7 @@ class ProjectCreateRequest extends FormRequest implements ConvertingPropertiesIn
             'suppliers.*' => 'required|integer|exists:crm_accounts,id',
             'budget' => 'nullable|numeric',
             'description' => 'nullable',
-
+            'templateCode' => 'nullable|string|max:50|exists:clx_project_templates,code',
         ];
 
         $this->setRule($rules)
@@ -65,7 +65,8 @@ class ProjectCreateRequest extends FormRequest implements ConvertingPropertiesIn
             'currency',
             'budget',
             'description',
-            'members'
+            'members',
+            'templateCode' => 'template_code'
         ];
     }
 

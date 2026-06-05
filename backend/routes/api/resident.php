@@ -244,6 +244,17 @@ Route::prefix('project/{projectId}/metadata')
         Route::delete('/{group}/{key}', 'destroy');
     });
 
+# Deal Room (reuses existing document system)
+Route::prefix('project/{projectId}/deal-room')
+    ->controller(Resident\Project\DealRoomController::class)
+    ->group(function(){
+        Route::get('/', 'index');
+        Route::get('/folder/{folderCode}', 'folder');
+        Route::get('/documents', 'allDocuments');
+        Route::post('/assign', 'assignDocument');
+        Route::delete('/document/{documentId}', 'unassignDocument');
+    });
+
 #Project
 Route::controller(Resident\Project\ProjectController::class)->prefix('project')
     ->group(function(){
