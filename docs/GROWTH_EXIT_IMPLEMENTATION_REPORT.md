@@ -11,8 +11,8 @@
 
 | Metric | Value |
 |--------|-------|
-| Progress | 85% (Phase 4 complete, MVP Finalization pending) |
-| Current Phase | Phase 4 Completed (Value Creation Engine Frontend) |
+| Progress | 90% (Phase 5 in progress — Permissions & Access Flows) |
+| Current Phase | Phase 5 (Permissions Matrix, Founder/Investor/Buyer Access) |
 | Current Branch | `manus/feat-growth-exit-program` |
 | Latest Commit | `bc9b4cf5` — Phase 4: Value Creation Engine frontend (Valuation Dashboard + Growth Plan UI) |
 | Build Status | ✅ Vite build passes |
@@ -64,6 +64,11 @@
 ### ADR-006
 **Decision:** Deal Room folder auto-generation.
 **Reason:** Automatically initialize Deal Room virtual folders (`financial`, `legal`, `operational`, etc.) upon Exit Deal project creation using `DealRoomService`.
+**Date:** 2026-06-06
+
+### ADR-007
+**Decision:** External user permissions via `personal_model.data` JSON + config-based access rules + new middleware.
+**Reason:** Avoids modifying the internal `sys_roles/sys_staffpermissions` system. Uses existing unused JSON column for role storage. Config file provides version-controlled, auditable permission definitions.
 **Date:** 2026-06-06
 
 ---
@@ -189,20 +194,105 @@ All migrations have full `down()` methods. Rollback command: `php artisan migrat
 
 ## Permissions Matrix
 
-*(Phase 2 — will be presented before implementation)*
+### Internal Roles (Admin Panel)
 
-| Action | Admin | Manager | Founder | Investor | Buyer |
-|--------|-------|---------|---------|----------|-------|
-| View Project | ✅ | ✅ | ✅ | Limited | Limited |
-| Edit Onboarding | ✅ | ✅ | ✅ | ❌ | ❌ |
-| View Deal Room | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Upload to Deal Room | ✅ | ✅ | ✅ | ❌ | ❌ |
-| View Valuation | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Edit Valuation | ✅ | ✅ | ❌ | ❌ | ❌ |
-| View Buyer Pipeline | ✅ | ✅ | ✅ | ❌ | ❌ |
-| View Investor Pipeline | ✅ | ✅ | ✅ | ❌ | ❌ |
-| Submit Offer | ❌ | ❌ | ❌ | ✅ | ✅ |
-| View Growth Plan | ✅ | ✅ | ✅ | ✅ | ❌ |
+| Section | Action | Admin | Manager (Deal Manager) |
+|---------|--------|-------|------------------------|
+| **Project** | View | ✅ | ✅ |
+| | Create | ✅ | ✅ |
+| | Edit | ✅ | ✅ |
+| | Delete | ✅ | ❌ |
+| **Deal Room** | View | ✅ | ✅ |
+| | Upload | ✅ | ✅ |
+| | Delete files | ✅ | ✅ |
+| **Valuation** | View | ✅ | ✅ |
+| | Create/Edit | ✅ | ✅ |
+| | Delete | ✅ | ❌ |
+| **Growth Plan** | View | ✅ | ✅ |
+| | Create/Edit | ✅ | ✅ |
+| | Approve | ✅ | ✅ |
+| | Delete | ✅ | ❌ |
+| **Tasks** | Full CRUD | ✅ | ✅ |
+| **Offers** | Full CRUD | ✅ | ✅ |
+| **Invoices** | Full CRUD | ✅ | ✅ |
+| **Pipeline** | View | ✅ | ✅ |
+| | Manage | ✅ | ✅ |
+
+### External Roles (Client Portal)
+
+| Section | Action | Founder | Investor | Buyer |
+|---------|--------|---------|----------|-------|
+| **Project** | View | ✅ (own) | ✅ (limited) | ✅ (limited) |
+| | Edit | ❌ | ❌ | ❌ |
+| **Onboarding** | View | ✅ | ❌ | ❌ |
+| | Edit | ✅ | ❌ | ❌ |
+| **Deal Room** | View | ✅ (all folders) | ✅ (permitted only) | ✅ (permitted only) |
+| | Upload | ✅ | ❌ | ❌ |
+| | Delete | ❌ | ❌ | ❌ |
+| **Valuation** | View | ✅ (full) | ✅ (summary) | ✅ (summary) |
+| | Edit | ❌ | ❌ | ❌ |
+| **Growth Plan** | View | ✅ | ✅ (read-only) | ❌ |
+| | Approve Item | ✅ | ❌ | ❌ |
+| **Tasks** | View | ✅ (own) | ❌ | ❌ |
+| | Update status | ✅ (own) | ❌ | ❌ |
+| **Offers** | View | ✅ (incoming) | ✅ (own) | ✅ (own) |
+| | Create | ❌ | ✅ | ✅ |
+| **Invoices** | View | ✅ (own) | ✅ (own) | ✅ (own) |
+| | Pay | ✅ | ✅ | ✅ |
+| **Pipeline** | View | ✅ (overview) | ❌ | ❌ |
+
+---
+
+## Access Control Decisions
+
+### ACD-001: Participant Role Storage
+**Decision:** Store external user roles in `personal_model.data` JSON field as `{"role": "founder|investor|buyer"}`.
+**Reason:** The `personal_model` table already links users to projects polymorphically. The `data` JSON column exists but is unused — perfect for role metadata without schema changes.
+**Impact:** Zero new migrations. Backward compatible (existing entries have `data = null`).
+**Date:** 2026-06-06
+
+### ACD-002: No Changes to Internal Permission System
+**Decision:** Do not modify `sys_roles`, `sys_permissions`, or `sys_staffpermissions` tables.
+**Reason:** The internal permission system (`HaveAccess` middleware → `Role.hasAccessByRequest()`) works correctly for Admin/Manager. Growth & Exit permissions are primarily about external user access, which uses a different auth guard (`Client`).
+**Date:** 2026-06-06
+
+### ACD-003: Config-Based External Access Rules
+**Decision:** External role permissions defined in a config file (`config/data/project_access.php`), not in database.
+**Reason:** Simpler to maintain, version-controlled, no admin UI needed for MVP. Can be migrated to DB later if needed.
+**Date:** 2026-06-06
+
+### ACD-004: New Middleware for Section-Level Access
+**Decision:** Create `ProjectParticipantAccess` middleware that checks participant role against section permissions.
+**Reason:** Current client controller only distinguishes `my` (owner) vs `worker` (participant). We need granular section-level access (e.g., investor can view Deal Room but not Growth Plan).
+**Date:** 2026-06-06
+
+### ACD-005: Investor/Buyer See Summary Valuation Only
+**Decision:** Investors and Buyers see a simplified valuation view (Current Value, multiplier, key metrics) without detailed Growth Item breakdown.
+**Reason:** Protects proprietary growth strategy while showing enough data for investment/acquisition decisions.
+**Date:** 2026-06-06
+
+---
+
+## MVP Acceptance Checklist
+
+| # | Criteria | Status | Notes |
+|---|----------|--------|-------|
+| 1 | Founder can create/access Exit Deal Project | ⬜ Pending | Via invite from Deal Manager |
+| 2 | Founder can complete Onboarding wizard | ✅ Done | All steps save to shared_preferences |
+| 3 | Deal Manager can prepare project (set valuation, create growth plan) | ✅ Done | Valuation + Growth Items API working |
+| 4 | Growth Plan shows Current vs Expected Value | ✅ Done | Projected + Best Case with confidence |
+| 5 | Founder can approve Growth Item | ✅ Done | Approve flow creates Task + Offer |
+| 6 | Offer is generated upon Growth Item approval | ✅ Done | GrowthItemApprovalService handles this |
+| 7 | Invoice can be generated from Offer | ⬜ Pending | Existing invoice system, needs wiring |
+| 8 | Task is created in Kanban upon approval | ✅ Done | Task linked to Growth Item |
+| 9 | Deal Room works with virtual folders | ✅ Done | Auto-generated on project creation |
+| 10 | Investor can be invited and access Deal Room | ⬜ Pending | Pipeline + invite flow needed |
+| 11 | Buyer can be invited and access Deal Room | ⬜ Pending | Pipeline + invite flow needed |
+| 12 | Investor sees limited valuation (summary) | ⬜ Pending | Needs role-based view filtering |
+| 13 | Buyer sees limited valuation (summary) | ⬜ Pending | Needs role-based view filtering |
+| 14 | Permissions enforce role-based access | ⬜ Pending | Middleware implementation needed |
+| 15 | Legacy projects remain unaffected | ✅ Done | Verified after each phase |
+| 16 | Full end-to-end cycle completes without errors | ⬜ Pending | Integration testing after Phase 5 |
 
 ---
 
