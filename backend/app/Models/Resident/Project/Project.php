@@ -5,6 +5,8 @@ namespace App\Models\Resident\Project;
 use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Resident\Invoices\Invoice;
 use App\Models\Resident\Project\Template\ProjectTemplate;
+use App\Models\Resident\Project\Valuation\ProjectValuation;
+use App\Models\Resident\Project\GrowthItem\ProjectGrowthItem;
 use App\Models\Resident\Transactions\Transaction;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\DocumentTrait;
@@ -141,6 +143,40 @@ class Project extends Model implements InsertDefaultValueInterface
     public function isLegacy(): bool
     {
         return empty($this->template_code);
+    }
+
+    /**
+     * Get all valuations for this project.
+     */
+    public function valuations()
+    {
+        return $this->hasMany(ProjectValuation::class, 'project_id');
+    }
+
+    /**
+     * Get the latest current valuation.
+     */
+    public function currentValuation()
+    {
+        return $this->hasOne(ProjectValuation::class, 'project_id')
+            ->where('valuation_type', ProjectValuation::TYPE_CURRENT)
+            ->latest();
+    }
+
+    /**
+     * Get all growth items for this project.
+     */
+    public function growthItems()
+    {
+        return $this->hasMany(ProjectGrowthItem::class, 'project_id');
+    }
+
+    /**
+     * Get active (non-rejected) growth items.
+     */
+    public function activeGrowthItems()
+    {
+        return $this->growthItems()->active();
     }
 
     public function getDefault(): array

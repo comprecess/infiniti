@@ -255,6 +255,28 @@ Route::prefix('project/{projectId}/deal-room')
         Route::delete('/document/{documentId}', 'unassignDocument');
     });
 
+#Project Valuation
+Route::prefix('project/{projectId}/valuation')
+    ->controller(Resident\Project\Valuation\ValuationController::class)
+    ->group(function(){
+        Route::get('/', 'dashboard');
+        Route::post('/', 'store');
+        Route::get('/history', 'history');
+        Route::delete('/{valuationId}', 'destroy');
+    });
+
+#Project Growth Items
+Route::prefix('project/{projectId}/growth-items')
+    ->controller(Resident\Project\GrowthItem\GrowthItemController::class)
+    ->group(function(){
+        Route::get('/', 'index');
+        Route::post('/', 'store');
+        Route::put('/{itemId}', 'update');
+        Route::patch('/{itemId}/status', 'changeStatus');
+        Route::post('/{itemId}/approve', 'approveAndExecute');
+        Route::delete('/{itemId}', 'destroy');
+    });
+
 #Project
 Route::controller(Resident\Project\ProjectController::class)->prefix('project')
     ->group(function(){
