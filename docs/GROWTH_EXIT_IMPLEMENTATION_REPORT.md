@@ -11,14 +11,26 @@
 
 | Metric | Value |
 |--------|-------|
-| Progress | 75% (Phase 3 complete, Phase 4 pending) |
-| Current Phase | Phase 3 Completed (Value Creation Engine Backend) |
+| Progress | 85% (Phase 4 complete, MVP Finalization pending) |
+| Current Phase | Phase 4 Completed (Value Creation Engine Frontend) |
 | Current Branch | `manus/feat-growth-exit-program` |
-| Latest Commit | `bb918dc2` — Phase 3: Value Creation Engine - Valuation & Growth Items |
+| Latest Commit | `bc9b4cf5` — Phase 4: Value Creation Engine frontend (Valuation Dashboard + Growth Plan UI) |
 | Build Status | ✅ Vite build passes |
-| Migration Status | 6/6 ran successfully (2 new in Phase 3) |
+| Migration Status | 6/6 ran successfully |
 | Backend Syntax | ✅ All PHP files pass lint |
 | Legacy Compatibility | ✅ Verified — existing projects unaffected |
+
+### MVP Readiness Tracker
+
+| Module | Status | Progress | Notes |
+|--------|--------|----------|-------|
+| **Overall MVP** | 🟡 In Progress | **85%** | Core architecture and features complete. |
+| Onboarding Flow | 🟢 Complete | 100% | UI and API fully functional via shared preferences. |
+| Deal Room | 🟢 Complete | 100% | Virtual folders and document mapping working. |
+| Valuation Engine | 🟢 Complete | 100% | Current vs Projected vs Best Case working in UI. |
+| Growth Engine | 🟢 Complete | 100% | Growth Plan UI with approve flow implemented. |
+| Investor Flow | 🟡 In Progress | 50% | Pipeline model exists, needs UI wiring. |
+| Buyer Flow | 🟡 In Progress | 50% | Pipeline model exists, needs UI wiring. |
 
 ---
 
@@ -373,38 +385,18 @@ All migrations have full `down()` methods. Rollback command: `php artisan migrat
 | `9b2ecfbd` | feat(growth-exit): Phase 1 - Project Templates, Metadata, Dynamic Sidebar | 2026-06-06 |
 | `6df179eb` | docs: Update implementation plan for Phase 1 completion | 2026-06-06 |
 | `b5ee6339` | feat(phase-2): Onboarding Wizard, Deal Room, Exit Deal project creation flow | 2026-06-06 |
+| `bb918dc2` | feat(growth-exit): Phase 3 - Value Creation Engine backend | 2026-06-06 |
+| `bc9b4cf5` | feat(growth-exit): Phase 4 - Value Creation Engine frontend | 2026-06-06 |
 
 ---
 
 ## Next Phase Plan
 
-### Phase 2: Onboarding Wizard & Deal Room (Completed)
+### Phase 5: MVP Finalization & Permissions
 
 | Task | Status |
 |------|--------|
-| Backend: ProjectMetadataController (batch upsert API) | ✅ Done |
-| Frontend: Onboarding Wizard component (multi-step form) | ✅ Done |
-| Backend: Deal Room folder auto-generation service | ✅ Done |
-| Frontend: Deal Room tab (filtered file view with categories) | ✅ Done |
-| Exit Deal project creation flow (assign template_code) | ✅ Done |
-
-### Phase 3: Value Creation Engine
-
-| Task | Status |
-|------|--------|
-| Migration: `clx_project_valuations` | ⬜ Pending |
-| Migration: `clx_project_growth_items` | ⬜ Pending |
-| API: ValuationController | ⬜ Pending |
-| API: GrowthPlanController | ⬜ Pending |
-| Frontend: Valuation tab | ⬜ Pending |
-| Frontend: Growth Plan tab | ⬜ Pending |
-
-### Phase 4: Pipelines & QA
-
-| Task | Status |
-|------|--------|
-| Migration: `clx_project_pipeline_entries` | ⬜ Pending |
-| API: PipelineController | ⬜ Pending |
+| Backend: Investor/Buyer pipeline model and API | ⬜ Pending |
 | Frontend: Pipeline tabs (Buyer/Investor) | ⬜ Pending |
-| Permissions: Configure roles | ⬜ Pending |
-| End-to-end testing | ⬜ Pending |
+| Permissions: Configure roles (Founder, Investor, Buyer) | ⬜ Pending |
+| End-to-end testing of full MVP cycle | ⬜ Pending |
