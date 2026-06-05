@@ -194,6 +194,124 @@ All migrations have full `down()` methods. Rollback command: `php artisan migrat
 
 ---
 
+## Product Workflow
+
+### 1. Founder Journey
+
+**Stage: Onboarding**
+
+| Step | User Action | System Response | Next Step |
+|------|-------------|-----------------|------------|
+| 1 | Founder receives invite link from Deal Manager | System creates Client account with `founder` role, sends welcome email | Login |
+| 2 | Founder logs in for the first time | System redirects to Exit Deal project → Onboarding tab | Fill Onboarding |
+| 3 | Founder fills multi-step onboarding form (company, financials, team, product) | System saves all data to `clx_shared_preferences` with dot-notation keys | Review Summary |
+| 4 | Founder completes all steps and clicks "Submit" | System marks onboarding as complete (`onboarding.status = completed`), notifies Deal Manager | Wait for Growth Plan |
+
+**Stage: Growth Program**
+
+| Step | User Action | System Response | Next Step |
+|------|-------------|-----------------|------------|
+| 5 | Founder views Growth Plan tab | System displays recommendations with Current Value → Expected Value | Execute Tasks |
+| 6 | Founder works on assigned tasks in Kanban | System tracks progress, updates metrics | Valuation Update |
+| 7 | Founder uploads documents to Deal Room | System categorizes files into virtual folders (Financial, Legal, etc.) | Prepare for Exit |
+
+**Stage: Exit Process**
+
+| Step | User Action | System Response | Next Step |
+|------|-------------|-----------------|------------|
+| 8 | Founder reviews updated valuation | System shows valuation based on improved metrics | Approve Listing |
+| 9 | Founder approves buyer/investor outreach | System enables Deal Room visibility for approved parties | Receive Offers |
+| 10 | Founder reviews incoming offers | System displays offers with terms comparison | Accept/Negotiate |
+| 11 | Founder accepts an offer | System notifies Deal Manager, moves deal to closing stage | Deal Closed |
+
+---
+
+### 2. Investor Journey
+
+**Stage: Discovery**
+
+| Step | User Action | System Response | Next Step |
+|------|-------------|-----------------|------------|
+| 1 | Investor receives invite to review a deal | System creates Client account with `investor` role, grants limited project access | View Teaser |
+| 2 | Investor views project summary (teaser) | System shows sanitized company overview, key metrics, growth trajectory | Request Access |
+| 3 | Investor requests full Deal Room access | System notifies Deal Manager for approval | Wait for Approval |
+
+**Stage: Due Diligence**
+
+| Step | User Action | System Response | Next Step |
+|------|-------------|-----------------|------------|
+| 4 | Investor receives Deal Room access | System unlocks document folders (Financial, Legal, Operational) | Review Documents |
+| 5 | Investor reviews documents in Deal Room | System tracks which documents were viewed and when | Ask Questions |
+| 6 | Investor asks questions via project comments | System notifies Founder and Deal Manager | Receive Answers |
+
+**Stage: Offer**
+
+| Step | User Action | System Response | Next Step |
+|------|-------------|-----------------|------------|
+| 7 | Investor submits investment offer | System creates Offer entity, notifies Founder and Deal Manager | Wait for Response |
+| 8 | Investor negotiates terms | System tracks offer revisions | Final Decision |
+| 9 | Offer accepted | System moves investor to "closed" pipeline stage | Deal Closed |
+
+---
+
+### 3. Buyer Journey
+
+**Stage: Discovery**
+
+| Step | User Action | System Response | Next Step |
+|------|-------------|-----------------|------------|
+| 1 | Buyer receives invite to review acquisition target | System creates Client account with `buyer` role, grants limited access | View Teaser |
+| 2 | Buyer views project summary and valuation range | System shows business overview, revenue metrics, asking price | Express Interest |
+| 3 | Buyer signs NDA (uploaded or e-signed) | System records NDA status in metadata, notifies Deal Manager | Unlock Deal Room |
+
+**Stage: Due Diligence**
+
+| Step | User Action | System Response | Next Step |
+|------|-------------|-----------------|------------|
+| 4 | Buyer accesses full Deal Room | System shows all document folders with categorized files | Review & Analyze |
+| 5 | Buyer reviews financial, legal, and operational docs | System logs access for audit trail | Prepare Offer |
+| 6 | Buyer requests additional information | System creates task for Founder/Manager to provide docs | Receive Info |
+
+**Stage: Acquisition**
+
+| Step | User Action | System Response | Next Step |
+|------|-------------|-----------------|------------|
+| 7 | Buyer submits Letter of Intent (LOI) | System creates Offer entity with type `acquisition`, notifies all parties | Negotiation |
+| 8 | Buyer negotiates terms and conditions | System tracks offer versions and counter-offers | Final Agreement |
+| 9 | Deal closes | System marks project as `closed_won`, archives Deal Room | Post-Acquisition |
+
+---
+
+### 4. Deal Manager Journey
+
+**Stage: Project Setup**
+
+| Step | User Action | System Response | Next Step |
+|------|-------------|-----------------|------------|
+| 1 | Deal Manager creates new Exit Deal project | System assigns `template_code = exit_deal`, initializes Deal Room folders, creates Kanban columns | Invite Founder |
+| 2 | Deal Manager invites Founder to project | System sends invite email, creates participant record | Monitor Onboarding |
+| 3 | Deal Manager monitors onboarding progress | System shows completion percentage per section | Create Growth Plan |
+
+**Stage: Value Creation**
+
+| Step | User Action | System Response | Next Step |
+|------|-------------|-----------------|------------|
+| 4 | Deal Manager creates Growth Plan items | System generates tasks in Kanban, links to growth metrics | Assign & Track |
+| 5 | Deal Manager sets initial valuation | System stores valuation in metadata, calculates target multiplier | Track Progress |
+| 6 | Deal Manager reviews task completion and metric improvements | System updates expected valuation based on progress | Prepare for Market |
+
+**Stage: Deal Execution**
+
+| Step | User Action | System Response | Next Step |
+|------|-------------|-----------------|------------|
+| 7 | Deal Manager adds Buyers/Investors to pipeline | System creates pipeline entries, sends invites | Manage Access |
+| 8 | Deal Manager approves Deal Room access requests | System grants folder-level permissions to approved parties | Monitor Activity |
+| 9 | Deal Manager reviews incoming offers | System displays all offers with comparison view | Facilitate Negotiation |
+| 10 | Deal Manager facilitates closing | System tracks closing checklist tasks | Close Deal |
+| 11 | Deal Manager marks deal as closed | System updates project status, generates final report, sends notifications | Archive |
+
+---
+
 ## Screenshots
 
 *(Will be added as UI components are implemented)*
