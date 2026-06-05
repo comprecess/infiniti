@@ -22,6 +22,7 @@ class ProjectListResource extends JsonResource
         $resource = [
             'id' => $this->id,
             'name' => $this->name,
+            'template_code' => $this->template_code,
             'status' => $this->status,
             'summary' => $this->summary,
             'budget' => $this->getCurrencyValueAndFormat('budget'),

@@ -222,6 +222,28 @@ Route::controller(Resident\Transactions\TransactionsController::class)
     });
 
 
+#Project Templates
+Route::prefix('project-templates')
+    ->controller(Resident\Project\Template\ProjectTemplateController::class)
+    ->group(function(){
+        Route::get('/', 'list');
+        Route::get('/by-code/{code}', 'sectionsByCode');
+        Route::post('/', 'store');
+        Route::get('/{template}', 'item');
+        Route::put('/{template}', 'update');
+        Route::get('/{template}/sections', 'sections');
+    });
+
+#Project Metadata
+Route::prefix('project/{projectId}/metadata')
+    ->controller(Resident\Project\ProjectMetadataController::class)
+    ->group(function(){
+        Route::get('/', 'index');
+        Route::get('/{group}', 'group');
+        Route::post('/', 'store');
+        Route::delete('/{group}/{key}', 'destroy');
+    });
+
 #Project
 Route::controller(Resident\Project\ProjectController::class)->prefix('project')
     ->group(function(){

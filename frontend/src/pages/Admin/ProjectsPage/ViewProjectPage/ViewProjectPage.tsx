@@ -6,6 +6,7 @@ import { ProjectsData, RolesAccess } from '../../../../app/constants/constants'
 import { ProjectInfoSidebar } from '../../../../app/data/projectInfoSidebar'
 import { Routes } from '../../../../app/router/routes'
 import { SideBar } from '../../../../features/Admin/CustomersPage/ViewPage/SideBar/SideBar'
+import { useProjectTemplateSidebar } from '../../../../shared/hooks/useProjectTemplateSidebar'
 import { ArrowBackGroundIcon } from '../../../../shared/icons/ArrowBackGroundIcon'
 import { BackButton } from '../../../../shared/ui/BackButton/BackButton'
 import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpinner'
@@ -39,6 +40,11 @@ export const AdminViewProjectPage = () => {
 
     setProjectInfo(response.data.data)
   }
+
+  // Dynamic sidebar: uses template_code from projectInfo if available
+  const templateCode = (projectInfo as any)?.template_code ?? null
+  const { pages: sidebarPages, loading: sidebarLoading } =
+    useProjectTemplateSidebar(templateCode, ProjectInfoSidebar)
 
   const handleOpenCloseSidebar = () => {
     setIsOpenSideBar(!isOpenSideBar)
@@ -135,11 +141,15 @@ export const AdminViewProjectPage = () => {
                 }
               >
                 <div className={styles.sideBarOverFlow}>
-                  <SideBar
-                    pages={ProjectInfoSidebar}
-                    isActive={isMobile && isOpenSideBar}
-                    openCloseSidebar={handleOpenCloseSidebar}
-                  />
+                  {sidebarLoading ? (
+                    <LoadingSpinner size='sm' />
+                  ) : (
+                    <SideBar
+                      pages={sidebarPages}
+                      isActive={isMobile && isOpenSideBar}
+                      openCloseSidebar={handleOpenCloseSidebar}
+                    />
+                  )}
                 </div>
               </div>
               <main className={styles.content}>
@@ -154,7 +164,7 @@ export const AdminViewProjectPage = () => {
                     </div>
                   )}
                 </div>
-                <Outlet context={{ idProject: id, projectInfo, roles }} />
+                <Outlet context={{ idProject: id, projectInfo, templateCode, roles }} />
               </main>
             </div>
           </div>
