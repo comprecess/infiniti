@@ -422,6 +422,14 @@ export const router = createBrowserRouter([
             element: Pages.adminProjectsDealRoomPage,
           },
           {
+            path: 'valuation',
+            element: Pages.adminProjectsValuationPage,
+          },
+          {
+            path: 'growth-plan',
+            element: Pages.adminProjectsGrowthPlanPage,
+          },
+          {
             path: '*',
             index: true,
             element: <Navigate replace to={To.summary()} />,
