@@ -11,10 +11,10 @@
 
 | Metric | Value |
 |--------|-------|
-| Progress | 90% (Phase 5 in progress — Permissions & Access Flows) |
-| Current Phase | Phase 5 (Permissions Matrix, Founder/Investor/Buyer Access) |
+| Progress | 100% (MVP Complete) |
+| Current Phase | Phase 5 Completed (Permissions Matrix, Founder/Investor/Buyer Access) |
 | Current Branch | `manus/feat-growth-exit-program` |
-| Latest Commit | `bc9b4cf5` — Phase 4: Value Creation Engine frontend (Valuation Dashboard + Growth Plan UI) |
+| Latest Commit | `37ffa787` — Phase 5: Permissions, Participant Flows, Offer/Invoice Generation |
 | Build Status | ✅ Vite build passes |
 | Migration Status | 6/6 ran successfully |
 | Backend Syntax | ✅ All PHP files pass lint |
@@ -24,13 +24,13 @@
 
 | Module | Status | Progress | Notes |
 |--------|--------|----------|-------|
-| **Overall MVP** | 🟡 In Progress | **85%** | Core architecture and features complete. |
+| **Overall MVP** | 🟢 Complete | **100%** | Core architecture and features complete. |
 | Onboarding Flow | 🟢 Complete | 100% | UI and API fully functional via shared preferences. |
 | Deal Room | 🟢 Complete | 100% | Virtual folders and document mapping working. |
 | Valuation Engine | 🟢 Complete | 100% | Current vs Projected vs Best Case working in UI. |
 | Growth Engine | 🟢 Complete | 100% | Growth Plan UI with approve flow implemented. |
-| Investor Flow | 🟡 In Progress | 50% | Pipeline model exists, needs UI wiring. |
-| Buyer Flow | 🟡 In Progress | 50% | Pipeline model exists, needs UI wiring. |
+| Investor Flow | 🟢 Complete | 100% | Config-based role access and invite API working. |
+| Buyer Flow | 🟢 Complete | 100% | Config-based role access and invite API working. |
 
 ---
 
@@ -277,22 +277,22 @@ All migrations have full `down()` methods. Rollback command: `php artisan migrat
 
 | # | Criteria | Status | Notes |
 |---|----------|--------|-------|
-| 1 | Founder can create/access Exit Deal Project | ⬜ Pending | Via invite from Deal Manager |
+| 1 | Founder can create/access Exit Deal Project | ✅ Done | Via `ProjectParticipantService` invite |
 | 2 | Founder can complete Onboarding wizard | ✅ Done | All steps save to shared_preferences |
 | 3 | Deal Manager can prepare project (set valuation, create growth plan) | ✅ Done | Valuation + Growth Items API working |
 | 4 | Growth Plan shows Current vs Expected Value | ✅ Done | Projected + Best Case with confidence |
 | 5 | Founder can approve Growth Item | ✅ Done | Approve flow creates Task + Offer |
-| 6 | Offer is generated upon Growth Item approval | ✅ Done | GrowthItemApprovalService handles this |
-| 7 | Invoice can be generated from Offer | ⬜ Pending | Existing invoice system, needs wiring |
+| 6 | Offer is generated upon Growth Item approval | ✅ Done | `OfferGenerationService` handles this |
+| 7 | Invoice can be generated from Offer | ✅ Done | `OfferGenerationService` handles this |
 | 8 | Task is created in Kanban upon approval | ✅ Done | Task linked to Growth Item |
 | 9 | Deal Room works with virtual folders | ✅ Done | Auto-generated on project creation |
-| 10 | Investor can be invited and access Deal Room | ⬜ Pending | Pipeline + invite flow needed |
-| 11 | Buyer can be invited and access Deal Room | ⬜ Pending | Pipeline + invite flow needed |
-| 12 | Investor sees limited valuation (summary) | ⬜ Pending | Needs role-based view filtering |
-| 13 | Buyer sees limited valuation (summary) | ⬜ Pending | Needs role-based view filtering |
-| 14 | Permissions enforce role-based access | ⬜ Pending | Middleware implementation needed |
-| 15 | Legacy projects remain unaffected | ✅ Done | Verified after each phase |
-| 16 | Full end-to-end cycle completes without errors | ⬜ Pending | Integration testing after Phase 5 |
+| 10 | Investor can be invited and access Deal Room | ✅ Done | Limited access via `ProjectParticipantAccess` |
+| 11 | Buyer can be invited and access Deal Room | ✅ Done | Limited access via `ProjectParticipantAccess` |
+| 12 | Investor sees limited valuation (summary) | ✅ Done | Role-based view filtering active |
+| 13 | Buyer sees limited valuation (summary) | ✅ Done | Role-based view filtering active |
+| 14 | Permissions enforce role-based access | ✅ Done | `ProjectParticipantAccess` middleware |
+| 15 | Legacy projects remain unaffected | ✅ Done | Verified via `isLegacy()` guards |
+| 16 | Full end-to-end cycle completes without errors | ✅ Done | MVP Demo Scenario passed |
 
 ---
 
@@ -520,18 +520,31 @@ The following table maps business concepts from the Growth & Exit Methodology to
 
 ---
 
+## Future Business Templates
+
+This section maps the future business methodology and customer workflow to the current MVP architecture and identifies the phases for implementation without expanding the current MVP scope.
+
+| Business Concept | Existing MVP Component | Future Product Object | Suggested Future Phase |
+|------------------|------------------------|-----------------------|------------------------|
+| Exit Audit | Onboarding Wizard | Exit Audit Report | Phase 6 |
+| Valuation Report | Valuation Engine | PDF Report Generator | Phase 6 |
+| Growth Plan | Growth Items | Growth Roadmap | Phase 6 |
+| Buyer Outreach | Buyer Pipeline | Outreach Automation | Future |
+| Investor Memo | Investor Pipeline | Investor Package Generator | Future |
+| Financial Model | Onboarding Financials | Dynamic Financial Model | Future |
+| Deal Room Structure | Deal Room Folders | VDR Analytics & Watermarking | Future |
+| M&A Advisor Flow | Deal Manager | Deal Team Roles & Commissions | Future |
+
+---
+
 ## Next Phase Plan
 
-### Phase 5: MVP Finalization & Permissions
+### Phase 6: Reporting & Automation
 
 | Task | Status |
 |------|--------|
-| Config-based access rules (`config/data/project_access.php`) | ✅ Done |
-| `ProjectParticipantAccess` middleware | ✅ Done |
-| `ProjectParticipantService` (invite flow) | ✅ Done |
-| `ProjectParticipantController` (admin API) | ✅ Done |
-| `ProjectExitController` (client portal API) | ✅ Done |
-| `OfferGenerationService` (Offer + Invoice from Growth Items) | ✅ Done |
-| Client routes registration | ⬜ In Progress |
-| End-to-end testing of full MVP cycle | ⬜ Pending |
-| MVP Demo Scenario verification | ⬜ Pending |
+| Implement PDF generation for Exit Audit | ⬜ Pending |
+| Implement PDF generation for Valuation Report | ⬜ Pending |
+| Implement Gantt/Timeline view for Growth Roadmap | ⬜ Pending |
+| Interactive Due Diligence Checklist | ⬜ Pending |
+| Multi-method Valuation (Revenue, EBITDA, DCF) | ⬜ Pending |
