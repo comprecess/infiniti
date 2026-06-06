@@ -5,7 +5,57 @@ interface StatusProps {
   status: string
 }
 
-const statusColors = {
+/**
+ * Normalize raw database status values to human-readable labels
+ * that match the Status component's styling cases.
+ */
+const normalizeStatus = (raw: string): { label: string; styleKey: string } => {
+  const lower = raw.toLowerCase().replace(/[_\s]+/g, '_')
+
+  switch (lower) {
+    case 'draft':
+      return { label: 'Draft', styleKey: 'Draft' }
+    case 'active':
+      return { label: 'Active', styleKey: 'Active' }
+    case 'in_progress':
+      return { label: 'In Progress', styleKey: 'Started' }
+    case 'started':
+      return { label: 'Started', styleKey: 'Started' }
+    case 'completed':
+      return { label: 'Completed', styleKey: 'Completed' }
+    case 'paused':
+      return { label: 'Paused', styleKey: 'Paused' }
+    case 'cancelled':
+      return { label: 'Cancelled', styleKey: 'Cancelled' }
+    case 'unpaid':
+      return { label: 'Unpaid', styleKey: 'Unpaid' }
+    case 'pending':
+      return { label: 'Pending', styleKey: 'Pending' }
+    case 'paid':
+      return { label: 'Paid', styleKey: 'Paid' }
+    case 'partially_paid':
+    case 'partially paid':
+      return { label: 'Partially Paid', styleKey: 'PartiallyPaid' }
+    case 'accepted':
+      return { label: 'Accepted', styleKey: 'Accepted' }
+    case 'dead':
+      return { label: 'Dead', styleKey: 'Dead' }
+    case 'delivered':
+      return { label: 'Delivered', styleKey: 'Delivered' }
+    case 'lost':
+      return { label: 'Lost', styleKey: 'Lost' }
+    case 'decline':
+      return { label: 'Decline', styleKey: 'Decline' }
+    case 'open':
+      return { label: 'Open', styleKey: 'Open' }
+    case 'closed':
+      return { label: 'Closed', styleKey: 'Closed' }
+    default:
+      return { label: raw, styleKey: 'Draft' }
+  }
+}
+
+const statusColors: Record<string, string> = {
   Unpaid: styles.statusUnpaid,
   Pending: styles.statusPending,
   Paid: styles.statusPaid,
@@ -26,65 +76,12 @@ const statusColors = {
 }
 
 export const Status = ({ title, status }: StatusProps) => {
-  let statusStyle = ''
-
-  switch (status) {
-    case 'Unpaid':
-      statusStyle = statusColors.Unpaid
-      break
-    case 'Pending':
-      statusStyle = statusColors.Pending
-      break
-    case 'Paid':
-      statusStyle = statusColors.Paid
-      break
-    case 'Active':
-      statusStyle = statusColors.Active
-      break
-    case 'Draft':
-      statusStyle = statusColors.Draft
-      break
-    case 'Started':
-      statusStyle = statusColors.Started
-      break
-    case 'Paused':
-      statusStyle = statusColors.Paused
-      break
-    case 'Completed':
-      statusStyle = statusColors.Completed
-      break
-    case 'Partially Paid':
-      statusStyle = statusColors.PartiallyPaid
-      break
-    case 'Accepted':
-      statusStyle = statusColors.Accepted
-      break
-    case 'Cancelled':
-      statusStyle = statusColors.Cancelled
-      break
-    case 'Dead':
-      statusStyle = statusColors.Dead
-      break
-    case 'Delivered':
-      statusStyle = statusColors.Delivered
-      break
-    case 'Lost':
-      statusStyle = statusColors.Lost
-      break
-    case 'Decline':
-      statusStyle = statusColors.Decline
-      break
-    case 'Open':
-      statusStyle = statusColors.Open
-      break
-    case 'Closed':
-      statusStyle = statusColors.Closed
-      break
-  }
+  const { label, styleKey } = normalizeStatus(status || title)
+  const statusStyle = statusColors[styleKey] || ''
 
   return (
     <div className={`${styles.wrapper} ${statusStyle}`}>
-      <span className={styles.title}>{title}</span>
+      <span className={styles.title}>{label}</span>
     </div>
   )
 }
