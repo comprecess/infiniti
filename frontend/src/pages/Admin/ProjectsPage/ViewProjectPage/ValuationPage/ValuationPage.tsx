@@ -131,7 +131,7 @@ const ValuationPage = () => {
     return (
       <Box p={6}>
         <Progress size="xs" isIndeterminate colorScheme="blue" />
-        <Text mt={4} color="gray.500">Loading valuation data...</Text>
+        <Text mt={4} color="gray.300">Loading valuation data...</Text>
       </Box>
     );
   }
@@ -141,7 +141,7 @@ const ValuationPage = () => {
       <Flex justify="space-between" align="center" mb={6}>
         <Box>
           <Heading size="lg">Valuation</Heading>
-          <Text color="gray.500" mt={1}>Business valuation and growth projections</Text>
+          <Text color="gray.300" mt={1}>Business valuation and growth projections</Text>
         </Box>
         <Flex gap={3}>
           <Button size="sm" variant="outline" onClick={loadHistory}>
@@ -157,11 +157,11 @@ const ValuationPage = () => {
       <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={6} mb={8}>
         {/* Current Value */}
         <GridItem>
-          <Card bg="white" shadow="sm" borderTop="4px solid" borderTopColor="blue.500">
+          <Card bg="brand.900"  borderTop="4px solid" borderTopColor="brand.500">
             <CardBody>
               <Stat>
-                <StatLabel color="gray.500" fontSize="sm">Current Value</StatLabel>
-                <StatNumber fontSize="2xl" color="blue.600">
+                <StatLabel color="gray.300" fontSize="sm">Current Value</StatLabel>
+                <StatNumber fontSize="2xl" color="brand.400">
                   {dashboard?.current ? formatCurrency(dashboard.current.total_value) : '—'}
                 </StatNumber>
                 <StatHelpText>
@@ -176,11 +176,11 @@ const ValuationPage = () => {
 
         {/* Projected Value */}
         <GridItem>
-          <Card bg="white" shadow="sm" borderTop="4px solid" borderTopColor="green.500">
+          <Card bg="brand.900"  borderTop="4px solid" borderTopColor="mint.500">
             <CardBody>
               <Stat>
-                <StatLabel color="gray.500" fontSize="sm">Projected Value</StatLabel>
-                <StatNumber fontSize="2xl" color="green.600">
+                <StatLabel color="gray.300" fontSize="sm">Projected Value</StatLabel>
+                <StatNumber fontSize="2xl" color="mint.500">
                   {dashboard?.projected ? formatCurrency(dashboard.projected.total_value) : '—'}
                 </StatNumber>
                 <StatHelpText>
@@ -201,11 +201,11 @@ const ValuationPage = () => {
 
         {/* Best Case Value */}
         <GridItem>
-          <Card bg="white" shadow="sm" borderTop="4px solid" borderTopColor="purple.500">
+          <Card bg="brand.900"  borderTop="4px solid" borderTopColor="brand.300">
             <CardBody>
               <Stat>
-                <StatLabel color="gray.500" fontSize="sm">Best Case Value</StatLabel>
-                <StatNumber fontSize="2xl" color="purple.600">
+                <StatLabel color="gray.300" fontSize="sm">Best Case Value</StatLabel>
+                <StatNumber fontSize="2xl" color="brand.300">
                   {dashboard?.best_case ? formatCurrency(dashboard.best_case.total_value) : '—'}
                 </StatNumber>
                 <StatHelpText>
@@ -221,16 +221,16 @@ const ValuationPage = () => {
 
       {/* Growth Progress */}
       {dashboard && (dashboard.growth_items_count > 0 || dashboard.completed_items_count > 0) && (
-        <Card mb={6} bg="white" shadow="sm">
+        <Card mb={6} bg="brand.900" >
           <CardHeader pb={2}>
             <Heading size="sm">Growth Progress</Heading>
           </CardHeader>
           <CardBody pt={0}>
             <Flex justify="space-between" mb={2}>
-              <Text fontSize="sm" color="gray.600">
+              <Text fontSize="sm" color="gray.200">
                 {dashboard.completed_items_count} of {dashboard.growth_items_count} items completed
               </Text>
-              <Text fontSize="sm" fontWeight="bold" color="blue.600">
+              <Text fontSize="sm" fontWeight="bold" color="brand.400">
                 {dashboard.growth_items_count > 0
                   ? Math.round((dashboard.completed_items_count / dashboard.growth_items_count) * 100)
                   : 0}%
@@ -250,13 +250,13 @@ const ValuationPage = () => {
 
       {/* Confidence Indicator */}
       {dashboard?.projected && (
-        <Card mb={6} bg="white" shadow="sm">
+        <Card mb={6} bg="brand.900" >
           <CardHeader pb={2}>
             <Heading size="sm">Confidence Level</Heading>
           </CardHeader>
           <CardBody pt={0}>
             <Flex justify="space-between" mb={2}>
-              <Text fontSize="sm" color="gray.600">
+              <Text fontSize="sm" color="gray.200">
                 Weighted average across all growth items
               </Text>
               <Text fontSize="sm" fontWeight="bold" color={
@@ -281,7 +281,7 @@ const ValuationPage = () => {
 
       {/* History Table */}
       {showHistory && history.length > 0 && (
-        <Card bg="white" shadow="sm">
+        <Card bg="brand.900" >
           <CardHeader>
             <Flex justify="space-between" align="center">
               <Heading size="sm">Valuation History</Heading>
@@ -422,8 +422,8 @@ const ValuationPage = () => {
                 <GridItem colSpan={2}>
                   <Divider my={2} />
                   <Flex justify="space-between" align="center" bg="gray.50" p={3} borderRadius="md">
-                    <Text fontSize="sm" color="gray.600">Calculated Total Value:</Text>
-                    <Text fontSize="lg" fontWeight="bold" color="blue.600">
+                    <Text fontSize="sm" color="gray.200">Calculated Total Value:</Text>
+                    <Text fontSize="lg" fontWeight="bold" color="brand.400">
                       {formatCurrency(parseFloat(form.base_metric_value) * parseFloat(form.multiplier))}
                     </Text>
                   </Flex>

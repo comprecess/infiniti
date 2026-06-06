@@ -41,18 +41,18 @@ interface DocumentWithFolder {
 }
 
 const FOLDER_ICONS: Record<string, string> = {
-  financial: '📊',
-  legal: '⚖️',
-  operational: '⚙️',
-  commercial: '💼',
-  technical: '🔧',
-  hr: '👥',
-  compliance: '📋',
-  marketing: '📣',
-  pitch: '🎯',
-  cap_table: '📈',
-  product: '🚀',
-  references: '⭐',
+  financial: '●',
+  legal: '●',
+  operational: '●',
+  commercial: '●',
+  technical: '●',
+  hr: '●',
+  compliance: '●',
+  marketing: '●',
+  pitch: '●',
+  cap_table: '●',
+  product: '●',
+  references: '●',
 }
 
 export const AdminProjectsDealRoomPage = () => {
@@ -171,7 +171,7 @@ export const AdminProjectsDealRoomPage = () => {
             onClick={() => loadFolderDocuments(code)}
           >
             <div className={styles.folderIcon}>
-              {FOLDER_ICONS[code] || '📁'}
+              {FOLDER_ICONS[code] || '●'}
             </div>
             <div className={styles.folderInfo}>
               <span className={styles.folderName}>{info.name}</span>
@@ -185,7 +185,7 @@ export const AdminProjectsDealRoomPage = () => {
       {selectedFolder && (
         <div className={styles.documentsSection}>
           <h4 className={styles.sectionTitle}>
-            {FOLDER_ICONS[selectedFolder] || '📁'} {folders[selectedFolder]?.name}
+            {FOLDER_ICONS[selectedFolder] || '●'} {folders[selectedFolder]?.name}
           </h4>
           {loadingDocs ? (
             <LoadingSpinner size='sm' />
@@ -263,18 +263,18 @@ export const AdminProjectsDealRoomPage = () => {
 
 function getFileIcon(ext: string): string {
   const icons: Record<string, string> = {
-    pdf: '📄',
-    doc: '📝',
-    docx: '📝',
-    xls: '📊',
-    xlsx: '📊',
-    ppt: '📽️',
-    pptx: '📽️',
-    jpg: '🖼️',
-    jpeg: '🖼️',
-    png: '🖼️',
-    zip: '📦',
-    csv: '📊',
+    pdf: 'PDF',
+    doc: 'DOC',
+    docx: 'DOC',
+    xls: 'XLS',
+    xlsx: 'XLS',
+    ppt: 'PPT',
+    pptx: 'PPT',
+    jpg: 'IMG',
+    jpeg: 'IMG',
+    png: 'IMG',
+    zip: 'ZIP',
+    csv: 'CSV',
   }
-  return icons[ext?.toLowerCase()] || '📎'
+  return icons[ext?.toLowerCase()] || '—'
 }

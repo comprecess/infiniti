@@ -201,7 +201,7 @@ const GrowthPlanPage = () => {
     return (
       <Box p={6}>
         <Progress size="xs" isIndeterminate colorScheme="blue" />
-        <Text mt={4} color="gray.500">Loading growth plan...</Text>
+        <Text mt={4} color="gray.300">Loading growth plan...</Text>
       </Box>
     );
   }
@@ -211,7 +211,7 @@ const GrowthPlanPage = () => {
       <Flex justify="space-between" align="center" mb={6}>
         <Box>
           <Heading size="lg">Growth Plan</Heading>
-          <Text color="gray.500" mt={1}>Value creation recommendations and execution tracking</Text>
+          <Text color="gray.300" mt={1}>Value creation recommendations and execution tracking</Text>
         </Box>
         <Button size="sm" colorScheme="blue" onClick={onOpen}>
           + Add Recommendation
@@ -221,28 +221,28 @@ const GrowthPlanPage = () => {
       {/* Summary Stats - only show when items exist */}
       {items.length > 0 && (
       <Grid templateColumns={{ base: '1fr', md: 'repeat(4, 1fr)' }} gap={4} mb={6}>
-        <Card bg="white" shadow="sm">
+        <Card bg="brand.900" >
           <CardBody py={3} px={4}>
-            <Text fontSize="xs" color="gray.500">Total Items</Text>
+            <Text fontSize="xs" color="gray.300">Total Items</Text>
             <Text fontSize="xl" fontWeight="bold">{items.length}</Text>
           </CardBody>
         </Card>
-        <Card bg="white" shadow="sm">
+        <Card bg="brand.900" >
           <CardBody py={3} px={4}>
-            <Text fontSize="xs" color="gray.500">In Progress</Text>
-            <Text fontSize="xl" fontWeight="bold" color="yellow.600">{inProgressCount}</Text>
+            <Text fontSize="xs" color="gray.300">In Progress</Text>
+            <Text fontSize="xl" fontWeight="bold" color="amber.500">{inProgressCount}</Text>
           </CardBody>
         </Card>
-        <Card bg="white" shadow="sm">
+        <Card bg="brand.900" >
           <CardBody py={3} px={4}>
-            <Text fontSize="xs" color="gray.500">Completed</Text>
-            <Text fontSize="xl" fontWeight="bold" color="green.600">{completedCount}</Text>
+            <Text fontSize="xs" color="gray.300">Completed</Text>
+            <Text fontSize="xl" fontWeight="bold" color="mint.500">{completedCount}</Text>
           </CardBody>
         </Card>
-        <Card bg="white" shadow="sm">
+        <Card bg="brand.900" >
           <CardBody py={3} px={4}>
-            <Text fontSize="xs" color="gray.500">Total Investment</Text>
-            <Text fontSize="xl" fontWeight="bold" color="blue.600">{formatCurrency(totalEstimatedCost)}</Text>
+            <Text fontSize="xs" color="gray.300">Total Investment</Text>
+            <Text fontSize="xl" fontWeight="bold" color="brand.400">{formatCurrency(totalEstimatedCost)}</Text>
           </CardBody>
         </Card>
       </Grid>
@@ -250,11 +250,11 @@ const GrowthPlanPage = () => {
 
       {/* Growth Items List */}
       {items.length === 0 ? (
-        <Card bg="white" shadow="sm" borderTop="4px solid" borderTopColor="blue.400">
+        <Card bg="brand.900"  borderTop="4px solid" borderTopColor="brand.500">
           <CardBody textAlign="center" py={16}>
-            <Text fontSize="3xl" mb={4}>📋</Text>
-            <Heading size="md" color="gray.700" mb={2}>No Growth Items Yet</Heading>
-            <Text color="gray.500" mb={2} maxW="md" mx="auto">
+            <Text fontSize="3xl" mb={4}>—</Text>
+            <Heading size="md" color="white" mb={2}>No Growth Items Yet</Heading>
+            <Text color="gray.300" mb={2} maxW="md" mx="auto">
               Growth items are value creation recommendations that increase your company valuation.
               Each item tracks impact on metrics, multiplier, and estimated cost.
             </Text>
@@ -269,7 +269,7 @@ const GrowthPlanPage = () => {
       ) : (
         <Flex direction="column" gap={4}>
           {items.map((item) => (
-            <Card key={item.id} bg="white" shadow="sm" _hover={{ shadow: 'md' }} transition="all 0.2s">
+            <Card key={item.id} bg="brand.900"  _hover={{ shadow: 'md' }} transition="all 0.2s">
               <CardBody>
                 <Flex justify="space-between" align="flex-start">
                   <Box flex={1}>
@@ -283,35 +283,35 @@ const GrowthPlanPage = () => {
                       </Badge>
                     </Flex>
                     {item.description && (
-                      <Text fontSize="sm" color="gray.600" mb={3}>{item.description}</Text>
+                      <Text fontSize="sm" color="gray.200" mb={3}>{item.description}</Text>
                     )}
                     <Grid templateColumns={{ base: '1fr', md: 'repeat(5, 1fr)' }} gap={3}>
                       <Box>
-                        <Text fontSize="xs" color="gray.500">Metric Impact</Text>
-                        <Text fontSize="sm" fontWeight="medium" color="green.600">
+                        <Text fontSize="xs" color="gray.300">Metric Impact</Text>
+                        <Text fontSize="sm" fontWeight="medium" color="mint.500">
                           +{formatCurrency(item.impact_metric_increase || 0)}
                         </Text>
                       </Box>
                       <Box>
-                        <Text fontSize="xs" color="gray.500">Multiplier Impact</Text>
-                        <Text fontSize="sm" fontWeight="medium" color="green.600">
+                        <Text fontSize="xs" color="gray.300">Multiplier Impact</Text>
+                        <Text fontSize="sm" fontWeight="medium" color="mint.500">
                           +{item.impact_multiplier_increase || 0}x
                         </Text>
                       </Box>
                       <Box>
-                        <Text fontSize="xs" color="gray.500">Confidence</Text>
+                        <Text fontSize="xs" color="gray.300">Confidence</Text>
                         <Text fontSize="sm" fontWeight="medium">
                           {item.confidence_percent}%
                         </Text>
                       </Box>
                       <Box>
-                        <Text fontSize="xs" color="gray.500">Cost</Text>
-                        <Text fontSize="sm" fontWeight="medium" color="red.500">
+                        <Text fontSize="xs" color="gray.300">Cost</Text>
+                        <Text fontSize="sm" fontWeight="medium" color="cherry.500">
                           {formatCurrency(item.estimated_cost || 0)}
                         </Text>
                       </Box>
                       <Box>
-                        <Text fontSize="xs" color="gray.500">Duration</Text>
+                        <Text fontSize="xs" color="gray.300">Duration</Text>
                         <Text fontSize="sm" fontWeight="medium">
                           {item.estimated_duration_days || 0} days
                         </Text>
