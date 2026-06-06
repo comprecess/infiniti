@@ -10,7 +10,7 @@
 
 | Total Issues | Critical | High | Medium | Low | Fixed | Open |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 8 | 1 | 5 | 2 | 0 | 8 | 0 |
+| 9 | 1 | 5 | 3 | 0 | 9 | 0 |
 
 ---
 
@@ -138,6 +138,7 @@
 | 2026-06-06 | ISSUE-007 (Onboarding Flow Disconnect) identified and documented. Status: Open. |
 | 2026-06-06 | ISSUE-007 fixed: Onboarding added to sidebar, auto-redirect on first visit, progress bar on Summary, completion handler with redirect to dashboard. Commit `b02d19ba` |
 | 2026-06-06 | ISSUE-009 (Stale Build) identified and fixed. Frontend rebuilt with onboarding redirect code. |
+| 2026-06-06 | ISSUE-010 (Design System Full Compliance) — Complete visual unification of all Growth & Exit pages. Commit `12be9726` |
 
 ---
 
@@ -154,3 +155,28 @@
 | **Effort** | 5 min (rebuild + cleanup) |
 | **Priority** | High |
 | **Status** | **Fixed** — rebuilt at 10:00 UTC, nginx reloaded |
+
+---
+
+### ISSUE-010
+
+| Field | Value |
+|-------|-------|
+| **ID** | ISSUE-010 |
+| **Category** | Design System Full Compliance |
+| **Problem** | Growth & Exit pages (OnboardingPage, GrowthPlanPage, ValuationPage, ComingSoonPage) use light theme colors, Chakra UI page-level components, and do not match the visual language of mature INFINITI modules (Talents, Customers, Invoices, Activities). |
+| **Root Cause** | OnboardingPage.module.scss uses hardcoded light HEX values (`#1a1a2e`, `white`, `#f8f9fa`, `#e9ecef`, `#dee2e6`). GrowthPlanPage and ValuationPage use Chakra UI `Box`, `Card`, `Flex` for page layout instead of SCSS modules. ComingSoonPage uses Chakra UI components. All violate the INFINITI design system rule of SCSS modules + dark theme tokens. |
+| **Proposed Fix** | 1) Rewrite OnboardingPage.module.scss replacing all light colors with SCSS tokens ($brand-900, $brand-800, $gray-50, $gray-600). 2) Rewrite GrowthPlanPage.tsx to use SCSS modules for page layout (keep Chakra only for modals). 3) Rewrite ValuationPage.tsx same approach. 4) Rewrite ComingSoonPage.tsx to pure SCSS modules. |
+| **Files Affected** | `OnboardingPage.module.scss`, `GrowthPlanPage.tsx`, `GrowthPlanPage.module.scss`, `ValuationPage.tsx`, `ValuationPage.module.scss`, `ComingSoonPage.tsx`, `ComingSoonPage.module.scss` (new) |
+| **Effort** | 120 min (4 page rewrites + SCSS creation) |
+| **Priority** | Medium |
+| **Status** | **Fixed** — commit `12be9726` |
+
+**Changes Applied:**
+- OnboardingPage: All 15+ light-theme HEX values replaced with SCSS tokens. Progress bar gradient replaced with `$brand-500`. Step active/completed states use `$brand-500`/`$mint-500` borders.
+- GrowthPlanPage: Removed Chakra UI `Box`, `Card`, `Flex`, `Heading`, `Text`, `Badge`, `Tag`, `Progress`, `IconButton`, `Menu` from page layout. Created full SCSS module with stats grid, item cards, badge system, action buttons. Modals remain Chakra (acceptable for overlays).
+- ValuationPage: Same approach — native HTML + SCSS module for cards, progress bars, history table. Modals remain Chakra.
+- ComingSoonPage: Fully replaced Chakra UI with native HTML + SCSS module. Zero Chakra imports.
+- All pages now follow RecentCard pattern: `$brand-900` background, 24px padding, 8px border-radius.
+- Typography uses `$fontSpaceGrotesk` for headings, proper letter-spacing.
+- Mobile responsive with `$bpL` breakpoint.

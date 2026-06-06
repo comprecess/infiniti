@@ -61,3 +61,12 @@ Based on an analysis of the mature modules (`SummaryPage`, `RecentCard`, `TasksP
 - **Expected State:** Dark theme card (`bg="brand.900"`), standard brand accents (`brand.500`), and SVG icons instead of emojis.
 - **Required Changes:** Rewrite Chakra UI props. Remove emojis. Use `brand.500` for badges/accents.
 - **Effort:** Low.
+
+## Phase 2: Reference Module Findings
+
+В ходе второго этапа аудита были проанализированы зрелые модули платформы (Talents, Customers, Invoices, Activities, Dashboard) для формирования эталонных паттернов. Результаты документированы в `INFINITI_UI_REFERENCE_MODULES.md`. 
+
+Ключевые выводы:
+- Платформа использует строго темную тему. Светлые фоны и цвета недопустимы.
+- Базовый паттерн карточки (основан на `RecentCard`) использует фон `$brand-900`, отступы `32px` и скругления `8px`.
+- Страницы Growth & Exit (OnboardingPage, GrowthPlanPage, ValuationPage, ComingSoonPage) требуют рефакторинга для удаления Chakra UI и жестко закодированных светлых цветов, с переходом на SCSS модули и токены дизайна INFINITI.

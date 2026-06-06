@@ -68,3 +68,8 @@ Empty states must look deliberate but unobtrusive.
 - **Containers:** Must use `width: 100%` with horizontal padding (`16px`).
 - **Grids:** Convert multi-column grids to `1fr` (single column) on mobile (`@include mobileBreakpoint('max', $bpL)` or `templateColumns={{ base: '1fr', md: 'repeat(X, 1fr)' }}`).
 - **Navigation:** Ensure sidebars collapse and use the hamburger menu overlay pattern defined in `ViewProjectPage`.
+
+## 9. SCSS Modules Preference
+- **Rule:** For page-level components, prefer SCSS modules over Chakra UI inline styles or components (`Box`, `Card`, `Button`).
+- **Implementation:** Use `import styles from './ComponentName.module.scss'` and apply classes like `className={styles.wrapper}`.
+- **Tokens:** Import variables via `@import '../../../../../shared/styles/variables/index';` and use tokens like `$brand-900`, `$gray-50`.
