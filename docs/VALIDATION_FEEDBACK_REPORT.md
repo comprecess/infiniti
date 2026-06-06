@@ -10,7 +10,7 @@
 
 | Total Issues | Critical | High | Medium | Low | Fixed | Open |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 7 | 1 | 4 | 2 | 0 | 6 | 1 |
+| 7 | 1 | 4 | 2 | 0 | 7 | 0 |
 
 ---
 
@@ -124,7 +124,7 @@
 | **Files Affected** | `ViewProjectPage.tsx`, `useProjectTemplateSidebar.tsx`, Database (`clx_project_template_sections`) |
 | **Effort** | 45 min |
 | **Priority** | High |
-| **Status** | **Open** (Pending approval for implementation) |
+| **Status** | **Fixed** — commit `b02d19ba` |
 
 ---
 
@@ -136,3 +136,4 @@
 | 2026-06-06 | All 5 issues fixed, built, deployed. Commit `5934c100` |
 | 2026-06-06 | ISSUE-006 (Design System Compliance) fixed. Dark theme applied to all Growth & Exit pages. Commit `28473ba3` |
 | 2026-06-06 | ISSUE-007 (Onboarding Flow Disconnect) identified and documented. Status: Open. |
+| 2026-06-06 | ISSUE-007 fixed: Onboarding added to sidebar, auto-redirect on first visit, progress bar on Summary, completion handler with redirect to dashboard. Commit `b02d19ba` |
