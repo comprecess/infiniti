@@ -1,14 +1,12 @@
 .header {
   display: flex;
 }
-
 .wrapper {
   display: flex;
   flex-direction: column;
   gap: 38px;
   color: $white;
 }
-
 .title {
   font-family: $fontSpaceGrotesk;
   font-size: 19px;
@@ -16,21 +14,54 @@
   line-height: 24px;
   letter-spacing: -0.03em;
 }
-
 .cross {
   position: absolute;
   top: 7px;
   right: 7px;
   transition: 0.3s ease;
   cursor: pointer;
-
   &:hover * {
     stroke: $gray-200;
   }
 }
-
 .container {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+.categorySelect {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.categoryLabel {
+  font-family: $fontSpaceGrotesk;
+  font-size: 13px;
+  font-weight: 500;
+  color: $gray-200;
+}
+.categoryDropdown {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid $gray-500;
+  background: $gray-600;
+  color: $white;
+  font-family: $fontSpaceGrotesk;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  &:focus {
+    border-color: $brand-500;
+  }
+  option {
+    background: $gray-600;
+    color: $white;
+  }
+}
+.categoryHint {
+  font-size: 11px;
+  color: $gray-400;
+  font-style: italic;
 }

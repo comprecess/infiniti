@@ -1,5 +1,4 @@
 import { useState } from 'react'
-
 import styles from './AddDocumentModal.module.scss'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -8,6 +7,21 @@ import { CustomDropZone } from '../../../../shared/ui/CustomDropZone/CustomDropZ
 import { CustomInput } from '../../../../shared/ui/CustomInput/CustomInput'
 import { CustomModalWindow } from '../../../../shared/ui/CustomModalWindow/CustomModalWindow'
 
+/**
+ * Deal Room folder categories for Exit Deal projects.
+ * Matches the backend DealRoomService::EXIT_DEAL_FOLDERS.
+ */
+const DEAL_ROOM_FOLDERS: Record<string, string> = {
+  financial: 'Financial Documents',
+  legal: 'Legal Documents',
+  operational: 'Operational Documents',
+  commercial: 'Commercial & Sales',
+  technical: 'Technical & IP',
+  hr: 'HR & Team',
+  compliance: 'Compliance & Regulatory',
+  marketing: 'Marketing Materials',
+}
+
 interface AddDocumentModalProps {
   modalAddDoc: boolean
   modalOpenClose: () => void
@@ -15,22 +29,26 @@ interface AddDocumentModalProps {
     title?: string
     file?: File
     global?: number
+    dealRoomFolder?: string
   }) => void
+  showDealRoomCategory?: boolean
 }
 
 export const AddDocumentModal = ({
   modalAddDoc,
   modalOpenClose,
   handleButtonSave,
+  showDealRoomCategory = false,
 }: AddDocumentModalProps) => {
   const [formData, setFormData] = useState<{
     title?: string
     file?: File
     global?: number
+    dealRoomFolder?: string
   }>({ global: 0 })
 
   const handleOpenCloseModal = () => {
-    setFormData({})
+    setFormData({ global: 0 })
     modalOpenClose()
   }
 
@@ -42,7 +60,6 @@ export const AddDocumentModal = ({
       if (name === 'global') {
         value = value ? 1 : 0
       }
-
       return {
         ...prevFormData,
         [name]: value,
@@ -95,6 +112,24 @@ export const AddDocumentModal = ({
             />
           )}
           <CustomDropZone onDrop={handleDrop} />
+          {showDealRoomCategory && (
+            <div className={styles.categorySelect}>
+              <label className={styles.categoryLabel}>Deal Room Category</label>
+              <select
+                className={styles.categoryDropdown}
+                value={formData.dealRoomFolder || ''}
+                onChange={(e) => setFormData(prev => ({ ...prev, dealRoomFolder: e.target.value || undefined }))}
+              >
+                <option value="">— No category (upload only) —</option>
+                {Object.entries(DEAL_ROOM_FOLDERS).map(([code, name]) => (
+                  <option key={code} value={code}>{name}</option>
+                ))}
+              </select>
+              <span className={styles.categoryHint}>
+                Assigned documents will appear in Deal Room automatically.
+              </span>
+            </div>
+          )}
           <CustomCheckBox
             titleOnChange='global'
             title='Available for all Customers'

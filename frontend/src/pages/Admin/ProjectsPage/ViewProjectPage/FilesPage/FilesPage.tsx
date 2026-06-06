@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
-
 import styles from './FilesPage.module.scss'
 import {
   CustomersFilesData,
@@ -17,6 +16,7 @@ import { Search } from '../../../../../shared/ui/Search/Search'
 import { deleteProjectFile } from '../../../../../shared/utils/api/Admin/Projects/delete-project-file'
 import { getProjectsFiles } from '../../../../../shared/utils/api/Admin/Projects/get-project-files'
 import { postAddNewProjectFile } from '../../../../../shared/utils/api/Admin/Projects/post-create-new-file'
+import { assignDocumentToFolder } from '../../../../../shared/utils/api/Admin/Projects/deal-room'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 
 export const AdminProjectsFilesPage = () => {
@@ -24,34 +24,28 @@ export const AdminProjectsFilesPage = () => {
     files: CustomersFilesData[]
     meta: PagesMetaData
   } | null>(null)
-
   const [page, setPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
   const [sortName, setSortName] = useState<string>('id')
   const [sortType, setSortType] = useState<number>(1)
   const [options, setOptions] = useState<string>('')
-
   const [addDocModal, setAddDocModal] = useState<boolean>(false)
-
   const context = useOutletContext<ProjectViewPageContext>()
-
   const showToast = useCustomToast()
+
+  // Determine if this project uses the exit_deal template (has Deal Room)
+  const isExitDeal = context.templateCode === 'exit_deal'
 
   const getFiles = async () => {
     if (!options || !context.idProject) return
-
     const response = await getProjectsFiles(context.idProject, options)
-
     if (!response.status) return
-
     setData({ files: response.data.data, meta: response.data.meta })
   }
 
   const deleteFile = async (idFile: number) => {
     if (!context.idProject) return
-
     const { status, message } = await deleteProjectFile(context.idProject, idFile)
-
     if (status) {
       showToast({
         title: 'Successfully',
@@ -72,29 +66,50 @@ export const AdminProjectsFilesPage = () => {
     setAddDocModal(state => !state)
   }
 
-  const addNewDocument = async (formData: { title?: string; file?: File; global?: number }) => {
+  const addNewDocument = async (formData: { title?: string; file?: File; global?: number; dealRoomFolder?: string }) => {
     if (!context.idProject) return
-
     const form = new FormData()
-
     if (formData.title) form.append('title', formData.title)
     if (formData.global !== undefined) form.append('global', formData.global.toString())
     if (formData.file) form.append('file', formData.file)
 
-    const { status, message } = await postAddNewProjectFile(context.idProject, form)
+    const response = await postAddNewProjectFile(context.idProject, form)
 
-    if (status) {
-      showToast({
-        title: 'Successfully',
-        description: 'You have successfully added a File',
-        status: 'success',
-      })
+    if (response.status) {
+      // If a Deal Room folder was selected and we got the document ID, assign it
+      const docId = (response as any).id
+      if (formData.dealRoomFolder && docId) {
+        const assignResult = await assignDocumentToFolder(
+          context.idProject,
+          docId,
+          formData.dealRoomFolder,
+        )
+        if (assignResult.status) {
+          showToast({
+            title: 'Successfully',
+            description: `File uploaded and assigned to Deal Room → ${formData.dealRoomFolder}`,
+            status: 'success',
+          })
+        } else {
+          showToast({
+            title: 'Uploaded',
+            description: 'File uploaded, but category assignment failed. You can assign it manually in Deal Room.',
+            status: 'warning',
+          })
+        }
+      } else {
+        showToast({
+          title: 'Successfully',
+          description: 'You have successfully added a File',
+          status: 'success',
+        })
+      }
       handleSetAddDocModal()
       getFiles()
     } else {
       showToast({
         title: 'Error',
-        description: message,
+        description: (response as any).message || 'Upload failed',
         status: 'error',
       })
     }
@@ -107,11 +122,9 @@ export const AdminProjectsFilesPage = () => {
     sortTypeItem: number,
   ) => {
     let urlOptions = `?page=${pageItem}&sort[name]=${sortNameItem}&sort[type]=${sortTypeItem}&document=json`
-
     if (searchItem !== '') {
       urlOptions += `&filter[search]=${searchItem}`
     }
-
     setOptions(urlOptions)
   }
 
@@ -186,6 +199,7 @@ export const AdminProjectsFilesPage = () => {
         modalAddDoc={addDocModal}
         modalOpenClose={handleSetAddDocModal}
         handleButtonSave={addNewDocument}
+        showDealRoomCategory={isExitDeal}
       />
     </>
   )
