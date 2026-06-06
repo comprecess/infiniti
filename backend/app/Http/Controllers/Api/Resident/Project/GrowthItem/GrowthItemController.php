@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Resident\Project\Project;
 use App\Models\Resident\Project\GrowthItem\ProjectGrowthItem;
 use App\Services\GrowthItem\GrowthItemApprovalService;
+use App\Services\GrowthItem\OfferGenerationService;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -217,6 +218,81 @@ class GrowthItemController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Growth item deleted.',
+        ]);
+    }
+
+    /**
+     * Generate an Offer from a growth item.
+     */
+    public function generateOffer(Request $request, int $projectId, int $itemId): JsonResponse
+    {
+        $item = ProjectGrowthItem::forProject($projectId)
+            ->where('id', $itemId)
+            ->firstOrFail();
+
+        if ($item->hasOffer()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'This item already has an offer.',
+                'data' => ['offer_id' => $item->sys_offer_id],
+            ], 422);
+        }
+
+        if ($item->estimated_cost <= 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cannot generate offer: estimated cost is zero.',
+            ], 422);
+        }
+
+        $offer = OfferGenerationService::generateOffer($item);
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'offer_id' => $offer->id,
+                'offer_code' => $offer->getCode(),
+                'total' => $offer->total,
+            ],
+            'message' => 'Offer generated successfully.',
+        ]);
+    }
+
+    /**
+     * Generate an Invoice from a growth item's offer.
+     */
+    public function generateInvoice(Request $request, int $projectId, int $itemId): JsonResponse
+    {
+        $item = ProjectGrowthItem::forProject($projectId)
+            ->where('id', $itemId)
+            ->firstOrFail();
+
+        if (!$item->hasOffer()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No offer exists for this item. Generate an offer first.',
+            ], 422);
+        }
+
+        if ($item->sys_invoice_id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'This item already has an invoice.',
+                'data' => ['invoice_id' => $item->sys_invoice_id],
+            ], 422);
+        }
+
+        $offer = $item->offer;
+        $invoice = OfferGenerationService::convertToInvoice($offer, $item);
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'invoice_id' => $invoice->id,
+                'invoice_code' => $invoice->getCode(),
+                'total' => $invoice->total,
+            ],
+            'message' => 'Invoice generated from offer.',
         ]);
     }
 }

@@ -109,6 +109,18 @@ Route::group(['prefix' => 'client',], function(){
             Route::get('/{id}',         'show')->where('id', '[0-9]+');
             Route::post('/{id}/reply',  'reply')->where('id', '[0-9]+');
         });
+    #Exit Deal Project (role-based access for Founder/Investor/Buyer)
+    Route::controller(Client\Project\ProjectExitController::class)
+        ->prefix("project/{projectId}/exit")
+        ->group(function(){
+            Route::get("/overview", "overview");
+            Route::get("/deal-room", "dealRoom");
+            Route::get("/deal-room/folder/{folderCode}", "dealRoomFolder");
+            Route::get("/valuation", "valuation");
+            Route::get("/growth-plan", "growthPlan");
+            Route::get("/invoices", "invoices");
+            Route::get("/offers", "offers");
+        });
 });
 
 

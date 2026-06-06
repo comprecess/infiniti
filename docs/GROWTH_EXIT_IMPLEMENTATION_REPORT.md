@@ -480,13 +480,58 @@ All migrations have full `down()` methods. Rollback command: `php artisan migrat
 
 ---
 
+## Future Business Templates
+
+The following table maps business concepts from the Growth & Exit Methodology to existing MVP components and identifies future product objects for post-MVP phases. This section serves as strategic guidance for product evolution without expanding current MVP scope.
+
+**Source Documents:** `GROWTH_EXIT_METHODOLOGY.md`, `GROWTH_EXIT_DEAL_FLOW.md`
+
+| Business Concept | Existing MVP Component | Future Product Object | Suggested Phase |
+|-----------------|----------------------|----------------------|----------------|
+| Exit Audit | Onboarding Wizard (`clx_shared_preferences`) | Exit Audit Report (PDF/Score) | Phase 6 |
+| Valuation Report | Valuation Engine (`clx_project_valuations`) | PDF Valuation Report Generator | Phase 6 |
+| Growth Roadmap | Growth Items (`clx_project_growth_items`) | Visual Growth Roadmap (Gantt/Timeline) | Phase 6 |
+| Exit Readiness Score | Deal Room folder completeness | Exit Readiness Scorecard | Phase 6 |
+| Buyer Outreach | Buyer Pipeline (participant invite flow) | Outreach Automation (bulk invite + tracking) | Future |
+| Investor Memo | Investor Pipeline (participant invite flow) | Investor Package Generator (PDF deck) | Future |
+| NDA Management | Deal Room access control | Digital NDA Signing + Tracking | Future |
+| Due Diligence Checklist | Deal Room folders + documents | Interactive DD Checklist with status | Phase 6 |
+| Transaction Management | Offers + Invoices (`sys_quotes`, `sys_invoices`) | Deal Closing Workflow (LOI → SPA → Close) | Future |
+| Revenue Multiple Valuation | Valuation Engine (base_metric × multiplier) | Multi-method Valuation (Revenue, EBITDA, DCF) | Phase 6 |
+| Comparable Transactions | — (no current component) | Comparable Transaction Database | Future |
+| AI Audit | — (not in MVP) | AI-powered Exit Audit Assistant | Future (post-MVP) |
+| AI Valuation Assistant | — (not in MVP) | AI Valuation Recommendations | Future (post-MVP) |
+| AI Buyer Matching | — (not in MVP) | AI Buyer/Investor Matching Engine | Future (post-MVP) |
+| AI Deal Manager | — (not in MVP) | AI Deal Management Copilot | Future (post-MVP) |
+
+### Architecture Alignment Notes
+
+1. **Exit Audit → Onboarding Wizard:** The current Onboarding Wizard collects all data needed for an Exit Audit via `clx_shared_preferences`. A future Phase 6 can generate a scored PDF report from this data without schema changes.
+
+2. **Valuation Report → Valuation Engine:** The current `clx_project_valuations` table stores all valuation data (metric, multiplier, confidence). A PDF generator can be added as a service layer without modifying the data model.
+
+3. **Growth Roadmap → Growth Items:** The current `clx_project_growth_items` table includes `estimated_duration_days`, `status`, and `confidence_percent` — sufficient for rendering a timeline/Gantt view in Phase 6.
+
+4. **NDA Management → Deal Room:** The current `ProjectParticipantAccess` middleware already controls folder-level access. NDA status can be stored in `personal_model.data` JSON (e.g., `{"role": "buyer", "nda_signed": true}`) without schema changes.
+
+5. **Transaction Management → Offers/Invoices:** The existing `sys_quotes` → `sys_invoices` conversion flow handles the financial side. LOI/SPA tracking can be added as Deal Room document categories + metadata flags.
+
+6. **AI Features:** All AI features are explicitly excluded from MVP per project requirements. The architecture supports future AI integration via service layer (no structural changes needed).
+
+---
+
 ## Next Phase Plan
 
 ### Phase 5: MVP Finalization & Permissions
 
 | Task | Status |
 |------|--------|
-| Backend: Investor/Buyer pipeline model and API | ⬜ Pending |
-| Frontend: Pipeline tabs (Buyer/Investor) | ⬜ Pending |
-| Permissions: Configure roles (Founder, Investor, Buyer) | ⬜ Pending |
+| Config-based access rules (`config/data/project_access.php`) | ✅ Done |
+| `ProjectParticipantAccess` middleware | ✅ Done |
+| `ProjectParticipantService` (invite flow) | ✅ Done |
+| `ProjectParticipantController` (admin API) | ✅ Done |
+| `ProjectExitController` (client portal API) | ✅ Done |
+| `OfferGenerationService` (Offer + Invoice from Growth Items) | ✅ Done |
+| Client routes registration | ⬜ In Progress |
 | End-to-end testing of full MVP cycle | ⬜ Pending |
+| MVP Demo Scenario verification | ⬜ Pending |

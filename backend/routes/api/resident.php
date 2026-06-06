@@ -274,7 +274,19 @@ Route::prefix('project/{projectId}/growth-items')
         Route::put('/{itemId}', 'update');
         Route::patch('/{itemId}/status', 'changeStatus');
         Route::post('/{itemId}/approve', 'approveAndExecute');
+        Route::post('/{itemId}/generate-offer', 'generateOffer');
+        Route::post('/{itemId}/generate-invoice', 'generateInvoice');
         Route::delete('/{itemId}', 'destroy');
+    });
+#Project Participants (Investor/Buyer Pipeline)
+Route::prefix("project/{projectId}/participants")
+    ->controller(Resident\Project\ProjectParticipantController::class)
+    ->group(function(){
+        Route::get("/", "index");
+        Route::post("/invite", "invite");
+        Route::patch("/{clientId}/role", "updateRole");
+        Route::delete("/{clientId}", "remove");
+        Route::get("/{clientId}/access-link", "accessLink");
     });
 
 #Project
