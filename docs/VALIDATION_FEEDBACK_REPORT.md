@@ -180,3 +180,83 @@
 - All pages now follow RecentCard pattern: `$brand-900` background, 24px padding, 8px border-radius.
 - Typography uses `$fontSpaceGrotesk` for headings, proper letter-spacing.
 - Mobile responsive with `$bpL` breakpoint.
+
+---
+
+### ISSUE-011
+
+| Field | Value |
+|-------|-------|
+| **ID** | ISSUE-011 |
+| **Category** | Global Styles / White Containers |
+| **Problem** | Pages still show white background containers or flashes of white despite SCSS module rewrites. |
+| **Root Cause** | Chakra UI's `extendTheme` with `styles.global` defined as an object was injecting `body { background: white }` due to a known issue with emotion/Chakra global style specificity. |
+| **Proposed Fix** | Change `styles.global` from object format to function format in `main.tsx` to properly override default Chakra light theme body background. Add dark mode init script to `index.html`. |
+| **Files Affected** | `frontend/src/main.tsx`, `frontend/index.html` |
+| **Effort** | 15 min |
+| **Priority** | High |
+| **Status** | **Fixed** — commit `2c92f064` |
+
+---
+
+### ISSUE-012
+
+| Field | Value |
+|-------|-------|
+| **ID** | ISSUE-012 |
+| **Category** | Onboarding UX |
+| **Problem** | User data in Onboarding wizard is only saved when clicking Next/Previous. If user closes browser or navigates away mid-step, data is lost. |
+| **Root Cause** | Save logic only triggered on step transition buttons. |
+| **Proposed Fix** | Implement debounced autosave (1.5s) on form field changes. Add visual status indicator (Unsaved / Saving... / Saved) to the header. |
+| **Files Affected** | `OnboardingPage.tsx`, `OnboardingPage.module.scss` |
+| **Effort** | 30 min |
+| **Priority** | Medium |
+| **Status** | **Fixed** — commit `375e771e` |
+
+---
+
+### ISSUE-013
+
+| Field | Value |
+|-------|-------|
+| **ID** | ISSUE-013 |
+| **Category** | Onboarding Logic |
+| **Problem** | Step 3 (Traction & Metrics) is never marked as completed even when all fields are filled. |
+| **Root Cause** | The `isStepCompleted` function used `every()` on the required fields array. Step 3 had no explicitly required fields, causing an empty array check which failed the overall step completion logic. |
+| **Proposed Fix** | Change logic for steps without required fields to use `some()` — if any field has a value, consider the step completed. |
+| **Files Affected** | `OnboardingPage.tsx` |
+| **Effort** | 15 min |
+| **Priority** | High |
+| **Status** | **Fixed** — commit `76fdc788` |
+
+---
+
+### ISSUE-014
+
+| Field | Value |
+|-------|-------|
+| **ID** | ISSUE-014 |
+| **Category** | UI Polish |
+| **Problem** | Project status badges show raw database values like `in_progress` or `active` instead of human-readable labels. |
+| **Root Cause** | The `Status.tsx` component was rendering the raw `status` string directly without mapping it to a display label. |
+| **Proposed Fix** | Add `normalizeStatus()` function to `Status.tsx` to map raw DB values to human-readable labels (e.g., `in_progress` -> `Started`, `draft` -> `Draft`). Apply appropriate pill styling classes. |
+| **Files Affected** | `Status.tsx`, `Status.module.scss` |
+| **Effort** | 20 min |
+| **Priority** | Medium |
+| **Status** | **Fixed** — commit `9ef75fec` |
+
+---
+
+### ISSUE-015
+
+| Field | Value |
+|-------|-------|
+| **ID** | ISSUE-015 |
+| **Category** | UI Polish |
+| **Problem** | The newly standardized status badges (Draft, Started, etc.) on the Recent Projects table and Project Cards wrap to multiple lines if the container is narrow, breaking the pill shape. |
+| **Root Cause** | Missing `white-space: nowrap` and `flex-shrink: 0` on the badge container. |
+| **Proposed Fix** | Add `white-space: nowrap`, `flex-shrink: 0`, and `align-items: center` to `Status.module.scss` and the `ProjectCard.module.scss` header sections. |
+| **Files Affected** | `Status.module.scss`, `frontend/src/pages/Admin/ProjectsPage/ProjectCard/ProjectCard.module.scss`, `frontend/src/pages/Client/ProjectsPage/ProjectCard/ProjectCard.module.scss` |
+| **Effort** | 10 min |
+| **Priority** | High |
+| **Status** | **Fixed** — commit `1ac4aaa7` |
