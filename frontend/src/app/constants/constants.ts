@@ -1539,6 +1539,7 @@ export interface AccountingTransactionsForm {
 }
 
 export interface ProjectsInputData {
+  templates?: { id: number; code: string; name: string; description: string }[]
   currency: { id: number; code: string }[]
   status: string[]
   type: string[]
@@ -1563,6 +1564,7 @@ export interface ProjectsNewProjectForm {
   manager: number
   client: number
   suppliers: number[]
+  templateCode?: string
 }
 
 export interface ProjectsData {

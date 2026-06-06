@@ -1,6 +1,5 @@
 import { Textarea } from '@chakra-ui/react'
 import { ChangeEvent, Dispatch, SetStateAction } from 'react'
-
 import styles from './Fields.module.scss'
 import {
   ProjectsInputData,
@@ -18,6 +17,10 @@ interface FieldsProps {
 }
 
 export const Fields = ({ inputData, setForm }: FieldsProps) => {
+  // Build template options: first option is "Standard Project" (no template)
+  const templateNames = ['Standard Project', ...(inputData.templates?.map(t => t.name) ?? [])]
+  const templateIds = [0, ...(inputData.templates?.map((_t, i) => i + 1) ?? [])]
+
   const handleChangeInput = (
     field: string,
     value: string | number | number[] | string[] | undefined | null,
@@ -26,6 +29,13 @@ export const Fields = ({ inputData, setForm }: FieldsProps) => {
       value = inputData.type[value]
     } else if (field === 'status' && typeof value === 'number') {
       value = inputData.status[value]
+    } else if (field === 'templateCode' && typeof value === 'number') {
+      // Convert index to template code string (0 = no template)
+      if (value === 0) {
+        value = undefined
+      } else {
+        value = inputData.templates?.[value - 1]?.code ?? undefined
+      }
     } else if (
       field === 'client' &&
       typeof value === 'number' &&
@@ -50,7 +60,6 @@ export const Fields = ({ inputData, setForm }: FieldsProps) => {
           const staffMember = inputData.staff.find(
             staff => staff.account === account,
           )
-
           return staffMember ? staffMember.id : null
         })
         .filter(id => id !== null) as number[]
@@ -71,6 +80,14 @@ export const Fields = ({ inputData, setForm }: FieldsProps) => {
             type='text'
             id='name'
             name='name'
+            onChange={handleChangeInput}
+          />
+          <CustomSelect
+            title='Template'
+            titleOnChange='templateCode'
+            value={0}
+            idList={templateIds}
+            nameList={templateNames}
             onChange={handleChangeInput}
           />
           <div className={styles.containerItems}>
