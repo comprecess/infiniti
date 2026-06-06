@@ -15,6 +15,7 @@ import { selectTheme } from './shared/themes/Select.ts'
 import { switchTheme } from './shared/themes/Switch.ts'
 
 const theme = extendTheme({
+  config: { initialColorMode: "dark", useSystemColorMode: false },
   components: {
     Checkbox: checkboxTheme,
     Menu: menuTheme,
@@ -54,10 +55,10 @@ const theme = extendTheme({
     },
   },
   styles: {
-    global: (props: any) => ({
+    global: () => ({
       body: {
-        bg: props.colorMode === 'light' ? 'white' : 'white',
-        color: props.colorMode === 'light' ? 'white' : 'white',
+        bg: 'brand.1000',
+        color: 'whiteAlpha.900',
         transition: 'background-color 0.2s ease',
       },
     }),
