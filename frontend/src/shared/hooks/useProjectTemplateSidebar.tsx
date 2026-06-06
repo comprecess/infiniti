@@ -28,6 +28,7 @@ export interface SidebarPage {
  * Falls back to DashboardIcon if the code is not found.
  */
 const iconMap: Record<string, React.ReactNode> = {
+  onboarding: <BookOpenIcon />,
   summary: <DashboardIcon />,
   tasks: <TasksIcon />,
   files: <FileIcon />,

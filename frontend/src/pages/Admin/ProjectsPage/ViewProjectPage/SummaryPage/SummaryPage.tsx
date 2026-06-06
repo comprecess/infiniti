@@ -1,10 +1,11 @@
-import { useEffect } from 'react'
-import { useOutletContext } from 'react-router-dom'
+import { useCallback, useEffect, useState } from 'react'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 
 import styles from './SummaryPage.module.scss'
 import { ProjectViewPageContext } from '../../../../../app/constants/constants'
 import { sanitizeMessage } from '../../../../../shared/utils/TextEditor/sanitizeMessage'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
+import { getProjectMetadataGroup } from '../../../../../shared/utils/api/Admin/Projects/project-metadata'
 
 export const AdminProjectsSummaryPage = () => {
   const context = useOutletContext<ProjectViewPageContext>()
@@ -22,6 +23,38 @@ export const AdminProjectsSummaryPage = () => {
 
   const safeDetails = projectInfo.details ? sanitizeMessage(projectInfo.details) : null
 
+  const navigate = useNavigate()
+  const templateCode = (context as any)?.templateCode
+  const [onboardingProgress, setOnboardingProgress] = useState<number | null>(null)
+  const [onboardingStatus, setOnboardingStatus] = useState<string>('')
+
+  const checkOnboardingProgress = useCallback(async () => {
+    if (!context?.idProject || templateCode !== 'exit_deal') return
+    const response = await getProjectMetadataGroup(context.idProject, 'onboarding')
+    if (response.status && response.data) {
+      const data = response.data as Record<string, string>
+      if (data.status === 'completed') {
+        setOnboardingProgress(100)
+        setOnboardingStatus('completed')
+      } else {
+        // Count filled fields across all onboarding groups
+        const totalSteps = 5
+        const filledKeys = Object.keys(data).filter(k => k !== 'status' && k !== 'completed_at' && data[k])
+        const progress = Math.round((filledKeys.length / (totalSteps * 3)) * 100)
+        setOnboardingProgress(Math.min(progress, 95))
+        setOnboardingStatus('in_progress')
+      }
+    } else {
+      setOnboardingProgress(0)
+      setOnboardingStatus('not_started')
+    }
+  }, [context?.idProject, templateCode])
+
+  useEffect(() => {
+    checkOnboardingProgress()
+  }, [checkOnboardingProgress])
+
+
   useEffect(() => {
     document.title = 'infiniti | Project Summary'
   }, [])
@@ -31,6 +64,40 @@ export const AdminProjectsSummaryPage = () => {
       <RecentCard>
         <div className={styles.container}>
           <span className={styles.title}>{projectInfo.name || 'No project name'}</span>
+          {/* Onboarding Progress (Exit Deal only) */}
+          {templateCode === 'exit_deal' && onboardingProgress !== null && (
+            <div className={styles.tasks} style={{ marginTop: '16px' }}>
+              <div className={styles.chart}>
+                <div className={styles.chartTexts}>
+                  <span className={styles.amount}>
+                    {onboardingStatus === 'completed'
+                      ? 'Onboarding Complete'
+                      : onboardingStatus === 'not_started'
+                        ? 'Onboarding Not Started'
+                        : `Onboarding ${onboardingProgress}% Complete`}
+                  </span>
+                  {onboardingStatus !== 'completed' && (
+                    <span
+                      className={styles.amount}
+                      style={{ cursor: 'pointer', textDecoration: 'underline' }}
+                      onClick={() => navigate('../onboarding')}
+                    >
+                      Continue Setup
+                    </span>
+                  )}
+                </div>
+                <div className={styles.tasksCompleted}>
+                  <div
+                    className={styles.segment}
+                    style={{
+                      width: `${onboardingProgress}%`,
+                      backgroundColor: onboardingProgress === 100 ? '#4caf50' : '#ff9800',
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
           {(projectInfo.budget || projectInfo.expense) && (
             <div className={styles.budgetExpense}>
               {projectInfo.budget && (

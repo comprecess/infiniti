@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
-import { useOutletContext } from 'react-router-dom'
+import { useNavigate, useOutletContext } from 'react-router-dom'
 import { ProjectViewPageContext } from '../../../../../app/constants/constants'
 import { useCustomToast } from '../../../../../shared/ui/CustomToast/CustomToast'
 import {
@@ -125,6 +125,7 @@ const EXIT_DEAL_STEPS: WizardStep[] = [
 
 export const AdminProjectsOnboardingPage = () => {
   const context = useOutletContext<ProjectViewPageContext>()
+  const navigate = useNavigate()
   const showToast = useCustomToast()
 
   const [currentStep, setCurrentStep] = useState<number>(0)
@@ -205,6 +206,35 @@ export const AdminProjectsOnboardingPage = () => {
         status: 'error',
       })
     }
+  }
+
+
+  const handleCompleteOnboarding = async () => {
+    if (!context.idProject) return
+    const step = steps[currentStep]
+    const stepData = formData[step.group] || {}
+    setSaving(true)
+    const response = await saveProjectMetadata(context.idProject, step.group, stepData)
+    if (response.status) {
+      await saveProjectMetadata(context.idProject, 'onboarding', {
+        status: 'completed',
+        completed_at: new Date().toISOString(),
+      })
+      setCompletedSteps(prev => new Set([...prev, currentStep]))
+      showToast({
+        title: 'Onboarding Complete',
+        description: 'Your project setup is complete. Redirecting to dashboard...',
+        status: 'success',
+      })
+      setTimeout(() => navigate('../summary', { replace: true }), 1500)
+    } else {
+      showToast({
+        title: 'Error',
+        description: response.message || 'Failed to save',
+        status: 'error',
+      })
+    }
+    setSaving(false)
   }
 
   const handleNext = async () => {
@@ -330,7 +360,7 @@ export const AdminProjectsOnboardingPage = () => {
           ) : (
             <ButtonBlue
               title={saving ? 'Completing...' : 'Complete Onboarding'}
-              onClick={handleSaveStep}
+              onClick={handleCompleteOnboarding}
             />
           )}
         </div>
