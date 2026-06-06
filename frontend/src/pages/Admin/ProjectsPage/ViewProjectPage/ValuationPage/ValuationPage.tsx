@@ -1,22 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
-  Box,
-  Heading,
-  Text,
-  Flex,
-  Grid,
-  GridItem,
-  Button,
-  Badge,
-  Stat,
-  StatLabel,
-  StatNumber,
-  StatHelpText,
-  StatArrow,
-  Card,
-  CardBody,
-  CardHeader,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -29,19 +13,17 @@ import {
   Input,
   Select,
   Textarea,
+  Grid,
+  GridItem,
+  Button,
   useDisclosure,
   useToast,
-  Progress,
   Divider,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableContainer,
+  Flex,
+  Text,
 } from '@chakra-ui/react';
 import { getValuationDashboard, createValuation, getValuationHistory, ValuationData } from '../../../../../shared/utils/api/Admin/Projects/valuation';
+import styles from './ValuationPage.module.scss';
 
 interface ValuationPageContext {
   project: {
@@ -67,7 +49,6 @@ const ValuationPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
-  // Form state for new valuation
   const [form, setForm] = useState({
     valuation_type: 'current' as const,
     base_metric_name: 'EBITDA',
@@ -129,207 +110,181 @@ const ValuationPage = () => {
 
   if (loading) {
     return (
-      <Box p={6}>
-        <Progress size="xs" isIndeterminate colorScheme="blue" />
-        <Text mt={4} color="gray.300">Loading valuation data...</Text>
-      </Box>
+      <div className={styles.wrapper}>
+        <div className={styles.loadingWrapper}>
+          <span>Loading valuation data...</span>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Box p={6}>
-      <Flex justify="space-between" align="center" mb={6}>
-        <Box>
-          <Heading size="lg">Valuation</Heading>
-          <Text color="gray.300" mt={1}>Business valuation and growth projections</Text>
-        </Box>
-        <Flex gap={3}>
-          <Button size="sm" variant="outline" onClick={loadHistory}>
+    <div className={styles.wrapper}>
+      {/* Header */}
+      <div className={styles.header}>
+        <div className={styles.headerLeft}>
+          <h1 className={styles.title}>Valuation</h1>
+          <p className={styles.subtitle}>Business valuation and growth projections</p>
+        </div>
+        <div className={styles.headerActions}>
+          <button className={styles.btnOutline} onClick={loadHistory}>
             History
-          </Button>
-          <Button size="sm" colorScheme="blue" onClick={onOpen}>
+          </button>
+          <button className={styles.btnPrimary} onClick={onOpen}>
             + New Valuation
-          </Button>
-        </Flex>
-      </Flex>
+          </button>
+        </div>
+      </div>
 
       {/* Valuation Cards */}
-      <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={6} mb={8}>
+      <div className={styles.valuationGrid}>
         {/* Current Value */}
-        <GridItem>
-          <Card bg="brand.900"  borderTop="4px solid" borderTopColor="brand.500">
-            <CardBody>
-              <Stat>
-                <StatLabel color="gray.300" fontSize="sm">Current Value</StatLabel>
-                <StatNumber fontSize="2xl" color="brand.400">
-                  {dashboard?.current ? formatCurrency(dashboard.current.total_value) : '—'}
-                </StatNumber>
-                <StatHelpText>
-                  {dashboard?.current
-                    ? `${dashboard.current.base_metric_name}: ${formatCurrency(dashboard.current.base_metric_value)} × ${dashboard.current.multiplier}x`
-                    : 'No valuation set'}
-                </StatHelpText>
-              </Stat>
-            </CardBody>
-          </Card>
-        </GridItem>
+        <div className={styles.valuationCard}>
+          <div className={styles.statLabel}>Current Value</div>
+          <div className={styles.statValue}>
+            {dashboard?.current ? formatCurrency(dashboard.current.total_value) : '—'}
+          </div>
+          <div className={styles.statHelp}>
+            {dashboard?.current
+              ? `${dashboard.current.base_metric_name}: ${formatCurrency(dashboard.current.base_metric_value)} × ${dashboard.current.multiplier}x`
+              : 'No valuation set'}
+          </div>
+        </div>
 
         {/* Projected Value */}
-        <GridItem>
-          <Card bg="brand.900"  borderTop="4px solid" borderTopColor="mint.500">
-            <CardBody>
-              <Stat>
-                <StatLabel color="gray.300" fontSize="sm">Projected Value</StatLabel>
-                <StatNumber fontSize="2xl" color="mint.500">
-                  {dashboard?.projected ? formatCurrency(dashboard.projected.total_value) : '—'}
-                </StatNumber>
-                <StatHelpText>
-                  {dashboard?.projected ? (
-                    <>
-                      <StatArrow type="increase" />
-                      {getGrowthPercent()}% growth potential
-                      <Badge ml={2} colorScheme="yellow" fontSize="xs">
-                        {dashboard.projected.confidence_percent}% confidence
-                      </Badge>
-                    </>
-                  ) : 'Add growth items to see projections'}
-                </StatHelpText>
-              </Stat>
-            </CardBody>
-          </Card>
-        </GridItem>
+        <div className={`${styles.valuationCard} ${styles.valuationCardMint}`}>
+          <div className={styles.statLabel}>Projected Value</div>
+          <div className={`${styles.statValue} ${styles.statValueMint}`}>
+            {dashboard?.projected ? formatCurrency(dashboard.projected.total_value) : '—'}
+          </div>
+          <div className={styles.statHelp}>
+            {dashboard?.projected ? (
+              <>
+                <span className={styles.growthArrow}>↑</span>
+                {getGrowthPercent()}% growth potential
+                <span className={styles.confidenceBadge}>
+                  {dashboard.projected.confidence_percent}% confidence
+                </span>
+              </>
+            ) : 'Add growth items to see projections'}
+          </div>
+        </div>
 
         {/* Best Case Value */}
-        <GridItem>
-          <Card bg="brand.900"  borderTop="4px solid" borderTopColor="brand.300">
-            <CardBody>
-              <Stat>
-                <StatLabel color="gray.300" fontSize="sm">Best Case Value</StatLabel>
-                <StatNumber fontSize="2xl" color="brand.300">
-                  {dashboard?.best_case ? formatCurrency(dashboard.best_case.total_value) : '—'}
-                </StatNumber>
-                <StatHelpText>
-                  {dashboard?.best_case
-                    ? `All items at 100% confidence`
-                    : 'No growth items yet'}
-                </StatHelpText>
-              </Stat>
-            </CardBody>
-          </Card>
-        </GridItem>
-      </Grid>
+        <div className={`${styles.valuationCard} ${styles.valuationCardBrand}`}>
+          <div className={styles.statLabel}>Best Case Value</div>
+          <div className={`${styles.statValue} ${styles.statValueBrand}`}>
+            {dashboard?.best_case ? formatCurrency(dashboard.best_case.total_value) : '—'}
+          </div>
+          <div className={styles.statHelp}>
+            {dashboard?.best_case
+              ? 'All items at 100% confidence'
+              : 'No growth items yet'}
+          </div>
+        </div>
+      </div>
 
       {/* Growth Progress */}
       {dashboard && (dashboard.growth_items_count > 0 || dashboard.completed_items_count > 0) && (
-        <Card mb={6} bg="brand.900" >
-          <CardHeader pb={2}>
-            <Heading size="sm">Growth Progress</Heading>
-          </CardHeader>
-          <CardBody pt={0}>
-            <Flex justify="space-between" mb={2}>
-              <Text fontSize="sm" color="gray.200">
-                {dashboard.completed_items_count} of {dashboard.growth_items_count} items completed
-              </Text>
-              <Text fontSize="sm" fontWeight="bold" color="brand.400">
-                {dashboard.growth_items_count > 0
-                  ? Math.round((dashboard.completed_items_count / dashboard.growth_items_count) * 100)
-                  : 0}%
-              </Text>
-            </Flex>
-            <Progress
-              value={dashboard.growth_items_count > 0
-                ? (dashboard.completed_items_count / dashboard.growth_items_count) * 100
-                : 0}
-              colorScheme="green"
-              size="md"
-              borderRadius="full"
+        <div className={styles.progressCard}>
+          <div className={styles.progressHeader}>
+            <span className={styles.progressTitle}>Growth Progress</span>
+            <span className={styles.progressPercent}>
+              {dashboard.growth_items_count > 0
+                ? Math.round((dashboard.completed_items_count / dashboard.growth_items_count) * 100)
+                : 0}%
+            </span>
+          </div>
+          <div className={styles.progressText}>
+            {dashboard.completed_items_count} of {dashboard.growth_items_count} items completed
+          </div>
+          <div className={styles.progressBarBg}>
+            <div
+              className={styles.progressBarFill}
+              style={{
+                width: `${dashboard.growth_items_count > 0
+                  ? (dashboard.completed_items_count / dashboard.growth_items_count) * 100
+                  : 0}%`
+              }}
             />
-          </CardBody>
-        </Card>
+          </div>
+        </div>
       )}
 
       {/* Confidence Indicator */}
       {dashboard?.projected && (
-        <Card mb={6} bg="brand.900" >
-          <CardHeader pb={2}>
-            <Heading size="sm">Confidence Level</Heading>
-          </CardHeader>
-          <CardBody pt={0}>
-            <Flex justify="space-between" mb={2}>
-              <Text fontSize="sm" color="gray.200">
-                Weighted average across all growth items
-              </Text>
-              <Text fontSize="sm" fontWeight="bold" color={
-                dashboard.projected.confidence_percent >= 70 ? 'green.600' :
-                dashboard.projected.confidence_percent >= 40 ? 'yellow.600' : 'red.600'
-              }>
-                {dashboard.projected.confidence_percent}%
-              </Text>
-            </Flex>
-            <Progress
-              value={dashboard.projected.confidence_percent}
-              colorScheme={
-                dashboard.projected.confidence_percent >= 70 ? 'green' :
-                dashboard.projected.confidence_percent >= 40 ? 'yellow' : 'red'
-              }
-              size="md"
-              borderRadius="full"
+        <div className={styles.progressCard}>
+          <div className={styles.progressHeader}>
+            <span className={styles.progressTitle}>Confidence Level</span>
+            <span className={styles.progressPercent} style={{
+              color: dashboard.projected.confidence_percent >= 70 ? '#10b7b7' :
+                     dashboard.projected.confidence_percent >= 40 ? '#f59f0a' : '#ef4382'
+            }}>
+              {dashboard.projected.confidence_percent}%
+            </span>
+          </div>
+          <div className={styles.progressText}>
+            Weighted average across all growth items
+          </div>
+          <div className={styles.progressBarBg}>
+            <div
+              className={`${styles.progressBarFill} ${
+                dashboard.projected.confidence_percent >= 70 ? '' :
+                dashboard.projected.confidence_percent >= 40 ? styles.progressBarFillYellow : styles.progressBarFillRed
+              }`}
+              style={{ width: `${dashboard.projected.confidence_percent}%` }}
             />
-          </CardBody>
-        </Card>
+          </div>
+        </div>
       )}
 
       {/* History Table */}
       {showHistory && history.length > 0 && (
-        <Card bg="brand.900" >
-          <CardHeader>
-            <Flex justify="space-between" align="center">
-              <Heading size="sm">Valuation History</Heading>
-              <Button size="xs" variant="ghost" onClick={() => setShowHistory(false)}>Hide</Button>
-            </Flex>
-          </CardHeader>
-          <CardBody pt={0}>
-            <TableContainer>
-              <Table size="sm">
-                <Thead>
-                  <Tr>
-                    <Th>Date</Th>
-                    <Th>Type</Th>
-                    <Th>Metric</Th>
-                    <Th isNumeric>Value</Th>
-                    <Th isNumeric>Multiplier</Th>
-                    <Th isNumeric>Total</Th>
-                    <Th isNumeric>Confidence</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {history.map((v) => (
-                    <Tr key={v.id}>
-                      <Td>{v.created_at ? new Date(v.created_at).toLocaleDateString() : '—'}</Td>
-                      <Td>
-                        <Badge colorScheme={
-                          v.valuation_type === 'current' ? 'blue' :
-                          v.valuation_type === 'projected' ? 'green' :
-                          v.valuation_type === 'final' ? 'purple' : 'gray'
-                        } fontSize="xs">
-                          {v.valuation_type}
-                        </Badge>
-                      </Td>
-                      <Td>{v.base_metric_name}</Td>
-                      <Td isNumeric>{formatCurrency(v.base_metric_value)}</Td>
-                      <Td isNumeric>{v.multiplier}x</Td>
-                      <Td isNumeric fontWeight="bold">{formatCurrency(v.total_value || 0)}</Td>
-                      <Td isNumeric>{v.confidence_percent}%</Td>
-                    </Tr>
-                  ))}
-                </Tbody>
-              </Table>
-            </TableContainer>
-          </CardBody>
-        </Card>
+        <div className={styles.historyCard}>
+          <div className={styles.historyHeader}>
+            <span className={styles.historyTitle}>Valuation History</span>
+            <button className={styles.btnHide} onClick={() => setShowHistory(false)}>Hide</button>
+          </div>
+          <div style={{ overflowX: 'auto' }}>
+            <table className={styles.historyTable}>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Type</th>
+                  <th>Metric</th>
+                  <th className={styles.textRight}>Value</th>
+                  <th className={styles.textRight}>Multiplier</th>
+                  <th className={styles.textRight}>Total</th>
+                  <th className={styles.textRight}>Confidence</th>
+                </tr>
+              </thead>
+              <tbody>
+                {history.map((v) => (
+                  <tr key={v.id}>
+                    <td>{v.created_at ? new Date(v.created_at).toLocaleDateString() : '—'}</td>
+                    <td>
+                      <span className={`${styles.badge} ${
+                        v.valuation_type === 'current' ? styles.badgeBlue :
+                        v.valuation_type === 'projected' ? styles.badgeGreen :
+                        v.valuation_type === 'final' ? styles.badgePurple : styles.badgeGray
+                      }`}>
+                        {v.valuation_type}
+                      </span>
+                    </td>
+                    <td>{v.base_metric_name}</td>
+                    <td className={styles.textRight}>{formatCurrency(v.base_metric_value)}</td>
+                    <td className={styles.textRight}>{v.multiplier}x</td>
+                    <td className={`${styles.textRight} ${styles.textBold}`}>{formatCurrency(v.total_value || 0)}</td>
+                    <td className={styles.textRight}>{v.confidence_percent}%</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       )}
 
-      {/* Create Valuation Modal */}
+      {/* Create Valuation Modal - keep Chakra for modals */}
       <Modal isOpen={isOpen} onClose={onClose} size="lg">
         <ModalOverlay />
         <ModalContent>
@@ -421,7 +376,7 @@ const ValuationPage = () => {
               {form.base_metric_value && form.multiplier && (
                 <GridItem colSpan={2}>
                   <Divider my={2} />
-                  <Flex justify="space-between" align="center" bg="gray.50" p={3} borderRadius="md">
+                  <Flex justify="space-between" align="center" bg="brand.800" p={3} borderRadius="md">
                     <Text fontSize="sm" color="gray.200">Calculated Total Value:</Text>
                     <Text fontSize="lg" fontWeight="bold" color="brand.400">
                       {formatCurrency(parseFloat(form.base_metric_value) * parseFloat(form.multiplier))}
@@ -443,7 +398,7 @@ const ValuationPage = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </Box>
+    </div>
   );
 };
 

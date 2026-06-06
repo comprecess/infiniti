@@ -1,17 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
-  Box,
-  Heading,
-  Text,
-  Flex,
-  Grid,
-  GridItem,
-  Button,
-  Badge,
-  Card,
-  CardBody,
-  CardHeader,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -24,25 +13,20 @@ import {
   Input,
   Select,
   Textarea,
+  Grid,
+  GridItem,
+  Button,
   useDisclosure,
   useToast,
-  Progress,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
   AlertDialog,
   AlertDialogOverlay,
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogBody,
   AlertDialogFooter,
-  Tooltip,
-  Tag,
-  TagLabel,
+  Text,
+  Box,
 } from '@chakra-ui/react';
-import { useRef } from 'react';
 import {
   GrowthItemData,
   getGrowthItems,
@@ -52,6 +36,7 @@ import {
   approveGrowthItem,
   changeGrowthItemStatus,
 } from '../../../../../shared/utils/api/Admin/Projects/growth-items';
+import styles from './GrowthPlanPage.module.scss';
 
 interface GrowthPlanPageContext {
   project: {
@@ -68,22 +53,22 @@ const formatCurrency = (value: number): string => {
   return `$${value.toFixed(0)}`;
 };
 
-const categoryColors: Record<string, string> = {
-  technical: 'purple',
-  financial: 'green',
-  operational: 'blue',
-  marketing: 'orange',
-  team: 'teal',
-  product: 'cyan',
-  legal: 'red',
+const categoryBadgeClass: Record<string, string> = {
+  technical: 'badgePurple',
+  financial: 'badgeGreen',
+  operational: 'badgeBlue',
+  marketing: 'badgeOrange',
+  team: 'badgeTeal',
+  product: 'badgeCyan',
+  legal: 'badgeRed',
 };
 
-const statusColors: Record<string, string> = {
-  proposed: 'gray',
-  approved: 'blue',
-  in_progress: 'yellow',
-  completed: 'green',
-  rejected: 'red',
+const statusBadgeClass: Record<string, string> = {
+  proposed: 'badgeGray',
+  approved: 'badgeBlue',
+  in_progress: 'badgeYellow',
+  completed: 'badgeGreen',
+  rejected: 'badgeRed',
 };
 
 const GrowthPlanPage = () => {
@@ -199,177 +184,160 @@ const GrowthPlanPage = () => {
 
   if (loading) {
     return (
-      <Box p={6}>
-        <Progress size="xs" isIndeterminate colorScheme="blue" />
-        <Text mt={4} color="gray.300">Loading growth plan...</Text>
-      </Box>
+      <div className={styles.wrapper}>
+        <div className={styles.loadingWrapper}>
+          <span>Loading growth plan...</span>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Box p={6}>
-      <Flex justify="space-between" align="center" mb={6}>
-        <Box>
-          <Heading size="lg">Growth Plan</Heading>
-          <Text color="gray.300" mt={1}>Value creation recommendations and execution tracking</Text>
-        </Box>
-        <Button size="sm" colorScheme="blue" onClick={onOpen}>
+    <div className={styles.wrapper}>
+      {/* Header */}
+      <div className={styles.header}>
+        <div className={styles.headerLeft}>
+          <h1 className={styles.title}>Growth Plan</h1>
+          <p className={styles.subtitle}>Value creation recommendations and execution tracking</p>
+        </div>
+        <button className={styles.btnAdd} onClick={onOpen}>
           + Add Recommendation
-        </Button>
-      </Flex>
+        </button>
+      </div>
 
-      {/* Summary Stats - only show when items exist */}
+      {/* Summary Stats */}
       {items.length > 0 && (
-      <Grid templateColumns={{ base: '1fr', md: 'repeat(4, 1fr)' }} gap={4} mb={6}>
-        <Card bg="brand.900" >
-          <CardBody py={3} px={4}>
-            <Text fontSize="xs" color="gray.300">Total Items</Text>
-            <Text fontSize="xl" fontWeight="bold">{items.length}</Text>
-          </CardBody>
-        </Card>
-        <Card bg="brand.900" >
-          <CardBody py={3} px={4}>
-            <Text fontSize="xs" color="gray.300">In Progress</Text>
-            <Text fontSize="xl" fontWeight="bold" color="amber.500">{inProgressCount}</Text>
-          </CardBody>
-        </Card>
-        <Card bg="brand.900" >
-          <CardBody py={3} px={4}>
-            <Text fontSize="xs" color="gray.300">Completed</Text>
-            <Text fontSize="xl" fontWeight="bold" color="mint.500">{completedCount}</Text>
-          </CardBody>
-        </Card>
-        <Card bg="brand.900" >
-          <CardBody py={3} px={4}>
-            <Text fontSize="xs" color="gray.300">Total Investment</Text>
-            <Text fontSize="xl" fontWeight="bold" color="brand.400">{formatCurrency(totalEstimatedCost)}</Text>
-          </CardBody>
-        </Card>
-      </Grid>
+        <div className={styles.statsGrid}>
+          <div className={styles.statCard}>
+            <div className={styles.statLabel}>Total Items</div>
+            <div className={styles.statValue}>{items.length}</div>
+          </div>
+          <div className={styles.statCard}>
+            <div className={styles.statLabel}>In Progress</div>
+            <div className={`${styles.statValue} ${styles.statValueAmber}`}>{inProgressCount}</div>
+          </div>
+          <div className={styles.statCard}>
+            <div className={styles.statLabel}>Completed</div>
+            <div className={`${styles.statValue} ${styles.statValueMint}`}>{completedCount}</div>
+          </div>
+          <div className={styles.statCard}>
+            <div className={styles.statLabel}>Total Investment</div>
+            <div className={`${styles.statValue} ${styles.statValueBrand}`}>{formatCurrency(totalEstimatedCost)}</div>
+          </div>
+        </div>
       )}
 
       {/* Growth Items List */}
       {items.length === 0 ? (
-        <Card bg="brand.900"  borderTop="4px solid" borderTopColor="brand.500">
-          <CardBody textAlign="center" py={16}>
-            <Text fontSize="3xl" mb={4}>—</Text>
-            <Heading size="md" color="white" mb={2}>No Growth Items Yet</Heading>
-            <Text color="gray.300" mb={2} maxW="md" mx="auto">
-              Growth items are value creation recommendations that increase your company valuation.
-              Each item tracks impact on metrics, multiplier, and estimated cost.
-            </Text>
-            <Text color="gray.400" fontSize="sm" mb={6}>
-              Create your first recommendation to start the growth plan.
-            </Text>
-            <Button colorScheme="blue" size="md" onClick={onOpen}>
-              + Create First Recommendation
-            </Button>
-          </CardBody>
-        </Card>
+        <div className={styles.emptyCard}>
+          <div className={styles.emptyIcon}>—</div>
+          <h2 className={styles.emptyTitle}>No Growth Items Yet</h2>
+          <p className={styles.emptyDescription}>
+            Growth items are value creation recommendations that increase your company valuation.
+            Each item tracks impact on metrics, multiplier, and estimated cost.
+          </p>
+          <p className={styles.emptyHint}>
+            Create your first recommendation to start the growth plan.
+          </p>
+          <button className={styles.btnAdd} onClick={onOpen}>
+            + Create First Recommendation
+          </button>
+        </div>
       ) : (
-        <Flex direction="column" gap={4}>
+        <div className={styles.itemsList}>
           {items.map((item) => (
-            <Card key={item.id} bg="brand.900"  _hover={{ shadow: 'md' }} transition="all 0.2s">
-              <CardBody>
-                <Flex justify="space-between" align="flex-start">
-                  <Box flex={1}>
-                    <Flex align="center" gap={2} mb={2}>
-                      <Heading size="sm">{item.title}</Heading>
-                      <Badge colorScheme={categoryColors[item.category] || 'gray'} fontSize="xs">
-                        {item.category}
-                      </Badge>
-                      <Badge colorScheme={statusColors[item.status] || 'gray'} fontSize="xs">
-                        {item.status.replace('_', ' ')}
-                      </Badge>
-                    </Flex>
-                    {item.description && (
-                      <Text fontSize="sm" color="gray.200" mb={3}>{item.description}</Text>
-                    )}
-                    <Grid templateColumns={{ base: '1fr', md: 'repeat(5, 1fr)' }} gap={3}>
-                      <Box>
-                        <Text fontSize="xs" color="gray.300">Metric Impact</Text>
-                        <Text fontSize="sm" fontWeight="medium" color="mint.500">
-                          +{formatCurrency(item.impact_metric_increase || 0)}
-                        </Text>
-                      </Box>
-                      <Box>
-                        <Text fontSize="xs" color="gray.300">Multiplier Impact</Text>
-                        <Text fontSize="sm" fontWeight="medium" color="mint.500">
-                          +{item.impact_multiplier_increase || 0}x
-                        </Text>
-                      </Box>
-                      <Box>
-                        <Text fontSize="xs" color="gray.300">Confidence</Text>
-                        <Text fontSize="sm" fontWeight="medium">
-                          {item.confidence_percent}%
-                        </Text>
-                      </Box>
-                      <Box>
-                        <Text fontSize="xs" color="gray.300">Cost</Text>
-                        <Text fontSize="sm" fontWeight="medium" color="cherry.500">
-                          {formatCurrency(item.estimated_cost || 0)}
-                        </Text>
-                      </Box>
-                      <Box>
-                        <Text fontSize="xs" color="gray.300">Duration</Text>
-                        <Text fontSize="sm" fontWeight="medium">
-                          {item.estimated_duration_days || 0} days
-                        </Text>
-                      </Box>
-                    </Grid>
-                    {item.sys_task_id && (
-                      <Tag size="sm" mt={2} colorScheme="blue" variant="subtle">
-                        <TagLabel>Task #{item.sys_task_id} linked</TagLabel>
-                      </Tag>
-                    )}
-                  </Box>
-                  <Flex direction="column" gap={1} ml={4}>
-                    {item.status === 'proposed' && (
-                      <Button
-                        size="xs"
-                        colorScheme="green"
-                        onClick={() => { setSelectedItem(item); onApproveOpen(); }}
-                      >
-                        Approve & Start
-                      </Button>
-                    )}
-                    {item.status === 'approved' && (
-                      <Button
-                        size="xs"
-                        colorScheme="yellow"
-                        onClick={() => handleStatusChange(item.id!, 'in_progress')}
-                      >
-                        Start Work
-                      </Button>
-                    )}
-                    {item.status === 'in_progress' && (
-                      <Button
-                        size="xs"
-                        colorScheme="green"
-                        onClick={() => handleStatusChange(item.id!, 'completed')}
-                      >
-                        Complete
-                      </Button>
-                    )}
-                    {item.status === 'proposed' && (
-                      <Button
-                        size="xs"
-                        colorScheme="red"
-                        variant="ghost"
-                        onClick={() => handleDelete(item.id!)}
-                      >
-                        Delete
-                      </Button>
-                    )}
-                  </Flex>
-                </Flex>
-              </CardBody>
-            </Card>
+            <div key={item.id} className={styles.itemCard}>
+              <div className={styles.itemHeader}>
+                <div className={styles.itemHeaderLeft}>
+                  <div className={styles.itemTitleRow}>
+                    <span className={styles.itemTitle}>{item.title}</span>
+                    <span className={`${styles.badge} ${styles[categoryBadgeClass[item.category] || 'badgeGray']}`}>
+                      {item.category}
+                    </span>
+                    <span className={`${styles.badge} ${styles[statusBadgeClass[item.status] || 'badgeGray']}`}>
+                      {item.status.replace('_', ' ')}
+                    </span>
+                  </div>
+                  {item.description && (
+                    <p className={styles.itemDescription}>{item.description}</p>
+                  )}
+                  <div className={styles.itemMetrics}>
+                    <div className={styles.metricItem}>
+                      <span className={styles.metricLabel}>Metric Impact</span>
+                      <span className={`${styles.metricValue} ${styles.metricValueMint}`}>
+                        +{formatCurrency(item.impact_metric_increase || 0)}
+                      </span>
+                    </div>
+                    <div className={styles.metricItem}>
+                      <span className={styles.metricLabel}>Multiplier Impact</span>
+                      <span className={`${styles.metricValue} ${styles.metricValueMint}`}>
+                        +{item.impact_multiplier_increase || 0}x
+                      </span>
+                    </div>
+                    <div className={styles.metricItem}>
+                      <span className={styles.metricLabel}>Confidence</span>
+                      <span className={styles.metricValue}>
+                        {item.confidence_percent}%
+                      </span>
+                    </div>
+                    <div className={styles.metricItem}>
+                      <span className={styles.metricLabel}>Cost</span>
+                      <span className={`${styles.metricValue} ${styles.metricValueCherry}`}>
+                        {formatCurrency(item.estimated_cost || 0)}
+                      </span>
+                    </div>
+                    <div className={styles.metricItem}>
+                      <span className={styles.metricLabel}>Duration</span>
+                      <span className={styles.metricValue}>
+                        {item.estimated_duration_days || 0} days
+                      </span>
+                    </div>
+                  </div>
+                  {item.sys_task_id && (
+                    <span className={styles.taskTag}>Task #{item.sys_task_id} linked</span>
+                  )}
+                </div>
+                <div className={styles.itemActions}>
+                  {item.status === 'proposed' && (
+                    <button
+                      className={styles.btnApprove}
+                      onClick={() => { setSelectedItem(item); onApproveOpen(); }}
+                    >
+                      Approve & Start
+                    </button>
+                  )}
+                  {item.status === 'approved' && (
+                    <button
+                      className={styles.btnStart}
+                      onClick={() => handleStatusChange(item.id!, 'in_progress')}
+                    >
+                      Start Work
+                    </button>
+                  )}
+                  {item.status === 'in_progress' && (
+                    <button
+                      className={styles.btnComplete}
+                      onClick={() => handleStatusChange(item.id!, 'completed')}
+                    >
+                      Complete
+                    </button>
+                  )}
+                  {item.status === 'proposed' && (
+                    <button
+                      className={styles.btnDelete}
+                      onClick={() => handleDelete(item.id!)}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
           ))}
-        </Flex>
+        </div>
       )}
 
-      {/* Create Growth Item Modal */}
+      {/* Create Growth Item Modal - keep Chakra for modals */}
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
         <ModalContent>
@@ -382,7 +350,7 @@ const GrowthPlanPage = () => {
                   <FormLabel fontSize="sm">Title</FormLabel>
                   <Input
                     size="sm"
-                    placeholder="e.g., Hire CTO to reduce founder dependency"
+                    placeholder="e.g., Improve customer retention"
                     value={form.title}
                     onChange={(e) => setForm({ ...form, title: e.target.value })}
                   />
@@ -515,8 +483,8 @@ const GrowthPlanPage = () => {
                 <Text fontSize="sm" mb={1}>3. Change status to "approved"</Text>
               </Box>
               {selectedItem?.estimated_cost ? (
-                <Box mt={4} p={3} bg="yellow.50" borderRadius="md">
-                  <Text fontSize="sm" color="yellow.800">
+                <Box mt={4} p={3} bg="brand.800" borderRadius="md">
+                  <Text fontSize="sm" color="gray.200">
                     Estimated cost: <strong>{formatCurrency(selectedItem.estimated_cost)}</strong>
                   </Text>
                 </Box>
@@ -533,7 +501,7 @@ const GrowthPlanPage = () => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
-    </Box>
+    </div>
   );
 };
 

@@ -1,4 +1,323 @@
-.valuationPage {
+.wrapper {
   padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.loadingWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: $gray-300;
+  gap: 16px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: $white;
+  font-family: $fontSpaceGrotesk;
+  letter-spacing: -0.03em;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: $gray-300;
+}
+
+.headerActions {
+  display: flex;
+  gap: 12px;
+}
+
+.btnOutline {
+  padding: 10px 16px;
+  border: 1px solid $gray-500;
+  border-radius: 8px;
+  background: transparent;
+  color: $gray-200;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: $brand-800;
+    border-color: $brand-500;
+    color: $white;
+  }
+}
+
+.btnPrimary {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: $brand-500;
+  color: $white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: $brand-400;
+  }
+}
+
+.valuationGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.valuationCard {
+  background: $brand-900;
+  border-radius: 8px;
+  padding: 24px;
+  border-top: 4px solid $brand-500;
+}
+
+.valuationCardMint {
+  border-top-color: $mint-500;
+}
+
+.valuationCardBrand {
+  border-top-color: $brand-300;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: $gray-300;
+  margin-bottom: 8px;
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: $brand-400;
+  font-family: $fontSpaceGrotesk;
+  margin-bottom: 4px;
+}
+
+.statValueMint {
+  color: $mint-500;
+}
+
+.statValueBrand {
+  color: $brand-300;
+}
+
+.statHelp {
+  font-size: 12px;
+  color: $gray-300;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.growthArrow {
+  color: $mint-500;
+  font-weight: 600;
+}
+
+.confidenceBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  background: rgba(245, 159, 10, 0.15);
+  color: $amber-500;
+  margin-left: 8px;
+}
+
+.progressCard {
+  background: $brand-900;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.progressTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: $white;
+}
+
+.progressPercent {
+  font-size: 14px;
+  font-weight: 700;
+  color: $brand-400;
+}
+
+.progressText {
+  font-size: 13px;
+  color: $gray-200;
+  margin-bottom: 8px;
+}
+
+.progressBarBg {
   width: 100%;
+  height: 10px;
+  background: $gray-600;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  background: $mint-500;
+  border-radius: 5px;
+  transition: width 0.3s ease;
+}
+
+.progressBarFillYellow {
+  background: $amber-500;
+}
+
+.progressBarFillRed {
+  background: $cherry-500;
+}
+
+.historyCard {
+  background: $brand-900;
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.historyHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.historyTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: $white;
+}
+
+.btnHide {
+  padding: 4px 10px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: $gray-300;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: $white;
+    background: $brand-800;
+  }
+}
+
+.historyTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.historyTable th {
+  text-align: left;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: $gray-300;
+  border-bottom: 1px solid $gray-600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.historyTable td {
+  padding: 10px 12px;
+  font-size: 13px;
+  color: $gray-100;
+  border-bottom: 1px solid $gray-700;
+}
+
+.historyTable tr:last-child td {
+  border-bottom: none;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.badgeBlue {
+  background: rgba(48, 63, 225, 0.15);
+  color: $brand-400;
+}
+
+.badgeGreen {
+  background: rgba(16, 183, 183, 0.15);
+  color: $mint-500;
+}
+
+.badgePurple {
+  background: rgba(131, 140, 237, 0.15);
+  color: $brand-300;
+}
+
+.badgeGray {
+  background: rgba(158, 160, 183, 0.15);
+  color: $gray-200;
+}
+
+.textBold {
+  font-weight: 700;
+}
+
+.textRight {
+  text-align: right;
+}
+
+@media (max-width: $bpL) {
+  .wrapper {
+    padding: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .valuationGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .historyTable {
+    display: block;
+    overflow-x: auto;
+  }
 }

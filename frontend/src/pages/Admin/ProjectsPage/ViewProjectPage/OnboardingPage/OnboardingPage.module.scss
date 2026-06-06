@@ -23,7 +23,8 @@
 .title {
   font-size: 20px;
   font-weight: 600;
-  color: #1a1a2e;
+  color: $gray-50;
+  font-family: $fontSpaceGrotesk;
 }
 
 .progressInfo {
@@ -35,21 +36,21 @@
 .progressText {
   font-size: 14px;
   font-weight: 500;
-  color: #6c757d;
+  color: $gray-300;
   white-space: nowrap;
 }
 
 .progressBar {
   width: 200px;
   height: 8px;
-  background: #e9ecef;
+  background: $gray-600;
   border-radius: 4px;
   overflow: hidden;
 }
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(90deg, #4f46e5, #7c3aed);
+  background: $brand-500;
   border-radius: 4px;
   transition: width 0.3s ease;
 }
@@ -67,28 +68,29 @@
   gap: 8px;
   padding: 8px 16px;
   border-radius: 8px;
-  background: #f8f9fa;
+  background: $brand-800;
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
   border: 2px solid transparent;
 
   &:hover {
-    background: #e9ecef;
+    background: $gray-600;
   }
 }
 
 .stepActive {
-  background: #ede9fe;
-  border-color: #7c3aed;
+  background: $brand-800;
+  border-color: $brand-500;
 }
 
 .stepCompleted {
-  background: #d1fae5;
+  background: $brand-900;
+  border: 1px solid $mint-500;
 
   .stepNumber {
-    background: #059669;
-    color: white;
+    background: $mint-500;
+    color: $white;
   }
 }
 
@@ -96,36 +98,37 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #dee2e6;
+  background: $gray-500;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12px;
   font-weight: 600;
-  color: #495057;
+  color: $gray-200;
 }
 
 .stepTitle {
   font-size: 13px;
   font-weight: 500;
-  color: #495057;
+  color: $gray-200;
 }
 
 .formSection {
-  background: white;
+  background: $brand-900;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e9ecef;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  border: 1px solid $gray-600;
 }
 
 .sectionTitle {
   font-size: 18px;
   font-weight: 600;
-  color: #1a1a2e;
+  color: $gray-50;
   margin-bottom: 20px;
   padding-bottom: 12px;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid $gray-600;
+  font-family: $fontSpaceGrotesk;
 }
 
 .fieldsGrid {
@@ -148,33 +151,35 @@
 .textareaLabel {
   font-size: 14px;
   font-weight: 500;
-  color: #495057;
+  color: $gray-200;
 }
 
 .required {
-  color: #dc3545;
+  color: $cherry-500;
   margin-left: 4px;
 }
 
 .textarea {
   width: 100%;
   padding: 10px 14px;
-  border: 1px solid #dee2e6;
+  border: 1px solid $gray-600;
   border-radius: 8px;
   font-size: 14px;
   font-family: inherit;
   resize: vertical;
   min-height: 80px;
   transition: border-color 0.2s ease;
+  background: $brand-800;
+  color: $gray-50;
 
   &:focus {
     outline: none;
-    border-color: #7c3aed;
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+    border-color: $brand-500;
+    box-shadow: 0 0 0 3px rgba(48, 63, 225, 0.2);
   }
 
   &::placeholder {
-    color: #adb5bd;
+    color: $gray-400;
   }
 }
 
@@ -183,7 +188,7 @@
   justify-content: space-between;
   align-items: center;
   padding-top: 16px;
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid $gray-600;
 }
 
 .navLeft {
@@ -199,35 +204,35 @@
 
 .btnPrev {
   padding: 10px 20px;
-  border: 1px solid #dee2e6;
+  border: 1px solid $gray-500;
   border-radius: 8px;
-  background: white;
-  color: #495057;
+  background: $brand-800;
+  color: $gray-200;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    background: #f8f9fa;
-    border-color: #adb5bd;
+    background: $gray-600;
+    border-color: $gray-400;
   }
 }
 
 .btnSave {
   padding: 10px 20px;
-  border: 1px solid #dee2e6;
+  border: 1px solid $gray-500;
   border-radius: 8px;
-  background: white;
-  color: #495057;
+  background: $brand-800;
+  color: $gray-200;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    background: #f8f9fa;
-    border-color: #adb5bd;
+    background: $gray-600;
+    border-color: $gray-400;
   }
 
   &:disabled {
@@ -236,7 +241,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $bpL) {
   .wrapper {
     padding: 16px;
   }

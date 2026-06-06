@@ -1,4 +1,394 @@
-.growthPlanPage {
+.wrapper {
   padding: 24px;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.loadingWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: $gray-300;
+  gap: 16px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: $white;
+  font-family: $fontSpaceGrotesk;
+  letter-spacing: -0.03em;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: $gray-300;
+}
+
+.btnAdd {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: $brand-500;
+  color: $white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: $brand-400;
+  }
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.statCard {
+  background: $brand-900;
+  border-radius: 8px;
+  padding: 16px 20px;
+}
+
+.statLabel {
+  font-size: 12px;
+  color: $gray-300;
+  margin-bottom: 4px;
+}
+
+.statValue {
+  font-size: 20px;
+  font-weight: 700;
+  color: $white;
+  font-family: $fontSpaceGrotesk;
+}
+
+.statValueAmber {
+  color: $amber-500;
+}
+
+.statValueMint {
+  color: $mint-500;
+}
+
+.statValueBrand {
+  color: $brand-400;
+}
+
+.emptyCard {
+  background: $brand-900;
+  border-radius: 8px;
+  padding: 48px 32px;
+  text-align: center;
+  border-top: 4px solid $brand-500;
+}
+
+.emptyIcon {
+  font-size: 24px;
+  color: $gray-400;
+  margin-bottom: 16px;
+}
+
+.emptyTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: $white;
+  margin-bottom: 8px;
+  font-family: $fontSpaceGrotesk;
+}
+
+.emptyDescription {
+  font-size: 14px;
+  color: $gray-300;
+  max-width: 480px;
+  margin: 0 auto 8px;
+  line-height: 1.5;
+}
+
+.emptyHint {
+  font-size: 13px;
+  color: $gray-400;
+  margin-bottom: 24px;
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.itemCard {
+  background: $brand-900;
+  border-radius: 8px;
+  padding: 20px 24px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.itemHeaderLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.itemTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.itemTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: $white;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badgePurple {
+  background: rgba(131, 140, 237, 0.15);
+  color: $brand-300;
+}
+
+.badgeGreen {
+  background: rgba(16, 183, 183, 0.15);
+  color: $mint-500;
+}
+
+.badgeBlue {
+  background: rgba(48, 63, 225, 0.15);
+  color: $brand-400;
+}
+
+.badgeOrange {
+  background: rgba(245, 159, 10, 0.15);
+  color: $amber-500;
+}
+
+.badgeTeal {
+  background: rgba(16, 183, 183, 0.15);
+  color: $mint-400;
+}
+
+.badgeCyan {
+  background: rgba(16, 183, 183, 0.2);
+  color: $mint-300;
+}
+
+.badgeRed {
+  background: rgba(239, 67, 130, 0.15);
+  color: $cherry-500;
+}
+
+.badgeGray {
+  background: rgba(158, 160, 183, 0.15);
+  color: $gray-200;
+}
+
+.badgeYellow {
+  background: rgba(245, 159, 10, 0.15);
+  color: $amber-400;
+}
+
+.itemDescription {
+  font-size: 13px;
+  color: $gray-200;
+  margin-bottom: 12px;
+}
+
+.itemMetrics {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.metricItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.metricLabel {
+  font-size: 11px;
+  color: $gray-300;
+}
+
+.metricValue {
+  font-size: 13px;
+  font-weight: 500;
+  color: $white;
+}
+
+.metricValueMint {
+  color: $mint-500;
+}
+
+.metricValueCherry {
+  color: $cherry-500;
+}
+
+.itemActions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-left: 16px;
+}
+
+.btnApprove {
+  padding: 4px 10px;
+  border: none;
+  border-radius: 6px;
+  background: $mint-500;
+  color: $white;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background: $mint-400;
+  }
+}
+
+.btnStart {
+  padding: 4px 10px;
+  border: none;
+  border-radius: 6px;
+  background: $amber-500;
+  color: $white;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background: $amber-400;
+  }
+}
+
+.btnComplete {
+  padding: 4px 10px;
+  border: none;
+  border-radius: 6px;
+  background: $mint-500;
+  color: $white;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background: $mint-400;
+  }
+}
+
+.btnDelete {
+  padding: 4px 10px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: $cherry-500;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover {
+    background: rgba(239, 67, 130, 0.1);
+  }
+}
+
+.taskTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  background: rgba(48, 63, 225, 0.15);
+  color: $brand-300;
+  margin-top: 8px;
+}
+
+@media (max-width: $bpL) {
+  .wrapper {
+    padding: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .itemMetrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .itemHeader {
+    flex-direction: column;
+  }
+
+  .itemActions {
+    flex-direction: row;
+    margin-left: 0;
+    margin-top: 12px;
+  }
+}
+
+@media (max-width: $bpM) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .itemMetrics {
+    grid-template-columns: 1fr;
+  }
 }
