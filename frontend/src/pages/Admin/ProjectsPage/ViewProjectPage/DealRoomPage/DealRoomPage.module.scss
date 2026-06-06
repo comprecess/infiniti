@@ -1,3 +1,5 @@
+@import '../../../../../shared/styles/variables/index';
+
 .wrapper {
   padding: 24px;
   display: flex;
@@ -29,28 +31,28 @@
 .title {
   font-size: 20px;
   font-weight: 600;
-  color: #1a1a2e;
+  color: $gray-50;
 }
 
 .subtitle {
   font-size: 13px;
-  color: #6c757d;
+  color: $gray-300;
 }
 
 .btnAssign {
   padding: 10px 20px;
-  border: 1px solid #7c3aed;
+  border: 1px solid $brand-500;
   border-radius: 8px;
-  background: white;
-  color: #7c3aed;
+  background: transparent;
+  color: $brand-500;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    background: #7c3aed;
-    color: white;
+    background: $brand-500;
+    color: $white;
   }
 }
 
@@ -65,24 +67,24 @@
   align-items: center;
   gap: 12px;
   padding: 16px;
-  background: white;
-  border: 1px solid #e9ecef;
+  background: $brand-800;
+  border: 1px solid $gray-600;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 
   &:hover {
-    border-color: #7c3aed;
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.1);
+    border-color: $brand-500;
+    box-shadow: 0 4px 12px rgba(48, 63, 225, 0.15);
     transform: translateY(-2px);
   }
 }
 
 .folderActive {
-  border-color: #7c3aed;
-  background: #faf5ff;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+  border-color: $brand-500;
+  background: $brand-900;
+  box-shadow: 0 4px 12px rgba(48, 63, 225, 0.2);
 }
 
 .folderIcon {
@@ -99,36 +101,36 @@
 .folderName {
   font-size: 14px;
   font-weight: 500;
-  color: #1a1a2e;
+  color: $gray-50;
 }
 
 .folderCount {
   font-size: 12px;
-  color: #6c757d;
+  color: $gray-300;
 }
 
 .documentsSection,
 .assignSection {
-  background: white;
+  background: $brand-800;
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e9ecef;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  border: 1px solid $gray-600;
 }
 
 .sectionTitle {
   font-size: 16px;
   font-weight: 600;
-  color: #1a1a2e;
+  color: $gray-50;
   margin-bottom: 16px;
   padding-bottom: 12px;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid $gray-600;
 }
 
 .emptyState {
   text-align: center;
   padding: 32px;
-  color: #6c757d;
+  color: $gray-300;
 
   p {
     margin: 4px 0;
@@ -137,7 +139,7 @@
 
 .emptyHint {
   font-size: 13px;
-  color: #adb5bd;
+  color: $gray-400;
 }
 
 .documentsList {
@@ -152,11 +154,11 @@
   gap: 12px;
   padding: 12px 16px;
   border-radius: 8px;
-  background: #f8f9fa;
+  background: $brand-900;
   transition: background 0.2s ease;
 
   &:hover {
-    background: #e9ecef;
+    background: $gray-600;
   }
 }
 
@@ -175,12 +177,12 @@
 .docName {
   font-size: 14px;
   font-weight: 500;
-  color: #1a1a2e;
+  color: $gray-50;
 }
 
 .docMeta {
   font-size: 12px;
-  color: #6c757d;
+  color: $gray-300;
 }
 
 .assignList {
@@ -196,22 +198,22 @@
   gap: 12px;
   padding: 12px 16px;
   border-radius: 8px;
-  background: #f8f9fa;
+  background: $brand-900;
 }
 
 .folderSelect {
   padding: 8px 12px;
-  border: 1px solid #dee2e6;
+  border: 1px solid $gray-500;
   border-radius: 6px;
   font-size: 13px;
-  color: #495057;
-  background: white;
+  color: $gray-100;
+  background: $brand-800;
   cursor: pointer;
   min-width: 180px;
 
   &:focus {
     outline: none;
-    border-color: #7c3aed;
+    border-color: $brand-500;
   }
 }
 

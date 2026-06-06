@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-
+import { useQueryClient } from '@tanstack/react-query'
 import styles from './CreateNewProject.module.scss'
 import { ProjectsInputData, ProjectsNewProjectForm } from '../../../../app/constants/constants'
 import { Routes } from '../../../../app/router/routes'
@@ -11,31 +11,26 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { getProjectsInputData } from '../../../../shared/utils/api/Admin/Projects/get-project-input-data'
 import { postCreateNewProject } from '../../../../shared/utils/api/Admin/Projects/post-create-new-project'
 import { RecentCard } from '../../../../widgets/RecentCard/RecentCard'
-
 export const AdminCreateNewProject = () => {
   const [form, setForm] = useState<Partial<ProjectsNewProjectForm>>({})
   const [inputData, setInputData] = useState<ProjectsInputData | null>(null)
-
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const showToast = useCustomToast()
-
   const getInputData = async () => {
     const response = await getProjectsInputData()
-
     if (!response.status) return
-
     setInputData(response.data)
   }
-
   const handleCreateNewProject = async () => {
     const { status, message } = await postCreateNewProject(form)
-
     if (status) {
       showToast({
         title: 'Successfully',
         description: 'You have successfully created a new Project',
         status: 'success',
       })
+      queryClient.invalidateQueries({ queryKey: ['projectsList'] })
       navigate(`/${Routes.adminPages}/${Routes.projects}`)
     } else {
       showToast({
@@ -45,13 +40,10 @@ export const AdminCreateNewProject = () => {
       })
     }
   }
-
   useEffect(() => {
     document.title = 'infiniti | Create Project'
-
     getInputData()
   }, [])
-
   return (
     <div className={styles.wrapper}>
       {inputData ? (

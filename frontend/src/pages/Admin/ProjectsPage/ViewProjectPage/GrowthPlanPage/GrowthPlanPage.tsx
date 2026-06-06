@@ -218,7 +218,8 @@ const GrowthPlanPage = () => {
         </Button>
       </Flex>
 
-      {/* Summary Stats */}
+      {/* Summary Stats - only show when items exist */}
+      {items.length > 0 && (
       <Grid templateColumns={{ base: '1fr', md: 'repeat(4, 1fr)' }} gap={4} mb={6}>
         <Card bg="white" shadow="sm">
           <CardBody py={3} px={4}>
@@ -245,15 +246,23 @@ const GrowthPlanPage = () => {
           </CardBody>
         </Card>
       </Grid>
+      )}
 
       {/* Growth Items List */}
       {items.length === 0 ? (
-        <Card bg="white" shadow="sm">
-          <CardBody textAlign="center" py={12}>
-            <Text color="gray.500" fontSize="lg">No growth items yet</Text>
-            <Text color="gray.400" mt={2}>Add recommendations to start the value creation process</Text>
-            <Button mt={4} colorScheme="blue" size="sm" onClick={onOpen}>
-              Add First Recommendation
+        <Card bg="white" shadow="sm" borderTop="4px solid" borderTopColor="blue.400">
+          <CardBody textAlign="center" py={16}>
+            <Text fontSize="3xl" mb={4}>📋</Text>
+            <Heading size="md" color="gray.700" mb={2}>No Growth Items Yet</Heading>
+            <Text color="gray.500" mb={2} maxW="md" mx="auto">
+              Growth items are value creation recommendations that increase your company valuation.
+              Each item tracks impact on metrics, multiplier, and estimated cost.
+            </Text>
+            <Text color="gray.400" fontSize="sm" mb={6}>
+              Create your first recommendation to start the growth plan.
+            </Text>
+            <Button colorScheme="blue" size="md" onClick={onOpen}>
+              + Create First Recommendation
             </Button>
           </CardBody>
         </Card>

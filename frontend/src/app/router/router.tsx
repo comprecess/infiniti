@@ -430,7 +430,15 @@ export const router = createBrowserRouter([
             element: Pages.adminProjectsGrowthPlanPage,
           },
           {
-            path: '*',
+            path: "pipeline-buyers",
+            element: Pages.adminProjectsComingSoonPage,
+          },
+          {
+            path: "pipeline-investors",
+            element: Pages.adminProjectsComingSoonPage,
+          },
+          {
+            path: "*",
             index: true,
             element: <Navigate replace to={To.summary()} />,
           },
