@@ -10,7 +10,7 @@
 
 | Total Issues | Critical | High | Medium | Low | Fixed | Open |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 6 | 1 | 3 | 2 | 0 | 6 | 0 |
+| 7 | 1 | 4 | 2 | 0 | 6 | 1 |
 
 ---
 
@@ -112,6 +112,22 @@
 
 ---
 
+### ISSUE-007
+
+| Field | Value |
+|-------|-------|
+| **ID** | ISSUE-007 |
+| **Category** | Onboarding Flow |
+| **Problem** | The Onboarding Wizard exists in the codebase but is never triggered. Users skip data collection and land directly in empty workspaces. |
+| **Root Cause** | The `OnboardingPage.tsx` is registered in the router but missing from the template sidebar (`clx_project_template_sections` DB table). There is no auto-redirect logic in `ViewProjectPage.tsx` to enforce completion. |
+| **Proposed Fix** | 1) Add `onboarding` to `exit_deal` template sections in DB. 2) Add icon mapping in `useProjectTemplateSidebar.tsx`. 3) Add auto-redirect logic in `ViewProjectPage.tsx` based on `onboarding.status` metadata. |
+| **Files Affected** | `ViewProjectPage.tsx`, `useProjectTemplateSidebar.tsx`, Database (`clx_project_template_sections`) |
+| **Effort** | 45 min |
+| **Priority** | High |
+| **Status** | **Open** (Pending approval for implementation) |
+
+---
+
 ## Change Log
 
 | Date | Action |
@@ -119,3 +135,4 @@
 | 2026-06-06 | Initial report created with ISSUE-001 through ISSUE-005 |
 | 2026-06-06 | All 5 issues fixed, built, deployed. Commit `5934c100` |
 | 2026-06-06 | ISSUE-006 (Design System Compliance) fixed. Dark theme applied to all Growth & Exit pages. Commit `28473ba3` |
+| 2026-06-06 | ISSUE-007 (Onboarding Flow Disconnect) identified and documented. Status: Open. |
