@@ -10,7 +10,7 @@
 
 | Total Issues | Critical | High | Medium | Low | Fixed | Open |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 7 | 1 | 4 | 2 | 0 | 7 | 0 |
+| 8 | 1 | 5 | 2 | 0 | 8 | 0 |
 
 ---
 
@@ -137,3 +137,20 @@
 | 2026-06-06 | ISSUE-006 (Design System Compliance) fixed. Dark theme applied to all Growth & Exit pages. Commit `28473ba3` |
 | 2026-06-06 | ISSUE-007 (Onboarding Flow Disconnect) identified and documented. Status: Open. |
 | 2026-06-06 | ISSUE-007 fixed: Onboarding added to sidebar, auto-redirect on first visit, progress bar on Summary, completion handler with redirect to dashboard. Commit `b02d19ba` |
+| 2026-06-06 | ISSUE-009 (Stale Build) identified and fixed. Frontend rebuilt with onboarding redirect code. |
+
+---
+
+### ISSUE-009
+
+| Field | Value |
+|-------|-------|
+| **ID** | ISSUE-009 |
+| **Category** | Build / Deployment |
+| **Problem** | Opening `/admin/projects/view/project/42/summary` redirects to Dashboard instead of triggering Onboarding auto-redirect. |
+| **Root Cause** | The production `dist` was built at 04:27 UTC but the `ViewProjectPage.tsx` with onboarding redirect logic was modified at 04:47 UTC. The deployed JavaScript bundle did not contain the onboarding redirect code. The stale `index-D558eGSt.js` was being served instead of the updated `index-DfKVJSmo.js`. |
+| **Proposed Fix** | Rebuild frontend with `npx vite build`, remove stale JS file, reload nginx. |
+| **Files Affected** | `dist/assets/index-DfKVJSmo.js` (rebuilt), `dist/index.html` (updated reference) |
+| **Effort** | 5 min (rebuild + cleanup) |
+| **Priority** | High |
+| **Status** | **Fixed** — rebuilt at 10:00 UTC, nginx reloaded |
