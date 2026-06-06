@@ -132,6 +132,22 @@ const EXIT_DEAL_STEPS: WizardStep[] = [
   },
 ]
 
+/**
+ * Determine if a step is "completed" based on saved data.
+ * Rules:
+ * 1. If step has required fields → ALL required fields must be filled
+ * 2. If step has NO required fields → at least ONE field must have data
+ */
+const isStepCompleted = (step: WizardStep, data: Record<string, string>): boolean => {
+  const requiredFields = step.fields.filter(f => f.required)
+
+  if (requiredFields.length > 0) {
+    return requiredFields.every(f => data[f.key] && String(data[f.key]).trim() !== '')
+  }
+
+  return step.fields.some(f => data[f.key] && String(data[f.key]).trim() !== '')
+}
+
 export const AdminProjectsOnboardingPage = () => {
   const context = useOutletContext<ProjectViewPageContext>()
   const navigate = useNavigate()
@@ -181,11 +197,7 @@ export const AdminProjectsOnboardingPage = () => {
       if (response.status && response.data) {
         const groupData = response.data as unknown as Record<string, string>
         loaded[step.group] = groupData
-        // Mark step as completed if at least one required field is filled
-        const hasRequiredFilled = step.fields
-          .filter(f => f.required)
-          .some(f => groupData[f.key] && groupData[f.key].trim() !== '')
-        if (hasRequiredFilled) {
+        if (isStepCompleted(step, groupData)) {
           completed.add(i)
         }
       }
@@ -231,11 +243,10 @@ export const AdminProjectsOnboardingPage = () => {
         setSaveStatus('saved')
         setCompletedSteps(prev => {
           const next = new Set(prev)
-          const hasRequiredFilled = step.fields
-            .filter(f => f.required)
-            .some(f => stepData[f.key] && stepData[f.key].trim() !== '')
-          if (hasRequiredFilled) {
+          if (isStepCompleted(step, stepData)) {
             next.add(stepIndex)
+          } else {
+            next.delete(stepIndex)
           }
           return next
         })
@@ -305,7 +316,15 @@ export const AdminProjectsOnboardingPage = () => {
         description: `${step.title} saved successfully`,
         status: 'success',
       })
-      setCompletedSteps(prev => new Set([...prev, currentStep]))
+      setCompletedSteps(prev => {
+        const next = new Set(prev)
+        if (isStepCompleted(step, stepData)) {
+          next.add(currentStep)
+        } else {
+          next.delete(currentStep)
+        }
+        return next
+      })
       setTimeout(() => {
         if (isMountedRef.current) setSaveStatus('idle')
       }, 3000)
@@ -338,7 +357,11 @@ export const AdminProjectsOnboardingPage = () => {
         status: 'completed',
         completed_at: new Date().toISOString(),
       })
-      setCompletedSteps(prev => new Set([...prev, currentStep]))
+      setCompletedSteps(prev => {
+        const next = new Set(prev)
+        next.add(currentStep)
+        return next
+      })
       setSaveStatus('saved')
       showToast({
         title: 'Onboarding Complete',
