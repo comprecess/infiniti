@@ -10,7 +10,7 @@
 
 | Total Issues | Critical | High | Medium | Low | Fixed | Open |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 5 | 1 | 3 | 1 | 0 | 5 | 0 |
+| 6 | 1 | 3 | 2 | 0 | 6 | 0 |
 
 ---
 
@@ -96,9 +96,26 @@
 
 ---
 
+### ISSUE-006
+
+| Field | Value |
+|-------|-------|
+| **ID** | ISSUE-006 |
+| **Category** | Design System Compliance |
+| **Problem** | Growth & Exit pages use white backgrounds, emojis, and light-theme colors that do not match the INFINITI dark design system. Creates impression of unfinished or foreign functionality. |
+| **Root Cause** | Chakra UI components in GrowthPlanPage, ValuationPage, and ComingSoonPage use `bg="white"`, `color="gray.700"`, emoji icons, and `shadow="sm"` — all incompatible with the platform's dark theme. |
+| **Proposed Fix** | Replace all light-theme Chakra props with dark-theme tokens (`brand.900`, `brand.800`, `white`, `gray.200`). Remove all emojis. Use SVG icons or text-based indicators. |
+| **Files Affected** | `GrowthPlanPage.tsx`, `ValuationPage.tsx`, `ComingSoonPage.tsx`, `DealRoomPage.tsx`, `DealRoomPage.module.scss` |
+| **Effort** | 45 min (bulk sed replacements + ComingSoon rewrite) |
+| **Priority** | Medium |
+| **Status** | **Fixed** — commit `28473ba3` |
+
+---
+
 ## Change Log
 
 | Date | Action |
 |------|--------|
 | 2026-06-06 | Initial report created with ISSUE-001 through ISSUE-005 |
 | 2026-06-06 | All 5 issues fixed, built, deployed. Commit `5934c100` |
+| 2026-06-06 | ISSUE-006 (Design System Compliance) fixed. Dark theme applied to all Growth & Exit pages. Commit `28473ba3` |
