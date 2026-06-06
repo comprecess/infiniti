@@ -63,6 +63,10 @@ import { AdminProjectsLogsPage } from '../../pages/Admin/ProjectsPage/ViewProjec
 import { AdminProjectsSummaryPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/SummaryPage/SummaryPage'
 import { AdminProjectsTasksPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/TasksPage/TasksPage'
 import { AdminViewProjectPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/ViewProjectPage'
+import { AdminProjectsOnboardingPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/OnboardingPage/OnboardingPage'
+import { AdminProjectsDealRoomPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/DealRoomPage/DealRoomPage'
+import { AdminProjectsValuationPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/ValuationPage/ValuationPage'
+import { AdminProjectsGrowthPlanPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/GrowthPlanPage/GrowthPlanPage'
 import { AdminPurchasePage } from '../../pages/Admin/PurchasePage/PurchasePage'
 import { AdminReportsPage } from '../../pages/Admin/ReportsPage/ReportsPage'
 import { AdminEditInvoicePage } from '../../pages/Admin/SalesPage/EditInvoicePage/EditInvoicePage'
@@ -367,6 +371,10 @@ export const Pages = {
   adminProjectsExpensesPage: <AdminProjectsExpensesPage />,
   adminProjectsGanttChartPage: <AdminProjectsGanttChartPage />,
   adminProjectsLogsPage: <AdminProjectsLogsPage />,
+  adminProjectsOnboardingPage: <AdminProjectsOnboardingPage />,
+  adminProjectsDealRoomPage: <AdminProjectsDealRoomPage />,
+  adminProjectsValuationPage: <AdminProjectsValuationPage />,
+  adminProjectsGrowthPlanPage: <AdminProjectsGrowthPlanPage />,
   adminLeadsPage: <AdminLeadsPage />,
   adminWebToLeadPage: <AdminWebToLeadPage />,
   adminSMSPage: <AdminSMSPage />,

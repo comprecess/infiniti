@@ -1,0 +1,98 @@
+graph TB
+    subgraph "Client Portal - External Users"
+        F[Founder]
+        I[Investor]
+        B[Buyer]
+    end
+
+    subgraph "Admin Panel - Internal Users"
+        DM[Deal Manager]
+        A[Admin]
+    end
+
+    subgraph "Auth Layer"
+        CG[Client Guard]
+        RG[Resident Guard]
+        PPA[ProjectParticipantAccess Middleware]
+        HA[HaveAccess Middleware]
+    end
+
+    subgraph "API Routes"
+        CR[Client Exit Routes]
+        RR[Resident Project Routes]
+    end
+
+    subgraph "Controllers"
+        PEC[ProjectExitController]
+        PPC[ProjectParticipantController]
+        GIC[GrowthItemController]
+        DRC[DealRoomController]
+        PMC[ProjectMetadataController]
+    end
+
+    subgraph "Services"
+        PPS[ProjectParticipantService]
+        OGS[OfferGenerationService]
+        DRS[DealRoomService]
+        GAS[GrowthItemApprovalService]
+    end
+
+    subgraph "Config"
+        PAC[project_access.php - Role Rules]
+    end
+
+    subgraph "Database - Existing Tables"
+        PRJ[(clx_projects)]
+        PM[(personal_model)]
+        SP[(clx_shared_preferences)]
+        CRM[(crm_accounts)]
+        QUO[(sys_quotes)]
+        INV[(sys_invoices)]
+        DOC[(sys_documents)]
+    end
+
+    subgraph "Database - New Tables"
+        PV[(clx_project_valuations)]
+        PGI[(clx_project_growth_items)]
+        PT[(clx_project_templates)]
+        PTS[(clx_project_template_sections)]
+    end
+
+    F --> CG
+    I --> CG
+    B --> CG
+    DM --> RG
+    A --> RG
+
+    CG --> PPA
+    PPA --> CR
+    RG --> HA
+    HA --> RR
+
+    CR --> PEC
+    RR --> PPC
+    RR --> GIC
+    RR --> DRC
+    RR --> PMC
+
+    PPA --> PAC
+
+    PEC --> PPS
+    PEC --> DRS
+    PPC --> PPS
+    GIC --> OGS
+    GIC --> GAS
+
+    PPS --> PM
+    PPS --> CRM
+    OGS --> QUO
+    OGS --> INV
+    DRS --> SP
+    GAS --> PGI
+    PMC --> SP
+
+    PRJ --> PV
+    PRJ --> PGI
+    PRJ --> PM
+    PRJ --> SP
+    PRJ --> PT

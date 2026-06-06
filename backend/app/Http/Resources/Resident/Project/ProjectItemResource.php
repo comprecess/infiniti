@@ -20,6 +20,7 @@ class ProjectItemResource extends JsonResource
         $resource = [
             'id' => $this->id,
             'name' => $this->name,
+            'template_code' => $this->template_code,
 //            'owner' => new UserResource($this->admin),
 //            'staff' => new UserResource($this->manager),
 //            'client' => new UserResource($this->client),

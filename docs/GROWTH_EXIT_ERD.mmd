@@ -1,0 +1,157 @@
+erDiagram
+    clx_projects {
+        int id PK
+        varchar name
+        varchar template_code FK
+        int contact_id FK
+        int currency
+        varchar status
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    clx_project_templates {
+        int id PK
+        varchar code UK
+        varchar name
+        text description
+        boolean is_active
+        timestamp created_at
+    }
+
+    clx_project_template_sections {
+        int id PK
+        int template_id FK
+        varchar code
+        varchar name
+        varchar icon
+        int sort_order
+    }
+
+    clx_shared_preferences {
+        int id PK
+        varchar relation_type
+        int relation_id
+        varchar key UK
+        text value
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    clx_project_valuations {
+        int id PK
+        int project_id FK
+        varchar valuation_type
+        varchar base_metric_name
+        decimal base_metric_value
+        decimal multiplier
+        decimal total_value
+        int confidence_percent
+        text notes
+        int created_by FK
+        timestamp created_at
+    }
+
+    clx_project_growth_items {
+        int id PK
+        int project_id FK
+        varchar title
+        text description
+        enum category
+        decimal impact_multiplier_increase
+        decimal impact_metric_increase
+        int confidence_percent
+        decimal estimated_cost
+        int estimated_duration_days
+        enum status
+        int sys_task_id FK
+        int sys_offer_id FK
+        int sys_invoice_id FK
+        int catalog_talent_id FK
+        int created_by
+        timestamp approved_at
+        timestamp completed_at
+    }
+
+    personal_model {
+        int id PK
+        varchar model_type
+        int model_id
+        varchar user_type
+        int user_id
+        json data
+        timestamp created_at
+    }
+
+    crm_accounts {
+        int id PK
+        varchar email
+        varchar account
+        varchar fname
+        varchar lname
+        varchar company
+        varchar status
+        varchar type
+        varchar autologin
+        varchar api_token
+    }
+
+    sys_quotes {
+        int id PK
+        varchar invoicenum
+        int cn
+        int userid FK
+        varchar subject
+        decimal subtotal
+        decimal total
+        varchar stage
+        date datecreated
+        date validuntil
+        int currency
+    }
+
+    sys_invoices {
+        int id PK
+        varchar invoicenum
+        int userid FK
+        decimal subtotal
+        decimal total
+        varchar status
+        date date
+        date duedate
+        int quote_id FK
+        int pid FK
+    }
+
+    sys_invoiceitems {
+        int id PK
+        int invoiceid FK
+        int userid
+        text description
+        decimal qty
+        decimal amount
+        decimal total
+    }
+
+    sys_documents {
+        int id PK
+        varchar name
+        varchar original_name
+        int size
+        timestamp created_at
+    }
+
+    clx_projects ||--o{ clx_project_valuations : "has valuations"
+    clx_projects ||--o{ clx_project_growth_items : "has growth items"
+    clx_projects ||--o| clx_project_templates : "uses template"
+    clx_project_templates ||--o{ clx_project_template_sections : "has sections"
+    clx_projects ||--o{ clx_shared_preferences : "stores metadata"
+    clx_projects ||--o{ personal_model : "has participants"
+    clx_projects }o--|| crm_accounts : "owned by (contact_id)"
+    personal_model }o--|| crm_accounts : "links user"
+    clx_project_growth_items }o--o| sys_quotes : "generates offer"
+    clx_project_growth_items }o--o| sys_invoices : "generates invoice"
+    sys_quotes ||--o{ sys_invoiceitems : "has items"
+    sys_invoices ||--o{ sys_invoiceitems : "has items"
+    sys_quotes }o--o| sys_invoices : "converts to"
+    clx_projects ||--o{ sys_documents : "has documents"

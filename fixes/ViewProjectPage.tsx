@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Outlet, useNavigate, useOutletContext } from 'react-router-dom'
+import { Outlet, useLocation, useNavigate, useOutletContext } from 'react-router-dom'
 
 import styles from './ViewProjectPage.module.scss'
 import { ProjectsData, RolesAccess } from '../../../../app/constants/constants'
@@ -13,6 +13,7 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { Status } from '../../../../shared/ui/Status/Status'
 import { getProjectView } from '../../../../shared/utils/api/Admin/Projects/get-project-view'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
+import { getProjectMetadataGroup } from '../../../../shared/utils/api/Admin/Projects/project-metadata'
 
 export const AdminViewProjectPage = () => {
   const [projectInfo, setProjectInfo] = useState<ProjectsData | null>(null)
@@ -23,6 +24,9 @@ export const AdminViewProjectPage = () => {
 
   const [touchStartX, setTouchStartX] = useState<number | null>(null)
   const [touchEndX, setTouchEndX] = useState<number | null>(null)
+  const [onboardingChecked, setOnboardingChecked] = useState<boolean>(false)
+  const [onboardingProgress, setOnboardingProgress] = useState<number>(0)
+  const location = useLocation()
 
   const { roles } = useOutletContext<{
     roles?: { [key: string]: RolesAccess }
@@ -98,6 +102,34 @@ export const AdminViewProjectPage = () => {
   useEffect(() => {
     getProjectViewInfo()
   }, [id])
+  // Auto-redirect to onboarding if not completed (exit_deal template only)
+  useEffect(() => {
+    const checkOnboarding = async () => {
+      if (!id || !templateCode || templateCode !== 'exit_deal') {
+        setOnboardingChecked(true)
+        return
+      }
+      if (location.pathname.endsWith('/onboarding')) {
+        setOnboardingChecked(true)
+        return
+      }
+      const response = await getProjectMetadataGroup(id, 'onboarding')
+      if (response.status && response.data) {
+        const data = response.data as Record<string, string>
+        if (data.status === 'completed') {
+          setOnboardingProgress(100)
+          setOnboardingChecked(true)
+          return
+        }
+      }
+      setOnboardingProgress(0)
+      navigate('onboarding', { replace: true })
+      setOnboardingChecked(true)
+    }
+    if (projectInfo) {
+      checkOnboarding()
+    }
+  }, [id, templateCode, projectInfo, location.pathname])
 
   useEffect(() => {
     document.title = 'infiniti | View Project'
@@ -164,7 +196,7 @@ export const AdminViewProjectPage = () => {
                     </div>
                   )}
                 </div>
-                <Outlet context={{ idProject: id, projectInfo, templateCode, roles }} />
+                <Outlet context={{ idProject: id, projectInfo, templateCode, roles, onboardingProgress }} />
               </main>
             </div>
           </div>

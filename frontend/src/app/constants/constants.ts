@@ -69,6 +69,7 @@ export interface ProjectViewPageContext {
   projectInfo: ProjectsData & {
     isMy: boolean
   }
+  templateCode: string | null
   roles: { [key: string]: RolesAccess } | undefined
 }
 
@@ -1586,6 +1587,7 @@ export interface ProjectsData {
   completed?: { completed: number; percent: number; total: number }
   startDate: string
   dueDate: string
+  template_code?: string | null
 }
 
 export interface ProjectsExpensesData {

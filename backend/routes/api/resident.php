@@ -222,6 +222,61 @@ Route::controller(Resident\Transactions\TransactionsController::class)
     });
 
 
+#Project Templates
+Route::prefix('project-templates')
+    ->controller(Resident\Project\Template\ProjectTemplateController::class)
+    ->group(function(){
+        Route::get('/', 'list');
+        Route::get('/by-code/{code}', 'sectionsByCode');
+        Route::post('/', 'store');
+        Route::get('/{template}', 'item');
+        Route::put('/{template}', 'update');
+        Route::get('/{template}/sections', 'sections');
+    });
+
+#Project Metadata
+Route::prefix('project/{projectId}/metadata')
+    ->controller(Resident\Project\ProjectMetadataController::class)
+    ->group(function(){
+        Route::get('/', 'index');
+        Route::get('/{group}', 'group');
+        Route::post('/', 'store');
+        Route::delete('/{group}/{key}', 'destroy');
+    });
+
+# Deal Room (reuses existing document system)
+Route::prefix('project/{projectId}/deal-room')
+    ->controller(Resident\Project\DealRoomController::class)
+    ->group(function(){
+        Route::get('/', 'index');
+        Route::get('/folder/{folderCode}', 'folder');
+        Route::get('/documents', 'allDocuments');
+        Route::post('/assign', 'assignDocument');
+        Route::delete('/document/{documentId}', 'unassignDocument');
+    });
+
+#Project Valuation
+Route::prefix('project/{projectId}/valuation')
+    ->controller(Resident\Project\Valuation\ValuationController::class)
+    ->group(function(){
+        Route::get('/', 'dashboard');
+        Route::post('/', 'store');
+        Route::get('/history', 'history');
+        Route::delete('/{valuationId}', 'destroy');
+    });
+
+#Project Growth Items
+Route::prefix('project/{projectId}/growth-items')
+    ->controller(Resident\Project\GrowthItem\GrowthItemController::class)
+    ->group(function(){
+        Route::get('/', 'index');
+        Route::post('/', 'store');
+        Route::put('/{itemId}', 'update');
+        Route::patch('/{itemId}/status', 'changeStatus');
+        Route::post('/{itemId}/approve', 'approveAndExecute');
+        Route::delete('/{itemId}', 'destroy');
+    });
+
 #Project
 Route::controller(Resident\Project\ProjectController::class)->prefix('project')
     ->group(function(){

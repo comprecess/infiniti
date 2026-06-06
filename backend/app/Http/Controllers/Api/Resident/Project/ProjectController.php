@@ -14,9 +14,11 @@ use App\Http\Resources\Resident\Settings\CurrencyResource;
 use App\Http\Resources\Users\AdminListResource;
 use App\Models\Resident\Project\Project;
 use App\Models\Resident\Project\ProjectLog;
+use App\Models\Resident\Project\Template\ProjectTemplate;
 use App\Models\Resident\Settings\Currency;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
+use App\Services\DealRoom\DealRoomService;
 
 class ProjectController extends ProjectAccessController
 {
@@ -32,13 +34,18 @@ class ProjectController extends ProjectAccessController
         $staff = Admin::all();
         $currency = Currency::all();
 
+        $templates = ProjectTemplate::where('is_active', true)
+            ->select('id', 'code', 'name', 'description')
+            ->get();
+
         return response()->json([
             'client' => ClientResource::collection($client),
             'supplier' => ClientResource::collection($supplier),
             'staff' => AdminListResource::collection($staff),
             'currency' => CurrencyResource::collection($currency),
             'status' => Project::STATUS,
-            'type' => Project::TYPE
+            'type' => Project::TYPE,
+            'templates' => $templates,
         ]);
     }
 
@@ -104,6 +111,10 @@ class ProjectController extends ProjectAccessController
             }
             $model->setPersonal($collect);
 
+            // Initialize Deal Room folders for template-based projects
+            if ($isNew && $model->template_code) {
+                DealRoomService::initializeFolders($model->id, $model->template_code);
+            }
         });
         $this->sendLog($project);
 

@@ -1,0 +1,67 @@
+.wrapper {
+  padding: 24px;
+}
+
+.card {
+  background: $brand-900;
+  border-radius: 8px;
+  border-top: 3px solid $brand-500;
+  padding: 64px 32px;
+  text-align: center;
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 16px;
+  opacity: 0.6;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: $white;
+  margin-bottom: 12px;
+  font-family: $fontSpaceGrotesk;
+  letter-spacing: -0.03em;
+}
+
+.badgeWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  background: $brand-800;
+  color: $brand-300;
+}
+
+.description {
+  font-size: 14px;
+  color: $gray-200;
+  max-width: 520px;
+  margin: 0 auto 16px;
+  line-height: 1.6;
+}
+
+.hint {
+  font-size: 13px;
+  color: $gray-400;
+}
+
+@media (max-width: $bpL) {
+  .wrapper {
+    padding: 16px;
+  }
+
+  .card {
+    padding: 48px 20px;
+  }
+}

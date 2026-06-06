@@ -4,6 +4,9 @@ namespace App\Models\Resident\Project;
 
 use App\Models\Contracts\InsertDefaultValueInterface;
 use App\Models\Resident\Invoices\Invoice;
+use App\Models\Resident\Project\Template\ProjectTemplate;
+use App\Models\Resident\Project\Valuation\ProjectValuation;
+use App\Models\Resident\Project\GrowthItem\ProjectGrowthItem;
 use App\Models\Resident\Transactions\Transaction;
 use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\DocumentTrait;
@@ -106,12 +109,80 @@ class Project extends Model implements InsertDefaultValueInterface
         return Admin::whereIn('id', $this->members)->with(['files', 'myRole'])->get();
     }
 
+    /**
+     * Get the project template.
+     */
+    public function template()
+    {
+        return $this->belongsTo(ProjectTemplate::class, 'template_code', 'code');
+    }
+
+    /**
+     * Get all metadata for this project via clx_shared_preferences.
+     */
+    public function metadata()
+    {
+        return $this->hasMany(ProjectMetadata::class, 'relation_id')
+            ->where('relation_type', ProjectMetadata::RELATION_TYPE);
+    }
+
+    /**
+     * Check if this project uses a specific template.
+     */
+    public function hasTemplate(?string $code = null): bool
+    {
+        if ($code === null) {
+            return !empty($this->template_code);
+        }
+        return $this->template_code === $code;
+    }
+
+    /**
+     * Check if this is a legacy project (no template).
+     */
+    public function isLegacy(): bool
+    {
+        return empty($this->template_code);
+    }
+
+    /**
+     * Get all valuations for this project.
+     */
+    public function valuations()
+    {
+        return $this->hasMany(ProjectValuation::class, 'project_id');
+    }
+
+    /**
+     * Get the latest current valuation.
+     */
+    public function currentValuation()
+    {
+        return $this->hasOne(ProjectValuation::class, 'project_id')
+            ->where('valuation_type', ProjectValuation::TYPE_CURRENT)
+            ->latest();
+    }
+
+    /**
+     * Get all growth items for this project.
+     */
+    public function growthItems()
+    {
+        return $this->hasMany(ProjectGrowthItem::class, 'project_id');
+    }
+
+    /**
+     * Get active (non-rejected) growth items.
+     */
+    public function activeGrowthItems()
+    {
+        return $this->growthItems()->active();
+    }
+
     public function getDefault(): array
     {
         return [
             'admin_id' => [User::getAuth()->id],
         ];
     }
-
-
 }
