@@ -1,5 +1,8 @@
 .wrapper {
-  display: flex;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  flex-shrink: 0;
   width: fit-content;
   height: 24px;
   border-radius: 100px;
