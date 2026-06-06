@@ -20,11 +20,57 @@
   gap: 16px;
 }
 
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .title {
   font-size: 20px;
   font-weight: 600;
   color: $gray-50;
   font-family: $fontSpaceGrotesk;
+}
+
+// Autosave status indicator
+.saveStatus {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.statusUnsaved {
+  color: $amber-500;
+  background: rgba($amber-500, 0.1);
+  border: 1px solid rgba($amber-500, 0.3);
+}
+
+.statusSaving {
+  color: $gray-300;
+  background: rgba($gray-300, 0.1);
+  border: 1px solid rgba($gray-300, 0.2);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+.statusSaved {
+  color: $mint-500;
+  background: rgba($mint-500, 0.1);
+  border: 1px solid rgba($mint-500, 0.3);
+}
+
+.statusError {
+  color: $cherry-500;
+  background: rgba($cherry-500, 0.1);
+  border: 1px solid rgba($cherry-500, 0.3);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 .progressInfo {
@@ -249,6 +295,10 @@
   .header {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .headerLeft {
+    flex-wrap: wrap;
   }
 
   .progressBar {
