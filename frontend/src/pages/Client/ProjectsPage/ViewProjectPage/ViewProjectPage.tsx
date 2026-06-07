@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Outlet, useNavigate, useOutletContext } from 'react-router-dom'
-
 import styles from './ViewProjectPage.module.scss'
 import { ProjectsData, UserInfo } from '../../../../app/constants/constants'
 import {
@@ -15,77 +14,56 @@ import { LoadingSpinner } from '../../../../shared/ui/LoadingSpinner/LoadingSpin
 import { Status } from '../../../../shared/ui/Status/Status'
 import { getProjectView } from '../../../../shared/utils/api/Client/Projects/get-project-view'
 import { useIdFromUrl } from '../../../../shared/utils/usefulMethods'
-
+import { useProjectTemplateSidebar } from '../../../../shared/hooks/useProjectTemplateSidebar'
 interface ClientProjectsData extends ProjectsData {
   isMy: boolean
 }
-
 export const ClientViewProjectPage = () => {
   const [projectInfo, setProjectInfo] = useState<ClientProjectsData | null>(null)
-
   const [isOpenSideBar, setIsOpenSideBar] = useState<boolean>(false)
   const [isMobile, setIsMobile] = useState<boolean>(false)
   const [isInitialized, setIsInitialized] = useState<boolean>(false)
-
   const [touchStartX, setTouchStartX] = useState<number | null>(null)
   const [touchEndX, setTouchEndX] = useState<number | null>(null)
-
   const { user } = useOutletContext<{ user: UserInfo }>()
-
   const id = useIdFromUrl('project')
   const navigate = useNavigate()
-
   const getProjectViewInfo = async () => {
     if (!id) return
-
     const response = await getProjectView(id)
-
     if (!response.status) return
-
     setProjectInfo(response.data.data)
   }
-
   const handleOpenCloseSidebar = () => {
     setIsOpenSideBar(!isOpenSideBar)
   }
-
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStartX(e.touches[0].clientX)
   }
-
   const handleTouchMove = (e: React.TouchEvent) => {
     setTouchEndX(e.touches[0].clientX)
   }
-
   const handleTouchEnd = () => {
     if (touchStartX !== null && touchEndX !== null) {
       const deltaX = touchEndX - touchStartX
-
       if (deltaX < -50) {
         setIsOpenSideBar(false)
       }
     }
-
     setTouchStartX(null)
     setTouchEndX(null)
   }
-
   useEffect(() => {
     const handleResize = () => {
       const isMobileView = window.innerWidth <= 1080
-
       setIsMobile(isMobileView)
       setIsOpenSideBar(!isMobileView)
       setIsInitialized(true)
     }
-
     handleResize()
-
     window.addEventListener('resize', handleResize)
-
     return () => window.removeEventListener('resize', handleResize)
   }, [])
-
   useEffect(() => {
     if (isOpenSideBar && isMobile) {
       document.body.style.overflow = 'hidden'
@@ -93,26 +71,31 @@ export const ClientViewProjectPage = () => {
       document.body.style.overflow = ''
     }
   }, [isOpenSideBar, isMobile])
-
   useEffect(() => {
     getProjectViewInfo()
   }, [id])
-
   useEffect(() => {
     document.title = 'infiniti | View Project'
   }, [])
 
-  const data =
+  // Determine the template_code from projectInfo (if available)
+  const templateCode = (projectInfo as any)?.template_code ?? null
+
+  // Determine legacy fallback sidebar based on user role
+  const legacyData =
     projectInfo && projectInfo.isMy
       ? ClientCustomerProjectInfoSidebar
       : user && user.status.isSupplier
         ? ClientSupplierProjectInfoSidebar
         : ClientCustomerProjectInfoSidebar
 
+  // Use dynamic template sidebar if template_code is present, otherwise legacy
+  // Pass useClientApi=true since this is the Client view (uses /api/v1/client/ endpoint)
+  const { pages: sidebarPages } = useProjectTemplateSidebar(templateCode, legacyData, true)
+
   if (!isInitialized) {
     return null
   }
-
   return (
     <div className={styles.wrapper}>
       {projectInfo ? (
@@ -148,7 +131,7 @@ export const ClientViewProjectPage = () => {
               >
                 <div className={styles.sideBarOverFlow}>
                   <SideBar
-                    pages={data}
+                    pages={sidebarPages}
                     isActive={isMobile && isOpenSideBar}
                     openCloseSidebar={handleOpenCloseSidebar}
                   />
@@ -166,7 +149,7 @@ export const ClientViewProjectPage = () => {
                     </div>
                   )}
                 </div>
-                <Outlet context={{ idProject: id, projectInfo }} />
+                <Outlet context={{ idProject: id, projectInfo, templateCode }} />
               </main>
             </div>
           </div>

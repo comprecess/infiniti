@@ -646,6 +646,34 @@ export const router = createBrowserRouter([
             element: Pages.clientGanttChartPage,
           },
           {
+            path: 'onboarding',
+            element: Pages.adminProjectsOnboardingPage,
+          },
+          {
+            path: 'deal-room',
+            element: Pages.adminProjectsDealRoomPage,
+          },
+          {
+            path: 'valuation',
+            element: Pages.adminProjectsValuationPage,
+          },
+          {
+            path: 'growth-plan',
+            element: Pages.adminProjectsGrowthPlanPage,
+          },
+          {
+            path: 'pipeline-buyers',
+            element: Pages.adminProjectsComingSoonPage,
+          },
+          {
+            path: 'pipeline-investors',
+            element: Pages.adminProjectsComingSoonPage,
+          },
+          {
+            path: Routes.logs,
+            element: Pages.adminProjectsLogsPage,
+          },
+          {
             path: '*',
             index: true,
             element: <Navigate replace to={To.summary()} />,

@@ -121,6 +121,9 @@ Route::group(['prefix' => 'client',], function(){
             Route::get("/invoices", "invoices");
             Route::get("/offers", "offers");
         });
+
+    #Project Template Sections (read-only for sidebar rendering)
+    Route::get('project-templates/by-code/{code}', [\App\Http\Controllers\Api\Resident\Project\Template\ProjectTemplateController::class, 'sectionsByCode']);
 });
 
 

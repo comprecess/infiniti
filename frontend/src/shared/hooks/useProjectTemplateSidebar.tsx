@@ -12,9 +12,9 @@ import { TasksIcon } from '../icons/sidebarList/TasksIcon'
 import { AccountingIcon } from '../icons/sidebarList/AccountingIcon'
 import {
   getTemplateSections,
+  getTemplateSectionsClient,
   TemplateSection,
 } from '../utils/api/Admin/ProjectTemplates/get-template-sections'
-
 export interface SidebarPage {
   id: number
   name: string
@@ -22,7 +22,6 @@ export interface SidebarPage {
   type: string
   icon: React.ReactNode
 }
-
 /**
  * Map of section codes to their corresponding icons.
  * Falls back to DashboardIcon if the code is not found.
@@ -44,7 +43,6 @@ const iconMap: Record<string, React.ReactNode> = {
   pipeline_buyers: <LeadsIcon />,
   pipeline_investors: <TalentsIcon />,
 }
-
 /**
  * Map section code to the URL page path.
  * Some codes use underscores in DB but hyphens in URLs.
@@ -52,7 +50,6 @@ const iconMap: Record<string, React.ReactNode> = {
 const codeToPage = (code: string): string => {
   return code.replace(/_/g, '-')
 }
-
 /**
  * Convert API template sections to sidebar page items.
  */
@@ -65,40 +62,50 @@ const sectionsToPages = (sections: TemplateSection[]): SidebarPage[] => {
     icon: iconMap[section.code] || <DashboardIcon />,
   }))
 }
-
 /**
  * Hook that fetches template sections and returns sidebar pages.
  * Falls back to the legacy sidebar if no template_code is provided.
+ * Supports both admin (resident) and client API endpoints.
+ *
+ * @param templateCode - The project template code (e.g., 'exit_deal')
+ * @param legacyPages - Fallback sidebar pages for projects without a template
+ * @param useClientApi - If true, uses the client API endpoint instead of resident
  */
 export const useProjectTemplateSidebar = (
   templateCode: string | null | undefined,
   legacyPages: SidebarPage[],
+  useClientApi: boolean = false,
 ): { pages: SidebarPage[]; loading: boolean } => {
   const [pages, setPages] = useState<SidebarPage[]>(legacyPages)
   const [loading, setLoading] = useState<boolean>(false)
-
   useEffect(() => {
     // If no template code, use legacy sidebar
     if (!templateCode) {
       setPages(legacyPages)
       return
     }
-
     const fetchSections = async () => {
       setLoading(true)
-      const response = await getTemplateSections(templateCode)
-
+      // Use client endpoint if specified, otherwise use resident (admin) endpoint
+      const fetchFn = useClientApi ? getTemplateSectionsClient : getTemplateSections
+      const response = await fetchFn(templateCode)
       if (response.status && response.data.length > 0) {
         setPages(sectionsToPages(response.data))
+      } else if (useClientApi) {
+        // If client endpoint fails, try the resident endpoint as fallback
+        const fallbackResponse = await getTemplateSections(templateCode)
+        if (fallbackResponse.status && fallbackResponse.data.length > 0) {
+          setPages(sectionsToPages(fallbackResponse.data))
+        } else {
+          setPages(legacyPages)
+        }
       } else {
         // Fallback to legacy if API fails
         setPages(legacyPages)
       }
       setLoading(false)
     }
-
     fetchSections()
   }, [templateCode])
-
   return { pages, loading }
 }
