@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './AddDocumentModal.module.scss'
 import { CrossIcon } from '../../../../shared/icons/CrossIcon'
 import { ButtonBlue } from '../../../../shared/ui/ButtonBlue/ButtonBlue'
@@ -22,6 +22,13 @@ const DEAL_ROOM_FOLDERS: Record<string, string> = {
   marketing: 'Marketing Materials',
 }
 
+const INITIAL_FORM_STATE = {
+  title: '',
+  file: undefined as File | undefined,
+  global: 0,
+  dealRoomFolder: undefined as string | undefined,
+}
+
 interface AddDocumentModalProps {
   modalAddDoc: boolean
   modalOpenClose: () => void
@@ -41,14 +48,27 @@ export const AddDocumentModal = ({
   showDealRoomCategory = false,
 }: AddDocumentModalProps) => {
   const [formData, setFormData] = useState<{
-    title?: string
+    title: string
     file?: File
-    global?: number
+    global: number
     dealRoomFolder?: string
-  }>({ global: 0 })
+  }>({ ...INITIAL_FORM_STATE })
 
+  // Track whether the user has manually edited the title
+  const [titleManuallyEdited, setTitleManuallyEdited] = useState(false)
+
+  // Reset all state when modal opens
+  useEffect(() => {
+    if (modalAddDoc) {
+      setFormData({ ...INITIAL_FORM_STATE })
+      setTitleManuallyEdited(false)
+    }
+  }, [modalAddDoc])
+
+  // Reset state when modal closes (via X button or overlay click)
   const handleOpenCloseModal = () => {
-    setFormData({ global: 0 })
+    setFormData({ ...INITIAL_FORM_STATE })
+    setTitleManuallyEdited(false)
     modalOpenClose()
   }
 
@@ -65,17 +85,26 @@ export const AddDocumentModal = ({
         [name]: value,
       }
     })
+    // Mark title as manually edited when user types in the title field
+    if (name === 'title') {
+      setTitleManuallyEdited(true)
+    }
   }
 
   const handleDrop = (acceptedFile: File) => {
     setFormData(prevFormData => ({
       ...prevFormData,
       file: acceptedFile,
+      // Auto-populate title from filename only if user hasn't manually edited it
+      title: titleManuallyEdited ? prevFormData.title : acceptedFile.name,
     }))
   }
 
   const handleAddNewDocument = () => {
     handleButtonSave(formData)
+    // Reset state after successful save
+    setFormData({ ...INITIAL_FORM_STATE })
+    setTitleManuallyEdited(false)
   }
 
   return (
@@ -92,25 +121,14 @@ export const AddDocumentModal = ({
           </div>
         </div>
         <div className={styles.container}>
-          {formData.file && (
-            <CustomInput
-              title='Title'
-              name='title'
-              id='title'
-              type='text'
-              value={formData.file.name}
-              onChange={onChangeInput}
-            />
-          )}
-          {!formData.file && (
-            <CustomInput
-              title='Title'
-              name='title'
-              id='title'
-              type='text'
-              onChange={onChangeInput}
-            />
-          )}
+          <CustomInput
+            title='Title'
+            name='title'
+            id='title'
+            type='text'
+            value={formData.title}
+            onChange={onChangeInput}
+          />
           <CustomDropZone onDrop={handleDrop} />
           {showDealRoomCategory && (
             <div className={styles.categorySelect}>
