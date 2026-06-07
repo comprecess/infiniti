@@ -23,7 +23,6 @@ import { RecentOrders } from '../../../features/Client/DashboardPage/RecentOrder
 import { RecentTransactions } from '../../../features/Client/DashboardPage/RecentTransactions/RecentTransactions'
 import { BarChart, DataJson } from '../../../shared/ui/DashboardChart/BarChart'
 import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
-import { LoadingShimmer } from '../../../shared/ui/LoadingShimmer/LoadingShimmer'
 import { Scrollable } from '../../../shared/ui/Scrollable/Scrollable'
 import { getDashboardInfo } from '../../../shared/utils/api/Client/Dashboard/get-dashboard-info'
 import { postAddFund } from '../../../shared/utils/api/Client/Dashboard/post-add-fund'
