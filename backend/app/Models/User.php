@@ -31,6 +31,7 @@ class User extends Authenticatable
     const USER_TYPE = [
         'Client' => Client::class,
         'Admin' => Admin::class,
+        'CatalogUser' => \App\Models\Catalog\User::class,
     ];
 
     /**

@@ -32,7 +32,7 @@ class TaskCreateRequest extends FormRequest implements ConvertingPropertiesInter
             'dueDate' => 'nullable|date_format:Y-m-d',
             'description' => 'nullable',
             'users' => 'required|array',
-            'users.*.userType' => "required|in:Client,Admin",
+            'users.*.userType' => "required|in:Client,Admin,CatalogUser",
             'users.*.id' => "required|integer",
         ];
 

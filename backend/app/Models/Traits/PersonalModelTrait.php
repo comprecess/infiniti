@@ -7,6 +7,7 @@ namespace App\Models\Traits;
 use App\Models\PersonalModel;
 use App\Models\Resident\Project\Task;
 use App\Models\User;
+use App\Models\Catalog\User as CatalogUser;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
 use App\Support\Collection;
@@ -31,7 +32,7 @@ trait PersonalModelTrait
         return $this->personals()->where('user_type', Client::class);
     }
 
-    public function setPersonal(Collection|CollectionModel|CollectionSupport|User $users, array $data = null)
+    public function setPersonal(Collection|CollectionModel|CollectionSupport|User|CatalogUser $users, array $data = null)
     {
         if($users instanceof User){
             $users = collect([$users]);
@@ -40,7 +41,7 @@ trait PersonalModelTrait
         $personals = $this->personals->where('user', '!=', null)->pluck('user');
 
         foreach($users as $user) {
-            if(!($user instanceof User)) {
+            if(!($user instanceof User) && !($user instanceof CatalogUser)) {
                 continue;
             }
 
@@ -86,7 +87,7 @@ trait PersonalModelTrait
         $query->where(function($q) use($users){
 
             foreach($users as $user) {
-                if(!($user instanceof User)) {
+                if(!($user instanceof User) && !($user instanceof CatalogUser)) {
                     continue;
                 }
                 $q->orWhere(function($q2) use($user){
