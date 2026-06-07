@@ -1,17 +1,43 @@
-# Deployment Target Audit
+# Deployment Target Audit & Workflow
 
-**Date:** 2026-06-06
-**Issue:** SSH access denied during ISSUE-013 deployment
-
----
-
-## Finding
-
-The deployment failure was caused by **targeting the wrong IP address**. The correct server was identified and confirmed accessible.
+**Date:** 2026-06-06 (Updated 2026-06-07)
+**Issue:** SSH access denied during ISSUE-013 deployment & Release Notes Workflow Integration
 
 ---
 
-## 1. IP Address Comparison
+## 1. Release Notes Workflow (New Deployment Discipline)
+
+To ensure all user-visible changes are properly communicated to Admin and Client/Founder users, the **Release Notes Workflow** is now a mandatory part of the deployment discipline.
+
+### Definition of Done (Frontend Deployments)
+
+Before any user-visible frontend deployment is considered complete, the following steps MUST be executed:
+
+1. **Update Version:** Increment the version number in `frontend/src/app/data/releases.ts` according to the versioning rules.
+2. **Add Release Notes:** Add a new entry to the `releases` array in `releases.ts` detailing:
+   - New features
+   - UX improvements
+   - Bug fixes
+   - Infrastructure/deployment updates (if user-relevant)
+3. **Deploy Exclusively via Script:** Deploy the application using ONLY the official script: `./deploy-frontend.sh`.
+4. **Verify Build Info:** Confirm the deployment by checking `https://console.infiniti.stream/build-info.json` and ensuring the commit hash matches the deployed version.
+5. **Verify Popup Visibility:** Confirm the Release Notes popup appears for both **Admin** and **Client/Founder** users when the version has changed.
+6. **Verify Popup State:** Confirm the popup is shown **only once** per user per version (managed via `localStorage`).
+
+*Note: Not every internal change requires a visible release popup. Release notes are required ONLY when the change affects what an Admin, Founder, Investor, Buyer, or Deal Manager can see or do.*
+
+### Versioning Rules
+
+- **MVP Validation Phase:** Continue using the `0.9.x-beta` format.
+- **Bug Fixes:** Bump the patch version (e.g., `0.9.12-beta` → `0.9.13-beta`).
+- **Meaningful Additions:** Bump the minor version for significant workflow or feature additions (e.g., `0.9.x-beta` → `0.10.0-beta`).
+- **Production Launch:** Do NOT use `1.0.0` until after the first validated real client case.
+
+---
+
+## 2. IP Address Finding (Historical)
+
+The deployment failure on 2026-06-06 was caused by **targeting the wrong IP address** (`77.73.71.176`). The correct server (`80.74.24.250`) was identified and confirmed accessible.
 
 | Parameter | Wrong (used in failed attempt) | Correct (confirmed) |
 |:----------|:-------------------------------|:--------------------|
@@ -20,47 +46,24 @@ The deployment failure was caused by **targeting the wrong IP address**. The cor
 | **Hostname** | Unknown | `infiniti.stream` |
 | **DNS Resolution** | Does not match `console.infiniti.stream` | Matches `console.infiniti.stream` |
 
----
-
-## 2. Where the Wrong IP Came From
-
-The IP `77.73.71.176` does **not appear** in any project file:
-- Not in `INFINITI_TECHNICAL_HANDOFF.md`
-- Not in any `.env`, `.yml`, `.sh`, or `.md` file
-- Not in bash history
-
-**Conclusion:** This IP was likely introduced during a previous task session through context compression or an incorrect assumption. It was never documented in the project.
+**Conclusion:** The wrong IP was likely introduced during a previous task session through context compression or an incorrect assumption. It was never documented in the project. Use `80.74.24.250` for all future deployments.
 
 ---
 
-## 3. Where the Correct IP is Documented
+## 3. Server Verification
 
-| Source | Reference |
-|:-------|:----------|
-| `INFINITI_TECHNICAL_HANDOFF.md` | `SSH: root@80.74.24.250` |
-| `INFINITI_TECHNICAL_HANDOFF.md` | `Password: ldm29Gc6OGesrQApKov9B` |
-| `INFINITI_TECHNICAL_HANDOFF.md` | `Gitea: http://80.74.24.250:3000` |
-| `docs/GROWTH_EXIT_IMPLEMENTATION_REPORT.md` | `Repository: http://80.74.24.250:3000/paul/infiniti-console` |
-| DNS A record for `console.infiniti.stream` | Resolves to `80.74.24.250` |
-
----
-
-## 4. Server Verification
-
-```
+```bash
 $ ssh root@80.74.24.250
 Connected successfully
 hostname: infiniti.stream
-uptime: 9 days, 21:37
 ```
 
 **Frontend source:** `/var/www/Infiniti/frontend/src/`
 **Built assets:** `/var/www/Infiniti/dist/`
-**Last commit:** `375e771e feat(onboarding): Add debounced autosave with status indicator`
 
 ---
 
-## 5. Current Hosting Map
+## 4. Current Hosting Map
 
 | Service | Server | IP |
 |:--------|:-------|:---|
@@ -71,37 +74,13 @@ uptime: 9 days, 21:37
 
 ---
 
-## 6. Last Successful Deployment
+## 5. Deployment Credentials (Confirmed Working)
 
-| Parameter | Value |
-|:----------|:------|
-| **Server** | `80.74.24.250` |
-| **Commit** | `375e771e` |
-| **Date** | 2026-06-06 (earlier today) |
-| **Method** | SCP + `npx vite build` + copy to `/var/www/Infiniti/dist/` |
-
----
-
-## Summary
-
-| Aspect | Detail |
-|:-------|:-------|
-| **Current Assumption** | Server is `80.74.24.250` |
-| **Evidence** | DNS resolution, TECHNICAL_HANDOFF.md, successful SSH, git log on server |
-| **Confidence Level** | **100%** — confirmed via DNS + SSH + git history |
-| **Root Cause of Failure** | Wrong IP `77.73.71.176` was used (origin unknown, not documented) |
-| **Resolution** | Use `80.74.24.250` for all future deployments |
-
----
-
-## Deployment Credentials (Confirmed Working)
-
-```
+```yaml
 Host: 80.74.24.250
 User: root
 Password: ldm29Gc6OGesrQApKov9B
 Frontend Path: /var/www/Infiniti/frontend/src/
 Build Output: /var/www/Infiniti/dist/
-Build Command: cd /var/www/Infiniti/frontend && npx vite build
-Deploy: cp -r /var/www/Infiniti/frontend/dist/* /var/www/Infiniti/dist/
+Deploy Script: ./deploy-frontend.sh
 ```
