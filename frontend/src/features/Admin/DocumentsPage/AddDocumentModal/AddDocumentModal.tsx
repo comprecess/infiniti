@@ -54,14 +54,23 @@ export const AddDocumentModal = ({
     dealRoomFolder?: string
   }>({ ...INITIAL_FORM_STATE })
 
-  // Track whether the user has manually edited the title
+  // Track whether the user has manually edited the title via actual keyboard input.
+  // This is ONLY set to true after a file has been selected AND the user types in the field.
+  // The CustomInput component fires onChange on mount (via its internal useEffect),
+  // which would falsely set this flag — so we gate it with fileSelected.
   const [titleManuallyEdited, setTitleManuallyEdited] = useState(false)
+
+  // Track whether a file has been selected at least once in this modal session.
+  // This prevents the CustomInput mount useEffect (which calls onChange with '')
+  // from falsely marking the title as manually edited.
+  const [fileSelected, setFileSelected] = useState(false)
 
   // Reset all state when modal opens
   useEffect(() => {
     if (modalAddDoc) {
       setFormData({ ...INITIAL_FORM_STATE })
       setTitleManuallyEdited(false)
+      setFileSelected(false)
     }
   }, [modalAddDoc])
 
@@ -69,6 +78,7 @@ export const AddDocumentModal = ({
   const handleOpenCloseModal = () => {
     setFormData({ ...INITIAL_FORM_STATE })
     setTitleManuallyEdited(false)
+    setFileSelected(false)
     modalOpenClose()
   }
 
@@ -85,17 +95,22 @@ export const AddDocumentModal = ({
         [name]: value,
       }
     })
-    // Mark title as manually edited when user types in the title field
-    if (name === 'title') {
+
+    // Only mark title as manually edited when:
+    // 1. The field is 'title'
+    // 2. A file has already been selected (so auto-population has occurred)
+    // This prevents CustomInput's mount useEffect from falsely setting the flag.
+    if (name === 'title' && fileSelected) {
       setTitleManuallyEdited(true)
     }
   }
 
   const handleDrop = (acceptedFile: File) => {
+    setFileSelected(true)
     setFormData(prevFormData => ({
       ...prevFormData,
       file: acceptedFile,
-      // Auto-populate title from filename only if user hasn't manually edited it
+      // Always auto-populate title from filename unless user has manually edited it
       title: titleManuallyEdited ? prevFormData.title : acceptedFile.name,
     }))
   }
@@ -105,6 +120,7 @@ export const AddDocumentModal = ({
     // Reset state after successful save
     setFormData({ ...INITIAL_FORM_STATE })
     setTitleManuallyEdited(false)
+    setFileSelected(false)
   }
 
   return (
