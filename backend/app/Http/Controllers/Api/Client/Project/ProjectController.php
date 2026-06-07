@@ -382,6 +382,22 @@ class ProjectController
         return $result;
     }
 
+    #DELETE
+    public function filesDelete($project)
+    {
+        $this->checkMy();
+        $id = Arr::get($this->viewData, 'path.0');
+        if (!$id || !is_numeric($id)) {
+            return response()->json(['status' => false, 'message' => 'Invalid file ID']);
+        }
+        $id = (int) $id;
+        $result = $project->deleteDocument($id);
+        if ($result) {
+            ProjectLog::create($project, ProjectLog::TYPE[11]);
+            return response()->json(['status' => true, 'message' => 'File deleted successfully']);
+        }
+        return response()->json(['status' => false, 'message' => 'File not found or could not be deleted']);
+    }
     public function tasksAll($project)
     {
         $methodList = [

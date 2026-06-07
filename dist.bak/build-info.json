@@ -1,10 +1,10 @@
 {
-  "commit": "4924351f",
-  "commit_full": "4924351f73166e9da2c2af2eca2dbb972785ca53",
+  "commit": "c9119b64",
+  "commit_full": "c9119b64b4223fde48e87705ee219c05eca519b4",
   "branch": "manus/feat-growth-exit-program",
-  "message": "fix(modal): Fix stale title state in AddDocumentModal - ISSUE-019",
-  "build_timestamp": "2026-06-07T16:10:58Z",
-  "deploy_timestamp": "2026-06-07T16:11:32Z",
+  "message": "feat(ux): Phase 1 Navigation Hint - wrap Onboarding tabs, Files table, Client Dashboard tables with Scrollable component for mobile overflow visibility",
+  "build_timestamp": "2026-06-07T18:13:23Z",
+  "deploy_timestamp": "2026-06-07T18:13:56Z",
   "target_path": "/var/www/Infiniti/dist",
   "node_version": "v20.19.6",
   "vite_version": "vite/5.2.8 linux-x64 node-v20.19.6"

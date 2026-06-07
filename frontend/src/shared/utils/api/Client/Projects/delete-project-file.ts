@@ -65,6 +65,7 @@ export const deleteProjectFile = async (idProject: number, idFile: number): Prom
         Authorization: `Bearer ${authToken}`,
       },
       signal: controller.signal,
+      redirectOnError: false,
     })
 
     clearTimeout(timeoutId)
