@@ -17,6 +17,7 @@ import { deleteProjectFile } from '../../../../../shared/utils/api/Admin/Project
 import { getProjectsFiles } from '../../../../../shared/utils/api/Admin/Projects/get-project-files'
 import { postAddNewProjectFile } from '../../../../../shared/utils/api/Admin/Projects/post-create-new-file'
 import { assignDocumentToFolder } from '../../../../../shared/utils/api/Admin/Projects/deal-room'
+import { Scrollable } from '../../../../../shared/ui/Scrollable/Scrollable'
 import { RecentCard } from '../../../../../widgets/RecentCard/RecentCard'
 
 export const AdminProjectsFilesPage = () => {
@@ -183,12 +184,14 @@ export const AdminProjectsFilesPage = () => {
                   }
               }
             >
-              <RecentDocuments
-                files={data.files}
-                changeSortName={changeSort}
-                deleteFile={deleteFile}
-                access={context.roles ? context.roles.documents : undefined}
-              />
+              <Scrollable>
+                <RecentDocuments
+                  files={data.files}
+                  changeSortName={changeSort}
+                  deleteFile={deleteFile}
+                  access={context.roles ? context.roles.documents : undefined}
+                />
+              </Scrollable>
             </RecentCard>
           ) : (
             <LoadingSpinner size='xl' />

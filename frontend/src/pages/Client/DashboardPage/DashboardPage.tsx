@@ -216,12 +216,12 @@ export const ClientDashboardPage = () => {
             </section>
             <section className={styles.section}>
               <RecentCard title='Recent Invoices' style={styles.recentFullScreen}>
-                <RecentInvoices invoices={data.invoice} />
+                <Scrollable><RecentInvoices invoices={data.invoice} /></Scrollable>
               </RecentCard>
             </section>
             <section className={styles.section}>
               <RecentCard title='Recent Offers' style={styles.recentFullScreen}>
-                <RecentOffers offers={data.offer} />
+                <Scrollable><RecentOffers offers={data.offer} /></Scrollable>
               </RecentCard>
             </section>
           </>

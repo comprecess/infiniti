@@ -10,6 +10,7 @@ import { CustomInput } from '../../../../../shared/ui/CustomInput/CustomInput'
 import { CustomSelect } from '../../../../../shared/ui/CustomSelect/CustomSelect'
 import { ButtonBlue } from '../../../../../shared/ui/ButtonBlue/ButtonBlue'
 import { LoadingSpinner } from '../../../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { Scrollable } from '../../../../../shared/ui/Scrollable/Scrollable'
 import styles from './OnboardingPage.module.scss'
 
 /**
@@ -463,7 +464,7 @@ export const AdminProjectsOnboardingPage = () => {
       </div>
 
       {/* Step Navigation */}
-      <div className={styles.stepNav}>
+      <Scrollable className={styles.stepNav}>
         {steps.map((s, index) => (
           <div
             key={s.id}
@@ -476,7 +477,7 @@ export const AdminProjectsOnboardingPage = () => {
             <span className={styles.stepTitle}>{s.title}</span>
           </div>
         ))}
-      </div>
+      </Scrollable>
 
       {/* Form Fields */}
       <div className={styles.formSection}>

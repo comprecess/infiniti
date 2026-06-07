@@ -1,0 +1,11 @@
+{
+  "commit": "4924351f",
+  "commit_full": "4924351f73166e9da2c2af2eca2dbb972785ca53",
+  "branch": "manus/feat-growth-exit-program",
+  "message": "fix(modal): Fix stale title state in AddDocumentModal - ISSUE-019",
+  "build_timestamp": "2026-06-07T16:10:58Z",
+  "deploy_timestamp": "2026-06-07T16:11:32Z",
+  "target_path": "/var/www/Infiniti/dist",
+  "node_version": "v20.19.6",
+  "vite_version": "vite/5.2.8 linux-x64 node-v20.19.6"
+}
