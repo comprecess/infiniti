@@ -12,6 +12,7 @@ use App\Models\Traits\CurrencyTrait;
 use App\Models\Traits\DocumentTrait;
 use App\Models\Traits\InsertDefaultValueTrait;
 use App\Models\Traits\PersonalModelTrait;
+use App\Models\Traits\CatalogUserTeamTrait;
 use App\Models\Traits\UserTrait;
 use App\Models\User;
 use App\Models\Users\Admin;
@@ -22,7 +23,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model implements InsertDefaultValueInterface
 {
-    use HasFactory, UserTrait, CurrencyTrait, InsertDefaultValueTrait, SoftDeletes, DocumentTrait, PersonalModelTrait;
+    use HasFactory, UserTrait, CurrencyTrait, InsertDefaultValueTrait, SoftDeletes, DocumentTrait, PersonalModelTrait, CatalogUserTeamTrait;
 
     const STATUS = ['Draft','Started','Completed'];
 

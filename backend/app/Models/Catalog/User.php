@@ -296,4 +296,20 @@ class User extends Model implements MeetingContract
         $client->save();
         return $client;
     }
+
+    /**
+     * Get the class name identifier for polymorphic resolution.
+     */
+    public function getNameClass(): string
+    {
+        return 'CatalogUser';
+    }
+
+    /**
+     * Get avatar URL (alias for getLastFile for compatibility with UserResource).
+     */
+    public function getAvatar($isLink = false)
+    {
+        return $this->getLastFile($isLink);
+    }
 }

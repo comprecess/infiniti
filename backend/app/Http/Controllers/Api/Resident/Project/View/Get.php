@@ -24,6 +24,7 @@ use App\Http\Resources\UserResource;
 use App\Models\Resident\Project\Task;
 use App\Models\Resident\Transactions\Transaction;
 use App\Models\Users\Client;
+use App\Services\TaskRecommendationService;
 use Illuminate\Support\Arr;
 
 class Get extends View
@@ -199,4 +200,26 @@ class Get extends View
         return $this->index($queryLog, LogResource::class, true);
     }
 
+    public function aiRecommend()
+    {
+        $title = request()->get('title', '');
+        $description = request()->get('description', '');
+
+        if (empty($title)) {
+            return response()->json(['recommendations' => []], 200);
+        }
+
+        $service = new TaskRecommendationService();
+        $recommendations = $service->recommend($this->model, $title, $description);
+
+        return response()->json(['recommendations' => $recommendations]);
+    }
+
+    public function aiFinancials()
+    {
+        $service = new \App\Services\ProjectFinancialService();
+        $result = $service->calculate($this->model);
+
+        return response()->json(['financials' => $result]);
+    }
 }

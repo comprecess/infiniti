@@ -1583,6 +1583,15 @@ export interface ProjectsData {
     admin: { account: string; img: string }
     staff: { id: number; img: string }[]
     suppliers: { id: number; img: string }[]
+    aiTeam?: { id: number; account: string; img: string; userType: string; isAiWorker: boolean; hourlyRate: number; dailyRate: number; jobTitle: string }[]
+  }
+  aiFinancials?: {
+    planned_ai_cost: number
+    actual_ai_cost: number
+    equivalent_human_cost: number
+    saved_budget: number
+    ai_hours: number
+    breakdown: { id: number; name: string; hourly_rate: number; planned_hours: number; actual_hours: number; planned_cost: number; actual_cost: number }[]
   }
   status: string
   summary: string
@@ -1630,7 +1639,7 @@ export interface ProjectsTasksData {
 
 export interface ProjectsTasksInputData {
   status: { id: number; title: string; sort: number }[]
-  users: { id: number; account: string; email: string; userType: string }[]
+  users: { id: number; account: string; email: string; userType: string; isAiWorker?: boolean; img?: string; jobTitle?: string }[]
 }
 
 export interface ProjectsTasksFormData {

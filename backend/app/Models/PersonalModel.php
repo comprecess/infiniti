@@ -6,6 +6,7 @@ use App\Models\Collection\PersonalCollection;
 use App\Models\Traits\CollectionTrait;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
+use App\Models\Catalog\User as CatalogUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -44,7 +45,7 @@ class PersonalModel extends Model
         $this->model_id = $model->id;
     }
 
-    public function setUser(Admin|Client $user)
+    public function setUser(Admin|Client|CatalogUser $user)
     {
         $this->user_type = $user::class;
         $this->user_id = $user->id;

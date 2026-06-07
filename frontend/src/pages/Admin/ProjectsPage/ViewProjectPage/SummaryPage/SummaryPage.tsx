@@ -12,6 +12,8 @@ export const AdminProjectsSummaryPage = () => {
 
   const projectInfo = context?.projectInfo || {}
   const members = projectInfo.users.staff || []
+  const aiTeam = projectInfo.users.aiTeam || []
+  const aiFinancials = projectInfo.aiFinancials || null
   const completed = projectInfo.completed || {
     percent: 0,
     completed: 0,
@@ -173,6 +175,50 @@ export const AdminProjectsSummaryPage = () => {
                     }
                   />
                 ))}
+              </div>
+            </div>
+          )}
+          {aiTeam.length > 0 && (
+            <div className={styles.members}>
+              <span className={styles.teamMembersText}>AI Workforce</span>
+              <div className={styles.profiles}>
+                {aiTeam.map((worker: any) => (
+                  <div key={worker.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                    <img
+                      alt={worker.account}
+                      className={styles.member}
+                      src={
+                        worker.img
+                          ? `${worker.img}?width=176&height=176`
+                          : '/profileWithoutAvatar.svg'
+                      }
+                    />
+                    <span style={{ fontSize: '10px', color: '#666', textAlign: 'center', maxWidth: '60px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{worker.account?.split(' ')[0]}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {aiFinancials && (
+            <div className={styles.tasks} style={{ marginTop: '8px' }}>
+              <div className={styles.chart}>
+                <div className={styles.chartTexts}>
+                  <span className={styles.amount}>AI Workforce: {aiTeam.length} workers assigned</span>
+                  <span className={styles.amount}>
+                    {`$${aiFinancials.actual_ai_cost} / $${aiFinancials.equivalent_human_cost} equivalent`}
+                  </span>
+                </div>
+                {aiFinancials.equivalent_human_cost > 0 && (
+                  <div className={styles.tasksCompleted}>
+                    <div
+                      className={styles.segment}
+                      style={{
+                        width: `${Math.round((aiFinancials.actual_ai_cost / aiFinancials.equivalent_human_cost) * 100)}%`,
+                        backgroundColor: '#10b981',
+                      }}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           )}

@@ -7,6 +7,7 @@ use App\Models\Collection\ProjectTaskTimeCollection;
 use App\Models\Traits\CollectionTrait;
 use App\Models\Users\Admin;
 use App\Models\Users\Client;
+use App\Models\Catalog\User as CatalogUser;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -39,7 +40,7 @@ class TaskTime extends Model
         return $this->morphTo('user');
     }
 
-    public function setUser(Admin|Client $user)
+    public function setUser(Admin|Client|CatalogUser $user)
     {
         $this->user_type = $user::class;
         $this->user_id = $user->id;
