@@ -1,4 +1,5 @@
 import { useState } from 'react'
+
 import styles from './Item.module.scss'
 import { RolesAccess } from '../../../../../app/constants/constants'
 import { ConfirmationModal } from '../../../../../shared/ui/ConfirmationModal/ConfirmationModal'
@@ -7,6 +8,7 @@ import { TypeFiles } from '../../../../../shared/ui/TypeFiles/TypeFiles'
 import { downloadOrViewFile } from '../../../../../shared/utils/usefulMethods'
 import { EditDocumentModal } from '../../EditDocumentModal/EditDocumentModal'
 import styleItem from '../RecentDocuments.module.scss'
+
 interface ItemProps {
   idFile: number
   global: number
@@ -17,6 +19,7 @@ interface ItemProps {
   access: RolesAccess | undefined
   deleteFile: (idFile: number) => void
 }
+
 export const Item = ({
   idFile,
   global,
@@ -29,27 +32,31 @@ export const Item = ({
 }: ItemProps) => {
   const [modalEdit, setModalEdit] = useState<boolean>(false)
   const [modalDelete, setModalDelete] = useState<boolean>(false)
+
   const handleSetModalDelete = () => {
     setModalDelete(state => !state)
   }
+
   const handleSetModalEdit = () => {
     setModalEdit(state => !state)
   }
+
   const handleDownloadFile = async (link: string) => {
     const headers: HeadersInit = global === 0 ? { Authorization: `Bearer ${authToken}` } : {}
-    // Ensure the link is a full URL - if it's just a token, prepend the API base
-    const fullLink = link.startsWith('http')
-      ? link
-      : `${import.meta.env.VITE_MAIN_DOMAIN}${import.meta.env.VITE_GET_DOCUMENT}/${link}`
+
     try {
-      const response = await fetch(fullLink, { headers })
-      if (!response.ok) throw new Error('File download error')
+      const response = await fetch(link, { headers })
+
+      if (!response.ok) throw new Error('Ошибка загрузки файла')
+
       const blob = await response.blob()
+
       await downloadOrViewFile(blob, title)
     } catch (error) {
-      console.error('Failed to download/view file', error)
+      console.error('Не удалось скачать/просмотреть файл', error)
     }
   }
+
   return (
     <>
       <div className={styles.wrapper}>

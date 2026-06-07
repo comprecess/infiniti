@@ -4,25 +4,28 @@ import { TypeFiles } from '../../../../../shared/ui/TypeFiles/TypeFiles'
 import { getAuthToken } from '../../../../../shared/utils/api/get-auth-token'
 import { downloadOrViewFile } from '../../../../../shared/utils/usefulMethods'
 import styleItem from '../RecentDocuments.module.scss'
+
 interface ItemProps {
   document: ClientDocumentsData
 }
+
 export const Item = ({ document }: ItemProps) => {
   const authToken = getAuthToken()
+
   const handleDownloadFile = async () => {
-    // Ensure the link is a full URL - if it's just a token, prepend the API base
-    const fullLink = document.link.startsWith('http')
-      ? document.link
-      : `${import.meta.env.VITE_MAIN_DOMAIN}${import.meta.env.VITE_GET_DOCUMENT}/${document.link}`
     try {
-      const response = await fetch(`${fullLink}?token=${authToken}`)
-      if (!response.ok) throw new Error('File download error')
+      const response = await fetch(`${document.link}?token=${authToken}`)
+
+      if (!response.ok) throw new Error('Ошибка загрузки файла')
+
       const blob = await response.blob()
+
       await downloadOrViewFile(blob, document.title)
     } catch (error) {
-      console.error('Failed to download/view file', error)
+      console.error('Не удалось скачать/просмотреть файл', error)
     }
   }
+
   return (
     <div className={styles.wrapper}>
       <div className={`${styleItem.typeColumn} ${styles.typeItem}`}>
