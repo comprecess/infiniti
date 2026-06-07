@@ -63,7 +63,12 @@ class Document extends Model implements InsertDefaultValueInterface
 
     public function getLink()
     {
-//        return route('document_load', ['token' => $this->file_dl_token]);
+        // Prefer FileStorage link (uses /file/{hash} route, works without auth)
+        $file = $this->files()->first();
+        if ($file) {
+            return $file->getLink();
+        }
+        // Fall back to document token (uses /document/{token} route, requires auth)
         return $this->file_dl_token;
     }
 }
