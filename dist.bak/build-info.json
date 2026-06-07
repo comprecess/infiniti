@@ -1,10 +1,10 @@
 {
-  "commit": "c9119b64",
-  "commit_full": "c9119b64b4223fde48e87705ee219c05eca519b4",
+  "commit": "cba758ef",
+  "commit_full": "cba758ef07a17215d5659048de71eb6774a72a30",
   "branch": "manus/feat-growth-exit-program",
-  "message": "feat(ux): Phase 1 Navigation Hint - wrap Onboarding tabs, Files table, Client Dashboard tables with Scrollable component for mobile overflow visibility",
-  "build_timestamp": "2026-06-07T18:13:23Z",
-  "deploy_timestamp": "2026-06-07T18:13:56Z",
+  "message": "docs: update Navigation Hint Phase 1 status with verification screenshots",
+  "build_timestamp": "2026-06-07T18:27:21Z",
+  "deploy_timestamp": "2026-06-07T18:27:51Z",
   "target_path": "/var/www/Infiniti/dist",
   "node_version": "v20.19.6",
   "vite_version": "vite/5.2.8 linux-x64 node-v20.19.6"

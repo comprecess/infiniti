@@ -575,7 +575,9 @@ export const router = createBrowserRouter([
     element: (
       <ExaminationUser>
         <WebSocketProvider>
-          <MainOutlet />
+          <VersionProvider>
+            <MainOutlet />
+          </VersionProvider>
         </WebSocketProvider>
       </ExaminationUser>
     ),
