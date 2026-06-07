@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import styles from './DocumentsPage.module.scss'
 import { ClientDocumentsData } from '../../../app/constants/constants'
 import { Item } from '../../../features/Client/DocumentsPage/Item/Item'
-import { LoadingSpinner } from '../../../shared/ui/LoadingSpinner/LoadingSpinner'
+import { LoadingShimmer } from '../../../shared/ui/LoadingShimmer/LoadingShimmer'
 import { getDocumentsList } from '../../../shared/utils/api/Client/Documents/get-documents-list'
 import { RecentCard } from '../../../widgets/RecentCard/RecentCard'
 
@@ -43,7 +43,7 @@ export const ClientDocumentsPage = () => {
           </RecentCard>
         ) : (
           <div className={styles.loading}>
-            <LoadingSpinner size='xl' />
+            <LoadingShimmer variant='list' rows={6} />
           </div>
         )}
       </section>

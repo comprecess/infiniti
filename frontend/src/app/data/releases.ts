@@ -7,8 +7,28 @@ export interface ReleaseInfo {
   bugfixes: string[]
   improvements: string[]
 }
-
 export const releases: ReleaseInfo[] = [
+  {
+    version: '0.9.2-beta',
+    date: '2026-06-08',
+    title: 'AI Workforce, Analytics Architecture & Loading Experience',
+    features: [
+      'AI Workforce team (13 talents) added to Talent Directory',
+      'INFINITI Console Evolution project (Project 45) with 48 tasks across 4 phases',
+      'Analytics Module MVP architecture designed (7 dashboard sections)',
+      'LoadingShimmer component — contextual skeleton loading states',
+      'Verification Timeout Policy for automated validation workflows',
+    ],
+    bugfixes: [
+      'File preview/download fixed for Client Documents page (ISSUE-022)',
+      'File download URLs now use full API path with Bearer auth token',
+    ],
+    improvements: [
+      'Loading experience upgraded from spinners to shimmer skeletons',
+      'Infrastructure documentation updated for new server migration',
+      'Deployment audit documentation expanded with release notes workflow',
+    ],
+  },
   {
     version: '0.9.0-beta',
     date: '2026-06-07',
