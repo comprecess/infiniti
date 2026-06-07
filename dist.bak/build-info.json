@@ -1,10 +1,10 @@
 {
-  "commit": "b9e806ab",
-  "commit_full": "b9e806abc77d959118d6144cd4d5c5510d13f98e",
+  "commit": "5220fbaf",
+  "commit_full": "5220fbaffcc7e67220211ee77d6b4c44e1daf045",
   "branch": "manus/feat-growth-exit-program",
-  "message": "chore: Remove backup files",
-  "build_timestamp": "2026-06-07T19:34:04Z",
-  "deploy_timestamp": "2026-06-07T19:34:37Z",
+  "message": "feat: v0.9.2-beta — ISSUE-022 client fix, LoadingShimmer, Analytics architecture",
+  "build_timestamp": "2026-06-07T21:15:29Z",
+  "deploy_timestamp": "2026-06-07T21:16:00Z",
   "target_path": "/var/www/Infiniti/dist",
   "node_version": "v20.19.6",
   "vite_version": "vite/5.2.8 linux-x64 node-v20.19.6"

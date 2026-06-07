@@ -106,6 +106,12 @@ abstract class View
                 $users->push($personal->user);
             }
         }
+        // Include AI team members from catalog_team
+        if (method_exists($this->model, 'teams')) {
+            foreach($this->model->teams as $aiWorker) {
+                $users->push($aiWorker);
+            }
+        }
         $users = $users->filter(function($value){
             return !empty($value);
         })->unique(function($item){
