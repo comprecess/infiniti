@@ -1,3 +1,4 @@
+import { KnowledgeTab } from './KnowledgeTab/KnowledgeTab'
 import { useState } from 'react'
 
 import { LogsTable } from './LogsTable/LogsTable'
@@ -138,6 +139,7 @@ export const ViewTaskModal = ({
               </div>
             </div>
           )}
+          {filterStatus === 'Knowledge' && <KnowledgeTab taskId={task.id} />}
           {filterStatus === 'Time Spent' && (
             <div className={styles.scrollTable}>
               <TimeSpentTable idTask={task.id} isClientView={isClientView} />

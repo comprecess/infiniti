@@ -1,0 +1,11 @@
+{
+  "commit": "k001-impl",
+  "commit_full": "knowledge-os-k001-k002-k003-k004-k005-implementation",
+  "branch": "manus/feat-k001-knowledge-os",
+  "message": "v0.9.11-beta: Knowledge OS - Task Workspace with Decision Records, Prompt Library, Validation System, Context, Assets, Outcomes",
+  "build_timestamp": "2026-06-08T23:32:00Z",
+  "deploy_timestamp": "2026-06-08T23:56:00Z",
+  "target_path": "/var/www/Infiniti/dist",
+  "node_version": "v20.19.6",
+  "vite_version": "vite/5.2.8 linux-x64 node-v20.19.6"
+}

@@ -1,4 +1,8 @@
 .wrapper {
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
   width: 100%;
   min-height: 800px;

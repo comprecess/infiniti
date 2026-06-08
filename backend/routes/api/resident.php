@@ -442,3 +442,45 @@ Route::prefix('support')
         Route::post('/{id}/reply',          'reply')->where('id', '[0-9]+');
         Route::post('/{id}/attachment',     'uploadAttachment')->where('id', '[0-9]+');
     });
+
+# Knowledge OS - Task Knowledge Workspace (K-001 through K-005)
+Route::prefix('task/{taskId}/knowledge')
+    ->controller(Resident\Task\KnowledgeController::class)
+    ->group(function(){
+        // Full workspace (all entities for a task)
+        Route::get('/', 'workspace');
+
+        // Context (single record per task)
+        Route::get('/context', 'context');
+        Route::post('/context', 'storeOrUpdateContext');
+
+        // Knowledge Assets
+        Route::get('/assets', 'assets');
+        Route::post('/assets', 'storeAsset');
+        Route::put('/assets/{id}', 'updateAsset')->where('id', '[0-9]+');
+        Route::delete('/assets/{id}', 'destroyAsset')->where('id', '[0-9]+');
+
+        // Decision Records
+        Route::get('/decisions', 'decisions');
+        Route::post('/decisions', 'storeDecision');
+        Route::put('/decisions/{id}', 'updateDecision')->where('id', '[0-9]+');
+        Route::delete('/decisions/{id}', 'destroyDecision')->where('id', '[0-9]+');
+
+        // Prompt Records
+        Route::get('/prompts', 'prompts');
+        Route::post('/prompts', 'storePrompt');
+        Route::put('/prompts/{id}', 'updatePrompt')->where('id', '[0-9]+');
+        Route::delete('/prompts/{id}', 'destroyPrompt')->where('id', '[0-9]+');
+
+        // Validation Records
+        Route::get('/validations', 'validations');
+        Route::post('/validations', 'storeValidation');
+        Route::put('/validations/{id}', 'updateValidation')->where('id', '[0-9]+');
+        Route::delete('/validations/{id}', 'destroyValidation')->where('id', '[0-9]+');
+
+        // Outcome Records
+        Route::get('/outcomes', 'outcomes');
+        Route::post('/outcomes', 'storeOutcome');
+        Route::put('/outcomes/{id}', 'updateOutcome')->where('id', '[0-9]+');
+        Route::delete('/outcomes/{id}', 'destroyOutcome')->where('id', '[0-9]+');
+    });

@@ -1,10 +1,10 @@
 {
-  "commit": "9e0d4caf",
-  "commit_full": "9e0d4cafafe3806764f415d7b3116ad4e2627e6d",
+  "commit": "e1f79564",
+  "commit_full": "e1f795644636be6643d65974fe72fda8878903a9",
   "branch": "manus/feat-c3-ai-workforce-analytics",
-  "message": "v0.9.10-beta: Chrome scroll fix + donut chart legend overflow fix",
-  "build_timestamp": "2026-06-08T12:46:22Z",
-  "deploy_timestamp": "2026-06-08T12:46:54Z",
+  "message": "v0.9.10-beta: Chrome scroll fix v2 - main container scroll architecture + legend overflow fix",
+  "build_timestamp": "2026-06-08T18:47:40Z",
+  "deploy_timestamp": "2026-06-08T18:48:16Z",
   "target_path": "/var/www/Infiniti/dist",
   "node_version": "v20.19.6",
   "vite_version": "vite/5.2.8 linux-x64 node-v20.19.6"
