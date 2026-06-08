@@ -4,5 +4,18 @@
   justify-content: center;
   gap: 12px;
   width: 100%;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  // Ensure tab items don't shrink on mobile
+  > * {
+    flex-shrink: 0;
+  }
 }
