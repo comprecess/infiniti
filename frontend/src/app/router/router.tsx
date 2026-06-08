@@ -430,7 +430,7 @@ export const router = createBrowserRouter([
             element: Pages.adminProjectsGrowthPlanPage,
           },
           {
-            path: 'analytics',
+            path: "analytics",
             element: Pages.adminProjectsAnalyticsPage,
           },
           {
@@ -668,7 +668,7 @@ export const router = createBrowserRouter([
             element: Pages.adminProjectsGrowthPlanPage,
           },
           {
-            path: 'analytics',
+            path: "analytics",
             element: Pages.adminProjectsAnalyticsPage,
           },
           {

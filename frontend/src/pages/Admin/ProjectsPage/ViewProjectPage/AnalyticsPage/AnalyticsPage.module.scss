@@ -18,10 +18,12 @@
 }
 
 .title {
+  font-family: $fontSpaceGrotesk;
   font-size: 24px;
-  font-weight: 700;
-  color: #111827;
+  font-weight: 600;
+  color: #fff;
   margin: 0;
+  letter-spacing: -0.03em;
 
   @media (max-width: 768px) {
     font-size: 20px;
@@ -30,7 +32,7 @@
 
 .subtitle {
   font-size: 14px;
-  color: #6b7280;
+  color: $gray-300;
 }
 
 .section {
@@ -40,20 +42,22 @@
 }
 
 .sectionTitle {
+  font-family: $fontSpaceGrotesk;
   font-size: 16px;
-  font-weight: 600;
-  color: #374151;
+  font-weight: 500;
+  color: $gray-100;
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
 .metricsRow {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
+  gap: 12px;
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
   }
 
   @media (max-width: 480px) {
@@ -67,12 +71,12 @@
   gap: 8px;
   padding: 20px;
   border-radius: 12px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  transition: box-shadow 0.2s;
+  background: $brand-800;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: border-color 0.2s;
 
   &:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-color: rgba(99, 102, 241, 0.3);
   }
 
   @media (max-width: 768px) {
@@ -81,43 +85,45 @@
 }
 
 .metricLabel {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
-  color: #6b7280;
+  color: $gray-300;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .metricValue {
-  font-size: 28px;
-  font-weight: 700;
+  font-family: $fontSpaceGrotesk;
+  font-size: 26px;
+  font-weight: 600;
   line-height: 1.2;
+  letter-spacing: -0.03em;
 
   @media (max-width: 768px) {
-    font-size: 22px;
+    font-size: 20px;
   }
 }
 
 .metricBadge {
   display: inline-flex;
   align-items: center;
-  padding: 2px 8px;
+  padding: 3px 10px;
   border-radius: 12px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   width: fit-content;
-  background: #d1fae5;
-  color: #065f46;
+  background: $mint-transparent;
+  color: $mint-500;
 }
 
 // Card color variants
-.budgetCard .metricValue { color: #1f2937; }
-.spentCard .metricValue { color: #dc2626; }
-.remainingCard .metricValue { color: #059669; }
-.aiCostCard .metricValue { color: #6366f1; }
-.humanCostCard .metricValue { color: #2563eb; }
-.savedCard .metricValue { color: #059669; }
-.hoursCard .metricValue { color: #7c3aed; }
+.budgetCard .metricValue { color: #fff; }
+.spentCard .metricValue { color: $cherry-500; }
+.remainingCard .metricValue { color: $mint-500; }
+.aiCostCard .metricValue { color: $brand-300; }
+.humanCostCard .metricValue { color: $brand-200; }
+.savedCard .metricValue { color: $mint-400; }
+.hoursCard .metricValue { color: $amber-400; }
 
 // Progress bar
 .progressBar {
@@ -128,22 +134,22 @@
 
 .progressTrack {
   flex: 1;
-  height: 8px;
-  background: #f3f4f6;
-  border-radius: 4px;
+  height: 6px;
+  background: $gray-600;
+  border-radius: 3px;
   overflow: hidden;
 }
 
 .progressFill {
   height: 100%;
-  background: linear-gradient(90deg, #6366f1, #8b5cf6);
-  border-radius: 4px;
+  background: linear-gradient(90deg, $brand-500, $brand-300);
+  border-radius: 3px;
   transition: width 0.3s ease;
 }
 
 .progressLabel {
   font-size: 12px;
-  color: #6b7280;
+  color: $gray-300;
   white-space: nowrap;
 }
 
@@ -151,7 +157,7 @@
 .chartsRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 12px;
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
@@ -159,8 +165,8 @@
 }
 
 .chartCard {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
+  background: $brand-800;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   padding: 20px;
 
@@ -170,56 +176,55 @@
 }
 
 .chartTitle {
+  font-family: $fontSpaceGrotesk;
   font-size: 14px;
-  font-weight: 600;
-  color: #374151;
+  font-weight: 500;
+  color: $gray-100;
   margin: 0 0 16px 0;
+  letter-spacing: -0.02em;
 }
 
-// Table
+// Table - desktop only
 .tableWrapper {
   overflow-x: auto;
-  border: 1px solid #e5e7eb;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
+  background: $brand-800;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 13px;
 
   th, td {
     padding: 12px 16px;
     text-align: left;
-    border-bottom: 1px solid #f3f4f6;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
   }
 
   th {
-    background: #f9fafb;
-    font-weight: 600;
-    color: #374151;
-    font-size: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    font-weight: 500;
+    color: $gray-300;
+    font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
 
   td {
-    color: #4b5563;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 12px;
-
-    th, td {
-      padding: 8px 12px;
-    }
+    color: $gray-100;
   }
 }
 
 .workerCell {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .workerAvatar {
@@ -227,28 +232,123 @@
   height: 28px;
   border-radius: 50%;
   object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .typeBadge {
   display: inline-flex;
-  padding: 2px 8px;
+  padding: 3px 10px;
   border-radius: 12px;
   font-size: 11px;
   font-weight: 500;
-  background: #ede9fe;
-  color: #5b21b6;
+  background: $brand-transparent;
+  color: $brand-200;
 }
 
 .savingsCell {
-  color: #059669 !important;
+  color: $mint-400 !important;
   font-weight: 600;
 }
 
 .totalRow {
   td {
-    border-top: 2px solid #e5e7eb;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     border-bottom: none;
-    background: #f9fafb;
+    background: rgba(255, 255, 255, 0.02);
+  }
+}
+
+// Mobile Cards - shown only on mobile
+.mobileCards {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+}
+
+.workerCard {
+  background: $brand-800;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 16px;
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+}
+
+.workerCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.workerCardAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(99, 102, 241, 0.3);
+}
+
+.workerCardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.workerCardName {
+  font-family: $fontSpaceGrotesk;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.workerCardRole {
+  font-size: 12px;
+  color: $brand-200;
+}
+
+.workerCardMetrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.workerCardMetric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.workerCardMetricLabel {
+  font-size: 10px;
+  font-weight: 500;
+  color: $gray-400;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.workerCardMetricValue {
+  font-family: $fontSpaceGrotesk;
+  font-size: 14px;
+  font-weight: 500;
+  color: $gray-100;
+  letter-spacing: -0.02em;
+}
+
+.workerCardSavings {
+  .workerCardMetricValue {
+    color: $mint-400;
+    font-weight: 600;
   }
 }
 
@@ -261,23 +361,21 @@
   padding: 64px 24px;
   text-align: center;
   gap: 12px;
+  background: $brand-800;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
 
   h3 {
+    font-family: $fontSpaceGrotesk;
     font-size: 18px;
-    font-weight: 600;
-    color: #374151;
+    font-weight: 500;
+    color: $gray-100;
     margin: 0;
   }
 
   p {
     font-size: 14px;
-    color: #6b7280;
+    color: $gray-300;
     margin: 0;
   }
-}
-
-.emptyIcon {
-  width: 64px;
-  height: 64px;
-  opacity: 0.5;
 }

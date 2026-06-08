@@ -9,23 +9,41 @@ export interface ReleaseInfo {
 }
 export const releases: ReleaseInfo[] = [
   {
+    version: '0.9.4-beta',
+    date: '2026-06-08',
+    title: 'C3.1 Analytics Dashboard — Validation Fixes',
+    features: [],
+    bugfixes: [
+      'Budget Spent now includes AI workforce cost from ProjectFinancialService',
+      'Analytics page route registered in router (was missing after branch merge)',
+      'Analytics menu item visible in exit_deal template navigation',
+      'Dark theme styling applied — matches INFINITI brand palette',
+      'Saved Budget badge shows positive percentage (was showing negative)',
+      'Number formatting standardized with commas and 2 decimal places',
+    ],
+    improvements: [
+      'Mobile responsive workforce table replaced with compact cards',
+      'Chart tooltips and legends use dark theme colors',
+      'Worker comparison table shows avatars and role badges',
+    ],
+  },
+  {
     version: '0.9.3-beta',
     date: '2026-06-08',
     title: 'C3.1 AI Workforce Financial Dashboard',
     features: [
-      'AI Workforce Analytics page with full financial dashboard',
+      'AI Workforce Analytics page with financial dashboard',
       'Project Budget metrics: Total Budget, Spent, Remaining with progress bar',
-      'AI Cost Efficiency metrics: AI Cost, Human Equivalent, Saved Budget, Total AI Hours',
+      'AI Cost Efficiency metrics: AI Cost, Human Equivalent, Saved Budget, Total Hours',
       'Hours by AI Worker bar chart (ApexCharts)',
-      'Cost Distribution donut chart with per-worker breakdown',
-      'Workforce Comparison table with savings per AI worker',
+      'Cost Distribution donut chart with worker breakdown',
+      'Workforce Comparison table with per-worker savings',
     ],
     bugfixes: [
-      'Fixed ProjectFinancialService HH:MM time parsing (was truncating minutes via intval)',
+      'ProjectFinancialService HH:MM time parsing fixed (was truncating minutes)',
     ],
     improvements: [
-      'Analytics route registered for both Admin and Client project views',
-      'Mobile-responsive layout with grid breakpoints for all dashboard sections',
+      'Backup script updated with local retention and integrity verification',
     ],
   },
   {

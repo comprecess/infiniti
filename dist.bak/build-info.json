@@ -1,11 +1,7 @@
 {
-  "commit": "5220fbaf",
-  "commit_full": "5220fbaffcc7e67220211ee77d6b4c44e1daf045",
-  "branch": "manus/feat-growth-exit-program",
-  "message": "feat: v0.9.2-beta — ISSUE-022 client fix, LoadingShimmer, Analytics architecture",
-  "build_timestamp": "2026-06-07T21:15:29Z",
-  "deploy_timestamp": "2026-06-07T21:16:00Z",
-  "target_path": "/var/www/Infiniti/dist",
-  "node_version": "v20.19.6",
-  "vite_version": "vite/5.2.8 linux-x64 node-v20.19.6"
+    "commit": "8a84a13c",
+    "branch": "manus\/feat-c2-ai-workforce-participation",
+    "built_at": "2026-06-07T23:56:35+00:00",
+    "version": "0.9.2-beta",
+    "note": "fix(documents): prefer FileStorage link for view\/download"
 }
