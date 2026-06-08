@@ -418,3 +418,14 @@
     margin: 0;
   }
 }
+
+// Fix: Hide donut center label on mobile (iPhone 390px) to prevent value overflow inside donut
+// The total is shown below the chart via .chartTotalBelow instead
+.chartCard {
+  :global(.apexcharts-datalabel-label),
+  :global(.apexcharts-datalabel-value) {
+    @media (max-width: 480px) {
+      display: none;
+    }
+  }
+}
