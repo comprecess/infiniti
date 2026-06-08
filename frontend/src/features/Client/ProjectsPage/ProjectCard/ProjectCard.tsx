@@ -156,7 +156,7 @@ export const ProjectCard = ({ project, user, isMyProjects }: ProjectCardProps) =
               <div
                 className={styles.segmentBudget}
                 style={{
-                  width: `${Math.min((project.expense.value / project.budget.value) * 100, 100)}%`,
+                  width: `${Math.min(((project.expense.value + (project.aiFinancials?.actual_ai_cost || 0)) / project.budget.value) * 100, 100)}%`,
                 }}
               />
             </div>

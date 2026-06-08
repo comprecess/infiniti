@@ -9,6 +9,22 @@ export interface ReleaseInfo {
 }
 export const releases: ReleaseInfo[] = [
   {
+    version: '0.9.5-beta',
+    date: '2026-06-08',
+    title: 'Project Card Budget Sync + Donut Chart Readability',
+    features: [],
+    bugfixes: [
+      'Project card budget bar now includes AI workforce cost (was showing $0.00)',
+      'Budget percentage on project list reflects total spend (transactions + AI cost)',
+    ],
+    improvements: [
+      'Donut chart center text improved: separate name/value labels with proper spacing',
+      'Mobile donut chart uses smaller font sizes and reduced donut size for readability',
+      'Data labels removed from donut slices to reduce visual clutter',
+      'Legend item spacing improved for mobile readability',
+    ],
+  },
+  {
     version: '0.9.4-beta',
     date: '2026-06-08',
     title: 'C3.1 Analytics Dashboard — Validation Fixes',
