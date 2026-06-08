@@ -111,7 +111,7 @@ export const AdminProjectsSummaryPage = () => {
               {projectInfo.expense && (
                 <div className={styles.budget}>
                   <span className={styles.budgetTitle}>Expense:</span>
-                  <span className={styles.budgetAmount}>{projectInfo.expense.format}</span>
+                  <span className={styles.budgetAmount}>{`$${((projectInfo.expense.value || 0) + (projectInfo.aiFinancials?.actual_ai_cost || 0)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}</span>
                 </div>
               )}
             </div>
@@ -248,14 +248,14 @@ export const AdminProjectsSummaryPage = () => {
                 <div className={styles.chartTexts}>
                   {(() => {
                     const percentSpent = Math.round(
-                      (projectInfo.expense.value / projectInfo.budget.value) * 100,
+                      (((projectInfo.expense.value || 0) + (projectInfo.aiFinancials?.actual_ai_cost || 0)) / projectInfo.budget.value) * 100,
                     )
 
                     return (
                       <>
                         <span className={styles.amount}>{`${percentSpent}% budget spent`}</span>
                         <span className={styles.amount}>
-                          {`${projectInfo.expense.format} / ${projectInfo.budget.format}`}
+                          {`$${((projectInfo.expense.value || 0) + (projectInfo.aiFinancials?.actual_ai_cost || 0)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} / ${projectInfo.budget.format}`}
                         </span>
                       </>
                     )
@@ -266,7 +266,7 @@ export const AdminProjectsSummaryPage = () => {
                     className={styles.segmentBudget}
                     style={{
                       width: `${Math.min(
-                        (projectInfo.expense.value / projectInfo.budget.value) * 100,
+                        (((projectInfo.expense.value || 0) + (projectInfo.aiFinancials?.actual_ai_cost || 0)) / projectInfo.budget.value) * 100,
                         100,
                       )}%`,
                     }}

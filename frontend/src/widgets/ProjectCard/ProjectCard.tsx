@@ -63,7 +63,7 @@ export const ProjectCard = ({ project, access, deleteProject }: ProjectCardProps
                 <div className={styles.budget}>{`Budget: ${project.budget.format}`}</div>
               )}
               {project.expense && (
-                <div className={styles.budget}>{`Expense: ${project.expense.format}`}</div>
+                <div className={styles.budget}>{`Expense: $${((project.expense.value || 0) + (project.aiFinancials?.actual_ai_cost || 0)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}</div>
               )}
             </div>
             {project.summary && <div className={styles.description}>{project.summary}</div>}
@@ -154,7 +154,7 @@ export const ProjectCard = ({ project, access, deleteProject }: ProjectCardProps
               <div className={styles.chartTexts}>
                 {(() => {
                   const percentSpent = Math.round(
-                    (project.expense.value / project.budget.value) * 100,
+                    (((project.expense.value || 0) + (project.aiFinancials?.actual_ai_cost || 0)) / project.budget.value) * 100,
                   )
 
                   return (
@@ -172,7 +172,7 @@ export const ProjectCard = ({ project, access, deleteProject }: ProjectCardProps
                   className={styles.segmentBudget}
                   style={{
                     width: `${Math.min(
-                      (project.expense.value / project.budget.value) * 100,
+                      (((project.expense.value || 0) + (project.aiFinancials?.actual_ai_cost || 0)) / project.budget.value) * 100,
                       100,
                     )}%`,
                   }}

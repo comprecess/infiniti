@@ -52,7 +52,7 @@ export const ProjectCard = ({ project, user, isMyProjects }: ProjectCardProps) =
               <div className={styles.budget}>{`Budget: ${project.budget.format}`}</div>
             )}
             {project.expense && (
-              <div className={styles.budget}>{`Expense: ${project.expense.format}`}</div>
+              <div className={styles.budget}>{`Expense: $${((project.expense.value || 0) + (project.aiFinancials?.actual_ai_cost || 0)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}</div>
             )}
           </div>
           {project.summary && <div className={styles.description}>{project.summary}</div>}
@@ -139,14 +139,14 @@ export const ProjectCard = ({ project, user, isMyProjects }: ProjectCardProps) =
             <div className={styles.chartTexts}>
               {(() => {
                 const percentSpent = Math.round(
-                  (project.expense.value / project.budget.value) * 100,
+                  (((project.expense.value || 0) + (project.aiFinancials?.actual_ai_cost || 0)) / project.budget.value) * 100,
                 )
 
                 return (
                   <>
                     <span className={styles.amount}>{`${percentSpent}% budget spent`}</span>
                     <span className={styles.amount}>
-                      {`${project.expense.format} / ${project.budget.format}`}
+                      {`$${((project.expense.value || 0) + (project.aiFinancials?.actual_ai_cost || 0)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} / ${project.budget.format}`}
                     </span>
                   </>
                 )

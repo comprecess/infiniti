@@ -352,6 +352,37 @@
   }
 }
 
+// Chart total below - mobile only
+.chartTotalBelow {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+}
+
+.chartTotalBelowLabel {
+  font-size: 11px;
+  font-weight: 500;
+  color: $gray-300;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.chartTotalBelowValue {
+  font-family: $fontSpaceGrotesk;
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.03em;
+}
+
 // Empty state
 .emptyState {
   display: flex;

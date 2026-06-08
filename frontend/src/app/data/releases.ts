@@ -10,6 +10,22 @@ export interface ReleaseInfo {
 }
 export const releases: ReleaseInfo[] = [
   {
+    version: '0.9.7-beta',
+    date: '2026-06-08',
+    title: 'Validation Round 3 — Avatar & Chart Fixes',
+    features: [
+      'AI Worker avatars updated to professional human-first style (Athena Morgan, Atlas Walker)',
+    ],
+    bugfixes: [
+      'Donut chart total value now displayed below chart on mobile for readability',
+      'Budget sync: Project cards and Summary page include AI cost in spent calculation',
+    ],
+    improvements: [
+      'Avatar visual consistency across all AI team members',
+    ],
+    breakingChanges: [],
+  },
+  {
     version: '0.9.6-beta',
     date: '2026-06-08',
     title: 'UX Hardening & Files Fix',

@@ -90,41 +90,27 @@ export const AdminProjectsAnalyticsPage = () => {
     colors: ['#6366f1', '#8b5cf6', '#06b6d4', '#f59e0b', '#10b981', '#ec4899'],
     legend: {
       position: 'bottom',
-      fontSize: '11px',
+      fontSize: '12px',
       labels: { colors: '#9ea0b7' },
-      itemMargin: { horizontal: 8, vertical: 4 },
       formatter: (seriesName: string, opts: any) => {
         const val = opts.w.globals.series[opts.seriesIndex]
         return `${seriesName}: ${formatCurrency(val)}`
       },
     },
     dataLabels: {
-      enabled: false,
+      enabled: true,
+      formatter: (val: number) => `${val.toFixed(0)}%`,
+      style: { colors: ['#fff'] },
     },
     plotOptions: {
       pie: {
         donut: {
-          size: '60%',
+          size: '55%',
           labels: {
             show: true,
-            name: {
-              show: true,
-              fontSize: '11px',
-              color: '#9ea0b7',
-              offsetY: -4,
-            },
-            value: {
-              show: true,
-              fontSize: '14px',
-              fontWeight: 600,
-              color: '#e2e4f0',
-              offsetY: 4,
-              formatter: (val: string) => formatCurrency(Number(val)),
-            },
             total: {
               show: true,
               label: 'Total Cost',
-              fontSize: '11px',
               color: '#9ea0b7',
               formatter: () => formatCurrency(aiFinancials?.actual_ai_cost || 0),
             },
@@ -132,27 +118,7 @@ export const AdminProjectsAnalyticsPage = () => {
         },
       },
     },
-    stroke: { colors: ['#1b1e29'], width: 2 },
-    responsive: [{
-      breakpoint: 480,
-      options: {
-        chart: { height: 280 },
-        plotOptions: {
-          pie: {
-            donut: {
-              size: '55%',
-              labels: {
-                show: true,
-                name: { fontSize: '10px', offsetY: -2 },
-                value: { fontSize: '12px', offsetY: 2 },
-                total: { fontSize: '10px' },
-              },
-            },
-          },
-        },
-        legend: { fontSize: '10px', position: 'bottom' },
-      },
-    }],
+    stroke: { colors: ['#1b1e29'] },
     tooltip: {
       theme: 'dark',
       y: { formatter: (val: number) => formatCurrency(val) },
@@ -245,6 +211,10 @@ export const AdminProjectsAnalyticsPage = () => {
                 type="donut"
                 height={300}
               />
+              <div className={styles.chartTotalBelow}>
+                <span className={styles.chartTotalBelowLabel}>Total Cost</span>
+                <span className={styles.chartTotalBelowValue}>{formatCurrency(aiFinancials?.actual_ai_cost || 0)}</span>
+              </div>
             </div>
           </div>
 
