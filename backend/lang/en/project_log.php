@@ -18,10 +18,10 @@ return [
         'updateStatus' => '(:userUsertype) :userAccount [ID::userId], сhanged the task status [ID::taskId];',
         'updateStatusName' => ' Name status: :statusName, position: :statusPosition;',
         'ganttChart' => '(:userUsertype) :userAccount [ID::userId], changed the task [ID::taskId] timeframe via ganttChart;',
-        'addTime' => '(:userUsertype) :userAccount [ID::userId], recorded the time;',
-        'editTime' => '(:userUsertype) :userAccount [ID::userId], changed the time;',
+        'addTime' => '(:userUsertype) :userAccount [ID::userId], recorded time on task [ID::taskId];',
+        'editTime' => '(:userUsertype) :userAccount [ID::userId], changed time entry on task [ID::taskId];',
         'deleteTime' => '(:userUsertype) :userAccount [ID::userId], deleted time from the task [ID::taskId];',
-        'time' => ' Time [ID::id], Description: :description]',
+        'time' => ' Entry [ID::id]: :time logged. Task: :task_name. Description: :description',
     ],
     'personal' => [
         'new' => 'Added staff: :staff;',

@@ -161,7 +161,7 @@ export const ProjectCard = ({ project, access, deleteProject }: ProjectCardProps
                     <>
                       <span className={styles.amount}>{`${percentSpent}% budget spent`}</span>
                       <span className={styles.amount}>
-                        {`${project.expense.format} / ${project.budget.format}`}
+                        {`$${((project.expense.value || 0) + (project.aiFinancials?.actual_ai_cost || 0)).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} / ${project.budget.format}`}
                       </span>
                     </>
                   )

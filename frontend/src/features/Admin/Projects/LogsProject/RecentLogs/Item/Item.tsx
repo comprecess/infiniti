@@ -7,6 +7,7 @@ interface ItemProps {
 }
 
 export const Item = ({ data }: ItemProps) => {
+  const isTimeEntry = data.type === 'addTime' || data.type === 'editTime'
   return (
     <div className={styles.wrapper}>
       <div className={`${styleItem.avatarColumn} ${styles.avatarItem}`}>
@@ -24,7 +25,14 @@ export const Item = ({ data }: ItemProps) => {
         {`${data.date} / ${data.time}`}
       </div>
       <div className={`${styleItem.descriptionColumn} ${styles.descriptionItem}`}>
-        {data.description}
+        <span>{data.description}</span>
+        {isTimeEntry && data.data && (
+          <div className={styles.logDetails}>
+            {data.data.time && <span className={styles.logDetail}>Duration: {data.data.time}</span>}
+            {data.data.task_name && <span className={styles.logDetail}>Task: {data.data.task_name}</span>}
+            {data.data.time_entry_id && <span className={styles.logDetail}>Entry ID: {data.data.time_entry_id}</span>}
+          </div>
+        )}
       </div>
     </div>
   )

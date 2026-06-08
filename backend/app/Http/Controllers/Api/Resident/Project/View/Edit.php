@@ -99,7 +99,7 @@ class Edit extends View
             $time->setTime($request->getTime());
             $time->description = $request->description;
             $time->save();
-            ProjectLog::create(model: $task, type: $type, descriptionDop: ProjectLog::dopDescription('task.time', $time->toArray()));
+            ProjectLog::create(model: $task, type: $type, data: ['time_entry_id' => $time->id, 'time' => $time->time, 'task_name' => $task->name], descriptionDop: ProjectLog::dopDescription('task.time', array_merge($time->toArray(), ['task_name' => $task->name ?? 'Untitled'])));
 
             return response()->json(['success' => true, 'id' => $time->id]);
         }

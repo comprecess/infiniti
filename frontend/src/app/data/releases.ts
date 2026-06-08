@@ -10,6 +10,28 @@ export interface ReleaseInfo {
 }
 export const releases: ReleaseInfo[] = [
   {
+    version: '0.9.8-beta',
+    date: '2026-06-08',
+    title: 'Validation Round 4 — UX Hardening',
+    features: [
+      'Total tracked time display in task Time Spent tab',
+      'Rich time log details: duration, task name, entry ID',
+      'Log API now returns type, data, and taskId fields',
+    ],
+    bugfixes: [
+      'Chrome desktop scroll fixed (body overflow-y: auto)',
+      'Deal Room 500 error fixed (missing if-guard in DealRoomService)',
+      'Project card budget numeric value synced with progress bar',
+      'Avatar hash updated for cache invalidation (Athena, Atlas)',
+    ],
+    improvements: [
+      'Avatar aspect-ratio: 1 enforced across Summary, Analytics, and ProjectCard',
+      'MainOutlet and ViewProjectPage use overflowY instead of overflow',
+      'Time log templates include hours logged, task name, and entry ID',
+    ],
+    breakingChanges: [],
+  },
+  {
     version: '0.9.7-beta',
     date: '2026-06-08',
     title: 'Validation Round 3 — Avatar & Chart Fixes',

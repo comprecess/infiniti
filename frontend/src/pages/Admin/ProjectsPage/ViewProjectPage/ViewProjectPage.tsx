@@ -93,9 +93,9 @@ export const AdminViewProjectPage = () => {
 
   useEffect(() => {
     if (isOpenSideBar && isMobile) {
-      document.body.style.overflow = 'hidden'
+      document.body.style.overflowY = 'hidden'
     } else {
-      document.body.style.overflow = ''
+      document.body.style.overflowY = 'auto'
     }
   }, [isOpenSideBar, isMobile])
 

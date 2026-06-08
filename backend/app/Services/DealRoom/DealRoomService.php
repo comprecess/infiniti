@@ -134,6 +134,7 @@ class DealRoomService
         // Get IDs of documents that actually exist in the database
         $allDocIds = array_map('intval', array_keys($allDocs));
         $existingIds = [];
+        if (count($allDocIds) > 0) {
             $existingIds = \App\Models\Resident\Document::whereIn('id', $allDocIds)
                 ->pluck('id')
                 ->map(fn($id) => (string) $id)

@@ -1726,8 +1726,11 @@ export interface ProjectsViewTaskTimeSpentData {
 
 export interface ProjectsViewLogsData {
   id: number
+  type?: string
   time: string
   date: string
   description: string
+  data?: { time_entry_id?: number; time?: string; task_name?: string; [key: string]: any }
+  taskId?: number
   user: { id: number; account: string; img: string }
 }

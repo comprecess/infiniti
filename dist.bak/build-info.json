@@ -1,10 +1,10 @@
 {
-  "commit": "df67eb36",
-  "commit_full": "df67eb36bccb15417c0518a3d870755b3d652b19",
+  "commit": "614f89f8",
+  "commit_full": "614f89f865710b4ef3c2be12da0287796384e4a7",
   "branch": "manus/feat-c3-ai-workforce-analytics",
-  "message": "v0.9.6-beta: UX hardening - Deal Room files, audit logs, onboarding mobile, circular avatars",
-  "build_timestamp": "2026-06-08T08:13:29Z",
-  "deploy_timestamp": "2026-06-08T08:13:58Z",
+  "message": "v0.9.7-beta: Validation Round 3 — Avatar & Chart Fixes",
+  "build_timestamp": "2026-06-08T09:59:38Z",
+  "deploy_timestamp": "2026-06-08T10:00:10Z",
   "target_path": "/var/www/Infiniti/dist",
   "node_version": "v20.19.6",
   "vite_version": "vite/5.2.8 linux-x64 node-v20.19.6"

@@ -87,8 +87,28 @@ export const TimeSpentTable = ({ idTask, isClientView }: TimeSpentTableProps) =>
     )
   }
 
+  // Calculate total tracked time
+  const totalMinutes = timeSpentData.reduce((acc, entry) => {
+    if (entry.time) {
+      const parts = entry.time.split(':')
+      const hours = parseInt(parts[0] || '0', 10)
+      const mins = parseInt(parts[1] || '0', 10)
+      return acc + hours * 60 + mins
+    }
+    return acc
+  }, 0)
+  const totalHours = Math.floor(totalMinutes / 60)
+  const remainingMins = totalMinutes % 60
+  const totalTimeStr = totalHours > 0
+    ? `${totalHours}h ${remainingMins > 0 ? remainingMins + 'm' : ''}`
+    : `${remainingMins}m`
+
   return (
     <div className={styles.wrapper}>
+      <div className={styles.totalTime}>
+        <span className={styles.totalTimeLabel}>Total time:</span>
+        <span className={styles.totalTimeValue}>{totalTimeStr}</span>
+      </div>
       <div className={styles.columns}>
         <Title title='Avatar' style={styles.avatarColumn} />
         <Title title='Account' style={styles.accountColumn} />

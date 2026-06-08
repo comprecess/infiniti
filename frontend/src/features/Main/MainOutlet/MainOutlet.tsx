@@ -118,7 +118,7 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
   }, [])
 
   useEffect(() => {
-    document.body.style.overflow = isSidebarOpen && isMobile ? 'hidden' : 'auto'
+    document.body.style.overflowY = isSidebarOpen && isMobile ? 'hidden' : 'auto'
   }, [isSidebarOpen, isMobile])
 
   return (

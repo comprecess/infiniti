@@ -20,7 +20,10 @@ class LogResource extends JsonResource
         $date = $this->toTimeZoneClient('created_at');
         return [
             'id' => $this->id,
+            'type' => $this->type,
             'description' => $this->description,
+            'data' => $this->data,
+            'taskId' => $this->task_id,
             'user' => new UserSmallResource($this->user),
             'date' => $date->format('Y-m-d'),
             'time' => $date->format('h:i:s A')
