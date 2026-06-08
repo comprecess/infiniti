@@ -430,6 +430,10 @@ export const router = createBrowserRouter([
             element: Pages.adminProjectsGrowthPlanPage,
           },
           {
+            path: 'analytics',
+            element: Pages.adminProjectsAnalyticsPage,
+          },
+          {
             path: "pipeline-buyers",
             element: Pages.adminProjectsComingSoonPage,
           },
@@ -662,6 +666,10 @@ export const router = createBrowserRouter([
           {
             path: 'growth-plan',
             element: Pages.adminProjectsGrowthPlanPage,
+          },
+          {
+            path: 'analytics',
+            element: Pages.adminProjectsAnalyticsPage,
           },
           {
             path: 'pipeline-buyers',

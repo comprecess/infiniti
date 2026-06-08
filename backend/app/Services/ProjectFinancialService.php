@@ -31,7 +31,8 @@ class ProjectFinancialService
         $breakdown = [];
 
         foreach ($aiTeam as $worker) {
-            $workerHours = $timeEntries->where('user_id', $worker->id)->sum('time');
+            $workerEntries = $timeEntries->where('user_id', $worker->id);
+            $workerHours = $this->sumTimeEntries($workerEntries);
             $workerCost = $workerHours * $worker->hourly_rate;
             $workerPlannedHours = $plannedHours->get($worker->id, 0);
             $workerPlannedCost = $workerPlannedHours * $worker->hourly_rate;
@@ -62,6 +63,33 @@ class ProjectFinancialService
             'ai_hours' => round($totalAiHours, 2),
             'breakdown' => $breakdown,
         ];
+    }
+
+    /**
+     * Parse HH:MM time format to decimal hours.
+     * Handles formats: "HH:MM", "H:MM", or plain numeric values.
+     */
+    protected function parseTimeToHours(string $time): float
+    {
+        if (str_contains($time, ':')) {
+            $parts = explode(':', $time);
+            $hours = (int) $parts[0];
+            $minutes = (int) ($parts[1] ?? 0);
+            return $hours + ($minutes / 60);
+        }
+        return (float) $time;
+    }
+
+    /**
+     * Sum time entries converting HH:MM format to decimal hours.
+     */
+    protected function sumTimeEntries(Collection $entries): float
+    {
+        $total = 0;
+        foreach ($entries as $entry) {
+            $total += $this->parseTimeToHours($entry->time);
+        }
+        return round($total, 2);
     }
 
     /**

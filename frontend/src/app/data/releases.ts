@@ -9,6 +9,26 @@ export interface ReleaseInfo {
 }
 export const releases: ReleaseInfo[] = [
   {
+    version: '0.9.3-beta',
+    date: '2026-06-08',
+    title: 'C3.1 AI Workforce Financial Dashboard',
+    features: [
+      'AI Workforce Analytics page with full financial dashboard',
+      'Project Budget metrics: Total Budget, Spent, Remaining with progress bar',
+      'AI Cost Efficiency metrics: AI Cost, Human Equivalent, Saved Budget, Total AI Hours',
+      'Hours by AI Worker bar chart (ApexCharts)',
+      'Cost Distribution donut chart with per-worker breakdown',
+      'Workforce Comparison table with savings per AI worker',
+    ],
+    bugfixes: [
+      'Fixed ProjectFinancialService HH:MM time parsing (was truncating minutes via intval)',
+    ],
+    improvements: [
+      'Analytics route registered for both Admin and Client project views',
+      'Mobile-responsive layout with grid breakpoints for all dashboard sections',
+    ],
+  },
+  {
     version: '0.9.2-beta',
     date: '2026-06-08',
     title: 'AI Workforce, Analytics Architecture & Loading Experience',
