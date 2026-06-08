@@ -3,16 +3,16 @@ export interface ReleaseInfo {
   version: string
   date: string
   title: string
-  features: string[]
-  bugfixes: string[]
-  improvements: string[]
+  features?: string[]
+  bugfixes?: string[]
+  improvements?: string[]
+  breakingChanges?: string[]
 }
 export const releases: ReleaseInfo[] = [
   {
     version: '0.9.6-beta',
     date: '2026-06-08',
     title: 'UX Hardening & Files Fix',
-    description: 'Deal Room file rendering, audit logs, onboarding mobile, circular avatars.',
     features: [
       'Deal Room: Documents now show title, type badge, and download button',
       'Deal Room: Folder counts exclude deleted documents',
@@ -20,6 +20,8 @@ export const releases: ReleaseInfo[] = [
       'Onboarding Wizard: Step indicators fit within mobile viewport',
       'Project Cards: Avatars enforced as perfect circles (aspect-ratio: 1)',
     ],
+    bugfixes: [],
+    improvements: [],
   },
   {
     version: '0.9.5-beta',

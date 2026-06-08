@@ -22,9 +22,12 @@ export const ReleaseNotesModal = ({
 
   if (!release) return null
 
-  const hasFeatures = release.features.length > 0
-  const hasBugfixes = release.bugfixes.length > 0
-  const hasImprovements = release.improvements.length > 0
+  const features = release.features || []
+  const bugfixes = release.bugfixes || []
+  const improvements = release.improvements || []
+  const hasFeatures = features.length > 0
+  const hasBugfixes = bugfixes.length > 0
+  const hasImprovements = improvements.length > 0
 
   return (
     <Modal
@@ -70,7 +73,7 @@ export const ReleaseNotesModal = ({
               <div className={styles.category}>
                 <span className={styles.categoryLabel}>Features</span>
                 <ul className={styles.list}>
-                  {release.features.map((item, i) => (
+                  {features.map((item, i) => (
                     <li key={i} className={styles.listItem}>{item}</li>
                   ))}
                 </ul>
@@ -81,7 +84,7 @@ export const ReleaseNotesModal = ({
               <div className={styles.category}>
                 <span className={styles.categoryLabel}>Bug Fixes</span>
                 <ul className={styles.list}>
-                  {release.bugfixes.map((item, i) => (
+                  {bugfixes.map((item, i) => (
                     <li key={i} className={styles.listItem}>{item}</li>
                   ))}
                 </ul>
@@ -92,7 +95,7 @@ export const ReleaseNotesModal = ({
               <div className={styles.category}>
                 <span className={styles.categoryLabel}>Improvements</span>
                 <ul className={styles.list}>
-                  {release.improvements.map((item, i) => (
+                  {improvements.map((item, i) => (
                     <li key={i} className={styles.listItem}>{item}</li>
                   ))}
                 </ul>

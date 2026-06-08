@@ -1,10 +1,10 @@
 {
-  "commit": "3fe4aa49",
-  "commit_full": "3fe4aa49181524f047d76ce03cff8b803d72e05c",
+  "commit": "6172c328",
+  "commit_full": "6172c32899d8478789af313070086d1d16a52ec7",
   "branch": "manus/feat-c3-ai-workforce-analytics",
-  "message": "fix(c3.1): analytics dashboard validation fixes - dark theme, budget calc, mobile cards, number formatting, route registration",
-  "build_timestamp": "2026-06-08T07:11:01Z",
-  "deploy_timestamp": "2026-06-08T07:11:33Z",
+  "message": "fix(c3.1): project card budget sync with AI cost + donut chart mobile readability",
+  "build_timestamp": "2026-06-08T07:30:29Z",
+  "deploy_timestamp": "2026-06-08T07:31:01Z",
   "target_path": "/var/www/Infiniti/dist",
   "node_version": "v20.19.6",
   "vite_version": "vite/5.2.8 linux-x64 node-v20.19.6"
