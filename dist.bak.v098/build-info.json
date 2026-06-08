@@ -1,0 +1,11 @@
+{
+  "commit": "68ddd11b",
+  "commit_full": "68ddd11bf8ef30c852ee4bffe54ef8f190943943",
+  "branch": "manus/feat-c3-ai-workforce-analytics",
+  "message": "v0.9.8-beta: Validation Round 4 fixes - Chrome scroll, Deal Room 500, budget sync, avatar consistency, time log details, total time display",
+  "build_timestamp": "2026-06-08T11:38:02Z",
+  "deploy_timestamp": "2026-06-08T11:38:33Z",
+  "target_path": "/var/www/Infiniti/dist",
+  "node_version": "v20.19.6",
+  "vite_version": "vite/5.2.8 linux-x64 node-v20.19.6"
+}

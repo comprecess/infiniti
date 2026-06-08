@@ -163,10 +163,10 @@ export const ChatGPT = () => {
     const handleResize = () => {
       if (isOpen && window.innerWidth <= 500) {
         document.documentElement.style.overflow = 'hidden'
-        document.body.style.overflow = 'hidden'
+        document.body.style.overflowY = 'hidden'
       } else {
         document.documentElement.style.overflow = 'scroll'
-        document.body.style.overflow = 'auto'
+        document.body.style.overflowY = 'auto'
       }
     }
 
@@ -177,7 +177,7 @@ export const ChatGPT = () => {
     return () => {
       window.removeEventListener('resize', handleResize)
       document.documentElement.style.overflow = 'scroll'
-      document.body.style.overflow = 'auto'
+      document.body.style.overflowY = 'auto'
     }
   }, [isOpen])
 

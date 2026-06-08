@@ -234,6 +234,9 @@
   aspect-ratio: 1;
   object-fit: cover;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+  min-width: 28px;
+  min-height: 28px;
 }
 
 .typeBadge {
@@ -298,6 +301,9 @@
   aspect-ratio: 1;
   object-fit: cover;
   border: 2px solid rgba(99, 102, 241, 0.3);
+  flex-shrink: 0;
+  min-width: 40px;
+  min-height: 40px;
 }
 
 .workerCardInfo {

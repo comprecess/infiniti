@@ -80,7 +80,11 @@
 
   &:not(:last-child) {
     margin-right: -10px;
-  }
+    aspect-ratio: 1;
+  flex-shrink: 0;
+  min-width: 38px;
+  min-height: 38px;
+}
 }
 
 .tasks {

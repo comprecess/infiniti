@@ -10,6 +10,28 @@ export interface ReleaseInfo {
 }
 export const releases: ReleaseInfo[] = [
   {
+    version: '0.9.9-beta',
+    date: '2026-06-08',
+    title: 'Chrome Scroll Fix & Deal Room Preview',
+    features: [
+      'Deal Room file preview: images open in modal, text/md readable inline, PDF opens in browser',
+      'AI workforce avatars now visible on all project cards',
+    ],
+    bugfixes: [
+      'Chrome desktop scroll fully fixed: removed nested overflow-y containers, disabled Chakra blockScrollOnMount',
+      'Oval avatar rendering fixed: aspect-ratio 1, flex-shrink 0, min-width/height enforced everywhere',
+      'Athena/Atlas avatar cache invalidated with new hashes',
+      'Admin ViewProjectPage overflow typo fixed (overflowYY -> overflowY)',
+      'CustomersPage and ChatGPT widget overflow lock fixed',
+    ],
+    improvements: [
+      'Budget calculation verified consistent across ProjectCard, SummaryPage, and AnalyticsPage',
+      'All avatar classes use unified circular styling (border-radius 50%, aspect-ratio 1, flex-shrink 0)',
+      'Removed !important from global overflow rules to prevent Chakra conflicts',
+    ],
+    breakingChanges: [],
+  },
+  {
     version: '0.9.8-beta',
     date: '2026-06-08',
     title: 'Validation Round 4 — UX Hardening',

@@ -32,7 +32,7 @@ export const ReleaseNotesModal = ({
   return (
     <Modal
       isCentered
-      blockScrollOnMount
+      blockScrollOnMount={false}
       preserveScrollBarGap
       isOpen={isOpen}
       autoFocus={false}

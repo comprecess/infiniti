@@ -19,7 +19,6 @@
   flex-direction: column;
   width: 100%;
   flex-grow: 1;
-  overflow-y: auto;
 }
 
 .headerStandard,
@@ -54,7 +53,6 @@
 .mainFull {
   padding: 20px 40px 40px 40px;
   z-index: 5;
-  overflow-y: auto;
   flex-grow: 1;
   margin-top: 82px;
   background-color: $brand-1000;

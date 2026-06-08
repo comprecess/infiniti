@@ -3,9 +3,9 @@
   "commit_full": "614f89f865710b4ef3c2be12da0287796384e4a7",
   "branch": "manus/feat-c3-ai-workforce-analytics",
   "message": "v0.9.7-beta: Validation Round 3 — Avatar & Chart Fixes",
-  "build_timestamp": "2026-06-08T09:59:38Z",
-  "deploy_timestamp": "2026-06-08T10:00:10Z",
+  "build_timestamp": "2026-06-08T10:11:30Z",
+  "deploy_timestamp": "2026-06-08T10:11:30Z",
   "target_path": "/var/www/Infiniti/dist",
   "node_version": "v20.19.6",
-  "vite_version": "vite/5.2.8 linux-x64 node-v20.19.6"
+  "vite_version": "vite/8.0.16 linux-x64 node-v20.19.6"
 }

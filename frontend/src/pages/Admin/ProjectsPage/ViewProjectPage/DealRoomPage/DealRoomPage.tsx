@@ -66,6 +66,9 @@ export const AdminProjectsDealRoomPage = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [loadingDocs, setLoadingDocs] = useState<boolean>(false)
   const [showAssignModal, setShowAssignModal] = useState<boolean>(false)
+  const [previewDoc, setPreviewDoc] = useState<{url: string; title: string; type: string} | null>(null)
+  const [previewContent, setPreviewContent] = useState<string>('')
+  const [previewLoading, setPreviewLoading] = useState(false)
 
   const loadOverview = useCallback(async () => {
     if (!context.idProject) return
@@ -141,7 +144,56 @@ export const AdminProjectsDealRoomPage = () => {
   const totalDocs = Object.values(folders).reduce((sum, f) => sum + f.count, 0)
   const uncategorized = allDocuments.filter(d => !d.folder)
 
-  return (
+  // Preview helpers
+  const isPreviewable = (mimeType: string) => {
+    if (!mimeType) return false
+    const t = mimeType.toLowerCase()
+    return t.includes('image') || t.includes('text') || t.includes('pdf') || ['jpg','jpeg','png','webp','gif','svg','txt','md','csv','markdown'].includes(t)
+  }
+
+  const isImageType = (mimeType: string) => {
+    if (!mimeType) return false
+    const t = mimeType.toLowerCase()
+    return t.includes('image') || ['jpg','jpeg','png','webp','gif','svg'].includes(t)
+  }
+
+  const isTextType = (mimeType: string) => {
+    if (!mimeType) return false
+    const t = mimeType.toLowerCase()
+    return t.includes('text') || ['txt','md','csv','markdown'].includes(t)
+  }
+
+  const handlePreview = async (doc: any) => {
+    const docLink = doc.link || ''
+    const fullUrl = docLink.startsWith('http') ? docLink : `${import.meta.env.VITE_MAIN_DOMAIN}${import.meta.env.VITE_GET_DOCUMENT}/${docLink}`
+    const docType = doc.type || doc.ext || ''
+    const docTitle = doc.title || doc.name || 'Document'
+
+    if (docType.toLowerCase().includes('pdf')) {
+      window.open(fullUrl, '_blank')
+      return
+    }
+    if (isImageType(docType)) {
+      setPreviewDoc({ url: fullUrl, title: docTitle, type: 'image' })
+      return
+    }
+    if (isTextType(docType)) {
+      setPreviewLoading(true)
+      setPreviewDoc({ url: fullUrl, title: docTitle, type: 'text' })
+      try {
+        const res = await fetch(fullUrl)
+        const text = await res.text()
+        setPreviewContent(text)
+      } catch {
+        setPreviewContent('Unable to load file content.')
+      }
+      setPreviewLoading(false)
+      return
+    }
+    window.open(fullUrl, '_blank')
+  }
+
+    return (
     <div className={styles.wrapper}>
       {/* Header */}
       <div className={styles.header}>
@@ -214,17 +266,28 @@ export const AdminProjectsDealRoomPage = () => {
                         {docType.toUpperCase()}{doc.size ? ` \u2022 ${doc.size}` : ''}{doc.created_at ? ` \u2022 ${doc.created_at}` : ''}
                       </span>
                     </div>
-                    {docLink && (
-                      <a
-                        href={docLink.startsWith('http') ? docLink : `${import.meta.env.VITE_MAIN_DOMAIN}${import.meta.env.VITE_GET_DOCUMENT}/${docLink}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.docDownload}
-                        title="Open / Download"
-                      >
-                        ↓
-                      </a>
-                    )}
+                    <div className={styles.docActions}>
+                      {isPreviewable(docType) && (
+                        <button
+                          className={styles.docPreviewBtn}
+                          onClick={() => handlePreview(doc)}
+                          title="Preview"
+                        >
+                          {'◎'}
+                        </button>
+                      )}
+                      {docLink && (
+                        <a
+                          href={docLink.startsWith('http') ? docLink : `${import.meta.env.VITE_MAIN_DOMAIN}${import.meta.env.VITE_GET_DOCUMENT}/${docLink}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.docDownload}
+                          title="Download"
+                        >
+                          ↓
+                        </a>
+                      )}
+                    </div>
                   </div>
                 )
               })}
@@ -269,6 +332,29 @@ export const AdminProjectsDealRoomPage = () => {
               })}
             </div>
           )}
+        </div>
+      )}
+      {/* Preview Modal */}
+      {previewDoc && (
+        <div className={styles.previewOverlay} onClick={() => { setPreviewDoc(null); setPreviewContent('') }}>
+          <div className={styles.previewModal} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.previewHeader}>
+              <span className={styles.previewTitle}>{previewDoc.title}</span>
+              <button className={styles.previewClose} onClick={() => { setPreviewDoc(null); setPreviewContent('') }}>{String.fromCharCode(10005)}</button>
+            </div>
+            <div className={styles.previewBody}>
+              {previewDoc.type === 'image' && (
+                <img src={previewDoc.url} alt={previewDoc.title} className={styles.previewImage} />
+              )}
+              {previewDoc.type === 'text' && (
+                previewLoading ? (
+                  <div className={styles.previewLoading}>Loading...</div>
+                ) : (
+                  <pre className={styles.previewText}>{previewContent}</pre>
+                )
+              )}
+            </div>
+          </div>
         </div>
       )}
     </div>

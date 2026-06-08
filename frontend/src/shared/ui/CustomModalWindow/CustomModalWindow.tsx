@@ -22,7 +22,7 @@ export const CustomModalWindow = ({
   return (
     <Modal
       isCentered
-      blockScrollOnMount
+      blockScrollOnMount={false}
       preserveScrollBarGap
       isOpen={isOpen}
       autoFocus={false}

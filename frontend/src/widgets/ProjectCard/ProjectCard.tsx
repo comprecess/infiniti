@@ -115,15 +115,25 @@ export const ProjectCard = ({ project, access, deleteProject }: ProjectCardProps
               )}
             </div>
           )}
-          {project.users.staff.length > 0 && (
+          {(project.users.staff.length > 0 || (project.users.aiTeam && project.users.aiTeam.length > 0)) && (
             <div className={styles.profiles}>
               {project.users.staff.map(member => (
                 <img
-                  key={member.id}
+                  key={`staff-${member.id}`}
                   alt='Avatar'
                   className={styles.member}
                   src={
                     member?.img ? `${member.img}?width=176&height=176` : '/profileWithoutAvatar.svg'
+                  }
+                />
+              ))}
+              {project.users.aiTeam && project.users.aiTeam.map((worker: any) => (
+                <img
+                  key={`ai-${worker.id}`}
+                  alt='AI Worker'
+                  className={styles.member}
+                  src={
+                    worker?.img ? `${worker.img}?width=176&height=176` : '/profileWithoutAvatar.svg'
                   }
                 />
               ))}
