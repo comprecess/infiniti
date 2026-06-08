@@ -10,6 +10,42 @@ export interface ReleaseInfo {
 }
 export const releases: ReleaseInfo[] = [
   {
+    version: '0.9.12-beta',
+    date: '2026-06-09',
+    title: 'Mobile Auth Scroll Fix + Release Governance',
+    features: [
+      'Release Governance: package.json is now the single authoritative version source',
+      'Definition of Done enforced: package.json, releases.ts, build-info.json, and release popup must all match',
+    ],
+    bugfixes: [
+      'Mobile login/register/reset-password scroll regression fixed (REG-001)',
+      'AuthOutlet now has its own scroll container (overflow-y:auto, 100dvh height)',
+      'Desktop Chrome scroll fix preserved (body overflow:hidden unchanged)',
+    ],
+    improvements: [
+      'build-info.json now includes explicit version field read from package.json',
+      'Version synchronization enforced across all deployment artifacts',
+    ],
+    breakingChanges: [],
+  },
+  {
+    version: '0.9.11-beta',
+    date: '2026-06-08',
+    title: 'Knowledge Operating System',
+    features: [
+      'Knowledge OS: 6 new entity types (Context, Assets, Decisions, Prompts, Validations, Outcomes)',
+      'Task Workspace: Knowledge tab added to task modal with sub-tabs for all entities',
+      'Full CRUD API for all Knowledge OS entities under /api/v1/resident/task/{id}/knowledge',
+      'Athena continuity model: zero chat-history dependency for AI task understanding',
+    ],
+    bugfixes: [],
+    improvements: [
+      'Database: 6 new tables (sys_decision_records, sys_prompt_records, sys_validation_records, sys_task_contexts, sys_knowledge_assets, sys_outcome_records)',
+      'Eloquent models with soft deletes and task relationships',
+    ],
+    breakingChanges: [],
+  },
+  {
     version: '0.9.10-beta',
     date: '2026-06-08',
     title: 'Chrome Scroll Fix (Final)',
