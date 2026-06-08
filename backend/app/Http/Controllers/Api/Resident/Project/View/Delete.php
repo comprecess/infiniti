@@ -61,8 +61,15 @@ class Delete extends View
     public function files()
     {
         $id = $this->urlToMethod(true);
+        // Capture file details before deletion for audit log
+        $document = \App\Models\Resident\Document::find($id);
+        $fileName = $document ? $document->title : 'Unknown';
+        $fileId = $document ? $document->id : $id;
+
         $result = $this->model->deleteDocument($id);
-        ProjectLog::create($this->model, ProjectLog::TYPE[11]);
+
+        $dopDescription = " File name: {$fileName}, ID: {$fileId};";
+        ProjectLog::create($this->model, ProjectLog::TYPE[11], null, null, null, $dopDescription);
         return response()->json(['success' => $result]);
     }
 

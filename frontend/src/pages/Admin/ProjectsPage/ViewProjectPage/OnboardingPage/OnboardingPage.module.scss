@@ -307,10 +307,25 @@
 
   .stepNav {
     flex-wrap: nowrap;
+    gap: 4px;
+    padding-bottom: 4px;
+    justify-content: center;
+  }
+
+  .stepItem {
+    padding: 6px 8px;
+    gap: 0;
+    min-width: unset;
   }
 
   .stepTitle {
     display: none;
+  }
+
+  .stepNumber {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
   }
 
   .fieldsGrid {

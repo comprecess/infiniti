@@ -9,6 +9,19 @@ export interface ReleaseInfo {
 }
 export const releases: ReleaseInfo[] = [
   {
+    version: '0.9.6-beta',
+    date: '2026-06-08',
+    title: 'UX Hardening & Files Fix',
+    description: 'Deal Room file rendering, audit logs, onboarding mobile, circular avatars.',
+    features: [
+      'Deal Room: Documents now show title, type badge, and download button',
+      'Deal Room: Folder counts exclude deleted documents',
+      'Logs: File deletion now records file name and document ID',
+      'Onboarding Wizard: Step indicators fit within mobile viewport',
+      'Project Cards: Avatars enforced as perfect circles (aspect-ratio: 1)',
+    ],
+  },
+  {
     version: '0.9.5-beta',
     date: '2026-06-08',
     title: 'Project Card Budget Sync + Donut Chart Readability',

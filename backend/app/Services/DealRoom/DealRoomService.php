@@ -131,11 +131,20 @@ class DealRoomService
         $folders = self::getFolders($projectId);
         $allDocs = ProjectMetadata::getGroup($projectId, 'dealroom_doc');
 
+        // Get IDs of documents that actually exist in the database
+        $allDocIds = array_map('intval', array_keys($allDocs));
+        $existingIds = [];
+            $existingIds = \App\Models\Resident\Document::whereIn('id', $allDocIds)
+                ->pluck('id')
+                ->map(fn($id) => (string) $id)
+                ->toArray();
+        }
+
         $stats = [];
         foreach ($folders as $code => $name) {
             $count = 0;
             foreach ($allDocs as $docId => $folder) {
-                if ($folder === $code) {
+                if ($folder === $code && in_array((string) $docId, $existingIds)) {
                     $count++;
                 }
             }

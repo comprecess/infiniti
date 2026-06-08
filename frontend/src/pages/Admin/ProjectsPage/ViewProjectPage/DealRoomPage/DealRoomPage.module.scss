@@ -250,3 +250,22 @@
     width: 100%;
   }
 }
+
+.docDownload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: rgba(0, 200, 150, 0.15);
+  color: #00c896;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: auto;
+  transition: background 0.2s ease;
+  &:hover {
+    background: rgba(0, 200, 150, 0.3);
+  }
+}

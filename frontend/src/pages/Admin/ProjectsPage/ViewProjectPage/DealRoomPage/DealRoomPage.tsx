@@ -200,17 +200,31 @@ export const AdminProjectsDealRoomPage = () => {
             <div className={styles.documentsList}>
               {documents.map((item: any) => {
                 const doc = item.document || item
+                const docTitle = doc.title || doc.name || 'Untitled'
+                const docType = doc.type || doc.ext || ''
+                const docLink = doc.link || ''
                 return (
                   <div key={doc.id} className={styles.documentItem}>
                     <div className={styles.docIcon}>
-                      {getFileIcon(doc.ext)}
+                      {getFileIcon(docType)}
                     </div>
                     <div className={styles.docInfo}>
-                      <span className={styles.docName}>{doc.name}</span>
+                      <span className={styles.docName}>{docTitle}</span>
                       <span className={styles.docMeta}>
-                        {doc.size} • {doc.created_at}
+                        {docType.toUpperCase()}{doc.size ? ` \u2022 ${doc.size}` : ''}{doc.created_at ? ` \u2022 ${doc.created_at}` : ''}
                       </span>
                     </div>
+                    {docLink && (
+                      <a
+                        href={docLink.startsWith('http') ? docLink : `${import.meta.env.VITE_MAIN_DOMAIN}${import.meta.env.VITE_GET_DOCUMENT}/${docLink}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.docDownload}
+                        title="Open / Download"
+                      >
+                        ↓
+                      </a>
+                    )}
                   </div>
                 )
               })}
@@ -234,7 +248,7 @@ export const AdminProjectsDealRoomPage = () => {
                 return (
                   <div key={doc?.id} className={styles.assignItem}>
                     <div className={styles.docInfo}>
-                      <span className={styles.docName}>{doc?.name}</span>
+                      <span className={styles.docName}>{doc?.title || doc?.name || 'Untitled'}</span>
                     </div>
                     <select
                       className={styles.folderSelect}
