@@ -82,9 +82,9 @@ export const AdminViewPage = () => {
 
   useEffect(() => {
     if (isOpenSideBar && isMobile) {
-      document.body.style.overflowY = 'hidden'
+      document.body.classList.add('scroll-locked')
     } else {
-      document.body.style.overflowY = ''
+      document.body.classList.remove('scroll-locked')
     }
   }, [isOpenSideBar, isMobile])
 

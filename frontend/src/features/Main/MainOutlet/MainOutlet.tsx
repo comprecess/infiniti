@@ -94,22 +94,9 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
 
   useEffect(() => {
     if (surveyState.isOpen) {
-      const scrollY = window.scrollY
-      Object.assign(document.body.style, {
-        position: 'fixed',
-        top: `-${scrollY}px`,
-        left: '0',
-        right: '0',
-      })
+      document.body.classList.add('scroll-locked')
     } else {
-      const scrollY = Math.abs(parseInt(document.body.style.top || '0', 10))
-      Object.assign(document.body.style, {
-        position: '',
-        top: '',
-        left: '',
-        right: '',
-      })
-      window.scrollTo(0, scrollY)
+      document.body.classList.remove('scroll-locked')
     }
   }, [surveyState.isOpen])
 
@@ -118,7 +105,11 @@ export const MainOutlet = ({ roles }: MainOutletProps) => {
   }, [])
 
   useEffect(() => {
-    document.body.style.overflowY = isSidebarOpen && isMobile ? 'hidden' : 'auto'
+    if (isSidebarOpen && isMobile) {
+      document.body.classList.add('scroll-locked')
+    } else {
+      document.body.classList.remove('scroll-locked')
+    }
   }, [isSidebarOpen, isMobile])
 
   return (

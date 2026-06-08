@@ -92,6 +92,9 @@ export const AdminProjectsAnalyticsPage = () => {
       position: 'bottom',
       fontSize: '12px',
       labels: { colors: '#9ea0b7' },
+      horizontalAlign: 'center',
+      floating: false,
+      itemMargin: { horizontal: 8, vertical: 4 },
       formatter: (seriesName: string, opts: any) => {
         const val = opts.w.globals.series[opts.seriesIndex]
         return `${seriesName}: ${formatCurrency(val)}`

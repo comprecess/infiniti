@@ -92,7 +92,7 @@ export const AdminEmailTemplatesPage = () => {
         </RecentCard>
       </section>
 
-      <Modal isOpen={isOpen} onClose={onClose} size="2xl">
+      <Modal isOpen={isOpen} onClose={onClose} size="2xl" blockScrollOnMount={false}>
         <ModalOverlay />
         <ModalContent bg="var(--chakra-colors-brand-700, #1a1a2e)" color="white">
           <ModalHeader>{editing ? 'Edit Template' : 'New Template'}</ModalHeader>

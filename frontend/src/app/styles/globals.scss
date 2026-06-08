@@ -6,17 +6,20 @@
 }
 
 body {
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
 }
+body.scroll-locked {
+  overflow: hidden !important;
+}
+/* Note: body is always overflow:hidden; scroll happens in .mainStandard/.mainMini/.mainFull */
 
 html body[data-scroll-locked] {
   margin-right: 0px !important;
+  overflow-y: scroll !important;
 }
 
 html {
-  overflow-x: hidden;
-  overflow-y: scroll;
+  overflow: visible;
 }
 
 html,

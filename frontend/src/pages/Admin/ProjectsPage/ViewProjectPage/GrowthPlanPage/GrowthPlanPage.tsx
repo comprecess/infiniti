@@ -338,7 +338,7 @@ const GrowthPlanPage = () => {
       )}
 
       {/* Create Growth Item Modal - keep Chakra for modals */}
-      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+      <Modal isOpen={isOpen} onClose={onClose} size="xl" blockScrollOnMount={false}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Add Growth Recommendation</ModalHeader>

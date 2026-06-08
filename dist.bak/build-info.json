@@ -1,11 +1,11 @@
 {
-  "commit": "614f89f8",
-  "commit_full": "614f89f865710b4ef3c2be12da0287796384e4a7",
+  "commit": "9e0d4caf",
+  "commit_full": "9e0d4cafafe3806764f415d7b3116ad4e2627e6d",
   "branch": "manus/feat-c3-ai-workforce-analytics",
-  "message": "v0.9.7-beta: Validation Round 3 — Avatar & Chart Fixes",
-  "build_timestamp": "2026-06-08T10:11:30Z",
-  "deploy_timestamp": "2026-06-08T10:11:30Z",
+  "message": "v0.9.10-beta: Chrome scroll fix + donut chart legend overflow fix",
+  "build_timestamp": "2026-06-08T12:46:22Z",
+  "deploy_timestamp": "2026-06-08T12:46:54Z",
   "target_path": "/var/www/Infiniti/dist",
   "node_version": "v20.19.6",
-  "vite_version": "vite/8.0.16 linux-x64 node-v20.19.6"
+  "vite_version": "vite/5.2.8 linux-x64 node-v20.19.6"
 }

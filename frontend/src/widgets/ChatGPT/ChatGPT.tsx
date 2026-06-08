@@ -162,11 +162,11 @@ export const ChatGPT = () => {
   useEffect(() => {
     const handleResize = () => {
       if (isOpen && window.innerWidth <= 500) {
-        document.documentElement.style.overflow = 'hidden'
-        document.body.style.overflowY = 'hidden'
+        document.body.classList.add('scroll-locked')
+        // scroll-locked via classList
       } else {
-        document.documentElement.style.overflow = 'scroll'
-        document.body.style.overflowY = 'auto'
+        document.body.classList.remove('scroll-locked')
+        // scroll restored via classList
       }
     }
 
@@ -176,8 +176,8 @@ export const ChatGPT = () => {
 
     return () => {
       window.removeEventListener('resize', handleResize)
-      document.documentElement.style.overflow = 'scroll'
-      document.body.style.overflowY = 'auto'
+      document.body.classList.remove('scroll-locked')
+      // scroll restored via classList
     }
   }, [isOpen])
 

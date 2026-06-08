@@ -10,6 +10,24 @@ export interface ReleaseInfo {
 }
 export const releases: ReleaseInfo[] = [
   {
+    version: '0.9.10-beta',
+    date: '2026-06-08',
+    title: 'Chrome Scroll Fix (Final)',
+    features: [],
+    bugfixes: [
+      'Chrome desktop scroll permanently fixed: eliminated all document.body.style.overflow mutations',
+      'Scroll now controlled entirely via CSS (body overflow-y: scroll) with .scroll-locked class for mobile only',
+      'All Chakra Modals set to blockScrollOnMount=false to prevent scroll lock',
+      'Safety CSS override: html body[data-scroll-locked] { overflow-y: scroll } prevents any residual Chakra lock',
+      'Removed position:fixed body hack from survey state (was causing scroll position loss)',
+    ],
+    improvements: [
+      'Scroll architecture simplified: no JS ever mutates body overflow on desktop',
+      'Mobile sidebar/chat scroll lock uses classList toggle instead of inline styles',
+    ],
+    breakingChanges: [],
+  },
+  {
     version: '0.9.9-beta',
     date: '2026-06-08',
     title: 'Chrome Scroll Fix & Deal Room Preview',

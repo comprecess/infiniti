@@ -285,7 +285,7 @@ const ValuationPage = () => {
       )}
 
       {/* Create Valuation Modal - keep Chakra for modals */}
-      <Modal isOpen={isOpen} onClose={onClose} size="lg">
+      <Modal isOpen={isOpen} onClose={onClose} size="lg" blockScrollOnMount={false}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Create New Valuation</ModalHeader>

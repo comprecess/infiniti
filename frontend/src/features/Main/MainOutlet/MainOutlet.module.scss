@@ -3,24 +3,25 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh;
   background-color: $brand-1000;
   color: $white;
+  overflow: hidden;
 }
-
 .wrapperLoading {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 .items {
   display: flex;
   flex-direction: column;
   width: 100%;
   flex-grow: 1;
+  height: 100%;
+  overflow: hidden;
 }
-
 .headerStandard,
 .headerMini,
 .headerFull,
@@ -31,7 +32,6 @@
   margin-left: 0;
   transition: all 0.3s ease;
 }
-
 .headerStandard,
 .headerMini,
 .headerFull {
@@ -42,37 +42,34 @@
   padding: 20px 40px 20px 40px;
   z-index: 10;
   background-color: $brand-1000;
-
   @include mobileBreakpoint('max', $bpXL) {
     padding: 20px;
   }
 }
-
 .mainStandard,
 .mainMini,
 .mainFull {
   padding: 20px 40px 40px 40px;
   z-index: 5;
-  flex-grow: 1;
+  height: calc(100vh - 82px);
+  height: calc(100dvh - 82px);
+  overflow-y: auto;
+  overflow-x: hidden;
   margin-top: 82px;
   background-color: $brand-1000;
-
   @include mobileBreakpoint('max', $bpXL) {
     padding: 20px 20px 40px 20px;
   }
 }
-
 .mainMini,
 .headerMini {
   width: calc(100% - 70px);
   margin-left: 70px;
 }
-
 .mainStandard,
 .headerStandard {
   width: calc(100% - 293px);
   margin-left: 293px;
-
   @include mobileBreakpoint('max', $custom-bpXXL) {
     width: 100%;
     margin-left: 0;
