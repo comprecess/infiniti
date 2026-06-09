@@ -10,6 +10,26 @@ export interface ReleaseInfo {
 }
 export const releases: ReleaseInfo[] = [
   {
+    version: '0.9.13-beta',
+    date: '2026-06-09',
+    title: 'Donut Chart Mobile Fix + Venture OS Demo Data',
+    features: [
+      'Venture OS demo data: Growth Plan (8 items), Valuation (4 scenarios), Investor Pipeline (10), Buyer Pipeline (10)',
+      'Project Brain placeholder created as Knowledge Asset for Finandy (P44)',
+      'Deal Room populated with 7 categorized demo documents (investor memo, valuation, growth strategy)',
+    ],
+    bugfixes: [
+      'Donut chart mobile overflow fixed: center label hidden at 480px breakpoint',
+      'Total cost value now displayed below chart on mobile instead of inside donut',
+      'ViewTaskModal tabs now horizontally scrollable (prevents wrapping on mobile)',
+    ],
+    improvements: [
+      'Mobile tab navigation uses overflow-x:auto with hidden scrollbar for clean UX',
+      'Analytics page responsive breakpoints refined for 320px-480px range',
+    ],
+    breakingChanges: [],
+  },
+  {
     version: '0.9.12-beta',
     date: '2026-06-09',
     title: 'Mobile Auth Scroll Fix + Release Governance',
