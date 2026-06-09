@@ -7,6 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { getValuationDashboard, createValuation } from '../../../../../shared/utils/api/Admin/Projects/valuation';
 import styles from './ValuationPage.module.scss';
+import { BarChartIcon, TrendingUpIcon, LaunchIcon, GlobeIcon, PartnershipIcon } from '../../../../../shared/icons/VentureIcons';
 
 interface ValuationData {
   id: number;
@@ -167,7 +168,7 @@ const ValuationPage = () => {
           {/* Valuation Cards */}
           <div className={styles.valuationGrid}>
             <div className={styles.valuationCard}>
-              <div className={styles.cardIcon}>📊</div>
+              <div className={styles.cardIcon}><BarChartIcon size={28} /></div>
               <div className={styles.statLabel}>Current Valuation</div>
               <div className={styles.statValue}>{formatCurrency(current?.total_value || 0)}</div>
               <div className={styles.statHelp}>
@@ -175,7 +176,7 @@ const ValuationPage = () => {
               </div>
             </div>
             <div className={styles.valuationCard}>
-              <div className={styles.cardIcon}>📈</div>
+              <div className={styles.cardIcon}><TrendingUpIcon size={28} /></div>
               <div className={`${styles.statLabel}`}>Projected Valuation</div>
               <div className={`${styles.statValue} ${styles.statValueMint}`}>{formatCurrency(projected?.total_value || 0)}</div>
               <div className={styles.statHelp}>
@@ -184,7 +185,7 @@ const ValuationPage = () => {
               </div>
             </div>
             <div className={styles.valuationCard}>
-              <div className={styles.cardIcon}>🚀</div>
+              <div className={styles.cardIcon}><LaunchIcon size={28} /></div>
               <div className={styles.statLabel}>Best Case</div>
               <div className={`${styles.statValue} ${styles.statValueBrand}`}>{formatCurrency(bestCase?.total_value || 0)}</div>
               <div className={styles.statHelp}>
@@ -295,10 +296,10 @@ const ValuationPage = () => {
               <div key={idx} className={styles.driverCard}>
                 <div className={styles.driverHeader}>
                   <div className={styles.driverIcon}>
-                    {driver.icon === 'trending_up' && '📈'}
-                    {driver.icon === 'public' && '🌍'}
-                    {driver.icon === 'handshake' && '🤝'}
-                    {driver.icon === 'rocket_launch' && '🚀'}
+                    {driver.icon === 'trending_up' && <TrendingUpIcon size={22} />}
+                    {driver.icon === 'public' && <GlobeIcon size={22} />}
+                    {driver.icon === 'handshake' && <PartnershipIcon size={22} />}
+                    {driver.icon === 'rocket_launch' && <LaunchIcon size={22} />}
                   </div>
                   <div className={styles.driverInfo}>
                     <span className={styles.driverName}>{driver.driver}</span>

@@ -387,3 +387,34 @@
   color: #9ea0b7;
   font-size: 14px;
 }
+
+/* Mobile fix: document actions button alignment */
+@media (max-width: 480px) {
+  .documentItem {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .docActions {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-start;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .docInfo {
+    flex: 1;
+    min-width: 0;
+  }
+  .docName {
+    word-break: break-word;
+    font-size: 13px;
+  }
+}
+@media (max-width: 768px) {
+  .docActions {
+    flex-shrink: 0;
+  }
+  .documentItem {
+    padding: 10px 12px;
+  }
+}
