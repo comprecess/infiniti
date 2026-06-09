@@ -10,6 +10,27 @@ export interface ReleaseInfo {
 }
 export const releases: ReleaseInfo[] = [
   {
+    version: '0.9.14-beta',
+    date: '2026-06-09',
+    title: 'Pipeline Pages + Venture OS Context Fix',
+    features: [
+      'Investor Pipeline: Full board/list view with stage columns (Initial Contact → Term Sheet)',
+      'Buyer Pipeline: Full board/list view with stage columns and company details',
+      'Pipeline API: GET /api/v1/resident/project/{id}/pipeline/{type} endpoint',
+    ],
+    bugfixes: [
+      'Valuation page: Fixed outlet context mismatch (was receiving undefined project.id)',
+      'Growth Plan page: Fixed outlet context mismatch (same root cause)',
+      'Both pages now correctly read idProject from ViewProjectPage outlet context',
+    ],
+    improvements: [
+      'Pipeline pages support Board and List view toggle',
+      'Pipeline cards show lead name, company, and source badge',
+      'Mobile-responsive pipeline columns stack vertically on small screens',
+    ],
+    breakingChanges: [],
+  },
+  {
     version: '0.9.13-beta',
     date: '2026-06-09',
     title: 'Donut Chart Mobile Fix + Venture OS Demo Data',

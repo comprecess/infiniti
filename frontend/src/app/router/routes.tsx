@@ -68,6 +68,7 @@ import { AdminProjectsDealRoomPage } from '../../pages/Admin/ProjectsPage/ViewPr
 import { AdminProjectsValuationPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/ValuationPage/ValuationPage'
 import { AdminProjectsGrowthPlanPage } from '../../pages/Admin/ProjectsPage/ViewProjectPage/GrowthPlanPage/GrowthPlanPage'
 import { AdminProjectsComingSoonPage } from "../../pages/Admin/ProjectsPage/ViewProjectPage/ComingSoonPage/ComingSoonPage"
+import { AdminProjectsPipelinePage } from "../../pages/Admin/ProjectsPage/ViewProjectPage/PipelinePage/PipelinePage"
 import { AdminProjectsAnalyticsPage } from "../../pages/Admin/ProjectsPage/ViewProjectPage/AnalyticsPage/AnalyticsPage"
 import { AdminPurchasePage } from '../../pages/Admin/PurchasePage/PurchasePage'
 import { AdminReportsPage } from '../../pages/Admin/ReportsPage/ReportsPage'
@@ -378,6 +379,7 @@ export const Pages = {
   adminProjectsValuationPage: <AdminProjectsValuationPage />,
   adminProjectsGrowthPlanPage: <AdminProjectsGrowthPlanPage />,
   adminProjectsComingSoonPage: <AdminProjectsComingSoonPage />,
+  adminProjectsPipelinePage: <AdminProjectsPipelinePage />,
   adminProjectsAnalyticsPage: <AdminProjectsAnalyticsPage />,
   adminLeadsPage: <AdminLeadsPage />,
   adminWebToLeadPage: <AdminWebToLeadPage />,

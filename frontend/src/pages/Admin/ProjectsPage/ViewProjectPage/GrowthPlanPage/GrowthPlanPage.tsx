@@ -47,10 +47,11 @@ interface GrowthPlanPageContext {
   token: string;
 }
 
-const formatCurrency = (value: number): string => {
-  if (value >= 1_000_000) return `$${(value / 1_000_000).toFixed(2)}M`;
-  if (value >= 1_000) return `$${(value / 1_000).toFixed(0)}K`;
-  return `$${value.toFixed(0)}`;
+const formatCurrency = (value: any): string => {
+  const v = Number(value) || 0;
+  if (v >= 1_000_000) return `$${(v / 1_000_000).toFixed(2)}M`;
+  if (v >= 1_000) return `$${(v / 1_000).toFixed(0)}K`;
+  return `$${v.toFixed(0)}`;
 };
 
 const categoryBadgeClass: Record<string, string> = {
@@ -72,7 +73,9 @@ const statusBadgeClass: Record<string, string> = {
 };
 
 const GrowthPlanPage = () => {
-  const { project, token } = useOutletContext<GrowthPlanPageContext>();
+  const ctx = useOutletContext<any>();
+  const projectId = ctx?.idProject || ctx?.project?.id;
+  const token = ctx?.token;
   const [items, setItems] = useState<GrowthItemData[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState<GrowthItemData | null>(null);
@@ -96,7 +99,7 @@ const GrowthPlanPage = () => {
   const loadItems = async () => {
     try {
       setLoading(true);
-      const data = await getGrowthItems(project.id, token);
+      const data = await getGrowthItems(projectId, token);
       setItems(data.data || data || []);
     } catch (err) {
       console.error('Failed to load growth items', err);
@@ -106,12 +109,12 @@ const GrowthPlanPage = () => {
   };
 
   useEffect(() => {
-    if (project?.id) loadItems();
-  }, [project?.id]);
+    if (projectId) loadItems();
+  }, [projectId]);
 
   const handleCreate = async () => {
     try {
-      await createGrowthItem(project.id, {
+      await createGrowthItem(projectId, {
         title: form.title,
         description: form.description || undefined,
         category: form.category as any,
@@ -134,7 +137,7 @@ const GrowthPlanPage = () => {
   const handleApprove = async () => {
     if (!selectedItem) return;
     try {
-      await approveGrowthItem(project.id, selectedItem.id!, token);
+      await approveGrowthItem(projectId, selectedItem.id!, token);
       toast({ title: 'Item approved. Task created in Kanban.', status: 'success', duration: 4000 });
       onApproveClose();
       setSelectedItem(null);
@@ -146,7 +149,7 @@ const GrowthPlanPage = () => {
 
   const handleStatusChange = async (itemId: number, newStatus: string) => {
     try {
-      await changeGrowthItemStatus(project.id, itemId, newStatus, token);
+      await changeGrowthItemStatus(projectId, itemId, newStatus, token);
       toast({ title: `Status changed to ${newStatus}`, status: 'info', duration: 2000 });
       loadItems();
     } catch (err) {
@@ -156,7 +159,7 @@ const GrowthPlanPage = () => {
 
   const handleDelete = async (itemId: number) => {
     try {
-      await deleteGrowthItem(project.id, itemId, token);
+      await deleteGrowthItem(projectId, itemId, token);
       toast({ title: 'Item deleted', status: 'info', duration: 2000 });
       loadItems();
     } catch (err) {
@@ -178,7 +181,7 @@ const GrowthPlanPage = () => {
     });
   };
 
-  const totalEstimatedCost = items.reduce((sum, item) => sum + (item.estimated_cost || 0), 0);
+  const totalEstimatedCost = items.reduce((sum, item) => sum + (Number(item.estimated_cost) || 0), 0);
   const completedCount = items.filter(i => i.status === 'completed').length;
   const inProgressCount = items.filter(i => i.status === 'in_progress').length;
 

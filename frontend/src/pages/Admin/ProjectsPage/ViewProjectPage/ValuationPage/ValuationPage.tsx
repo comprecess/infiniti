@@ -26,22 +26,25 @@ import { getValuationDashboard, createValuation, getValuationHistory, ValuationD
 import styles from './ValuationPage.module.scss';
 
 interface ValuationPageContext {
-  project: {
+  idProject?: number;
+  projectInfo?: any;
+  project?: {
     id: number;
     title: string;
     template_code?: string;
   };
   token: string;
 }
-
-const formatCurrency = (value: number): string => {
-  if (value >= 1_000_000) return `$${(value / 1_000_000).toFixed(2)}M`;
-  if (value >= 1_000) return `$${(value / 1_000).toFixed(0)}K`;
-  return `$${value.toFixed(0)}`;
+const formatCurrency = (value: any): string => {
+  const v = Number(value) || 0;
+  if (v >= 1_000_000) return `$${(v / 1_000_000).toFixed(2)}M`;
+  if (v >= 1_000) return `$${(v / 1_000).toFixed(0)}K`;
+  return `$${v.toFixed(0)}`;
 };
-
 const ValuationPage = () => {
-  const { project, token } = useOutletContext<ValuationPageContext>();
+  const ctx = useOutletContext<any>();
+  const projectId = ctx?.idProject || ctx?.project?.id;
+  const token = ctx?.token;
   const [dashboard, setDashboard] = useState<any>(null);
   const [history, setHistory] = useState<ValuationData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -61,7 +64,7 @@ const ValuationPage = () => {
   const loadDashboard = async () => {
     try {
       setLoading(true);
-      const data = await getValuationDashboard(project.id, token);
+      const data = await getValuationDashboard(projectId, token);
       setDashboard(data.data || data);
     } catch (err) {
       console.error('Failed to load valuation dashboard', err);
@@ -72,7 +75,7 @@ const ValuationPage = () => {
 
   const loadHistory = async () => {
     try {
-      const data = await getValuationHistory(project.id, token);
+      const data = await getValuationHistory(projectId, token);
       setHistory(data.data || data || []);
       setShowHistory(true);
     } catch (err) {
@@ -81,12 +84,12 @@ const ValuationPage = () => {
   };
 
   useEffect(() => {
-    if (project?.id) loadDashboard();
-  }, [project?.id]);
+    if (projectId) loadDashboard();
+  }, [projectId]);
 
   const handleSubmit = async () => {
     try {
-      await createValuation(project.id, {
+      await createValuation(projectId, {
         valuation_type: form.valuation_type,
         base_metric_name: form.base_metric_name,
         base_metric_value: parseFloat(form.base_metric_value),

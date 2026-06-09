@@ -277,7 +277,11 @@ Route::prefix('project/{projectId}/growth-items')
         Route::post('/{itemId}/generate-offer', 'generateOffer');
         Route::post('/{itemId}/generate-invoice', 'generateInvoice');
         Route::delete('/{itemId}', 'destroy');
+
     });
+#Project Pipeline API
+Route::get("project/{projectId}/pipeline/{type}", [Resident\Project\Pipeline\PipelineController::class, "index"]);
+
 #Project Participants (Investor/Buyer Pipeline)
 Route::prefix("project/{projectId}/participants")
     ->controller(Resident\Project\ProjectParticipantController::class)

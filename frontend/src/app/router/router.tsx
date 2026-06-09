@@ -435,11 +435,11 @@ export const router = createBrowserRouter([
           },
           {
             path: "pipeline-buyers",
-            element: Pages.adminProjectsComingSoonPage,
+            element: Pages.adminProjectsPipelinePage,
           },
           {
             path: "pipeline-investors",
-            element: Pages.adminProjectsComingSoonPage,
+            element: Pages.adminProjectsPipelinePage,
           },
           {
             path: "*",
@@ -673,11 +673,11 @@ export const router = createBrowserRouter([
           },
           {
             path: 'pipeline-buyers',
-            element: Pages.adminProjectsComingSoonPage,
+            element: Pages.adminProjectsPipelinePage,
           },
           {
             path: 'pipeline-investors',
-            element: Pages.adminProjectsComingSoonPage,
+            element: Pages.adminProjectsPipelinePage,
           },
           {
             path: Routes.logs,
