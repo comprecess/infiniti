@@ -1,46 +1,48 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
-  Input,
-  Select,
-  Textarea,
-  Grid,
-  GridItem,
-  Button,
-  useDisclosure,
-  useToast,
-  Divider,
-  Flex,
-  Text,
+  Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton,
+  ModalBody, ModalFooter, Button, useDisclosure, Grid, GridItem,
+  FormControl, FormLabel, Input, Select, Textarea, Flex, Text, Divider,
 } from '@chakra-ui/react';
-import { getValuationDashboard, createValuation, getValuationHistory, ValuationData } from '../../../../../shared/utils/api/Admin/Projects/valuation';
+import { getValuationDashboard, createValuation } from '../../../../../shared/utils/api/Admin/Projects/valuation';
 import styles from './ValuationPage.module.scss';
 
-interface ValuationPageContext {
-  idProject?: number;
-  projectInfo?: any;
-  project?: {
-    id: number;
-    title: string;
-    template_code?: string;
-  };
-  token: string;
+interface ValuationData {
+  id: number;
+  valuation_type: string;
+  base_metric_name: string;
+  base_metric_value: number;
+  multiplier: number;
+  total_value: number;
+  confidence_percent: number;
+  notes: string;
+  created_at: string;
 }
+
+interface ValueDriver {
+  driver: string;
+  current_contribution: number;
+  potential_impact: number;
+  status: string;
+  icon: string;
+  description: string;
+}
+
+interface ConfidenceFactor {
+  factor: string;
+  impact: string;
+  score: number;
+  explanation: string;
+}
+
 const formatCurrency = (value: any): string => {
   const v = Number(value) || 0;
   if (v >= 1_000_000) return `$${(v / 1_000_000).toFixed(2)}M`;
   if (v >= 1_000) return `$${(v / 1_000).toFixed(0)}K`;
   return `$${v.toFixed(0)}`;
 };
+
 const ValuationPage = () => {
   const ctx = useOutletContext<any>();
   const projectId = ctx?.idProject || ctx?.project?.id;
@@ -49,37 +51,30 @@ const ValuationPage = () => {
   const [history, setHistory] = useState<ValuationData[]>([]);
   const [loading, setLoading] = useState(true);
   const [showHistory, setShowHistory] = useState(false);
+  const [activePanel, setActivePanel] = useState<string>('overview');
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
-
   const [form, setForm] = useState({
-    valuation_type: 'current' as const,
-    base_metric_name: 'EBITDA',
+    valuation_type: 'current',
+    base_metric_name: 'ARR',
     base_metric_value: '',
     multiplier: '',
-    confidence_percent: '100',
+    confidence_percent: '85',
     notes: '',
   });
 
   const loadDashboard = async () => {
+    if (!projectId) return;
     try {
       setLoading(true);
-      const data = await getValuationDashboard(projectId, token);
-      setDashboard(data.data || data);
+      const response = await getValuationDashboard(projectId);
+      if (response?.data) {
+        setDashboard(response.data);
+        setHistory(response.data.history || []);
+      }
     } catch (err) {
-      console.error('Failed to load valuation dashboard', err);
+      console.error('Valuation load error:', err);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const loadHistory = async () => {
-    try {
-      const data = await getValuationHistory(projectId, token);
-      setHistory(data.data || data || []);
-      setShowHistory(true);
-    } catch (err) {
-      console.error('Failed to load history', err);
     }
   };
 
@@ -88,197 +83,325 @@ const ValuationPage = () => {
   }, [projectId]);
 
   const handleSubmit = async () => {
+    if (!projectId) return;
     try {
       await createValuation(projectId, {
-        valuation_type: form.valuation_type,
         base_metric_name: form.base_metric_name,
-        base_metric_value: parseFloat(form.base_metric_value),
-        multiplier: parseFloat(form.multiplier),
-        confidence_percent: parseInt(form.confidence_percent),
-        notes: form.notes || undefined,
-      }, token);
-      toast({ title: 'Valuation created', status: 'success', duration: 3000 });
+        base_metric_value: parseFloat(form.base_metric_value) || 0,
+        multiplier: parseFloat(form.multiplier) || 1,
+        confidence_percent: parseInt(form.confidence_percent) || 85,
+        notes: form.notes,
+      });
       onClose();
-      setForm({ valuation_type: 'current', base_metric_name: 'EBITDA', base_metric_value: '', multiplier: '', confidence_percent: '100', notes: '' });
+      setForm({ valuation_type: 'current', base_metric_name: 'ARR', base_metric_value: '', multiplier: '', confidence_percent: '85', notes: '' });
       loadDashboard();
     } catch (err) {
-      toast({ title: 'Error creating valuation', status: 'error', duration: 3000 });
+      console.error('Create valuation error:', err);
     }
-  };
-
-  const getGrowthPercent = (): number => {
-    if (!dashboard?.current?.total_value || !dashboard?.projected?.total_value) return 0;
-    return Math.round(((dashboard.projected.total_value - dashboard.current.total_value) / dashboard.current.total_value) * 100);
   };
 
   if (loading) {
     return (
-      <div className={styles.wrapper}>
-        <div className={styles.loadingWrapper}>
-          <span>Loading valuation data...</span>
-        </div>
+      <div className={styles.loadingWrapper}>
+        <div className={styles.spinner}></div>
+        <span>Loading valuation data...</span>
       </div>
     );
   }
+
+  const current = dashboard?.current;
+  const projected = dashboard?.projected;
+  const bestCase = dashboard?.best_case;
+  const assumptions = dashboard?.assumptions;
+  const confidenceExplanation = dashboard?.confidence_explanation;
+  const valueDrivers = dashboard?.value_drivers || [];
+  const recommendation = dashboard?.recommendation;
+
+  const confidenceColor = (pct: number) => {
+    if (pct >= 80) return styles.confidenceHigh;
+    if (pct >= 50) return styles.confidenceMedium;
+    return styles.confidenceLow;
+  };
+
+  const impactColor = (impact: string) => {
+    if (impact === 'positive') return styles.factorPositive;
+    if (impact === 'negative') return styles.factorNegative;
+    return styles.factorNeutral;
+  };
 
   return (
     <div className={styles.wrapper}>
       {/* Header */}
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <h1 className={styles.title}>Valuation</h1>
-          <p className={styles.subtitle}>Business valuation and growth projections</p>
+          <h1 className={styles.title}>Valuation Intelligence</h1>
+          <p className={styles.subtitle}>AI-powered valuation analysis and strategic recommendations</p>
         </div>
         <div className={styles.headerActions}>
-          <button className={styles.btnOutline} onClick={loadHistory}>
-            History
+          <button className={styles.btnOutline} onClick={() => setShowHistory(!showHistory)}>
+            {showHistory ? 'Hide History' : 'History'}
           </button>
-          <button className={styles.btnPrimary} onClick={onOpen}>
-            + New Valuation
-          </button>
+          <button className={styles.btnPrimary} onClick={onOpen}>+ New Valuation</button>
         </div>
       </div>
 
-      {/* Valuation Cards */}
-      <div className={styles.valuationGrid}>
-        {/* Current Value */}
-        <div className={styles.valuationCard}>
-          <div className={styles.statLabel}>Current Value</div>
-          <div className={styles.statValue}>
-            {dashboard?.current ? formatCurrency(dashboard.current.total_value) : '—'}
-          </div>
-          <div className={styles.statHelp}>
-            {dashboard?.current
-              ? `${dashboard.current.base_metric_name}: ${formatCurrency(dashboard.current.base_metric_value)} × ${dashboard.current.multiplier}x`
-              : 'No valuation set'}
-          </div>
-        </div>
+      {/* Navigation Tabs */}
+      <div className={styles.tabNav}>
+        {['overview', 'assumptions', 'drivers', 'action'].map((tab) => (
+          <button
+            key={tab}
+            className={`${styles.tab} ${activePanel === tab ? styles.tabActive : ''}`}
+            onClick={() => setActivePanel(tab)}
+          >
+            {tab === 'overview' && 'Overview'}
+            {tab === 'assumptions' && 'Assumptions'}
+            {tab === 'drivers' && 'Value Drivers'}
+            {tab === 'action' && 'Next Action'}
+          </button>
+        ))}
+      </div>
 
-        {/* Projected Value */}
-        <div className={`${styles.valuationCard} ${styles.valuationCardMint}`}>
-          <div className={styles.statLabel}>Projected Value</div>
-          <div className={`${styles.statValue} ${styles.statValueMint}`}>
-            {dashboard?.projected ? formatCurrency(dashboard.projected.total_value) : '—'}
-          </div>
-          <div className={styles.statHelp}>
-            {dashboard?.projected ? (
-              <>
+      {/* Overview Panel */}
+      {activePanel === 'overview' && (
+        <>
+          {/* Valuation Cards */}
+          <div className={styles.valuationGrid}>
+            <div className={styles.valuationCard}>
+              <div className={styles.cardIcon}>📊</div>
+              <div className={styles.statLabel}>Current Valuation</div>
+              <div className={styles.statValue}>{formatCurrency(current?.total_value || 0)}</div>
+              <div className={styles.statHelp}>
+                {current?.base_metric_name} {formatCurrency(current?.base_metric_value || 0)} × {Number(current?.multiplier || 0).toFixed(1)}x
+              </div>
+            </div>
+            <div className={styles.valuationCard}>
+              <div className={styles.cardIcon}>📈</div>
+              <div className={`${styles.statLabel}`}>Projected Valuation</div>
+              <div className={`${styles.statValue} ${styles.statValueMint}`}>{formatCurrency(projected?.total_value || 0)}</div>
+              <div className={styles.statHelp}>
                 <span className={styles.growthArrow}>↑</span>
-                {getGrowthPercent()}% growth potential
-                <span className={styles.confidenceBadge}>
-                  {dashboard.projected.confidence_percent}% confidence
+                {current?.total_value ? `+${Math.round(((Number(projected?.total_value) - Number(current?.total_value)) / Number(current?.total_value)) * 100)}%` : '—'} from current
+              </div>
+            </div>
+            <div className={styles.valuationCard}>
+              <div className={styles.cardIcon}>🚀</div>
+              <div className={styles.statLabel}>Best Case</div>
+              <div className={`${styles.statValue} ${styles.statValueBrand}`}>{formatCurrency(bestCase?.total_value || 0)}</div>
+              <div className={styles.statHelp}>
+                100% execution scenario
+              </div>
+            </div>
+          </div>
+
+          {/* Confidence Panel */}
+          {confidenceExplanation && (
+            <div className={styles.panelCard}>
+              <div className={styles.panelHeader}>
+                <h3 className={styles.panelTitle}>Confidence Analysis</h3>
+                <span className={`${styles.confidenceBadge} ${confidenceColor(confidenceExplanation.overall)}`}>
+                  {confidenceExplanation.overall}%
                 </span>
-              </>
-            ) : 'Add growth items to see projections'}
-          </div>
-        </div>
+              </div>
+              <div className={styles.factorsGrid}>
+                {confidenceExplanation.factors?.map((factor: ConfidenceFactor, idx: number) => (
+                  <div key={idx} className={styles.factorCard}>
+                    <div className={styles.factorHeader}>
+                      <span className={styles.factorName}>{factor.factor}</span>
+                      <span className={`${styles.factorBadge} ${impactColor(factor.impact)}`}>
+                        {factor.score}%
+                      </span>
+                    </div>
+                    <div className={styles.factorBar}>
+                      <div
+                        className={`${styles.factorBarFill} ${impactColor(factor.impact)}`}
+                        style={{ width: `${factor.score}%` }}
+                      />
+                    </div>
+                    <p className={styles.factorExplanation}>{factor.explanation}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      )}
 
-        {/* Best Case Value */}
-        <div className={`${styles.valuationCard} ${styles.valuationCardBrand}`}>
-          <div className={styles.statLabel}>Best Case Value</div>
-          <div className={`${styles.statValue} ${styles.statValueBrand}`}>
-            {dashboard?.best_case ? formatCurrency(dashboard.best_case.total_value) : '—'}
+      {/* Assumptions Panel */}
+      {activePanel === 'assumptions' && assumptions && (
+        <div className={styles.panelCard}>
+          <div className={styles.panelHeader}>
+            <h3 className={styles.panelTitle}>Valuation Assumptions</h3>
           </div>
-          <div className={styles.statHelp}>
-            {dashboard?.best_case
-              ? 'All items at 100% confidence'
-              : 'No growth items yet'}
+          <div className={styles.assumptionsGrid}>
+            <div className={styles.assumptionItem}>
+              <div className={styles.assumptionLabel}>Annual Recurring Revenue</div>
+              <div className={styles.assumptionValue}>{formatCurrency(assumptions.arr)}</div>
+              <div className={styles.assumptionProjected}>Projected: {formatCurrency(assumptions.arr_projected)}</div>
+            </div>
+            <div className={styles.assumptionItem}>
+              <div className={styles.assumptionLabel}>Growth Rate</div>
+              <div className={styles.assumptionValue}>{assumptions.growth_rate}%</div>
+              <div className={styles.assumptionProjected}>Year-over-year</div>
+            </div>
+            <div className={styles.assumptionItem}>
+              <div className={styles.assumptionLabel}>Revenue Multiple</div>
+              <div className={styles.assumptionValue}>{Number(assumptions.multiple).toFixed(1)}x</div>
+              <div className={styles.assumptionProjected}>Projected: {Number(assumptions.multiple_projected).toFixed(1)}x</div>
+            </div>
+            <div className={styles.assumptionItem}>
+              <div className={styles.assumptionLabel}>Base Metric</div>
+              <div className={styles.assumptionValue}>{assumptions.base_metric}</div>
+              <div className={styles.assumptionProjected}>Primary valuation driver</div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      {/* Growth Progress */}
-      {dashboard && (dashboard.growth_items_count > 0 || dashboard.completed_items_count > 0) && (
-        <div className={styles.progressCard}>
-          <div className={styles.progressHeader}>
-            <span className={styles.progressTitle}>Growth Progress</span>
-            <span className={styles.progressPercent}>
-              {dashboard.growth_items_count > 0
-                ? Math.round((dashboard.completed_items_count / dashboard.growth_items_count) * 100)
-                : 0}%
-            </span>
-          </div>
-          <div className={styles.progressText}>
-            {dashboard.completed_items_count} of {dashboard.growth_items_count} items completed
-          </div>
-          <div className={styles.progressBarBg}>
-            <div
-              className={styles.progressBarFill}
-              style={{
-                width: `${dashboard.growth_items_count > 0
-                  ? (dashboard.completed_items_count / dashboard.growth_items_count) * 100
-                  : 0}%`
-              }}
-            />
+          {/* Comparable Transactions */}
+          <div className={styles.comparablesSection}>
+            <h4 className={styles.sectionSubtitle}>Comparable Transactions</h4>
+            <div className={styles.comparablesTable}>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Company</th>
+                    <th>Multiple</th>
+                    <th>ARR</th>
+                    <th>Note</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {assumptions.comparables?.map((comp: any, idx: number) => (
+                    <tr key={idx}>
+                      <td className={styles.textBold}>{comp.name}</td>
+                      <td>{comp.multiple}x</td>
+                      <td>{formatCurrency(comp.arr)}</td>
+                      <td className={styles.textMuted}>{comp.note}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}
 
-      {/* Confidence Indicator */}
-      {dashboard?.projected && (
-        <div className={styles.progressCard}>
-          <div className={styles.progressHeader}>
-            <span className={styles.progressTitle}>Confidence Level</span>
-            <span className={styles.progressPercent} style={{
-              color: dashboard.projected.confidence_percent >= 70 ? '#10b7b7' :
-                     dashboard.projected.confidence_percent >= 40 ? '#f59f0a' : '#ef4382'
-            }}>
-              {dashboard.projected.confidence_percent}%
+      {/* Value Drivers Panel */}
+      {activePanel === 'drivers' && (
+        <div className={styles.panelCard}>
+          <div className={styles.panelHeader}>
+            <h3 className={styles.panelTitle}>Key Value Drivers</h3>
+          </div>
+          <div className={styles.driversGrid}>
+            {valueDrivers.map((driver: ValueDriver, idx: number) => (
+              <div key={idx} className={styles.driverCard}>
+                <div className={styles.driverHeader}>
+                  <div className={styles.driverIcon}>
+                    {driver.icon === 'trending_up' && '📈'}
+                    {driver.icon === 'public' && '🌍'}
+                    {driver.icon === 'handshake' && '🤝'}
+                    {driver.icon === 'rocket_launch' && '🚀'}
+                  </div>
+                  <div className={styles.driverInfo}>
+                    <span className={styles.driverName}>{driver.driver}</span>
+                    <span className={`${styles.driverStatus} ${driver.status === 'active' ? styles.statusActive : styles.statusPlanned}`}>
+                      {driver.status}
+                    </span>
+                  </div>
+                </div>
+                <p className={styles.driverDescription}>{driver.description}</p>
+                <div className={styles.driverMetrics}>
+                  <div className={styles.driverMetric}>
+                    <span className={styles.driverMetricLabel}>Current</span>
+                    <span className={styles.driverMetricValue}>{formatCurrency(driver.current_contribution)}</span>
+                  </div>
+                  <div className={styles.driverMetric}>
+                    <span className={styles.driverMetricLabel}>Potential</span>
+                    <span className={`${styles.driverMetricValue} ${styles.textMint}`}>
+                      +{formatCurrency(driver.potential_impact)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Recommended Next Action Panel */}
+      {activePanel === 'action' && recommendation && (
+        <div className={styles.panelCard}>
+          <div className={styles.panelHeader}>
+            <h3 className={styles.panelTitle}>Recommended Next Action</h3>
+            <span className={`${styles.priorityBadge} ${recommendation.priority === 'high' ? styles.priorityHigh : styles.priorityMedium}`}>
+              {recommendation.priority} priority
             </span>
           </div>
-          <div className={styles.progressText}>
-            Weighted average across all growth items
-          </div>
-          <div className={styles.progressBarBg}>
-            <div
-              className={`${styles.progressBarFill} ${
-                dashboard.projected.confidence_percent >= 70 ? '' :
-                dashboard.projected.confidence_percent >= 40 ? styles.progressBarFillYellow : styles.progressBarFillRed
-              }`}
-              style={{ width: `${dashboard.projected.confidence_percent}%` }}
-            />
+          <div className={styles.recommendationContent}>
+            <div className={styles.recommendationAction}>
+              <h4 className={styles.actionTitle}>{recommendation.action}</h4>
+              <p className={styles.actionRationale}>{recommendation.rationale}</p>
+            </div>
+
+            {/* Impact Estimate */}
+            <div className={styles.impactCard}>
+              <div className={styles.impactHeader}>
+                <span className={styles.impactLabel}>Estimated Valuation Impact</span>
+              </div>
+              <div className={styles.impactValue}>+{formatCurrency(recommendation.impact_estimate)}</div>
+              {recommendation.impact_description && (
+                <p className={styles.impactDescription}>{recommendation.impact_description}</p>
+              )}
+            </div>
+
+            {/* Action Steps */}
+            {recommendation.steps && (
+              <div className={styles.stepsSection}>
+                <h5 className={styles.stepsTitle}>Action Steps</h5>
+                <div className={styles.stepsList}>
+                  {recommendation.steps.map((step: string, idx: number) => (
+                    <div key={idx} className={styles.stepItem}>
+                      <span className={styles.stepNumber}>{idx + 1}</span>
+                      <span className={styles.stepText}>{step}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
 
       {/* History Table */}
       {showHistory && history.length > 0 && (
-        <div className={styles.historyCard}>
-          <div className={styles.historyHeader}>
-            <span className={styles.historyTitle}>Valuation History</span>
+        <div className={styles.panelCard}>
+          <div className={styles.panelHeader}>
+            <h3 className={styles.panelTitle}>Valuation History</h3>
             <button className={styles.btnHide} onClick={() => setShowHistory(false)}>Hide</button>
           </div>
-          <div style={{ overflowX: 'auto' }}>
+          <div className={styles.tableWrapper}>
             <table className={styles.historyTable}>
               <thead>
                 <tr>
                   <th>Date</th>
-                  <th>Type</th>
                   <th>Metric</th>
-                  <th className={styles.textRight}>Value</th>
-                  <th className={styles.textRight}>Multiplier</th>
-                  <th className={styles.textRight}>Total</th>
-                  <th className={styles.textRight}>Confidence</th>
+                  <th>Value</th>
+                  <th>Multiple</th>
+                  <th>Total</th>
+                  <th>Confidence</th>
                 </tr>
               </thead>
               <tbody>
-                {history.map((v) => (
-                  <tr key={v.id}>
-                    <td>{v.created_at ? new Date(v.created_at).toLocaleDateString() : '—'}</td>
+                {history.map((item) => (
+                  <tr key={item.id}>
+                    <td>{new Date(item.created_at).toLocaleDateString()}</td>
+                    <td>{item.base_metric_name}</td>
+                    <td>{formatCurrency(item.base_metric_value)}</td>
+                    <td>{Number(item.multiplier).toFixed(1)}x</td>
+                    <td className={styles.textBold}>{formatCurrency(item.total_value)}</td>
                     <td>
-                      <span className={`${styles.badge} ${
-                        v.valuation_type === 'current' ? styles.badgeBlue :
-                        v.valuation_type === 'projected' ? styles.badgeGreen :
-                        v.valuation_type === 'final' ? styles.badgePurple : styles.badgeGray
-                      }`}>
-                        {v.valuation_type}
+                      <span className={`${styles.confidenceBadge} ${confidenceColor(Number(item.confidence_percent))}`}>
+                        {item.confidence_percent}%
                       </span>
                     </td>
-                    <td>{v.base_metric_name}</td>
-                    <td className={styles.textRight}>{formatCurrency(v.base_metric_value)}</td>
-                    <td className={styles.textRight}>{v.multiplier}x</td>
-                    <td className={`${styles.textRight} ${styles.textBold}`}>{formatCurrency(v.total_value || 0)}</td>
-                    <td className={styles.textRight}>{v.confidence_percent}%</td>
                   </tr>
                 ))}
               </tbody>
@@ -287,7 +410,7 @@ const ValuationPage = () => {
         </div>
       )}
 
-      {/* Create Valuation Modal - keep Chakra for modals */}
+      {/* Create Valuation Modal */}
       <Modal isOpen={isOpen} onClose={onClose} size="lg" blockScrollOnMount={false}>
         <ModalOverlay />
         <ModalContent>

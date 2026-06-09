@@ -15,6 +15,20 @@
   gap: 16px;
 }
 
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid $gray-600;
+  border-top-color: $brand-400;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// ─── Header ─────────────────────────────────────────────────────
 .header {
   display: flex;
   justify-content: space-between;
@@ -57,7 +71,6 @@
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-
   &:hover {
     background: $brand-800;
     border-color: $brand-500;
@@ -75,12 +88,59 @@
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-
   &:hover {
     background: $brand-400;
   }
 }
 
+.btnHide {
+  padding: 4px 10px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: $gray-300;
+  font-size: 12px;
+  cursor: pointer;
+  &:hover {
+    color: $white;
+    background: $brand-800;
+  }
+}
+
+// ─── Tab Navigation ─────────────────────────────────────────────
+.tabNav {
+  display: flex;
+  gap: 4px;
+  background: $brand-900;
+  padding: 4px;
+  border-radius: 10px;
+  overflow-x: auto;
+}
+
+.tab {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: $gray-300;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  &:hover {
+    color: $white;
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.tabActive {
+  background: $brand-700;
+  color: $white;
+  font-weight: 600;
+}
+
+// ─── Valuation Cards Grid ───────────────────────────────────────
 .valuationGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -89,17 +149,18 @@
 
 .valuationCard {
   background: $brand-900;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 24px;
-  border-top: 4px solid $brand-500;
+  border: 1px solid $gray-700;
+  transition: border-color 0.2s ease;
+  &:hover {
+    border-color: $brand-500;
+  }
 }
 
-.valuationCardMint {
-  border-top-color: $mint-500;
-}
-
-.valuationCardBrand {
-  border-top-color: $brand-300;
+.cardIcon {
+  font-size: 20px;
+  margin-bottom: 12px;
 }
 
 .statLabel {
@@ -137,187 +198,471 @@
   font-weight: 600;
 }
 
+// ─── Panel Card (shared) ────────────────────────────────────────
+.panelCard {
+  background: $brand-900;
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid $gray-700;
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.panelTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: $white;
+  font-family: $fontSpaceGrotesk;
+}
+
+// ─── Confidence ─────────────────────────────────────────────────
 .confidenceBadge {
   display: inline-flex;
   align-items: center;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.confidenceHigh {
+  background: rgba(16, 183, 183, 0.15);
+  color: $mint-500;
+}
+
+.confidenceMedium {
   background: rgba(245, 159, 10, 0.15);
   color: $amber-500;
-  margin-left: 8px;
 }
 
-.progressCard {
-  background: $brand-900;
+.confidenceLow {
+  background: rgba(239, 68, 68, 0.15);
+  color: $cherry-500;
+}
+
+.factorsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.factorCard {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.02);
   border-radius: 8px;
-  padding: 24px;
+  border: 1px solid $gray-700;
 }
 
-.progressHeader {
+.factorHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
-.progressTitle {
-  font-size: 15px;
-  font-weight: 600;
-  color: $white;
-}
-
-.progressPercent {
-  font-size: 14px;
-  font-weight: 700;
-  color: $brand-400;
-}
-
-.progressText {
+.factorName {
   font-size: 13px;
-  color: $gray-200;
-  margin-bottom: 8px;
+  font-weight: 600;
+  color: $gray-100;
 }
 
-.progressBarBg {
+.factorBadge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.factorPositive {
+  background: rgba(16, 183, 183, 0.15);
+  color: $mint-500;
+}
+
+.factorNeutral {
+  background: rgba(245, 159, 10, 0.15);
+  color: $amber-500;
+}
+
+.factorNegative {
+  background: rgba(239, 68, 68, 0.15);
+  color: $cherry-500;
+}
+
+.factorBar {
   width: 100%;
-  height: 10px;
-  background: $gray-600;
-  border-radius: 5px;
+  height: 4px;
+  background: $gray-700;
+  border-radius: 2px;
+  margin-bottom: 8px;
   overflow: hidden;
 }
 
-.progressBarFill {
+.factorBarFill {
   height: 100%;
-  background: $mint-500;
-  border-radius: 5px;
+  border-radius: 2px;
   transition: width 0.3s ease;
 }
 
-.progressBarFillYellow {
-  background: $amber-500;
+.factorExplanation {
+  font-size: 12px;
+  color: $gray-300;
+  line-height: 1.4;
 }
 
-.progressBarFillRed {
-  background: $cherry-500;
+// ─── Assumptions ────────────────────────────────────────────────
+.assumptionsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
-.historyCard {
-  background: $brand-900;
+.assumptionItem {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.02);
   border-radius: 8px;
-  padding: 24px;
+  border: 1px solid $gray-700;
 }
 
-.historyHeader {
+.assumptionLabel {
+  font-size: 12px;
+  color: $gray-300;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.assumptionValue {
+  font-size: 22px;
+  font-weight: 700;
+  color: $white;
+  font-family: $fontSpaceGrotesk;
+  margin-bottom: 4px;
+}
+
+.assumptionProjected {
+  font-size: 12px;
+  color: $gray-400;
+}
+
+.comparablesSection {
+  border-top: 1px solid $gray-700;
+  padding-top: 20px;
+}
+
+.sectionSubtitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: $gray-100;
+  margin-bottom: 12px;
+}
+
+.comparablesTable {
+  overflow-x: auto;
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th {
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: $gray-400;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid $gray-700;
+  }
+  td {
+    padding: 10px 12px;
+    font-size: 13px;
+    color: $gray-100;
+    border-bottom: 1px solid $gray-700;
+  }
+  tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+// ─── Value Drivers ──────────────────────────────────────────────
+.driversGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.driverCard {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 10px;
+  border: 1px solid $gray-700;
+  transition: border-color 0.2s ease;
+  &:hover {
+    border-color: $brand-600;
+  }
+}
+
+.driverHeader {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  gap: 12px;
+  margin-bottom: 10px;
 }
 
-.historyTitle {
-  font-size: 15px;
+.driverIcon {
+  font-size: 24px;
+}
+
+.driverInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.driverName {
+  font-size: 14px;
   font-weight: 600;
   color: $white;
 }
 
-.btnHide {
-  padding: 4px 10px;
-  border: none;
-  border-radius: 6px;
-  background: transparent;
-  color: $gray-300;
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+.driverStatus {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
 
-  &:hover {
-    color: $white;
-    background: $brand-800;
-  }
+.statusActive {
+  color: $mint-500;
+}
+
+.statusPlanned {
+  color: $gray-400;
+}
+
+.driverDescription {
+  font-size: 12px;
+  color: $gray-300;
+  line-height: 1.4;
+  margin-bottom: 14px;
+}
+
+.driverMetrics {
+  display: flex;
+  gap: 20px;
+}
+
+.driverMetric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.driverMetricLabel {
+  font-size: 11px;
+  color: $gray-400;
+  text-transform: uppercase;
+}
+
+.driverMetricValue {
+  font-size: 15px;
+  font-weight: 700;
+  color: $gray-100;
+  font-family: $fontSpaceGrotesk;
+}
+
+.textMint {
+  color: $mint-500;
+}
+
+// ─── Recommendation / Next Action ───────────────────────────────
+.recommendationContent {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.recommendationAction {
+  padding: 0;
+}
+
+.actionTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: $white;
+  font-family: $fontSpaceGrotesk;
+  margin-bottom: 10px;
+}
+
+.actionRationale {
+  font-size: 14px;
+  color: $gray-200;
+  line-height: 1.6;
+}
+
+.priorityBadge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.priorityHigh {
+  background: rgba(239, 68, 68, 0.15);
+  color: $cherry-500;
+}
+
+.priorityMedium {
+  background: rgba(245, 159, 10, 0.15);
+  color: $amber-500;
+}
+
+.impactCard {
+  background: rgba(16, 183, 183, 0.06);
+  border: 1px solid rgba(16, 183, 183, 0.2);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.impactHeader {
+  margin-bottom: 8px;
+}
+
+.impactLabel {
+  font-size: 12px;
+  color: $gray-300;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.impactValue {
+  font-size: 28px;
+  font-weight: 700;
+  color: $mint-500;
+  font-family: $fontSpaceGrotesk;
+  margin-bottom: 4px;
+}
+
+.impactDescription {
+  font-size: 13px;
+  color: $gray-200;
+}
+
+.stepsSection {
+  border-top: 1px solid $gray-700;
+  padding-top: 20px;
+}
+
+.stepsTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: $gray-200;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.stepsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stepItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.stepNumber {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: $brand-700;
+  color: $brand-300;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.stepText {
+  font-size: 13px;
+  color: $gray-100;
+  line-height: 1.5;
+  padding-top: 2px;
+}
+
+// ─── History Table ──────────────────────────────────────────────
+.tableWrapper {
+  overflow-x: auto;
 }
 
 .historyTable {
   width: 100%;
   border-collapse: collapse;
+  th {
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: $gray-400;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid $gray-700;
+  }
+  td {
+    padding: 10px 12px;
+    font-size: 13px;
+    color: $gray-100;
+    border-bottom: 1px solid $gray-700;
+  }
+  tr:last-child td {
+    border-bottom: none;
+  }
 }
 
-.historyTable th {
-  text-align: left;
-  padding: 8px 12px;
-  font-size: 12px;
-  font-weight: 600;
-  color: $gray-300;
-  border-bottom: 1px solid $gray-600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.historyTable td {
-  padding: 10px 12px;
-  font-size: 13px;
-  color: $gray-100;
-  border-bottom: 1px solid $gray-700;
-}
-
-.historyTable tr:last-child td {
-  border-bottom: none;
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.badgeBlue {
-  background: rgba(48, 63, 225, 0.15);
-  color: $brand-400;
-}
-
-.badgeGreen {
-  background: rgba(16, 183, 183, 0.15);
-  color: $mint-500;
-}
-
-.badgePurple {
-  background: rgba(131, 140, 237, 0.15);
-  color: $brand-300;
-}
-
-.badgeGray {
-  background: rgba(158, 160, 183, 0.15);
-  color: $gray-200;
-}
-
+// ─── Utilities ──────────────────────────────────────────────────
 .textBold {
   font-weight: 700;
 }
 
-.textRight {
-  text-align: right;
+.textMuted {
+  color: $gray-400;
 }
 
+// ─── Responsive ─────────────────────────────────────────────────
 @media (max-width: $bpL) {
   .wrapper {
     padding: 16px;
   }
-
   .header {
     flex-direction: column;
     align-items: flex-start;
   }
-
   .valuationGrid {
     grid-template-columns: 1fr;
   }
-
-  .historyTable {
-    display: block;
+  .factorsGrid {
+    grid-template-columns: 1fr;
+  }
+  .assumptionsGrid {
+    grid-template-columns: 1fr;
+  }
+  .driversGrid {
+    grid-template-columns: 1fr;
+  }
+  .tabNav {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }

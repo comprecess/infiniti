@@ -10,6 +10,27 @@ export interface ReleaseInfo {
 }
 export const releases: ReleaseInfo[] = [
   {
+    version: '0.9.15-beta',
+    date: '2026-06-09',
+    title: 'Valuation Intelligence — Venture OS Decision Tool',
+    features: [
+      'Valuation Assumptions panel: ARR, growth rate, multiple, comparable transactions',
+      'Confidence Analysis: contributing factors with scores and explanations',
+      'Key Value Drivers: ARR Growth, Market Expansion, Partnerships, Product Milestones',
+      'Recommended Next Action: AI-generated from valuation context with action steps',
+      'Estimated Valuation Impact: quantified impact of recommended action',
+    ],
+    bugFixes: [
+      'Removed colored border-top lines from valuation cards (style refinement)',
+      'Fixed formatCurrency crash when API returns string values',
+    ],
+    improvements: [
+      'Tab-based navigation for cleaner UX across valuation panels',
+      'Responsive design for all new panels (mobile-first)',
+      'Backend enrichment: ValuationController returns assumptions, drivers, recommendations',
+    ],
+  },
+  {
     version: '0.9.14-beta',
     date: '2026-06-09',
     title: 'Pipeline Pages + Venture OS Context Fix',
