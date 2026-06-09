@@ -1,3 +1,4 @@
+import { marked } from "marked"
 import { useEffect, useState, useCallback } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import { ProjectViewPageContext } from '../../../../../app/constants/constants'
@@ -350,7 +351,7 @@ export const AdminProjectsDealRoomPage = () => {
                 previewLoading ? (
                   <div className={styles.previewLoading}>Loading...</div>
                 ) : (
-                  <pre className={styles.previewText}>{previewContent}</pre>
+                  <div className={styles.markdownContent} dangerouslySetInnerHTML={{ __html: marked.parse(previewContent) as string }} />
                 )
               )}
             </div>

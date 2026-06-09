@@ -1,3 +1,4 @@
+import { marked } from "marked"
 import { useState, useEffect } from 'react'
 import styles from './KnowledgeTab.module.scss'
 import { getTaskKnowledge } from '../../../../../../shared/utils/api/Resident/Knowledge/knowledge-api'
@@ -260,7 +261,7 @@ export const KnowledgeTab = ({ taskId }: KnowledgeTabProps) => {
               {viewingAsset.content ? (
                 <div
                   className={styles.markdownContent}
-                  dangerouslySetInnerHTML={{ __html: renderMarkdown(viewingAsset.content) }}
+                  dangerouslySetInnerHTML={{ __html: marked.parse(viewingAsset.content) as string }}
                 />
               ) : (
                 <div className={styles.emptyState}>No content available for this asset</div>
@@ -295,12 +296,12 @@ export const KnowledgeTab = ({ taskId }: KnowledgeTabProps) => {
             <div className={styles.viewerBody}>
               <div className={styles.markdownContent}>
                 <h3>Prompt</h3>
-                <div dangerouslySetInnerHTML={{ __html: renderMarkdown(viewingPrompt.prompt_text) }} />
+                <div dangerouslySetInnerHTML={{ __html: marked.parse(viewingPrompt.prompt_text) as string }} />
                 {viewingPrompt.output_text && (
                   <>
                     <hr />
                     <h3>Output</h3>
-                    <div dangerouslySetInnerHTML={{ __html: renderMarkdown(viewingPrompt.output_text) }} />
+                    <div dangerouslySetInnerHTML={{ __html: marked.parse(viewingPrompt.output_text) as string }} />
                   </>
                 )}
               </div>

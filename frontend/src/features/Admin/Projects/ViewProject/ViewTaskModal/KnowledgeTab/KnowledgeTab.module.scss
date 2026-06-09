@@ -242,6 +242,10 @@
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 .viewerHeader {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--card-bg, #1e293b);
   display: flex;
   align-items: center;
   justify-content: space-between;
