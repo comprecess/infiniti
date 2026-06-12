@@ -1,55 +1,50 @@
 .wrapper {
   display: flex;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh;
   justify-content: center;
   padding: 20px;
   background-color: $brand-1000;
   color: $white;
-
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   @include scrollbar;
 }
-
 .container {
   display: flex;
   flex-direction: column;
   gap: 20px;
   width: 100%;
   max-width: 600px;
-  height: 100%;
+  height: fit-content;
   border-radius: 8px;
   padding: 24px;
   background-color: $brand-900;
 }
-
 .invoiceTitle,
 .totalWrapper {
   display: flex;
 }
-
 .invoiceTitle {
   flex-direction: column;
 }
-
 .totalWrapper {
   gap: 8px;
   align-items: center;
 }
-
 .totalEnd {
   display: flex;
   align-items: start;
   flex-grow: 1;
-
   @include mobileBreakpoint('min', $bpM) {
     justify-content: end;
   }
-
   @include mobileBreakpoint('max', $bpM) {
     justify-content: start;
   }
 }
-
 .invoiceWrapper {
   display: flex;
   flex-direction: column;
@@ -57,7 +52,6 @@
   width: 100%;
   justify-content: space-between;
 }
-
 .totalTitle {
   font-family: $fontSpaceGrotesk;
   font-size: 24px;
@@ -66,7 +60,6 @@
   letter-spacing: -0.03em;
   color: $gray-300;
 }
-
 .totalValue {
   font-size: 20px;
   font-weight: 400;
@@ -76,21 +69,17 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 .header {
   display: flex;
   gap: 18px;
   width: 100%;
-
   @include mobileBreakpoint('min', $bpM) {
     justify-content: space-between;
   }
-
   @include mobileBreakpoint('max', $bpM) {
     flex-direction: column;
   }
 }
-
 .title {
   font-family: $fontSpaceGrotesk;
   font-size: 18px;
@@ -99,7 +88,6 @@
   letter-spacing: -0.03em;
   letter-spacing: -0.03em;
 }
-
 .titleInvoice {
   font-family: $fontSpaceGrotesk;
   font-size: 24px;
@@ -107,7 +95,6 @@
   line-height: 30px;
   letter-spacing: -0.03em;
 }
-
 .invoiceCode {
   font-family: $fontSpaceGrotesk;
   font-size: 19px;
@@ -115,19 +102,16 @@
   line-height: 28px;
   letter-spacing: -0.03em;
 }
-
 .footer {
   display: flex;
   gap: 14px;
   flex-direction: column;
 }
-
 .footerTitleWrapper {
   display: flex;
   width: 100%;
   justify-content: center;
 }
-
 .footerTitle {
   font-size: 17px;
   font-weight: 600;
