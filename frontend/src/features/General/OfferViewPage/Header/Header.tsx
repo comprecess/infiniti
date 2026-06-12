@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+
 import styles from './Header.module.scss'
 import { FullInfoClient } from '../../../../app/constants/constants'
 import { sanitizeMessage } from '../../../../shared/utils/TextEditor/sanitizeMessage'
@@ -17,6 +18,13 @@ function wrapTables(container: HTMLDivElement) {
     table.parentNode!.insertBefore(wrapper, table)
     wrapper.appendChild(table)
     table.classList.add('wrapped')
+
+    // Check if table overflows its container — hide fade gradient if not
+    requestAnimationFrame(() => {
+      if (table.scrollWidth <= wrapper.clientWidth) {
+        wrapper.classList.add('no-overflow')
+      }
+    })
 
     wrapper.addEventListener('scroll', () => {
       wrapper.classList.add('scrolled')
@@ -150,7 +158,7 @@ export const Header = ({
         </div>
       </section>
       {proposal && (
-        <div className={styles.offerTo}>
+        <div className={styles.proposalSection}>
           <span className={styles.offerToTitle}>Proposal Text:</span>
           <span
             ref={proposalRef}
