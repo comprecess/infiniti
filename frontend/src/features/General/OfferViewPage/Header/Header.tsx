@@ -1,8 +1,28 @@
+import { useEffect, useRef } from 'react'
 import styles from './Header.module.scss'
 import { FullInfoClient } from '../../../../app/constants/constants'
 import { sanitizeMessage } from '../../../../shared/utils/TextEditor/sanitizeMessage'
 import { ContactItem } from '../../../Admin/Sales/ViewInvoice/Header/ContactItem/ContactItem'
 import { Status } from '../../../Admin/Sales/ViewInvoice/Status/Status'
+
+function wrapTables(container: HTMLDivElement) {
+  const tables = container.querySelectorAll<HTMLTableElement>('table:not(.wrapped)')
+
+  tables.forEach(table => {
+    if (table.parentElement?.classList.contains('table-scroll-wrap')) return
+
+    const wrapper = document.createElement('div')
+    wrapper.className = 'table-scroll-wrap'
+
+    table.parentNode!.insertBefore(wrapper, table)
+    wrapper.appendChild(table)
+    table.classList.add('wrapped')
+
+    wrapper.addEventListener('scroll', () => {
+      wrapper.classList.add('scrolled')
+    }, { passive: true })
+  })
+}
 
 interface HeaderProps {
   title: string
@@ -19,7 +39,6 @@ interface HeaderProps {
   proposal: string
   client: FullInfoClient
 }
-
 export const Header = ({
   title,
   code,
@@ -32,8 +51,15 @@ export const Header = ({
   proposal,
   client,
 }: HeaderProps) => {
+  const proposalRef = useRef<HTMLSpanElement>(null)
   const safeHTMLCompanyAddress = sanitizeMessage(company.companyAddress)
   const safeHTMLProposal = sanitizeMessage(proposal)
+
+  useEffect(() => {
+    if (proposalRef.current && proposal) {
+      wrapTables(proposalRef.current as unknown as HTMLDivElement)
+    }
+  }, [proposal])
 
   return (
     <div className={styles.wrapper}>
@@ -127,6 +153,7 @@ export const Header = ({
         <div className={styles.offerTo}>
           <span className={styles.offerToTitle}>Proposal Text:</span>
           <span
+            ref={proposalRef}
             dangerouslySetInnerHTML={{
               __html: safeHTMLProposal,
             }}

@@ -5,6 +5,7 @@
   height: 100dvh;
   justify-content: center;
   padding: 20px;
+  padding-bottom: calc(48px + env(safe-area-inset-bottom, 0px));
   background-color: $brand-1000;
   overflow-y: auto;
   overflow-x: hidden;
@@ -35,12 +36,13 @@
   gap: 24px;
   position: relative;
   width: 100%;
-  height: 100%;
+  height: auto;
   overflow: visible;
   color: $white;
 }
 .tableContent {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   flex-grow: 1;
   height: auto;
   opacity: 1;

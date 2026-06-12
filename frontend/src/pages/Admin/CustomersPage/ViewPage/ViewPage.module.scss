@@ -106,6 +106,7 @@
   flex-direction: column;
   width: 100%;
   gap: 18px;
+  padding-bottom: calc(48px + env(safe-area-inset-bottom, 0px));
   transition: all 0.2s ease;
 
   @include mobileBreakpoint('min', $bpXL + 1) {

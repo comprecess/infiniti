@@ -4,6 +4,7 @@
   height: 100%;
   flex-direction: column;
   gap: 40px;
+  padding-bottom: calc(48px + env(safe-area-inset-bottom, 0px));
 
   @include scrollbar;
 }

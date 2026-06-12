@@ -5,6 +5,7 @@
   height: 100dvh;
   justify-content: center;
   padding: 20px;
+  padding-bottom: calc(48px + env(safe-area-inset-bottom, 0px));
   background-color: $brand-1000;
   color: $white;
   overflow-y: auto;
